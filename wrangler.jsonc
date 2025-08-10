@@ -1,5 +1,5 @@
 {
-    "name": "income-tax-static",
+    "name": "income-tax-tool",
     "compatibility_date": "2025-08-10",
     "assets": {
       "directory": "./dist"
