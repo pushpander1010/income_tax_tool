@@ -9,44 +9,56 @@ const __dirname = dirname(fileURLToPath(import.meta.url))
 // folders to ignore at project root
 const IGNORE = new Set(['node_modules', 'dist', 'src', 'scripts', 'worker', '.git'])
 
-// discover subpages = top-level folders that contain an index.html
-const subpages = fs
-  .readdirSync(__dirname, { withFileTypes: true })
-  .filter((d) => d.isDirectory() && !IGNORE.has(d.name))
-  .map((d) => d.name)
-  .filter((dir) => fs.existsSync(resolve(__dirname, dir, 'index.html')))
-
-// build Rollup inputs (main + each subpage/index.html)
-const inputs: Record<string, string> = {
-  main: resolve(__dirname, 'index.html'),
-  ...Object.fromEntries(subpages.map((dir) => [dir, resolve(__dirname, dir, 'index.html')]))
-}
-
-export default defineConfig({
-  build: {
-    rollupOptions: { input: inputs }
-  },
-  plugins: [
-    {
-      name: 'copy-subpages',
-      writeBundle() {
-        for (const dir of subpages) {
-          const srcDir = resolve(__dirname, dir)
-          const destDir = resolve(__dirname, 'dist', dir)
-
-          if (!fs.existsSync(destDir)) {
-            fs.mkdirSync(destDir, { recursive: true })
-          }
-
-          const srcIndex = resolve(srcDir, 'index.html')
-          const destIndex = resolve(destDir, 'index.html')
-
-          if (fs.existsSync(srcIndex)) {
-            fs.copyFileSync(srcIndex, destIndex)
-          }
+// recursively discover all index.html files
+function findIndexFiles(dir: string, baseDir: string = __dirname): string[] {
+  const indexFiles: string[] = []
+  
+  try {
+    const items = fs.readdirSync(dir, { withFileTypes: true })
+    
+    for (const item of items) {
+      if (item.isDirectory() && !IGNORE.has(item.name)) {
+        const fullPath = resolve(dir, item.name)
+        const indexPath = resolve(fullPath, 'index.html')
+        
+        if (fs.existsSync(indexPath)) {
+          // Convert to relative path from base directory
+          const relativePath = fullPath.replace(baseDir, '').replace(/\\/g, '/').replace(/^\//, '')
+          indexFiles.push(relativePath)
         }
-        // No _redirects file needed - Worker handles all routing
+        
+        // Recursively search subdirectories
+        indexFiles.push(...findIndexFiles(fullPath, baseDir))
       }
     }
-  ]
+  } catch (error) {
+    console.warn(`Warning: Could not read directory ${dir}:`, error)
+  }
+  
+  return indexFiles
+}
+
+// discover all index.html files including nested ones
+const allIndexFiles = findIndexFiles(__dirname)
+
+// build Rollup inputs (main + all discovered index.html files)
+const inputs: Record<string, string> = {
+  main: resolve(__dirname, 'index.html'),
+  ...Object.fromEntries(
+    allIndexFiles.map((dir) => [dir, resolve(__dirname, dir, 'index.html')])
+  )
+}
+
+console.log('Vite discovered these entry points:', Object.keys(inputs))
+
+export default defineConfig({
+  server: {
+    // Handle nested routes in development
+    fs: {
+      allow: ['..']
+    }
+  },
+  build: {
+    rollupOptions: { input: inputs }
+  }
 })

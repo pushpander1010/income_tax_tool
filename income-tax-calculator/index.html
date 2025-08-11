@@ -73,6 +73,219 @@
       </footer>
     </main>
 
+    <script>
+      // Tax slabs for FY 2024-25 (AY 2025-26)
+      const TAX_SLABS = {
+        new: [
+          { limit: 300000, rate: 0 },
+          { limit: 600000, rate: 5 },
+          { limit: 900000, rate: 10 },
+          { limit: 1200000, rate: 15 },
+          { limit: 1500000, rate: 20 },
+          { limit: Infinity, rate: 30 }
+        ],
+        old: [
+          { limit: 250000, rate: 0 },
+          { limit: 500000, rate: 5 },
+          { limit: 1000000, rate: 20 },
+          { limit: Infinity, rate: 30 }
+        ]
+      };
+
+      // Standard deduction
+      const STANDARD_DEDUCTION = 50000;
+
+      // Cess rate
+      const CESS_RATE = 0.04; // 4%
+
+      class IncomeTaxCalculator {
+        constructor() {
+          this.initializeElements();
+          this.bindEvents();
+          this.loadFromURL();
+        }
+
+        initializeElements() {
+          this.incomeInput = document.getElementById('income');
+          this.deductionsInput = document.getElementById('deductions');
+          this.stdDeductionCheckbox = document.getElementById('stdDeduction');
+          this.regimeSelect = document.getElementById('regime');
+          this.calcBtn = document.getElementById('calcBtn');
+          this.resultDiv = document.getElementById('result');
+        }
+
+        bindEvents() {
+          this.calcBtn.addEventListener('click', () => this.calculate());
+          
+          // Auto-calculate on input changes
+          [this.incomeInput, this.deductionsInput, this.stdDeductionCheckbox, this.regimeSelect]
+            .forEach(el => el.addEventListener('change', () => this.calculate()));
+          
+          // Auto-calculate on Enter key
+          [this.incomeInput, this.deductionsInput].forEach(input => {
+            input.addEventListener('keypress', (e) => {
+              if (e.key === 'Enter') this.calculate();
+            });
+          });
+
+          // Keyboard navigation
+          document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+              window.location.href = '/';
+            }
+          });
+        }
+
+        loadFromURL() {
+          const urlParams = new URLSearchParams(window.location.search);
+          const income = urlParams.get('income');
+          const deductions = urlParams.get('deductions');
+          const regime = urlParams.get('regime');
+          const stdDeduction = urlParams.get('stdDeduction');
+
+          if (income) this.incomeInput.value = income;
+          if (deductions) this.deductionsInput.value = deductions;
+          if (regime) this.regimeSelect.value = regime;
+          if (stdDeduction !== null) this.stdDeductionCheckbox.checked = stdDeduction === 'true';
+
+          // Calculate if we have income
+          if (income) this.calculate();
+        }
+
+        updateURL() {
+          const url = new URL(window.location);
+          url.searchParams.set('income', this.incomeInput.value || '');
+          url.searchParams.set('deductions', this.deductionsInput.value || '');
+          url.searchParams.set('regime', this.regimeSelect.value);
+          url.searchParams.set('stdDeduction', this.stdDeductionCheckbox.checked);
+          window.history.replaceState({}, '', url);
+        }
+
+        calculate() {
+          const income = parseFloat(this.incomeInput.value) || 0;
+          const deductions = parseFloat(this.deductionsInput.value) || 0;
+          const regime = this.regimeSelect.value;
+          const includeStdDeduction = this.stdDeductionCheckbox.checked;
+
+          if (income <= 0) {
+            this.resultDiv.innerHTML = '<p class="error">Please enter a valid income amount.</p>';
+            return;
+          }
+
+          // Calculate taxable income
+          let taxableIncome = income - deductions;
+          if (includeStdDeduction) {
+            taxableIncome -= STANDARD_DEDUCTION;
+          }
+
+          if (taxableIncome <= 0) {
+            this.resultDiv.innerHTML = `
+              <div class="success">
+                <h3>🎉 No Tax Liability!</h3>
+                <p>Your taxable income after deductions is ₹${this.formatNumber(taxableIncome)}</p>
+                <p><strong>Tax Amount: ₹0</strong></p>
+              </div>
+            `;
+            this.updateURL();
+            return;
+          }
+
+          // Calculate tax
+          const tax = this.calculateTax(taxableIncome, regime);
+          const cess = tax * CESS_RATE;
+          const totalTax = tax + cess;
+
+          // Calculate monthly TDS
+          const monthlyTDS = totalTax / 12;
+
+          // Display result
+          this.resultDiv.innerHTML = `
+            <div class="tax-breakdown">
+              <h3>📊 Tax Calculation</h3>
+              
+              <div class="breakdown-item">
+                <span>Gross Income:</span>
+                <span>₹${this.formatNumber(income)}</span>
+              </div>
+              
+              <div class="breakdown-item">
+                <span>Deductions:</span>
+                <span>₹${this.formatNumber(deductions)}</span>
+              </div>
+              
+              ${includeStdDeduction ? `
+              <div class="breakdown-item">
+                <span>Standard Deduction:</span>
+                <span>₹${this.formatNumber(STANDARD_DEDUCTION)}</span>
+              </div>
+              ` : ''}
+              
+              <div class="breakdown-item highlight">
+                <span>Taxable Income:</span>
+                <span>₹${this.formatNumber(taxableIncome)}</span>
+              </div>
+              
+              <div class="breakdown-item">
+                <span>Basic Tax (${regime === 'new' ? 'New' : 'Old'} Regime):</span>
+                <span>₹${this.formatNumber(tax)}</span>
+              </div>
+              
+              <div class="breakdown-item">
+                <span>Health & Education Cess (4%):</span>
+                <span>₹${this.formatNumber(cess)}</span>
+              </div>
+              
+              <div class="breakdown-item total">
+                <span>Total Tax:</span>
+                <span>₹${this.formatNumber(totalTax)}</span>
+              </div>
+              
+              <div class="breakdown-item">
+                <span>Monthly TDS:</span>
+                <span>₹${this.formatNumber(monthlyTDS)}</span>
+              </div>
+              
+              <div class="breakdown-item">
+                <span>Effective Tax Rate:</span>
+                <span>${((totalTax / income) * 100).toFixed(2)}%</span>
+              </div>
+            </div>
+          `;
+
+          this.updateURL();
+        }
+
+        calculateTax(taxableIncome, regime) {
+          const slabs = TAX_SLABS[regime];
+          let tax = 0;
+          let remainingIncome = taxableIncome;
+
+          for (let i = 0; i < slabs.length; i++) {
+            const slab = slabs[i];
+            const prevLimit = i === 0 ? 0 : slabs[i - 1].limit;
+            const slabAmount = Math.min(slab.limit - prevLimit, remainingIncome);
+            
+            if (slabAmount > 0) {
+              tax += (slabAmount * slab.rate) / 100;
+              remainingIncome -= slabAmount;
+            }
+            
+            if (remainingIncome <= 0) break;
+          }
+
+          return tax;
+        }
+
+        formatNumber(num) {
+          return new Intl.NumberFormat('en-IN').format(Math.round(num));
+        }
+      }
+
+      // Initialize calculator when page loads
+      document.addEventListener('DOMContentLoaded', () => {
+        new IncomeTaxCalculator();
+      });
+    </script>
   </body>
 </html>
 

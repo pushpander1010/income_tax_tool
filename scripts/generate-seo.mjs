@@ -31,6 +31,12 @@ const pages = [
   ,{ loc: siteUrl ? `${siteUrl}/pan-validator/` : `/pan-validator/`, priority: 0.6, changefreq: 'yearly' }
   ,{ loc: siteUrl ? `${siteUrl}/ifsc-finder/` : `/ifsc-finder/`, priority: 0.6, changefreq: 'yearly' }
   ,{ loc: siteUrl ? `${siteUrl}/color-picker/` : `/color-picker/`, priority: 0.5, changefreq: 'yearly' }
+  ,{ loc: siteUrl ? `${siteUrl}/games/` : `/games/`, priority: 0.7, changefreq: 'weekly' }
+  ,{ loc: siteUrl ? `${siteUrl}/games/tic-tac-toe/` : `/games/tic-tac-toe/`, priority: 0.6, changefreq: 'monthly' }
+  ,{ loc: siteUrl ? `${siteUrl}/games/memory-match/` : `/games/memory-match/`, priority: 0.6, changefreq: 'monthly' }
+  ,{ loc: siteUrl ? `${siteUrl}/games/snake/` : `/games/snake/`, priority: 0.6, changefreq: 'monthly' }
+  ,{ loc: siteUrl ? `${siteUrl}/games/number-guessing/` : `/games/number-guessing/`, priority: 0.6, changefreq: 'monthly' }
+  ,{ loc: siteUrl ? `${siteUrl}/games/color-rush/` : `/games/color-rush/`, priority: 0.6, changefreq: 'monthly' }
 ];
 const lastmod = new Date().toISOString().split('T')[0];
 

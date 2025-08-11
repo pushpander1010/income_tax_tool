@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe - Free Online Game | UpTools</title>
+    <meta name="description" content="Play Tic Tac Toe online for free. Challenge the AI or play with a friend. Classic X's and O's game at UpTools.">
+    <meta name="robots" content="index,follow">
+    <meta name="theme-color" content="#0f1419">
+    <meta property="og:title" content="Tic Tac Toe - Free Online Game | UpTools">
+    <meta property="og:description" content="Play Tic Tac Toe online for free. Challenge the AI or play with a friend.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.uptools.in/games/tic-tac-toe">
+    <meta property="og:site_name" content="UpTools">
+    <link rel="canonical" href="https://www.uptools.in/games/tic-tac-toe">
+    <link rel="stylesheet" href="/style.css?v=1.0.0">
+    <style>
+        body {
+            --accent: #ff6b6b;
+            --bg: #0f1419;
+            --card: #1e2634;
+            background: linear-gradient(135deg, var(--bg), #1a1f2e);
+        }
+        
+        .game-container {
+            max-width: 500px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .game-board {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            margin: 2rem auto;
+            max-width: 300px;
+        }
+        
+        .cell {
+            aspect-ratio: 1;
+            background: var(--card);
+            border: 2px solid var(--cardBorder);
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            color: var(--text);
+        }
+        
+        .cell:hover {
+            border-color: var(--accent);
+            transform: scale(1.05);
+        }
+        
+        .cell.x {
+            color: #ff6b6b;
+        }
+        
+        .cell.o {
+            color: #4ecdc4;
+        }
+        
+        .cell.winning {
+            background: var(--accent);
+            color: white;
+            animation: pulse 0.6s ease-in-out;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        .game-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 1rem 0;
+            padding: 1rem;
+            background: var(--card);
+            border-radius: var(--radius);
+            border: 1px solid var(--cardBorder);
+        }
+        
+        .score {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .score-item {
+            text-align: center;
+        }
+        
+        .score-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--accent);
+        }
+        
+        .score-label {
+            font-size: 0.8rem;
+            color: var(--muted);
+        }
+        
+        .game-status {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+        
+        .controls {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin: 1rem 0;
+        }
+        
+        .btn-game {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: var(--radius);
+            background: var(--accent);
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .btn-game:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+        
+        .btn-secondary {
+            background: var(--cardBorder);
+        }
+        
+        .difficulty-selector {
+            margin: 1rem 0;
+        }
+        
+        .difficulty-btn {
+            padding: 0.5rem 1rem;
+            margin: 0 0.25rem;
+            border: 1px solid var(--cardBorder);
+            background: var(--card);
+            color: var(--text);
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .difficulty-btn.active {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
+        
+        .difficulty-btn:hover {
+            border-color: var(--accent);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="tool-header">
+            <a href="/games" class="back-btn">← Back to Games</a>
+            <h1>⭕ Tic Tac Toe</h1>
+            <p>Classic X's and O's game. Play against AI or challenge a friend!</p>
+        </div>
+
+        <div class="game-container">
+            <div class="difficulty-selector">
+                <span style="color: var(--muted); margin-right: 1rem;">Difficulty:</span>
+                <button class="difficulty-btn active" data-difficulty="easy">Easy</button>
+                <button class="difficulty-btn" data-difficulty="medium">Medium</button>
+                <button class="difficulty-btn" data-difficulty="hard">Hard</button>
+            </div>
+
+            <div class="game-info">
+                <div class="score">
+                    <div class="score-item">
+                        <div class="score-value" id="player-score">0</div>
+                        <div class="score-label">You (X)</div>
+                    </div>
+                    <div class="score-item">
+                        <div class="score-value" id="ai-score">0</div>
+                        <div class="score-label">AI (O)</div>
+                    </div>
+                </div>
+                <div class="game-status" id="game-status">Your turn!</div>
+            </div>
+
+            <div class="game-board" id="game-board">
+                <div class="cell" data-index="0"></div>
+                <div class="cell" data-index="1"></div>
+                <div class="cell" data-index="2"></div>
+                <div class="cell" data-index="3"></div>
+                <div class="cell" data-index="4"></div>
+                <div class="cell" data-index="5"></div>
+                <div class="cell" data-index="6"></div>
+                <div class="cell" data-index="7"></div>
+                <div class="cell" data-index="8"></div>
+            </div>
+
+            <div class="controls">
+                <button class="btn-game" id="new-game">New Game</button>
+                <button class="btn-game btn-secondary" id="reset-scores">Reset Scores</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class TicTacToe {
+            constructor() {
+                this.board = Array(9).fill('');
+                this.currentPlayer = 'X';
+                this.gameActive = true;
+                this.difficulty = 'easy';
+                this.playerScore = 0;
+                this.aiScore = 0;
+                this.winningCombos = [
+                    [0, 1, 2], [3, 4, 5], [6, 7, 8], // Rows
+                    [0, 3, 6], [1, 4, 7], [2, 5, 8], // Columns
+                    [0, 4, 8], [2, 4, 6] // Diagonals
+                ];
+                
+                this.initializeGame();
+            }
+
+            initializeGame() {
+                this.loadScores();
+                this.setupEventListeners();
+                this.updateDisplay();
+            }
+
+            setupEventListeners() {
+                document.querySelectorAll('.cell').forEach(cell => {
+                    cell.addEventListener('click', (e) => {
+                        const index = parseInt(e.target.dataset.index);
+                        this.makeMove(index);
+                    });
+                });
+
+                document.getElementById('new-game').addEventListener('click', () => {
+                    this.resetGame();
+                });
+
+                document.getElementById('reset-scores').addEventListener('click', () => {
+                    this.resetScores();
+                });
+
+                document.querySelectorAll('.difficulty-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        this.setDifficulty(e.target.dataset.difficulty);
+                    });
+                });
+            }
+
+            setDifficulty(level) {
+                this.difficulty = level;
+                document.querySelectorAll('.difficulty-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                event.target.classList.add('active');
+                this.resetGame();
+            }
+
+            makeMove(index) {
+                if (!this.gameActive || this.board[index] !== '') return;
+
+                this.board[index] = this.currentPlayer;
+                this.updateCell(index);
+                
+                if (this.checkWin()) {
+                    this.endGame();
+                    return;
+                }
+
+                if (this.checkDraw()) {
+                    this.endGame(true);
+                    return;
+                }
+
+                this.currentPlayer = this.currentPlayer === 'X' ? 'O' : 'X';
+                this.updateDisplay();
+
+                if (this.currentPlayer === 'O') {
+                    setTimeout(() => this.makeAIMove(), 500);
+                }
+            }
+
+            makeAIMove() {
+                if (!this.gameActive) return;
+
+                let move;
+                switch (this.difficulty) {
+                    case 'easy':
+                        move = this.getRandomMove();
+                        break;
+                    case 'medium':
+                        move = Math.random() < 0.5 ? this.getBestMove() : this.getRandomMove();
+                        break;
+                    case 'hard':
+                        move = this.getBestMove();
+                        break;
+                }
+
+                this.makeMove(move);
+            }
+
+            getRandomMove() {
+                const availableMoves = this.board.map((cell, index) => cell === '' ? index : -1).filter(index => index !== -1);
+                return availableMoves[Math.floor(Math.random() * availableMoves.length)];
+            }
+
+            getBestMove() {
+                let bestScore = -Infinity;
+                let bestMove = 0;
+
+                for (let i = 0; i < 9; i++) {
+                    if (this.board[i] === '') {
+                        this.board[i] = 'O';
+                        let score = this.minimax(this.board, 0, false);
+                        this.board[i] = '';
+                        if (score > bestScore) {
+                            bestScore = score;
+                            bestMove = i;
+                        }
+                    }
+                }
+
+                return bestMove;
+            }
+
+            minimax(board, depth, isMaximizing) {
+                if (this.checkWin()) {
+                    return isMaximizing ? -1 : 1;
+                }
+                if (this.checkDraw()) {
+                    return 0;
+                }
+
+                if (isMaximizing) {
+                    let bestScore = -Infinity;
+                    for (let i = 0; i < 9; i++) {
+                        if (board[i] === '') {
+                            board[i] = 'O';
+                            let score = this.minimax(board, depth + 1, false);
+                            board[i] = '';
+                            bestScore = Math.max(score, bestScore);
+                        }
+                    }
+                    return bestScore;
+                } else {
+                    let bestScore = Infinity;
+                    for (let i = 0; i < 9; i++) {
+                        if (board[i] === '') {
+                            board[i] = 'X';
+                            let score = this.minimax(board, depth + 1, true);
+                            board[i] = '';
+                            bestScore = Math.min(score, bestScore);
+                        }
+                    }
+                    return bestScore;
+                }
+            }
+
+            checkWin() {
+                for (let combo of this.winningCombos) {
+                    const [a, b, c] = combo;
+                    if (this.board[a] && this.board[a] === this.board[b] && this.board[a] === this.board[c]) {
+                        this.highlightWinningCells(combo);
+                        return true;
+                    }
+                }
+                return false;
+            }
+
+            checkDraw() {
+                return this.board.every(cell => cell !== '');
+            }
+
+            highlightWinningCells(combo) {
+                combo.forEach(index => {
+                    document.querySelector(`[data-index="${index}"]`).classList.add('winning');
+                });
+            }
+
+            endGame(isDraw = false) {
+                this.gameActive = false;
+                
+                if (isDraw) {
+                    document.getElementById('game-status').textContent = "It's a draw!";
+                } else {
+                    if (this.currentPlayer === 'X') {
+                        this.playerScore++;
+                        document.getElementById('game-status').textContent = 'You win! 🎉';
+                    } else {
+                        this.aiScore++;
+                        document.getElementById('game-status').textContent = 'AI wins! 🤖';
+                    }
+                    this.updateScores();
+                }
+            }
+
+            resetGame() {
+                this.board = Array(9).fill('');
+                this.currentPlayer = 'X';
+                this.gameActive = true;
+                
+                document.querySelectorAll('.cell').forEach(cell => {
+                    cell.textContent = '';
+                    cell.classList.remove('x', 'o', 'winning');
+                });
+                
+                document.getElementById('game-status').textContent = 'Your turn!';
+            }
+
+            updateCell(index) {
+                const cell = document.querySelector(`[data-index="${index}"]`);
+                cell.textContent = this.board[index];
+                cell.classList.add(this.board[index].toLowerCase());
+            }
+
+            updateDisplay() {
+                document.getElementById('game-status').textContent = 
+                    this.currentPlayer === 'X' ? 'Your turn!' : 'AI is thinking...';
+            }
+
+            updateScores() {
+                document.getElementById('player-score').textContent = this.playerScore;
+                document.getElementById('ai-score').textContent = this.aiScore;
+                this.saveScores();
+            }
+
+            resetScores() {
+                this.playerScore = 0;
+                this.aiScore = 0;
+                this.updateScores();
+            }
+
+            saveScores() {
+                localStorage.setItem('tictactoe-scores', JSON.stringify({
+                    player: this.playerScore,
+                    ai: this.aiScore
+                }));
+            }
+
+            loadScores() {
+                const saved = localStorage.getItem('tictactoe-scores');
+                if (saved) {
+                    const scores = JSON.parse(saved);
+                    this.playerScore = scores.player || 0;
+                    this.aiScore = scores.ai || 0;
+                }
+            }
+        }
+
+        // Initialize game when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            new TicTacToe();
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                window.location.href = '/games';
+            }
+        });
+    </script>
+</body>
+</html>

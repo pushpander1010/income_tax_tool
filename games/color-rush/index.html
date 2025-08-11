@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Rush - Free Online Game | UpTools</title>
+    <meta name="description" content="Play Color Rush online for free. Click the different colored tile before time runs out. Speed and accuracy matter at UpTools!">
+    <meta name="robots" content="index,follow">
+    <meta name="theme-color" content="#0f1419">
+    <meta property="og:title" content="Color Rush - Free Online Game | UpTools">
+    <meta property="og:description" content="Play Color Rush online for free. Click the different colored tile before time runs out.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.uptools.in/games/color-rush">
+    <meta property="og:site_name" content="UpTools">
+    <link rel="canonical" href="https://www.uptools.in/games/color-rush">
+    <link rel="stylesheet" href="/style.css?v=1.0.0">
+    <style>
+        body {
+            --accent: #e91e63;
+            --bg: #0f1419;
+            --card: #1e2634;
+            background: linear-gradient(135deg, var(--bg), #1a1f2e);
+        }
+        
+        .game-container {
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .game-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 1rem 0;
+            padding: 1rem;
+            background: var(--card);
+            border-radius: var(--radius);
+            border: 1px solid var(--cardBorder);
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--accent);
+        }
+        
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--muted);
+        }
+        
+        .difficulty-selector {
+            margin: 1rem 0;
+        }
+        
+        .difficulty-btn {
+            padding: 0.5rem 1rem;
+            margin: 0 0.25rem;
+            border: 1px solid var(--cardBorder);
+            background: var(--card);
+            color: var(--text);
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .difficulty-btn.active {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
+        
+        .difficulty-btn:hover {
+            border-color: var(--accent);
+        }
+        
+        .game-area {
+            background: var(--card);
+            border: 1px solid var(--cardBorder);
+            border-radius: var(--radius);
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .color-grid {
+            display: grid;
+            gap: 8px;
+            margin: 2rem auto;
+            justify-content: center;
+        }
+        
+        .color-grid.easy {
+            grid-template-columns: repeat(3, 1fr);
+            max-width: 300px;
+        }
+        
+        .color-grid.medium {
+            grid-template-columns: repeat(4, 1fr);
+            max-width: 400px;
+        }
+        
+        .color-grid.hard {
+            grid-template-columns: repeat(5, 1fr);
+            max-width: 500px;
+        }
+        
+        .color-tile {
+            aspect-ratio: 1;
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .color-tile:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+        }
+        
+        .color-tile.correct {
+            animation: correctPulse 0.6s ease-in-out;
+            box-shadow: 0 0 30px var(--accent);
+        }
+        
+        .color-tile.incorrect {
+            animation: incorrectShake 0.5s ease-in-out;
+        }
+        
+        @keyframes correctPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        @keyframes incorrectShake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+        
+        .timer-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--cardBorder);
+            border-radius: 4px;
+            margin: 1rem 0;
+            overflow: hidden;
+        }
+        
+        .timer-fill {
+            height: 100%;
+            background: var(--accent);
+            border-radius: 4px;
+            transition: width linear;
+            width: 100%;
+        }
+        
+        .timer-fill.warning {
+            background: #ff9800;
+        }
+        
+        .timer-fill.danger {
+            background: #f44336;
+        }
+        
+        .game-status {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text);
+            margin: 1rem 0;
+        }
+        
+        .score-display {
+            font-size: 2rem;
+            font-weight: bold;
+            color: var(--accent);
+            margin: 1rem 0;
+        }
+        
+        .controls {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin: 1rem 0;
+        }
+        
+        .btn-game {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: var(--radius);
+            background: var(--accent);
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .btn-game:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+        
+        .btn-secondary {
+            background: var(--cardBorder);
+        }
+        
+        .game-over-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(15, 20, 25, 0.95);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        
+        .game-over-modal {
+            background: var(--card);
+            border: 2px solid var(--accent);
+            border-radius: var(--radius);
+            padding: 3rem;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+        
+        .game-over-title {
+            font-size: 2rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+        
+        .game-over-score {
+            font-size: 1.5rem;
+            color: var(--text);
+            margin-bottom: 1rem;
+        }
+        
+        .game-over-best {
+            font-size: 1rem;
+            color: var(--muted);
+            margin-bottom: 2rem;
+        }
+        
+        .instructions {
+            background: var(--bg);
+            border: 1px solid var(--cardBorder);
+            border-radius: var(--radius);
+            padding: 1rem;
+            margin: 1rem 0;
+            text-align: left;
+        }
+        
+        .instructions h3 {
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+        }
+        
+        .instructions ul {
+            color: var(--muted);
+            margin: 0;
+            padding-left: 1.5rem;
+        }
+        
+        .instructions li {
+            margin: 0.25rem 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="tool-header">
+            <a href="/games" class="back-btn">← Back to Games</a>
+            <h1>🌈 Color Rush</h1>
+            <p>Click the different colored tile before time runs out. Speed and accuracy matter!</p>
+        </div>
+
+        <div class="game-container">
+            <div class="difficulty-selector">
+                <span style="color: var(--muted); margin-right: 1rem;">Difficulty:</span>
+                <button class="difficulty-btn active" data-difficulty="easy">Easy (3x3)</button>
+                <button class="difficulty-btn" data-difficulty="medium">Medium (4x4)</button>
+                <button class="difficulty-btn" data-difficulty="hard">Hard (5x5)</button>
+            </div>
+
+            <div class="game-stats">
+                <div class="stat-item">
+                    <div class="stat-value" id="score">0</div>
+                    <div class="stat-label">Score</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="level">1</div>
+                    <div class="stat-label">Level</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="best-score">0</div>
+                    <div class="stat-label">Best Score</div>
+                </div>
+            </div>
+
+            <div class="game-area">
+                <div class="game-status" id="game-status">Click the different colored tile!</div>
+                <div class="score-display" id="score-display">0</div>
+                
+                <div class="timer-bar">
+                    <div class="timer-fill" id="timer-fill"></div>
+                </div>
+                
+                <div class="color-grid easy" id="color-grid"></div>
+            </div>
+
+            <div class="controls">
+                <button class="btn-game" id="startBtn">Start Game</button>
+                <button class="btn-game btn-secondary" id="resetBtn">Reset Score</button>
+            </div>
+
+            <div class="instructions">
+                <h3>🎯 How to Play:</h3>
+                <ul>
+                    <li>Click the tile that has a different color than the others</li>
+                    <li>You have limited time to find the odd one out</li>
+                    <li>Score points for correct answers</li>
+                    <li>The game gets faster and harder as you progress</li>
+                    <li>Be quick but accurate!</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="game-over-overlay" id="gameOverOverlay">
+        <div class="game-over-modal">
+            <div class="game-over-title">Game Over!</div>
+            <div class="game-over-score">Final Score: <span id="finalScore">0</span></div>
+            <div class="game-over-best">Best Score: <span id="bestScoreDisplay">0</span></div>
+            <button class="btn-game" id="playAgainBtn">Play Again</button>
+        </div>
+    </div>
+
+    <script>
+        class ColorRushGame {
+            constructor() {
+                this.score = 0;
+                this.level = 1;
+                this.gameActive = false;
+                this.difficulty = 'easy';
+                this.timer = null;
+                this.timeLimit = 5000;
+                this.timeRemaining = this.timeLimit;
+                this.bestScore = 0;
+                this.colors = [
+                    '#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7',
+                    '#DDA0DD', '#98D8C8', '#F7DC6F', '#BB8FCE', '#85C1E9',
+                    '#F8C471', '#82E0AA', '#F1948A', '#85C1E9', '#D7BDE2'
+                ];
+                
+                this.difficultyConfig = {
+                    easy: { gridSize: 3, timeLimit: 5000, scoreMultiplier: 1 },
+                    medium: { gridSize: 4, timeLimit: 4000, scoreMultiplier: 1.5 },
+                    hard: { gridSize: 5, timeLimit: 3000, scoreMultiplier: 2 }
+                };
+                
+                this.initializeGame();
+            }
+
+            initializeGame() {
+                this.loadBestScore();
+                this.setupEventListeners();
+                this.createGrid();
+            }
+
+            setupEventListeners() {
+                document.getElementById('startBtn').addEventListener('click', () => {
+                    this.startGame();
+                });
+                
+                document.getElementById('resetBtn').addEventListener('click', () => {
+                    this.resetScore();
+                });
+                
+                document.getElementById('playAgainBtn').addEventListener('click', () => {
+                    this.hideGameOver();
+                    this.startGame();
+                });
+                
+                document.querySelectorAll('.difficulty-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        this.setDifficulty(e.target.dataset.difficulty);
+                    });
+                });
+            }
+
+            setDifficulty(level) {
+                this.difficulty = level;
+                document.querySelectorAll('.difficulty-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                event.target.classList.add('active');
+                
+                const config = this.difficultyConfig[this.difficulty];
+                this.timeLimit = config.timeLimit;
+                this.timeRemaining = this.timeLimit;
+                
+                this.createGrid();
+                if (this.gameActive) {
+                    this.startGame();
+                }
+            }
+
+            createGrid() {
+                const grid = document.getElementById('color-grid');
+                const config = this.difficultyConfig[this.difficulty];
+                
+                grid.className = `color-grid ${this.difficulty}`;
+                grid.innerHTML = '';
+                
+                const totalTiles = config.gridSize * config.gridSize;
+                const baseColor = this.colors[Math.floor(Math.random() * this.colors.length)];
+                const differentColor = this.colors[Math.floor(Math.random() * this.colors.length)];
+                const differentTileIndex = Math.floor(Math.random() * totalTiles);
+                
+                for (let i = 0; i < totalTiles; i++) {
+                    const tile = document.createElement('div');
+                    tile.className = 'color-tile';
+                    tile.style.backgroundColor = i === differentTileIndex ? differentColor : baseColor;
+                    tile.dataset.index = i;
+                    tile.dataset.isDifferent = i === differentTileIndex;
+                    
+                    tile.addEventListener('click', () => this.handleTileClick(tile));
+                    grid.appendChild(tile);
+                }
+            }
+
+            startGame() {
+                this.gameActive = true;
+                this.score = 0;
+                this.level = 1;
+                this.updateDisplay();
+                
+                document.getElementById('startBtn').textContent = 'Restart';
+                document.getElementById('game-status').textContent = 'Click the different colored tile!';
+                
+                this.startTimer();
+            }
+
+            startTimer() {
+                this.timeRemaining = this.timeLimit;
+                this.updateTimer();
+                
+                this.timer = setInterval(() => {
+                    this.timeRemaining -= 100;
+                    this.updateTimer();
+                    
+                    if (this.timeRemaining <= 0) {
+                        this.gameOver();
+                    }
+                }, 100);
+            }
+
+            updateTimer() {
+                const timerFill = document.getElementById('timer-fill');
+                const percentage = (this.timeRemaining / this.timeLimit) * 100;
+                
+                timerFill.style.width = percentage + '%';
+                
+                if (percentage <= 25) {
+                    timerFill.className = 'timer-fill danger';
+                } else if (percentage <= 50) {
+                    timerFill.className = 'timer-fill warning';
+                } else {
+                    timerFill.className = 'timer-fill';
+                }
+            }
+
+            handleTileClick(tile) {
+                if (!this.gameActive) return;
+                
+                const isCorrect = tile.dataset.isDifferent === 'true';
+                
+                if (isCorrect) {
+                    this.correctAnswer();
+                    tile.classList.add('correct');
+                } else {
+                    this.incorrectAnswer();
+                    tile.classList.add('incorrect');
+                }
+                
+                setTimeout(() => {
+                    tile.classList.remove('correct', 'incorrect');
+                }, 600);
+            }
+
+            correctAnswer() {
+                this.score += Math.floor(this.level * 10 * this.difficultyConfig[this.difficulty].scoreMultiplier);
+                this.level++;
+                
+                if (this.score > this.bestScore) {
+                    this.bestScore = this.score;
+                    this.saveBestScore();
+                }
+                
+                this.updateDisplay();
+                this.nextRound();
+            }
+
+            incorrectAnswer() {
+                this.score = Math.max(0, this.score - 5);
+                this.updateDisplay();
+            }
+
+            nextRound() {
+                clearInterval(this.timer);
+                this.createGrid();
+                this.startTimer();
+                
+                // Increase difficulty slightly
+                this.timeLimit = Math.max(1000, this.timeLimit - 100);
+            }
+
+            gameOver() {
+                this.gameActive = false;
+                clearInterval(this.timer);
+                
+                document.getElementById('finalScore').textContent = this.score;
+                document.getElementById('bestScoreDisplay').textContent = this.bestScore;
+                document.getElementById('gameOverOverlay').style.display = 'flex';
+                
+                document.getElementById('startBtn').textContent = 'Start Game';
+                document.getElementById('game-status').textContent = 'Game Over! Click Start to play again.';
+            }
+
+            hideGameOver() {
+                document.getElementById('gameOverOverlay').style.display = 'none';
+            }
+
+            updateDisplay() {
+                document.getElementById('score').textContent = this.score;
+                document.getElementById('level').textContent = this.level;
+                document.getElementById('score-display').textContent = this.score;
+                document.getElementById('best-score').textContent = this.bestScore;
+            }
+
+            resetScore() {
+                if (confirm('Are you sure you want to reset your score?')) {
+                    this.score = 0;
+                    this.level = 1;
+                    this.updateDisplay();
+                }
+            }
+
+            loadBestScore() {
+                this.bestScore = parseInt(localStorage.getItem('color-rush-best-score')) || 0;
+                document.getElementById('best-score').textContent = this.bestScore;
+            }
+
+            saveBestScore() {
+                localStorage.setItem('color-rush-best-score', this.bestScore.toString());
+            }
+        }
+
+        // Initialize game when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            new ColorRushGame();
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                window.location.href = '/games';
+            }
+        });
+    </script>
+</body>
+</html>

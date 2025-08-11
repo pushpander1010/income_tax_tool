@@ -39,7 +39,13 @@ const SUBPAGES = new Set([
   'color-picker',
   'age-calculator',
   'password-generator',
-  'percentage-calculator'
+  'percentage-calculator',
+  'games',
+  'games/tic-tac-toe',
+  'games/memory-match',
+  'games/snake',
+  'games/number-guessing',
+  'games/color-rush'
 ]);
 
 export default {
@@ -108,15 +114,25 @@ export default {
     // Check if this is a known subpage
     if (requestPath !== '/' && SUBPAGES.has(requestPath.slice(1))) {
       console.log(`[Worker] Serving subpage: ${requestPath}`);
+      
+      // For nested paths like /games/tic-tac-toe, we need to construct the path correctly
+      let indexPath = requestPath;
+      if (!indexPath.endsWith('/index.html')) {
+        indexPath = indexPath + '/index.html';
+      }
+      
+      console.log(`[Worker] Trying to serve: ${indexPath}`);
+      
       // Try to serve the subpage's index.html
-      const subpageRequest = new Request(new URL(`${requestPath}/index.html`, req.url), req);
+      const subpageRequest = new Request(new URL(indexPath, req.url), req);
       try {
         const subpageResponse = await env.ASSETS.fetch(subpageRequest);
         if (subpageResponse.status === 200) {
           console.log(`[Worker] Subpage served successfully: ${requestPath}`);
           return subpageResponse;
         } else {
-          console.error(`[Worker] Subpage not found: ${requestPath}, status: ${subpageResponse.status}`);
+          console.error(`[Worker] Subpage not found: ${indexPath}, status: ${subpageResponse.status}`);
+          // Don't fall back to root here - let it continue to the final fallback
         }
       } catch (err) {
         console.error('[Worker] Error serving subpage:', err);

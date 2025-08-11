@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Match - Free Online Game | UpTools</title>
+    <meta name="description" content="Play Memory Match online for free. Test your memory by matching pairs of cards. Multiple difficulty levels available at UpTools.">
+    <meta name="robots" content="index,follow">
+    <meta name="theme-color" content="#0f1419">
+    <meta property="og:title" content="Memory Match - Free Online Game | UpTools">
+    <meta property="og:description" content="Play Memory Match online for free. Test your memory by matching pairs of cards.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.uptools.in/games/memory-match">
+    <meta property="og:site_name" content="UpTools">
+    <link rel="canonical" href="https://www.uptools.in/games/memory-match">
+    <link rel="stylesheet" href="/style.css?v=1.0.0">
+    <style>
+        body {
+            --accent: #4ecdc4;
+            --bg: #0f1419;
+            --card: #1e2634;
+            background: linear-gradient(135deg, var(--bg), #1a1f2e);
+        }
+        
+        .game-container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .game-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 1rem 0;
+            padding: 1rem;
+            background: var(--card);
+            border-radius: var(--radius);
+            border: 1px solid var(--cardBorder);
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--accent);
+        }
+        
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--muted);
+        }
+        
+        .difficulty-selector {
+            margin: 1rem 0;
+        }
+        
+        .difficulty-btn {
+            padding: 0.5rem 1rem;
+            margin: 0 0.25rem;
+            border: 1px solid var(--cardBorder);
+            background: var(--card);
+            color: var(--text);
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .difficulty-btn.active {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+        }
+        
+        .difficulty-btn:hover {
+            border-color: var(--accent);
+        }
+        
+        .memory-grid {
+            display: grid;
+            gap: 8px;
+            margin: 2rem auto;
+            justify-content: center;
+        }
+        
+        .memory-grid.easy {
+            grid-template-columns: repeat(4, 1fr);
+            max-width: 400px;
+        }
+        
+        .memory-grid.medium {
+            grid-template-columns: repeat(6, 1fr);
+            max-width: 600px;
+        }
+        
+        .memory-grid.hard {
+            grid-template-columns: repeat(8, 1fr);
+            max-width: 800px;
+        }
+        
+        .memory-card {
+            aspect-ratio: 1;
+            background: var(--card);
+            border: 2px solid var(--cardBorder);
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: transparent;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .memory-card:hover {
+            border-color: var(--accent);
+            transform: scale(1.05);
+        }
+        
+        .memory-card.flipped {
+            color: var(--text);
+            background: linear-gradient(135deg, var(--card), #2a3441);
+            border-color: var(--accent);
+        }
+        
+        .memory-card.matched {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+            animation: matchPulse 0.6s ease-in-out;
+        }
+        
+        @keyframes matchPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        .controls {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin: 1rem 0;
+        }
+        
+        .btn-game {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: var(--radius);
+            background: var(--accent);
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .btn-game:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+        
+        .btn-secondary {
+            background: var(--cardBorder);
+        }
+        
+        .game-status {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--text);
+            margin: 1rem 0;
+        }
+        
+        .best-time {
+            color: var(--accent);
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="tool-header">
+            <a href="/games" class="back-btn">← Back to Games</a>
+            <h1>🧠 Memory Match</h1>
+            <p>Test your memory by matching pairs of cards. How fast can you complete it?</p>
+        </div>
+
+        <div class="game-container">
+            <div class="difficulty-selector">
+                <span style="color: var(--muted); margin-right: 1rem;">Difficulty:</span>
+                <button class="difficulty-btn active" data-difficulty="easy">Easy (8 cards)</button>
+                <button class="difficulty-btn" data-difficulty="medium">Medium (18 cards)</button>
+                <button class="difficulty-btn" data-difficulty="hard">Hard (32 cards)</button>
+            </div>
+
+            <div class="game-stats">
+                <div class="stat-item">
+                    <div class="stat-value" id="timer">00:00</div>
+                    <div class="stat-label">Time</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="moves">0</div>
+                    <div class="stat-label">Moves</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="pairs-found">0</div>
+                    <div class="stat-label">Pairs Found</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="best-time">--:--</div>
+                    <div class="stat-label">Best Time</div>
+                </div>
+            </div>
+
+            <div class="game-status" id="game-status">Click cards to start!</div>
+
+            <div class="memory-grid easy" id="memory-grid"></div>
+
+            <div class="controls">
+                <button class="btn-game" id="new-game">New Game</button>
+                <button class="btn-game btn-secondary" id="reset-scores">Reset Best Times</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        class MemoryMatch {
+            constructor() {
+                this.cards = [];
+                this.flippedCards = [];
+                this.matchedPairs = 0;
+                this.moves = 0;
+                this.gameActive = false;
+                this.timer = 0;
+                this.timerInterval = null;
+                this.difficulty = 'easy';
+                this.symbols = ['🎮', '🎲', '🎯', '🎪', '🎨', '🎭', '🎪', '🎨', '🎭', '🎪', '🎨', '🎭', '🎪', '🎨', '🎭', '🎪'];
+                
+                this.difficultyConfig = {
+                    easy: { pairs: 4, symbols: this.symbols.slice(0, 4) },
+                    medium: { pairs: 9, symbols: this.symbols.slice(0, 9) },
+                    hard: { pairs: 16, symbols: this.symbols.slice(0, 16) }
+                };
+                
+                this.initializeGame();
+            }
+
+            initializeGame() {
+                this.loadBestTimes();
+                this.setupEventListeners();
+                this.createBoard();
+            }
+
+            setupEventListeners() {
+                document.getElementById('new-game').addEventListener('click', () => {
+                    this.startNewGame();
+                });
+
+                document.getElementById('reset-scores').addEventListener('click', () => {
+                    this.resetBestTimes();
+                });
+
+                document.querySelectorAll('.difficulty-btn').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        this.setDifficulty(e.target.dataset.difficulty);
+                    });
+                });
+            }
+
+            setDifficulty(level) {
+                this.difficulty = level;
+                document.querySelectorAll('.difficulty-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                event.target.classList.add('active');
+                
+                // Update grid class
+                const grid = document.getElementById('memory-grid');
+                grid.className = `memory-grid ${level}`;
+                
+                this.startNewGame();
+            }
+
+            createBoard() {
+                const grid = document.getElementById('memory-grid');
+                grid.innerHTML = '';
+                
+                const config = this.difficultyConfig[this.difficulty];
+                this.cards = [];
+                
+                // Create pairs of cards
+                for (let i = 0; i < config.pairs; i++) {
+                    this.cards.push(config.symbols[i], config.symbols[i]);
+                }
+                
+                // Shuffle cards
+                this.shuffleArray(this.cards);
+                
+                // Create card elements
+                this.cards.forEach((symbol, index) => {
+                    const card = document.createElement('div');
+                    card.className = 'memory-card';
+                    card.dataset.index = index;
+                    card.dataset.symbol = symbol;
+                    card.addEventListener('click', () => this.flipCard(card));
+                    grid.appendChild(card);
+                });
+            }
+
+            shuffleArray(array) {
+                for (let i = array.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [array[i], array[j]] = [array[j], array[i]];
+                }
+            }
+
+            flipCard(card) {
+                if (!this.gameActive) {
+                    this.startGame();
+                }
+                
+                if (card.classList.contains('flipped') || card.classList.contains('matched')) {
+                    return;
+                }
+                
+                card.classList.add('flipped');
+                card.textContent = card.dataset.symbol;
+                this.flippedCards.push(card);
+                
+                if (this.flippedCards.length === 2) {
+                    this.moves++;
+                    this.updateDisplay();
+                    this.checkMatch();
+                }
+            }
+
+            checkMatch() {
+                const [card1, card2] = this.flippedCards;
+                const match = card1.dataset.symbol === card2.dataset.symbol;
+                
+                if (match) {
+                    card1.classList.add('matched');
+                    card2.classList.add('matched');
+                    this.matchedPairs++;
+                    this.updateDisplay();
+                    
+                    if (this.matchedPairs === this.difficultyConfig[this.difficulty].pairs) {
+                        this.endGame();
+                    }
+                } else {
+                    setTimeout(() => {
+                        card1.classList.remove('flipped');
+                        card2.classList.remove('flipped');
+                        card1.textContent = '';
+                        card2.textContent = '';
+                    }, 1000);
+                }
+                
+                this.flippedCards = [];
+            }
+
+            startGame() {
+                this.gameActive = true;
+                this.startTimer();
+            }
+
+            startTimer() {
+                this.timerInterval = setInterval(() => {
+                    this.timer++;
+                    this.updateDisplay();
+                }, 1000);
+            }
+
+            stopTimer() {
+                if (this.timerInterval) {
+                    clearInterval(this.timerInterval);
+                    this.timerInterval = null;
+                }
+            }
+
+            endGame() {
+                this.gameActive = false;
+                this.stopTimer();
+                
+                const timeString = this.formatTime(this.timer);
+                document.getElementById('game-status').innerHTML = `🎉 Congratulations! You completed the game in <span class="best-time">${timeString}</span> with ${this.moves} moves!`;
+                
+                this.checkBestTime();
+            }
+
+            checkBestTime() {
+                const key = `memory-match-best-${this.difficulty}`;
+                const currentBest = localStorage.getItem(key);
+                
+                if (!currentBest || this.timer < parseInt(currentBest)) {
+                    localStorage.setItem(key, this.timer.toString());
+                    this.loadBestTimes();
+                }
+            }
+
+            startNewGame() {
+                this.stopTimer();
+                this.gameActive = false;
+                this.timer = 0;
+                this.moves = 0;
+                this.matchedPairs = 0;
+                this.flippedCards = [];
+                this.updateDisplay();
+                this.createBoard();
+                document.getElementById('game-status').textContent = 'Click cards to start!';
+            }
+
+            updateDisplay() {
+                document.getElementById('timer').textContent = this.formatTime(this.timer);
+                document.getElementById('moves').textContent = this.moves;
+                document.getElementById('pairs-found').textContent = this.matchedPairs;
+            }
+
+            formatTime(seconds) {
+                const mins = Math.floor(seconds / 60);
+                const secs = seconds % 60;
+                return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+            }
+
+            loadBestTimes() {
+                Object.keys(this.difficultyConfig).forEach(difficulty => {
+                    const key = `memory-match-best-${difficulty}`;
+                    const bestTime = localStorage.getItem(key);
+                    if (bestTime && difficulty === this.difficulty) {
+                        document.getElementById('best-time').textContent = this.formatTime(parseInt(bestTime));
+                    }
+                });
+            }
+
+            resetBestTimes() {
+                Object.keys(this.difficultyConfig).forEach(difficulty => {
+                    localStorage.removeItem(`memory-match-best-${difficulty}`);
+                });
+                this.loadBestTimes();
+            }
+        }
+
+        // Initialize game when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            new MemoryMatch();
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                window.location.href = '/games';
+            }
+        });
+    </script>
+</body>
+</html>
