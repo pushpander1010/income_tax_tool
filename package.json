@@ -7,10 +7,10 @@
     "dev": "vite",
     "prebuild": "node scripts/generate-seo.mjs",
     "build": "tsc && vite build",
-    "postbuild": "node scripts/copy-subpages.mjs",
     "preview": "vite preview"
   },
   "devDependencies": {
+    "@types/node": "^24.2.1",
     "typescript": "~5.8.3",
     "vite": "^7.1.0"
   }
