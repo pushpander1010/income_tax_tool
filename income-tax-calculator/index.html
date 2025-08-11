@@ -30,9 +30,13 @@
       }
     </script>
   </head>
-  <body style="--accent:#7aa2ff;--bg1:#0b1020;--bg2:#0e1530;--cardBorder:#2a3766aa">
+  <body style="--accent:#7aa2ff; --bg:#0a0e1a; --card:#1a2332; background:linear-gradient(135deg,var(--bg),#0f1a2e);">
     <main class="wrap">
-      <div class="tool-header"><div class="tool-icon">₹</div><h1 style="margin:0">Income Tax Calculator (India)</h1></div>
+      <header class="tool-header">
+        <a href="/" class="back-btn" aria-label="Back to home">←</a>
+        <span class="tool-icon" role="img" aria-label="Indian Rupee">₹</span>
+        <h1>Income Tax Calculator (India)</h1>
+      </header>
 
       <div class="card" role="form" aria-labelledby="formTitle">
         <h2 id="formTitle" class="sr-only">Enter your details</h2>
@@ -72,6 +76,6 @@
 
     <script type="module" src="/src/main.ts"></script>
   </body>
-  </html>
+</html>
 
 

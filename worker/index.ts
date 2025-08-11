@@ -66,6 +66,25 @@ export default {
       }
     }
 
+    // Handle static assets first (CSS, JS, etc.)
+    if (url.pathname.startsWith('/assets/') || url.pathname === '/style.css') {
+      try {
+        const response = await env.ASSETS.fetch(req);
+        if (response.status === 200) {
+          // Set proper content type for CSS
+          if (url.pathname === '/style.css') {
+            const newResponse = new Response(response.body, response);
+            newResponse.headers.set('Content-Type', 'text/css');
+            newResponse.headers.set('Cache-Control', 'public, max-age=31536000'); // Cache CSS for 1 year
+            return newResponse;
+          }
+          return response;
+        }
+      } catch (err) {
+        // Continue to fallback
+      }
+    }
+
     // Handle SPA routing for subpages
     let requestPath = url.pathname;
     
