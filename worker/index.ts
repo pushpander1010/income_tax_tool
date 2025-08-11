@@ -66,8 +66,8 @@ export default {
       }
     }
 
-    // Handle static assets first (CSS, JS, etc.)
-    if (url.pathname.startsWith('/assets/') || url.pathname === '/style.css') {
+    // Handle static assets first (CSS, JS, etc.) - this is critical for subpages
+    if (url.pathname === '/style.css' || url.pathname.startsWith('/assets/')) {
       try {
         const response = await env.ASSETS.fetch(req);
         if (response.status === 200) {
@@ -81,7 +81,7 @@ export default {
           return response;
         }
       } catch (err) {
-        // Continue to fallback
+        console.error('Error serving static asset:', err);
       }
     }
 
@@ -103,7 +103,7 @@ export default {
           return subpageResponse;
         }
       } catch (err) {
-        // Continue to fallback
+        console.error('Error serving subpage:', err);
       }
     }
 
