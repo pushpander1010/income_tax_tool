@@ -12,7 +12,8 @@
       "src",
       "style.css",
       "index.html",
-      "income-tax-tool",
+      "public",
+      "income-tax-calculator",
       "bmi-calculator",
       "emi-calculator",
       "fd-calculator",
@@ -30,6 +31,7 @@
       "text-case-converter",
       "unit-converter",
       "qr-generator",
+      "color-picker",
       "scripts"
     ]
   },

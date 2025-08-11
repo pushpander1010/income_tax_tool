@@ -40,8 +40,42 @@ export default {
       }
     }
 
-    // Serve static assets
-    return env.ASSETS.fetch(req);
+    // Handle SPA routing for subpages
+    let requestPath = url.pathname;
+    
+    // Remove trailing slash except for root
+    if (requestPath !== '/' && requestPath.endsWith('/')) {
+      requestPath = requestPath.slice(0, -1);
+    }
+    
+    // Check if this is a subpage (e.g., /color-picker)
+    if (requestPath !== '/' && !requestPath.includes('.')) {
+      // Try to serve the subpage's index.html
+      const subpageRequest = new Request(new URL(`${requestPath}/index.html`, req.url), req);
+      try {
+        const subpageResponse = await env.ASSETS.fetch(subpageRequest);
+        if (subpageResponse.status === 200) {
+          return subpageResponse;
+        }
+      } catch (err) {
+        // Continue to fallback
+      }
+    }
+
+    // Serve static assets (fallback to root index.html for 404s)
+    try {
+      const response = await env.ASSETS.fetch(req);
+      if (response.status === 404 && requestPath !== '/') {
+        // For 404s on subpages, try to serve root index.html
+        const rootRequest = new Request(new URL('/', req.url), req);
+        return await env.ASSETS.fetch(rootRequest);
+      }
+      return response;
+    } catch (err) {
+      // Final fallback to root index.html
+      const rootRequest = new Request(new URL('/', req.url), req);
+      return await env.ASSETS.fetch(rootRequest);
+    }
   }
 };
 

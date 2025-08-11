@@ -7,6 +7,7 @@
     "dev": "vite",
     "prebuild": "node scripts/generate-seo.mjs",
     "build": "tsc && vite build",
+    "postbuild": "node scripts/copy-subpages.mjs",
     "preview": "vite preview"
   },
   "devDependencies": {

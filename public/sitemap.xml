@@ -7,7 +7,7 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>/income-tax-tool/</loc>
+    <loc>/income-tax-calculator/</loc>
     <lastmod>2025-08-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
@@ -38,12 +38,6 @@
   </url>
   <url>
     <loc>/age-calculator/</loc>
-    <lastmod>2025-08-11</lastmod>
-    <changefreq>yearly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  <url>
-    <loc>/percentage-calculator/</loc>
     <lastmod>2025-08-11</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.6</priority>

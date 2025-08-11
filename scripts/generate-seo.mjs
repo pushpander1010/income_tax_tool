@@ -10,7 +10,7 @@ const sitemapLoc = siteUrl ? `${siteUrl}/sitemap.xml` : `/sitemap.xml`;
 const homeLoc = siteUrl ? `${siteUrl}/` : `/`;
 const pages = [
   { loc: homeLoc, priority: 0.7, changefreq: 'monthly' },
-  { loc: siteUrl ? `${siteUrl}/income-tax-tool/` : `/income-tax-tool/`, priority: 0.8, changefreq: 'monthly' },
+  { loc: siteUrl ? `${siteUrl}/income-tax-calculator/` : `/income-tax-calculator/`, priority: 0.8, changefreq: 'monthly' },
   { loc: siteUrl ? `${siteUrl}/bmi-calculator/` : `/bmi-calculator/`, priority: 0.6, changefreq: 'yearly' },
   { loc: siteUrl ? `${siteUrl}/emi-calculator/` : `/emi-calculator/`, priority: 0.7, changefreq: 'monthly' },
   { loc: siteUrl ? `${siteUrl}/fd-calculator/` : `/fd-calculator/`, priority: 0.6, changefreq: 'yearly' },

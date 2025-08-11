@@ -1,0 +1,25 @@
+# SPA routing for Cloudflare Pages
+# Redirect all subpage requests to their respective index.html files
+
+/income-tax-calculator/*    /income-tax-calculator/index.html   200
+/bmi-calculator/*     /bmi-calculator/index.html    200
+/emi-calculator/*     /emi-calculator/index.html    200
+/fd-calculator/*      /fd-calculator/index.html     200
+/sip-calculator/*     /sip-calculator/index.html    200
+/gst-calculator/*     /gst-calculator/index.html    200
+/currency-converter/* /currency-converter/index.html 200
+/date-difference/*    /date-difference/index.html   200
+/pan-validator/*      /pan-validator/index.html     200
+/ifsc-finder/*        /ifsc-finder/index.html       200
+/ip-address/*         /ip-address/index.html        200
+/uuid-generator/*     /uuid-generator/index.html    200
+/json-formatter/*     /json-formatter/index.html    200
+/base64-encoder/*     /base64-encoder/index.html    200
+/word-counter/*       /word-counter/index.html      200
+/text-case-converter/* /text-case-converter/index.html 200
+/unit-converter/*     /unit-converter/index.html    200
+/qr-generator/*       /qr-generator/index.html      200
+/color-picker/*       /color-picker/index.html      200
+
+# Fallback for any other routes to root
+/*    /index.html   200
