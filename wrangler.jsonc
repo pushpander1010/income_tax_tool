@@ -5,6 +5,38 @@
   "assets": {
     "directory": "./dist",
     "binding": "ASSETS"
+  },
+  "build": {
+    "command": "npm run build",
+    "watch_dir": [
+      "src",
+      "style.css",
+      "index.html",
+      "income-tax-tool",
+      "bmi-calculator",
+      "emi-calculator",
+      "fd-calculator",
+      "sip-calculator",
+      "gst-calculator",
+      "currency-converter",
+      "date-difference",
+      "pan-validator",
+      "ifsc-finder",
+      "ip-address",
+      "uuid-generator",
+      "json-formatter",
+      "base64-encoder",
+      "word-counter",
+      "text-case-converter",
+      "unit-converter",
+      "qr-generator",
+      "scripts"
+    ]
+  },
+  "dev": {
+    "ip": "127.0.0.1",
+    "port": 8787,
+    "local_protocol": "http"
   }
 }
   

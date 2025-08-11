@@ -16,7 +16,6 @@ const pages = [
   { loc: siteUrl ? `${siteUrl}/fd-calculator/` : `/fd-calculator/`, priority: 0.6, changefreq: 'yearly' },
   { loc: siteUrl ? `${siteUrl}/sip-calculator/` : `/sip-calculator/`, priority: 0.7, changefreq: 'monthly' },
   { loc: siteUrl ? `${siteUrl}/age-calculator/` : `/age-calculator/`, priority: 0.6, changefreq: 'yearly' },
-  { loc: siteUrl ? `${siteUrl}/percentage-calculator/` : `/percentage-calculator/`, priority: 0.6, changefreq: 'yearly' },
   { loc: siteUrl ? `${siteUrl}/unit-converter/` : `/unit-converter/`, priority: 0.6, changefreq: 'yearly' },
   { loc: siteUrl ? `${siteUrl}/password-generator/` : `/password-generator/`, priority: 0.5, changefreq: 'yearly' },
   { loc: siteUrl ? `${siteUrl}/qr-generator/` : `/qr-generator/`, priority: 0.5, changefreq: 'yearly' },
