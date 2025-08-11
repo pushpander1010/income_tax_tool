@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Your IP Address – UpTools</title>
+    <meta name="description" content="Show your public IP address." />
+    <meta name="robots" content="index,follow" />
+    <meta name="theme-color" content="#0b1020" />
+    <link rel="canonical" href="https://www.uptools.in/ip-address/" />
+    <meta property="og:title" content="Your IP Address – UpTools" />
+    <meta property="og:description" content="Show your public IP address." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.uptools.in/ip-address/" />
+    <meta property="og:site_name" content="UpTools" />
+    <meta name="twitter:card" content="summary" />
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body style="--accent:#ffd1dc;--bg1:#200b18;--bg2:#300e24;--cardBorder:#661e3a">
+    <main class="wrap">
+      <div class="tool-header"><div class="tool-icon">IP</div><h1 style="margin:0">Your IP Address</h1></div>
+      <div class="card">
+        <div id="out" class="result">Loading...</div>
+      </div>
+      <footer class="note small"><a href="/">UpTools</a></footer>
+    </main>
+    <script type="module">
+      const O=document.getElementById('out');
+      async function fetchIp(){
+        async function ipify(){ const r=await fetch('https://api.ipify.org?format=json'); if(!r.ok) throw 0; return (await r.json()).ip; }
+        async function ifconfig(){ const r=await fetch('https://ifconfig.me/all.json'); if(!r.ok) throw 0; return (await r.json()).ip_addr; }
+        try{ const ip = await ipify().catch(ifconfig); O.innerHTML = `<div class='row'><span>Public IP</span><span class='amount'>${ip}</span></div>`; }
+        catch{
+          try{
+            const prox = await fetch(`/api?url=${encodeURIComponent('https://api.ipify.org?format=json')}`);
+            const j = await prox.json();
+            O.innerHTML = `<div class='row'><span>Public IP</span><span class='amount'>${j.ip}</span></div>`;
+          }catch{ O.textContent='Could not fetch IP'; }
+        }
+      }
+      fetchIp();
+    </script>
+  </body>
+  </html>
+

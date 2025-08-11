@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>BMI Calculator – UpTools</title>
+    <meta name="description" content="Free BMI Calculator. Enter height and weight to see BMI and category instantly." />
+    <meta name="robots" content="index,follow" />
+    <meta name="theme-color" content="#0b1020" />
+    <link rel="canonical" href="https://www.uptools.in/bmi-calculator/" />
+    <meta property="og:title" content="BMI Calculator – UpTools" />
+    <meta property="og:description" content="Enter height and weight to see BMI and category instantly." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.uptools.in/bmi-calculator/" />
+    <meta property="og:site_name" content="UpTools" />
+    <meta name="twitter:card" content="summary" />
+    <link rel="icon" href="/favicon.ico" />
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body style="--accent:#ff8a65;--bg1:#20100b;--bg2:#30150e;--cardBorder:#66352a">
+    <main class="wrap">
+      <div class="tool-header"><div class="tool-icon">BMI</div><h1 style="margin:0">BMI Calculator</h1></div>
+      <div class="card">
+        <label class="label" for="height">Height (cm)</label>
+        <input id="height" class="input" type="number" min="0" step="0.1" placeholder="e.g., 170" />
+
+        <label class="label" for="weight">Weight (kg)</label>
+        <input id="weight" class="input" type="number" min="0" step="0.1" placeholder="e.g., 70" />
+
+        <button id="calcBtn" class="btn">Calculate</button>
+
+        <div id="result" class="result" aria-live="polite"></div>
+      </div>
+      <footer class="note small"><a href="/">UpTools</a></footer>
+    </main>
+
+    <script type="module">
+      const h = document.getElementById('height');
+      const w = document.getElementById('weight');
+      const r = document.getElementById('result');
+      const b = document.getElementById('calcBtn');
+      const fmt = (n) => Number(n).toFixed(1);
+      function calc(){
+        const cm = Number(h.value||0);
+        const kg = Number(w.value||0);
+        if(!cm || !kg){ r.textContent = 'Enter valid height and weight'; return; }
+        const m = cm/100;
+        const bmi = kg/(m*m);
+        let cat = 'Underweight';
+        if(bmi>=18.5 && bmi<25) cat='Normal';
+        else if(bmi>=25 && bmi<30) cat='Overweight';
+        else if(bmi>=30) cat='Obese';
+        r.innerHTML = `<div class="row"><span>BMI</span><span class="amount">${fmt(bmi)}</span></div><div class="row"><span>Category</span><span class="amount">${cat}</span></div>`;
+      }
+      b.addEventListener('click', calc);
+      [h,w].forEach(el=>el.addEventListener('keydown',e=>{ if(e.key==='Enter') calc(); }));
+    </script>
+  </body>
+  </html>
+

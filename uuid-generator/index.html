@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>UUID Generator – UpTools</title>
+    <meta name="description" content="Generate UUID v4 identifiers." />
+    <meta name="robots" content="index,follow" />
+    <meta name="theme-color" content="#0b1020" />
+    <link rel="canonical" href="https://www.uptools.in/uuid-generator/" />
+    <meta property="og:title" content="UUID Generator – UpTools" />
+    <meta property="og:description" content="Generate UUID v4 identifiers." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.uptools.in/uuid-generator/" />
+    <meta property="og:site_name" content="UpTools" />
+    <meta name="twitter:card" content="summary" />
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body style="--accent:#a0e7e5;--bg1:#0b1a20;--bg2:#0e2430;--cardBorder:#2a5066">
+    <main class="wrap">
+      <div class="tool-header"><div class="tool-icon">ID</div><h1 style="margin:0">UUID Generator</h1></div>
+      <div class="card">
+        <button id="gen" class="btn">Generate UUID</button>
+        <div id="out" class="result" style="word-break:break-all"></div>
+      </div>
+      <footer class="note small"><a href="/">UpTools</a></footer>
+    </main>
+    <script type="module">
+      function uuidv4(){
+        const rnds = new Uint8Array(16); crypto.getRandomValues(rnds);
+        rnds[6] = (rnds[6] & 0x0f) | 0x40; rnds[8] = (rnds[8] & 0x3f) | 0x80;
+        const b=[...rnds].map(b=>b.toString(16).padStart(2,'0')).join('');
+        return `${b.slice(0,8)}-${b.slice(8,12)}-${b.slice(12,16)}-${b.slice(16,20)}-${b.slice(20)}`;
+      }
+      document.getElementById('gen').addEventListener('click',()=>{
+        document.getElementById('out').textContent = uuidv4();
+      });
+    </script>
+  </body>
+  </html>
+

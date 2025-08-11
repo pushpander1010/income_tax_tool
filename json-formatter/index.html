@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>JSON Formatter – UpTools</title>
+    <meta name="description" content="Validate and pretty-print JSON." />
+    <meta name="robots" content="index,follow" />
+    <meta name="theme-color" content="#0b1020" />
+    <link rel="canonical" href="https://www.uptools.in/json-formatter/" />
+    <meta property="og:title" content="JSON Formatter – UpTools" />
+    <meta property="og:description" content="Validate and pretty-print JSON." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.uptools.in/json-formatter/" />
+    <meta property="og:site_name" content="UpTools" />
+    <meta name="twitter:card" content="summary" />
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body style="--accent:#90dbf4;--bg1:#0b1820;--bg2:#0e2230;--cardBorder:#2a4866">
+    <main class="wrap">
+      <div class="tool-header"><div class="tool-icon">{ }</div><h1 style="margin:0">JSON Formatter</h1></div>
+      <div class="card">
+        <label class="label" for="txt">JSON</label>
+        <textarea id="txt" class="input" rows="8" placeholder='{"example":true}'></textarea>
+        <button id="fmt" class="btn">Format</button>
+        <div id="out" class="result" style="white-space:pre;overflow:auto"></div>
+      </div>
+      <footer class="note small"><a href="/">UpTools</a></footer>
+    </main>
+    <script type="module">
+      const T=document.getElementById('txt'),O=document.getElementById('out');
+      function fmt(){
+        try { const obj=JSON.parse(T.value); O.textContent=JSON.stringify(obj,null,2); }
+        catch(e){ O.textContent='Invalid JSON'; }
+      }
+      document.getElementById('fmt').addEventListener('click', fmt);
+    </script>
+  </body>
+  </html>
+

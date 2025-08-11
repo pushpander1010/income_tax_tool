@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Text Case Converter – UpTools</title>
+    <meta name="description" content="Convert text between UPPERCASE, lowercase, Title Case, and camelCase." />
+    <meta name="robots" content="index,follow" />
+    <meta name="theme-color" content="#0b1020" />
+    <link rel="canonical" href="https://www.uptools.in/text-case-converter/" />
+    <meta property="og:title" content="Text Case Converter – UpTools" />
+    <meta property="og:description" content="Convert text cases instantly." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.uptools.in/text-case-converter/" />
+    <meta property="og:site_name" content="UpTools" />
+    <meta name="twitter:card" content="summary" />
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body style="--accent:#bde0fe;--bg1:#0b1420;--bg2:#0e1e30;--cardBorder:#2a4766">
+    <main class="wrap">
+      <div class="tool-header"><div class="tool-icon">Aa</div><h1 style="margin:0">Text Case Converter</h1></div>
+      <div class="card">
+        <label class="label" for="txt">Text</label>
+        <textarea id="txt" class="input" rows="6" placeholder="Paste or type text here..."></textarea>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
+          <button class="btn" data-op="upper">UPPERCASE</button>
+          <button class="btn" data-op="lower">lowercase</button>
+          <button class="btn" data-op="title">Title Case</button>
+          <button class="btn" data-op="camel">camelCase</button>
+          <button class="btn" data-op="snake">snake_case</button>
+          <button class="btn" data-op="kebab">kebab-case</button>
+        </div>
+        <div id="out" class="result" style="white-space:pre-wrap"></div>
+      </div>
+      <footer class="note small"><a href="/">UpTools</a></footer>
+    </main>
+    <script type="module">
+      const T = document.getElementById('txt'), O=document.getElementById('out');
+      function titleCase(s){ return s.toLowerCase().replace(/\b\w/g,c=>c.toUpperCase()); }
+      function camelCase(s){ return s.toLowerCase().split(/[^a-z0-9]+/i).filter(Boolean).map((w,i)=> i? w[0].toUpperCase()+w.slice(1) : w).join(''); }
+      function snakeCase(s){ return s.trim().replace(/\s+/g,'_').replace(/[^A-Za-z0-9_]/g,'').toLowerCase(); }
+      function kebabCase(s){ return s.trim().replace(/\s+/g,'-').replace(/[^A-Za-z0-9-]/g,'').toLowerCase(); }
+      function act(op){
+        const v=T.value||'';
+        let r='';
+        if(op==='upper') r=v.toUpperCase();
+        else if(op==='lower') r=v.toLowerCase();
+        else if(op==='title') r=titleCase(v);
+        else if(op==='camel') r=camelCase(v);
+        else if(op==='snake') r=snakeCase(v);
+        else if(op==='kebab') r=kebabCase(v);
+        O.textContent=r;
+      }
+      document.querySelectorAll('button[data-op]').forEach(b=> b.addEventListener('click', ()=> act(b.getAttribute('data-op'))));
+    </script>
+  </body>
+  </html>
+

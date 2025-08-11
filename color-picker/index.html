@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Color Picker – UpTools</title>
+    <meta name="description" content="Pick a color and get HEX/RGB/HSL values." />
+    <meta name="robots" content="index,follow" />
+    <meta name="theme-color" content="#0b1020" />
+    <link rel="canonical" href="https://www.uptools.in/color-picker/" />
+    <meta property="og:title" content="Color Picker – UpTools" />
+    <meta property="og:description" content="Pick a color and get HEX/RGB/HSL values." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.uptools.in/color-picker/" />
+    <meta property="og:site_name" content="UpTools" />
+    <meta name="twitter:card" content="summary" />
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <main class="wrap">
+      <h1>Color Picker</h1>
+      <div class="card">
+        <input id="c" class="input" type="color" value="#7aa2ff" />
+        <div id="out" class="result"></div>
+      </div>
+      <footer class="note small"><a href="/">UpTools</a></footer>
+    </main>
+    <script type="module">
+      const C=document.getElementById('c'),O=document.getElementById('out');
+      function hexToRgb(hex){ hex=hex.replace('#',''); const bigint=parseInt(hex,16); return {r:(bigint>>16)&255,g:(bigint>>8)&255,b:bigint&255}; }
+      function rgbToHsl(r,g,b){ r/=255;g/=255;b/=255; const max=Math.max(r,g,b),min=Math.min(r,g,b); let h,s,l=(max+min)/2; if(max===min){h=s=0;}else{ const d=max-min; s=l>0.5? d/(2-max-min): d/(max+min); switch(max){case r:h=(g-b)/d+(g<b?6:0);break;case g:h=(b-r)/d+2;break;case b:h=(r-g)/d+4;break;} h/=6;} return {h:Math.round(h*360), s:Math.round(s*100), l:Math.round(l*100)}; }
+      function upd(){ const hex=C.value; const {r,g,b}=hexToRgb(hex); const hsl=rgbToHsl(r,g,b); O.innerHTML=`<div class='row'><span>HEX</span><span class='amount'>${hex}</span></div><div class='row'><span>RGB</span><span class='amount'>${r}, ${g}, ${b}</span></div><div class='row'><span>HSL</span><span class='amount'>${hsl.h}°, ${hsl.s}%, ${hsl.l}%</span></div>`; }
+      C.addEventListener('input', upd); upd();
+    </script>
+  </body>
+  </html>
+

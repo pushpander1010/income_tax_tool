@@ -1,8 +1,10 @@
 {
-    "name": "income-tax-static",
-    "compatibility_date": "2025-08-10",
-    "assets": {
-      "directory": "./dist"
-    }
+  "name": "uptools",
+  "main": "worker/index.ts",
+  "compatibility_date": "2025-08-10",
+  "assets": {
+    "directory": "./dist",
+    "binding": "ASSETS"
   }
+}
   

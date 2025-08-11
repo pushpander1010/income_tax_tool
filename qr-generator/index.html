@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>QR Code Generator – UpTools</title>
+    <meta name="description" content="Create QR codes instantly from text or URLs." />
+    <meta name="robots" content="index,follow" />
+    <meta name="theme-color" content="#0b1020" />
+    <link rel="canonical" href="https://www.uptools.in/qr-generator/" />
+    <meta property="og:title" content="QR Code Generator – UpTools" />
+    <meta property="og:description" content="Generate QR codes quickly." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.uptools.in/qr-generator/" />
+    <meta property="og:site_name" content="UpTools" />
+    <meta name="twitter:card" content="summary" />
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body style="--accent:#ffd166;--bg1:#201a0b;--bg2:#2b230d;--cardBorder:#6b561e">
+    <main class="wrap">
+      <div class="tool-header"><div class="tool-icon">QR</div><h1 style="margin:0">QR Code Generator</h1></div>
+      <div class="card">
+        <label class="label" for="txt">Text or URL</label>
+        <input id="txt" class="input" placeholder="https://..." />
+        <button id="gen" class="btn">Generate</button>
+        <div id="out" class="result" style="text-align:center"></div>
+      </div>
+      <footer class="note small"><a href="/">UpTools</a></footer>
+    </main>
+    <script type="module">
+      const T=document.getElementById('txt'),O=document.getElementById('out');
+      function gen(){
+        const v=T.value.trim();
+        if(!v){ O.textContent='Enter text or URL'; return; }
+        const src = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(v)}&size=200x200&margin=2`;
+        O.innerHTML = `<img src="${src}" alt="QR code" width="200" height="200" loading="lazy"/>`;
+      }
+      document.getElementById('gen').addEventListener('click', gen);
+      T.addEventListener('keydown',e=>{ if(e.key==='Enter') gen(); });
+    </script>
+  </body>
+  </html>
+

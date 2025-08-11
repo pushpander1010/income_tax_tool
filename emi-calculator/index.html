@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>EMI Calculator – UpTools</title>
+    <meta name="description" content="Free EMI Calculator. Compute monthly EMI, total interest, and total amount for your loan." />
+    <meta name="robots" content="index,follow" />
+    <meta name="theme-color" content="#0b1020" />
+    <link rel="canonical" href="https://www.uptools.in/emi-calculator/" />
+    <meta property="og:title" content="EMI Calculator – UpTools" />
+    <meta property="og:description" content="Compute monthly EMI, total interest and amount for a loan." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.uptools.in/emi-calculator/" />
+    <meta property="og:site_name" content="UpTools" />
+    <meta name="twitter:card" content="summary" />
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body style="--accent:#00d4ff;--bg1:#001820;--bg2:#032432;--cardBorder:#0a3a4d">
+    <main class="wrap">
+      <div class="tool-header"><div class="tool-icon">EMI</div><h1 style="margin:0">EMI Calculator</h1></div>
+      <div class="card">
+        <label class="label" for="p">Loan Amount</label>
+        <input id="p" class="input" type="number" min="0" step="1000" placeholder="e.g., 1000000" />
+
+        <label class="label" for="r">Annual Interest Rate (%)</label>
+        <input id="r" class="input" type="number" min="0" step="0.01" placeholder="e.g., 9.5" />
+
+        <label class="label" for="n">Tenure (months)</label>
+        <input id="n" class="input" type="number" min="1" step="1" placeholder="e.g., 60" />
+
+        <button id="calc" class="btn">Calculate</button>
+        <div id="out" class="result" aria-live="polite"></div>
+      </div>
+      <footer class="note small"><a href="/">UpTools</a></footer>
+    </main>
+    <script type="module">
+      const p = document.getElementById('p');
+      const r = document.getElementById('r');
+      const n = document.getElementById('n');
+      const out = document.getElementById('out');
+      const fmt = new Intl.NumberFormat('en-IN',{style:'currency',currency:'INR',maximumFractionDigits:0});
+      function calc(){
+        const P = Number(p.value||0); const R = Number(r.value||0)/12/100; const N = Number(n.value||0);
+        if(!(P>0 && R>=0 && N>0)){ out.textContent='Enter valid values'; return; }
+        const emi = R===0? P/N : P*R*Math.pow(1+R,N)/(Math.pow(1+R,N)-1);
+        const total = emi*N; const interest = total-P;
+        out.innerHTML = `<div class='row'><span>Monthly EMI</span><span class='amount'>${fmt.format(Math.round(emi))}</span></div>
+        <div class='row'><span>Total Interest</span><span class='amount'>${fmt.format(Math.round(interest))}</span></div>
+        <div class='row'><span>Total Amount</span><span class='amount'>${fmt.format(Math.round(total))}</span></div>`;
+      }
+      document.getElementById('calc').addEventListener('click', calc);
+      [p,r,n].forEach(el=>el.addEventListener('keydown',e=>{ if(e.key==='Enter') calc(); }));
+    </script>
+  </body>
+  </html>
+
+

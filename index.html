@@ -3,72 +3,49 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Income Tax Calculator (India) – Simple, Fast, Accurate</title>
-    <meta name="description" content="Free India income tax calculator. Compare New vs Old Regime, see cess and monthly TDS instantly. Lightweight, SEO-friendly, and privacy-first." />
+    <title>UpTools – Free, Fast Online Tools</title>
+    <meta name="description" content="UpTools: a collection of fast, lightweight tools. Try our Income Tax Calculator (India), BMI Calculator, and more." />
     <meta name="robots" content="index,follow" />
     <meta name="theme-color" content="#0b1020" />
-    <meta property="og:title" content="Income Tax Calculator (India)" />
-    <meta property="og:description" content="Compare New vs Old Regime. Fast tax calculation with cess and monthly TDS." />
+    <meta property="og:title" content="UpTools – Free, Fast Online Tools" />
+    <meta property="og:description" content="Income Tax Calculator (India), BMI Calculator, and more." />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="/index.html" />
-    <meta property="og:site_name" content="Income Tax Calculator (India)" />
+    <meta property="og:url" content="https://www.uptools.in/" />
+    <meta property="og:site_name" content="UpTools" />
     <meta name="twitter:card" content="summary" />
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='0.9em' font-size='90'%3E%E2%82%B9%3C/text%3E%3C/svg%3E" />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='0.9em' font-size='90'%3E%E2%98%85%3C/text%3E%3C/svg%3E" />
     <link rel="stylesheet" href="/style.css" />
-
-    <script type="application/ld+json">
-      {
-        "@context": "https://schema.org",
-        "@type": "WebApplication",
-        "name": "Income Tax Calculator (India)",
-        "url": "/index.html",
-        "description": "Compare New vs Old Regime, see cess and monthly TDS.",
-        "applicationCategory": "FinanceApplication",
-        "operatingSystem": "Web",
-        "softwareHelp": "Enter income and optional deductions."
-      }
-    </script>
   </head>
   <body>
     <main class="wrap">
-      <h1>Income Tax Calculator (India)</h1>
-
-      <div class="card" role="form" aria-labelledby="formTitle">
-        <h2 id="formTitle" class="sr-only">Enter your details</h2>
-
-        <label class="label" for="income">Annual Income (₹)</label>
-        <input id="income" class="input" type="number" placeholder="e.g., 1200000" min="0" step="1000" inputmode="numeric" />
-
-        <label class="label" for="deductions">Deductions (₹) – optional</label>
-        <input id="deductions" class="input" type="number" placeholder="e.g., 150000" min="0" step="1000" inputmode="numeric" />
-
-        <label class="check">
-          <input id="stdDeduction" type="checkbox" checked />
-          <span>Include standard deduction of ₹50,000</span>
-        </label>
-
-        <label class="label" for="regime">Tax Regime</label>
-        <select id="regime" class="input">
-          <option value="new" selected>New Regime</option>
-          <option value="old">Old Regime</option>
-        </select>
-
-        <button id="calcBtn" class="btn" aria-controls="result">Calculate</button>
-
-        <div id="result" class="result" aria-live="polite"></div>
-        <p class="note">
-          We compute taxable income as: income − deductions − standard deduction (if checked).
-        </p>
-        <p class="note small">
-          Tax slabs may change. Update values in <code>src/slabs.ts</code> when required.
-        </p>
+      <h1>UpTools</h1>
+      <div class="card">
+        <p class="note">A growing collection of fast, privacy-first tools.</p>
+        <ul>
+          <li><a href="/income-tax-tool/">Income Tax Calculator (India)</a></li>
+          <li><a href="/bmi-calculator/">BMI Calculator</a></li>
+          <li><a href="/emi-calculator/">EMI Calculator</a></li>
+          <li><a href="/fd-calculator/">FD Calculator</a></li>
+          <li><a href="/sip-calculator/">SIP Calculator</a></li>
+          <li><a href="/age-calculator/">Age Calculator</a></li>
+          <!-- Replaced less-useful tool with high-demand ones -->
+          <li><a href="/gst-calculator/">GST Calculator (India)</a></li>
+          <li><a href="/currency-converter/">Currency Converter (live)</a></li>
+          <li><a href="/date-difference/">Date Difference Calculator</a></li>
+          <li><a href="/pan-validator/">PAN Format Validator</a></li>
+          <li><a href="/ifsc-finder/">IFSC Finder (live)</a></li>
+          <li><a href="/password-generator/">Password Generator</a></li>
+          <li><a href="/qr-generator/">QR Code Generator</a></li>
+          <li><a href="/text-case-converter/">Text Case Converter</a></li>
+          <li><a href="/word-counter/">Word Counter</a></li>
+          <li><a href="/json-formatter/">JSON Formatter</a></li>
+          <li><a href="/base64-encoder/">Base64 Encoder/Decoder</a></li>
+          <li><a href="/ip-address/">Your IP Address</a></li>
+          <li><a href="/uuid-generator/">UUID Generator</a></li>
+          <li><a href="/color-picker/">Color Picker</a></li>
+        </ul>
       </div>
-
-      <footer class="note small">
-        No sign-up. No tracking. Calculations are indicative only.
-      </footer>
+      <footer class="note small">© UpTools</footer>
     </main>
-
-    <script type="module" src="/src/main.ts"></script>
   </body>
-</html>
+  </html>

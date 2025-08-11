@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Unit Converter – UpTools</title>
+    <meta name="description" content="Convert length, weight, and temperature quickly." />
+    <meta name="robots" content="index,follow" />
+    <meta name="theme-color" content="#0b1020" />
+    <link rel="canonical" href="https://www.uptools.in/unit-converter/" />
+    <meta property="og:title" content="Unit Converter – UpTools" />
+    <meta property="og:description" content="Convert length, weight, and temperature." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.uptools.in/unit-converter/" />
+    <meta property="og:site_name" content="UpTools" />
+    <meta name="twitter:card" content="summary" />
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body style="--accent:#cce5ff;--bg1:#0b1420;--bg2:#0e1e30;--cardBorder:#2a4766">
+    <main class="wrap">
+      <div class="tool-header"><div class="tool-icon">↔</div><h1 style="margin:0">Unit Converter</h1></div>
+      <div class="card">
+        <label class="label" for="type">Type</label>
+        <select id="type" class="input">
+          <option value="length">Length</option>
+          <option value="weight">Weight</option>
+          <option value="temp">Temperature</option>
+        </select>
+
+        <label class="label" for="val">Value</label>
+        <input id="val" class="input" type="number" step="0.01" placeholder="e.g., 100" />
+
+        <label class="label" for="from">From</label>
+        <select id="from" class="input"></select>
+        <label class="label" for="to">To</label>
+        <select id="to" class="input"></select>
+
+        <button id="go" class="btn">Convert</button>
+        <div id="out" class="result"></div>
+      </div>
+      <footer class="note small"><a href="/">UpTools</a></footer>
+    </main>
+    <script type="module">
+      const type=document.getElementById('type'), val=document.getElementById('val'), from=document.getElementById('from'), to=document.getElementById('to'), out=document.getElementById('out');
+      const units = {
+        length: { m:1, km:1000, cm:0.01, mm:0.001, mi:1609.344, ft:0.3048, in:0.0254 },
+        weight: { kg:1, g:0.001, lb:0.45359237, oz:0.0283495231 },
+        temp: ['C','F','K']
+      };
+      function fill(){
+        const t=type.value; from.innerHTML=''; to.innerHTML='';
+        const opts = t==='temp'? units.temp : Object.keys(units[t]);
+        opts.forEach(u=>{ const o=document.createElement('option'); o.value=String(u); o.textContent=String(u); from.appendChild(o.cloneNode(true)); to.appendChild(o); });
+      }
+      function convert(){
+        const t=type.value; const x=Number(val.value||0); if(!isFinite(x)){ out.textContent='Enter a number'; return; }
+        let res = 0; const f=from.value, tt=to.value;
+        if(t==='temp'){
+          let c = f==='C'? x : f==='F'? (x-32)*5/9 : x-273.15;
+          res = tt==='C'? c : tt==='F'? c*9/5+32 : c+273.15;
+        }else{
+          const base = x * units[t][f]; res = base / units[t][tt];
+        }
+        out.innerHTML = `<div class='row'><span>Result</span><span class='amount'>${res.toFixed(4)}</span></div>`;
+      }
+      type.addEventListener('change', fill);
+      document.getElementById('go').addEventListener('click', convert);
+      [val,from,to].forEach(el=>el.addEventListener('keydown',e=>{ if(e.key==='Enter') convert(); }));
+      fill();
+    </script>
+  </body>
+  </html>
+

@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>PAN Format Validator (India) – UpTools</title>
+    <meta name="description" content="Validate Indian PAN format instantly (no data sent)." />
+    <meta name="robots" content="index,follow" />
+    <meta name="theme-color" content="#0b1020" />
+    <link rel="canonical" href="https://www.uptools.in/pan-validator/" />
+    <meta property="og:title" content="PAN Format Validator (India) – UpTools" />
+    <meta property="og:description" content="Validate PAN number format instantly." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.uptools.in/pan-validator/" />
+    <meta property="og:site_name" content="UpTools" />
+    <meta name="twitter:card" content="summary" />
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body style="--accent:#caffbf;--bg1:#0e1f0b;--bg2:#14300e;--cardBorder:#2a6633">
+    <main class="wrap">
+      <div class="tool-header"><div class="tool-icon">PAN</div><h1 style="margin:0">PAN Format Validator</h1></div>
+      <div class="card">
+        <label class="label" for="pan">PAN</label>
+        <input id="pan" class="input" placeholder="ABCDE1234F" maxlength="10" />
+        <button id="check" class="btn">Check</button>
+        <div id="out" class="result"></div>
+      </div>
+      <footer class="note small"><a href="/">UpTools</a></footer>
+    </main>
+    <script type="module">
+      const P=document.getElementById('pan'),O=document.getElementById('out');
+      function check(){
+        const v=(P.value||'').toUpperCase();
+        const ok=/^[A-Z]{5}[0-9]{4}[A-Z]$/.test(v);
+        O.textContent = ok? 'Valid PAN format' : 'Invalid PAN format';
+      }
+      document.getElementById('check').addEventListener('click', check);
+      P.addEventListener('keydown',e=>{ if(e.key==='Enter') check(); });
+    </script>
+  </body>
+  </html>
+

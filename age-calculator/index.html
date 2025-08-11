@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Age Calculator – UpTools</title>
+    <meta name="description" content="Find your exact age in years, months, and days." />
+    <meta name="robots" content="index,follow" />
+    <meta name="theme-color" content="#0b1020" />
+    <link rel="canonical" href="https://www.uptools.in/age-calculator/" />
+    <meta property="og:title" content="Age Calculator – UpTools" />
+    <meta property="og:description" content="Find your exact age in years, months, and days." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.uptools.in/age-calculator/" />
+    <meta property="og:site_name" content="UpTools" />
+    <meta name="twitter:card" content="summary" />
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <main class="wrap">
+      <h1>Age Calculator</h1>
+      <div class="card">
+        <label class="label" for="dob">Date of Birth</label>
+        <input id="dob" class="input" type="date" />
+        <button id="calc" class="btn">Calculate</button>
+        <div id="out" class="result"></div>
+      </div>
+      <footer class="note small"><a href="/">UpTools</a></footer>
+    </main>
+    <script type="module">
+      const D=document.getElementById('dob'),O=document.getElementById('out');
+      function calc(){
+        if(!D.value){ O.textContent='Select your birth date'; return; }
+        const dob = new Date(D.value);
+        const now = new Date();
+        let years = now.getFullYear() - dob.getFullYear();
+        let months = now.getMonth() - dob.getMonth();
+        let days = now.getDate() - dob.getDate();
+        if(days < 0){
+          const prevMonth = new Date(now.getFullYear(), now.getMonth(), 0).getDate();
+          days += prevMonth; months -= 1;
+        }
+        if(months < 0){ months += 12; years -= 1; }
+        O.innerHTML = `<div class='row'><span>Years</span><span class='amount'>${years}</span></div>
+        <div class='row'><span>Months</span><span class='amount'>${months}</span></div>
+        <div class='row'><span>Days</span><span class='amount'>${days}</span></div>`;
+      }
+      document.getElementById('calc').addEventListener('click', calc);
+      D.addEventListener('keydown',e=>{ if(e.key==='Enter') calc(); });
+    </script>
+  </body>
+  </html>
+

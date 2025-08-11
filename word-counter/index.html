@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Word Counter – UpTools</title>
+    <meta name="description" content="Count characters, words, and lines in your text." />
+    <meta name="robots" content="index,follow" />
+    <meta name="theme-color" content="#0b1020" />
+    <link rel="canonical" href="https://www.uptools.in/word-counter/" />
+    <meta property="og:title" content="Word Counter – UpTools" />
+    <meta property="og:description" content="Count characters, words, and lines." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.uptools.in/word-counter/" />
+    <meta property="og:site_name" content="UpTools" />
+    <meta name="twitter:card" content="summary" />
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body style="--accent:#ffadad;--bg1:#200b0b;--bg2:#300e0e;--cardBorder:#661e1e">
+    <main class="wrap">
+      <div class="tool-header"><div class="tool-icon">Aa</div><h1 style="margin:0">Word Counter</h1></div>
+      <div class="card">
+        <label class="label" for="txt">Text</label>
+        <textarea id="txt" class="input" rows="8" placeholder="Paste text here..."></textarea>
+        <div id="out" class="result"></div>
+      </div>
+      <footer class="note small"><a href="/">UpTools</a></footer>
+    </main>
+    <script type="module">
+      const T=document.getElementById('txt'),O=document.getElementById('out');
+      function upd(){
+        const s=T.value||'';
+        const chars=s.length;
+        const words=(s.trim().match(/\S+/g)||[]).length;
+        const lines=s? s.split(/\r?\n/).length : 0;
+        O.innerHTML = `<div class='row'><span>Characters</span><span class='amount'>${chars}</span></div>
+        <div class='row'><span>Words</span><span class='amount'>${words}</span></div>
+        <div class='row'><span>Lines</span><span class='amount'>${lines}</span></div>`;
+      }
+      T.addEventListener('input', upd);
+      upd();
+    </script>
+  </body>
+  </html>
+

@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>FD Interest Calculator – UpTools</title>
+    <meta name="description" content="Fixed Deposit Calculator. Calculate maturity amount and interest for FD." />
+    <meta name="robots" content="index,follow" />
+    <meta name="theme-color" content="#0b1020" />
+    <link rel="canonical" href="https://www.uptools.in/fd-calculator/" />
+    <meta property="og:title" content="FD Interest Calculator – UpTools" />
+    <meta property="og:description" content="Calculate FD maturity amount and interest." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.uptools.in/fd-calculator/" />
+    <meta property="og:site_name" content="UpTools" />
+    <meta name="twitter:card" content="summary" />
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body style="--accent:#ffd166;--bg1:#201a0b;--bg2:#2b230d;--cardBorder:#6b561e">
+    <main class="wrap">
+      <div class="tool-header"><div class="tool-icon">FD</div><h1 style="margin:0">FD Calculator</h1></div>
+      <div class="card">
+        <label class="label" for="p">Principal</label>
+        <input id="p" class="input" type="number" min="0" step="1000" placeholder="e.g., 100000" />
+        <label class="label" for="r">Annual Rate (%)</label>
+        <input id="r" class="input" type="number" min="0" step="0.01" placeholder="e.g., 7.5" />
+        <label class="label" for="t">Time (years)</label>
+        <input id="t" class="input" type="number" min="0" step="0.25" placeholder="e.g., 5" />
+        <label class="label" for="n">Compounding</label>
+        <select id="n" class="input">
+          <option value="1">Yearly</option>
+          <option value="2">Half-yearly</option>
+          <option value="4" selected>Quarterly</option>
+          <option value="12">Monthly</option>
+        </select>
+        <button id="calc" class="btn">Calculate</button>
+        <div id="out" class="result"></div>
+      </div>
+      <footer class="note small"><a href="/">UpTools</a></footer>
+    </main>
+    <script type="module">
+      const P=document.getElementById('p'),R=document.getElementById('r'),T=document.getElementById('t'),N=document.getElementById('n'),O=document.getElementById('out');
+      const fmt = new Intl.NumberFormat('en-IN',{style:'currency',currency:'INR',maximumFractionDigits:0});
+      function calc(){
+        const p=Number(P.value||0), r=Number(R.value||0)/100, t=Number(T.value||0), n=Number(N.value||1);
+        if(!(p>0 && r>=0 && t>=0)){ O.textContent='Enter valid values'; return; }
+        const A=p*Math.pow(1+r/n,n*t); const interest = A-p;
+        O.innerHTML = `<div class='row'><span>Maturity Amount</span><span class='amount'>${fmt.format(Math.round(A))}</span></div>
+        <div class='row'><span>Total Interest</span><span class='amount'>${fmt.format(Math.round(interest))}</span></div>`;
+      }
+      document.getElementById('calc').addEventListener('click', calc);
+      [P,R,T,N].forEach(el=>el.addEventListener('keydown',e=>{ if(e.key==='Enter') calc(); }));
+    </script>
+  </body>
+  </html>
+

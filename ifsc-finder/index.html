@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>IFSC Finder (India) – UpTools</title>
+    <meta name="description" content="Find bank branch details by IFSC code (lightweight, client-side)." />
+    <meta name="robots" content="index,follow" />
+    <meta name="theme-color" content="#0b1020" />
+    <link rel="canonical" href="https://www.uptools.in/ifsc-finder/" />
+    <meta property="og:title" content="IFSC Finder (India) – UpTools" />
+    <meta property="og:description" content="Find bank branch details by IFSC code." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.uptools.in/ifsc-finder/" />
+    <meta property="og:site_name" content="UpTools" />
+    <meta name="twitter:card" content="summary" />
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body style="--accent:#bdb2ff;--bg1:#120b20;--bg2:#1b0e30;--cardBorder:#3f2a66">
+    <main class="wrap">
+      <div class="tool-header"><div class="tool-icon">IFSC</div><h1 style="margin:0">IFSC Finder</h1></div>
+      <div class="card">
+        <label class="label" for="ifsc">IFSC Code</label>
+        <input id="ifsc" class="input" placeholder="SBIN0000001" maxlength="11" />
+        <button id="find" class="btn">Find</button>
+        <div id="out" class="result"></div>
+      </div>
+      <footer class="note small"><a href="/">UpTools</a></footer>
+    </main>
+    <script type="module">
+      const O=document.getElementById('out'),I=document.getElementById('ifsc');
+      async function find(){
+        const code=(I.value||'').toUpperCase();
+        if(!/^[A-Z]{4}0[0-9A-Z]{6}$/.test(code)){ O.textContent='Invalid IFSC format'; return; }
+        try{
+          let r = await fetch(`https://ifsc.razorpay.com/${code}`);
+          if(!r.ok){ O.textContent='Not found'; return; }
+          const d = await r.json();
+          O.innerHTML = `<div class='row'><span>Bank</span><span class='amount'>${d.BANK}</span></div>
+            <div class='row'><span>Branch</span><span class='amount'>${d.BRANCH}</span></div>
+            <div class='row'><span>City</span><span class='amount'>${d.CITY}</span></div>
+            <div class='row'><span>State</span><span class='amount'>${d.STATE}</span></div>`;
+        }catch{
+          try {
+            const prox = await fetch(`/api?url=${encodeURIComponent(`https://ifsc.razorpay.com/${code}`)}`);
+            if(!prox.ok){ O.textContent='Not found'; return; }
+            const d = await prox.json();
+            O.innerHTML = `<div class='row'><span>Bank</span><span class='amount'>${d.BANK}</span></div>
+              <div class='row'><span>Branch</span><span class='amount'>${d.BRANCH}</span></div>
+              <div class='row'><span>City</span><span class='amount'>${d.CITY}</span></div>
+              <div class='row'><span>State</span><span class='amount'>${d.STATE}</span></div>`;
+          } catch { O.textContent='Network error'; }
+        }
+      }
+      document.getElementById('find').addEventListener('click', find);
+      I.addEventListener('keydown',e=>{ if(e.key==='Enter') find(); });
+    </script>
+  </body>
+  </html>
+
