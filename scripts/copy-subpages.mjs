@@ -34,13 +34,6 @@ subpages.forEach(dir => {
   }
 })
 
-// Copy _redirects file
-if (fs.existsSync(path.join(rootDir, 'public', '_redirects'))) {
-  fs.copyFileSync(
-    path.join(rootDir, 'public', '_redirects'),
-    path.join(rootDir, 'dist', '_redirects')
-  )
-  console.log('Copied: _redirects')
-}
+// No _redirects file needed - Worker handles all routing
 
 console.log('All subpages copied successfully!')

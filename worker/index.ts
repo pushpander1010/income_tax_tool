@@ -16,6 +16,32 @@ function isAllowed(url: URL): boolean {
   return ALLOWED.has(origin);
 }
 
+// List of known subpages
+const SUBPAGES = new Set([
+  'income-tax-calculator',
+  'bmi-calculator',
+  'emi-calculator',
+  'fd-calculator',
+  'sip-calculator',
+  'gst-calculator',
+  'currency-converter',
+  'date-difference',
+  'pan-validator',
+  'ifsc-finder',
+  'ip-address',
+  'uuid-generator',
+  'json-formatter',
+  'base64-encoder',
+  'word-counter',
+  'text-case-converter',
+  'unit-converter',
+  'qr-generator',
+  'color-picker',
+  'age-calculator',
+  'password-generator',
+  'percentage-calculator'
+]);
+
 export default {
   async fetch(req: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
     const url = new URL(req.url);
@@ -48,8 +74,8 @@ export default {
       requestPath = requestPath.slice(0, -1);
     }
     
-    // Check if this is a subpage (e.g., /color-picker)
-    if (requestPath !== '/' && !requestPath.includes('.') && !requestPath.includes('/')) {
+    // Check if this is a known subpage
+    if (requestPath !== '/' && SUBPAGES.has(requestPath.slice(1))) {
       // Try to serve the subpage's index.html
       const subpageRequest = new Request(new URL(`${requestPath}/index.html`, req.url), req);
       try {

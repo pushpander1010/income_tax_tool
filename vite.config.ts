@@ -38,13 +38,7 @@ export default defineConfig({
           }
         })
         
-        // Copy _redirects file
-        if (fs.existsSync(resolve(__dirname, 'public', '_redirects'))) {
-          fs.copyFileSync(
-            resolve(__dirname, 'public', '_redirects'),
-            resolve(__dirname, 'dist', '_redirects')
-          )
-        }
+        // No _redirects file needed - Worker handles all routing
       }
     }
   ]
