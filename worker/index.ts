@@ -49,7 +49,7 @@ export default {
     }
     
     // Check if this is a subpage (e.g., /color-picker)
-    if (requestPath !== '/' && !requestPath.includes('.')) {
+    if (requestPath !== '/' && !requestPath.includes('.') && !requestPath.includes('/')) {
       // Try to serve the subpage's index.html
       const subpageRequest = new Request(new URL(`${requestPath}/index.html`, req.url), req);
       try {
