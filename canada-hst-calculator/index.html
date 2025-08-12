@@ -1,0 +1,511 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Ads (optional) -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617" crossorigin="anonymous"></script>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>GST/HST Calculator for Canada – Add or Remove Tax by Province | UpTools</title>
+  <meta name="description" content="Fast Canadian GST/HST calculator. Enter amount and province to add or remove tax. Supports HST provinces (ON, NS, NL, NB, PE) and GST with optional PST/QST for BC, MB, SK, QC. Shareable link, exact breakdown, print/export. Privacy‑first." />
+  <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
+  <meta name="theme-color" content="#0f1419" />
+
+  <link rel="canonical" href="https://www.uptools.in/gst-hst-calculator/" />
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:title" content="GST/HST Calculator for Canada – Add or Remove Tax by Province" />
+  <meta property="og:description" content="Instant GST/HST by province with optional PST/QST. Add or remove tax, get a full breakdown, and share a permalink." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.uptools.in/gst-hst-calculator/" />
+  <meta property="og:site_name" content="UpTools" />
+  <meta property="og:image" content="https://www.uptools.in/assets/uptools-mark.svg" />
+  <meta name="twitter:card" content="summary" />
+
+  <!-- Icons -->
+  <link rel="icon" type="image/svg+xml" href="/assets/uptools-mark.svg" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/uptools-mark.svg" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/style.css?v=1.0.1" />
+
+  <!-- Per‑tool accent color (green = money vibes) -->
+  <style>
+    :root{
+      --accent:#22C55E; /* emerald/green */
+      /* optional tint */
+      /* --bg2:#122019; */
+    }
+    /* Compact tweaks are already in your style.css; nothing else needed */
+  </style>
+
+  <!-- Breadcrumbs JSON‑LD -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"BreadcrumbList",
+    "itemListElement":[
+      {"@type":"ListItem","position":1,"name":"UpTools","item":"https://www.uptools.in/"},
+      {"@type":"ListItem","position":2,"name":"Calculators","item":"https://www.uptools.in/#tools"},
+      {"@type":"ListItem","position":3,"name":"GST/HST Calculator","item":"https://www.uptools.in/gst-hst-calculator/"}
+    ]
+  }
+  </script>
+
+  <!-- HowTo JSON‑LD -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"HowTo",
+    "name":"How to calculate GST/HST in Canada by province",
+    "description":"Use the UpTools GST/HST calculator to add or remove tax by Canadian province or territory.",
+    "step":[
+      {"@type":"HowToStep","name":"Choose mode","text":"Pick Add tax (price before tax) or Remove tax (tax already included)."},
+      {"@type":"HowToStep","name":"Enter amount","text":"Type the price amount in Canadian dollars."},
+      {"@type":"HowToStep","name":"Select province","text":"Choose a province or territory to apply the correct HST/GST rate."},
+      {"@type":"HowToStep","name":"Include PST/QST (optional)","text":"For BC, MB, SK, and QC, toggle provincial sales tax if needed."},
+      {"@type":"HowToStep","name":"View breakdown","text":"See GST/HST and PST/QST lines, subtotal and total. Copy a shareable link or print/export."}
+    ],
+    "tool":[{"@type":"HowToTool","name":"UpTools GST/HST Calculator"}]
+  }
+  </script>
+
+  <!-- FAQ JSON‑LD -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"FAQPage",
+    "mainEntity":[
+      {"@type":"Question","name":"Which provinces use HST?",
+       "acceptedAnswer":{"@type":"Answer","text":"Ontario (13%), New Brunswick (15%), Nova Scotia (15%), Prince Edward Island (15%), and Newfoundland & Labrador (15%). Other provinces/territories use GST (5%) with or without a separate PST/QST."}},
+      {"@type":"Question","name":"Do you store my data?",
+       "acceptedAnswer":{"@type":"Answer","text":"No. This calculator runs locally in your browser. You can export or clear your inputs anytime."}}
+    ]
+  }
+  </script>
+
+  <!-- App/Calculator metadata -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"SoftwareApplication",
+    "name":"GST/HST Calculator",
+    "applicationCategory":"BusinessApplication",
+    "operatingSystem":"Any",
+    "url":"https://www.uptools.in/gst-hst-calculator/"
+  }
+  </script>
+</head>
+<body>
+  <a href="#main" class="sr-only">Skip to content</a>
+
+  <!-- Header -->
+  <header class="site" role="banner">
+    <div class="header-inner">
+      <a class="brand" href="/" aria-label="UpTools Home">
+        <img src="/assets/uptools-mark.svg" alt="UpTools logo" width="28" height="28">
+        <b>UpTools</b>
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="/#tools">Tools</a>
+        <a href="/games/">Games</a>
+        <a href="/about/">About</a>
+        <a href="/contact/">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main -->
+  <main id="main" class="wrap" role="main">
+    <div class="tool-header" role="doc-introduction" style="padding:12px 16px; gap:12px;">
+      <span class="tool-icon" aria-hidden="true">💵</span>
+      <div>
+        <h1 style="margin:0 0 4px;">GST/HST Calculator (Canada)</h1>
+        <p class="note" style="margin:0;">Add or remove tax by province — supports HST provinces and GST with optional PST/QST. Privacy‑first, fast, and shareable.</p>
+      </div>
+      <a class="back-btn" href="/" aria-label="Back to home">←</a>
+    </div>
+
+    <section class="grid" aria-label="Calculator and info">
+      <!-- LEFT: Calculator -->
+      <article class="card compact" aria-labelledby="calc-title">
+        <div class="toolbar" style="margin-bottom:6px;">
+          <h2 id="calc-title" style="margin:0;">Enter details</h2>
+          <span class="spacer"></span>
+          <button type="submit" form="tool-form" class="btn sm" id="btn-calc-top">🧮 Calculate</button>
+          <button type="button" class="btn sm secondary" id="btn-clear-top">🧹 Clear</button>
+          <details class="more">
+            <summary class="btn sm ghost" aria-haspopup="menu">More ▾</summary>
+            <div class="menu" role="menu">
+              <button type="button" class="btn secondary" id="btn-copy">🔗 Copy link</button>
+              <button type="button" class="btn secondary" id="btn-print">🖨️ Print</button>
+              <button type="button" class="btn secondary" id="btn-json">📦 Export JSON</button>
+              <button type="button" class="btn secondary" id="btn-csv">🗂️ Export CSV</button>
+            </div>
+          </details>
+        </div>
+
+        <form id="tool-form" autocomplete="on">
+          <div class="grid-2">
+            <div>
+              <label class="label" for="mode">Mode</label>
+              <select class="input" id="mode" name="mode">
+                <option value="add">Add tax (price before tax)</option>
+                <option value="remove">Remove tax (price incl. tax)</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="label" for="amount">Amount (CAD)</label>
+              <input class="input" id="amount" name="amount" type="number" min="0" step="0.01" placeholder="e.g., 100.00" required />
+            </div>
+
+            <div>
+              <label class="label" for="province">Province / Territory</label>
+              <select class="input" id="province" name="province">
+                <optgroup label="HST provinces">
+                  <option value="ON">Ontario (HST 13%)</option>
+                  <option value="NB">New Brunswick (HST 15%)</option>
+                  <option value="NS">Nova Scotia (HST 15%)</option>
+                  <option value="PE">Prince Edward Island (HST 15%)</option>
+                  <option value="NL">Newfoundland & Labrador (HST 15%)</option>
+                </optgroup>
+                <optgroup label="GST + PST/QST (optional)">
+                  <option value="QC">Québec (GST 5% + QST 9.975%)</option>
+                  <option value="BC">British Columbia (GST 5% + PST 7%)</option>
+                  <option value="MB">Manitoba (GST 5% + RST 7%)</option>
+                  <option value="SK">Saskatchewan (GST 5% + PST 6%)</option>
+                </optgroup>
+                <optgroup label="GST only">
+                  <option value="AB">Alberta (GST 5%)</option>
+                  <option value="YT">Yukon (GST 5%)</option>
+                  <option value="NT">Northwest Territories (GST 5%)</option>
+                  <option value="NU">Nunavut (GST 5%)</option>
+                </optgroup>
+              </select>
+            </div>
+
+            <div style="align-self:end;">
+              <label class="label" for="includeProv">Provincial tax</label>
+              <select class="input" id="includeProv" name="includeProv" title="Include PST/QST/RST when applicable">
+                <option value="auto" selected>Auto (HST provinces only HST)</option>
+                <option value="include">Include PST/QST (BC, MB, SK, QC)</option>
+                <option value="exclude">Exclude PST/QST</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="note small" style="margin-top:6px;">
+            Tip: <b>Ctrl/⌘ + Enter</b> to calculate. No data leaves your browser.
+          </div>
+
+          <div class="toolbar" style="margin-top:12px;">
+            <button type="submit" class="btn sm" id="btn-calc">🧮 Calculate</button>
+            <button type="button" class="btn sm secondary" id="btn-clear">🧹 Clear</button>
+            <span class="spacer"></span>
+            <details class="more">
+              <summary class="btn sm ghost">More ▾</summary>
+              <div class="menu">
+                <button type="button" class="btn secondary" id="btn-copy-2">🔗 Copy link</button>
+                <button type="button" class="btn secondary" id="btn-print-2">🖨️ Print</button>
+                <button type="button" class="btn secondary" id="btn-json-2">📦 Export JSON</button>
+                <button type="button" class="btn secondary" id="btn-csv-2">🗂️ Export CSV</button>
+              </div>
+            </details>
+          </div>
+        </form>
+      </article>
+
+      <!-- RIGHT: Sticky results + SEO content -->
+      <aside class="card compact sticky-side" aria-labelledby="res-head">
+        <h2 id="res-head" style="margin:0 0 6px;">Breakdown</h2>
+
+        <div id="result" class="result" aria-live="polite" aria-atomic="true" style="margin-top:8px;">
+          <div class="row"><div>Mode</div><div id="r-mode">—</div></div>
+          <div class="row"><div>Province</div><div id="r-prov">—</div></div>
+          <div class="row"><div>Effective tax rate</div><div id="r-rate">—</div></div>
+          <div class="divider"></div>
+          <div id="lines"></div>
+          <div class="divider"></div>
+          <div class="row"><div>Subtotal (before tax)</div><div class="amount" id="r-sub">—</div></div>
+          <div class="row"><div>Total tax</div><div class="amount" id="r-tax">—</div></div>
+          <div class="row"><div><b>Total (after tax)</b></div><div class="amount" id="r-total">—</div></div>
+          <div class="note small" id="explain" style="margin-top:8px;">Enter amount and select province, then Calculate.</div>
+        </div>
+
+        <h3 style="margin-top:14px;">About GST/HST</h3>
+        <p class="note">
+          Canada charges a 5% federal Goods and Services Tax (GST). Some provinces harmonize GST with provincial tax into a single HST (13%–15%). Others add a separate PST or QST.
+        </p>
+
+        <!-- Lightweight illustrative image (replace with your own SVG if you like) -->
+        <figure class="center" style="margin:10px 0;">
+          <img src="/assets/gst-canada.svg" alt="Canada GST/HST map illustration" width="360" height="180" loading="lazy">
+          <figcaption class="muted">Illustration of GST/HST and provincial taxes.</figcaption>
+        </figure>
+
+        <!-- SEO-friendly video (replace VIDEO_ID with a relevant one later) -->
+        <div class="card" style="padding:12px; margin-top:10px;">
+          <div class="note" style="margin-bottom:8px;">Watch: GST/HST explained in 3 minutes</div>
+          <iframe
+            title="GST HST Explained"
+            width="100%" height="200"
+            loading="lazy" referrerpolicy="no-referrer"
+            src="https://www.youtube-nocookie.com/embed/VIDEO_ID?rel=0&modestbranding=1"
+            style="border:0;border-radius:8px"></iframe>
+          <div class="note small">Replace <code>VIDEO_ID</code> with your preferred explainer video ID.</div>
+        </div>
+
+        <h3 style="margin-top:14px;">Authoritative links</h3>
+        <ul>
+          <li><a href="https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/gst-hst.html" rel="nofollow noopener" target="_blank">CRA: GST/HST overview</a></li>
+          <li><a href="https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/gst-hst/collecting/gst-hst-rates.html" rel="nofollow noopener" target="_blank">CRA: GST/HST rates by province</a></li>
+        </ul>
+
+        <h3 style="margin-top:14px;">Related tools (internal)</h3>
+        <ul>
+          <li><a href="/emi-calculator/">💳 Loan EMI Calculator</a></li>
+          <li><a href="/currency-converter/">💱 Currency Converter</a></li>
+          <li><a href="/income-tax-calculator/">🧮 Income Tax (India)</a></li>
+          <li><a href="/canada-crs-calculator/">🍁 Canada CRS Calculator</a></li>
+          <li><a href="/fd-calculator/">🏦 FD Calculator</a></li>
+        </ul>
+      </aside>
+    </section>
+
+    <section class="card" style="margin-top:16px;">
+      <h2>Explore more on UpTools</h2>
+      <ul class="tool-list">
+        <li><a class="tool-link accent-blue" href="/age-calculator/"><span class="ico">🎂</span><span>Age Calculator</span></a></li>
+        <li><a class="tool-link accent-violet" href="/gst-calculator/"><span class="ico">🧾</span><span>GST Calculator (India)</span></a></li>
+        <li><a class="tool-link accent-sky" href="/qr-generator/"><span class="ico">🔳</span><span>QR Code Generator</span></a></li>
+        <li><a class="tool-link accent-indigo" href="/json-formatter/"><span class="ico">🧩</span><span>JSON Formatter</span></a></li>
+      </ul>
+    </section>
+
+    <footer class="note small site-footer" role="contentinfo">
+      © <span id="y"></span> UpTools · <a href="/about/">About</a> · <a href="/contact/">Contact</a> · <a href="/sitemap.xml">Sitemap</a> · <a href="/robots.txt">Robots</a>
+    </footer>
+  </main>
+
+  <!-- Logic -->
+  <script type="module">
+    import { $, $$, fmtNum, fmtCur, debounce, serializeForm, setText, persist, read, num } from "/scripts/utils.js";
+
+    const FORM_KEY = "uptools:gst-hst:form";
+
+    // Province tax table
+    const TAX = {
+      // HST provinces (single rate)
+      ON: { label: "Ontario", hst: 13 },
+      NB: { label: "New Brunswick", hst: 15 },
+      NS: { label: "Nova Scotia", hst: 15 },
+      PE: { label: "Prince Edward Island", hst: 15 },
+      NL: { label: "Newfoundland & Labrador", hst: 15 },
+
+      // GST + optional provincial tax
+      QC: { label: "Québec", gst: 5, qst: 9.975 }, // treated as add-on, not compounded
+      BC: { label: "British Columbia", gst: 5, pst: 7 },
+      MB: { label: "Manitoba", gst: 5, rst: 7 },
+      SK: { label: "Saskatchewan", gst: 5, pst: 6 },
+
+      // GST only
+      AB: { label: "Alberta", gst: 5 },
+      YT: { label: "Yukon", gst: 5 },
+      NT: { label: "Northwest Territories", gst: 5 },
+      NU: { label: "Nunavut", gst: 5 }
+    };
+
+    // Elements
+    const form = $("#tool-form");
+    const out = {
+      mode: $("#r-mode"),
+      prov: $("#r-prov"),
+      rate: $("#r-rate"),
+      sub:  $("#r-sub"),
+      tax:  $("#r-tax"),
+      total:$("#r-total"),
+      lines:$("#lines"),
+      explain: $("#explain")
+    };
+
+    // Utilities
+    const r2 = (x) => Math.round((x + Number.EPSILON) * 100) / 100;
+
+    function getRates(pcode, includeProvSel){
+      const p = TAX[pcode];
+      let lines = [];
+      let eff = 0;
+
+      if (p.hst != null) {
+        eff = p.hst;
+        lines.push({ label: "HST", rate: p.hst });
+      } else {
+        // Always include GST when present
+        if (p.gst) { lines.push({ label: "GST", rate: p.gst }); eff += p.gst; }
+
+        const include = (includeProvSel === "include") ||
+                        (includeProvSel === "auto" && ["QC","BC","MB","SK"].includes(pcode));
+
+        if (include){
+          if (p.pst) { lines.push({ label: "PST", rate: p.pst }); eff += p.pst; }
+          if (p.rst) { lines.push({ label: "RST", rate: p.rst }); eff += p.rst; }
+          if (p.qst) { lines.push({ label: "QST", rate: p.qst }); eff += p.qst; }
+        }
+      }
+      return { lines, eff }; // eff is % (e.g., 13)
+    }
+
+    function compute(fd){
+      const mode = fd.mode || "add";
+      const amount = Math.max(0, num(fd.amount));
+      const province = fd.province || "ON";
+      const includeProv = fd.includeProv || "auto";
+
+      const { lines, eff } = getRates(province, includeProv);
+      const rateDec = (eff || 0) / 100;
+
+      // Calculate
+      let subtotal = 0, total = 0, taxTotal = 0;
+      let parts = [];
+
+      if (mode === "add") {
+        subtotal = amount;
+        total = r2(subtotal * (1 + rateDec));
+        for (const ln of lines){
+          const t = r2(subtotal * (ln.rate / 100));
+          parts.push({ ...ln, amount: t });
+          taxTotal += t;
+        }
+      } else {
+        // remove tax from tax-inclusive amount
+        total = amount;
+        subtotal = rateDec > 0 ? r2(total / (1 + rateDec)) : total;
+        for (const ln of lines){
+          const t = r2(subtotal * (ln.rate / 100));
+          parts.push({ ...ln, amount: t });
+          taxTotal += t;
+        }
+      }
+      taxTotal = r2(taxTotal);
+
+      return {
+        mode, province, eff, subtotal, total, taxTotal, parts
+      };
+    }
+
+    function updateUI(res){
+      // Province label
+      const label = TAX[res.province]?.label ?? res.province;
+      setText(out.mode, res.mode === "add" ? "Add tax" : "Remove tax");
+      setText(out.prov, label);
+      setText(out.rate, res.eff ? fmtNum(res.eff, { maximumFractionDigits:3 }) + "%" : "0%");
+      setText(out.sub, fmtCur(res.subtotal, "CAD"));
+      setText(out.tax, fmtCur(res.taxTotal, "CAD"));
+      setText(out.total, fmtCur(res.total, "CAD"));
+
+      // Build lines
+      out.lines.innerHTML = res.parts.length
+        ? res.parts.map(p =>
+          `<div class="kvi"><span>${p.label} (${fmtNum(p.rate, {maximumFractionDigits:3})}%)</span><span>${fmtCur(p.amount,"CAD")}</span></div>`
+        ).join("")
+        : `<div class="note small">No tax lines for the current selection.</div>`;
+
+      out.explain.textContent =
+        res.mode === "add"
+          ? "Subtotal + tax = total. Use 'Remove tax' if your price already includes tax."
+          : "Removed the tax from the total to show the before‑tax subtotal and tax amounts.";
+    }
+
+    function toQuery(obj){ return new URLSearchParams(obj).toString(); }
+
+    function run(){
+      const data = serializeForm(form);
+      persist(FORM_KEY, data);
+      const res = compute(data);
+      updateUI(res);
+      return res;
+    }
+
+    // Wire up
+    form.addEventListener("submit", e => {
+      e.preventDefault();
+      const res = run();
+      history.replaceState(null, "", "?" + toQuery(serializeForm(form))); // permalink
+    });
+
+    // Keyboard shortcut
+    document.addEventListener("keydown", e => {
+      if ((e.ctrlKey || e.metaKey) && e.key === "Enter") $("#btn-calc").click();
+    });
+
+    // Clear
+    const clearAll = () => {
+      form.reset();
+      persist(FORM_KEY, {});
+      history.replaceState(null, "", location.pathname);
+      updateUI({ mode:"add", province:"ON", eff:13, subtotal:0, total:0, taxTotal:0, parts:[{label:"HST", rate:13, amount:0}] });
+    };
+    $("#btn-clear").addEventListener("click", clearAll);
+    $("#btn-clear-top").addEventListener("click", clearAll);
+
+    // Duplicate menu items trigger originals
+    $("#btn-calc-top").addEventListener("click", () => $("#btn-calc").click());
+
+    const copyLink = async () => {
+      const url = location.origin + location.pathname + "?" + toQuery(serializeForm(form));
+      await navigator.clipboard.writeText(url);
+      out.explain.textContent = "Permalink copied to clipboard!";
+      setTimeout(() => out.explain.textContent = "", 1500);
+    };
+    $("#btn-copy").addEventListener("click", copyLink);
+    $("#btn-copy-2").addEventListener("click", copyLink);
+
+    const doPrint = () => window.print();
+    $("#btn-print").addEventListener("click", doPrint);
+    $("#btn-print-2").addEventListener("click", doPrint);
+
+    const exportJSON = () => {
+      const blob = new Blob([JSON.stringify(serializeForm(form), null, 2)], {type:"application/json"});
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "gst-hst-inputs.json";
+      a.click();
+    };
+    $("#btn-json").addEventListener("click", exportJSON);
+    $("#btn-json-2").addEventListener("click", exportJSON);
+
+    const exportCSV = () => {
+      const obj = serializeForm(form);
+      const rows = [["field","value"], ...Object.entries(obj)];
+      const csv = rows.map(r => r.map(v => `"${String(v).replace(/"/g,'""')}"`).join(",")).join("\n");
+      const blob = new Blob([csv], {type:"text/csv"});
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "gst-hst-inputs.csv";
+      a.click();
+    };
+    $("#btn-csv").addEventListener("click", exportCSV);
+    $("#btn-csv-2").addEventListener("click", exportCSV);
+
+    // Restore saved + query params
+    (function init(){
+      const saved = read(FORM_KEY, null);
+      if (saved) { $$("input, select, textarea", form).forEach(i => { if (saved[i.name] != null) i.value = saved[i.name]; }); }
+
+      const p = new URLSearchParams(location.search);
+      if (p.toString()) { $$("input, select, textarea", form).forEach(i => { if (p.has(i.name)) i.value = p.get(i.name); }); }
+
+      // Auto recalc
+      form.addEventListener("input", debounce(() => {
+        run();
+      }, 150));
+
+      // Initial render
+      run();
+      $("#y").textContent = new Date().getFullYear();
+    })();
+  </script>
+</body>
+</html>
