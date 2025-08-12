@@ -1,4 +1,3 @@
 User-agent: *
 Allow: /
-
-Sitemap: https://www.uptools.in/sitemap.xml
+Sitemap: /sitemap.xml
