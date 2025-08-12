@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Contact — UpTools</title>
+<meta name="description" content="Contact UpTools for feedback, bug reports, or feature requests." />
+<link rel="canonical" href="https://www.uptools.in/contact/">
+<link rel="icon" type="image/svg+xml" href="/assets/uptools-mark.svg">
+<link rel="stylesheet" href="/style.css?v=1.0.0" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"ContactPage","name":"Contact UpTools","url":"https://www.uptools.in/contact/","about":{"@type":"WebSite","name":"UpTools","url":"https://www.uptools.in/"},"description":"Contact UpTools for feedback, bug reports, or feature requests.","contactPoint":[{"@type":"ContactPoint","contactType":"support","email":"support@uptools.in"}]}
+</script>
+</head>
+<body>
+<header class="site"><div class="header-inner">
+  <a class="brand" href="/"><img src="/assets/uptools-mark.svg" alt="UpTools logo" width="28" height="28"><b>UpTools</b></a>
+  <nav class="nav-links"><a href="/#tools">Tools</a><a href="/games/">Games</a><a href="/about/">About</a><a href="/contact/">Contact</a></nav>
+</div></header>
+
+<main class="wrap">
+  <div class="tool-header">
+    <div class="tool-icon">@</div>
+    <h1>Contact</h1>
+  </div>
+  <div class="card">
+    <!-- Simple mailto fallback; replace email with your inbox -->
+    <form onsubmit="window.location.href='mailto:support@aptops.in?subject=UpTools%20Contact&body='+encodeURIComponent(document.getElementById('msg').value); return false;">
+      <label class="label" for="name">Name</label>
+      <input class="input" id="name" name="name" required>
+
+      <label class="label" for="email">Email</label>
+      <input class="input" id="email" name="email" type="email" required>
+
+      <label class="label" for="msg">Message</label>
+      <textarea class="input" id="msg" name="message" rows="5" required></textarea>
+
+      <button class="btn" type="submit">Send</button>
+      <p class="note small">Or email: <a href="mailto:support@uptools.in">support@uptools.in</a></p>
+    </form>
+  </div>
+  <footer class="note small site-footer">© <span id="y"></span> UpTools · <a href="/sitemap.xml">Sitemap</a></footer>
+</main>
+<script>document.getElementById('y').textContent = new Date().getFullYear();</script>
+</body>
+</html>

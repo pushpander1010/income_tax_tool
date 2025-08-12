@@ -1,53 +1,107 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>UpTools - Free, Fast Online Tools</title>
-    <meta name="description" content="UpTools: a collection of fast, lightweight tools. Try our Income Tax Calculator (India), BMI Calculator, and more." />
-    <meta name="robots" content="index,follow" />
-    <meta name="theme-color" content="#0f1419" />
-    <meta property="og:title" content="UpTools - Free, Fast Online Tools" />
-    <meta property="og:description" content="Income Tax Calculator (India), GST, Currency Converter, IFSC, and more." />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://www.uptools.in/" />
-    <meta property="og:site_name" content="UpTools" />
-    <meta name="twitter:card" content="summary" />
-    <link rel="canonical" href="https://www.uptools.in/" />
-    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='0.9em' font-size='90'%3E%E2%98%85%3C/text%3E%3C/svg%3E" />
-    <link rel="stylesheet" href="/style.css?v=1.0.0" />
-  </head>
-  <body>
-    <main class="wrap">
-      <h1>UpTools</h1>
-      <div class="card">
-        <p class="note">A growing collection of fast, privacy-first tools.</p>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>UpTools — Free Online Calculators, Converters & Mini Games (India Friendly)</title>
+  <meta name="description" content="UpTools offers fast, privacy-first tools: Income Tax Calculator (India), GST, EMI, SIP, Currency Converter, IFSC Finder, JSON Formatter, and free mini games." />
+  <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
+  <meta name="theme-color" content="#0f1419" />
+
+  <!-- OG/Twitter -->
+  <meta property="og:title" content="UpTools — Free Online Calculators, Converters & Mini Games" />
+  <meta property="og:description" content="Fast, lightweight tools for everyday tasks. No sign-ups. Privacy-first." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.uptools.in/" />
+  <meta property="og:site_name" content="UpTools" />
+  <meta property="og:image" content="https://www.uptools.in/assets/uptools-logo.svg" />
+  <meta name="twitter:card" content="summary" />
+
+  <link rel="canonical" href="https://www.uptools.in/" />
+  <link rel="icon" type="image/svg+xml" href="/assets/uptools-mark.svg" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/uptools-mark.svg" />
+
+  <link rel="stylesheet" href="/style.css?v=1.0.0" />
+
+  <!-- Schema -->
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"WebSite","name":"UpTools","url":"https://www.uptools.in/","potentialAction":{"@type":"SearchAction","target":"https://www.uptools.in/?q={search_term_string}","query-input":"required name=search_term_string"}}
+  </script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"ItemList","name":"Featured Tools","itemListElement":[
+    {"@type":"ListItem","position":1,"url":"https://www.uptools.in/income-tax-calculator/"},
+    {"@type":"ListItem","position":2,"url":"https://www.uptools.in/gst-calculator/"},
+    {"@type":"ListItem","position":3,"url":"https://www.uptools.in/currency-converter/"},
+    {"@type":"ListItem","position":4,"url":"https://www.uptools.in/emi-calculator/"},
+    {"@type":"ListItem","position":5,"url":"https://www.uptools.in/ifsc-finder/"}
+  ]}
+  </script>
+</head>
+<body>
+  <a href="#main" class="sr-only">Skip to content</a>
+
+  <header class="site" role="banner">
+    <div class="header-inner">
+      <a class="brand" href="/" aria-label="UpTools Home">
+        <img src="/assets/uptools-mark.svg" alt="UpTools logo" width="28" height="28">
+        <b>UpTools</b>
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="/#tools">Tools</a>
+        <a href="/games/">Games</a>
+        <a href="/about/">About</a>
+        <a href="/contact/">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="wrap" role="main">
+    <h1>UpTools</h1>
+    <p class="note">Fast, privacy-first calculators & converters. No sign-ups. No clutter.</p>
+
+    <!-- Optional mini hero -->
+    <div class="card" style="margin:16px 0; display:flex; align-items:center; gap:16px;">
+      <img src="/assets/uptools-logo.svg" alt="UpTools" style="height:48px; width:auto;">
+      <div>
+        <strong>Your everyday toolkit.</strong>
+        <div class="note">Calculators, converters, and games — fast and privacy-first.</div>
+      </div>
+    </div>
+
+    <section id="tools" aria-labelledby="tools-heading">
+      <h2 id="tools-heading" class="sr-only">Popular Tools</h2>
+      <div class="card" role="navigation" aria-label="Tools list">
         <ul>
-          <li><a href="/income-tax-calculator/">Income Tax Calculator (India)</a></li>
-          <li><a href="/bmi-calculator/">BMI Calculator</a></li>
-          <li><a href="/emi-calculator/">EMI Calculator</a></li>
-          <li><a href="/fd-calculator/">FD Calculator</a></li>
-          <li><a href="/sip-calculator/">SIP Calculator</a></li>
-          <li><a href="/age-calculator/">Age Calculator</a></li>
-          <!-- Replaced less-useful tool with high-demand ones -->
-          <li><a href="/gst-calculator/">GST Calculator (India)</a></li>
-          <li><a href="/currency-converter/">Currency Converter (live)</a></li>
-          <li><a href="/date-difference/">Date Difference Calculator</a></li>
-          <li><a href="/pan-validator/">PAN Format Validator</a></li>
-          <li><a href="/ifsc-finder/">IFSC Finder (live)</a></li>
-          <li><a href="/password-generator/">Password Generator</a></li>
-          <li><a href="/qr-generator/">QR Code Generator</a></li>
-          <li><a href="/text-case-converter/">Text Case Converter</a></li>
-          <li><a href="/word-counter/">Word Counter</a></li>
-          <li><a href="/json-formatter/">JSON Formatter</a></li>
-          <li><a href="/base64-encoder/">Base64 Encoder/Decoder</a></li>
-          <li><a href="/ip-address/">Your IP Address</a></li>
-          <li><a href="/uuid-generator/">UUID Generator</a></li>
-          <li><a href="/color-picker/">Color Picker</a></li>
-          <li><a href="/games/">🎮 Free Online Games</a></li>
+          <li><a href="/income-tax-calculator/" title="Income Tax Calculator for India">Income Tax Calculator (India)</a></li>
+          <li><a href="/bmi-calculator/" title="BMI calculator">BMI Calculator</a></li>
+          <li><a href="/emi-calculator/" title="Loan EMI calculator">EMI Calculator</a></li>
+          <li><a href="/fd-calculator/" title="Fixed Deposit maturity calculator">FD Calculator</a></li>
+          <li><a href="/sip-calculator/" title="SIP returns calculator">SIP Calculator</a></li>
+          <li><a href="/age-calculator/" title="Find your exact age">Age Calculator</a></li>
+          <li><a href="/gst-calculator/" title="GST calculator for India">GST Calculator (India)</a></li>
+          <li><a href="/currency-converter/" title="Live currency rate converter">Currency Converter (live)</a></li>
+          <li><a href="/date-difference/" title="Calculate days between dates">Date Difference</a></li>
+          <li><a href="/pan-validator/" title="Validate Indian PAN format">PAN Format Validator</a></li>
+          <li><a href="/ifsc-finder/" title="Find bank IFSC codes">IFSC Finder (live)</a></li>
+          <li><a href="/password-generator/" title="Generate strong passwords">Password Generator</a></li>
+          <li><a href="/qr-generator/" title="Create QR codes">QR Code Generator</a></li>
+          <li><a href="/text-case-converter/" title="Convert text case">Text Case Converter</a></li>
+          <li><a href="/word-counter/" title="Count words & characters">Word Counter</a></li>
+          <li><a href="/json-formatter/" title="Format and validate JSON">JSON Formatter</a></li>
+          <li><a href="/base64-encoder/" title="Base64 encode/decode">Base64 Encoder/Decoder</a></li>
+          <li><a href="/ip-address/" title="See your public IP address">Your IP Address</a></li>
+          <li><a href="/uuid-generator/" title="Generate UUIDs">UUID Generator</a></li>
+          <li><a href="/color-picker/" title="Pick colors and copy HEX/RGB">Color Picker</a></li>
+          <li><a href="/games/" title="Browse all free mini games">🎮 Free Online Games</a></li>
         </ul>
       </div>
-      <footer class="note small">© UpTools</footer>
-    </main>
-  </body>
-  </html>
+    </section>
+
+    <footer class="note small site-footer" role="contentinfo">
+      © <span id="y"></span> UpTools · <a href="/about/">About</a> · <a href="/contact/">Contact</a> · <a href="/sitemap.xml">Sitemap</a> · <a href="/robots.txt">Robots</a>
+    </footer>
+  </main>
+
+  <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
+</body>
+</html>
