@@ -1,60 +1,502 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617"
-     crossorigin="anonymous"></script>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>EMI Calculator - UpTools</title>
-    <meta name="description" content="Free EMI Calculator. Compute monthly EMI, total interest, and total amount for your loan." />
-    <meta name="robots" content="index,follow" />
-    <meta name="theme-color" content="#0b1020" />
-    <link rel="canonical" href="https://www.uptools.in/emi-calculator/" />
-    <meta property="og:title" content="EMI Calculator - UpTools" />
-    <meta property="og:description" content="Compute monthly EMI, total interest and amount for a loan." />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://www.uptools.in/emi-calculator/" />
-    <meta property="og:site_name" content="UpTools" />
-    <meta name="twitter:card" content="summary" />
-    <link rel="stylesheet" href="/style.css" />
-  </head>
-  <body style="--accent:#00d4ff;--bg1:#001820;--bg2:#032432;--cardBorder:#0a3a4d">
-    <main class="wrap">
-      <div class="tool-header"><div class="tool-icon">EMI</div><h1 style="margin:0">EMI Calculator</h1></div>
-      <div class="card">
-        <label class="label" for="p">Loan Amount</label>
-        <input id="p" class="input" type="number" min="0" step="1000" placeholder="e.g., 1000000" />
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        <label class="label" for="r">Annual Interest Rate (%)</label>
-        <input id="r" class="input" type="number" min="0" step="0.01" placeholder="e.g., 9.5" />
+  <title>EMI Calculator – Loan EMI, Interest & Amortization (Fast & Private)</title>
 
-        <label class="label" for="n">Tenure (months)</label>
-        <input id="n" class="input" type="number" min="1" step="1" placeholder="e.g., 60" />
+  <!-- SEO: detailed description (what/why/how) -->
+  <meta name="description"
+        content="Free EMI Calculator for quick, private loan planning. Enter loan amount, rate, and tenure to get monthly EMI, total interest, and payoff schedule. Compare two loans, add a one-time prepayment, export amortization as CSV, and share a permalink. Works offline, no sign-ups." />
 
-        <button id="calc" class="btn">Calculate</button>
-        <div id="out" class="result" aria-live="polite"></div>
+  <link rel="canonical" href="https://www.uptools.in/emi-calculator/" />
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:title" content="EMI Calculator – Loan EMI, Interest & Amortization" />
+  <meta property="og:description" content="Calculate EMI, total interest, and payoff schedule. Add prepayment, compare loans, export CSV, and share a permalink. Fast, private, no sign-ups." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.uptools.in/emi-calculator/" />
+  <meta property="og:site_name" content="UpTools" />
+  <meta property="og:image" content="https://www.uptools.in/assets/uptools-mark.svg" />
+  <meta name="twitter:card" content="summary" />
+
+  <link rel="icon" type="image/svg+xml" href="/assets/uptools-mark.svg" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/uptools-mark.svg" />
+
+  <!-- Use the shared, common CSS only -->
+  <link rel="stylesheet" href="/style.css?v=1.0.0" />
+
+  <!-- Page color scheme (unique per tool) -->
+  <style>
+    :root{
+      /* Indigo → Violet with teal accent (unique to EMI) */
+      --bg1:#0b1020;      /* override page bg start */
+      --bg2:#141a33;      /* override page bg end */
+      --accent:#8b5cf6;   /* primary accent (indigo/violet) */
+    }
+  </style>
+
+  <!-- JSON-LD: WebApplication + Breadcrumbs + FAQ -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"WebApplication",
+    "name":"EMI Calculator",
+    "url":"https://www.uptools.in/emi-calculator/",
+    "applicationCategory":"FinanceApplication",
+    "operatingSystem":"Any",
+    "offers":{"@type":"Offer","price":"0","priceCurrency":"INR"},
+    "featureList":[
+      "Monthly EMI & total interest",
+      "Amortization schedule",
+      "One-time prepayment",
+      "Compare two loans",
+      "CSV export",
+      "Shareable permalink"
+    ],
+    "description":"Enter loan amount, interest rate, and tenure to compute EMI, total interest, and payoff schedule. Add a one-time prepayment, compare two loans, export CSV, and share a permalink. Fast, private, no sign-ups."
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"BreadcrumbList",
+    "itemListElement":[
+      {"@type":"ListItem","position":1,"name":"Home","item":"https://www.uptools.in/"},
+      {"@type":"ListItem","position":2,"name":"Tools","item":"https://www.uptools.in/#tools"},
+      {"@type":"ListItem","position":3,"name":"EMI Calculator","item":"https://www.uptools.in/emi-calculator/"}
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"FAQPage",
+    "mainEntity":[
+      {"@type":"Question","name":"How is EMI calculated?",
+       "acceptedAnswer":{"@type":"Answer","text":"EMI = P × r × (1+r)^n ÷ [(1+r)^n − 1], where P is principal, r is monthly interest rate (annual/12/100), and n is number of months."}},
+      {"@type":"Question","name":"What if my interest rate is 0%?",
+       "acceptedAnswer":{"@type":"Answer","text":"If r = 0, EMI = P ÷ n (principal divided by months)."}},
+      {"@type":"Question","name":"Does the calculator store my data?",
+       "acceptedAnswer":{"@type":"Answer","text":"No. All calculations run in your browser. Nothing is uploaded."}},
+      {"@type":"Question","name":"Can I add a prepayment?",
+       "acceptedAnswer":{"@type":"Answer","text":"Yes. Add an optional one-time prepayment month and amount. The tool recomputes the schedule and payoff time."}}
+    ]
+  }
+  </script>
+</head>
+
+<body>
+  <a href="#main" class="sr-only">Skip to content</a>
+
+  <header class="site" role="banner">
+    <div class="header-inner">
+      <a class="brand" href="/" aria-label="UpTools Home">
+        <img src="/assets/uptools-mark.svg" alt="" width="28" height="28" />
+        <b>UpTools</b>
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="/#tools">Tools</a>
+        <a href="/games/">Games</a>
+        <a href="/about/">About</a>
+        <a href="/contact/">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="wrap" role="main">
+    <!-- Tool header -->
+    <div class="tool-header" aria-labelledby="page-title">
+      <div class="tool-icon" aria-hidden="true">💳</div>
+      <div>
+        <h1 id="page-title">EMI Calculator</h1>
+        <div class="note">Compute monthly EMI, total interest, and amortization. Add prepayment, compare two loans, export CSV, and share a permalink.</div>
       </div>
-      <footer class="note small"><a href="/">UpTools</a></footer>
-    </main>
-    <script type="module">
-      const p = document.getElementById('p');
-      const r = document.getElementById('r');
-      const n = document.getElementById('n');
-      const out = document.getElementById('out');
-      const fmt = new Intl.NumberFormat('en-IN',{style:'currency',currency:'INR',maximumFractionDigits:0});
-      function calc(){
-        const P = Number(p.value||0); const R = Number(r.value||0)/12/100; const N = Number(n.value||0);
-        if(!(P>0 && R>=0 && N>0)){ out.textContent='Enter valid values'; return; }
-        const emi = R===0? P/N : P*R*Math.pow(1+R,N)/(Math.pow(1+R,N)-1);
-        const total = emi*N; const interest = total-P;
-        out.innerHTML = `<div class='row'><span>Monthly EMI</span><span class='amount'>${fmt.format(Math.round(emi))}</span></div>
-        <div class='row'><span>Total Interest</span><span class='amount'>${fmt.format(Math.round(interest))}</span></div>
-        <div class='row'><span>Total Amount</span><span class='amount'>${fmt.format(Math.round(total))}</span></div>`;
+    </div>
+
+    <!-- Inputs -->
+    <section class="card" aria-labelledby="inputs-title">
+      <h2 id="inputs-title" class="sr-only">Inputs</h2>
+
+      <div class="grid" style="margin-bottom:12px;">
+        <div>
+          <label class="label" for="amount">Loan Amount (₹)</label>
+          <input id="amount" class="input" type="number" min="0" inputmode="decimal" placeholder="e.g., 1000000" />
+          <div class="chips" style="margin-top:8px;">
+            <button class="chip" data-fill="amount" data-val="500000">₹5L</button>
+            <button class="chip" data-fill="amount" data-val="1000000">₹10L</button>
+            <button class="chip" data-fill="amount" data-val="2500000">₹25L</button>
+          </div>
+        </div>
+
+        <div>
+          <label class="label" for="rate">Annual Interest (%)</label>
+          <input id="rate" class="input" type="number" min="0" step="0.01" inputmode="decimal" placeholder="e.g., 9.5" />
+          <div class="chips" style="margin-top:8px;">
+            <button class="chip" data-fill="rate" data-val="8.5">8.5%</button>
+            <button class="chip" data-fill="rate" data-val="9">9%</button>
+            <button class="chip" data-fill="rate" data-val="10.5">10.5%</button>
+          </div>
+        </div>
+
+        <div>
+          <label class="label" for="tenure">Tenure</label>
+          <div class="flex" style="gap:8px;">
+            <input id="tenure" class="input" type="number" min="1" step="1" inputmode="numeric" placeholder="e.g., 240" />
+            <select id="tenureUnit" class="input" style="max-width:140px;">
+              <option value="months">Months</option>
+              <option value="years">Years</option>
+            </select>
+          </div>
+          <div class="chips" style="margin-top:8px;">
+            <button class="chip" data-fill="tenure" data-val="60" data-unit="months">5y</button>
+            <button class="chip" data-fill="tenure" data-val="120" data-unit="months">10y</button>
+            <button class="chip" data-fill="tenure" data-val="240" data-unit="months">20y</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- Advanced options -->
+      <div class="grid">
+        <div>
+          <span class="label">Optional Prepayment</span>
+          <div class="flex" style="gap:8px;">
+            <input id="prepayMonth" class="input" type="number" min="1" step="1" placeholder="Month #" />
+            <input id="prepayAmount" class="input" type="number" min="0" placeholder="Amount ₹" />
+          </div>
+          <div class="note">Adds a one-time prepayment in the chosen month; schedule shortens if possible.</div>
+        </div>
+
+        <div>
+          <span class="label">Compare with Another Loan</span>
+          <div class="flex" style="gap:8px;">
+            <input id="amount2" class="input" type="number" min="0" placeholder="Amount ₹" />
+            <input id="rate2" class="input" type="number" min="0" step="0.01" placeholder="Rate %" />
+            <input id="tenure2" class="input" type="number" min="1" step="1" placeholder="Tenure (m)" />
+          </div>
+          <div class="note">Leave blank if not comparing.</div>
+        </div>
+      </div>
+
+      <div class="btn-group" style="margin-top:14px;">
+        <button id="calcBtn" class="btn">🧮 Calculate</button>
+        <button id="resetBtn" class="btn secondary">↺ Reset</button>
+        <button id="shareBtn" class="btn secondary">🔗 Copy Share Link</button>
+        <button id="csvBtn" class="btn secondary">📥 Download CSV</button>
+      </div>
+    </section>
+
+    <!-- Results -->
+    <section class="card" aria-labelledby="results-title">
+      <h2 id="results-title" class="sr-only">Results</h2>
+
+      <div class="grid">
+        <div class="result">
+          <div class="kvi"><span>Monthly EMI</span><span id="emi" class="amount">—</span></div>
+          <div class="kvi"><span>Total Interest</span><span id="interest" class="amount">—</span></div>
+          <div class="kvi"><span>Total Payment</span><span id="total" class="amount">—</span></div>
+          <div class="kvi"><span>Payoff Months</span><span id="monthsOut" class="amount">—</span></div>
+        </div>
+
+        <div class="result" id="compareBox" style="display:none;">
+          <div class="label">Comparison</div>
+          <div class="kvi"><span>EMI (Loan B)</span><span id="emi2" class="amount">—</span></div>
+          <div class="kvi"><span>Total Interest (B)</span><span id="interest2" class="amount">—</span></div>
+          <div class="kvi"><span>Difference (Interest)</span><span id="diffInt" class="amount">—</span></div>
+        </div>
+      </div>
+
+      <div class="btn-group" style="margin-top:12px;">
+        <button id="toggleSchedule" class="btn ghost">📄 Show Amortization Schedule</button>
+      </div>
+
+      <div id="scheduleWrap" class="result hidden" aria-live="polite" aria-busy="false">
+        <div class="label">Amortization Schedule</div>
+        <div id="schedule" class="muted">Run a calculation to see your schedule.</div>
+      </div>
+    </section>
+
+    <!-- Helpful content for SEO + UX -->
+    <section class="card" aria-labelledby="about-title">
+      <h2 id="about-title">About this EMI Calculator</h2>
+      <p class="note">
+        This EMI calculator uses the standard reducing-balance formula to compute your monthly payment. Results are instant and calculated in your browser. Nothing is stored or uploaded.
+      </p>
+      <details>
+        <summary>📘 How to use</summary>
+        <ul>
+          <li>Enter loan amount (₹), annual interest (%), and tenure (months or years).</li>
+          <li>Click <b>Calculate</b> to see EMI, total interest, and total payment.</li>
+          <li>Optionally enter a <b>prepayment</b> month and amount to reduce total interest.</li>
+          <li>Use <b>Compare</b> fields to evaluate a second loan offer.</li>
+          <li>Export the full schedule as <b>CSV</b> or share a <b>permalink</b>.</li>
+        </ul>
+      </details>
+      <details>
+        <summary>❓ Formula</summary>
+        <p>EMI = P × r × (1 + r)<sup>n</sup> ÷ [(1 + r)<sup>n</sup> − 1], where:</p>
+        <ul>
+          <li><b>P</b> = Loan principal</li>
+          <li><b>r</b> = Monthly rate = (annual% ÷ 12 ÷ 100)</li>
+          <li><b>n</b> = Number of months</li>
+        </ul>
+        <p>If r = 0, EMI = P ÷ n.</p>
+      </details>
+      <p class="note">Related: <a href="/fd-calculator/">FD Calculator</a> · <a href="/sip-calculator/">SIP Calculator</a> · <a href="/income-tax-calculator/">Income Tax Calculator</a></p>
+    </section>
+
+    <footer class="note small site-footer" role="contentinfo">
+      © <span id="y"></span> UpTools · <a href="/about/">About</a> · <a href="/contact/">Contact</a> · <a href="/sitemap.xml">Sitemap</a> · <a href="/robots.txt">Robots</a>
+    </footer>
+  </main>
+
+  <script defer>
+  (function(){
+    const $ = id => document.getElementById(id);
+    const fmt = n => isFinite(n) ? "₹" + Number(n).toLocaleString("en-IN", {maximumFractionDigits:0}) : "—";
+    const fmt2 = n => isFinite(n) ? "₹" + Number(n).toLocaleString("en-IN", {minimumFractionDigits:2, maximumFractionDigits:2}) : "—";
+
+    const amount=$("amount"), rate=$("rate"), tenure=$("tenure"), tenureUnit=$("tenureUnit");
+    const prepayMonth=$("prepayMonth"), prepayAmount=$("prepayAmount");
+    const amount2=$("amount2"), rate2=$("rate2"), tenure2=$("tenure2");
+
+    const emiOut=$("emi"), interestOut=$("interest"), totalOut=$("total"), monthsOut=$("monthsOut");
+    const emi2Out=$("emi2"), interest2Out=$("interest2"), diffIntOut=$("diffInt");
+    const compareBox=$("compareBox"), scheduleWrap=$("scheduleWrap"), scheduleDiv=$("schedule");
+
+    const calcBtn=$("calcBtn"), resetBtn=$("resetBtn"), shareBtn=$("shareBtn"), csvBtn=$("csvBtn"), toggleSchedule=$("toggleSchedule");
+
+    // Fill chips
+    document.querySelectorAll(".chip[data-fill]").forEach(chip=>{
+      chip.addEventListener("click", ()=>{
+        const field = chip.getAttribute("data-fill");
+        const val = chip.getAttribute("data-val");
+        const unit = chip.getAttribute("data-unit");
+        if(field==="tenure" && unit) { tenureUnit.value = unit; }
+        const el = $(field);
+        if(el){ el.value = val; }
+        calc();
+      }, {passive:true});
+    });
+
+    // URL sync (query params) for shareability
+    function readQuery(){
+      const q = new URLSearchParams(location.search);
+      if(q.has("p")) amount.value = q.get("p");
+      if(q.has("r")) rate.value = q.get("r");
+      if(q.has("n")) { tenure.value = q.get("n"); tenureUnit.value="months"; }
+      if(q.has("y")) { tenure.value = q.get("y"); tenureUnit.value="years"; }
+      if(q.has("pm")) prepayMonth.value = q.get("pm");
+      if(q.has("pa")) prepayAmount.value = q.get("pa");
+      if(q.has("p2")) amount2.value = q.get("p2");
+      if(q.has("r2")) rate2.value = q.get("r2");
+      if(q.has("n2")) tenure2.value = q.get("n2");
+    }
+    function writeQuery(){
+      const q = new URLSearchParams();
+      if(amount.value) q.set("p", amount.value);
+      if(rate.value) q.set("r", rate.value);
+      const months = tenureUnit.value==="years" ? (Number(tenure.value||0)*12) : Number(tenure.value||0);
+      if(months) q.set("n", String(months));
+      if(prepayMonth.value) q.set("pm", prepayMonth.value);
+      if(prepayAmount.value) q.set("pa", prepayAmount.value);
+      if(amount2.value) q.set("p2", amount2.value);
+      if(rate2.value) q.set("r2", rate2.value);
+      if(tenure2.value) q.set("n2", tenure2.value);
+      history.replaceState(null, "", "?" + q.toString());
+      return location.href;
+    }
+
+    // Core EMI calc
+    function compute(p, annualRate, months){
+      p = Number(p||0); annualRate = Number(annualRate||0); months = Math.max(1, Number(months||0));
+      const r = annualRate/12/100;
+      let emi, total, interest;
+      if(r===0){
+        emi = p / months;
+      }else{
+        const pow = Math.pow(1+r, months);
+        emi = p * r * pow / (pow - 1);
       }
-      document.getElementById('calc').addEventListener('click', calc);
-      [p,r,n].forEach(el=>el.addEventListener('keydown',e=>{ if(e.key==='Enter') calc(); }));
-    </script>
-  </body>
-  </html>
+      total = emi * months;
+      interest = total - p;
+      return { emi, total, interest, months, r, p };
+    }
 
+    // Build amortization, with optional prepayment (single one-time)
+    function buildSchedule(p, r, months, emi, prepayAtMonth, prepayAmt){
+      let bal = p;
+      let rows = [];
+      let m = 0;
+      while(bal > 0 && m < 1200){ // hard cap for sanity
+        m++;
+        let interest = r===0 ? 0 : bal*r;
+        let principal = emi - interest;
+        if(principal < 0){ // guard if rate too high for given EMI
+          principal = 0;
+        }
+        let newBal = bal - principal;
 
+        if(prepayAtMonth && prepayAmt && m === prepayAtMonth){
+          newBal = Math.max(0, newBal - prepayAmt);
+        }
+
+        // last row correction
+        if(newBal < 0){
+          principal += newBal; // reduce principal by negative overpay
+          newBal = 0;
+        }
+        rows.push({m, opening: bal, interest, principal, emi: newBal>0 ? emi : (principal+interest), closing: newBal});
+        bal = newBal;
+
+        if(months && m >= months && prepayAmt>0){
+          // If original tenure reached but prepayment happened, continue until closure
+          months = 0; // allow loop to continue to natural closure
+        }
+        if(months && prepayAmt===0 && m >= months) break; // fixed tenure
+      }
+      return rows;
+    }
+
+    function calc(){
+      const P = Number(amount.value||0);
+      const R = Number(rate.value||0);
+      const n = tenureUnit.value==="years" ? Number(tenure.value||0)*12 : Number(tenure.value||0);
+      const pm = Number(prepayMonth.value||0);
+      const pa = Number(prepayAmount.value||0);
+
+      if(!(P>0 && R>=0 && n>0)){
+        emiOut.textContent = interestOut.textContent = totalOut.textContent = monthsOut.textContent = "—";
+        scheduleDiv.textContent = "Enter valid numbers to calculate.";
+        scheduleWrap.classList.add("hidden");
+        compareBox.style.display = "none";
+        return;
+      }
+
+      // Base compute
+      const base = compute(P,R,n);
+      let rows = buildSchedule(base.p, base.r, base.months, base.emi, pm>0?pm:0, pa>0?pa:0);
+
+      // If prepayment reduces months, recompute stats from rows
+      const monthsActual = rows.length;
+      const paidTotal = rows.reduce((s,x)=>s + x.emi, 0);
+      const interestTotal = paidTotal - P;
+
+      emiOut.textContent = fmt2(base.emi);
+      interestOut.textContent = fmt2(interestTotal);
+      totalOut.textContent = fmt2(paidTotal);
+      monthsOut.textContent = String(monthsActual);
+
+      // Compare (Loan B)
+      let hasB = Number(amount2.value)>0 && Number(rate2.value)>=0 && Number(tenure2.value)>0;
+      if(hasB){
+        const b = compute(Number(amount2.value), Number(rate2.value), Number(tenure2.value));
+        emi2Out.textContent = fmt2(b.emi);
+        interest2Out.textContent = fmt2(b.total - Number(amount2.value));
+        diffIntOut.textContent = fmt2((b.total - Number(amount2.value)) - interestTotal);
+        compareBox.style.display = "";
+      }else{
+        compareBox.style.display = "none";
+      }
+
+      // Schedule rendering (deferred until shown)
+      scheduleDiv.dataset.rows = JSON.stringify(rows.map(r=>({
+        m:r.m, opening: r.opening, interest:r.interest, principal:r.principal, emi:r.emi, closing:r.closing
+      })));
+
+      writeQuery(); // keep URL in sync
+    }
+
+    function renderSchedule(){
+      const dataStr = scheduleDiv.dataset.rows;
+      if(!dataStr){ scheduleDiv.textContent="Run a calculation to see your schedule."; return; }
+      const rows = JSON.parse(dataStr);
+
+      // Build a lightweight table (no external CSS)
+      let html = '<div class="muted" style="overflow:auto; max-height:520px;">';
+      html += '<table style="width:100%; border-collapse:collapse; font-size:12px;">';
+      html += '<thead><tr>';
+      ["Month","Opening","Interest","Principal","EMI","Closing"].forEach(h=>{
+        html += `<th style="position:sticky; top:0; background:var(--bg); border-bottom:1px solid var(--cardBorder); text-align:right; padding:8px;">${h}</th>`;
+      });
+      html += '</tr></thead><tbody>';
+      rows.forEach(r=>{
+        html += '<tr>';
+        html += `<td style="padding:6px; border-bottom:1px solid rgba(255,255,255,.05); text-align:right;">${r.m}</td>`;
+        html += `<td style="padding:6px; border-bottom:1px solid rgba(255,255,255,.05); text-align:right;">${fmt2(r.opening)}</td>`;
+        html += `<td style="padding:6px; border-bottom:1px solid rgba(255,255,255,.05); text-align:right;">${fmt2(r.interest)}</td>`;
+        html += `<td style="padding:6px; border-bottom:1px solid rgba(255,255,255,.05); text-align:right;">${fmt2(r.principal)}</td>`;
+        html += `<td style="padding:6px; border-bottom:1px solid rgba(255,255,255,.05); text-align:right;">${fmt2(r.emi)}</td>`;
+        html += `<td style="padding:6px; border-bottom:1px solid rgba(255,255,255,.05); text-align:right;">${fmt2(r.closing)}</td>`;
+        html += '</tr>';
+      });
+      html += '</tbody></table></div>';
+      scheduleDiv.innerHTML = html;
+    }
+
+    // CSV export
+    function toCSV(){
+      const dataStr = scheduleDiv.dataset.rows;
+      if(!dataStr){ alert("Please calculate first."); return; }
+      const rows = JSON.parse(dataStr);
+      const hdr = ["Month","Opening","Interest","Principal","EMI","Closing"];
+      const csv = [hdr.join(",")].concat(rows.map(r=>[
+        r.m, r.opening.toFixed(2), r.interest.toFixed(2), r.principal.toFixed(2), r.emi.toFixed(2), r.closing.toFixed(2)
+      ].join(","))).join("\n");
+      const blob = new Blob([csv], {type:"text/csv;charset=utf-8"});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "emi_schedule.csv";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    // Share link
+    function copyShare(){
+      const url = writeQuery();
+      navigator.clipboard.writeText(url).then(()=> {
+        shareBtn.textContent = "✅ Link Copied";
+        setTimeout(()=>shareBtn.textContent="🔗 Copy Share Link", 1200);
+      });
+    }
+
+    // Toggle schedule
+    let scheduleShown = false;
+    toggleSchedule.addEventListener("click", ()=>{
+      scheduleShown = !scheduleShown;
+      toggleSchedule.textContent = scheduleShown ? "📄 Hide Amortization Schedule" : "📄 Show Amortization Schedule";
+      scheduleWrap.classList.toggle("hidden", !scheduleShown);
+      if(scheduleShown){ renderSchedule(); }
+    });
+
+    // Events
+    [amount,rate,tenure,tenureUnit,prepayMonth,prepayAmount,amount2,rate2,tenure2].forEach(el=>{
+      el.addEventListener("input", ()=>{ /* debounce-lite */ window.clearTimeout(el._t); el._t=setTimeout(calc, 120); }, {passive:true});
+    });
+    calcBtn.addEventListener("click", calc);
+    resetBtn.addEventListener("click", ()=>{
+      [amount,rate,tenure,prepayMonth,prepayAmount,amount2,rate2,tenure2].forEach(el=>el.value="");
+      tenureUnit.value="months";
+      compareBox.style.display="none";
+      scheduleWrap.classList.add("hidden");
+      scheduleDiv.textContent="Run a calculation to see your schedule.";
+      history.replaceState(null,"",location.pathname);
+      calc();
+    });
+    csvBtn.addEventListener("click", toCSV);
+    shareBtn.addEventListener("click", copyShare);
+
+    // Init
+    $("y").textContent = new Date().getFullYear();
+    readQuery();
+    if(amount.value && rate.value && (tenure.value)) calc();
+  })();
+  </script>
+</body>
+</html>
