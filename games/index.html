@@ -4,23 +4,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Free Online Games - UpTools</title>
-    <meta name="description" content="Play free online games: Tic Tac Toe, Memory Match, Snake, Number Guessing, and more fun games at UpTools.">
+    <meta name="description" content="Play Tic Tac Toe, Snake, Memory Match, 2048, and other free online games instantly at UpTools. No sign-ups or downloads.">
     <meta name="robots" content="index,follow">
     <meta name="theme-color" content="#0f1419">
+
+    <!-- OG Tags -->
     <meta property="og:title" content="Free Online Games - UpTools">
-    <meta property="og:description" content="Play free online games: Tic Tac Toe, Memory Match, Snake, Number Guessing, and more fun games at UpTools.">
+    <meta property="og:description" content="Enjoy Tic Tac Toe, Snake, Memory Match, 2048, and other free games at UpTools. Play instantly in your browser.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://www.uptools.in/games">
+    <meta property="og:url" content="https://www.uptools.in/games/">
     <meta property="og:site_name" content="UpTools">
-    <meta property="og:image" content="https://www.uptools.in/games/game-icon.png">
+    <meta property="og:image" content="https://www.uptools.in/assets/uptools-logo.svg">
+
     <meta name="twitter:card" content="summary_large_image">
-    <link rel="canonical" href="https://www.uptools.in/games">
+    <link rel="canonical" href="https://www.uptools.in/games/">
+
     <link rel="stylesheet" href="/style.css?v=1.0.0">
     <style>
         body {
             --accent: #ff6b6b;
-            --bg: #0f1419;
-            --card: #1e2634;
             background: linear-gradient(135deg, var(--bg), #1a1f2e);
         }
         
@@ -28,7 +30,7 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 1.5rem;
-            margin: 2rem 0;
+            margin-top: 2rem;
         }
         
         .game-card {
@@ -39,8 +41,6 @@
             text-align: center;
             transition: all 0.3s ease;
             cursor: pointer;
-            position: relative;
-            overflow: hidden;
         }
         
         .game-card:hover {
@@ -49,32 +49,15 @@
             border-color: var(--accent);
         }
         
-        .game-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, var(--accent), transparent);
-            transition: left 0.5s ease;
-        }
-        
-        .game-card:hover::before {
-            left: 100%;
-        }
-        
         .game-icon {
             font-size: 3rem;
             margin-bottom: 1rem;
-            display: block;
         }
         
         .game-title {
             font-size: 1.25rem;
             font-weight: 600;
             margin-bottom: 0.5rem;
-            color: var(--text);
         }
         
         .game-description {
@@ -82,143 +65,81 @@
             font-size: 0.9rem;
             line-height: 1.4;
         }
-        
-        .game-stats {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 1rem;
-            padding-top: 1rem;
-            border-top: 1px solid var(--cardBorder);
-            font-size: 0.8rem;
-            color: var(--muted);
-        }
-        
-        .featured-game {
-            grid-column: span 2;
-            background: linear-gradient(135deg, var(--card), #2a3441);
-            border-color: var(--accent);
-        }
-        
-        @media (max-width: 768px) {
-            .featured-game {
-                grid-column: span 1;
-            }
-        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="tool-header">
-            <a href="/" class="back-btn">← Back to Tools</a>
-            <h1>🎮 Free Online Games</h1>
-            <p>Take a break and enjoy these fun, lightweight games!</p>
+    <!-- Site Header -->
+    <header class="site" role="banner">
+        <div class="header-inner">
+            <a class="brand" href="/" aria-label="UpTools Home">
+                <img src="/assets/uptools-mark.svg" alt="UpTools logo" width="28" height="28">
+                <b>UpTools</b>
+            </a>
+            <nav class="nav-links" aria-label="Primary">
+                <a href="/#tools">Tools</a>
+                <a href="/games/">Games</a>
+                <a href="/about/">About</a>
+                <a href="/contact/">Contact</a>
+            </nav>
         </div>
+    </header>
 
+    <main class="wrap">
         <div class="games-grid">
-            <div class="game-card featured-game" onclick="window.location.href='/games/tic-tac-toe'">
+            <div class="game-card" onclick="window.location.href='/games/tic-tac-toe'">
                 <span class="game-icon">⭕</span>
                 <div class="game-title">Tic Tac Toe</div>
-                <div class="game-description">Classic X's and O's game. Play against AI or challenge a friend!</div>
-                <div class="game-stats">
-                    <span>🎯 Strategy</span>
-                    <span>⭐ Easy</span>
-                </div>
+                <div class="game-description">Play against AI or a friend in this classic game.</div>
             </div>
 
             <div class="game-card" onclick="window.location.href='/games/memory-match'">
                 <span class="game-icon">🧠</span>
                 <div class="game-title">Memory Match</div>
-                <div class="game-description">Test your memory by matching pairs of cards. How fast can you complete it?</div>
-                <div class="game-stats">
-                    <span>🧠 Memory</span>
-                    <span>⭐ Easy</span>
-                </div>
+                <div class="game-description">Match pairs of cards to test your memory.</div>
             </div>
 
             <div class="game-card" onclick="window.location.href='/games/snake'">
                 <span class="game-icon">🐍</span>
                 <div class="game-title">Snake Game</div>
-                <div class="game-description">Classic snake game. Eat food to grow longer, but don't hit yourself!</div>
-                <div class="game-stats">
-                    <span>🎮 Arcade</span>
-                    <span>⭐⭐ Medium</span>
-                </div>
+                <div class="game-description">Eat food, grow your snake, avoid hitting yourself.</div>
             </div>
 
             <div class="game-card" onclick="window.location.href='/games/number-guessing'">
                 <span class="game-icon">🎲</span>
                 <div class="game-title">Number Guessing</div>
-                <div class="game-description">Guess the number in as few tries as possible. Can you beat your high score?</div>
-                <div class="game-stats">
-                    <span>🧮 Logic</span>
-                    <span>⭐ Easy</span>
-                </div>
+                <div class="game-description">Guess the hidden number in fewest tries.</div>
             </div>
 
             <div class="game-card" onclick="window.location.href='/games/color-rush'">
                 <span class="game-icon">🌈</span>
                 <div class="game-title">Color Rush</div>
-                <div class="game-description">Click the different colored tile before time runs out. Speed and accuracy matter!</div>
-                <div class="game-stats">
-                    <span>⚡ Speed</span>
-                    <span>⭐⭐ Medium</span>
-                </div>
+                <div class="game-description">Spot the odd color before time runs out.</div>
             </div>
 
             <div class="game-card" onclick="window.location.href='/games/word-scramble'">
                 <span class="game-icon">📝</span>
                 <div class="game-title">Word Scramble</div>
-                <div class="game-description">Unscramble the letters to form words. How many can you solve?</div>
-                <div class="game-stats">
-                    <span>📚 Vocabulary</span>
-                    <span>⭐⭐ Medium</span>
-                </div>
+                <div class="game-description">Unscramble letters to form the correct word.</div>
             </div>
 
             <div class="game-card" onclick="window.location.href='/games/2048'">
                 <span class="game-icon">🔢</span>
                 <div class="game-title">2048</div>
-                <div class="game-description">Slide tiles to combine them and reach 2048. Addictive puzzle game!</div>
-                <div class="game-stats">
-                    <span>🧩 Puzzle</span>
-                    <span>⭐⭐⭐ Hard</span>
-                </div>
+                <div class="game-description">Merge tiles to reach 2048.</div>
             </div>
 
             <div class="game-card" onclick="window.location.href='/games/breakout'">
                 <span class="game-icon">🏓</span>
                 <div class="game-title">Breakout</div>
-                <div class="game-description">Break all the bricks with your paddle and ball. Don't let the ball fall!</div>
-                <div class="game-stats">
-                    <span>🎮 Arcade</span>
-                    <span>⭐⭐ Medium</span>
-                </div>
+                <div class="game-description">Break all bricks with your paddle and ball.</div>
             </div>
         </div>
 
-        <div class="note">
-            <strong>🎮 All games are:</strong> Free to play, No downloads required, Mobile-friendly, and Lightweight
-        </div>
-    </div>
+        <footer class="note small site-footer">
+            © <span id="y"></span> UpTools · <a href="/about/">About</a> · <a href="/contact/">Contact</a>
+        </footer>
+    </main>
 
-    <script>
-        // Add click sound effect
-        document.querySelectorAll('.game-card').forEach(card => {
-            card.addEventListener('click', () => {
-                // Add a subtle click effect
-                card.style.transform = 'scale(0.95)';
-                setTimeout(() => {
-                    card.style.transform = '';
-                }, 150);
-            });
-        });
-
-        // Add keyboard navigation
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                window.location.href = '/';
-            }
-        });
-    </script>
+    <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
 </body>
 </html>
