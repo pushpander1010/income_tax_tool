@@ -1,61 +1,326 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>IFSC Finder (India) - UpTools</title>
-    <meta name="description" content="Find bank branch details by IFSC code (lightweight, client-side)." />
-    <meta name="robots" content="index,follow" />
-    <meta name="theme-color" content="#0b1020" />
-    <link rel="canonical" href="https://www.uptools.in/ifsc-finder/" />
-    <meta property="og:title" content="IFSC Finder (India) - UpTools" />
-    <meta property="og:description" content="Find bank branch details by IFSC code." />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://www.uptools.in/ifsc-finder/" />
-    <meta property="og:site_name" content="UpTools" />
-    <meta property="og:image" content="https://www.uptools.in/og/ifsc.png" />
-    <meta name="twitter:card" content="summary" />
-    <link rel="stylesheet" href="/style.css" />
-  </head>
-  <body style="--accent:#bdb2ff;--bg1:#120b20;--bg2:#1b0e30;--cardBorder:#3f2a66">
-    <main class="wrap">
-      <div class="tool-header"><div class="tool-icon">IFSC</div><h1 style="margin:0">IFSC Finder</h1></div>
-      <div class="card">
-        <label class="label" for="ifsc">IFSC Code</label>
-        <input id="ifsc" class="input" placeholder="SBIN0000001" maxlength="11" />
-        <button id="find" class="btn">Find</button>
-        <div id="out" class="result"></div>
-      </div>
-      <footer class="note small"><a href="/">UpTools</a></footer>
-    </main>
-    <script type="module">
-      const O=document.getElementById('out'),I=document.getElementById('ifsc');
-      async function find(){
-        const code=(I.value||'').toUpperCase();
-        if(!/^[A-Z]{4}0[0-9A-Z]{6}$/.test(code)){ O.textContent='Invalid IFSC format'; return; }
-        try{
-          let r = await fetch(`https://ifsc.razorpay.com/${code}`);
-          if(!r.ok){ O.textContent='Not found'; return; }
-          const d = await r.json();
-          O.innerHTML = `<div class='row'><span>Bank</span><span class='amount'>${d.BANK}</span></div>
-            <div class='row'><span>Branch</span><span class='amount'>${d.BRANCH}</span></div>
-            <div class='row'><span>City</span><span class='amount'>${d.CITY}</span></div>
-            <div class='row'><span>State</span><span class='amount'>${d.STATE}</span></div>`;
-        }catch{
-          try {
-            const prox = await fetch(`/api?url=${encodeURIComponent(`https://ifsc.razorpay.com/${code}`)}`);
-            if(!prox.ok){ O.textContent='Not found'; return; }
-            const d = await prox.json();
-            O.innerHTML = `<div class='row'><span>Bank</span><span class='amount'>${d.BANK}</span></div>
-              <div class='row'><span>Branch</span><span class='amount'>${d.BRANCH}</span></div>
-              <div class='row'><span>City</span><span class='amount'>${d.CITY}</span></div>
-              <div class='row'><span>State</span><span class='amount'>${d.STATE}</span></div>`;
-          } catch { O.textContent='Network error'; }
-        }
-      }
-      document.getElementById('find').addEventListener('click', find);
-      I.addEventListener('keydown',e=>{ if(e.key==='Enter') find(); });
-    </script>
-  </body>
-  </html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>IFSC Finder (India) — Search Bank Branch Details by IFSC Code | UpTools</title>
+  <meta name="description" content="Find bank branch details by IFSC code in India. Get bank name, branch, MICR, address, city, state & contact. Fast, lightweight, and privacy-friendly." />
+  <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
+  <meta name="theme-color" content="#0b1020" />
+  <link rel="canonical" href="https://www.uptools.in/ifsc-finder/" />
 
+  <!-- OG/Twitter -->
+  <meta property="og:title" content="IFSC Finder — Bank Branch Lookup by IFSC Code" />
+  <meta property="og:description" content="Instantly find bank, branch, MICR, address, city & state using IFSC code. UpTools IFSC Finder is fast and lightweight." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.uptools.in/ifsc-finder/" />
+  <meta property="og:site_name" content="UpTools" />
+  <meta property="og:image" content="https://www.uptools.in/og/ifsc.png" />
+  <meta name="twitter:card" content="summary" />
+
+  <link rel="icon" type="image/svg+xml" href="/assets/uptools-mark.svg" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/uptools-mark.svg" />
+  <link rel="stylesheet" href="/style.css?v=1.0.0" />
+
+  <!-- Schema -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"FinancialService",
+    "name":"IFSC Finder",
+    "url":"https://www.uptools.in/ifsc-finder/",
+    "description":"Find Indian bank branch details using IFSC code, including bank name, branch, MICR, address, city and state.",
+    "areaServed":{"@type":"Country","name":"India"},
+    "provider":{"@type":"Organization","name":"UpTools"}
+  }
+  </script>
+  <style>
+    /* page accent */
+    body { --accent:#bdb2ff; --bg1:#120b20; --bg2:#1b0e30; --cardBorder:#3f2a66; }
+
+    .search-row { display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+    .input.ifsc { text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; }
+    .muted { color: var(--muted); font-size: 12px; }
+    .bank-head { display:flex; align-items:center; gap:12px; margin-bottom:8px; }
+    .bank-logo {
+      width:40px; height:40px; border-radius:10px; display:grid; place-items:center;
+      background: color-mix(in oklab, var(--accent) 60%, #000);
+      color:#0b1020; font-weight:800;
+    }
+    .chip {
+      display:inline-flex; align-items:center; gap:6px;
+      padding:6px 10px; border-radius:999px; border:1px solid var(--cardBorder);
+      background: var(--bg); color: var(--text); text-decoration:none; cursor:pointer; font-size:12px;
+    }
+    .chip:hover { border-color: var(--accent); }
+    .chips { display:flex; gap:8px; flex-wrap:wrap; }
+    .copy-btn, .share-btn {
+      border:1px solid var(--cardBorder); background:var(--bg);
+      color:var(--text); border-radius:8px; padding:6px 10px; cursor:pointer; font-size:12px;
+    }
+    .copy-btn:hover, .share-btn:hover { border-color: var(--accent); }
+    .divider { height:1px; background:var(--cardBorder); margin:10px 0; }
+    .row.key { font-weight:600; }
+    .skeleton { background: linear-gradient(90deg, rgba(255,255,255,0.05), rgba(255,255,255,0.09), rgba(255,255,255,0.05)); background-size:200% 100%; animation:loading 1.2s infinite; border-radius:6px; height:16px; }
+    @keyframes loading { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+  </style>
+</head>
+<body>
+
+  <!-- Site header (same as homepage) -->
+  <header class="site" role="banner">
+    <div class="header-inner">
+      <a class="brand" href="/" aria-label="UpTools Home">
+        <img src="/assets/uptools-mark.svg" alt="UpTools logo" width="28" height="28">
+        <b>UpTools</b>
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="/#tools">Tools</a>
+        <a href="/games/">Games</a>
+        <a href="/about/">About</a>
+        <a href="/contact/">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap" id="main">
+    <div class="tool-header">
+      <div class="tool-icon">🏦</div>
+      <h1>IFSC Finder</h1>
+    </div>
+
+    <section class="card" role="form" aria-labelledby="ifscLabel">
+      <label id="ifscLabel" class="label" for="ifscInput">IFSC Code</label>
+      <div class="search-row">
+        <input id="ifscInput" class="input ifsc" placeholder="e.g., SBIN0000001" maxlength="11" autocomplete="off" spellcheck="false" />
+        <button id="findBtn" class="btn" type="button" aria-controls="result">Find</button>
+      </div>
+      <div class="muted" style="margin-top:6px">Format: 4 letters + 0 + 6 alphanumeric (e.g., <code>SBIN0000001</code>)</div>
+
+      <!-- recent searches -->
+      <div id="recentWrap" class="note" style="margin-top:12px; display:none;">
+        <div style="margin-bottom:6px; font-weight:600;">Recent searches</div>
+        <div id="recent" class="chips"></div>
+      </div>
+
+      <div id="result" class="result" style="margin-top:16px" aria-live="polite"></div>
+    </section>
+
+    <section class="card">
+      <h2 class="sr-only">Notes</h2>
+      <p class="note">
+        Tip: Paste an IFSC code and the search runs automatically. We also support shareable URLs like
+        <code>/ifsc-finder/?code=SBIN0000001</code>.
+      </p>
+    </section>
+
+    <footer class="note small site-footer" role="contentinfo">
+      © <span id="y"></span> UpTools · <a href="/sitemap.xml">Sitemap</a>
+    </footer>
+  </main>
+
+  <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
+
+  <script defer>
+    // ========= Utilities =========
+    const $ = (s, r=document) => r.querySelector(s);
+    const rs = (v) => (v ?? '').toString().trim();
+    const IFSC_RE = /^[A-Z]{4}0[0-9A-Z]{6}$/;
+
+    const STORAGE_KEY = 'ifsc:recent';
+    function getRecent(){ try { return JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]'); } catch { return []; } }
+    function addRecent(code){
+      let arr = getRecent().filter(c => c !== code);
+      arr.unshift(code);
+      if (arr.length > 8) arr = arr.slice(0,8);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(arr));
+      renderRecent();
+    }
+
+    function copyText(t){
+      if (!t) return;
+      navigator.clipboard?.writeText(t).then(()=> toast('Copied!')).catch(()=>{});
+    }
+    function toast(msg){
+      const n = document.createElement('div');
+      n.textContent = msg;
+      Object.assign(n.style, {
+        position:'fixed', left:'50%', transform:'translateX(-50%)',
+        bottom:'18px', background:'var(--card)', color:'var(--text)', padding:'8px 12px',
+        border:'1px solid var(--cardBorder)', borderRadius:'8px', fontSize:'12px', zIndex:9999
+      });
+      document.body.appendChild(n);
+      setTimeout(()=>n.remove(), 1200);
+    }
+
+    // ========= Fetch logic with proxy fallback & cache =========
+    const cache = new Map(); // in-memory cache for session
+    async function fetchIFSC(code){
+      code = code.toUpperCase();
+      if (cache.has(code)) return cache.get(code);
+
+      // primary API
+      try{
+        const r = await fetch(`https://ifsc.razorpay.com/${code}`, { credentials:'omit' });
+        if (r.ok){
+          const d = await r.json();
+          cache.set(code, d);
+          return d;
+        }
+      }catch{}
+
+      // fallback proxy (optional: your /api?url=… endpoint)
+      try{
+        const prox = await fetch(`/api?url=${encodeURIComponent(`https://ifsc.razorpay.com/${code}`)}`);
+        if (prox.ok){
+          const d = await prox.json();
+          cache.set(code, d);
+          return d;
+        }
+      }catch{}
+
+      throw new Error('NOT_FOUND');
+    }
+
+    // ========= Render helpers =========
+    function bankCodeFromIFSC(code){ return code.slice(0,4); }
+
+    function renderSkeleton(){
+      $('#result').innerHTML = `
+        <div class="bank-head">
+          <div class="bank-logo skeleton" style="width:40px;height:40px;"></div>
+          <div style="flex:1">
+            <div class="skeleton" style="width:40%;height:16px;margin-bottom:6px;"></div>
+            <div class="skeleton" style="width:60%;height:12px;"></div>
+          </div>
+        </div>
+        <div class="divider"></div>
+        <div class="row"><span>IFSC</span><span class="skeleton" style="width:120px"></span></div>
+        <div class="row"><span>MICR</span><span class="skeleton" style="width:120px"></span></div>
+        <div class="row"><span>Branch</span><span class="skeleton" style="width:180px"></span></div>
+        <div class="row"><span>City</span><span class="skeleton" style="width:140px"></span></div>
+        <div class="row"><span>State</span><span class="skeleton" style="width:120px"></span></div>
+        <div class="row"><span>Contact</span><span class="skeleton" style="width:160px"></span></div>
+        <div class="row"><span>Address</span><span class="skeleton" style="width:70%"></span></div>
+      `;
+    }
+
+    function renderResult(d){
+      const logoText = (d.BANK || bankCodeFromIFSC(d.IFSC) || 'BNK').slice(0,3).toUpperCase();
+      const micr = rs(d.MICR) || '—';
+      const contact = rs(d.CONTACT) || '—';
+      const address = rs(d.ADDRESS) || '—';
+      const city = rs(d.CITY) || '—';
+      const state = rs(d.STATE) || '—';
+      const branch = rs(d.BRANCH) || '—';
+
+      $('#result').innerHTML = `
+        <div class="bank-head">
+          <div class="bank-logo" aria-hidden="true">${logoText}</div>
+          <div style="flex:1">
+            <div style="font-weight:700">${d.BANK || 'Bank'}</div>
+            <div class="muted">${branch}, ${city}, ${state}</div>
+          </div>
+          <div style="display:flex; gap:8px;">
+            <button class="copy-btn" type="button" id="copyIFSC">Copy IFSC</button>
+            <button class="share-btn" type="button" id="shareBtn">Share</button>
+          </div>
+        </div>
+        <div class="divider"></div>
+
+        <div class="row key"><span>IFSC</span><span class="amount">${d.IFSC}</span></div>
+        <div class="row"><span>MICR</span><span>${micr}</span></div>
+        <div class="row"><span>Branch</span><span>${branch}</span></div>
+        <div class="row"><span>Bank</span><span>${d.BANK || '—'}</span></div>
+        <div class="row"><span>City</span><span>${city}</span></div>
+        <div class="row"><span>State</span><span>${state}</span></div>
+        <div class="row"><span>Contact</span><span>${contact}</span></div>
+        <div class="row"><span>Address</span><span>${address}</span></div>
+      `;
+
+      $('#copyIFSC')?.addEventListener('click', () => copyText(d.IFSC));
+      $('#shareBtn')?.addEventListener('click', () => {
+        const url = new URL(location.href);
+        url.searchParams.set('code', d.IFSC);
+        const shareUrl = url.toString();
+        if (navigator.share) {
+          navigator.share({ title: `IFSC: ${d.IFSC}`, text: `${d.BANK} - ${branch}, ${city}, ${state}`, url: shareUrl }).catch(()=>{});
+        } else {
+          copyText(shareUrl);
+        }
+      });
+    }
+
+    function renderError(msg){
+      $('#result').innerHTML = `<p class="note" role="status">${msg}</p>`;
+    }
+
+    // ========= Recent =========
+    function renderRecent(){
+      const list = getRecent();
+      const wrap = $('#recentWrap');
+      const box = $('#recent');
+      if (!list.length){ wrap.style.display='none'; box.innerHTML=''; return; }
+      wrap.style.display='block';
+      box.innerHTML = list.map(code => `<button class="chip" data-code="${code}" title="Search ${code}">${code}</button>`).join('');
+      box.querySelectorAll('.chip').forEach(ch => ch.addEventListener('click', () => {
+        $('#ifscInput').value = ch.dataset.code;
+        runSearch();
+      }));
+    }
+
+    // ========= Main search =========
+    async function runSearch(){
+      const raw = rs($('#ifscInput').value).toUpperCase();
+      if (!raw){ renderError('Enter an IFSC code.'); return; }
+      if (!IFSC_RE.test(raw)){ renderError('Invalid IFSC format. Example: SBIN0000001'); return; }
+
+      // update URL
+      const u = new URL(location.href);
+      u.searchParams.set('code', raw);
+      history.replaceState({}, '', u);
+
+      renderSkeleton();
+      try{
+        const data = await fetchIFSC(raw);
+        renderResult(data);
+        addRecent(raw);
+      }catch(e){
+        renderError('Not found. Please check the IFSC code.');
+      }
+    }
+
+    // ========= Init =========
+    document.addEventListener('DOMContentLoaded', () => {
+      renderRecent();
+
+      const input = $('#ifscInput');
+      const btn = $('#findBtn');
+
+      btn.addEventListener('click', runSearch);
+
+      input.addEventListener('input', () => {
+        input.value = input.value.toUpperCase();
+      });
+
+      // Search on Enter
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') { e.preventDefault(); runSearch(); }
+      });
+
+      // Auto-run when a valid IFSC is pasted
+      input.addEventListener('paste', (e) => {
+        setTimeout(() => { if (IFSC_RE.test(input.value.toUpperCase())) runSearch(); }, 0);
+      });
+
+      // If URL has ?code=..., load it
+      const qs = new URLSearchParams(location.search);
+      const code = qs.get('code');
+      if (code) {
+        input.value = code.toUpperCase();
+        runSearch();
+      }
+    });
+  </script>
+</body>
+</html>
