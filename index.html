@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>UpTools - Free Online Calculators, Converters & Mini Games (India Friendly)</title>
-  <meta name="description" content="UpTools offers fast, privacy-first tools: Income Tax Calculator (India), GST, EMI, SIP, Currency Converter, IFSC Finder, JSON Formatter, and free mini games." />
+  <title>UpTools – Free Online Calculators, Converters & Mini Games</title>
+  <meta name="description" content="UpTools offers fast, privacy-first tools: Income Tax Calculator, GST, EMI, SIP, Currency Converter, IFSC Finder, JSON Formatter, and free mini games." />
   <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
   <meta name="theme-color" content="#0f1419" />
 
-  <!-- OG/Twitter -->
-  <meta property="og:title" content="UpTools - Free Online Calculators, Converters & Mini Games" />
+  <!-- Open Graph / Twitter -->
+  <meta property="og:title" content="UpTools – Free Online Calculators, Converters & Mini Games" />
   <meta property="og:description" content="Fast, lightweight tools for everyday tasks. No sign-ups. Privacy-first." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.uptools.in/" />
@@ -23,17 +23,32 @@
 
   <link rel="stylesheet" href="/style.css?v=1.0.0" />
 
-  <!-- Schema -->
+  <!-- Schema.org -->
   <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"WebSite","name":"UpTools","url":"https://www.uptools.in/","potentialAction":{"@type":"SearchAction","target":"https://www.uptools.in/?q={search_term_string}","query-input":"required name=search_term_string"}}
+  {
+    "@context":"https://schema.org",
+    "@type":"WebSite",
+    "name":"UpTools",
+    "url":"https://www.uptools.in/",
+    "potentialAction":{
+      "@type":"SearchAction",
+      "target":"https://www.uptools.in/?q={search_term_string}",
+      "query-input":"required name=search_term_string"
+    }
+  }
   </script>
   <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"ItemList","name":"Featured Tools","itemListElement":[
-    {"@type":"ListItem","position":1,"url":"https://www.uptools.in/income-tax-calculator/"},
-    {"@type":"ListItem","position":2,"url":"https://www.uptools.in/gst-calculator/"},
-    {"@type":"ListItem","position":3,"url":"https://www.uptools.in/currency-converter/"},
-    {"@type":"ListItem","position":4,"url":"https://www.uptools.in/emi-calculator/"},
-    {"@type":"ListItem","position":5,"url":"https://www.uptools.in/ifsc-finder/"}
+  {
+    "@context":"https://schema.org",
+    "@type":"ItemList",
+    "name":"Featured Tools",
+    "itemListElement":[
+      {"@type":"ListItem","position":1,"url":"https://www.uptools.in/income-tax-calculator/"},
+      {"@type":"ListItem","position":2,"url":"https://www.uptools.in/gst-calculator/"},
+      {"@type":"ListItem","position":3,"url":"https://www.uptools.in/currency-converter/"},
+      {"@type":"ListItem","position":4,"url":"https://www.uptools.in/emi-calculator/"},
+      {"@type":"ListItem","position":5,"url":"https://www.uptools.in/ifsc-finder/"}
+    ]
   }
   </script>
 </head>
@@ -43,7 +58,7 @@
   <header class="site" role="banner">
     <div class="header-inner">
       <a class="brand" href="/" aria-label="UpTools Home">
-        <img src="/assets/uptools-mark.svg" alt="UpTools logo" width="28" height="28">
+        <img src="/assets/uptools-mark.svg" alt="UpTools logo mark" width="28" height="28">
         <b>UpTools</b>
       </a>
       <nav class="nav-links" aria-label="Primary">
@@ -56,12 +71,12 @@
   </header>
 
   <main id="main" class="wrap" role="main">
-    <!-- Optional mini hero -->
+    <!-- Minimal hero (no product name repetition) -->
     <div class="card" style="margin:16px 0; display:flex; align-items:center; gap:16px;">
       <img src="/assets/uptools-logo.svg" alt="UpTools" style="height:48px; width:auto;">
       <div>
         <strong>Your everyday toolkit.</strong>
-        <div class="note">Calculators, converters, and games - fast and privacy-first.</div>
+        <div class="note">Calculators, converters, and games — fast and privacy‑first.</div>
       </div>
     </div>
 
@@ -69,16 +84,15 @@
       <h2 id="tools-heading" class="sr-only">Popular Tools</h2>
       <div class="card" role="navigation" aria-label="Tools list">
         <ul>
-          <li><a href="/income-tax-calculator/" title="Income Tax Calculator for India">Income Tax Calculator (India)</a></li>
+          <li><a href="/income-tax-calculator/" title="Income Tax Calculator">Income Tax Calculator</a></li>
           <li><a href="/bmi-calculator/" title="BMI calculator">BMI Calculator</a></li>
           <li><a href="/emi-calculator/" title="Loan EMI calculator">EMI Calculator</a></li>
           <li><a href="/fd-calculator/" title="Fixed Deposit maturity calculator">FD Calculator</a></li>
           <li><a href="/sip-calculator/" title="SIP returns calculator">SIP Calculator</a></li>
           <li><a href="/age-calculator/" title="Find your exact age">Age Calculator</a></li>
-          <li><a href="/gst-calculator/" title="GST calculator for India">GST Calculator (India)</a></li>
+          <li><a href="/gst-calculator/" title="GST calculator">GST Calculator</a></li>
           <li><a href="/currency-converter/" title="Live currency rate converter">Currency Converter (live)</a></li>
-          <!-- <li><a href="/date-difference/" title="Calculate days between dates">Date Difference</a></li> -->
-          <li><a href="/pan-validator/" title="Validate Indian PAN format">PAN Format Validator</a></li>
+          <li><a href="/pan-validator/" title="Validate PAN format">PAN Format Validator</a></li>
           <li><a href="/ifsc-finder/" title="Find bank IFSC codes">IFSC Finder (live)</a></li>
           <li><a href="/canada-crs-calculator/" title="Canada CRS score calculator">Canada CRS Calculator</a></li>
           <li><a href="/password-generator/" title="Generate strong passwords">Password Generator</a></li>
@@ -103,4 +117,3 @@
   <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
 </body>
 </html>
-
