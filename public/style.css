@@ -304,3 +304,86 @@ footer a:hover{ text-decoration:underline; }
   .card:hover{ box-shadow:var(--shadow); transform:none; }
   .btn:hover{ transform:none; }
 }
+/* --- Colorful tool icons (uses your vars) --- */
+.hero { margin:16px 0; display:flex; align-items:center; gap:16px; }
+.hero-logo { height:48px; width:auto; }
+
+.tool-list { --ico-size: 18px; }
+.tool-link{
+  display:flex; align-items:center; gap:12px;
+  padding:14px; border:1px solid var(--cardBorder); border-radius:8px;
+  background:var(--bg); color:var(--text); text-decoration:none; font-weight:600;
+  transition:transform var(--trans), box-shadow var(--trans), border-color var(--trans), background var(--trans);
+  position:relative; isolation:isolate;
+}
+.tool-link:hover{
+  transform:translateY(-2px);
+  border-color:color-mix(in oklab, var(--accent) 60%, white);
+  box-shadow:0 8px 20px rgba(0,0,0,.18);
+  background:linear-gradient(180deg, color-mix(in oklab, var(--card) 85%, transparent), var(--card));
+}
+.tool-link .ico{
+  width: calc(var(--ico-size) + 14px);
+  height: calc(var(--ico-size) + 14px);
+  border-radius:10px;
+  display:grid; place-items:center;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.15), 0 4px 10px rgba(0,0,0,.25);
+  flex:0 0 auto;
+}
+.tool-link .ico svg{ width:var(--ico-size); height:var(--ico-size); color:#0b1020; }
+
+/* Accent gradients (set via class on the link) */
+:root{
+  --g-blue: linear-gradient(135deg,#60A5FA,#3B82F6);
+  --g-cyan: linear-gradient(135deg,#22D3EE,#06B6D4);
+  --g-teal: linear-gradient(135deg,#14B8A6,#0D9488);
+  --g-green: linear-gradient(135deg,#34D399,#22C55E);
+  --g-emerald: linear-gradient(135deg,#10B981,#34D399);
+  --g-lime: linear-gradient(135deg,#A3E635,#65A30D);
+  --g-yellow: linear-gradient(135deg,#FDE047,#FACC15);
+  --g-amber: linear-gradient(135deg,#FBBF24,#F59E0B);
+  --g-orange: linear-gradient(135deg,#FB923C,#F97316);
+  --g-red: linear-gradient(135deg,#F87171,#EF4444);
+  --g-pink: linear-gradient(135deg,#F472B6,#EC4899);
+  --g-fuchsia: linear-gradient(135deg,#E879F9,#D946EF);
+  --g-violet: linear-gradient(135deg,#A78BFA,#8B5CF6);
+  --g-purple: linear-gradient(135deg,#C084FC,#A855F7);
+  --g-indigo: linear-gradient(135deg,#818CF8,#6366F1);
+  --g-sky: linear-gradient(135deg,#7DD3FC,#38BDF8);
+  --g-slate: linear-gradient(135deg,#94A3B8,#64748B);
+  --g-zinc: linear-gradient(135deg,#A1A1AA,#52525B);
+}
+
+.tool-link.accent-blue  .ico{ background:var(--g-blue); }
+.tool-link.accent-cyan  .ico{ background:var(--g-cyan); }
+.tool-link.accent-teal  .ico{ background:var(--g-teal); }
+.tool-link.accent-green .ico{ background:var(--g-green); }
+.tool-link.accent-emerald .ico{ background:var(--g-emerald); }
+.tool-link.accent-lime  .ico{ background:var(--g-lime); }
+.tool-link.accent-yellow .ico{ background:var(--g-yellow); }
+.tool-link.accent-amber .ico{ background:var(--g-amber); }
+.tool-link.accent-orange .ico{ background:var(--g-orange); }
+.tool-link.accent-red   .ico{ background:var(--g-red); }
+.tool-link.accent-pink  .ico{ background:var(--g-pink); }
+.tool-link.accent-fuchsia .ico{ background:var(--g-fuchsia); }
+.tool-link.accent-violet .ico{ background:var(--g-violet); }
+.tool-link.accent-purple .ico{ background:var(--g-purple); }
+.tool-link.accent-indigo .ico{ background:var(--g-indigo); }
+.tool-link.accent-sky    .ico{ background:var(--g-sky); }
+.tool-link.accent-slate  .ico{ background:var(--g-slate); }
+.tool-link.accent-zinc   .ico{ background:var(--g-zinc); }
+
+/* Subtle colorful halo on hover */
+.tool-link::after{
+  content:""; position:absolute; inset:-2px; border-radius:10px; z-index:-1;
+  opacity:0; transition:opacity var(--trans);
+  background: conic-gradient(from 180deg at 50% 50%, #60A5FA, #06B6D4, #22C55E, #A78BFA, #F472B6, #60A5FA);
+  filter: blur(10px);
+}
+.tool-link:hover::after{ opacity:.25; }
+
+/* Hero tweak for color pop */
+.hero{
+  border-image: linear-gradient(90deg,#0EA5E9,#06B6D4,#22C55E) 1;
+  border-width:1px; border-style:solid;
+}

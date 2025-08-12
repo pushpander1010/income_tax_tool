@@ -7,21 +7,22 @@
   <meta name="description" content="UpTools offers fast, privacy-first tools: Income Tax Calculator, GST, EMI, SIP, Currency Converter, IFSC Finder, JSON Formatter, and free mini games." />
   <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
   <meta name="theme-color" content="#0f1419" />
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617"
-     crossorigin="anonymous"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617" crossorigin="anonymous"></script>
+
   <!-- Open Graph / Twitter -->
   <meta property="og:title" content="UpTools - Free Online Calculators, Converters & Mini Games" />
   <meta property="og:description" content="Fast, lightweight tools for everyday tasks. No sign-ups. Privacy-first." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.uptools.in/" />
   <meta property="og:site_name" content="UpTools" />
-  <meta property="og:image" content="https://www.uptools.in/assets/uptools-logo.svg" />
+  <meta property="og:image" content="https://www.uptools.in/assets/uptools-mark.svg" />
   <meta name="twitter:card" content="summary" />
 
   <link rel="canonical" href="https://www.uptools.in/" />
   <link rel="icon" type="image/svg+xml" href="/assets/uptools-mark.svg" />
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/uptools-mark.svg" />
 
+  <!-- Use your single, shared stylesheet -->
   <link rel="stylesheet" href="/style.css?v=1.0.0" />
 
   <!-- Schema.org -->
@@ -52,6 +53,7 @@
     ]
   }
   </script>
+
   <meta name="msvalidate.01" content="C86F89179744E081DBEF23338B0E2062" />
 </head>
 <body>
@@ -60,7 +62,7 @@
   <header class="site" role="banner">
     <div class="header-inner">
       <a class="brand" href="/" aria-label="UpTools Home">
-        <img src="/assets/uptools-mark.svg" alt="UpTools logo mark" width="28" height="28">
+        <img src="/assets/uptools-mark.svg" alt="UpTools logo" width="28" height="28">
         <b>UpTools</b>
       </a>
       <nav class="nav-links" aria-label="Primary">
@@ -73,42 +75,48 @@
   </header>
 
   <main id="main" class="wrap" role="main">
-    <!-- Minimal hero (no product name repetition) -->
-    <div class="card" style="margin:16px 0; display:flex; align-items:center; gap:16px;">
-      <img src="/assets/uptools-logo.svg" alt="UpTools" style="height:48px; width:auto;">
+    <!-- Colorful, lightweight hero -->
+    <section class="card hero" aria-labelledby="hero-title">
+      <img class="hero-logo" src="/assets/uptools-mark.svg" alt="" role="presentation" />
       <div>
-        <h1>Your everyday toolkit.</h1>
-        <div class="note">Calculators, converters, and games - fast and privacy-first.</div>
+        <h1 id="hero-title">Your everyday toolkit.</h1>
+        <div class="note">Calculators, converters, and games - fast, privacy-first, no sign-ups.</div>
+        <div class="chips" style="margin-top:10px;">
+          <span class="pill">⚡ Loads fast</span>
+          <span class="pill">🕵️ Privacy-first</span>
+          <a class="chip" href="/sitemap.xml">Sitemap</a>
+        </div>
       </div>
-    </div>
+    </section>
 
+    <!-- Tools -->
     <section id="tools" aria-labelledby="tools-heading">
       <h2 id="tools-heading" class="sr-only">Popular Tools</h2>
-      <div class="card" role="navigation" aria-label="Tools list">
-        <ul>
-          <li><a href="/income-tax-calculator/" title="Income Tax Calculator">Income Tax Calculator</a></li>
-          <li><a href="/bmi-calculator/" title="BMI calculator">BMI Calculator</a></li>
-          <li><a href="/emi-calculator/" title="Loan EMI calculator">EMI Calculator</a></li>
-          <li><a href="/fd-calculator/" title="Fixed Deposit maturity calculator">FD Calculator</a></li>
-          <li><a href="/sip-calculator/" title="SIP returns calculator">SIP Calculator</a></li>
-          <li><a href="/age-calculator/" title="Find your exact age">Age Calculator</a></li>
-          <li><a href="/gst-calculator/" title="GST calculator">GST Calculator</a></li>
-          <li><a href="/currency-converter/" title="Live currency rate converter">Currency Converter (live)</a></li>
-          <li><a href="/pan-validator/" title="Validate PAN format">PAN Format Validator</a></li>
-          <li><a href="/ifsc-finder/" title="Find bank IFSC codes">IFSC Finder (live)</a></li>
-          <li><a href="/canada-crs-calculator/" title="Canada CRS score calculator">Canada CRS Calculator</a></li>
-          <li><a href="/password-generator/" title="Generate strong passwords">Password Generator</a></li>
-          <li><a href="/qr-generator/" title="Create QR codes">QR Code Generator</a></li>
-          <li><a href="/text-case-converter/" title="Convert text case">Text Case Converter</a></li>
-          <li><a href="/word-counter/" title="Count words & characters">Word Counter</a></li>
-          <li><a href="/json-formatter/" title="Format and validate JSON">JSON Formatter</a></li>
-          <li><a href="/base64-encoder/" title="Base64 encode/decode">Base64 Encoder/Decoder</a></li>
-          <li><a href="/ip-address/" title="See your public IP address">Your IP Address</a></li>
-          <li><a href="/uuid-generator/" title="Generate UUIDs">UUID Generator</a></li>
-          <li><a href="/color-picker/" title="Pick colors and copy HEX/RGB">Color Picker</a></li>
-          <li><a href="/games/" title="Browse all free mini games">🎮 Free Online Games</a></li>
+      <nav class="card" role="navigation" aria-label="Tools list">
+        <ul class="tool-list">
+          <li><a class="tool-link accent-blue"   href="/income-tax-calculator/"><span class="ico" aria-hidden="true">🧮</span><span>Income Tax Calculator</span></a></li>
+          <li><a class="tool-link accent-teal"   href="/bmi-calculator/"><span class="ico" aria-hidden="true">⚖️</span><span>BMI Calculator</span></a></li>
+          <li><a class="tool-link accent-indigo" href="/emi-calculator/"><span class="ico" aria-hidden="true">💳</span><span>EMI Calculator</span></a></li>
+          <li><a class="tool-link accent-slate"  href="/fd-calculator/"><span class="ico" aria-hidden="true">🏦</span><span>FD Calculator</span></a></li>
+          <li><a class="tool-link accent-emerald" href="/sip-calculator/"><span class="ico" aria-hidden="true">📈</span><span>SIP Calculator</span></a></li>
+          <li><a class="tool-link accent-amber"  href="/age-calculator/"><span class="ico" aria-hidden="true">🎂</span><span>Age Calculator</span></a></li>
+          <li><a class="tool-link accent-purple" href="/gst-calculator/"><span class="ico" aria-hidden="true">🧾</span><span>GST Calculator</span></a></li>
+          <li><a class="tool-link accent-cyan"   href="/currency-converter/"><span class="ico" aria-hidden="true">💱</span><span>Currency Converter (live)</span></a></li>
+          <li><a class="tool-link accent-zinc"   href="/pan-validator/"><span class="ico" aria-hidden="true">🪪</span><span>PAN Format Validator</span></a></li>
+          <li><a class="tool-link accent-green"  href="/ifsc-finder/"><span class="ico" aria-hidden="true">🏧</span><span>IFSC Finder (live)</span></a></li>
+          <li><a class="tool-link accent-red"    href="/canada-crs-calculator/"><span class="ico" aria-hidden="true">🍁</span><span>Canada CRS Calculator</span></a></li>
+          <li><a class="tool-link accent-pink"   href="/password-generator/"><span class="ico" aria-hidden="true">🔐</span><span>Password Generator</span></a></li>
+          <li><a class="tool-link accent-sky"    href="/qr-generator/"><span class="ico" aria-hidden="true">🔳</span><span>QR Code Generator</span></a></li>
+          <li><a class="tool-link accent-yellow" href="/text-case-converter/"><span class="ico" aria-hidden="true">🔤</span><span>Text Case Converter</span></a></li>
+          <li><a class="tool-link accent-orange" href="/word-counter/"><span class="ico" aria-hidden="true">📝</span><span>Word Counter</span></a></li>
+          <li><a class="tool-link accent-violet" href="/json-formatter/"><span class="ico" aria-hidden="true">🧩</span><span>JSON Formatter</span></a></li>
+          <li><a class="tool-link accent-lime"   href="/base64-encoder/"><span class="ico" aria-hidden="true">🧪</span><span>Base64 Encoder/Decoder</span></a></li>
+          <li><a class="tool-link accent-indigo" href="/ip-address/"><span class="ico" aria-hidden="true">🌐</span><span>Your IP Address</span></a></li>
+          <li><a class="tool-link accent-fuchsia" href="/uuid-generator/"><span class="ico" aria-hidden="true">🆔</span><span>UUID Generator</span></a></li>
+          <li><a class="tool-link accent-purple" href="/color-picker/"><span class="ico" aria-hidden="true">🎨</span><span>Color Picker</span></a></li>
+          <li><a class="tool-link accent-sky"    href="/games/"><span class="ico" aria-hidden="true">🎮</span><span>Free Online Games</span></a></li>
         </ul>
-      </div>
+      </nav>
     </section>
 
     <footer class="note small site-footer" role="contentinfo">
