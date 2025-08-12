@@ -1,44 +1,573 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617"
-     crossorigin="anonymous"></script>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>PAN Format Validator (India) - UpTools</title>
-    <meta name="description" content="Validate Indian PAN format instantly (no data sent)." />
-    <meta name="robots" content="index,follow" />
-    <meta name="theme-color" content="#0b1020" />
-    <link rel="canonical" href="https://www.uptools.in/pan-validator/" />
-    <meta property="og:title" content="PAN Format Validator (India) - UpTools" />
-    <meta property="og:description" content="Validate PAN number format instantly." />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://www.uptools.in/pan-validator/" />
-    <meta property="og:site_name" content="UpTools" />
-    <meta name="twitter:card" content="summary" />
-    <link rel="stylesheet" href="/style.css" />
-  </head>
-  <body style="--accent:#caffbf;--bg1:#0e1f0b;--bg2:#14300e;--cardBorder:#2a6633">
-    <main class="wrap">
-      <div class="tool-header"><div class="tool-icon">PAN</div><h1 style="margin:0">PAN Format Validator</h1></div>
-      <div class="card">
-        <label class="label" for="pan">PAN</label>
-        <input id="pan" class="input" placeholder="ABCDE1234F" maxlength="10" />
-        <button id="check" class="btn">Check</button>
-        <div id="out" class="result"></div>
-      </div>
-      <footer class="note small"><a href="/">UpTools</a></footer>
-    </main>
-    <script type="module">
-      const P=document.getElementById('pan'),O=document.getElementById('out');
-      function check(){
-        const v=(P.value||'').toUpperCase();
-        const ok=/^[A-Z]{5}[0-9]{4}[A-Z]$/.test(v);
-        O.textContent = ok? 'Valid PAN format' : 'Invalid PAN format';
-      }
-      document.getElementById('check').addEventListener('click', check);
-      P.addEventListener('keydown',e=>{ if(e.key==='Enter') check(); });
-    </script>
-  </body>
-  </html>
+<head>
+  <!-- Ads (optional) -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617" crossorigin="anonymous"></script>
 
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>PAN & GSTIN Validator (India) – Pattern, Category, Surname Initial & GSTIN Checksum | UpTools</title>
+  <meta name="description" content="Free PAN & GSTIN validator by UpTools. Validate PAN pattern (AAAAA9999A), detect category from 4th letter, verify 5th letter vs surname (for individuals), and validate GSTIN format with checksum — plus PAN embedded match. Bulk checks, mask/unmask, QR deep-link. Privacy‑first." />
+  <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
+  <meta name="theme-color" content="#0b1020" />
+
+  <link rel="canonical" href="https://www.uptools.in/pan-validator/" />
+  <meta property="og:title" content="PAN & GSTIN Validator (India) – UpTools" />
+  <meta property="og:description" content="Validate PAN format, detect category, check surname initial; validate GSTIN format & checksum and compare embedded PAN. Bulk mode, mask/unmask, QR link. No data leaves your browser." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.uptools.in/pan-validator/" />
+  <meta property="og:site_name" content="UpTools" />
+  <meta property="og:image" content="https://www.uptools.in/assets/uptools-mark.svg" />
+  <meta name="twitter:card" content="summary" />
+
+  <link rel="icon" type="image/svg+xml" href="/assets/uptools-mark.svg" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/uptools-mark.svg" />
+
+  <!-- Shared styles -->
+  <link rel="stylesheet" href="/style.css?v=1.0.1" />
+
+  <!-- Per‑tool theme (fresh green) -->
+  <style>
+    :root{
+      --accent:#86EFAC;   /* pastel green */
+      --bg1:#0e1f0b;
+      --bg2:#14300e;
+      --cardBorder:#2a6633;
+    }
+  </style>
+
+  <!-- Breadcrumbs -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"BreadcrumbList",
+    "itemListElement":[
+      {"@type":"ListItem","position":1,"name":"UpTools","item":"https://www.uptools.in/"},
+      {"@type":"ListItem","position":2,"name":"Validators","item":"https://www.uptools.in/#tools"},
+      {"@type":"ListItem","position":3,"name":"PAN & GSTIN Validator","item":"https://www.uptools.in/pan-validator/"}
+    ]
+  }
+  </script>
+
+  <!-- HowTo (PAN + GSTIN) -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"HowTo",
+    "name":"How to validate a PAN and GSTIN in India",
+    "description":"Use the UpTools validator to check PAN pattern and GSTIN format with checksum, and compare the PAN embedded in GSTIN.",
+    "step":[
+      {"@type":"HowToStep","name":"Enter PAN","text":"Type a PAN using letters and digits only (AAAAA9999A)."},
+      {"@type":"HowToStep","name":"(Optional) Enter surname","text":"For individual PANs, we verify the 5th letter equals the first letter of the surname."},
+      {"@type":"HowToStep","name":"Enter GSTIN (optional)","text":"We validate GSTIN format and checksum, and compare its embedded PAN (chars 3–12) with your PAN."},
+      {"@type":"HowToStep","name":"Bulk validate (optional)","text":"Paste a list of PANs/GSTINs to get a quick multi‑line report."}
+    ],
+    "tool":[{"@type":"HowToTool","name":"UpTools PAN & GSTIN Validator"}]
+  }
+  </script>
+
+  <!-- FAQ -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"FAQPage",
+    "mainEntity":[
+      {"@type":"Question","name":"What is a valid PAN format?",
+       "acceptedAnswer":{"@type":"Answer","text":"PAN follows AAAAA9999A (five letters, four digits, one letter). This tool validates format only; it does not verify issuance or authenticity."}},
+      {"@type":"Question","name":"What does the 4th and 5th letter mean?",
+       "acceptedAnswer":{"@type":"Answer","text":"The 4th letter denotes the PAN category (e.g., P=Individual, C=Company). For individuals, the 5th letter should match the surname's first letter."}},
+      {"@type":"Question","name":"How do you validate a GSTIN?",
+       "acceptedAnswer":{"@type":"Answer","text":"We check the standard 15‑character format and compute the checksum using the documented base‑36 method. We also cross‑check that the PAN embedded in the GSTIN matches the PAN you entered."}},
+      {"@type":"Question","name":"Is my data stored?",
+       "acceptedAnswer":{"@type":"Answer","text":"No. All validation happens locally in your browser. Nothing is uploaded."}}
+    ]
+  }
+  </script>
+</head>
+<body>
+  <a href="#main" class="sr-only">Skip to content</a>
+
+  <header class="site" role="banner">
+    <div class="header-inner">
+      <a class="brand" href="/" aria-label="UpTools Home">
+        <img src="/assets/uptools-mark.svg" alt="UpTools logo" width="28" height="28">
+        <b>UpTools</b>
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="/#tools">Tools</a>
+        <a href="/games/">Games</a>
+        <a href="/about/">About</a>
+        <a href="/contact/">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="wrap" role="main">
+    <div class="tool-header" role="doc-introduction" style="padding:12px 16px; gap:12px;">
+      <span class="tool-icon" aria-hidden="true">🪪</span>
+      <div>
+        <h1 style="margin:0 0 4px;">PAN & GSTIN Validator (India)</h1>
+        <p class="note" style="margin:0;">Instant PAN format check, category & surname‑initial (optional), GSTIN format + checksum, and PAN ↔ GSTIN cross‑check. Bulk mode. Privacy‑first.</p>
+      </div>
+      <a class="back-btn" href="/" aria-label="Back to home">←</a>
+    </div>
+
+    <section class="grid" aria-label="Validator and info">
+      <!-- LEFT: Form -->
+      <article class="card compact" aria-labelledby="form-title">
+        <div class="toolbar" style="margin-bottom:6px;">
+          <h2 id="form-title" style="margin:0;">Enter details</h2>
+          <span class="spacer"></span>
+          <button type="submit" form="tool-form" class="btn sm" id="btn-validate-top">✅ Validate</button>
+          <button type="button" class="btn sm secondary" id="btn-clear-top">🧹 Clear</button>
+          <details class="more">
+            <summary class="btn sm ghost" aria-haspopup="menu">More ▾</summary>
+            <div class="menu" role="menu">
+              <button type="button" class="btn secondary" id="btn-copy">🔗 Copy link</button>
+              <button type="button" class="btn secondary" id="btn-print">🖨️ Print</button>
+              <button type="button" class="btn secondary" id="btn-json">📦 Export JSON</button>
+              <button type="button" class="btn secondary" id="btn-csv">🗂️ Export CSV</button>
+            </div>
+          </details>
+        </div>
+
+        <form id="tool-form" autocomplete="on">
+          <div class="grid-2">
+            <div>
+              <label class="label" for="pan">PAN (10 chars)</label>
+              <input class="input" id="pan" name="pan" placeholder="ABCDE1234F" maxlength="10" inputmode="text" />
+              <div class="note small" id="lenNote">0 / 10</div>
+            </div>
+            <div>
+              <label class="label" for="surname">Surname (optional, for individuals)</label>
+              <input class="input" id="surname" name="surname" placeholder="e.g., Sharma" />
+              <div class="note small">We compare only the first letter; never sent anywhere.</div>
+            </div>
+
+            <div>
+              <label class="label" for="gstin">GSTIN (optional, 15 chars)</label>
+              <input class="input" id="gstin" name="gstin" placeholder="27AAAPA1234A1Z5" maxlength="15" inputmode="text" />
+              <div class="note small">We validate format + checksum and match the embedded PAN.</div>
+            </div>
+            <div style="align-self:end; display:flex; gap:8px; align-items:center;">
+              <label class="label" for="mask" style="margin:0;">Mask numbers</label>
+              <input id="mask" name="mask" type="checkbox" aria-label="Mask PAN/GSTIN on screen" />
+              <a class="chip" id="qrLink" href="/qr-generator/" target="_blank" rel="noopener">🔳 QR this</a>
+            </div>
+          </div>
+
+          <details style="margin-top:10px;">
+            <summary class="pill" style="cursor:pointer;">📥 Bulk validate (paste list)</summary>
+            <textarea class="textarea" id="bulk" placeholder="One PAN or GSTIN per line"></textarea>
+            <div class="btn-group" style="margin-top:8px;">
+              <button type="button" class="btn sm" id="bulk-run">Run bulk check</button>
+              <button type="button" class="btn sm secondary" id="bulk-copy">Copy results</button>
+              <button type="button" class="btn sm secondary" id="bulk-clear">Clear</button>
+            </div>
+          </details>
+
+          <div class="toolbar" style="margin-top:12px;">
+            <button type="submit" class="btn sm" id="btn-validate">✅ Validate</button>
+            <button type="button" class="btn sm secondary" id="btn-clear">🧹 Clear</button>
+            <span class="spacer"></span>
+            <details class="more">
+              <summary class="btn sm ghost">More ▾</summary>
+              <div class="menu">
+                <button type="button" class="btn secondary" id="btn-copy-2">🔗 Copy link</button>
+                <button type="button" class="btn secondary" id="btn-print-2">🖨️ Print</button>
+                <button type="button" class="btn secondary" id="btn-json-2">📦 Export JSON</button>
+                <button type="button" class="btn secondary" id="btn-csv-2">🗂️ Export CSV</button>
+              </div>
+            </details>
+          </div>
+        </form>
+      </article>
+
+      <!-- RIGHT: Results & SEO -->
+      <aside class="card compact sticky-side" aria-labelledby="res-title">
+        <h2 id="res-title" style="margin:0 0 6px;">Result</h2>
+
+        <div id="result" class="result" aria-live="polite" aria-atomic="true" style="margin-top:8px;">
+          <div class="row"><div>Status</div><div class="amount" id="r-status">—</div></div>
+          <div class="kvi"><span>Normalized PAN</span><span id="r-pan">—</span></div>
+          <div class="kvi"><span>Pattern</span><span id="r-pattern">—</span></div>
+          <div class="kvi"><span>Category (4th letter)</span><span id="r-cat">—</span></div>
+          <div class="kvi"><span>5th letter vs Surname</span><span id="r-surname">—</span></div>
+          <div class="kvi"><span>Breakdown</span><span id="r-break">—</span></div>
+          <div class="kvi"><span>GSTIN status</span><span id="r-gstin">—</span></div>
+          <div class="kvi"><span>GSTIN ↔ PAN match</span><span id="r-gstin-pan">—</span></div>
+          <div class="note small" id="explain" style="margin-top:8px;">Type your PAN to validate instantly. No data leaves your browser.</div>
+        </div>
+
+        <h3 style="margin-top:14px;">What this tool checks</h3>
+        <ul class="note">
+          <li>Length = 10 characters for PAN, 15 for GSTIN</li>
+          <li>PAN pattern = <b>AAAAA9999A</b></li>
+          <li>4th letter = <b>category</b> (P=Individual, C=Company, etc.)</li>
+          <li>5th letter (individuals) = <b>surname initial</b></li>
+          <li>GSTIN = state code + PAN + entity + Z + check character</li>
+          <li>GSTIN checksum computed locally</li>
+        </ul>
+
+        <figure class="center" style="margin:10px 0;">
+          <img src="/assets/pan-card.svg" alt="PAN structure illustration" width="360" height="160" loading="lazy">
+          <figcaption class="muted">Illustrative PAN layout: AAAAA‑9999‑A</figcaption>
+        </figure>
+
+        <div class="card" style="padding:12px; margin-top:10px;">
+          <div class="note" style="margin-bottom:8px;">Video: PAN & GSTIN basics (external)</div>
+          <iframe
+            title="PAN and GSTIN Explained"
+            width="100%" height="200"
+            loading="lazy" referrerpolicy="no-referrer"
+            src="https://www.youtube-nocookie.com/embed/VIDEO_ID?rel=0&modestbranding=1"
+            style="border:0;border-radius:8px"></iframe>
+          <div class="note small">Replace <code>VIDEO_ID</code> with a relevant explainer if you like.</div>
+        </div>
+
+        <h3 style="margin-top:14px;">Authoritative links</h3>
+        <ul>
+          <li><a href="https://www.incometax.gov.in/iec/foportal/" rel="nofollow noopener" target="_blank">Income Tax Department (e‑Filing)</a></li>
+          <li><a href="https://www.protean-tinpan.com/services/pan/" rel="nofollow noopener" target="_blank">Protean (NSDL) – PAN services</a></li>
+          <li><a href="https://www.utiitsl.com/UTIITSL_SITE/pan/" rel="nofollow noopener" target="_blank">UTIITSL – PAN services</a></li>
+          <li><a href="https://www.gst.gov.in/" rel="nofollow noopener" target="_blank">GST Portal (CBIC)</a></li>
+        </ul>
+
+        <h3 style="margin-top:14px;">Related tools</h3>
+        <ul>
+          <li><a href="/gst-calculator/">🧾 GST Calculator (India)</a></li>
+          <li><a href="/ifsc-finder/">🏧 IFSC Finder</a></li>
+          <li><a href="/qr-generator/">🔳 QR Code Generator</a></li>
+          <li><a href="/json-formatter/">🧩 JSON Formatter</a></li>
+        </ul>
+
+        <h3 style="margin-top:14px;">Bulk results</h3>
+        <pre id="bulk-out" class="result" style="white-space:pre-wrap; min-height:40px;">—</pre>
+      </aside>
+    </section>
+
+    <section class="card" style="margin-top:16px;">
+      <h2>Explore more on UpTools</h2>
+      <ul class="tool-list">
+        <li><a class="tool-link accent-blue" href="/income-tax-calculator/"><span class="ico">🧮</span><span>Income Tax Calculator</span></a></li>
+        <li><a class="tool-link accent-emerald" href="/ifsc-finder/"><span class="ico">🏧</span><span>IFSC Finder</span></a></li>
+        <li><a class="tool-link accent-sky" href="/qr-generator/"><span class="ico">🔳</span><span>QR Code Generator</span></a></li>
+        <li><a class="tool-link accent-indigo" href="/json-formatter/"><span class="ico">🧩</span><span>JSON Formatter</span></a></li>
+      </ul>
+    </section>
+
+    <footer class="note small site-footer" role="contentinfo">
+      © <span id="y"></span> UpTools · <a href="/about/">About</a> · <a href="/contact/">Contact</a> · <a href="/sitemap.xml">Sitemap</a> · <a href="/robots.txt">Robots</a>
+    </footer>
+  </main>
+
+  <!-- Logic -->
+  <script type="module">
+    import { $, $$, fmtNum, debounce, serializeForm, setText, persist, read } from "/scripts/utils.js";
+
+    const FORM_KEY = "uptools:pan:form";
+    const form = $("#tool-form");
+
+    // Inputs
+    const I = {
+      pan: $("#pan"),
+      surname: $("#surname"),
+      gstin: $("#gstin"),
+      mask: $("#mask"),
+      bulk: $("#bulk"),
+      lenNote: $("#lenNote"),
+      qrLink: $("#qrLink"),
+    };
+
+    // Outputs
+    const O = {
+      status: $("#r-status"),
+      pan: $("#r-pan"),
+      pattern: $("#r-pattern"),
+      cat: $("#r-cat"),
+      surname: $("#r-surname"),
+      brk: $("#r-break"),
+      gstin: $("#r-gstin"),
+      gstinPan: $("#r-gstin-pan"),
+      explain: $("#explain"),
+      bulkOut: $("#bulk-out")
+    };
+
+    // Category map (4th letter)
+    const CAT = {
+      'P': 'Individual',
+      'C': 'Company',
+      'H': 'HUF (Hindu Undivided Family)',
+      'A': 'Association of Persons',
+      'B': 'Body of Individuals',
+      'G': 'Government',
+      'J': 'Artificial Juridical Person',
+      'L': 'Local Authority',
+      'F': 'Firm/LLP',
+      'T': 'Trust'
+    };
+
+    // PAN helpers
+    const PAN_RE = /^[A-Z]{5}[0-9]{4}[A-Z]$/;
+    const normalizePan = v => (v || "").toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0,10);
+
+    // GSTIN helpers (15 chars: 2 state, 10 PAN, 1 entity, 1 Z, 1 checksum)
+    const GSTIN_RE = /^[0-3][0-9][A-Z]{5}[0-9]{4}[A-Z][1-9A-Z]Z[0-9A-Z]$/;
+    const panFromGSTIN = gstin => (gstin || "").toUpperCase().slice(2, 12);
+
+    // Checksum (base‑36, alt multiply 1,2 across first 14 chars)
+    const code36 = c => {
+      const x = c.toUpperCase().charCodeAt(0);
+      if (x >= 48 && x <= 57) return x - 48;      // 0-9
+      if (x >= 65 && x <= 90) return x - 55;      // A-Z -> 10-35
+      return NaN;
+    };
+    const inv36 = n => (n < 10 ? String(n) : String.fromCharCode(55 + n));
+    function validateGSTINChecksum(s){
+      s = (s || "").toUpperCase();
+      if (!GSTIN_RE.test(s)) return { ok:false, calc:null, msg:"Invalid format" };
+      let sum = 0;
+      for (let i=0; i<14; i++){
+        const v = code36(s[i]);
+        if (isNaN(v)) return { ok:false, calc:null, msg:"Bad character" };
+        const mul = (i % 2) === 0 ? 1 : 2; // 1,2,1,2...
+        const prod = v * mul;
+        const q = Math.floor(prod / 36), r = prod % 36;
+        sum += q + r;
+      }
+      const chk = (36 - (sum % 36)) % 36;
+      const calc = inv36(chk);
+      return { ok: calc === s[14], calc, msg: calc === s[14] ? "Checksum OK" : `Checksum mismatch (expected ${calc})` };
+    }
+
+    // Mask helpers
+    const maskPAN = s => s ? (s.slice(0,5) + "••••" + (s[9]||"")) : "—";
+    const maskGSTIN = s => s ? (s.slice(0,2) + "••••••••••••" + s.slice(-1)) : "—";
+
+    // Classify PAN
+    function classifyPAN(pan, surname){
+      const norm = normalizePan(pan);
+      const len = norm.length;
+      const isValid = PAN_RE.test(norm);
+
+      const aaaaa = norm.slice(0,5);
+      const nnnn  = norm.slice(5,9);
+      const last  = norm.slice(9,10);
+      const shape = norm ? (aaaaa + (nnnn ? "-" + nnnn : "") + (last ? "-" + last : "")) : "—";
+
+      const catKey = norm[3] || "";
+      const category = CAT[catKey] || (catKey ? `Unknown (${catKey})` : "—");
+
+      let surnameMsg = "—";
+      if (catKey === 'P') {
+        const s = (surname || "").trim();
+        if (s) {
+          const expected = s[0].toUpperCase();
+          surnameMsg = (norm[4] === expected)
+            ? `✅ matches (${expected})`
+            : `❌ expected ${expected}, got ${norm[4] || "—"}`;
+        } else {
+          surnameMsg = "Enter surname to verify (Individuals only)";
+        }
+      } else if (catKey) {
+        surnameMsg = "Not applicable (non‑individual)";
+      }
+
+      const patternExp = isValid ? "Valid AAAAA9999A" : "Invalid (needs AAAAA9999A)";
+      return { norm, len, isValid, category, catKey, patternExp, shape, surnameMsg };
+    }
+
+    // Classify GSTIN
+    function classifyGSTIN(gstin){
+      const s = (gstin || "").toUpperCase().replace(/[^A-Z0-9]/g,"").slice(0,15);
+      if (!s) return { s:"", ok:false, msg:"—", panPart:"", match:null };
+      const chk = validateGSTINChecksum(s);
+      return { s, ok:chk.ok, msg:chk.msg, panPart: panFromGSTIN(s) };
+    }
+
+    function updateUI(p, g){
+      // PAN
+      setText(O.pan, p.norm || "—");
+      setText(O.pattern, p.patternExp || "—");
+      setText(O.cat, p.category || "—");
+      setText(O.surname, p.surnameMsg || "—");
+      setText(O.brk, p.shape || "—");
+      setText(I.lenNote, `${p.len || 0} / 10`);
+
+      if (!p.norm) {
+        setText(O.status, "—");
+        O.status.style.color = "";
+        setText(O.explain, "Type your PAN to validate instantly. No data leaves your browser.");
+      } else if (p.isValid) {
+        setText(O.status, "Valid PAN format");
+        O.status.style.color = "var(--accent)";
+        setText(O.explain, "Format looks correct. Note: this checks pattern only, not authenticity.");
+      } else {
+        setText(O.status, "Invalid PAN format");
+        O.status.style.color = "#ffb4b4";
+        setText(O.explain, "Check length (10) and pattern (AAAAA9999A). Avoid spaces/special characters.");
+      }
+
+      // GSTIN
+      if (!g.s) {
+        setText(O.gstin, "—");
+        setText(O.gstinPan, "—");
+        O.gstin.style.color = "";
+      } else {
+        setText(O.gstin, g.ok ? "Valid GSTIN" : "Invalid GSTIN");
+        O.gstin.style.color = g.ok ? "var(--accent)" : "#ffb4b4";
+        const panNorm = p.norm;
+        if (panNorm && p.isValid) {
+          setText(O.gstinPan, g.panPart === panNorm ? "✅ matches" : `❌ GSTIN has ${g.panPart || "—"}`);
+        } else {
+          setText(O.gstinPan, panNorm ? "Enter valid PAN to compare" : "Enter PAN to compare");
+        }
+      }
+
+      // Mask toggle — affects display only
+      if (I.mask.checked) {
+        if (p.norm) { O.pan.textContent = maskPAN(p.norm); O.pan.title = p.norm; } else { O.pan.title = ""; }
+        if (g.s) { O.gstin.title = g.s; } else { O.gstin.title = ""; }
+      } else {
+        if (p.norm) { O.pan.textContent = p.norm; O.pan.title = ""; }
+        O.gstin.title = "";
+      }
+
+      // QR deep‑link (prefill with whichever is present)
+      const payload = g.s || p.norm || "";
+      I.qrLink.href = payload ? `/qr-generator/?text=${encodeURIComponent(payload)}` : `/qr-generator/`;
+    }
+
+    function toQuery(obj){ return new URLSearchParams(obj).toString(); }
+
+    function run(){
+      const fd = serializeForm(form);
+      persist(FORM_KEY, fd);
+
+      const panNorm = normalizePan(fd.pan);
+      if (fd.pan !== panNorm) { I.pan.value = panNorm; }
+
+      const p = classifyPAN(fd.pan, fd.surname);
+      const gst = (fd.gstin || "").toUpperCase().replace(/[^A-Z0-9]/g,"").slice(0,15);
+      if (fd.gstin !== gst) { I.gstin.value = gst; }
+
+      const g = classifyGSTIN(gst);
+      updateUI(p, g);
+      return { p, g };
+    }
+
+    // Bulk validation
+    function bulkValidate(text){
+      const lines = (text||"").split(/\r?\n/).map(s=>s.trim()).filter(Boolean);
+      if (!lines.length) return "—";
+      const out = [];
+      for (const raw of lines){
+        const s = raw.toUpperCase().replace(/[^A-Z0-9]/g,"");
+        if (s.length === 10 && PAN_RE.test(s)) {
+          const p = classifyPAN(s, "");
+          out.push(`${s}  | PAN  | ${p.isValid ? "Valid" : "Invalid"} | Cat:${p.category}`);
+        } else if (s.length === 15 && GSTIN_RE.test(s)) {
+          const g = classifyGSTIN(s);
+          out.push(`${s}  | GSTIN | ${g.ok ? "Valid" : "Invalid"} | ${g.msg}`);
+        } else {
+          out.push(`${s || raw}  | Unknown | Invalid`);
+        }
+      }
+      return out.join("\n");
+    }
+
+    // Events
+    form.addEventListener("submit", e => {
+      e.preventDefault();
+      run();
+      history.replaceState(null, "", "?" + toQuery(serializeForm(form)));
+    });
+
+    I.pan.addEventListener("input", () => run());
+    I.surname.addEventListener("input", debounce(run, 120));
+    I.gstin.addEventListener("input", () => run());
+    I.mask.addEventListener("change", run);
+
+    // Top toolbar mirrors
+    $("#btn-validate-top").addEventListener("click", () => $("#btn-validate").click());
+    const clearAll = () => {
+      form.reset();
+      persist(FORM_KEY, {});
+      history.replaceState(null, "", location.pathname);
+      updateUI(
+        { norm:"", len:0, isValid:false, category:"—", catKey:"", patternExp:"—", shape:"—", surnameMsg:"—" },
+        { s:"", ok:false, msg:"—", panPart:"" }
+      );
+      O.bulkOut.textContent = "—";
+    };
+    $("#btn-clear").addEventListener("click", clearAll);
+    $("#btn-clear-top").addEventListener("click", clearAll);
+
+    // More menu actions (both instances)
+    const copyLink = async () => {
+      const url = location.origin + location.pathname + "?" + toQuery(serializeForm(form));
+      await navigator.clipboard.writeText(url);
+      O.explain.textContent = "Permalink copied to clipboard!";
+      setTimeout(() => O.explain.textContent = "", 1500);
+    };
+    $("#btn-copy").addEventListener("click", copyLink);
+    $("#btn-copy-2").addEventListener("click", copyLink);
+
+    const doPrint = () => window.print();
+    $("#btn-print").addEventListener("click", doPrint);
+    $("#btn-print-2").addEventListener("click", doPrint);
+
+    const exportJSON = () => {
+      const blob = new Blob([JSON.stringify(serializeForm(form), null, 2)], {type:"application/json"});
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "pan-gstin-inputs.json";
+      a.click();
+    };
+    $("#btn-json").addEventListener("click", exportJSON);
+    $("#btn-json-2").addEventListener("click", exportJSON);
+
+    const exportCSV = () => {
+      const obj = serializeForm(form);
+      const rows = [["field","value"], ...Object.entries(obj)];
+      const csv = rows.map(r => r.map(v => `"${String(v).replace(/"/g,'""')}"`).join(",")).join("\n");
+      const blob = new Blob([csv], {type:"text/csv"});
+      const a = document.createElement("a");
+      a.href = URL.createObjectURL(blob);
+      a.download = "pan-gstin-inputs.csv";
+      a.click();
+    };
+    $("#btn-csv").addEventListener("click", exportCSV);
+    $("#btn-csv-2").addEventListener("click", exportCSV);
+
+    // Bulk handlers
+    $("#bulk-run").addEventListener("click", () => {
+      O.bulkOut.textContent = bulkValidate(I.bulk.value);
+    });
+    $("#bulk-copy").addEventListener("click", async () => {
+      await navigator.clipboard.writeText(O.bulkOut.textContent || "");
+    });
+    $("#bulk-clear").addEventListener("click", () => {
+      I.bulk.value = "";
+      O.bulkOut.textContent = "—";
+    });
+
+    // Keyboard shortcut
+    document.addEventListener("keydown", e => {
+      if ((e.ctrlKey || e.metaKey) && e.key === "Enter") $("#btn-validate").click();
+    });
+
+    // Restore + query params + init
+    (function init(){
+      const saved = read(FORM_KEY, null);
+      if (saved) { $$("input, select, textarea", form).forEach(i => { if (saved[i.name] != null) i.value = saved[i.name]; }); }
+      const p = new URLSearchParams(location.search);
+      if (p.toString()) { $$("input, select, textarea", form).forEach(i => { if (p.has(i.name)) i.value = p.get(i.name); }); }
+      form.addEventListener("input", debounce(run, 150));
+      run();
+      $("#y").textContent = new Date().getFullYear();
+    })();
+  </script>
+</body>
+</html>
