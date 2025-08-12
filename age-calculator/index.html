@@ -1,53 +1,412 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Age Calculator – UpTools</title>
-    <meta name="description" content="Accurately calculate your age in years, months, and days with our easy-to-use Age Calculator. Simply enter your date of birth to get a precise result instantly. Free, fast, and secure." />
-    <meta name="robots" content="index,follow" />
-    <meta name="theme-color" content="#0b1020" />
-    <link rel="canonical" href="https://www.uptools.in/age-calculator/" />
-    <meta property="og:title" content="Age Calculator – UpTools" />
-    <meta property="og:description" content="Find your exact age in years, months, and days." />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://www.uptools.in/age-calculator/" />
-    <meta property="og:site_name" content="UpTools" />
-    <meta name="twitter:card" content="summary" />
-    <link rel="stylesheet" href="/style.css" />
-  </head>
-  <body>
-    <main class="wrap">
-      <h1>Age Calculator</h1>
-      <div class="card">
-        <label class="label" for="dob">Date of Birth</label>
-        <input id="dob" class="input" type="date" />
-        <button id="calc" class="btn">Calculate</button>
-        <div id="out" class="result"></div>
-      </div>
-      <footer class="note small"><a href="/">UpTools</a></footer>
-    </main>
-    <script type="module">
-      const D=document.getElementById('dob'),O=document.getElementById('out');
-      function calc(){
-        if(!D.value){ O.textContent='Select your birth date'; return; }
-        const dob = new Date(D.value);
-        const now = new Date();
-        let years = now.getFullYear() - dob.getFullYear();
-        let months = now.getMonth() - dob.getMonth();
-        let days = now.getDate() - dob.getDate();
-        if(days < 0){
-          const prevMonth = new Date(now.getFullYear(), now.getMonth(), 0).getDate();
-          days += prevMonth; months -= 1;
-        }
-        if(months < 0){ months += 12; years -= 1; }
-        O.innerHTML = `<div class='row'><span>Years</span><span class='amount'>${years}</span></div>
-        <div class='row'><span>Months</span><span class='amount'>${months}</span></div>
-        <div class='row'><span>Days</span><span class='amount'>${days}</span></div>`;
-      }
-      document.getElementById('calc').addEventListener('click', calc);
-      D.addEventListener('keydown',e=>{ if(e.key==='Enter') calc(); });
-    </script>
-  </body>
-  </html>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Age Calculator — Exact Age, Next Birthday, Working Days & Eligibility (India) | UpTools</title>
+  <meta name="description" content="Find your exact age in years, months, and days. See next birthday countdown, totals in days/weeks/hours, legal eligibility badges (India), retirement countdown, and business days between dates. Fast, private, and mobile-friendly." />
+  <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
+  <meta name="theme-color" content="#0b1020" />
+  <link rel="canonical" href="https://www.uptools.in/age-calculator/" />
 
+  <!-- OG/Twitter -->
+  <meta property="og:title" content="Age Calculator — Exact Age & Next Birthday" />
+  <meta property="og:description" content="Exact age, next birthday countdown, totals, eligibility (India), retirement countdown & working days." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.uptools.in/age-calculator/" />
+  <meta property="og:site_name" content="UpTools" />
+  <meta name="twitter:card" content="summary" />
+
+  <link rel="icon" type="image/svg+xml" href="/assets/uptools-mark.svg" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/uptools-mark.svg" />
+  <link rel="stylesheet" href="/style.css?v=1.0.0" />
+
+  <!-- Schema -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"SoftwareApplication",
+    "name":"Age Calculator",
+    "applicationCategory":"UtilityApplication",
+    "operatingSystem":"Any",
+    "url":"https://www.uptools.in/age-calculator/",
+    "description":"Calculate exact age, next birthday countdown, totals in days/weeks/hours, eligibility (India), retirement countdown and business days.",
+    "offers":{"@type":"Offer","price":"0","priceCurrency":"INR"}
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+      {"@type":"Question","name":"How do I calculate my exact age?","acceptedAnswer":{"@type":"Answer","text":"Enter your date of birth and optionally an 'As of' date. The calculator shows years, months and days precisely, plus totals in days/weeks/hours/minutes."}},
+      {"@type":"Question","name":"Can I see the next birthday countdown?","acceptedAnswer":{"@type":"Answer","text":"Yes. It shows days left to your next birthday and the weekday it falls on."}},
+      {"@type":"Question","name":"Does it show legal eligibility in India?","acceptedAnswer":{"@type":"Answer","text":"It marks eligibility for voter ID (18+), driving licence (18+; 16+ for gearless ≤50cc), senior citizen (60+) and super senior (80+)."}},
+      {"@type":"Question","name":"How do I count working days between two dates?","acceptedAnswer":{"@type":"Answer","text":"Use the Working Days tool on the page. Choose start and end dates, tick 'Exclude weekends' and optionally add custom holiday dates."}}
+    ]
+  }
+  </script>
+  <style>
+    body { --accent:#8ab4f8; --bg1:#0f1419; --bg2:#1a1f2e; }
+    .grid { display:grid; gap:12px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+    .pill { display:inline-flex; align-items:center; gap:6px; padding:6px 10px; border-radius:999px; border:1px solid var(--cardBorder); background:var(--bg); font-size:12px; }
+    .btn.secondary { background:transparent; color:var(--text); border:1px solid var(--cardBorder); }
+    .btn.secondary:hover { border-color:var(--accent); }
+    .muted { color: var(--muted); font-size: 12px; }
+    .kvi { display:flex; align-items:center; justify-content:space-between; padding:8px 0; border-bottom:1px solid rgba(255,255,255,.05); }
+    .kvi:last-child { border-bottom:0; }
+    .badges { display:flex; flex-wrap:wrap; gap:8px; }
+    .textarea { width:100%; min-height:60px; padding:10px 12px; border-radius:8px; border:1px solid var(--cardBorder); background:var(--bg); color:var(--text); }
+  </style>
+</head>
+<body>
+  <!-- Site header -->
+  <header class="site" role="banner">
+    <div class="header-inner">
+      <a class="brand" href="/" aria-label="UpTools Home">
+        <img src="/assets/uptools-mark.svg" alt="UpTools logo" width="28" height="28">
+        <b>UpTools</b>
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="/#tools">Tools</a>
+        <a href="/games/">Games</a>
+        <a href="/about/">About</a>
+        <a href="/contact/">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap" id="main">
+    <div class="tool-header">
+      <div class="tool-icon">🎂</div>
+      <h1>Age Calculator (Pro)</h1>
+    </div>
+
+    <!-- Inputs -->
+    <section class="card">
+      <div class="grid">
+        <div>
+          <label class="label" for="dob">Date of Birth</label>
+          <input id="dob" class="input" type="date" />
+        </div>
+        <div>
+          <label class="label" for="asof">As of Date</label>
+          <input id="asof" class="input" type="date" />
+          <div class="muted">Defaults to today if empty.</div>
+        </div>
+        <div>
+          <label class="label" for="retAge">Retirement Age</label>
+          <input id="retAge" class="input" type="number" min="40" max="80" step="1" value="60" />
+          <div class="muted">Used for retirement countdown.</div>
+        </div>
+      </div>
+
+      <div class="row" style="border:0; padding:0; margin-top:12px; gap:12px; flex-wrap:wrap">
+        <button id="calcBtn" class="btn" type="button">Calculate</button>
+        <button id="copyBtn" class="btn secondary" type="button">Copy Summary</button>
+        <button id="shareBtn" class="btn secondary" type="button">Share</button>
+        <button id="icsBtn" class="btn secondary" type="button">Add Next Birthday (.ics)</button>
+        <button id="resetBtn" class="btn secondary" type="button">Reset</button>
+      </div>
+      <div class="muted" style="margin-top:6px">Tip: Set “As of” to any past/future date to see age on that date (useful for forms).</div>
+    </section>
+
+    <!-- Output -->
+    <section id="summary" class="card" aria-live="polite"></section>
+
+    <!-- Working days -->
+    <section class="card" style="margin-top:16px">
+      <h2 style="margin:0 0 8px">Working Days Between Dates</h2>
+      <div class="grid">
+        <div>
+          <label class="label" for="wdStart">Start Date</label>
+          <input id="wdStart" class="input" type="date" />
+        </div>
+        <div>
+          <label class="label" for="wdEnd">End Date</label>
+          <input id="wdEnd" class="input" type="date" />
+        </div>
+        <div>
+          <label class="check"><input id="wdWeekends" type="checkbox" checked /> <span>Exclude weekends</span></label>
+        </div>
+      </div>
+      <label class="label" for="wdHolidays" style="margin-top:12px">Optional Holidays (YYYY-MM-DD, comma separated)</label>
+      <textarea id="wdHolidays" class="textarea" placeholder="2025-01-26, 2025-08-15"></textarea>
+      <div class="row" style="border:0; padding:0; margin-top:12px; gap:12px; flex-wrap:wrap">
+        <button id="wdCalcBtn" class="btn" type="button">Count Working Days</button>
+        <span id="wdOut" class="note"></span>
+      </div>
+    </section>
+
+    <footer class="note small site-footer" role="contentinfo" style="margin-top:16px">
+      © <span id="y"></span> UpTools · <a href="/sitemap.xml">Sitemap</a>
+    </footer>
+  </main>
+
+  <script>document.getElementById('y').textContent=new Date().getFullYear();</script>
+  <script defer>
+    // ---------- Utilities ----------
+    const $ = (s, r=document) => r.querySelector(s);
+    const fmt = new Intl.NumberFormat('en-IN');
+    const pad = n => String(n).padStart(2,'0');
+    const toISO = d => `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+    const parseDate = v => v ? new Date(v + 'T00:00:00') : null; // avoid TZ drift
+    const zwd = new Intl.DateTimeFormat('en-IN', { weekday:'long' });
+
+    function toast(msg){
+      const n = document.createElement('div');
+      n.textContent = msg;
+      Object.assign(n.style, {
+        position:'fixed', left:'50%', transform:'translateX(-50%)',
+        bottom:'18px', background:'var(--card)', color:'var(--text)', padding:'8px 12px',
+        border:'1px solid var(--cardBorder)', borderRadius:'8px', fontSize:'12px', zIndex:9999
+      });
+      document.body.appendChild(n);
+      setTimeout(()=>n.remove(), 1200);
+    }
+
+    // ---------- Age core ----------
+    function diffYMD(d1, d2){
+      // Returns {years, months, days} for d1 -> d2 (inclusive end handling)
+      let y = d2.getFullYear() - d1.getFullYear();
+      let m = d2.getMonth() - d1.getMonth();
+      let d = d2.getDate() - d1.getDate();
+      if (d < 0) {
+        const pmLen = new Date(d2.getFullYear(), d2.getMonth(), 0).getDate();
+        d += pmLen; m -= 1;
+      }
+      if (m < 0) { m += 12; y -= 1; }
+      return { years:y, months:m, days:d };
+    }
+    const daysBetween = (a,b) => Math.round((b-a) / 86400000); // ms/day
+
+    function nextBirthday(dob, asof){
+      const next = new Date(asof.getFullYear(), dob.getMonth(), dob.getDate());
+      if (next < asof) next.setFullYear(asof.getFullYear()+1);
+      // handle Feb 29 birthdays: move to Feb 28 on non-leap years
+      if (dob.getMonth()===1 && dob.getDate()===29 && !( (next.getFullYear()%4===0 && next.getFullYear()%100!==0) || (next.getFullYear()%400===0) )) {
+        next.setDate(28);
+      }
+      return next;
+    }
+
+    function eligibilityBadges(ageYears){
+      const out = [];
+      if (ageYears >= 18) out.push({label:'Voter (18+)', ok:true});
+      if (ageYears >= 18) out.push({label:'Driving Licence (18+)', ok:true}); else if (ageYears >= 16) out.push({label:'Learner (≤50cc, 16+)', ok:true});
+      if (ageYears >= 60) out.push({label:'Senior Citizen (60+)', ok:true});
+      if (ageYears >= 80) out.push({label:'Super Senior (80+)', ok:true});
+      return out;
+    }
+
+    function retirementCountdown(dob, targetAge, asof){
+      const retire = new Date(dob);
+      retire.setFullYear(retire.getFullYear() + targetAge);
+      const remaining = diffYMD(asof, retire);
+      return { date: retire, remaining, daysLeft: Math.max(0, daysBetween(asof, retire)) };
+    }
+
+    function totalUnits(dob, asof){
+      const ms = asof - dob;
+      const days = Math.floor(ms/86400000);
+      const weeks = Math.floor(days/7);
+      const hours = Math.floor(ms/3600000);
+      const minutes = Math.floor(ms/60000);
+      return { days, weeks, hours, minutes };
+    }
+
+    // ---------- Working days ----------
+    function parseHolidayList(txt){
+      if (!txt) return new Set();
+      return new Set(
+        txt.split(',')
+          .map(s=>s.trim())
+          .filter(Boolean)
+          .map(s=>s.replace(/\s+/g,''))
+      );
+    }
+
+    function countWorkingDays(start, end, excludeWeekends=true, holidaysSet=new Set()){
+      if (!start || !end) return 0;
+      if (end < start) [start, end] = [end, start];
+      let d = new Date(start), count = 0;
+      while (d <= end){
+        const isWeekend = (d.getDay()===0 || d.getDay()===6);
+        const isHoliday = holidaysSet.has(toISO(d));
+        if ((!excludeWeekends || !isWeekend) && !isHoliday) count++;
+        d.setDate(d.getDate()+1);
+      }
+      return count;
+    }
+
+    // ---------- Rendering ----------
+    function renderSummary(dob, asof, retAgeVal){
+      if (!dob) { $('#summary').innerHTML = '<p class="note">Enter your Date of Birth.</p>'; return; }
+      if (!asof) asof = new Date();
+      if (asof < dob) { $('#summary').innerHTML = '<p class="note">“As of” date cannot be before DOB.</p>'; return; }
+
+      const ymd = diffYMD(dob, asof);
+      const totals = totalUnits(dob, asof);
+      const nb = nextBirthday(dob, asof);
+      const daysToNext = Math.max(0, daysBetween(asof, nb));
+      const badges = eligibilityBadges(ymd.years);
+      const weekday = zwd.format(dob);
+      const retire = retirementCountdown(dob, retAgeVal, asof);
+
+      $('#summary').innerHTML = `
+        <div class="grid" style="margin-top:0">
+          <div class="card" style="margin:0">
+            <h3 style="margin:0 0 8px">Exact Age (as of ${toISO(asof)})</h3>
+            <div class="kvi"><span>Years</span><span class="amount">${fmt.format(ymd.years)}</span></div>
+            <div class="kvi"><span>Months</span><span class="amount">${fmt.format(ymd.months)}</span></div>
+            <div class="kvi"><span>Days</span><span class="amount">${fmt.format(ymd.days)}</span></div>
+            <div class="note" style="margin-top:6px">Born on <strong>${weekday}</strong></div>
+          </div>
+
+          <div class="card" style="margin:0">
+            <h3 style="margin:0 0 8px">Next Birthday</h3>
+            <div class="kvi"><span>Date</span><span class="amount">${toISO(nb)}</span></div>
+            <div class="kvi"><span>Days to go</span><span class="amount">${fmt.format(daysToNext)}</span></div>
+            <div class="kvi"><span>Will turn</span><span class="amount">${fmt.format(ymd.years + 1)}</span></div>
+          </div>
+
+          <div class="card" style="margin:0">
+            <h3 style="margin:0 0 8px">Totals</h3>
+            <div class="kvi"><span>Total days</span><span class="amount">${fmt.format(totals.days)}</span></div>
+            <div class="kvi"><span>Weeks</span><span class="amount">${fmt.format(totals.weeks)}</span></div>
+            <div class="kvi"><span>Hours</span><span class="amount">${fmt.format(totals.hours)}</span></div>
+            <div class="kvi"><span>Minutes</span><span class="amount">${fmt.format(totals.minutes)}</span></div>
+          </div>
+
+          <div class="card" style="margin:0">
+            <h3 style="margin:0 0 8px">Eligibility (India)</h3>
+            <div class="badges">
+              ${badges.map(b=>`<span class="pill">${b.ok ? '✅' : '⬜'} ${b.label}</span>`).join('')}
+            </div>
+            <div class="divider" style="margin:10px 0"></div>
+            <h4 style="margin:0 0 6px; font-size:14px">Retirement</h4>
+            <div class="kvi"><span>Target age</span><span>${retAgeVal}</span></div>
+            <div class="kvi"><span>Retirement date</span><span class="amount">${toISO(retire.date)}</span></div>
+            <div class="kvi"><span>Days left</span><span class="amount">${fmt.format(retire.daysLeft)}</span></div>
+          </div>
+        </div>
+      `;
+    }
+
+    function copySummary(dob, asof, retAgeVal){
+      if (!dob){ toast('Enter DOB first'); return; }
+      if (!asof) asof = new Date();
+      const ymd = diffYMD(dob, asof);
+      const nb = nextBirthday(dob, asof);
+      const daysToNext = Math.max(0, daysBetween(asof, nb));
+      const text = [
+        `DOB: ${toISO(dob)}`,
+        `As of: ${toISO(asof)}`,
+        `Exact age: ${ymd.years}y ${ymd.months}m ${ymd.days}d`,
+        `Next birthday: ${toISO(nb)} (${daysToNext} days)`,
+        `Retirement (${retAgeVal}+): ${toISO(new Date(dob.getFullYear()+retAgeVal, dob.getMonth(), dob.getDate()))}`
+      ].join('\n');
+      navigator.clipboard?.writeText(text).then(()=>toast('Copied summary'));
+    }
+
+    function downloadICSNextBirthday(dob, asof){
+      if (!dob){ toast('Enter DOB first'); return; }
+      if (!asof) asof = new Date();
+      const nb = nextBirthday(dob, asof);
+      const dt = `${nb.getFullYear()}${pad(nb.getMonth()+1)}${pad(nb.getDate())}`;
+      const ics = [
+        'BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//UpTools//Age Next Birthday//EN',
+        'BEGIN:VEVENT',
+        `UID:uptools-age-${dt}@uptools.in`,
+        `DTSTAMP:${dt}T000000Z`,
+        `DTSTART;VALUE=DATE:${dt}`,
+        `SUMMARY:Birthday`,
+        'DESCRIPTION:Generated by UpTools Age Calculator',
+        'END:VEVENT','END:VCALENDAR'
+      ].join('\r\n');
+      const blob = new Blob([ics], {type:'text/calendar'});
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = `next-birthday-${dt}.ics`;
+      a.click();
+      URL.revokeObjectURL(a.href);
+    }
+
+    function updateURL(dob, asof, retAge){
+      const u = new URL(location.href);
+      if (dob) u.searchParams.set('dob', toISO(dob)); else u.searchParams.delete('dob');
+      if (asof) u.searchParams.set('asof', toISO(asof)); else u.searchParams.delete('asof');
+      u.searchParams.set('ret', retAge || '60');
+      history.replaceState({}, '', u);
+      localStorage.setItem('age:last', u.searchParams.toString());
+    }
+
+    function loadFromURLOrMemory(){
+      const saved = localStorage.getItem('age:last');
+      const qs = new URLSearchParams(location.search || saved || '');
+      const dob = qs.get('dob'); const as = qs.get('asof'); const ret = qs.get('ret');
+      if (dob) $('#dob').value = dob;
+      if (as) $('#asof').value = as;
+      if (ret) $('#retAge').value = ret;
+    }
+
+    // ---------- Working days handlers ----------
+    function runWorkingDays(){
+      const s = parseDate($('#wdStart').value);
+      const e = parseDate($('#wdEnd').value);
+      const exW = $('#wdWeekends').checked;
+      const hol = parseHolidayList($('#wdHolidays').value);
+      if (!s || !e){ $('#wdOut').textContent = 'Select start and end dates.'; return; }
+      const count = countWorkingDays(s, e, exW, hol);
+      $('#wdOut').textContent = `Working days: ${count}`;
+    }
+
+    // ---------- Bind ----------
+    document.addEventListener('DOMContentLoaded', () => {
+      // defaults
+      if (!$('#asof').value) $('#asof').value = toISO(new Date());
+
+      loadFromURLOrMemory();
+
+      const calc = () => {
+        const dob = parseDate($('#dob').value);
+        const asof = parseDate($('#asof').value) || new Date();
+        const retAgeVal = Math.max(40, Math.min(80, +$('#retAge').value || 60));
+        renderSummary(dob, asof, retAgeVal);
+        if (dob) updateURL(dob, asof, retAgeVal);
+      };
+
+      $('#calcBtn').addEventListener('click', calc);
+      ['dob','asof','retAge'].forEach(id => { $('#'+id).addEventListener('change', calc); });
+      ['dob','asof'].forEach(id => { $('#'+id).addEventListener('keydown', e => { if (e.key==='Enter'){ e.preventDefault(); calc(); } }); });
+
+      $('#copyBtn').addEventListener('click', () => {
+        const dob = parseDate($('#dob').value);
+        const asof = parseDate($('#asof').value) || new Date();
+        const retAgeVal = +$('#retAge').value || 60;
+        copySummary(dob, asof, retAgeVal);
+      });
+      $('#shareBtn').addEventListener('click', () => {
+        const u = location.href;
+        if (navigator.share) navigator.share({ title:'Age Calculator — UpTools', url:u }).catch(()=>{});
+        else { navigator.clipboard?.writeText(u); toast('Link copied'); }
+      });
+      $('#icsBtn').addEventListener('click', () => {
+        const dob = parseDate($('#dob').value);
+        const asof = parseDate($('#asof').value) || new Date();
+        downloadICSNextBirthday(dob, asof);
+      });
+      $('#resetBtn').addEventListener('click', () => {
+        $('#dob').value = ''; $('#asof').value = toISO(new Date()); $('#retAge').value = 60;
+        $('#summary').innerHTML = '';
+        history.replaceState({}, '', location.pathname);
+        localStorage.removeItem('age:last');
+      });
+
+      // working days
+      $('#wdCalcBtn').addEventListener('click', runWorkingDays);
+
+      // auto-calc on load if dob exists
+      if ($('#dob').value) calc();
+    });
+  </script>
+</body>
+</html>
