@@ -1,16 +1,18 @@
 <!doctype html>
 <html lang="en">
 <head>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617"
+     crossorigin="anonymous"></script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>IFSC Finder (India) — Search Bank Branch Details by IFSC Code | UpTools</title>
+  <title>IFSC Finder (India) - Search Bank Branch Details by IFSC Code | UpTools</title>
   <meta name="description" content="Find bank branch details by IFSC code in India. Get bank name, branch, MICR, address, city, state & contact. Fast, lightweight, and privacy-friendly." />
   <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
   <meta name="theme-color" content="#0b1020" />
   <link rel="canonical" href="https://www.uptools.in/ifsc-finder/" />
 
   <!-- OG/Twitter -->
-  <meta property="og:title" content="IFSC Finder — Bank Branch Lookup by IFSC Code" />
+  <meta property="og:title" content="IFSC Finder - Bank Branch Lookup by IFSC Code" />
   <meta property="og:description" content="Instantly find bank, branch, MICR, address, city & state using IFSC code. UpTools IFSC Finder is fast and lightweight." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.uptools.in/ifsc-finder/" />
@@ -207,12 +209,12 @@
 
     function renderResult(d){
       const logoText = (d.BANK || bankCodeFromIFSC(d.IFSC) || 'BNK').slice(0,3).toUpperCase();
-      const micr = rs(d.MICR) || '—';
-      const contact = rs(d.CONTACT) || '—';
-      const address = rs(d.ADDRESS) || '—';
-      const city = rs(d.CITY) || '—';
-      const state = rs(d.STATE) || '—';
-      const branch = rs(d.BRANCH) || '—';
+      const micr = rs(d.MICR) || '-';
+      const contact = rs(d.CONTACT) || '-';
+      const address = rs(d.ADDRESS) || '-';
+      const city = rs(d.CITY) || '-';
+      const state = rs(d.STATE) || '-';
+      const branch = rs(d.BRANCH) || '-';
 
       $('#result').innerHTML = `
         <div class="bank-head">
@@ -231,7 +233,7 @@
         <div class="row key"><span>IFSC</span><span class="amount">${d.IFSC}</span></div>
         <div class="row"><span>MICR</span><span>${micr}</span></div>
         <div class="row"><span>Branch</span><span>${branch}</span></div>
-        <div class="row"><span>Bank</span><span>${d.BANK || '—'}</span></div>
+        <div class="row"><span>Bank</span><span>${d.BANK || '-'}</span></div>
         <div class="row"><span>City</span><span>${city}</span></div>
         <div class="row"><span>State</span><span>${state}</span></div>
         <div class="row"><span>Contact</span><span>${contact}</span></div>
