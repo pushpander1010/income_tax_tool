@@ -10,7 +10,7 @@
     <loc>https://www.uptools.in/income-tax-calculator/</loc>
     <lastmod>2025-08-12</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://www.uptools.in/bmi-calculator/</loc>
@@ -52,19 +52,19 @@
     <loc>https://www.uptools.in/password-generator/</loc>
     <lastmod>2025-08-12</lastmod>
     <changefreq>yearly</changefreq>
-    <priority>0.5</priority>
+    <priority>0.6</priority>
   </url>
   <url>
     <loc>https://www.uptools.in/qr-generator/</loc>
     <lastmod>2025-08-12</lastmod>
     <changefreq>yearly</changefreq>
-    <priority>0.5</priority>
+    <priority>0.6</priority>
   </url>
   <url>
     <loc>https://www.uptools.in/text-case-converter/</loc>
     <lastmod>2025-08-12</lastmod>
     <changefreq>yearly</changefreq>
-    <priority>0.5</priority>
+    <priority>0.6</priority>
   </url>
   <url>
     <loc>https://www.uptools.in/word-counter/</loc>
@@ -82,19 +82,19 @@
     <loc>https://www.uptools.in/base64-encoder/</loc>
     <lastmod>2025-08-12</lastmod>
     <changefreq>yearly</changefreq>
-    <priority>0.5</priority>
+    <priority>0.6</priority>
   </url>
   <url>
     <loc>https://www.uptools.in/ip-address/</loc>
     <lastmod>2025-08-12</lastmod>
     <changefreq>yearly</changefreq>
-    <priority>0.5</priority>
+    <priority>0.6</priority>
   </url>
   <url>
     <loc>https://www.uptools.in/uuid-generator/</loc>
     <lastmod>2025-08-12</lastmod>
     <changefreq>yearly</changefreq>
-    <priority>0.5</priority>
+    <priority>0.6</priority>
   </url>
   <url>
     <loc>https://www.uptools.in/gst-calculator/</loc>
@@ -130,13 +130,13 @@
     <loc>https://www.uptools.in/color-picker/</loc>
     <lastmod>2025-08-12</lastmod>
     <changefreq>yearly</changefreq>
-    <priority>0.5</priority>
+    <priority>0.6</priority>
   </url>
   <url>
     <loc>https://www.uptools.in/games/</loc>
     <lastmod>2025-08-12</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
   </url>
   <url>
     <loc>https://www.uptools.in/games/tic-tac-toe/</loc>
