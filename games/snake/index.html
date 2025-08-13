@@ -112,7 +112,7 @@
     .toggle{ display:inline-flex; align-items:center; gap:.5rem; cursor:pointer; user-select:none }
     .toggle input{ accent-color:var(--accent) }
 
-    /* D‑Pad (mobile) */
+    /* D-Pad (mobile) */
     .dpad{ display:grid; grid-template-columns:repeat(3,64px); gap:.5rem; place-content:center; margin-top:.75rem }
     .dpad .cbtn{
       width:64px; height:64px; border-radius:.75rem; border:2px solid var(--cardBorder);
@@ -136,7 +136,7 @@
     <div class="tool-header">
       <a href="/games" class="back-btn">← Back to Games</a>
       <h1>🐍 Snake <span class="badge">No ads interrupting gameplay</span></h1>
-      <p>Fast, responsive, and privacy‑first. Arrow keys / swipe to play.</p>
+      <p>Fast, responsive, and privacy-first. Arrow keys / swipe to play.</p>
     </div>
 
     <div class="game-wrap">
@@ -189,7 +189,7 @@
           </div>
         </div>
 
-        <!-- Mobile D‑Pad -->
+        <!-- Mobile D-Pad -->
         <div class="dpad" aria-label="Directional controls">
           <button class="cbtn up" data-dir="up" aria-label="Up">⬆️</button>
           <button class="cbtn left" data-dir="left" aria-label="Left">⬅️</button>
@@ -222,7 +222,7 @@
           <div class="row">
             <label class="toggle"><input type="checkbox" id="wrapWalls"> Wrap walls</label>
             <label class="toggle"><input type="checkbox" id="showGrid" checked> Show grid</label>
-            <label class="toggle"><input type="checkbox" id="colorBlind"> Color‑blind mode</label>
+            <label class="toggle"><input type="checkbox" id="colorBlind"> Color-blind mode</label>
             <label class="toggle"><input type="checkbox" id="sound" checked> Sound</label>
           </div>
           <div class="controls" style="margin-top:.25rem">
@@ -235,9 +235,9 @@
           <h3 style="color:var(--accent); margin:0 0 .25rem">🎮 How to Play</h3>
           <ul>
             <li><b>Desktop:</b> Arrow keys to steer, <b>Space</b> to pause/resume.</li>
-            <li><b>Mobile:</b> Swipe or use the D‑pad.</li>
-            <li>Eat food to grow. Don’t collide with yourself.</li>
-            <li>Toggle <b>Wrap walls</b> for “portal” edges.</li>
+            <li><b>Mobile:</b> Swipe or use the D-pad.</li>
+            <li>Eat food to grow. Don't collide with yourself.</li>
+            <li>Toggle <b>Wrap walls</b> for “portal" edges.</li>
           </ul>
         </div>
       </aside>
@@ -579,7 +579,7 @@
         }
       });
 
-      // D‑pad
+      // D-pad
       document.querySelectorAll(".cbtn").forEach(btn=>{
         btn.addEventListener("click", ()=>{
           const d = btn.dataset.dir;

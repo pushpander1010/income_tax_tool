@@ -1,147 +1,417 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617"
-     crossorigin="anonymous"></script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Free Online Games - UpTools</title>
-    <meta name="description" content="Play Tic Tac Toe, Snake, Memory Match, 2048, and other free online games instantly at UpTools. No sign-ups or downloads.">
-    <meta name="robots" content="index,follow">
-    <meta name="theme-color" content="#0f1419">
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617" crossorigin="anonymous"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Free Online Games (No Sign‑up) – Snake, 2048, Tic Tac Toe & More | UpTools</title>
+  <meta name="description" content="Play free online games instantly: Snake, 2048, Tic Tac Toe, Memory Match, Breakout and more. No downloads, no sign‑ups. Mobile-friendly, ad‑light, and blazing fast. Search and filter by genre or difficulty." />
+  <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
+  <meta name="theme-color" content="#0f1419" />
 
-    <!-- OG Tags -->
-    <meta property="og:title" content="Free Online Games - UpTools">
-    <meta property="og:description" content="Enjoy Tic Tac Toe, Snake, Memory Match, 2048, and other free games at UpTools. Play instantly in your browser.">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://www.uptools.in/games/">
-    <meta property="og:site_name" content="UpTools">
-    <meta property="og:image" content="https://www.uptools.in/assets/uptools-logo.svg">
+  <!-- Open Graph / Twitter -->
+  <meta property="og:title" content="Free Online Games – UpTools" />
+  <meta property="og:description" content="Play Snake, 2048, Tic Tac Toe, Memory Match & more. Fast, free, no sign‑ups." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.uptools.in/games/" />
+  <meta property="og:site_name" content="UpTools" />
+  <meta property="og:image" content="https://www.uptools.in/assets/uptools-logo.svg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="canonical" href="https://www.uptools.in/games/" />
 
-    <meta name="twitter:card" content="summary_large_image">
-    <link rel="canonical" href="https://www.uptools.in/games/">
+  <link rel="stylesheet" href="/style.css?v=1.0.0" />
 
-    <link rel="stylesheet" href="/style.css?v=1.0.0">
-    <style>
-        body {
-            --accent: #ff6b6b;
-            background: linear-gradient(135deg, var(--bg), #1a1f2e);
-        }
-        
-        .games-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-            margin-top: 2rem;
-        }
-        
-        .game-card {
-            background: var(--card);
-            border: 1px solid var(--cardBorder);
-            border-radius: var(--radius);
-            padding: 1.5rem;
-            text-align: center;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-        
-        .game-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-hover);
-            border-color: var(--accent);
-        }
-        
-        .game-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-        }
-        
-        .game-title {
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-        
-        .game-description {
-            color: var(--muted);
-            font-size: 0.9rem;
-            line-height: 1.4;
-        }
-    </style>
+  <style>
+    /* Page accent only (keeps global CSS) */
+    body{
+      --accent:#ff6b6b;
+      background: radial-gradient(1200px 600px at 10% -10%, #182033 0%, var(--bg) 45%) fixed;
+    }
+
+    .wrap { padding-top: 0 }
+
+    /* Header hero */
+    .games-hero{
+      margin: .75rem auto 1rem;
+      text-align:center;
+    }
+    .games-hero h1{ display:flex; gap:.5rem; align-items:center; justify-content:center }
+    .sub{ color:var(--muted); margin:.25rem 0 0 }
+
+    /* Controls bar */
+    .controls-bar{
+      display:grid; gap:.75rem; grid-template-columns: 1fr;
+      margin: 1rem 0;
+    }
+    @media(min-width:900px){
+      .controls-bar{ grid-template-columns: 1fr 360px }
+    }
+
+    .search{
+      display:flex; gap:.5rem; align-items:center; padding:.5rem .6rem;
+      background:var(--card); border:1px solid var(--cardBorder); border-radius:.75rem;
+    }
+    .search input{
+      flex:1; background:transparent; color:var(--text); border:none; outline:none;
+      font:inherit;
+    }
+    .filters{
+      display:flex; gap:.5rem; flex-wrap:wrap; align-items:center; justify-content:flex-end;
+    }
+    .chip{
+      display:inline-flex; align-items:center; gap:.4rem;
+      padding:.45rem .6rem; font-weight:600; border-radius:999px;
+      background:rgba(255,255,255,.03); border:1px solid var(--cardBorder);
+      cursor:pointer; user-select:none
+    }
+    .chip input{ accent-color:var(--accent) }
+
+    /* Sections */
+    .section{ margin: 1.25rem 0 }
+    .section h2{ margin:0 0 .5rem; display:flex; align-items:center; gap:.5rem }
+    .section p.small{ color:var(--muted); margin:.25rem 0 0 }
+
+    /* Grids */
+    .games-grid{
+      display:grid; grid-template-columns:repeat(auto-fit, minmax(240px,1fr));
+      gap:1rem;
+    }
+
+    /* Card */
+    .game-card{
+      display:grid; gap:.5rem;
+      background:var(--card);
+      border:1px solid var(--cardBorder);
+      border-radius:var(--radius);
+      padding:1rem;
+      transition:transform .12s ease, box-shadow .12s ease, border-color .12s ease;
+    }
+    .game-card:hover{
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-hover);
+      border-color: var(--accent);
+    }
+    .row{ display:flex; justify-content:space-between; align-items:center; gap:.5rem }
+    .badge{ font-size:.75rem; padding:.15rem .45rem; border:1px solid var(--cardBorder); border-radius:999px; color:var(--muted) }
+    .game-icon{ font-size:2rem }
+    .game-title{ font-size:1.1rem; font-weight:800 }
+    .game-desc{ color:var(--muted); font-size:.9rem }
+    .tags{ display:flex; gap:.35rem; flex-wrap:wrap; margin-top:.15rem }
+    .tag{ font-size:.75rem; padding:.15rem .4rem; border-radius:999px; background:rgba(255,255,255,.04); border:1px solid var(--cardBorder) }
+    .cta{
+      margin-top:.35rem; display:flex; gap:.5rem; align-items:center; justify-content:space-between
+    }
+    .btn{
+      padding:.5rem .8rem; border:none; border-radius:.6rem; background:var(--accent);
+      color:#fff; font-weight:700; cursor:pointer;
+      transition: transform .1s ease;
+    }
+    .btn:active{ transform: scale(.98) }
+    .btn.alt{ background:transparent; color:var(--text); border:1px solid var(--cardBorder) }
+
+    .fav{ border:none; background:transparent; color:var(--muted); cursor:pointer }
+    .fav.active{ color:var(--accent) }
+
+    .site-footer{ margin-top:2rem }
+  </style>
+
+  <!-- Structured data: Game collection with individual items -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"CollectionPage",
+    "name":"Free Online Games – UpTools",
+    "description":"Play free browser games like Snake, 2048, Tic Tac Toe, Memory Match, Breakout and more. No downloads or sign-ups.",
+    "url":"https://www.uptools.in/games/",
+    "isPartOf":{"@type":"WebSite","name":"UpTools","url":"https://www.uptools.in/"},
+    "hasPart":[
+      {"@type":"VideoGame","name":"Tic Tac Toe","url":"https://www.uptools.in/games/tic-tac-toe","applicationCategory":"Game","genre":["Board","Classic"]},
+      {"@type":"VideoGame","name":"Memory Match","url":"https://www.uptools.in/games/memory-match","applicationCategory":"Game","genre":["Puzzle","Brain"]},
+      {"@type":"VideoGame","name":"Snake","url":"https://www.uptools.in/games/snake","applicationCategory":"Game","genre":["Arcade","Classic"]},
+      {"@type":"VideoGame","name":"Number Guessing","url":"https://www.uptools.in/games/number-guessing","applicationCategory":"Game","genre":["Logic","Quick Play"]},
+      {"@type":"VideoGame","name":"Color Rush","url":"https://www.uptools.in/games/color-rush","applicationCategory":"Game","genre":["Reflex","Color"]},
+      {"@type":"VideoGame","name":"Word Scramble","url":"https://www.uptools.in/games/word-scramble","applicationCategory":"Game","genre":["Word","Brain"]},
+      {"@type":"VideoGame","name":"2048","url":"https://www.uptools.in/games/2048","applicationCategory":"Game","genre":["Puzzle","Number"]},
+      {"@type":"VideoGame","name":"Breakout","url":"https://www.uptools.in/games/breakout","applicationCategory":"Game","genre":["Arcade","Reflex"]}
+    ]
+  }
+  </script>
 </head>
 <body>
-    <!-- Site Header -->
-    <header class="site" role="banner">
-        <div class="header-inner">
-            <a class="brand" href="/" aria-label="UpTools Home">
-                <img src="/assets/uptools-mark.svg" alt="UpTools logo" width="28" height="28">
-                <b>UpTools</b>
-            </a>
-            <nav class="nav-links" aria-label="Primary">
-                <a href="/#tools">Tools</a>
-                <a href="/games/">Games</a>
-                <a href="/about/">About</a>
-                <a href="/contact/">Contact</a>
-            </nav>
-        </div>
-    </header>
+  <!-- Site Header -->
+  <header class="site" role="banner">
+    <div class="header-inner">
+      <a class="brand" href="/" aria-label="UpTools Home">
+        <img src="/assets/uptools-mark.svg" alt="UpTools logo" width="28" height="28" decoding="async" loading="eager">
+        <b>UpTools</b>
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="/#tools">Tools</a>
+        <a href="/games/" aria-current="page">Games</a>
+        <a href="/about/">About</a>
+        <a href="/contact/">Contact</a>
+      </nav>
+    </div>
+  </header>
 
-    <main class="wrap">
-        <div class="games-grid">
-            <div class="game-card" onclick="window.location.href='/games/tic-tac-toe'">
-                <span class="game-icon">⭕</span>
-                <div class="game-title">Tic Tac Toe</div>
-                <div class="game-description">Play against AI or a friend in this classic game.</div>
-            </div>
+  <main class="wrap">
+    <!-- Hero -->
+    <section class="games-hero">
+      <h1>🎮 Free Online Games</h1>
+      <p class="sub">Instant play. No sign‑ups. Mobile‑friendly. Ad‑light.</p>
+    </section>
 
-            <div class="game-card" onclick="window.location.href='/games/memory-match'">
-                <span class="game-icon">🧠</span>
-                <div class="game-title">Memory Match</div>
-                <div class="game-description">Match pairs of cards to test your memory.</div>
-            </div>
+    <!-- Controls -->
+    <section class="controls-bar" aria-label="Search and filters">
+      <div class="search" role="search">
+        <span aria-hidden="true">🔎</span>
+        <input id="q" type="search" inputmode="search" placeholder="Search games (e.g., snake, puzzle, word)…" aria-label="Search games">
+        <button class="btn alt" id="clearBtn" aria-label="Clear search" title="Clear">Clear</button>
+      </div>
+      <div class="filters" aria-label="Filters">
+        <label class="chip"><input type="checkbox" value="classic" /> Classic</label>
+        <label class="chip"><input type="checkbox" value="arcade" /> Arcade</label>
+        <label class="chip"><input type="checkbox" value="puzzle" /> Puzzle</label>
+        <label class="chip"><input type="checkbox" value="word" /> Word</label>
+        <label class="chip"><input type="checkbox" value="brain" /> Brain</label>
+        <label class="chip"><input type="checkbox" value="quick" /> Quick Play</label>
+        <label class="chip"><input type="checkbox" value="reflex" /> Reflex</label>
+      </div>
+    </section>
 
-            <div class="game-card" onclick="window.location.href='/games/snake'">
-                <span class="game-icon">🐍</span>
-                <div class="game-title">Snake Game</div>
-                <div class="game-description">Eat food, grow your snake, avoid hitting yourself.</div>
-            </div>
+    <!-- Recently played -->
+    <section class="section" id="recentSec" hidden>
+      <h2>⏱️ Continue Playing</h2>
+      <div class="games-grid" id="recentGrid" role="region" aria-live="polite"></div>
+      <p class="small">Tip: Your last played games are saved on this device only.</p>
+    </section>
 
-            <div class="game-card" onclick="window.location.href='/games/number-guessing'">
-                <span class="game-icon">🎲</span>
-                <div class="game-title">Number Guessing</div>
-                <div class="game-description">Guess the hidden number in fewest tries.</div>
-            </div>
+    <!-- Favourites -->
+    <section class="section" id="favSec" hidden>
+      <h2>⭐ Your Favourites</h2>
+      <div class="games-grid" id="favGrid" role="region" aria-live="polite"></div>
+    </section>
 
-            <div class="game-card" onclick="window.location.href='/games/color-rush'">
-                <span class="game-icon">🌈</span>
-                <div class="game-title">Color Rush</div>
-                <div class="game-description">Spot the odd color before time runs out.</div>
-            </div>
+    <!-- All games -->
+    <section class="section">
+      <h2>🕹️ All Games</h2>
+      <div class="games-grid" id="grid" role="region" aria-live="polite"></div>
+    </section>
 
-            <div class="game-card" onclick="window.location.href='/games/word-scramble'">
-                <span class="game-icon">📝</span>
-                <div class="game-title">Word Scramble</div>
-                <div class="game-description">Unscramble letters to form the correct word.</div>
-            </div>
+    <footer class="note small site-footer">
+      © <span id="y"></span> UpTools · <a href="/about/">About</a> · <a href="/contact/">Contact</a>
+    </footer>
+  </main>
 
-            <div class="game-card" onclick="window.location.href='/games/2048'">
-                <span class="game-icon">🔢</span>
-                <div class="game-title">2048</div>
-                <div class="game-description">Merge tiles to reach 2048.</div>
-            </div>
+  <script>
+    // ---------- Data (extend easily)
+    const GAMES = [
+      {
+        slug:"tic-tac-toe",
+        title:"Tic Tac Toe",
+        icon:"⭕",
+        desc:"Play against AI or a friend in this classic game.",
+        tags:["classic","board","quick","brain"],
+        href:"/games/tic-tac-toe"
+      },
+      {
+        slug:"memory-match",
+        title:"Memory Match",
+        icon:"🧠",
+        desc:"Flip cards and match pairs to test your memory.",
+        tags:["puzzle","brain"],
+        href:"/games/memory-match"
+      },
+      {
+        slug:"snake",
+        title:"Snake",
+        icon:"🐍",
+        desc:"Eat food, grow your snake, avoid hitting yourself.",
+        tags:["arcade","classic","reflex","quick"],
+        href:"/games/snake"
+      },
+      {
+        slug:"number-guessing",
+        title:"Number Guessing",
+        icon:"🎲",
+        desc:"Guess the hidden number in the fewest tries.",
+        tags:["quick","brain","logic"],
+        href:"/games/number-guessing"
+      },
+      {
+        slug:"color-rush",
+        title:"Color Rush",
+        icon:"🌈",
+        desc:"Spot the odd color before time runs out.",
+        tags:["reflex","quick","puzzle"],
+        href:"/games/color-rush"
+      },
+      {
+        slug:"word-scramble",
+        title:"Word Scramble",
+        icon:"📝",
+        desc:"Unscramble letters to form the correct word.",
+        tags:["word","brain","puzzle"],
+        href:"/games/word-scramble"
+      },
+      {
+        slug:"2048",
+        title:"2048",
+        icon:"🔢",
+        desc:"Slide and merge number tiles to reach 2048.",
+        tags:["puzzle","number","brain"],
+        href:"/games/2048"
+      },
+      {
+        slug:"breakout",
+        title:"Breakout",
+        icon:"🏓",
+        desc:"Break all bricks with your paddle and ball.",
+        tags:["arcade","reflex","classic"],
+        href:"/games/breakout"
+      }
+    ];
 
-            <div class="game-card" onclick="window.location.href='/games/breakout'">
-                <span class="game-icon">🏓</span>
-                <div class="game-title">Breakout</div>
-                <div class="game-description">Break all bricks with your paddle and ball.</div>
-            </div>
-        </div>
+    // ---------- Helpers
+    const $ = (s, el=document) => el.querySelector(s);
+    const elGrid = $("#grid");
+    const elFavGrid = $("#favGrid");
+    const elRecentGrid = $("#recentGrid");
+    const elFavSec = $("#favSec");
+    const elRecentSec = $("#recentSec");
+    const q = $("#q");
+    const clearBtn = $("#clearBtn");
+    const year = $("#y"); year.textContent = new Date().getFullYear();
 
-        <footer class="note small site-footer">
-            © <span id="y"></span> UpTools · <a href="/about/">About</a> · <a href="/contact/">Contact</a>
-        </footer>
-    </main>
+    const favKey = "uptools-game-favs";
+    const recentKey = "uptools-game-recent";
 
-    <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
+    const getFavs = () => new Set(JSON.parse(localStorage.getItem(favKey) || "[]"));
+    const setFavs = (set) => localStorage.setItem(favKey, JSON.stringify([...set]));
+
+    const getRecent = () => JSON.parse(localStorage.getItem(recentKey) || "[]"); // [{slug, ts}]
+    const pushRecent = (slug) => {
+      const now = Date.now();
+      const list = getRecent().filter(x => x.slug !== slug);
+      list.unshift({ slug, ts: now });
+      localStorage.setItem(recentKey, JSON.stringify(list.slice(0, 8)));
+    };
+
+    // Called from game pages (optional): add ?played=slug to return URL
+    (() => {
+      const u = new URL(location.href);
+      const played = u.searchParams.get("played");
+      if (played) pushRecent(played);
+    })();
+
+    // ---------- Render
+    function cardHTML(g, favs){
+      const isFav = favs.has(g.slug);
+      const tags = (g.tags||[]).slice(0,4).map(t=>`<span class="tag">${t}</span>`).join("");
+      const badge = g.tags.includes("quick") ? "Quick Play" :
+                    g.tags.includes("brain") ? "Brain" :
+                    g.tags.includes("reflex") ? "Reflex" : "Classic";
+      return `
+        <article class="game-card" data-tags="${(g.tags||[]).join(',')}" data-title="${g.title.toLowerCase()}">
+          <div class="row">
+            <div class="game-icon" aria-hidden="true">${g.icon}</div>
+            <span class="badge">${badge}</span>
+          </div>
+          <a class="game-title" href="${g.href}" aria-label="Play ${g.title}">${g.title}</a>
+          <p class="game-desc">${g.desc}</p>
+          <div class="tags">${tags}</div>
+          <div class="cta">
+            <a class="btn" href="${g.href}">Play</a>
+            <button class="fav ${isFav ? 'active':''}" data-fav="${g.slug}" aria-label="Favourite ${g.title}" title="Favourite">
+              ${isFav ? '★ Favourited' : '☆ Favourite'}
+            </button>
+          </div>
+        </article>
+      `;
+    }
+
+    function renderAll(list){
+      const favs = getFavs();
+      elGrid.innerHTML = list.map(g => cardHTML(g, favs)).join("");
+      bindFavButtons(elGrid);
+    }
+
+    function renderSection(container, games){
+      const favs = getFavs();
+      container.innerHTML = games.map(g => cardHTML(g, favs)).join("");
+      bindFavButtons(container);
+    }
+
+    function bindFavButtons(scope){
+      scope.querySelectorAll("[data-fav]").forEach(btn=>{
+        btn.addEventListener("click", (e)=>{
+          const slug = btn.getAttribute("data-fav");
+          const favs = getFavs();
+          if (favs.has(slug)) favs.delete(slug); else favs.add(slug);
+          setFavs(favs);
+          // Update buttons in all grids
+          document.querySelectorAll(`[data-fav="${slug}"]`).forEach(b=>{
+            const active = favs.has(slug);
+            b.classList.toggle("active", active);
+            b.textContent = active ? "★ Favourited" : "☆ Favourite";
+          });
+          renderFavs(); // keep section in sync
+        });
+      });
+      // Track clicks to add to recent
+      scope.querySelectorAll("a.btn, a.game-title").forEach(a=>{
+        a.addEventListener("click", ()=> {
+          const slug = a.closest(".game-card").querySelector("[data-fav]").getAttribute("data-fav");
+          pushRecent(slug);
+        });
+      });
+    }
+
+    function renderFavs(){
+      const favs = getFavs();
+      const favList = GAMES.filter(g => favs.has(g.slug));
+      elFavSec.hidden = favList.length === 0;
+      if (!elFavSec.hidden) renderSection(elFavGrid, favList);
+    }
+
+    function renderRecent(){
+      const rec = getRecent().slice(0,6);
+      const games = rec.map(r => GAMES.find(g=>g.slug===r.slug)).filter(Boolean);
+      elRecentSec.hidden = games.length === 0;
+      if (!elRecentSec.hidden) renderSection(elRecentGrid, games);
+    }
+
+    // ---------- Search + Filters
+    function currentFilters(){
+      return [...document.querySelectorAll('.filters input:checked')].map(i=>i.value);
+    }
+
+    function applyFilters(){
+      const text = q.value.trim().toLowerCase();
+      const filters = currentFilters();
+      const cards = [...document.querySelectorAll(".game-card")];
+      let shown = 0;
+      for (const c of cards){
+        const title = c.dataset.title;
+        const tags = (c.dataset.tags || "").split(",");
+        const matchesText = !text || title.includes(text);
+        const matchesTags = filters.length === 0 || filters.every(f => tags.includes(f));
+        const visible = matchesText && matchesTags;
+        c.style.display = visible ? "grid" : "none";
+        if (visible) shown++;
+      }
+      // Optional: if zero results, we could show a friendly message
+    }
+
+    q.addEventListener("input", applyFilters);
+    clearBtn.addEventListener("click", ()=>{ q.value=""; applyFilters(); q.focus() });
+    document.querySelectorAll('.filters input').forEach(i => i.addEventListener("change", applyFilters));
+
+    // ---------- Init
+    renderAll(GAMES);
+    renderFavs();
+    renderRecent();
+    applyFilters();
+  </script>
 </body>
 </html>
