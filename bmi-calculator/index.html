@@ -1,65 +1,594 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617"
-     crossorigin="anonymous"></script>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>BMI Calculator - UpTools</title>
-    <meta name="description" content="Free BMI Calculator. Enter height and weight to see BMI and category instantly." />
-    <meta name="robots" content="index,follow" />
-    <meta name="theme-color" content="#0b1020" />
-    <link rel="canonical" href="https://www.uptools.in/bmi-calculator/" />
-    <meta property="og:title" content="BMI Calculator - UpTools" />
-    <meta property="og:description" content="Enter height and weight to see BMI and category instantly." />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://www.uptools.in/bmi-calculator/" />
-    <meta property="og:site_name" content="UpTools" />
-    <meta property="og:image" content="https://www.uptools.in/og/bmi.png" />
-    <meta name="twitter:card" content="summary" />
-    <link rel="icon" href="/favicon.ico" />
-    <link rel="stylesheet" href="/style.css" />
-  </head>
-  <body style="--accent:#ff8a65;--bg1:#20100b;--bg2:#30150e;--cardBorder:#66352a">
-    <main class="wrap">
-      <div class="tool-header"><div class="tool-icon">BMI</div><h1 style="margin:0">BMI Calculator</h1></div>
-      <div class="card">
-        <label class="label" for="height">Height (cm)</label>
-        <input id="height" class="input" type="number" min="0" step="0.1" placeholder="e.g., 170" />
+<head>
+  <!-- Ads (async, single) -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617" crossorigin="anonymous"></script>
 
-        <label class="label" for="weight">Weight (kg)</label>
-        <input id="weight" class="input" type="number" min="0" step="0.1" placeholder="e.g., 70" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        <button id="calcBtn" class="btn">Calculate</button>
+  <title>BMI Calculator (Metric & US) - Healthy Range, Body Fat %, WHtR | UpTools</title>
+  <meta name="description" content="Free BMI Calculator with instant results. Works for Metric (cm/kg) and US (ft/in, lb). Shows category (WHO or Asian cut-offs), healthy weight range, BMI Prime, estimated body fat %, and waist-to-height risk (WHtR). Offline, privacy-first, and blazing fast." />
+  <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
+  <meta name="theme-color" content="#0b1020" />
+  <link rel="canonical" href="https://www.uptools.in/bmi-calculator/" />
 
-        <div id="result" class="result" aria-live="polite"></div>
+  <!-- Open Graph / Twitter -->
+  <meta property="og:title" content="BMI Calculator - Healthy Range, Body Fat %, WHtR" />
+  <meta property="og:description" content="Instant BMI with WHO/Asian categories, healthy weight range, BMI Prime, body fat %, and WHtR. Metric & US units." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.uptools.in/bmi-calculator/" />
+  <meta property="og:site_name" content="UpTools" />
+  <meta property="og:image" content="https://www.uptools.in/og/bmi.png" />
+  <meta name="twitter:card" content="summary" />
+
+  <!-- Per-tool accent/theme -->
+  <style>
+    :root{
+      --accent:#ff8a65;    /* warm health orange */
+      --bg1:#20100b;
+      --bg2:#30150e;
+      --cardBorder:#66352a;
+    }
+    /* tiny chart */
+    .scale{ position:relative; height:12px; border-radius:999px; overflow:hidden; border:1px solid var(--cardBorder); background:#111; }
+    .seg{ height:100%; float:left; }
+    .pin{ position:absolute; top:-6px; width:0; height:0; border-left:6px solid transparent; border-right:6px solid transparent; border-bottom:6px solid var(--accent); transform:translateX(-50%); }
+    .legend{ display:flex; gap:8px; flex-wrap:wrap; margin-top:8px; }
+    .legend span{ display:inline-flex; align-items:center; gap:6px; font-size:12px; color:var(--muted); }
+    .legend i{ width:14px; height:10px; border-radius:3px; display:inline-block; }
+    .seg-u{ background:#60a5fa; }  /* under */
+    .seg-n{ background:#22c55e; }  /* normal */
+    .seg-o{ background:#f59e0b; }  /* over */
+    .seg-ob{ background:#ef4444; } /* obese */
+  </style>
+
+  <!-- CSS (shared) -->
+  <link rel="stylesheet" href="/style.css" />
+
+  <!-- Structured data -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"BreadcrumbList",
+    "itemListElement":[
+      {"@type":"ListItem","position":1,"name":"Home","item":"https://www.uptools.in/"},
+      {"@type":"ListItem","position":2,"name":"Health Tools","item":"https://www.uptools.in/#tools"},
+      {"@type":"ListItem","position":3,"name":"BMI Calculator","item":"https://www.uptools.in/bmi-calculator/"}
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"HowTo",
+    "name":"How to calculate your BMI online",
+    "description":"Enter your height and weight to get BMI, category, healthy weight range, BMI Prime, body fat %, and WHtR.",
+    "step":[
+      {"@type":"HowToStep","name":"Choose units","text":"Pick Metric (cm, kg) or US/UK (ft/in, lb)."},
+      {"@type":"HowToStep","name":"Enter height and weight","text":"Provide accurate values. Optionally add age, sex, and waist."},
+      {"@type":"HowToStep","name":"Select cut-offs","text":"Use WHO (global) or Asian cut-offs for category boundaries."},
+      {"@type":"HowToStep","name":"Calculate","text":"Click Calculate (or press Enter) to see results instantly."}
+    ],
+    "tool":[{"@type":"HowToTool","name":"BMI Calculator"}],
+    "url":"https://www.uptools.in/bmi-calculator/"
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"FAQPage",
+    "mainEntity":[
+      {"@type":"Question","name":"What is a healthy BMI?","acceptedAnswer":{"@type":"Answer","text":"Using WHO cut-offs for adults: 18.5-24.9 is considered normal. For many Asian populations, 18.5-22.9 is used as the normal range."}},
+      {"@type":"Question","name":"Is BMI accurate?","acceptedAnswer":{"@type":"Answer","text":"BMI is a quick screen and does not distinguish fat from muscle. Waist-to-height ratio and body fat % provide more context."}},
+      {"@type":"Question","name":"Does this work for children?","acceptedAnswer":{"@type":"Answer","text":"No. Children require age- and sex-specific BMI percentiles, which this simple adult calculator does not provide."}}
+    ]
+  }
+  </script>
+</head>
+<body>
+  <a href="#main" class="sr-only">Skip to content</a>
+
+  <header class="site" role="banner">
+    <div class="header-inner">
+      <a class="brand" href="/" aria-label="UpTools Home">
+        <img src="/assets/uptools-mark.svg" alt="UpTools logo" width="28" height="28">
+        <b>UpTools</b>
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="/#tools">Tools</a>
+        <a href="/age-calculator/">Age</a>
+        <a href="/bmi-calculator/">BMI</a>
+        <a href="/contact/">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="wrap" role="main">
+    <section class="tool-header" aria-labelledby="title">
+      <div class="tool-icon" aria-hidden="true">BMI</div>
+      <div>
+        <h1 id="title">BMI Calculator</h1>
+        <div class="chips" aria-label="Highlights">
+          <span class="pill">⚡ Instant</span>
+          <span class="pill">📏 Metric & US</span>
+          <span class="pill">🌍 WHO / 🌏 Asian</span>
+          <span class="pill">🧮 Body fat % & WHtR</span>
+        </div>
       </div>
-      <footer class="note small"><a href="/">UpTools</a></footer>
-    </main>
+    </section>
 
-    <script type="module">
-      const h = document.getElementById('height');
-      const w = document.getElementById('weight');
-      const r = document.getElementById('result');
-      const b = document.getElementById('calcBtn');
-      const fmt = (n) => Number(n).toFixed(1);
-      function calc(){
-        const cm = Number(h.value||0);
-        const kg = Number(w.value||0);
-        if(!cm || !kg){ r.textContent = 'Enter valid height and weight'; return; }
-        const m = cm/100;
-        const bmi = kg/(m*m);
-        let cat = 'Underweight';
-        if(bmi>=18.5 && bmi<25) cat='Normal';
-        else if(bmi>=25 && bmi<30) cat='Overweight';
-        else if(bmi>=30) cat='Obese';
-        r.innerHTML = `<div class="row"><span>BMI</span><span class="amount">${fmt(bmi)}</span></div><div class="row"><span>Category</span><span class="amount">${cat}</span></div>`;
+    <section class="layout">
+      <!-- Left: input form + education -->
+      <div>
+        <article class="card" aria-labelledby="form-head">
+          <h2 id="form-head">Enter your details</h2>
+
+          <form id="bmiForm" class="form-grid" autocomplete="off">
+            <div>
+              <label class="label" for="unit">Units</label>
+              <select id="unit" class="input" aria-label="Select unit system">
+                <option value="metric">Metric (cm, kg)</option>
+                <option value="us">US/UK (ft/in, lb)</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="label" for="std">Cut-offs</label>
+              <select id="std" class="input" aria-label="Select BMI boundaries">
+                <option value="who">WHO (Global)</option>
+                <option value="asian">Asian (SEAR/WPR)</option>
+              </select>
+            </div>
+
+            <!-- Metric height -->
+            <div id="gHeightMetric">
+              <label class="label" for="heightCm">Height (cm)</label>
+              <input id="heightCm" class="input" type="number" inputmode="decimal" min="0" step="0.1" placeholder="e.g., 170" />
+            </div>
+
+            <!-- US height -->
+            <div id="gHeightUS" class="hidden">
+              <label class="label" for="heightFt">Height (ft & in)</label>
+              <div style="display:flex;gap:8px;">
+                <input id="heightFt" class="input" type="number" inputmode="numeric" min="0" step="1" placeholder="ft" aria-label="Height feet" />
+                <input id="heightIn" class="input" type="number" inputmode="decimal" min="0" step="0.1" placeholder="in" aria-label="Height inches" />
+              </div>
+            </div>
+
+            <!-- Metric weight -->
+            <div id="gWeightMetric">
+              <label class="label" for="weightKg">Weight (kg)</label>
+              <input id="weightKg" class="input" type="number" inputmode="decimal" min="0" step="0.1" placeholder="e.g., 70" />
+            </div>
+
+            <!-- US weight -->
+            <div id="gWeightUS" class="hidden">
+              <label class="label" for="weightLb">Weight (lb)</label>
+              <input id="weightLb" class="input" type="number" inputmode="decimal" min="0" step="0.1" placeholder="e.g., 154" />
+            </div>
+
+            <div>
+              <label class="label" for="age">Age (years, optional)</label>
+              <input id="age" class="input" type="number" inputmode="numeric" min="0" step="1" placeholder="e.g., 30" />
+            </div>
+
+            <div>
+              <label class="label" for="sex">Sex (for body fat %, optional)</label>
+              <select id="sex" class="input">
+                <option value="none">Prefer not to say</option>
+                <option value="female">Female</option>
+                <option value="male">Male</option>
+              </select>
+            </div>
+
+            <div class="full">
+              <label class="label" for="waist">Waist circumference (cm, optional)</label>
+              <input id="waist" class="input" type="number" inputmode="decimal" min="0" step="0.1" placeholder="Measure at navel level" />
+            </div>
+
+            <div class="full toolbar" style="margin-top:4px;">
+              <button type="submit" class="btn" id="btnCalc">Calculate</button>
+              <button type="button" class="btn secondary" id="btnClear">Clear</button>
+
+              <div class="menu" id="moreMenu">
+                <button type="button" class="btn ghost menu-btn" aria-haspopup="true" aria-expanded="false" aria-controls="moreList">More ▾</button>
+                <div class="menu-list card" id="moreList" role="menu" aria-label="More actions">
+                  <button type="button" role="menuitem" id="btnCopy">Copy result</button>
+                  <button type="button" role="menuitem" id="btnPermalink">Copy permalink</button>
+                  <button type="button" role="menuitem" id="btnExample">Example values</button>
+                </div>
+              </div>
+            </div>
+          </form>
+
+          <div id="tips" class="note" style="margin-top:8px;" aria-live="polite"></div>
+        </article>
+
+        <section class="card" aria-labelledby="learn">
+          <h2 id="learn">Understanding your BMI</h2>
+          <p>BMI (Body Mass Index) is weight (kg) divided by height (m) squared. It’s a quick screening tool—not a diagnosis. Muscular people may read “high” despite low body fat, while some with “normal” BMI may still have central obesity.</p>
+          <div class="legend">
+            <span><i class="seg-u"></i>Under</span>
+            <span><i class="seg-n"></i>Normal</span>
+            <span><i class="seg-o"></i>Over</span>
+            <span><i class="seg-ob"></i>Obese</span>
+          </div>
+          <p class="note">References: <a href="https://www.who.int/news-room/fact-sheets/detail/obesity-and-overweight" rel="nofollow" target="_blank">WHO</a>, <a href="https://www.who.int/tools/child-growth-standards" rel="nofollow" target="_blank">WHO Child Standards</a>, <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4890841/" rel="nofollow" target="_blank">Asian BMI cut-offs</a>.</p>
+        </section>
+
+        <aside class="card" aria-labelledby="related">
+          <h2 id="related">Related tools</h2>
+          <ul class="tool-list">
+            <li><a class="tool-link accent-amber" href="/age-calculator/"><span class="ico" aria-hidden="true">🎂</span><span>Age Calculator</span></a></li>
+            <li><a class="tool-link accent-green" href="/ifsc-finder/"><span class="ico" aria-hidden="true">🏧</span><span>IFSC Finder</span></a></li>
+            <li><a class="tool-link accent-indigo" href="/emi-calculator/"><span class="ico" aria-hidden="true">💳</span><span>EMI Calculator</span></a></li>
+            <li><a class="tool-link accent-purple" href="/gst-calculator/"><span class="ico" aria-hidden="true">🧾</span><span>GST Calculator</span></a></li>
+            <li><a class="tool-link accent-cyan" href="/currency-converter/"><span class="ico" aria-hidden="true">💱</span><span>Currency Converter</span></a></li>
+          </ul>
+        </aside>
+
+        <section class="card" aria-labelledby="faq">
+          <h2 id="faq">FAQs</h2>
+          <details><summary>What are Asian BMI cut-offs?</summary><div class="note">Under &lt;18.5, Normal 18.5-22.9, Overweight 23-24.9, Obese ≥25. Choose “Asian” from the Cut-offs menu.</div></details>
+          <details><summary>What is BMI Prime?</summary><div class="note">BMI Prime = BMI ÷ 25. Values &lt;1.0 are below the global overweight threshold; &gt;1.0 above.</div></details>
+          <details><summary>What is WHtR?</summary><div class="note">Waist-to-height ratio (waist/height). Aim for &lt;0.5. 0.50-0.59 indicates increased risk; ≥0.60 is high risk.</div></details>
+        </section>
+
+        <section class="card" aria-labelledby="vid">
+          <h2 id="vid">Quick explainer 🎥</h2>
+          <iframe class="embed" loading="lazy" title="BMI explained"
+            src="https://www.youtube-nocookie.com/embed/eHfIfA9eGmY?rel=0&modestbranding=1"
+            allowfullscreen></iframe>
+        </section>
+      </div>
+
+      <!-- Right: sticky results -->
+      <aside class="sticky">
+        <div class="card result" aria-live="polite" aria-atomic="true">
+          <h2 style="margin-bottom:6px;">Your results</h2>
+          <div id="status" class="badge">—</div>
+
+          <div id="chart" class="scale" style="margin:12px 0;">
+            <!-- segments will be injected -->
+            <div id="pin" class="pin" style="left:0%"></div>
+          </div>
+
+          <div class="kvi"><span>BMI</span><span id="outBMI" class="amount">—</span></div>
+          <div class="kvi"><span>Category</span><span id="outCat" class="amount">—</span></div>
+          <div class="kvi"><span>Healthy weight range</span><span id="outRange" class="amount">—</span></div>
+          <div class="kvi"><span>BMI Prime</span><span id="outPrime" class="amount">—</span></div>
+          <div class="kvi"><span>Body fat % (est.)</span><span id="outBF" class="amount">—</span></div>
+          <div class="kvi"><span>Waist-to-height (WHtR)</span><span id="outWHtR" class="amount">—</span></div>
+
+          <div class="divider"></div>
+          <div class="btn-group">
+            <button class="btn secondary" id="btnCopyOut">Copy</button>
+            <button class="btn secondary" id="btnReset">Reset</button>
+          </div>
+
+          <div id="debug" class="note small" style="margin-top:10px;"></div>
+        </div>
+      </aside>
+    </section>
+
+    <footer class="note small site-footer" role="contentinfo">
+      © <span id="y"></span> UpTools · <a href="/about/">About</a> · <a href="/contact/">Contact</a> · <a href="/sitemap.xml">Sitemap</a> · <a href="/robots.txt">Robots</a>
+    </footer>
+  </main>
+
+  <!-- Logic (module) -->
+  <script type="module">
+    import { $, $$, fmtNum, debounce, serializeForm, setText, persist, read, clamp, num } from '/scripts/utils.js';
+
+    // ---- UI nodes
+    const E = {
+      form: $('#bmiForm'),
+      unit: $('#unit'),
+      std: $('#std'),
+      heightCm: $('#heightCm'),
+      heightFt: $('#heightFt'),
+      heightIn: $('#heightIn'),
+      weightKg: $('#weightKg'),
+      weightLb: $('#weightLb'),
+      age: $('#age'),
+      sex: $('#sex'),
+      waist: $('#waist'),
+      btnCalc: $('#btnCalc'),
+      btnClear: $('#btnClear'),
+      tips: $('#tips'),
+      status: $('#status'),
+      outBMI: $('#outBMI'),
+      outCat: $('#outCat'),
+      outRange: $('#outRange'),
+      outPrime: $('#outPrime'),
+      outBF: $('#outBF'),
+      outWHtR: $('#outWHtR'),
+      pin: $('#pin'),
+      chart: $('#chart'),
+      debug: $('#debug'),
+      btnCopy: $('#btnCopy'),
+      btnPermalink: $('#btnPermalink'),
+      btnExample: $('#btnExample'),
+      btnCopyOut: $('#btnCopyOut'),
+      btnReset: $('#btnReset'),
+      gHM: $('#gHeightMetric'),
+      gHU: $('#gHeightUS'),
+      gWM: $('#gWeightMetric'),
+      gWU: $('#gWeightUS'),
+      moreMenu: $('#moreMenu'),
+      moreBtn: $('#moreMenu .menu-btn'),
+      moreList: $('#moreList')
+    };
+
+    // ---- Constants
+    const WHO = { under: 18.5, normalHi: 24.9, overHi: 29.9 };       // obese >=30
+    const ASIAN = { under: 18.5, normalHi: 22.9, overHi: 24.9 };      // obese >=25
+    const KG_PER_LB = 0.45359237;
+    const CM_PER_IN = 2.54;
+
+    // ---- Helpers
+    const toMetric = () => {
+      if (E.unit.value === 'metric') {
+        const cm = num(E.heightCm.value);
+        const kg = num(E.weightKg.value);
+        return { cm, kg };
+      } else {
+        const ft = num(E.heightFt.value), inch = num(E.heightIn.value);
+        const totalIn = ft*12 + inch;
+        const cm = totalIn * CM_PER_IN;
+        const kg = num(E.weightLb.value) * KG_PER_LB;
+        return { cm, kg };
       }
-      b.addEventListener('click', calc);
-      [h,w].forEach(el=>el.addEventListener('keydown',e=>{ if(e.key==='Enter') calc(); }));
-    </script>
-  </body>
-  </html>
+    };
 
+    const bmiCalc = (kg, cm) => {
+      const m = cm/100;
+      if (!kg || !cm || m<=0) return 0;
+      return kg/(m*m);
+    };
 
+    const stdCfg = () => (E.std.value === 'asian' ? ASIAN : WHO);
 
+    const catFor = (bmi, std) => {
+      if (!bmi) return '—';
+      if (bmi < std.under) return 'Underweight';
+      if (bmi <= std.normalHi) return 'Normal';
+      if (bmi <= std.overHi) return 'Overweight';
+      return 'Obese';
+    };
+
+    const healthyWeightRange = (cm) => {
+      const m = cm/100;
+      const s = stdCfg();
+      const lo = 18.5*m*m;
+      const hi = s.normalHi*m*m;
+      return { lo, hi };
+    };
+
+    const bmiPrime = (bmi) => bmi ? (bmi/25) : 0; // by definition vs 25
+
+    // Deurenberg body fat %
+    // BF% = 1.20*BMI + 0.23*age - 10.8*sex - 5.4 (sex: male=1, female=0; if unknown, omit term)
+    const bodyFat = (bmi, age, sex) => {
+      if (!bmi || !age || sex==='none') return null;
+      const sx = (sex==='male') ? 1 : 0;
+      const val = 1.20*bmi + 0.23*age - 10.8*sx - 5.4;
+      return Math.max(2, Math.min(75, val)); // clamp to reasonable range
+    };
+
+    const whtr = (waistCm, heightCm) => {
+      if (!waistCm || !heightCm) return null;
+      return waistCm/heightCm;
+    };
+
+    const whtrLabel = (v) => {
+      if (v==null) return '—';
+      if (v < 0.5) return 'Healthy';
+      if (v < 0.6) return 'Increased risk';
+      return 'High risk';
+    };
+
+    // Small chart segments injected according to standard
+    const renderScale = () => {
+      const s = stdCfg();
+      const max = 40; // scale to 40 BMI
+      E.chart.querySelectorAll('.seg').forEach(n=>n.remove());
+      const mk = (w, cls) => {
+        const d = document.createElement('div');
+        d.className = `seg ${cls}`; d.style.width = (w*100/max)+'%'; E.chart.insertBefore(d, E.pin);
+      };
+      // segments: [0,under), [under, normalHi], [normalHi, overHi], [overHi, 40]
+      mk(s.under, 'seg-u');
+      mk(s.normalHi - s.under, 'seg-n');
+      mk(s.overHi - s.normalHi, 'seg-o');
+      mk(max - s.overHi, 'seg-ob');
+    };
+
+    const setStatus = (text, cls='')=>{
+      E.status.classList.remove('ok','warn','err');
+      if (cls) E.status.classList.add(cls);
+      E.status.textContent = text;
+    };
+
+    const fmt1 = (x) => (x==null || !isFinite(x)) ? '—' : Number(x).toFixed(1);
+
+    const copy = async (val)=>{ try{ await navigator.clipboard.writeText(val); alert('Copied!'); }catch{ alert('Copy failed'); } };
+
+    const updatePin = (bmi) => {
+      const max = 40;
+      const pct = clamp((bmi / max)*100, 0, 100);
+      E.pin.style.left = pct + '%';
+    };
+
+    const updatePermalink = ()=>{
+      const u = new URL(location.href);
+      const { cm, kg } = toMetric();
+      if (cm) u.searchParams.set('h', String(cm)); else u.searchParams.delete('h');
+      if (kg) u.searchParams.set('w', String(kg)); else u.searchParams.delete('w');
+      u.searchParams.set('u', E.unit.value);
+      u.searchParams.set('s', E.std.value);
+      const a = E.age.value.trim(); if (a) u.searchParams.set('a', a); else u.searchParams.delete('a');
+      const sx = E.sex.value; if (sx!=='none') u.searchParams.set('x', sx); else u.searchParams.delete('x');
+      const wc = E.waist.value.trim(); if (wc) u.searchParams.set('wc', wc); else u.searchParams.delete('wc');
+      history.replaceState(null, '', u.toString());
+    };
+
+    const applyParams = ()=>{
+      const u = new URL(location.href);
+      const unit = u.searchParams.get('u');
+      const std = u.searchParams.get('s');
+      if (unit) E.unit.value = unit;
+      if (std) E.std.value = std;
+      toggleUnits();
+      const h = num(u.searchParams.get('h'));
+      const w = num(u.searchParams.get('w'));
+      if (h) {
+        if (E.unit.value==='metric'){ E.heightCm.value = fmt1(h); }
+        else {
+          const totalIn = h/CM_PER_IN;
+          const ft = Math.floor(totalIn/12);
+          const inch = totalIn - ft*12;
+          E.heightFt.value = ft; E.heightIn.value = fmt1(inch);
+        }
+      }
+      if (w) {
+        if (E.unit.value==='metric'){ E.weightKg.value = fmt1(w); }
+        else { E.weightLb.value = fmt1(w / KG_PER_LB); }
+      }
+      const a = u.searchParams.get('a'); if (a) E.age.value = a;
+      const x = u.searchParams.get('x'); if (x) E.sex.value = x;
+      const wc = u.searchParams.get('wc'); if (wc) E.waist.value = wc;
+    };
+
+    // ---- Main calculation
+    const calculate = ()=>{
+      const { cm, kg } = toMetric();
+      if (!cm || !kg){ setStatus('Enter valid height and weight', 'warn'); return; }
+      const bmi = bmiCalc(kg, cm);
+      const s = stdCfg();
+      const cat = catFor(bmi, s);
+      const range = healthyWeightRange(cm);
+      const prime = bmiPrime(bmi);
+      const bf = bodyFat(bmi, num(E.age.value), E.sex.value);
+      const ratio = whtr(num(E.waist.value), cm);
+
+      // Output
+      setText(E.outBMI, fmt1(bmi));
+      setText(E.outCat, cat);
+      const isUS = E.unit.value==='us';
+      const lo = isUS ? (range.lo / KG_PER_LB) : range.lo;
+      const hi = isUS ? (range.hi / KG_PER_LB) : range.hi;
+      setText(E.outRange, (isUS ? `${fmt1(lo)}-${fmt1(hi)} lb` : `${fmt1(range.lo)}-${fmt1(range.hi)} kg`));
+      setText(E.outPrime, fmt1(prime));
+      setText(E.outBF, bf==null ? '—' : `${fmt1(bf)}%`);
+      setText(E.outWHtR, ratio==null ? '—' : `${fmt1(ratio)} (${whtrLabel(ratio)})`);
+
+      // Status & tips
+      const cls = (cat==='Normal') ? 'ok' : (cat==='Overweight' ? 'warn' : (cat==='Obese' ? 'err' : 'warn'));
+      setStatus(`Result: ${cat}`, cls);
+      updatePin(bmi);
+      E.tips.innerHTML = [
+        (cat!=='Normal') ? 'Tip: Aim for a healthy BMI range (see range above).' : 'Great! You are in the healthy BMI range.',
+        ratio!=null ? 'Waist-to-height helps capture central fat; keep it < 0.5.' : 'Add waist to get WHtR risk.'
+      ].join(' ');
+
+      // Persist simple state
+      persist('bmi:last', {
+        unit:E.unit.value, std:E.std.value, cm, kg,
+        age:E.age.value, sex:E.sex.value, waist:E.waist.value, ts:Date.now()
+      });
+      updatePermalink();
+
+      // Debug
+      E.debug.textContent = '';
+    };
+
+    // ---- UI wiring
+    const toggleUnits = ()=>{
+      const isMetric = E.unit.value==='metric';
+      E.gHM.classList.toggle('hidden', !isMetric);
+      E.gHU.classList.toggle('hidden', isMetric);
+      E.gWM.classList.toggle('hidden', !isMetric);
+      E.gWU.classList.toggle('hidden', isMetric);
+    };
+
+    // Chart once
+    renderScale();
+
+    // Events
+    E.form.addEventListener('submit', (e)=>{ e.preventDefault(); calculate(); });
+    E.btnClear.addEventListener('click', ()=>{
+      ['heightCm','heightFt','heightIn','weightKg','weightLb','age','waist'].forEach(id=>{ const el = $('#'+id); if (el) el.value=''; });
+      E.sex.value='none';
+      setStatus('Cleared','warn');
+      ['outBMI','outCat','outRange','outPrime','outBF','outWHtR'].forEach(id=> setText($('#'+id), '—'));
+      E.tips.textContent='';
+      updatePermalink();
+    });
+    E.btnCopyOut.addEventListener('click', ()=>{
+      const text = [
+        `BMI: ${E.outBMI.textContent}`,
+        `Category: ${E.outCat.textContent} (${E.std.value.toUpperCase()})`,
+        `Healthy weight range: ${E.outRange.textContent}`,
+        `BMI Prime: ${E.outPrime.textContent}`,
+        `Body fat % (est.): ${E.outBF.textContent}`,
+        `WHtR: ${E.outWHtR.textContent}`
+      ].join('\n');
+      navigator.clipboard.writeText(text).then(()=>alert('Copied!')).catch(()=>alert('Copy failed'));
+    });
+    E.btnReset.addEventListener('click', ()=>E.btnClear.click());
+
+    // More menu
+    E.moreBtn.addEventListener('click', ()=>{
+      const open = E.moreMenu.classList.toggle('open');
+      E.moreBtn.setAttribute('aria-expanded', open?'true':'false');
+    });
+    document.addEventListener('click', (e)=>{
+      if (!E.moreMenu.contains(e.target)) { E.moreMenu.classList.remove('open'); E.moreBtn.setAttribute('aria-expanded','false'); }
+    });
+
+    $('#btnCopy').addEventListener('click', ()=>E.btnCopyOut.click());
+    $('#btnPermalink').addEventListener('click', ()=>{ updatePermalink(); copy(location.href); });
+    $('#btnExample').addEventListener('click', ()=>{
+      E.unit.value='metric'; toggleUnits();
+      E.heightCm.value='170'; E.weightKg.value='70';
+      E.std.value='who'; E.age.value='30'; E.sex.value='male'; E.waist.value='82';
+      calculate();
+    });
+
+    // Unit/standard changes
+    E.unit.addEventListener('change', ()=>{ toggleUnits(); calculate(); });
+    E.std.addEventListener('change', ()=>{ renderScale(); calculate(); });
+
+    // Recalculate on input (debounced)
+    [E.heightCm,E.heightFt,E.heightIn,E.weightKg,E.weightLb,E.age,E.sex,E.waist].forEach(el=>{
+      if (!el) return;
+      el.addEventListener('input', debounce(calculate, 150));
+    });
+
+    // Keyboard: Enter to calc
+    document.addEventListener('keydown', (e)=>{ if(e.key==='Enter' && (document.activeElement && document.activeElement.tagName==='INPUT')){ e.preventDefault(); calculate(); } });
+
+    // On load: year, restore, params
+    $('#y').textContent = new Date().getFullYear();
+    const last = read('bmi:last', null);
+    if (last){
+      E.unit.value = last.unit || 'metric';
+      E.std.value = last.std || 'who';
+      toggleUnits();
+      if (E.unit.value==='metric'){ E.heightCm.value = last.cm||''; E.weightKg.value = last.kg||''; }
+      else {
+        const totalIn = (last.cm||0)/CM_PER_IN;
+        const ft = Math.floor(totalIn/12);
+        const inch = totalIn - ft*12;
+        E.heightFt.value = ft||''; E.heightIn.value = inch?inch.toFixed(1):'';
+        E.weightLb.value = last.kg ? (last.kg/KG_PER_LB).toFixed(1) : '';
+      }
+      E.age.value = last.age||''; E.sex.value = last.sex||'none'; E.waist.value = last.waist||'';
+    }
+    applyParams();
+    calculate();
+  </script>
+</body>
+</html>

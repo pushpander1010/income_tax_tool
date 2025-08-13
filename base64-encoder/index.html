@@ -1,42 +1,551 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617"
-     crossorigin="anonymous"></script>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Base64 Encoder/Decoder - UpTools</title>
-    <meta name="description" content="Easily encode and decode Base64 strings with our online tool. Supports UTF-8 characters. Fast, simple, and works entirely in your browser for maximum privacy." />
-    <meta name="robots" content="index,follow" />
-    <meta name="theme-color" content="#0b1020" />
-    <link rel="canonical" href="https://www.uptools.in/base64-encoder/" />
-    <meta property="og:title" content="Base64 Encoder/Decoder - UpTools" />
-    <meta property="og:description" content="Encode or decode Base64 text." />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://www.uptools.in/base64-encoder/" />
-    <meta property="og:site_name" content="UpTools" />
-    <meta name="twitter:card" content="summary" />
-    <link rel="stylesheet" href="/style.css" />
-  </head>
-  <body style="--accent:#f1c0e8;--bg1:#200b1f;--bg2:#300e2e;--cardBorder:#663061">
-    <main class="wrap">
-      <div class="tool-header"><div class="tool-icon">64</div><h1 style="margin:0">Base64 Encoder/Decoder</h1></div>
-      <div class="card">
-        <label class="label" for="txt">Text</label>
-        <textarea id="txt" class="input" rows="6"></textarea>
-        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
-          <button id="enc" class="btn">Encode</button>
-          <button id="dec" class="btn">Decode</button>
-        </div>
-        <div id="out" class="result" style="white-space:pre-wrap;word-break:break-all"></div>
-      </div>
-      <footer class="note small"><a href="/">UpTools</a></footer>
-    </main>
-    <script type="module">
-      const T=document.getElementById('txt'),O=document.getElementById('out');
-      document.getElementById('enc').addEventListener('click',()=>{ O.textContent=btoa(unescape(encodeURIComponent(T.value||''))); });
-      document.getElementById('dec').addEventListener('click',()=>{ try{ O.textContent=decodeURIComponent(escape(atob(T.value||''))); }catch{ O.textContent='Invalid Base64'; } });
-    </script>
-  </body>
-  </html>
+<head>
+  <!-- Ads (async, single) -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617" crossorigin="anonymous"></script>
 
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Base64 Encoder & Decoder (Text/File, URL‑Safe, Wrap) – UpTools</title>
+  <meta name="description" content="Free, privacy‑first Base64 encoder/decoder. Works fully offline in your browser. Encode text or files (images, PDFs), decode to text or download bytes, support for URL‑safe Base64, padding, MIME line‑wrap (76 chars), drag‑and‑drop, copy, permalink, and quick examples. UTF‑8 safe, no data leaves your device." />
+  <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
+  <meta name="theme-color" content="#0b1020" />
+  <link rel="canonical" href="https://www.uptools.in/base64-encoder/" />
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:title" content="Base64 Encoder & Decoder – Text/File, URL‑Safe, Wrap" />
+  <meta property="og:description" content="Encode or decode text & files with UTF‑8, URL‑safe Base64, padding, MIME wrap, drag‑drop, copy, and downloads. All in your browser." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.uptools.in/base64-encoder/" />
+  <meta property="og:site_name" content="UpTools" />
+  <meta property="og:image" content="https://www.uptools.in/assets/uptools-mark.svg" />
+  <meta name="twitter:card" content="summary" />
+
+  <!-- Per‑tool color scheme -->
+  <style>
+    :root{
+      --accent:#f1c0e8;   /* soft pink */
+      --bg1:#200b1f;
+      --bg2:#300e2e;
+      --cardBorder:#663061;
+    }
+  </style>
+
+  <!-- CSS (shared) -->
+  <link rel="stylesheet" href="/style.css" />
+
+  <!-- Structured data -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"BreadcrumbList",
+    "itemListElement":[
+      {"@type":"ListItem","position":1,"name":"Home","item":"https://www.uptools.in/"},
+      {"@type":"ListItem","position":2,"name":"Developer Tools","item":"https://www.uptools.in/#tools"},
+      {"@type":"ListItem","position":3,"name":"Base64 Encoder/Decoder","item":"https://www.uptools.in/base64-encoder/"}
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"HowTo",
+    "name":"How to encode/decode Base64 online",
+    "description":"Encode text or files to Base64 and decode Base64 back to text/bytes in your browser.",
+    "step":[
+      {"@type":"HowToStep","name":"Enter or drop input","text":"Type/paste text or drag a file into the drop zone."},
+      {"@type":"HowToStep","name":"Choose options","text":"Toggle URL‑safe, padding, and line wrap as needed."},
+      {"@type":"HowToStep","name":"Encode or Decode","text":"Click Encode to produce Base64, or Decode to convert Base64 back to text/bytes."},
+      {"@type":"HowToStep","name":"Copy or Download","text":"Copy the result or download decoded bytes as a file."}
+    ],
+    "tool":[{"@type":"HowToTool","name":"Base64 Encoder/Decoder"}],
+    "url":"https://www.uptools.in/base64-encoder/"
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"FAQPage",
+    "mainEntity":[
+      {"@type":"Question","name":"What is URL‑safe Base64?","acceptedAnswer":{"@type":"Answer","text":"A variant that replaces '+' with '-' and '/' with '_' so values are safe in URLs and filenames. Padding '=' may be omitted."}},
+      {"@type":"Question","name":"Why does decoding fail?","acceptedAnswer":{"@type":"Answer","text":"Common reasons: stray whitespace, missing padding, or non‑Base64 characters. Use the Clean button or enable padding restore."}},
+      {"@type":"Question","name":"Is my data uploaded?","acceptedAnswer":{"@type":"Answer","text":"No. Everything runs client‑side in your browser."}}
+    ]
+  }
+  </script>
+</head>
+<body>
+  <a href="#main" class="sr-only">Skip to content</a>
+
+  <header class="site" role="banner">
+    <div class="header-inner">
+      <a class="brand" href="/" aria-label="UpTools Home">
+        <img src="/assets/uptools-mark.svg" alt="UpTools logo" width="28" height="28">
+        <b>UpTools</b>
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="/#tools">Tools</a>
+        <a href="/json-formatter/">JSON</a>
+        <a href="/text-case-converter/">Text</a>
+        <a href="/color-picker/">Color</a>
+        <a href="/contact/">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="wrap" role="main">
+    <section class="tool-header" aria-labelledby="title">
+      <div class="tool-icon" aria-hidden="true">64</div>
+      <div>
+        <h1 id="title">Base64 Encoder/Decoder</h1>
+        <div class="chips" aria-label="Highlights">
+          <span class="pill">🔒 Offline</span>
+          <span class="pill">🧰 Text & File</span>
+          <span class="pill">🌐 URL‑safe</span>
+          <span class="pill">✂ Wrap 76</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="layout">
+      <!-- Left column: controls -->
+      <div>
+        <article class="card" aria-labelledby="work-head">
+          <h2 id="work-head">Encode or Decode</h2>
+
+          <!-- Options -->
+          <div class="form-grid">
+            <div>
+              <label class="label" for="mode">Mode</label>
+              <select id="mode" class="input" aria-label="Choose encode or decode">
+                <option value="encode">Encode (text → Base64)</option>
+                <option value="decode">Decode (Base64 → text/bytes)</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="label" for="urlsafe">URL‑safe Variant</label>
+              <select id="urlsafe" class="input">
+                <option value="off">Off (RFC 4648 standard)</option>
+                <option value="on">On (use - and _)</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="label" for="padding">Padding “=”</label>
+              <select id="padding" class="input">
+                <option value="keep">Keep/restore padding</option>
+                <option value="strip">Strip padding</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="label" for="wrap">Line Wrap</label>
+              <select id="wrap" class="input">
+                <option value="none">No wrap</option>
+                <option value="76">MIME 76 chars</option>
+                <option value="64">64 chars</option>
+              </select>
+            </div>
+
+            <div class="full">
+              <label class="label" for="input">Input</label>
+              <textarea id="input" class="textarea" rows="6" placeholder="Type or paste here…"></textarea>
+              <div class="note">Tip: You can also drag &amp; drop a file into the box below to encode it.</div>
+            </div>
+
+            <div class="full">
+              <label class="label" for="drop">Drop a file (optional)</label>
+              <div id="drop" class="result center" style="min-height:80px; text-align:center;" aria-label="Drag and drop file here">
+                <div class="muted">📁 Drop file here or <label class="chip" style="cursor:pointer">choose<input id="file" type="file" class="sr-only" /></label></div>
+              </div>
+            </div>
+
+            <div class="full toolbar">
+              <button id="btnGo" class="btn">Run</button>
+              <button id="btnSwap" class="btn secondary">Swap</button>
+              <button id="btnClean" class="btn secondary">Clean</button>
+
+              <div class="menu" id="moreMenu">
+                <button type="button" class="btn ghost menu-btn" aria-haspopup="true" aria-expanded="false" aria-controls="moreList">More ▾</button>
+                <div class="menu-list card" id="moreList" role="menu" aria-label="More actions">
+                  <button type="button" role="menuitem" id="btnCopyOut">Copy output</button>
+                  <button type="button" role="menuitem" id="btnPermalink">Copy permalink</button>
+                  <button type="button" role="menuitem" id="btnDownload">Download decoded bytes</button>
+                  <button type="button" role="menuitem" id="btnExampleTxt">Example: “नमस्ते world 👋”</button>
+                  <button type="button" role="menuitem" id="btnExampleImg">Example: Tiny PNG</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <section class="card" aria-labelledby="learn">
+          <h2 id="learn">What is Base64?</h2>
+          <p>Base64 encodes binary data as readable text using 64 symbols (A–Z, a–z, 0–9, +, /). It’s used for data URLs, email (MIME), JSON embedding, and URL‑safe tokens.</p>
+          <p class="note">Spec: <a href="https://datatracker.ietf.org/doc/html/rfc4648" rel="nofollow" target="_blank">RFC&nbsp;4648</a>. For email/MIME wrapping guidance, see <a href="https://www.rfc-editor.org/rfc/rfc2045" rel="nofollow" target="_blank">RFC&nbsp;2045</a>.</p>
+        </section>
+
+        <aside class="card" aria-labelledby="related">
+          <h2 id="related">Related tools</h2>
+          <ul class="tool-list">
+            <li><a class="tool-link accent-violet" href="/json-formatter/"><span class="ico" aria-hidden="true">🧩</span><span>JSON Formatter</span></a></li>
+            <li><a class="tool-link accent-lime" href="/uuid-generator/"><span class="ico" aria-hidden="true">🆔</span><span>UUID Generator</span></a></li>
+            <li><a class="tool-link accent-sky" href="/qr-generator/"><span class="ico" aria-hidden="true">🔳</span><span>QR Code Generator</span></a></li>
+            <li><a class="tool-link accent-orange" href="/word-counter/"><span class="ico" aria-hidden="true">📝</span><span>Word Counter</span></a></li>
+            <li><a class="tool-link accent-indigo" href="/ip-address/"><span class="ico" aria-hidden="true">🌐</span><span>Your IP Address</span></a></li>
+          </ul>
+        </aside>
+
+        <section class="card" aria-labelledby="faq">
+          <h2 id="faq">FAQs</h2>
+          <details><summary>Why UTF‑8 matters when encoding text?</summary><div class="note">Characters like “न” or “👋” require UTF‑8 to round‑trip correctly. This tool uses <code>TextEncoder</code>/<code>TextDecoder</code> so non‑ASCII text is safe.</div></details>
+          <details><summary>How do I make Base64 URL‑safe?</summary><div class="note">Enable URL‑safe to swap <code>+</code>→<code>-</code> and <code>/</code>→<code>_</code>. Optionally strip padding <code>=</code>.</div></details>
+          <details><summary>Why is my output wrapped?</summary><div class="note">Email (MIME) often wraps at 76 characters. Choose “No wrap” for single‑line output.</div></details>
+        </section>
+
+        <section class="card" aria-labelledby="vid">
+          <h2 id="vid">60‑second explainer 🎥</h2>
+          <iframe class="embed" loading="lazy" title="What is Base64?"
+            src="https://www.youtube-nocookie.com/embed/HxajB-nH6lY?rel=0&modestbranding=1"
+            allowfullscreen></iframe>
+        </section>
+      </div>
+
+      <!-- Right column: sticky result panel -->
+      <aside class="sticky">
+        <div class="card result" aria-live="polite" aria-atomic="true">
+          <h2 style="margin-bottom:6px;">Output</h2>
+          <div class="badge" id="status">—</div>
+          <div class="divider"></div>
+
+          <div class="kvi"><span>Bytes in</span><span id="statIn" class="amount">0</span></div>
+          <div class="kvi"><span>Bytes out</span><span id="statOut" class="amount">0</span></div>
+          <div class="kvi"><span>Estimated size change</span><span id="statChange" class="amount">—</span></div>
+
+          <div class="divider"></div>
+          <textarea id="output" class="textarea" rows="10" aria-label="Output"></textarea>
+
+          <div class="btn-group" style="margin-top:8px;">
+            <button id="copy" class="btn secondary">Copy</button>
+            <button id="download" class="btn secondary">Download</button>
+            <button id="clearOut" class="btn secondary">Clear</button>
+          </div>
+
+          <div id="preview" class="note small" style="margin-top:10px;"></div>
+        </div>
+      </aside>
+    </section>
+
+    <footer class="note small site-footer" role="contentinfo">
+      © <span id="y"></span> UpTools · <a href="/about/">About</a> · <a href="/contact/">Contact</a> · <a href="/sitemap.xml">Sitemap</a> · <a href="/robots.txt">Robots</a>
+    </footer>
+  </main>
+
+  <!-- Logic (module, uses shared utils) -->
+  <script type="module">
+    import { $, $$, debounce, setText, persist, read } from '/scripts/utils.js';
+
+    // Helpers — UTF‑8 safe conversions
+    const enc = new TextEncoder();
+    const dec = new TextDecoder();
+
+    const bytesToBase64 = (bytes) => {
+      // Convert Uint8Array → binary string for btoa
+      let bin = '';
+      const chunk = 0x8000;
+      for (let i = 0; i < bytes.length; i += chunk) {
+        bin += String.fromCharCode.apply(null, bytes.subarray(i, i + chunk));
+      }
+      return btoa(bin);
+    };
+
+    const base64ToBytes = (b64) => {
+      const bin = atob(b64);
+      const bytes = new Uint8Array(bin.length);
+      for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+      return bytes;
+    };
+
+    const makeUrlSafe = (s) => s.replace(/\+/g,'-').replace(/\//g,'_');
+    const undoUrlSafe = (s) => s.replace(/-/g,'+').replace(/_/g,'/');
+
+    const addPadding = (s) => {
+      const m = s.length % 4;
+      return m ? s + '='.repeat(4 - m) : s;
+    };
+    const stripPadding = (s) => s.replace(/=+$/,'');
+
+    const wrapAt = (s, n) => n === 0 ? s : s.replace(new RegExp(`(.{1,${n}})`, 'g'), '$1\n').trim();
+
+    const cleanBase64 = (s) => s.replace(/\s+/g,'').replace(/[^A-Za-z0-9+/_=-]/g,''); // keep URL safe too
+
+    // UI nodes
+    const els = {
+      mode: $('#mode'),
+      urlsafe: $('#urlsafe'),
+      padding: $('#padding'),
+      wrap: $('#wrap'),
+      input: $('#input'),
+      file: $('#file'),
+      drop: $('#drop'),
+      output: $('#output'),
+      status: $('#status'),
+      statIn: $('#statIn'),
+      statOut: $('#statOut'),
+      statChange: $('#statChange'),
+      copy: $('#copy'),
+      download: $('#download'),
+      clearOut: $('#clearOut'),
+      btnGo: $('#btnGo'),
+      btnSwap: $('#btnSwap'),
+      btnClean: $('#btnClean'),
+      moreMenu: $('#moreMenu'),
+      moreBtn: $('#moreMenu .menu-btn'),
+      moreList: $('#moreList'),
+      btnCopyOut: $('#btnCopyOut'),
+      btnPermalink: $('#btnPermalink'),
+      btnDownload: $('#btnDownload'),
+      btnExampleTxt: $('#btnExampleTxt'),
+      btnExampleImg: $('#btnExampleImg'),
+      preview: $('#preview')
+    };
+
+    // Stats + status
+    const setStatus = (text, cls='')=>{
+      els.status.classList.remove('ok','warn','err');
+      if (cls) els.status.classList.add(cls);
+      els.status.textContent = text;
+    };
+    const setStats = (inBytes, outBytes) =>{
+      setText(els.statIn, String(inBytes));
+      setText(els.statOut, String(outBytes));
+      if (inBytes === 0 && outBytes === 0) return setText(els.statChange,'—');
+      const change = outBytes && inBytes ? ((outBytes/inBytes - 1)*100) : 0;
+      setText(els.statChange, (isFinite(change) ? (change>=0?'+':'')+change.toFixed(1)+'%' : '—'));
+    };
+
+    // Encode (text or file bytes in inputBoxState) → base64
+    const runEncode = async () => {
+      // if file bytes present, prefer them
+      const fileState = read('b64:fileState', null);
+      let bytes;
+      if (fileState?.bytes) {
+        bytes = new Uint8Array(fileState.bytes);
+      } else {
+        const txt = els.input.value;
+        bytes = enc.encode(txt);
+      }
+      const urlSafe = els.urlsafe.value === 'on';
+      const paddingMode = els.padding.value; // keep / strip
+      const wrapMode = els.wrap.value;
+
+      let b64 = bytesToBase64(bytes);
+      if (urlSafe) b64 = makeUrlSafe(b64);
+      if (paddingMode === 'strip') b64 = stripPadding(b64);
+      if (wrapMode !== 'none') b64 = wrapAt(b64, parseInt(wrapMode, 10));
+
+      els.output.value = b64;
+      setStatus('Encoded ✓', 'ok');
+      setStats(bytes.length, els.output.value.replace(/\s+/g,'').length);
+      renderPreview(null); // no preview for encoded text
+    };
+
+    // Decode base64 (from input textarea) → bytes → text OR keep bytes for download
+    const runDecode = async () => {
+      let raw = els.input.value;
+      // normalize whitespace and URL‑safe
+      raw = raw.trim();
+      const isUrlSafeLikely = /[-_]/.test(raw) && !/[+/]/.test(raw);
+      if (els.urlsafe.value === 'on' || isUrlSafeLikely) raw = undoUrlSafe(raw);
+      raw = cleanBase64(raw);
+      if (els.padding.value === 'keep') raw = addPadding(raw);
+      try{
+        const bytes = base64ToBytes(raw);
+        // Try interpret as UTF‑8 text
+        let text = '';
+        try { text = dec.decode(bytes); } catch { text = ''; }
+        els.output.value = text || `[${bytes.length} bytes decoded — use “Download” to save]`;
+        setStatus('Decoded ✓', 'ok');
+        setStats(raw.length, text ? text.length : bytes.length);
+        persist('b64:lastBytes', Array.from(bytes));
+        renderPreview(bytes);
+      }catch(e){
+        setStatus('Invalid Base64', 'err');
+        setStats(0,0);
+        renderPreview(null);
+      }
+    };
+
+    const renderPreview = (bytesOrNull) => {
+      const box = els.preview;
+      if (!bytesOrNull) { box.innerHTML=''; return; }
+      const bytes = bytesOrNull instanceof Uint8Array ? bytesOrNull : new Uint8Array(bytesOrNull);
+      // Very small magic‑byte detection for common image types
+      const isPNG = bytes[0]===0x89 && bytes[1]===0x50 && bytes[2]===0x4E && bytes[3]===0x47;
+      const isJPG = bytes[0]===0xFF && bytes[1]===0xD8 && bytes[bytes.length-2]===0xFF && bytes[bytes.length-1]===0xD9;
+      const isGIF = bytes[0]===0x47 && bytes[1]===0x49 && bytes[2]===0x46;
+      if (isPNG || isJPG || isGIF){
+        const blob = new Blob([bytes], { type: isPNG?'image/png':(isJPG?'image/jpeg':'image/gif') });
+        const url = URL.createObjectURL(blob);
+        box.innerHTML = `<div class="note">Preview:</div><img src="${url}" alt="Decoded image preview" style="max-width:100%;border-radius:8px;border:1px solid var(--cardBorder)" />`;
+        // Revoke later
+        setTimeout(()=>URL.revokeObjectURL(url), 8000);
+      } else {
+        box.innerHTML = `<div class="note">Decoded ${bytes.length} bytes (no preview). Use <b>Download</b> to save.</div>`;
+      }
+    };
+
+    // Run
+    const go = () => {
+      persist('b64:ui', {
+        mode: els.mode.value, urlsafe: els.urlsafe.value, padding: els.padding.value, wrap: els.wrap.value
+      });
+      if (els.mode.value === 'encode') runEncode();
+      else runDecode();
+      updatePermalink();
+    };
+
+    // Swap input<->output
+    const swap = () => {
+      const t = els.input.value;
+      els.input.value = els.output.value;
+      els.output.value = t;
+      setStatus('Swapped', 'warn');
+    };
+
+    // Clean base64 input
+    const clean = () => {
+      if (els.mode.value === 'decode'){
+        let v = els.input.value.trim();
+        const likelyUrl = /[-_]/.test(v) && !/[+/]/.test(v);
+        if (likelyUrl) v = undoUrlSafe(v);
+        v = cleanBase64(v);
+        els.input.value = v;
+        setStatus('Cleaned (A–Z, a–z, 0–9, +, /)', 'ok');
+      } else {
+        els.input.value = els.input.value.replace(/\r/g,'');
+        setStatus('Whitespace cleaned', 'ok');
+      }
+    };
+
+    // Clipboard & downloads
+    const copy = async (val)=>{ try{ await navigator.clipboard.writeText(val); alert('Copied!'); }catch{ alert('Copy failed'); } };
+    const downloadBytes = (fname='decoded.bin')=>{
+      const arr = read('b64:lastBytes', null);
+      if (!arr) return alert('No decoded bytes available yet.');
+      const blob = new Blob([new Uint8Array(arr)], {type:'application/octet-stream'});
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob); a.download = fname; a.click();
+      URL.revokeObjectURL(a.href);
+    };
+
+    // Drag & drop for files → store bytes
+    const handleFile = (file)=>{
+      const fr = new FileReader();
+      fr.onload = (e)=>{
+        const bytes = new Uint8Array(e.target.result);
+        persist('b64:fileState', { name:file.name, bytes:Array.from(bytes) });
+        setText($('#status'), `Loaded file: ${file.name}`);
+        setStats(bytes.length, 0);
+      };
+      fr.readAsArrayBuffer(file);
+    };
+    els.drop.addEventListener('dragover', (e)=>{ e.preventDefault(); els.drop.classList.add('skeleton'); });
+    els.drop.addEventListener('dragleave', ()=> els.drop.classList.remove('skeleton'));
+    els.drop.addEventListener('drop', (e)=>{
+      e.preventDefault(); els.drop.classList.remove('skeleton');
+      const file = e.dataTransfer.files?.[0]; if (file) handleFile(file);
+    });
+    els.file.addEventListener('change', (e)=>{
+      const file = e.target.files?.[0]; if (file) handleFile(file);
+    });
+
+    // Menu toggle
+    els.moreBtn.addEventListener('click', ()=>{
+      const open = els.moreMenu.classList.toggle('open');
+      els.moreBtn.setAttribute('aria-expanded', open?'true':'false');
+    });
+    document.addEventListener('click', (e)=>{
+      if(!els.moreMenu.contains(e.target)){ els.moreMenu.classList.remove('open'); els.moreBtn.setAttribute('aria-expanded','false'); }
+    });
+
+    // Buttons
+    els.btnGo.addEventListener('click', go);
+    els.btnSwap.addEventListener('click', swap);
+    els.btnClean.addEventListener('click', clean);
+
+    els.copy.addEventListener('click', ()=> copy(els.output.value));
+    els.clearOut.addEventListener('click', ()=> { els.output.value=''; setStatus('Cleared','warn'); });
+    els.download.addEventListener('click', ()=> els.mode.value==='decode' ? downloadBytes() : alert('Download is for decoded bytes only.'));
+    els.btnCopyOut.addEventListener('click', ()=> copy(els.output.value));
+    els.btnPermalink.addEventListener('click', ()=>{
+      updatePermalink();
+      copy(location.href);
+    });
+    els.btnDownload.addEventListener('click', ()=> downloadBytes());
+    els.btnExampleTxt.addEventListener('click', ()=>{
+      els.mode.value='encode';
+      els.input.value='नमस्ते world 👋';
+      go();
+    });
+    els.btnExampleImg.addEventListener('click', ()=>{
+      // 1x1 transparent PNG (43 bytes)
+      const tinyPngB64 = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR4nGMAAQAABQABDQottAAAAABJRU5ErkJggg==';
+      els.mode.value='decode';
+      els.urlsafe.value='off';
+      els.padding.value='keep';
+      els.wrap.value='none';
+      els.input.value=tinyPngB64;
+      go();
+    });
+
+    // Live keyboard shortcut: Ctrl/Cmd+Enter → Run
+    document.addEventListener('keydown', (e)=>{
+      if ((e.ctrlKey||e.metaKey) && e.key === 'Enter') { e.preventDefault(); go(); }
+    });
+
+    // Permalink state
+    const updatePermalink = ()=>{
+      const u = new URL(location.href);
+      u.searchParams.set('m', els.mode.value);
+      u.searchParams.set('u', els.urlsafe.value);
+      u.searchParams.set('p', els.padding.value);
+      u.searchParams.set('w', els.wrap.value);
+      const txt = els.input.value;
+      if (txt && txt.length <= 800) u.searchParams.set('in', encodeURIComponent(txt));
+      else u.searchParams.delete('in');
+      history.replaceState(null, '', u.toString());
+    };
+    const applyPermalink = ()=>{
+      const u = new URL(location.href);
+      const gv = (k,d)=>u.searchParams.get(k) ?? d;
+      els.mode.value = gv('m','encode');
+      els.urlsafe.value = gv('u','off');
+      els.padding.value = gv('p','keep');
+      els.wrap.value = gv('w','none');
+      const _in = u.searchParams.get('in');
+      if (_in) els.input.value = decodeURIComponent(_in);
+    };
+
+    // Restore UI prefs
+    const restoreUI = ()=>{
+      const ui = read('b64:ui', null);
+      if (!ui) return;
+      els.mode.value = ui.mode ?? els.mode.value;
+      els.urlsafe.value = ui.urlsafe ?? els.urlsafe.value;
+      els.padding.value = ui.padding ?? els.padding.value;
+      els.wrap.value = ui.wrap ?? els.wrap.value;
+    };
+
+    // Footer year
+    $('#y').textContent = new Date().getFullYear();
+
+    // Init
+    applyPermalink();
+    restoreUI();
+    setStatus('Ready','warn');
+  </script>
+</body>
+</html>
