@@ -589,17 +589,26 @@
 
             function runTimer() {
                 const tick = 50; // smooth
-                const start = performance.now();
                 clearTimer();
+
+                // How much time had already elapsed before (e.g. if resuming)?
+                const alreadyElapsed = state.timeLimit - state.timeLeft; // 0 for fresh round
+                // Anchor start so elapsed = now - _timerStart includes prior elapsed correctly
+                state._timerStart = performance.now() - alreadyElapsed;
+
                 state.timerId = setInterval(() => {
-                    const elapsed = performance.now() - start + (state.timeLimit - state.timeLeft);
+                    const elapsed = performance.now() - state._timerStart;   // <-- no double-add
                     state.timeLeft = clamp(state.timeLimit - elapsed, 0, state.timeLimit);
+
                     const pct = (state.timeLeft / state.timeLimit) * 100;
                     els.timer.style.width = pct + "%";
-                    els.timer.className = "timer-fill" + (pct <= 25 ? " danger" : pct <= 50 ? " warning" : "");
+                    els.timer.className =
+                        "timer-fill" + (pct <= 25 ? " danger" : pct <= 50 ? " warning" : "");
+
                     if (state.timeLeft <= 0) gameOver();
                 }, tick);
             }
+
             function clearTimer() { if (state.timerId) { clearInterval(state.timerId); state.timerId = null; } }
 
             function buildGrid() {
