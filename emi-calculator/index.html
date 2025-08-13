@@ -195,17 +195,17 @@
 
       <div class="grid">
         <div class="result">
-          <div class="kvi"><span>Monthly EMI</span><span id="emi" class="amount">—</span></div>
-          <div class="kvi"><span>Total Interest</span><span id="interest" class="amount">—</span></div>
-          <div class="kvi"><span>Total Payment</span><span id="total" class="amount">—</span></div>
-          <div class="kvi"><span>Payoff Months</span><span id="monthsOut" class="amount">—</span></div>
+          <div class="kvi"><span>Monthly EMI</span><span id="emi" class="amount">-</span></div>
+          <div class="kvi"><span>Total Interest</span><span id="interest" class="amount">-</span></div>
+          <div class="kvi"><span>Total Payment</span><span id="total" class="amount">-</span></div>
+          <div class="kvi"><span>Payoff Months</span><span id="monthsOut" class="amount">-</span></div>
         </div>
 
         <div class="result" id="compareBox" style="display:none;">
           <div class="label">Comparison</div>
-          <div class="kvi"><span>EMI (Loan B)</span><span id="emi2" class="amount">—</span></div>
-          <div class="kvi"><span>Total Interest (B)</span><span id="interest2" class="amount">—</span></div>
-          <div class="kvi"><span>Difference (Interest)</span><span id="diffInt" class="amount">—</span></div>
+          <div class="kvi"><span>EMI (Loan B)</span><span id="emi2" class="amount">-</span></div>
+          <div class="kvi"><span>Total Interest (B)</span><span id="interest2" class="amount">-</span></div>
+          <div class="kvi"><span>Difference (Interest)</span><span id="diffInt" class="amount">-</span></div>
         </div>
       </div>
 
@@ -245,7 +245,7 @@
         </ul>
         <p>If r = 0, EMI = P ÷ n.</p>
       </details>
-      <p class="note">Related: <a href="/fd-calculator/">FD Calculator</a> · <a href="/sip-calculator/">SIP Calculator</a> · <a href="/income-tax-calculator/">Income Tax Calculator</a></p>
+      <p class="note">Related: <a href="/fd-calculator/">FD Calculator</a> · <a href="/sip-calculator/">SIP Calculator</a> · <a href="/income-tax-tool/">Income Tax Calculator</a></p>
     </section>
 
     <footer class="note small site-footer" role="contentinfo">
@@ -256,8 +256,8 @@
   <script defer>
   (function(){
     const $ = id => document.getElementById(id);
-    const fmt = n => isFinite(n) ? "₹" + Number(n).toLocaleString("en-IN", {maximumFractionDigits:0}) : "—";
-    const fmt2 = n => isFinite(n) ? "₹" + Number(n).toLocaleString("en-IN", {minimumFractionDigits:2, maximumFractionDigits:2}) : "—";
+    const fmt = n => isFinite(n) ? "₹" + Number(n).toLocaleString("en-IN", {maximumFractionDigits:0}) : "-";
+    const fmt2 = n => isFinite(n) ? "₹" + Number(n).toLocaleString("en-IN", {minimumFractionDigits:2, maximumFractionDigits:2}) : "-";
 
     const amount=$("amount"), rate=$("rate"), tenure=$("tenure"), tenureUnit=$("tenureUnit");
     const prepayMonth=$("prepayMonth"), prepayAmount=$("prepayAmount");
@@ -369,7 +369,7 @@
       const pa = Number(prepayAmount.value||0);
 
       if(!(P>0 && R>=0 && n>0)){
-        emiOut.textContent = interestOut.textContent = totalOut.textContent = monthsOut.textContent = "—";
+        emiOut.textContent = interestOut.textContent = totalOut.textContent = monthsOut.textContent = "-";
         scheduleDiv.textContent = "Enter valid numbers to calculate.";
         scheduleWrap.classList.add("hidden");
         compareBox.style.display = "none";

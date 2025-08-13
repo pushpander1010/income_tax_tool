@@ -1,517 +1,443 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617"
-     crossorigin="anonymous"></script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Number Guessing - Free Online Game | UpTools</title>
-    <meta name="description" content="Play Number Guessing online for free. Guess the number in as few tries as possible. Multiple difficulty levels at UpTools.">
-    <meta name="robots" content="index,follow">
-    <meta name="theme-color" content="#0f1419">
-    <meta property="og:title" content="Number Guessing - Free Online Game | UpTools">
-    <meta property="og:description" content="Play Number Guessing online for free. Guess the number in as few tries as possible.">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://www.uptools.in/games/number-guessing">
-    <meta property="og:site_name" content="UpTools">
-    <link rel="canonical" href="https://www.uptools.in/games/number-guessing">
-    <link rel="stylesheet" href="/style.css?v=1.0.0">
-    <style>
-        body {
-            --accent: #ff9800;
-            --bg: #0f1419;
-            --card: #1e2634;
-            background: linear-gradient(135deg, var(--bg), #1a1f2e);
-        }
-        
-        .game-container {
-            max-width: 600px;
-            margin: 0 auto;
-            text-align: center;
-        }
-        
-        .game-stats {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin: 1rem 0;
-            padding: 1rem;
-            background: var(--card);
-            border-radius: var(--radius);
-            border: 1px solid var(--cardBorder);
-        }
-        
-        .stat-item {
-            text-align: center;
-        }
-        
-        .stat-value {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: var(--accent);
-        }
-        
-        .stat-label {
-            font-size: 0.8rem;
-            color: var(--muted);
-        }
-        
-        .difficulty-selector {
-            margin: 1rem 0;
-        }
-        
-        .difficulty-btn {
-            padding: 0.5rem 1rem;
-            margin: 0 0.25rem;
-            border: 1px solid var(--cardBorder);
-            background: var(--card);
-            color: var(--text);
-            border-radius: var(--radius);
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-        
-        .difficulty-btn.active {
-            background: var(--accent);
-            color: white;
-            border-color: var(--accent);
-        }
-        
-        .difficulty-btn:hover {
-            border-color: var(--accent);
-        }
-        
-        .game-area {
-            background: var(--card);
-            border: 1px solid var(--cardBorder);
-            border-radius: var(--radius);
-            padding: 2rem;
-            margin: 2rem 0;
-        }
-        
-        .guess-input {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            align-items: center;
-            margin: 2rem 0;
-        }
-        
-        .guess-input input {
-            padding: 0.75rem 1rem;
-            border: 2px solid var(--cardBorder);
-            border-radius: var(--radius);
-            background: var(--bg);
-            color: var(--text);
-            font-size: 1.2rem;
-            text-align: center;
-            width: 120px;
-        }
-        
-        .guess-input input:focus {
-            outline: none;
-            border-color: var(--accent);
-        }
-        
-        .guess-history {
-            max-height: 300px;
-            overflow-y: auto;
-            margin: 2rem 0;
-            text-align: left;
-        }
-        
-        .guess-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0.75rem;
-            margin: 0.5rem 0;
-            background: var(--bg);
-            border-radius: var(--radius);
-            border: 1px solid var(--cardBorder);
-        }
-        
-        .guess-number {
-            font-weight: bold;
-            color: var(--text);
-        }
-        
-        .guess-feedback {
-            padding: 0.25rem 0.75rem;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: 600;
-        }
-        
-        .feedback-high {
-            background: #ff6b6b;
-            color: white;
-        }
-        
-        .feedback-low {
-            background: #4ecdc4;
-            color: white;
-        }
-        
-        .feedback-correct {
-            background: var(--accent);
-            color: white;
-            animation: correctPulse 0.6s ease-in-out;
-        }
-        
-        @keyframes correctPulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-        
-        .hint-area {
-            background: var(--bg);
-            border: 1px solid var(--cardBorder);
-            border-radius: var(--radius);
-            padding: 1rem;
-            margin: 1rem 0;
-            text-align: left;
-        }
-        
-        .hint-title {
-            color: var(--accent);
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-        
-        .hint-text {
-            color: var(--muted);
-            font-size: 0.9rem;
-        }
-        
-        .controls {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            margin: 1rem 0;
-        }
-        
-        .btn-game {
-            padding: 0.75rem 1.5rem;
-            border: none;
-            border-radius: var(--radius);
-            background: var(--accent);
-            color: white;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-        
-        .btn-game:hover {
-            transform: translateY(-2px);
-            box-shadow: var(--shadow-hover);
-        }
-        
-        .btn-secondary {
-            background: var(--cardBorder);
-        }
-        
-        .game-status {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: var(--text);
-            margin: 1rem 0;
-        }
-        
-        .range-display {
-            color: var(--muted);
-            font-size: 0.9rem;
-            margin: 1rem 0;
-        }
-        
-        .win-message {
-            background: var(--accent);
-            color: white;
-            padding: 1rem;
-            border-radius: var(--radius);
-            margin: 1rem 0;
-            font-weight: 600;
-        }
-    </style>
+  <!-- Ads (async). Consider idle-loading for best CWV in production. -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617" crossorigin="anonymous"></script>
+
+  <!-- Hints (third-party) -->
+  <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
+  <link rel="dns-prefetch" href="//pagead2.googlesyndication.com">
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Number Guessing Game - Free Online (Easy/Medium/Hard) | UpTools</title>
+  <meta name="description" content="Play the Number Guessing game online - free, fast and privacy-first. Choose Easy (1–50), Medium (1–100) or Hard (1–200). Track best score, time, and win streaks. Share challenge links with friends!" />
+  <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
+  <meta name="theme-color" content="#0f1419" />
+
+  <link rel="canonical" href="https://www.uptools.in/games/number-guessing/" />
+  <meta property="og:title" content="Number Guessing - Free Online Game | UpTools" />
+  <meta property="og:description" content="Guess the number with smart hints. Difficulty levels, timer, streaks, and shareable challenges." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.uptools.in/games/number-guessing/" />
+  <meta property="og:site_name" content="UpTools" />
+  <meta property="og:image" content="https://www.uptools.in/assets/uptools-mark.svg" />
+  <meta name="twitter:card" content="summary" />
+
+  <link rel="icon" type="image/svg+xml" href="/assets/uptools-mark.svg" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/uptools-mark.svg" />
+
+  <!-- Shared CSS -->
+  <link rel="stylesheet" href="/style.css?v=1.0.0" />
+
+  <!-- Page accent + compact tweaks -->
+  <style>
+    :root{ --accent:#ff9800; --bg1:#0f1419; --bg2:#1a1f2e; --content-w:980px; }
+    .game-container{ max-width:760px; margin:0 auto; }
+    .compact{ padding:18px; }
+    .game-stats{ display:flex; justify-content:space-between; align-items:center; gap:12px; margin:12px 0; padding:12px; background:var(--card); border:1px solid var(--cardBorder); border-radius:var(--radius); }
+    .stat-item{ text-align:center; min-width:110px; }
+    .stat-value{ font-size:1.5rem; font-weight:700; color:var(--accent); }
+    .stat-label{ font-size:12px; color:var(--muted); }
+    .difficulty-selector{ display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin:10px 0 4px; }
+    .difficulty-btn{ padding:6px 10px; border:1px solid var(--cardBorder); background:var(--card); color:var(--text); border-radius:8px; cursor:pointer; transition:border-color .2s, transform .15s; }
+    .difficulty-btn:hover{ border-color:var(--accent); transform:translateY(-1px); }
+    .difficulty-btn.active{ background:var(--accent); color:#fff; border-color:var(--accent); }
+    .game-area{ background:var(--card); border:1px solid var(--cardBorder); border-radius:var(--radius); padding:20px; margin:16px 0; }
+    .guess-input{ display:flex; gap:10px; justify-content:center; align-items:center; margin:14px 0; flex-wrap:wrap; }
+    .guess-input input{ padding:10px 12px; border:1px solid var(--cardBorder); border-radius:8px; background:var(--bg); color:var(--text); font-size:18px; width:130px; text-align:center; }
+    .btn-game{ padding:10px 16px; border:0; border-radius:8px; background:var(--accent); color:#fff; font-weight:700; cursor:pointer; transition:transform .15s, box-shadow .15s; }
+    .btn-game:hover{ transform:translateY(-1px); box-shadow:var(--shadow-hover); }
+    .btn-secondary{ background:rgba(255,255,255,.08); border:1px solid var(--cardBorder); color:var(--text); }
+    .range-display{ color:var(--muted); font-size:13px; margin:6px 0; }
+    .hint-area{ background:var(--bg); border:1px solid var(--cardBorder); border-radius:8px; padding:10px; margin-top:10px; }
+    .hint-title{ color:var(--accent); font-weight:700; margin-bottom:6px; }
+    .hint-text{ color:var(--muted); font-size:13px; }
+    .guess-history{ max-height:280px; overflow:auto; margin:12px 0; }
+    .guess-item{ display:flex; justify-content:space-between; align-items:center; gap:10px; padding:8px 10px; margin:6px 0; background:var(--bg); border:1px solid var(--cardBorder); border-radius:8px; }
+    .guess-feedback{ padding:2px 10px; border-radius:999px; font-size:12px; font-weight:700; }
+    .feedback-high{ background:#ef4444; color:#fff; } .feedback-low{ background:#06b6d4; color:#00131a; } .feedback-hot{ background:#f59e0b; color:#1a0e00; } .feedback-correct{ background:var(--accent); color:#0b1020; }
+    .toolbar{ display:flex; align-items:center; gap:8px; }
+    .spacer{ flex:1; }
+    .more>summary{ list-style:none; cursor:pointer; } .more>summary::-webkit-details-marker{ display:none; }
+    .more .menu{ margin-top:8px; display:grid; gap:6px; }
+    .pill-inline{ display:inline-flex; gap:6px; flex-wrap:wrap; align-items:center; font-size:12px; color:var(--muted); }
+    .pill-inline .pill{ padding:4px 8px; }
+    .sr{ position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; }
+  </style>
+
+  <!-- Structured data -->
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
+    {"@type":"ListItem","position":1,"name":"UpTools","item":"https://www.uptools.in/"},
+    {"@type":"ListItem","position":2,"name":"Games","item":"https://www.uptools.in/games/"},
+    {"@type":"ListItem","position":3,"name":"Number Guessing","item":"https://www.uptools.in/games/number-guessing/"}
+  ]}</script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"Game","name":"Number Guessing","url":"https://www.uptools.in/games/number-guessing/","applicationCategory":"BrowserGame","operatingSystem":"Any","genre":"Puzzle","playMode":"SinglePlayer","description":"Guess a secret number with smart hints. Easy, Medium, Hard modes, timer, streaks, and shareable challenges."}
+  </script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+    {"@type":"Question","name":"How do I play?","acceptedAnswer":{"@type":"Answer","text":"Pick a difficulty, then enter guesses. You’ll see High/Low feedback and temperature hints. Win with the fewest attempts and time."}},
+    {"@type":"Question","name":"What are challenge links?","acceptedAnswer":{"@type":"Answer","text":"Share a link that encodes the difficulty and a seed so friends play the exact same hidden number."}}
+  ]}</script>
 </head>
 <body>
-    <div class="container">
-        <div class="tool-header">
-            <a href="/games" class="back-btn">← Back to Games</a>
-            <h1>🎲 Number Guessing</h1>
-            <p>Guess the number in as few tries as possible. Can you beat your high score?</p>
-        </div>
+  <a href="#main" class="sr-only">Skip to content</a>
 
-        <div class="game-container">
-            <div class="difficulty-selector">
-                <span style="color: var(--muted); margin-right: 1rem;">Difficulty:</span>
-                <button class="difficulty-btn active" data-difficulty="easy">Easy (1-50)</button>
-                <button class="difficulty-btn" data-difficulty="medium">Medium (1-100)</button>
-                <button class="difficulty-btn" data-difficulty="hard">Hard (1-200)</button>
-            </div>
+  <header class="site" role="banner">
+    <div class="header-inner">
+      <a class="brand" href="/" aria-label="UpTools Home">
+        <img src="/assets/uptools-mark.svg" alt="UpTools logo" width="28" height="28">
+        <b>UpTools</b>
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="/#tools">Tools</a>
+        <a href="/games/">Games</a>
+        <a href="/about/">About</a>
+        <a href="/contact/">Contact</a>
+      </nav>
+    </div>
+  </header>
 
-            <div class="game-stats">
-                <div class="stat-item">
-                    <div class="stat-value" id="attempts">0</div>
-                    <div class="stat-label">Attempts</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-value" id="best-attempts">--</div>
-                    <div class="stat-label">Best</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-value" id="games-won">0</div>
-                    <div class="stat-label">Games Won</div>
-                </div>
-            </div>
-
-            <div class="game-area">
-                <div class="game-status" id="game-status">I'm thinking of a number...</div>
-                <div class="range-display" id="range-display">Range: 1 - 50</div>
-                
-                <div class="guess-input">
-                    <input type="number" id="guessInput" placeholder="Enter guess" min="1" max="50">
-                    <button class="btn-game" id="submitGuess">Guess!</button>
-                </div>
-                
-                <div class="hint-area" id="hintArea" style="display: none;">
-                    <div class="hint-title">💡 Hint:</div>
-                    <div class="hint-text" id="hintText"></div>
-                </div>
-                
-                <div class="guess-history" id="guessHistory"></div>
-            </div>
-
-            <div class="controls">
-                <button class="btn-game" id="newGameBtn">New Game</button>
-                <button class="btn-game btn-secondary" id="resetStatsBtn">Reset Stats</button>
-            </div>
-        </div>
+  <main id="main" class="wrap" role="main">
+    <div class="tool-header" role="doc-introduction" style="padding:12px 16px; gap:12px;">
+      <a href="/games/" class="back-btn" aria-label="Back to Games">←</a>
+      <span class="tool-icon" aria-hidden="true">🎲</span>
+      <div>
+        <h1 style="margin:0 0 4px;">Number Guessing</h1>
+        <p class="note" style="margin:0;">Guess the secret number in as few tries (and time) as possible. Share challenge links with friends!</p>
+      </div>
     </div>
 
-    <script>
-        class NumberGuessingGame {
-            constructor() {
-                this.targetNumber = 0;
-                this.attempts = 0;
-                this.gameActive = false;
-                this.difficulty = 'easy';
-                this.guesses = [];
-                this.gamesWon = 0;
-                this.bestAttempts = {
-                    easy: null,
-                    medium: null,
-                    hard: null
-                };
-                
-                this.difficultyConfig = {
-                    easy: { min: 1, max: 50, hintFrequency: 3 },
-                    medium: { min: 1, max: 100, hintFrequency: 5 },
-                    hard: { min: 1, max: 200, hintFrequency: 7 }
-                };
-                
-                this.initializeGame();
-            }
+    <section class="game-container" aria-label="Number guessing game">
+      <article class="card compact">
+        <div class="difficulty-selector" role="group" aria-label="Select difficulty">
+          <span class="muted">Difficulty:</span>
+          <button class="difficulty-btn active" data-difficulty="easy" aria-pressed="true">Easy (1–50)</button>
+          <button class="difficulty-btn" data-difficulty="medium" aria-pressed="false">Medium (1–100)</button>
+          <button class="difficulty-btn" data-difficulty="hard" aria-pressed="false">Hard (1–200)</button>
+          <span class="pill-inline" style="margin-left:auto">
+            <span class="pill">⌨️ Enter = Guess</span>
+            <span class="pill">N = New</span>
+            <span class="pill">H = Hint</span>
+          </span>
+        </div>
 
-            initializeGame() {
-                this.loadStats();
-                this.setupEventListeners();
-                this.startNewGame();
-            }
+        <div class="game-stats" aria-live="polite">
+          <div class="stat-item"><div class="stat-value" id="attempts">0</div><div class="stat-label">Attempts</div></div>
+          <div class="stat-item"><div class="stat-value" id="timer">00:00</div><div class="stat-label">Time</div></div>
+          <div class="stat-item"><div class="stat-value" id="best">-</div><div class="stat-label">Best (attempts · time)</div></div>
+          <div class="stat-item"><div class="stat-value" id="streak">0</div><div class="stat-label">Win streak</div></div>
+        </div>
 
-            setupEventListeners() {
-                document.getElementById('submitGuess').addEventListener('click', () => {
-                    this.submitGuess();
-                });
-                
-                document.getElementById('newGameBtn').addEventListener('click', () => {
-                    this.startNewGame();
-                });
-                
-                document.getElementById('resetStatsBtn').addEventListener('click', () => {
-                    this.resetStats();
-                });
-                
-                document.getElementById('guessInput').addEventListener('keypress', (e) => {
-                    if (e.key === 'Enter') {
-                        this.submitGuess();
-                    }
-                });
-                
-                document.querySelectorAll('.difficulty-btn').forEach(btn => {
-                    btn.addEventListener('click', (e) => {
-                        this.setDifficulty(e.target.dataset.difficulty);
-                    });
-                });
-            }
+        <div class="game-area">
+          <div class="game-status" id="game-status" aria-live="polite">I'm thinking of a number…</div>
+          <div class="range-display" id="range-display">Range: 1–50</div>
 
-            setDifficulty(level) {
-                this.difficulty = level;
-                document.querySelectorAll('.difficulty-btn').forEach(btn => {
-                    btn.classList.remove('active');
-                });
-                event.target.classList.add('active');
-                
-                this.startNewGame();
-            }
+          <form class="guess-input" id="guessForm" autocomplete="off">
+            <label class="sr" for="guessInput">Enter your guess</label>
+            <input type="number" id="guessInput" inputmode="numeric" placeholder="Your guess" min="1" max="50" aria-describedby="range-display" />
+            <button class="btn-game" id="submitGuess" type="submit" aria-label="Submit guess">Guess!</button>
+            <button class="btn-game btn-secondary" id="hintBtn" type="button" aria-label="Get a hint">Hint</button>
+            <details class="more">
+              <summary class="btn-game btn-secondary" aria-haspopup="menu">More ▾</summary>
+              <div class="menu">
+                <button type="button" class="btn-game btn-secondary" id="newGameBtn">New Game</button>
+                <button type="button" class="btn-game btn-secondary" id="shareBtn">Share Challenge</button>
+                <button type="button" class="btn-game btn-secondary" id="resetStatsBtn">Reset Stats</button>
+                <button type="button" class="btn-game btn-secondary" id="revealBtn">Reveal Number</button>
+              </div>
+            </details>
+          </form>
 
-            startNewGame() {
-                const config = this.difficultyConfig[this.difficulty];
-                this.targetNumber = Math.floor(Math.random() * (config.max - config.min + 1)) + config.min;
-                this.attempts = 0;
-                this.gameActive = true;
-                this.guesses = [];
-                
-                document.getElementById('game-status').textContent = `I'm thinking of a number between ${config.min} and ${config.max}...`;
-                document.getElementById('range-display').textContent = `Range: ${config.min} - ${config.max}`;
-                document.getElementById('attempts').textContent = '0';
-                document.getElementById('guessInput').value = '';
-                document.getElementById('guessHistory').innerHTML = '';
-                document.getElementById('hintArea').style.display = 'none';
-                
-                document.getElementById('guessInput').focus();
-                document.getElementById('guessInput').min = config.min;
-                document.getElementById('guessInput').max = config.max;
-            }
+          <div class="hint-area" id="hintArea" hidden>
+            <div class="hint-title">💡 Hint</div>
+            <div class="hint-text" id="hintText"></div>
+          </div>
 
-            submitGuess() {
-                if (!this.gameActive) return;
-                
-                const input = document.getElementById('guessInput');
-                const guess = parseInt(input.value);
-                
-                if (isNaN(guess)) {
-                    alert('Please enter a valid number!');
-                    return;
-                }
-                
-                const config = this.difficultyConfig[this.difficulty];
-                if (guess < config.min || guess > config.max) {
-                    alert(`Please enter a number between ${config.min} and ${config.max}!`);
-                    return;
-                }
-                
-                this.attempts++;
-                this.guesses.push(guess);
-                this.updateDisplay();
-                
-                if (guess === this.targetNumber) {
-                    this.winGame();
-                } else {
-                    this.provideFeedback(guess);
-                    this.checkHint();
-                }
-                
-                input.value = '';
-                input.focus();
-            }
+          <div class="guess-history" id="guessHistory" aria-live="polite" aria-label="Guess history"></div>
+        </div>
 
-            provideFeedback(guess) {
-                const feedback = guess > this.targetNumber ? 'Too high!' : 'Too low!';
-                const feedbackClass = guess > this.targetNumber ? 'feedback-high' : 'feedback-low';
-                
-                const guessItem = document.createElement('div');
-                guessItem.className = 'guess-item';
-                guessItem.innerHTML = `
-                    <span class="guess-number">Guess #${this.attempts}: ${guess}</span>
-                    <span class="guess-feedback ${feedbackClass}">${feedback}</span>
-                `;
-                
-                document.getElementById('guessHistory').appendChild(guessItem);
-                document.getElementById('guessHistory').scrollTop = document.getElementById('guessHistory').scrollHeight;
-            }
+        <div class="note small">
+          Pro tip: Use binary search - start near the midpoint of the range and cut the space in half each guess.
+        </div>
+      </article>
 
-            checkHint() {
-                const config = this.difficultyConfig[this.difficulty];
-                if (this.attempts % config.hintFrequency === 0) {
-                    this.showHint();
-                }
-            }
+      <aside class="note small" style="margin-top:14px;">
+        Related: <a href="/games/">All games</a> · <a href="/word-counter/">📝 Word Counter</a> · <a href="/json-formatter/">🧩 JSON Formatter</a> · <a href="/qr-generator/">🔳 QR Generator</a> ·
+        External: <a href="https://en.wikipedia.org/wiki/Binary_search_algorithm" rel="nofollow noopener" target="_blank">Binary Search</a>
+      </aside>
+    </section>
 
-            showHint() {
-                const config = this.difficultyConfig[this.difficulty];
-                const range = config.max - config.min;
-                const hintText = `The number is in the ${this.targetNumber > range / 2 ? 'upper' : 'lower'} half of the range.`;
-                
-                document.getElementById('hintText').textContent = hintText;
-                document.getElementById('hintArea').style.display = 'block';
-            }
+    <footer class="note small site-footer" role="contentinfo" style="margin-top:20px;">
+      © <span id="y"></span> UpTools · <a href="/about/">About</a> · <a href="/contact/">Contact</a> · <a href="/sitemap.xml">Sitemap</a> · <a href="/robots.txt">Robots</a>
+    </footer>
+  </main>
 
-            winGame() {
-                this.gameActive = false;
-                this.gamesWon++;
-                
-                const winMessage = document.createElement('div');
-                winMessage.className = 'win-message';
-                winMessage.textContent = `🎉 Congratulations! You found the number in ${this.attempts} attempts!`;
-                
-                document.getElementById('guessHistory').appendChild(winMessage);
-                document.getElementById('games-won').textContent = this.gamesWon;
-                
-                // Check for best score
-                if (!this.bestAttempts[this.difficulty] || this.attempts < this.bestAttempts[this.difficulty]) {
-                    this.bestAttempts[this.difficulty] = this.attempts;
-                    document.getElementById('best-attempts').textContent = this.attempts;
-                }
-                
-                this.saveStats();
-                
-                document.getElementById('game-status').textContent = 'You won! Click "New Game" to play again.';
-            }
+  <script>
+  (function(){
+    const $ = (s, r=document) => r.querySelector(s);
+    const $$ = (s, r=document) => [...r.querySelectorAll(s)];
 
-            updateDisplay() {
-                document.getElementById('attempts').textContent = this.attempts;
-                
-                if (this.bestAttempts[this.difficulty]) {
-                    document.getElementById('best-attempts').textContent = this.bestAttempts[this.difficulty];
-                }
-            }
+    const els = {
+      attempts: $("#attempts"), timer: $("#timer"), best: $("#best"), streak: $("#streak"),
+      status: $("#game-status"), range: $("#range-display"), input: $("#guessInput"),
+      history: $("#guessHistory"), hintArea: $("#hintArea"), hintText: $("#hintText"),
+      form: $("#guessForm")
+    };
 
-            loadStats() {
-                const savedStats = localStorage.getItem('number-guessing-stats');
-                if (savedStats) {
-                    const stats = JSON.parse(savedStats);
-                    this.gamesWon = stats.gamesWon || 0;
-                    this.bestAttempts = stats.bestAttempts || { easy: null, medium: null, hard: null };
-                }
-                
-                document.getElementById('games-won').textContent = this.gamesWon;
-                if (this.bestAttempts[this.difficulty]) {
-                    document.getElementById('best-attempts').textContent = this.bestAttempts[this.difficulty];
-                }
-            }
+    const STORAGE_KEY = "uptools:number-guessing:v2";
+    const pad2 = n => String(n).padStart(2,"0");
+    const msToClock = (ms) => {
+      const s = Math.floor(ms/1000); const m = Math.floor(s/60); const ss = s%60;
+      return `${pad2(m)}:${pad2(ss)}`;
+    };
 
-            saveStats() {
-                const stats = {
-                    gamesWon: this.gamesWon,
-                    bestAttempts: this.bestAttempts
-                };
-                localStorage.setItem('number-guessing-stats', JSON.stringify(stats));
-            }
+    // Difficulty configs
+    const DIFF = {
+      easy:   { min:1, max:50,  hintEvery:3,  attemptCap: null },
+      medium: { min:1, max:100, hintEvery:4,  attemptCap: null },
+      hard:   { min:1, max:200, hintEvery:5,  attemptCap: null }
+    };
 
-            resetStats() {
-                if (confirm('Are you sure you want to reset all statistics?')) {
-                    this.gamesWon = 0;
-                    this.bestAttempts = { easy: null, medium: null, hard: null };
-                    localStorage.removeItem('number-guessing-stats');
-                    this.updateDisplay();
-                    document.getElementById('games-won').textContent = '0';
-                    document.getElementById('best-attempts').textContent = '--';
-                }
-            }
+    // State
+    const state = {
+      difficulty: "easy",
+      min: 1, max: 50,
+      low: 1, high: 50,         // shrinking window
+      target: 0,
+      attempts: 0,
+      guesses: [],
+      startTs: 0, timerId: null,
+      gameActive: false,
+      seed: null,               // for challenge link
+      stats: { streak:0, best:{ easy:null, medium:null, hard:null } }
+    };
+
+    // Load stats
+    function loadStats(){
+      try{
+        const saved = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+        state.stats = saved.stats || state.stats;
+      }catch{} // ignore
+      els.streak.textContent = state.stats.streak || 0;
+      updateBestLabel();
+    }
+    function saveStats(){
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({ stats: state.stats }));
+    }
+
+    function updateBestLabel(){
+      const b = state.stats.best[state.difficulty];
+      els.best.textContent = b ? `${b.attempts} · ${msToClock(b.time)}` : "-";
+    }
+
+    // Seeded target (for share challenges)
+    function seededTarget(min, max, seed){
+      // simple LCG
+      let x = seed >>> 0;
+      x = (1664525 * x + 1013904223) >>> 0;
+      const span = (max - min + 1);
+      return min + (x % span);
+    }
+
+    function startTimer(){
+      stopTimer();
+      state.startTs = Date.now();
+      els.timer.textContent = "00:00";
+      state.timerId = setInterval(()=> {
+        els.timer.textContent = msToClock(Date.now() - state.startTs);
+      }, 250);
+    }
+    function stopTimer(){
+      if (state.timerId) clearInterval(state.timerId);
+      state.timerId = null;
+    }
+
+    function setDifficulty(level, focusInput=true){
+      if (!DIFF[level]) return;
+      state.difficulty = level;
+      const cfg = DIFF[level];
+      state.min = cfg.min; state.max = cfg.max;
+      $$(".difficulty-btn").forEach(btn=>{
+        const active = btn.dataset.difficulty === level;
+        btn.classList.toggle("active", active);
+        btn.setAttribute("aria-pressed", active ? "true":"false");
+      });
+      els.range.textContent = `Range: ${cfg.min}–${cfg.max}`;
+      els.input.min = cfg.min; els.input.max = cfg.max;
+      updateBestLabel();
+      newGame(false, focusInput);
+    }
+
+    function parseQuery(){
+      const p = new URLSearchParams(location.search);
+      const d = p.get("d");
+      const seed = p.get("seed");
+      if (d && DIFF[d]) state.difficulty = d;
+      state.seed = seed ? (parseInt(seed,10) || 0) : null;
+    }
+
+    function newGame(fromButton=true, focusInput=true){
+      const cfg = DIFF[state.difficulty];
+      state.low = cfg.min; state.high = cfg.max;
+      state.attempts = 0; state.guesses = []; state.gameActive = true;
+      const seed = state.seed ?? (crypto.getRandomValues(new Uint32Array(1))[0] >>> 0);
+      state.seed = seed;
+
+      state.target = seededTarget(cfg.min, cfg.max, seed);
+      els.status.textContent = `I'm thinking of a number between ${cfg.min} and ${cfg.max}…`;
+      els.attempts.textContent = "0";
+      els.history.innerHTML = "";
+      els.hintArea.hidden = true;
+      startTimer();
+      if (focusInput) { els.input.value = ""; els.input.focus(); }
+
+      // if user clicked difficulty, refresh URL (permalink to challenge)
+      if (fromButton) {
+        const qp = new URLSearchParams({ d: state.difficulty, seed: String(state.seed) });
+        history.replaceState(null, "", "?" + qp.toString());
+      }
+    }
+
+    function endGame(win){
+      state.gameActive = false;
+      stopTimer();
+      if (win){
+        state.stats.streak = (state.stats.streak || 0) + 1;
+        const timeTaken = Date.now() - state.startTs;
+        const prev = state.stats.best[state.difficulty];
+        if (!prev || state.attempts < prev.attempts || (state.attempts===prev.attempts && timeTaken < prev.time)){
+          state.stats.best[state.difficulty] = { attempts: state.attempts, time: timeTaken };
         }
+      } else {
+        state.stats.streak = 0;
+      }
+      els.streak.textContent = state.stats.streak;
+      saveStats();
+      updateBestLabel();
+    }
 
-        // Initialize game when page loads
-        document.addEventListener('DOMContentLoaded', () => {
-            new NumberGuessingGame();
-        });
+    function feedbackBadge(diff){
+      const span = state.max - state.min;
+      const dist = Math.abs(diff);
+      if (dist === 0) return { cls:"feedback-correct", text:"Correct!" };
+      const hot = dist <= Math.max(2, Math.floor(span * 0.05));
+      const warm = dist <= Math.max(5, Math.floor(span * 0.10));
+      if (hot) return { cls:"feedback-hot", text: (diff>0 ? "Slightly high" : "Slightly low") };
+      if (warm) return { cls:(diff>0 ? "feedback-high" : "feedback-low"), text:(diff>0 ? "High" : "Low") + " (warm)" };
+      return { cls:(diff>0 ? "feedback-high" : "feedback-low"), text:(diff>0 ? "Too high" : "Too low") };
+    }
 
-        // Keyboard navigation
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                window.location.href = '/games';
-            }
-        });
-    </script>
+    function appendHistory(guess, note){
+      const item = document.createElement("div");
+      item.className = "guess-item";
+      item.innerHTML = `<span class="guess-number">#${state.attempts}: ${guess}</span><span class="guess-feedback ${note.cls}">${note.text}</span>`;
+      els.history.appendChild(item);
+      els.history.scrollTop = els.history.scrollHeight;
+    }
+
+    function showHint(force=false){
+      if (!state.gameActive) return;
+      const cfg = DIFF[state.difficulty];
+      const needs = force || (state.attempts > 0 && state.attempts % cfg.hintEvery === 0);
+      if (!needs) return;
+
+      const parity = (state.target % 2 === 0) ? "even" : "odd";
+      const third = Math.floor((state.max - state.min + 1)/3);
+      const bucket = state.target <= state.min + third ? "lower third"
+                    : state.target <= state.max - third ? "middle third" : "upper third";
+
+      els.hintText.textContent = `It’s ${parity}. Think ${bucket}. Current window: ${state.low}–${state.high}.`;
+      els.hintArea.hidden = false;
+    }
+
+    function submitGuess(){
+      if (!state.gameActive) return;
+      const v = parseInt(els.input.value, 10);
+      if (Number.isNaN(v)){ els.status.textContent = "Enter a valid number."; return; }
+      if (v < state.min || v > state.max){ els.status.textContent = `Please guess between ${state.min} and ${state.max}.`; return; }
+      if (state.guesses.includes(v)){ els.status.textContent = "You already tried that number."; return; }
+
+      state.attempts++; state.guesses.push(v);
+      els.attempts.textContent = String(state.attempts);
+
+      // Narrow the range window
+      if (v < state.target) state.low = Math.max(state.low, v+1);
+      if (v > state.target) state.high = Math.min(state.high, v-1);
+      els.range.textContent = `Range: ${state.low}–${state.high}`;
+
+      const diff = v - state.target;
+      const note = feedbackBadge(diff);
+      appendHistory(v, note);
+
+      if (diff === 0){
+        els.status.textContent = `🎉 Correct! You won in ${state.attempts} ${state.attempts===1?'try':'tries'} (${els.timer.textContent}).`;
+        endGame(true);
+        return;
+      } else {
+        els.status.textContent = (diff>0) ? "Try lower…" : "Try higher…";
+        showHint(false);
+      }
+
+      els.input.value = "";
+      els.input.focus();
+    }
+
+    // Events
+    els.form.addEventListener("submit", (e)=>{ e.preventDefault(); submitGuess(); });
+    $("#hintBtn").addEventListener("click", ()=> showHint(true));
+    $("#revealBtn").addEventListener("click", ()=>{
+      if (!state.gameActive) return;
+      appendHistory("-", {cls:"feedback-correct", text:`Revealed: ${state.target}`});
+      els.status.textContent = `😅 The number was ${state.target}.`;
+      endGame(false);
+    });
+    $("#newGameBtn").addEventListener("click", ()=> newGame());
+    $("#resetStatsBtn").addEventListener("click", ()=>{
+      if (!confirm("Reset all game stats?")) return;
+      state.stats = { streak:0, best:{easy:null,medium:null,hard:null} };
+      saveStats();
+      els.streak.textContent = "0"; updateBestLabel();
+    });
+    $("#shareBtn").addEventListener("click", async ()=>{
+      // Ensure we have a deterministic seed for this game
+      const qp = new URLSearchParams({ d: state.difficulty, seed: String(state.seed ?? 0) });
+      const url = location.origin + location.pathname + "?" + qp.toString();
+      try{
+        await navigator.clipboard.writeText(url);
+        els.status.textContent = "🔗 Challenge link copied!";
+      }catch{
+        els.status.textContent = url;
+      }
+      setTimeout(()=>{ if (els.status.textContent.startsWith("🔗")) els.status.textContent = "I'm thinking of a number…"; }, 1500);
+    });
+
+    // Difficulty buttons
+    $$(".difficulty-btn").forEach(btn=>{
+      btn.addEventListener("click", (e)=> setDifficulty(btn.dataset.difficulty));
+    });
+
+    // Keyboard shortcuts
+    document.addEventListener("keydown", (e)=>{
+      if (e.key === "n" || e.key === "N") newGame();
+      if (e.key === "h" || e.key === "H") showHint(true);
+      if (e.key === "Escape") location.href="/games/";
+    });
+
+    // Init
+    (function init(){
+      $("#y").textContent = new Date().getFullYear();
+      loadStats();
+      parseQuery();
+      setDifficulty(state.difficulty, false);
+      // If query defined difficulty/seed, keep them in URL
+      const qp = new URLSearchParams({ d: state.difficulty, seed: String(state.seed ?? 0) });
+      history.replaceState(null, "", "?" + qp.toString());
+    })();
+  })();
+  </script>
 </body>
 </html>
