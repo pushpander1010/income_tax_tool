@@ -345,7 +345,7 @@
       state.seed = seed;
 
       state.target = seededTarget(cfg.min, cfg.max, seed);
-      els.status.innerHTML = `I'm thinking of a number between <span class="hl">${cfg.min}</span> and <span class="hl">${cfg.max}</span>…`;
+      els.status.innerHTML = `<span class="hl">I'm thinking of a number between <span class="h2">${cfg.min}</span> and <span class="h2">${cfg.max}</span>…</span>`;
       els.attempts.textContent = "0";
       els.history.innerHTML = "";
       els.hintArea.hidden = true;
