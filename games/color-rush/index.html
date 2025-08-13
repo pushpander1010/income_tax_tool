@@ -1,502 +1,766 @@
 <!doctype html>
 <html lang="en">
+
 <head>
-  <!-- Single async ad (kept minimal for performance) -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617" crossorigin="anonymous"></script>
+    <!-- Single async ad (kept minimal for performance) -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617"
+        crossorigin="anonymous"></script>
 
-  <!-- Hints for third-party -->
-  <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
-  <link rel="dns-prefetch" href="//pagead2.googlesyndication.com">
+    <!-- Hints for third-party -->
+    <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
+    <link rel="dns-prefetch" href="//pagead2.googlesyndication.com">
 
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>Color Rush — Free Online Game (Color-blind mode, Practice) | UpTools</title>
-  <meta name="description" content="Play Color Rush online for free. Find the odd-colored tile before time runs out! Easy/Medium/Hard, practice (no timer), color-blind mode, keyboard play, streaks & best scores. Fast, privacy-first." />
-  <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
-  <meta name="theme-color" content="#0f1419" />
+    <title>Color Rush — Free Online Game (Color-blind mode, Practice) | UpTools</title>
+    <meta name="description"
+        content="Play Color Rush online for free. Find the odd-colored tile before time runs out! Easy/Medium/Hard, practice (no timer), color-blind mode, keyboard play, streaks & best scores. Fast, privacy-first." />
+    <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
+    <meta name="theme-color" content="#0f1419" />
 
-  <link rel="canonical" href="https://www.uptools.in/games/color-rush/" />
-  <meta property="og:title" content="Color Rush — Free Online Game | UpTools" />
-  <meta property="og:description" content="Click the odd tile before the timer runs out. Difficulty levels, color-blind mode, keyboard play, and practice mode." />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://www.uptools.in/games/color-rush/" />
-  <meta property="og:site_name" content="UpTools" />
-  <meta property="og:image" content="https://www.uptools.in/assets/uptools-mark.svg" />
-  <meta name="twitter:card" content="summary" />
+    <link rel="canonical" href="https://www.uptools.in/games/color-rush/" />
+    <meta property="og:title" content="Color Rush — Free Online Game | UpTools" />
+    <meta property="og:description"
+        content="Click the odd tile before the timer runs out. Difficulty levels, color-blind mode, keyboard play, and practice mode." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.uptools.in/games/color-rush/" />
+    <meta property="og:site_name" content="UpTools" />
+    <meta property="og:image" content="https://www.uptools.in/assets/uptools-mark.svg" />
+    <meta name="twitter:card" content="summary" />
 
-  <link rel="icon" type="image/svg+xml" href="/assets/uptools-mark.svg" />
-  <link rel="apple-touch-icon" sizes="180x180" href="/assets/uptools-mark.svg" />
+    <link rel="icon" type="image/svg+xml" href="/assets/uptools-mark.svg" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/uptools-mark.svg" />
 
-  <!-- Shared CSS -->
-  <link rel="stylesheet" href="/style.css?v=1.0.0" />
+    <!-- Shared CSS -->
+    <link rel="stylesheet" href="/style.css?v=1.0.0" />
 
-  <!-- Accent + compact tweaks -->
-  <style>
-    :root{ --accent:#e91e63; --bg1:#0f1419; --bg2:#1a1f2e; --content-w:980px; }
-    .game-container{ max-width:760px; margin:0 auto; }
-    .compact{ padding:18px; }
-    .difficulty-selector{ display:flex; flex-wrap:wrap; gap:8px; align-items:center; margin:10px 0 6px; }
-    .difficulty-btn{ padding:6px 10px; border:1px solid var(--cardBorder); background:var(--card); color:var(--text); border-radius:8px; cursor:pointer; transition:border-color .2s, transform .15s; }
-    .difficulty-btn:hover{ border-color:var(--accent); transform:translateY(-1px); }
-    .difficulty-btn.active{ background:var(--accent); color:#fff; border-color:var(--accent); }
-    .toggle{ display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border:1px solid var(--cardBorder); border-radius:999px; background:var(--bg); color:var(--text); font-size:12px; cursor:pointer; }
-    .game-stats{ display:flex; justify-content:space-between; align-items:center; gap:12px; margin:12px 0; padding:12px; background:var(--card); border:1px solid var(--cardBorder); border-radius:var(--radius); }
-    .stat-item{ text-align:center; min-width:110px; }
-    .stat-value{ font-size:1.5rem; font-weight:700; color:var(--accent); }
-    .stat-label{ font-size:12px; color:var(--muted); }
-    .game-area{ background:var(--card); border:1px solid var(--cardBorder); border-radius:var(--radius); padding:20px; margin:16px 0; }
-    .range-note{ color:var(--muted); font-size:12px; margin-top:4px; }
-    .timer-bar{ width:100%; height:8px; background:var(--cardBorder); border-radius:4px; margin:10px 0; overflow:hidden; }
-    .timer-fill{ height:100%; background:var(--accent); border-radius:4px; transition:width linear; width:100%; }
-    .timer-fill.warning{ background:#ff9800; }
-    .timer-fill.danger{ background:#f44336; }
-    .color-grid{ display:grid; gap:8px; margin:16px auto 6px; justify-content:center; }
-    .color-grid.easy{ grid-template-columns:repeat(3,1fr); max-width:300px; }
-    .color-grid.medium{ grid-template-columns:repeat(4,1fr); max-width:400px; }
-    .color-grid.hard{ grid-template-columns:repeat(5,1fr); max-width:500px; }
-    .tile{ aspect-ratio:1; border-radius:10px; border:1px solid rgba(255,255,255,.08); cursor:pointer; position:relative; overflow:hidden; outline:none; }
-    .tile:hover{ transform:translateY(-1px); box-shadow:0 6px 18px rgba(0,0,0,.25); }
-    .tile:focus-visible{ box-shadow:0 0 0 3px color-mix(in oklab, var(--accent) 45%, transparent); }
-    .fx-correct{ animation:pop .35s ease; box-shadow:0 0 30px color-mix(in oklab, var(--accent) 55%, white); }
-    .fx-wrong{ animation:shake .35s ease; }
-    @keyframes pop{ 0%{transform:scale(1)} 50%{transform:scale(1.08)} 100%{transform:scale(1)} }
-    @keyframes shake{ 0%,100%{transform:translateX(0)} 25%{transform:translateX(-5px)} 75%{transform:translateX(5px)} }
-    .controls{ display:flex; gap:8px; justify-content:center; flex-wrap:wrap; margin:6px 0 2px; }
-    .btn-game{ padding:10px 14px; border:0; border-radius:8px; background:var(--accent); color:#fff; font-weight:700; cursor:pointer; transition:transform .15s, box-shadow .15s; }
-    .btn-game:hover{ transform:translateY(-1px); box-shadow:var(--shadow-hover); }
-    .btn-secondary{ background:rgba(255,255,255,.08); border:1px solid var(--cardBorder); color:var(--text); }
-    .kbd{ font-family:ui-monospace,Menlo,monospace; background:rgba(255,255,255,.08); border:1px solid var(--cardBorder); border-radius:6px; padding:2px 6px; font-size:12px; }
-    .dialog{ position:fixed; inset:0; display:none; align-items:center; justify-content:center; background:rgba(15,20,25,.92); z-index:50; }
-    .dialog[open]{ display:flex; }
-    .dialog-card{ background:var(--card); border:2px solid var(--accent); border-radius:12px; padding:24px; width:min(420px,92%); text-align:center; }
-    .tool-list{ --ico-size:18px; }
-  </style>
+    <!-- Accent + compact tweaks -->
+    <style>
+        :root {
+            --accent: #e91e63;
+            --bg1: #0f1419;
+            --bg2: #1a1f2e;
+            --content-w: 980px;
+        }
 
-  <!-- Structured data -->
-  <script type="application/ld+json">
+        .game-container {
+            max-width: 760px;
+            margin: 0 auto;
+        }
+
+        .compact {
+            padding: 18px;
+        }
+
+        .difficulty-selector {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-items: center;
+            margin: 10px 0 6px;
+        }
+
+        .difficulty-btn {
+            padding: 6px 10px;
+            border: 1px solid var(--cardBorder);
+            background: var(--card);
+            color: var(--text);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: border-color .2s, transform .15s;
+        }
+
+        .difficulty-btn:hover {
+            border-color: var(--accent);
+            transform: translateY(-1px);
+        }
+
+        .difficulty-btn.active {
+            background: var(--accent);
+            color: #fff;
+            border-color: var(--accent);
+        }
+
+        .toggle {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 10px;
+            border: 1px solid var(--cardBorder);
+            border-radius: 999px;
+            background: var(--bg);
+            color: var(--text);
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .game-stats {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            margin: 12px 0;
+            padding: 12px;
+            background: var(--card);
+            border: 1px solid var(--cardBorder);
+            border-radius: var(--radius);
+        }
+
+        .stat-item {
+            text-align: center;
+            min-width: 110px;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent);
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        .game-area {
+            background: var(--card);
+            border: 1px solid var(--cardBorder);
+            border-radius: var(--radius);
+            padding: 20px;
+            margin: 16px 0;
+        }
+
+        .range-note {
+            color: var(--muted);
+            font-size: 12px;
+            margin-top: 4px;
+        }
+
+        .timer-bar {
+            width: 100%;
+            height: 8px;
+            background: var(--cardBorder);
+            border-radius: 4px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+
+        .timer-fill {
+            height: 100%;
+            background: var(--accent);
+            border-radius: 4px;
+            transition: width linear;
+            width: 100%;
+        }
+
+        .timer-fill.warning {
+            background: #ff9800;
+        }
+
+        .timer-fill.danger {
+            background: #f44336;
+        }
+
+        .color-grid {
+            display: grid;
+            gap: 8px;
+            margin: 16px auto 6px;
+            justify-content: center;
+        }
+
+        .color-grid.easy {
+            grid-template-columns: repeat(3, 1fr);
+            max-width: 300px;
+        }
+
+        .color-grid.medium {
+            grid-template-columns: repeat(4, 1fr);
+            max-width: 400px;
+        }
+
+        .color-grid.hard {
+            grid-template-columns: repeat(5, 1fr);
+            max-width: 500px;
+        }
+
+        .tile {
+            aspect-ratio: 1;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, .08);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            outline: none;
+        }
+
+        .tile:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, .25);
+        }
+
+        .tile:focus-visible {
+            box-shadow: 0 0 0 3px color-mix(in oklab, var(--accent) 45%, transparent);
+        }
+
+        .fx-correct {
+            animation: pop .35s ease;
+            box-shadow: 0 0 30px color-mix(in oklab, var(--accent) 55%, white);
+        }
+
+        .fx-wrong {
+            animation: shake .35s ease;
+        }
+
+        @keyframes pop {
+            0% {
+                transform: scale(1)
+            }
+
+            50% {
+                transform: scale(1.08)
+            }
+
+            100% {
+                transform: scale(1)
+            }
+        }
+
+        @keyframes shake {
+
+            0%,
+            100% {
+                transform: translateX(0)
+            }
+
+            25% {
+                transform: translateX(-5px)
+            }
+
+            75% {
+                transform: translateX(5px)
+            }
+        }
+
+        .controls {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 6px 0 2px;
+        }
+
+        .btn-game {
+            padding: 10px 14px;
+            border: 0;
+            border-radius: 8px;
+            background: var(--accent);
+            color: #fff;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform .15s, box-shadow .15s;
+        }
+
+        .btn-game:hover {
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, .08);
+            border: 1px solid var(--cardBorder);
+            color: var(--text);
+        }
+
+        .kbd {
+            font-family: ui-monospace, Menlo, monospace;
+            background: rgba(255, 255, 255, .08);
+            border: 1px solid var(--cardBorder);
+            border-radius: 6px;
+            padding: 2px 6px;
+            font-size: 12px;
+        }
+
+        .dialog {
+            position: fixed;
+            inset: 0;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background: rgba(15, 20, 25, .92);
+            z-index: 50;
+        }
+
+        .dialog[open] {
+            display: flex;
+        }
+
+        .dialog-card {
+            background: var(--card);
+            border: 2px solid var(--accent);
+            border-radius: 12px;
+            padding: 24px;
+            width: min(420px, 92%);
+            text-align: center;
+        }
+
+        .tool-list {
+            --ico-size: 18px;
+        }
+    </style>
+
+    <!-- Structured data -->
+    <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
     {"@type":"ListItem","position":1,"name":"UpTools","item":"https://www.uptools.in/"},
     {"@type":"ListItem","position":2,"name":"Games","item":"https://www.uptools.in/games/"},
     {"@type":"ListItem","position":3,"name":"Color Rush","item":"https://www.uptools.in/games/color-rush/"}
   ]}</script>
-  <script type="application/ld+json">
+    <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"Game","name":"Color Rush","url":"https://www.uptools.in/games/color-rush/","applicationCategory":"BrowserGame","operatingSystem":"Any","genre":"Puzzle","playMode":"SinglePlayer","description":"Click the odd-colored tile before time runs out. Includes color-blind mode, practice (no timer), keyboard controls, and shareable challenge links."}
   </script>
-  <script type="application/ld+json">
+    <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
     {"@type":"Question","name":"Is there a color-blind mode?","acceptedAnswer":{"@type":"Answer","text":"Yes. Toggle Color-blind mode to change only lightness, making differences more perceivable without relying on hue."}},
     {"@type":"Question","name":"Can I play without the timer?","acceptedAnswer":{"@type":"Answer","text":"Yes. Enable Practice mode to remove the timer and play at your pace."}},
     {"@type":"Question","name":"How do I share a challenge?","acceptedAnswer":{"@type":"Answer","text":"Use Share Challenge to copy a link with difficulty and seed so friends play the same sequence."}}
   ]}</script>
 </head>
+
 <body>
-  <a href="#main" class="sr-only">Skip to content</a>
+    <a href="#main" class="sr-only">Skip to content</a>
 
-  <header class="site" role="banner">
-    <div class="header-inner">
-      <a class="brand" href="/" aria-label="UpTools Home">
-        <img src="/assets/uptools-mark.svg" alt="UpTools logo" width="28" height="28">
-        <b>UpTools</b>
-      </a>
-      <nav class="nav-links" aria-label="Primary">
-        <a href="/#tools">Tools</a>
-        <a href="/games/">Games</a>
-        <a href="/about/">About</a>
-        <a href="/contact/">Contact</a>
-      </nav>
-    </div>
-  </header>
+    <header class="site" role="banner">
+        <div class="header-inner">
+            <a class="brand" href="/" aria-label="UpTools Home">
+                <img src="/assets/uptools-mark.svg" alt="UpTools logo" width="28" height="28">
+                <b>UpTools</b>
+            </a>
+            <nav class="nav-links" aria-label="Primary">
+                <a href="/#tools">Tools</a>
+                <a href="/games/">Games</a>
+                <a href="/about/">About</a>
+                <a href="/contact/">Contact</a>
+            </nav>
+        </div>
+    </header>
 
-  <main id="main" class="wrap" role="main">
-    <div class="tool-header" role="doc-introduction" style="padding:12px 16px; gap:12px;">
-      <a href="/games/" class="back-btn" aria-label="Back to Games">←</a>
-      <span class="tool-icon" aria-hidden="true">🌈</span>
-      <div>
-        <h1 style="margin:0 0 4px;">Color Rush</h1>
-        <p class="note" style="margin:0;">Find the odd tile fast! Color-blind & practice modes, keyboard play, streaks and shareable challenges.</p>
-      </div>
-    </div>
-
-    <section class="game-container" aria-label="Color Rush game">
-      <article class="card compact">
-        <div class="difficulty-selector" role="group" aria-label="Select difficulty">
-          <span class="muted">Difficulty:</span>
-          <button class="difficulty-btn active" data-difficulty="easy" aria-pressed="true">Easy (3×3)</button>
-          <button class="difficulty-btn" data-difficulty="medium" aria-pressed="false">Medium (4×4)</button>
-          <button class="difficulty-btn" data-difficulty="hard" aria-pressed="false">Hard (5×5)</button>
-          <span style="margin-left:auto; display:flex; gap:8px; flex-wrap:wrap;">
-            <button id="colorBlindToggle" class="toggle" type="button" aria-pressed="false">🧩 Color-blind mode</button>
-            <button id="practiceToggle" class="toggle" type="button" aria-pressed="false">⏸️ Practice (no timer)</button>
-          </span>
+    <main id="main" class="wrap" role="main">
+        <div class="tool-header" role="doc-introduction" style="padding:12px 16px; gap:12px;">
+            <a href="/games/" class="back-btn" aria-label="Back to Games">←</a>
+            <span class="tool-icon" aria-hidden="true">🌈</span>
+            <div>
+                <h1 style="margin:0 0 4px;">Color Rush</h1>
+                <p class="note" style="margin:0;">Find the odd tile fast! Color-blind & practice modes, keyboard play,
+                    streaks and shareable challenges.</p>
+            </div>
         </div>
 
-        <div class="game-stats" aria-live="polite">
-          <div class="stat-item"><div class="stat-value" id="score">0</div><div class="stat-label">Score</div></div>
-          <div class="stat-item"><div class="stat-value" id="level">1</div><div class="stat-label">Level</div></div>
-          <div class="stat-item"><div class="stat-value" id="best">0</div><div class="stat-label">Best (by difficulty)</div></div>
-          <div class="stat-item"><div class="stat-value" id="streak">0</div><div class="stat-label">Win streak</div></div>
+        <section class="game-container" aria-label="Color Rush game">
+            <article class="card compact">
+                <div class="difficulty-selector" role="group" aria-label="Select difficulty">
+                    <span class="muted">Difficulty:</span>
+                    <button class="difficulty-btn active" data-difficulty="easy" aria-pressed="true">Easy (3×3)</button>
+                    <button class="difficulty-btn" data-difficulty="medium" aria-pressed="false">Medium (4×4)</button>
+                    <button class="difficulty-btn" data-difficulty="hard" aria-pressed="false">Hard (5×5)</button>
+                    <span style="margin-left:auto; display:flex; gap:8px; flex-wrap:wrap;">
+                        <button id="colorBlindToggle" class="toggle" type="button" aria-pressed="false">🧩 Color-blind
+                            mode</button>
+                        <button id="practiceToggle" class="toggle" type="button" aria-pressed="false">⏸️ Practice (no
+                            timer)</button>
+                    </span>
+                </div>
+
+                <div class="game-stats" aria-live="polite">
+                    <div class="stat-item">
+                        <div class="stat-value" id="score">0</div>
+                        <div class="stat-label">Score</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="level">1</div>
+                        <div class="stat-label">Level</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="best">0</div>
+                        <div class="stat-label">Best (by difficulty)</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value" id="streak">0</div>
+                        <div class="stat-label">Win streak</div>
+                    </div>
+                </div>
+
+                <div class="game-area">
+                    <div class="game-status" id="status" aria-live="polite">Click the odd-colored tile!</div>
+                    <div class="timer-bar">
+                        <div class="timer-fill" id="timer"></div>
+                    </div>
+
+                    <div id="grid" class="color-grid easy" role="grid" aria-label="Color tiles grid"></div>
+
+                    <div class="controls">
+                        <button class="btn-game" id="startBtn" type="button">Start Game</button>
+                        <button class="btn-game btn-secondary" id="shareBtn" type="button">Share Challenge</button>
+                        <button class="btn-game btn-secondary" id="resetBtn" type="button">Reset Best</button>
+                    </div>
+                    <div class="range-note">
+                        Tips: use a <span class="kbd">Tab</span> + <span class="kbd">Enter</span> to play by keyboard.
+                        <span class="kbd">N</span> = new round, <span class="kbd">P</span> = toggle Practice.
+                    </div>
+                </div>
+            </article>
+
+            <!-- Related pages (visible, tappable tiles) -->
+            <aside class="card compact" aria-labelledby="rel-head" style="margin-top:14px;">
+                <h2 id="rel-head" style="margin:0 0 10px;">Related pages</h2>
+                <nav aria-label="Related tools and games">
+                    <ul class="tool-list">
+                        <li><a class="tool-link accent-sky" href="/games/"><span class="ico"
+                                    aria-hidden="true">🎮</span><span>All Games</span></a></li>
+                        <li><a class="tool-link accent-orange" href="/word-counter/"><span class="ico"
+                                    aria-hidden="true">📝</span><span>Word Counter</span></a></li>
+                        <li><a class="tool-link accent-violet" href="/json-formatter/"><span class="ico"
+                                    aria-hidden="true">🧩</span><span>JSON Formatter</span></a></li>
+                        <li><a class="tool-link accent-sky" href="/qr-generator/"><span class="ico"
+                                    aria-hidden="true">🔳</span><span>QR Code Generator</span></a></li>
+                    </ul>
+                </nav>
+            </aside>
+        </section>
+
+        <footer class="note small site-footer" role="contentinfo" style="margin-top:20px;">
+            © <span id="y"></span> UpTools · <a href="/about/">About</a> · <a href="/contact/">Contact</a> · <a
+                href="/sitemap.xml">Sitemap</a> · <a href="/robots.txt">Robots</a>
+        </footer>
+    </main>
+
+    <!-- Accessible game over dialog -->
+    <div id="dialog" class="dialog" role="dialog" aria-modal="true" aria-labelledby="dlg-title"
+        aria-describedby="dlg-desc">
+        <div class="dialog-card">
+            <h2 id="dlg-title" style="margin:0 0 6px; color:var(--accent);">Game Over</h2>
+            <p id="dlg-desc" class="note" style="margin:0 0 12px;">Time's up! Your final score is shown below.</p>
+            <div class="row"><span>Final Score</span><span class="amount" id="finalScore">0</span></div>
+            <div class="row"><span>Best (this difficulty)</span><span id="bestOut">0</span></div>
+            <div class="btn-group" style="margin-top:12px;">
+                <button class="btn" id="againBtn" type="button">Play Again</button>
+                <button class="btn secondary" id="closeBtn" type="button">Close</button>
+            </div>
         </div>
-
-        <div class="game-area">
-          <div class="game-status" id="status" aria-live="polite">Click the odd-colored tile!</div>
-          <div class="timer-bar"><div class="timer-fill" id="timer"></div></div>
-
-          <div id="grid" class="color-grid easy" role="grid" aria-label="Color tiles grid"></div>
-
-          <div class="controls">
-            <button class="btn-game" id="startBtn" type="button">Start Game</button>
-            <button class="btn-game btn-secondary" id="shareBtn" type="button">Share Challenge</button>
-            <button class="btn-game btn-secondary" id="resetBtn" type="button">Reset Best</button>
-          </div>
-          <div class="range-note">
-            Tips: use a <span class="kbd">Tab</span> + <span class="kbd">Enter</span> to play by keyboard. <span class="kbd">N</span> = new round, <span class="kbd">P</span> = toggle Practice.
-          </div>
-        </div>
-      </article>
-
-      <!-- Related pages (visible, tappable tiles) -->
-      <aside class="card compact" aria-labelledby="rel-head" style="margin-top:14px;">
-        <h2 id="rel-head" style="margin:0 0 10px;">Related pages</h2>
-        <nav aria-label="Related tools and games">
-          <ul class="tool-list">
-            <li><a class="tool-link accent-sky"     href="/games/"><span class="ico" aria-hidden="true">🎮</span><span>All Games</span></a></li>
-            <li><a class="tool-link accent-orange"  href="/word-counter/"><span class="ico" aria-hidden="true">📝</span><span>Word Counter</span></a></li>
-            <li><a class="tool-link accent-violet"  href="/json-formatter/"><span class="ico" aria-hidden="true">🧩</span><span>JSON Formatter</span></a></li>
-            <li><a class="tool-link accent-sky"     href="/qr-generator/"><span class="ico" aria-hidden="true">🔳</span><span>QR Code Generator</span></a></li>
-          </ul>
-        </nav>
-      </aside>
-    </section>
-
-    <footer class="note small site-footer" role="contentinfo" style="margin-top:20px;">
-      © <span id="y"></span> UpTools · <a href="/about/">About</a> · <a href="/contact/">Contact</a> · <a href="/sitemap.xml">Sitemap</a> · <a href="/robots.txt">Robots</a>
-    </footer>
-  </main>
-
-  <!-- Accessible game over dialog -->
-  <div id="dialog" class="dialog" role="dialog" aria-modal="true" aria-labelledby="dlg-title" aria-describedby="dlg-desc">
-    <div class="dialog-card">
-      <h2 id="dlg-title" style="margin:0 0 6px; color:var(--accent);">Game Over</h2>
-      <p id="dlg-desc" class="note" style="margin:0 0 12px;">Time’s up! Your final score is shown below.</p>
-      <div class="row"><span>Final Score</span><span class="amount" id="finalScore">0</span></div>
-      <div class="row"><span>Best (this difficulty)</span><span id="bestOut">0</span></div>
-      <div class="btn-group" style="margin-top:12px;">
-        <button class="btn" id="againBtn" type="button">Play Again</button>
-        <button class="btn secondary" id="closeBtn" type="button">Close</button>
-      </div>
     </div>
-  </div>
 
-  <script>
-  (function(){
-    const $ = (s, r=document)=>r.querySelector(s);
-    const $$ = (s, r=document)=>[...r.querySelectorAll(s)];
-    const pad = (n)=>String(n).padStart(2,"0");
+    <script>
+        (function () {
+            const $ = (s, r = document) => r.querySelector(s);
+            const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+            const pad = (n) => String(n).padStart(2, "0");
 
-    const els = {
-      y: $("#y"),
-      grid: $("#grid"),
-      status: $("#status"),
-      timer: $("#timer"),
-      score: $("#score"),
-      level: $("#level"),
-      best: $("#best"),
-      streak: $("#streak"),
-      startBtn: $("#startBtn"),
-      resetBtn: $("#resetBtn"),
-      shareBtn: $("#shareBtn"),
-      colorBlind: $("#colorBlindToggle"),
-      practice: $("#practiceToggle"),
-      dialog: $("#dialog"),
-      finalScore: $("#finalScore"),
-      bestOut: $("#bestOut"),
-      again: $("#againBtn"),
-      close: $("#closeBtn")
-    };
+            const els = {
+                y: $("#y"),
+                grid: $("#grid"),
+                status: $("#status"),
+                timer: $("#timer"),
+                score: $("#score"),
+                level: $("#level"),
+                best: $("#best"),
+                streak: $("#streak"),
+                startBtn: $("#startBtn"),
+                resetBtn: $("#resetBtn"),
+                shareBtn: $("#shareBtn"),
+                colorBlind: $("#colorBlindToggle"),
+                practice: $("#practiceToggle"),
+                dialog: $("#dialog"),
+                finalScore: $("#finalScore"),
+                bestOut: $("#bestOut"),
+                again: $("#againBtn"),
+                close: $("#closeBtn")
+            };
 
-    const STORAGE = "uptools:color-rush:v2";
+            const STORAGE = "uptools:color-rush:v2";
 
-    // Difficulty config
-    const CFG = {
-      easy:   { grid:3, baseLimit:5000, step:100, scoreMul:1 },
-      medium: { grid:4, baseLimit:4000, step:120, scoreMul:1.5 },
-      hard:   { grid:5, baseLimit:3200, step:140, scoreMul:2 }
-    };
+            // Difficulty config
+            const CFG = {
+                easy: { grid: 3, baseLimit: 5000, step: 100, minLimit: 2500, scoreMul: 1 },
+                medium: { grid: 4, baseLimit: 4000, step: 120, minLimit: 1600, scoreMul: 1.5 },
+                hard: { grid: 5, baseLimit: 3200, step: 140, minLimit: 1200, scoreMul: 2 }
+            };
 
-    // PRNG for shareable challenges
-    const lcg = (seed)=>()=> (seed = (1664525 * seed + 1013904223) >>> 0);
-    const randInt = (rng, a, b)=> a + (rng() % (b - a + 1));
+            // PRNG for shareable challenges
+            const lcg = (seed) => () => (seed = (1664525 * seed + 1013904223) >>> 0);
+            const randInt = (rng, a, b) => a + (rng() % (b - a + 1));
 
-    const state = {
-      difficulty: "easy",
-      seed: (crypto.getRandomValues(new Uint32Array(1))[0] >>> 0),
-      rng: null,
-      running: false,
-      practice: false,
-      colorBlind: false,
-      timeLimit: CFG.easy.baseLimit,
-      timeLeft: 0,
-      timerId: null,
-      level: 1,
-      score: 0,
-      best: { easy:0, medium:0, hard:0 },
-      streak: 0,
-      oddIndex: -1
-    };
+            const state = {
+                difficulty: "easy",
+                seed: (crypto.getRandomValues(new Uint32Array(1))[0] >>> 0),
+                rng: null,
+                running: false,
+                practice: false,
+                colorBlind: false,
+                timeLimit: CFG.easy.baseLimit,
+                timeLeft: 0,
+                timerId: null,
+                level: 1,
+                score: 0,
+                best: { easy: 0, medium: 0, hard: 0 },
+                streak: 0,
+                oddIndex: -1
+            };
 
-    // Helpers
-    const hsl = (h,s,l)=>`hsl(${h} ${s}% ${l}%)`;
-    const clamp = (x, a, b)=> Math.min(b, Math.max(a, x));
-    const vibrate = (ms)=> { if (navigator.vibrate) navigator.vibrate(ms); };
+            // Helpers
+            const hsl = (h, s, l) => `hsl(${h} ${s}% ${l}%)`;
+            const clamp = (x, a, b) => Math.min(b, Math.max(a, x));
+            const vibrate = (ms) => { if (navigator.vibrate) navigator.vibrate(ms); };
 
-    function load(){
-      try{
-        const v = JSON.parse(localStorage.getItem(STORAGE) || "{}");
-        state.best = v.best || state.best;
-        state.streak = v.streak || 0;
-      }catch{} // ignore
-      els.best.textContent = state.best[state.difficulty] || 0;
-      els.streak.textContent = state.streak;
-    }
-    function save(){
-      localStorage.setItem(STORAGE, JSON.stringify({ best: state.best, streak: state.streak }));
-    }
+            function load() {
+                try {
+                    const v = JSON.parse(localStorage.getItem(STORAGE) || "{}");
+                    state.best = v.best || state.best;
+                    state.streak = v.streak || 0;
+                } catch { } // ignore
+                els.best.textContent = state.best[state.difficulty] || 0;
+                els.streak.textContent = state.streak;
+            }
+            function save() {
+                localStorage.setItem(STORAGE, JSON.stringify({ best: state.best, streak: state.streak }));
+            }
 
-    function parseQuery(){
-      const p = new URLSearchParams(location.search);
-      const d = p.get("d");
-      const seed = p.get("seed");
-      if (d && CFG[d]) state.difficulty = d;
-      if (seed) state.seed = (parseInt(seed, 10) >>> 0) || state.seed;
-    }
+            function parseQuery() {
+                const p = new URLSearchParams(location.search);
+                const d = p.get("d");
+                const seed = p.get("seed");
+                if (d && CFG[d]) state.difficulty = d;
+                if (seed) state.seed = (parseInt(seed, 10) >>> 0) || state.seed;
+            }
 
-    function setDifficulty(d){
-      if (!CFG[d]) return;
-      state.difficulty = d;
-      $$(".difficulty-btn").forEach(btn=>{
-        const act = btn.dataset.difficulty === d;
-        btn.classList.toggle("active", act);
-        btn.setAttribute("aria-pressed", act ? "true" : "false");
-      });
-      els.grid.className = `color-grid ${d}`;
-      state.timeLimit = CFG[d].baseLimit;
-      els.best.textContent = state.best[d] || 0;
-      // keep seed in URL for shareability
-      const qp = new URLSearchParams({ d, seed: String(state.seed) });
-      history.replaceState(null, "", "?" + qp.toString());
-      if (state.running) startRound();
-    }
+            function setDifficulty(d) {
+                if (!CFG[d]) return;
+                state.difficulty = d;
+                $$(".difficulty-btn").forEach(btn => {
+                    const act = btn.dataset.difficulty === d;
+                    btn.classList.toggle("active", act);
+                    btn.setAttribute("aria-pressed", act ? "true" : "false");
+                });
+                els.grid.className = `color-grid ${d}`;
+                state.timeLimit = CFG[d].baseLimit;
+                els.best.textContent = state.best[d] || 0;
+                // keep seed in URL for shareability
+                const qp = new URLSearchParams({ d, seed: String(state.seed) });
+                history.replaceState(null, "", "?" + qp.toString());
+                if (state.running) startRound();
+            }
 
-    function startGame(){
-      state.rng = lcg(state.seed);
-      state.level = 1;
-      state.score = 0;
-      state.running = true;
-      state.timeLimit = CFG[state.difficulty].baseLimit;
-      els.status.textContent = "Find the odd tile!";
-      updateHUD();
-      startRound();
-      els.startBtn.textContent = "Restart";
-    }
+            function startGame() {
+                state.rng = lcg(state.seed);
+                state.level = 1;
+                state.score = 0;
+                state.running = true;
+                state.timeLimit = CFG[state.difficulty].baseLimit;
+                els.status.textContent = "Find the odd tile!";
+                updateHUD();
+                startRound();
+                els.startBtn.textContent = "Restart";
+            }
 
-    function startRound(){
-      clearTimer();
-      // difficulty progression: shrink time limit gradually
-      if (!state.practice) {
-        const reduced = state.timeLimit - CFG[state.difficulty].step * Math.floor((state.level-1)/1.5);
-        state.timeLimit = clamp(reduced, 800, CFG[state.difficulty].baseLimit);
-      }
-      state.timeLeft = state.timeLimit;
-      buildGrid();
-      if (!state.practice) runTimer();
-      else { // practice: keep full bar
-        els.timer.style.width = "100%";
-        els.timer.className = "timer-fill";
-      }
-    }
+            function startRound() {
+                clearTimer();
+                // difficulty progression: shrink from BASE (no compounding)
+                if (!state.practice) {
+                    const { baseLimit, step, minLimit } = CFG[state.difficulty];
+                    const drops = Math.floor((state.level - 1) / 1.5);  // reduce every ~1.5 levels
+                    state.timeLimit = clamp(baseLimit - step * drops, (minLimit ?? 1500), baseLimit);
+                }
 
-    function runTimer(){
-      const tick = 50;
-      const start = performance.now();
-      clearTimer();
-      state.timerId = setInterval(()=>{
-        const elapsed = performance.now() - start + (state.timeLimit - state.timeLeft);
-        state.timeLeft = clamp(state.timeLimit - elapsed, 0, state.timeLimit);
-        const pct = (state.timeLeft / state.timeLimit) * 100;
-        els.timer.style.width = pct + "%";
-        els.timer.className = "timer-fill" + (pct<=25? " danger" : pct<=50? " warning" : "");
-        if (state.timeLeft <= 0) gameOver();
-      }, tick);
-    }
-    function clearTimer(){ if (state.timerId){ clearInterval(state.timerId); state.timerId = null; } }
+                state.timeLeft = state.timeLimit;
+                buildGrid();
+                if (!state.practice) runTimer();
+                else { // practice: keep full bar
+                    els.timer.style.width = "100%";
+                    els.timer.className = "timer-fill";
+                }
+            }
 
-    function buildGrid(){
-      const cfg = CFG[state.difficulty];
-      const total = cfg.grid * cfg.grid;
-      els.grid.innerHTML = "";
-      els.grid.setAttribute("aria-rowcount", String(cfg.grid));
-      els.grid.setAttribute("aria-colcount", String(cfg.grid));
+            function runTimer() {
+                const tick = 50;
+                const start = performance.now();
+                clearTimer();
+                state.timerId = setInterval(() => {
+                    const elapsed = performance.now() - start + (state.timeLimit - state.timeLeft);
+                    state.timeLeft = clamp(state.timeLimit - elapsed, 0, state.timeLimit);
+                    const pct = (state.timeLeft / state.timeLimit) * 100;
+                    els.timer.style.width = pct + "%";
+                    els.timer.className = "timer-fill" + (pct <= 25 ? " danger" : pct <= 50 ? " warning" : "");
+                    if (state.timeLeft <= 0) gameOver();
+                }, tick);
+            }
+            function clearTimer() { if (state.timerId) { clearInterval(state.timerId); state.timerId = null; } }
 
-      // Base color via PRNG
-      const r = state.rng || lcg(state.seed);
-      const baseH = randInt(r, 0, 359);
-      const baseS = randInt(r, 55, 75);
-      const baseL = randInt(r, 40, 60);
+            function buildGrid() {
+                const cfg = CFG[state.difficulty];
+                const total = cfg.grid * cfg.grid;
+                els.grid.innerHTML = "";
+                els.grid.setAttribute("aria-rowcount", String(cfg.grid));
+                els.grid.setAttribute("aria-colcount", String(cfg.grid));
 
-      // Odd color delta (harder as levels go up)
-      const baseDelta = state.colorBlind ? 8 : 10; // lightness-only if color-blind
-      const harder = Math.max(1, baseDelta - Math.floor((state.level-1)/3));
-      const sign = randInt(r, 0, 1) ? 1 : -1;
+                // Base color via PRNG
+                const r = state.rng || lcg(state.seed);
+                const baseH = randInt(r, 0, 359);
+                const baseS = randInt(r, 55, 75);
+                const baseL = randInt(r, 40, 60);
 
-      let oddH = baseH, oddS = baseS, oddL = baseL;
-      if (state.colorBlind){
-        oddL = clamp(baseL + sign*harder, 20, 85);
-      } else {
-        // vary both hue & lightness slightly
-        oddH = (baseH + sign * (harder*2)) % 360;
-        oddL = clamp(baseL + sign * Math.max(3, Math.floor(harder/2)), 20, 85);
-      }
+                // Odd color delta (harder as levels go up)
+                const baseDelta = state.colorBlind ? 8 : 10; // lightness-only if color-blind
+                const harder = Math.max(1, baseDelta - Math.floor((state.level - 1) / 3));
+                const sign = randInt(r, 0, 1) ? 1 : -1;
 
-      state.oddIndex = randInt(r, 0, total-1);
+                let oddH = baseH, oddS = baseS, oddL = baseL;
+                if (state.colorBlind) {
+                    oddL = clamp(baseL + sign * harder, 20, 85);
+                } else {
+                    // vary both hue & lightness slightly
+                    oddH = (baseH + sign * (harder * 2)) % 360;
+                    oddL = clamp(baseL + sign * Math.max(3, Math.floor(harder / 2)), 20, 85);
+                }
 
-      for (let i=0;i<total;i++){
-        const t = document.createElement("button");
-        t.type = "button";
-        t.className = "tile";
-        t.style.background = i===state.oddIndex ? hsl(oddH,oddS,oddL) : hsl(baseH,baseS,baseL);
-        t.setAttribute("role","gridcell");
-        t.setAttribute("aria-label", `Tile ${i+1}`);
-        t.tabIndex = 0;
+                state.oddIndex = randInt(r, 0, total - 1);
 
-        t.addEventListener("click", ()=> onPick(i, t));
-        t.addEventListener("keydown", (e)=>{
-          const row = Math.floor(i / cfg.grid), col = i % cfg.grid;
-          let ni = i;
-          if (e.key === "ArrowRight") ni = (col+1<cfg.grid)? i+1 : i;
-          if (e.key === "ArrowLeft")  ni = (col-1>=0)? i-1 : i;
-          if (e.key === "ArrowDown")  ni = (row+1<cfg.grid)? i+cfg.grid : i;
-          if (e.key === "ArrowUp")    ni = (row-1>=0)? i-cfg.grid : i;
-          if (ni !== i) { els.grid.children[ni].focus(); e.preventDefault(); }
-          if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onPick(i, t); }
-        });
+                for (let i = 0; i < total; i++) {
+                    const t = document.createElement("button");
+                    t.type = "button";
+                    t.className = "tile";
+                    t.style.background = i === state.oddIndex ? hsl(oddH, oddS, oddL) : hsl(baseH, baseS, baseL);
+                    t.setAttribute("role", "gridcell");
+                    t.setAttribute("aria-label", `Tile ${i + 1}`);
+                    t.tabIndex = 0;
 
-        els.grid.appendChild(t);
-      }
-    }
+                    t.addEventListener("click", () => onPick(i, t));
+                    t.addEventListener("keydown", (e) => {
+                        const row = Math.floor(i / cfg.grid), col = i % cfg.grid;
+                        let ni = i;
+                        if (e.key === "ArrowRight") ni = (col + 1 < cfg.grid) ? i + 1 : i;
+                        if (e.key === "ArrowLeft") ni = (col - 1 >= 0) ? i - 1 : i;
+                        if (e.key === "ArrowDown") ni = (row + 1 < cfg.grid) ? i + cfg.grid : i;
+                        if (e.key === "ArrowUp") ni = (row - 1 >= 0) ? i - cfg.grid : i;
+                        if (ni !== i) { els.grid.children[ni].focus(); e.preventDefault(); }
+                        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); onPick(i, t); }
+                    });
 
-    function onPick(index, tile){
-      if (!state.running) return;
-      if (index === state.oddIndex){
-        // Correct
-        tile.classList.add("fx-correct");
-        vibrate(40);
-        const add = Math.round(10 * CFG[state.difficulty].scoreMul * (1 + (state.timeLeft/state.timeLimit)));
-        state.score += add;
-        state.level += 1;
-        // Best & streak
-        if (state.score > (state.best[state.difficulty]||0)) {
-          state.best[state.difficulty] = state.score;
-          els.best.textContent = state.score;
-          save();
-        }
-        state.streak += 1; els.streak.textContent = state.streak; save();
-        updateHUD();
-        startRound();
-      } else {
-        // Wrong (small penalty)
-        tile.classList.add("fx-wrong");
-        vibrate(80);
-        state.score = Math.max(0, state.score - 5);
-        updateHUD();
-      }
-      setTimeout(()=> tile.classList.remove("fx-correct","fx-wrong"), 360);
-    }
+                    els.grid.appendChild(t);
+                }
+            }
 
-    function updateHUD(){
-      els.score.textContent = state.score;
-      els.level.textContent = state.level;
-      els.best.textContent = state.best[state.difficulty] || 0;
-    }
+            function onPick(index, tile) {
+                if (!state.running) return;
+                if (index === state.oddIndex) {
+                    // Correct
+                    tile.classList.add("fx-correct");
+                    vibrate(40);
+                    const add = Math.round(10 * CFG[state.difficulty].scoreMul * (1 + (state.timeLeft / state.timeLimit)));
+                    state.score += add;
+                    state.level += 1;
+                    // Best & streak
+                    if (state.score > (state.best[state.difficulty] || 0)) {
+                        state.best[state.difficulty] = state.score;
+                        els.best.textContent = state.score;
+                        save();
+                    }
+                    state.streak += 1; els.streak.textContent = state.streak; save();
+                    updateHUD();
+                    startRound();
+                } else {
+                    // Wrong (small penalty)
+                    tile.classList.add("fx-wrong");
+                    vibrate(80);
+                    state.score = Math.max(0, state.score - 5);
+                    updateHUD();
+                }
+                setTimeout(() => tile.classList.remove("fx-correct", "fx-wrong"), 360);
+            }
 
-    function gameOver(){
-      state.running = false;
-      clearTimer();
-      els.status.textContent = "Time’s up!";
-      state.streak = 0; els.streak.textContent = "0"; save();
-      els.finalScore.textContent = state.score;
-      els.bestOut.textContent = state.best[state.difficulty] || 0;
-      els.dialog.setAttribute("open","");
-      $("#againBtn").focus();
-    }
+            function updateHUD() {
+                els.score.textContent = state.score;
+                els.level.textContent = state.level;
+                els.best.textContent = state.best[state.difficulty] || 0;
+            }
 
-    function closeDialog(){ els.dialog.removeAttribute("open"); }
+            function gameOver() {
+                state.running = false;
+                clearTimer();
+                els.status.textContent = "Time's up!";
+                state.streak = 0; els.streak.textContent = "0"; save();
+                els.finalScore.textContent = state.score;
+                els.bestOut.textContent = state.best[state.difficulty] || 0;
+                els.dialog.setAttribute("open", "");
+                $("#againBtn").focus();
+            }
 
-    // Actions
-    els.startBtn.addEventListener("click", startGame);
-    els.resetBtn.addEventListener("click", ()=>{
-      if (!confirm("Reset best scores & streak?")) return;
-      state.best = { easy:0, medium:0, hard:0 };
-      state.streak = 0; save(); updateHUD(); els.streak.textContent = "0";
-    });
-    els.shareBtn.addEventListener("click", async ()=>{
-      const qp = new URLSearchParams({ d: state.difficulty, seed: String(state.seed) });
-      const url = location.origin + location.pathname + "?" + qp.toString();
-      try{ await navigator.clipboard.writeText(url); els.status.textContent = "🔗 Challenge link copied!"; }
-      catch{ els.status.textContent = url; }
-      setTimeout(()=> els.status.textContent = "Find the odd tile!", 1200);
-    });
+            function closeDialog() { els.dialog.removeAttribute("open"); }
 
-    // Toggles
-    els.colorBlind.addEventListener("click", ()=>{
-      state.colorBlind = !state.colorBlind;
-      els.colorBlind.setAttribute("aria-pressed", state.colorBlind?"true":"false");
-      els.colorBlind.classList.toggle("active", state.colorBlind);
-      if (state.running) startRound(); // rebuild with new palette rule
-    });
-    els.practice.addEventListener("click", ()=>{
-      state.practice = !state.practice;
-      els.practice.setAttribute("aria-pressed", state.practice?"true":"false");
-      els.practice.classList.toggle("active", state.practice);
-      if (state.running) startRound();
-    });
+            // Actions
+            els.startBtn.addEventListener("click", startGame);
+            els.resetBtn.addEventListener("click", () => {
+                if (!confirm("Reset best scores & streak?")) return;
+                state.best = { easy: 0, medium: 0, hard: 0 };
+                state.streak = 0; save(); updateHUD(); els.streak.textContent = "0";
+            });
+            els.shareBtn.addEventListener("click", async () => {
+                const qp = new URLSearchParams({ d: state.difficulty, seed: String(state.seed) });
+                const url = location.origin + location.pathname + "?" + qp.toString();
+                try { await navigator.clipboard.writeText(url); els.status.textContent = "🔗 Challenge link copied!"; }
+                catch { els.status.textContent = url; }
+                setTimeout(() => els.status.textContent = "Find the odd tile!", 1200);
+            });
 
-    // Difficulty buttons
-    $$(".difficulty-btn").forEach(btn=>{
-      btn.addEventListener("click", (e)=> setDifficulty(btn.dataset.difficulty));
-    });
+            // Toggles
+            els.colorBlind.addEventListener("click", () => {
+                state.colorBlind = !state.colorBlind;
+                els.colorBlind.setAttribute("aria-pressed", state.colorBlind ? "true" : "false");
+                els.colorBlind.classList.toggle("active", state.colorBlind);
+                if (state.running) startRound(); // rebuild with new palette rule
+            });
+            els.practice.addEventListener("click", () => {
+                state.practice = !state.practice;
+                els.practice.setAttribute("aria-pressed", state.practice ? "true" : "false");
+                els.practice.classList.toggle("active", state.practice);
+                if (state.running) startRound();
+            });
 
-    // Dialog controls
-    els.again.addEventListener("click", ()=> { closeDialog(); startGame(); });
-    els.close.addEventListener("click", closeDialog);
-    els.dialog.addEventListener("click", (e)=>{ if (e.target === els.dialog) closeDialog(); });
+            // Difficulty buttons
+            $$(".difficulty-btn").forEach(btn => {
+                btn.addEventListener("click", (e) => setDifficulty(btn.dataset.difficulty));
+            });
 
-    // Keyboard shortcuts
-    document.addEventListener("keydown", (e)=>{
-      if (e.key === "n" || e.key === "N") startGame();
-      if (e.key === "p" || e.key === "P") els.practice.click();
-      if (e.key === "Escape" && els.dialog.hasAttribute("open")) closeDialog();
-      if (e.key === "Escape" && !els.dialog.hasAttribute("open")) location.href="/games/";
-    });
+            // Dialog controls
+            els.again.addEventListener("click", () => { closeDialog(); startGame(); });
+            els.close.addEventListener("click", closeDialog);
+            els.dialog.addEventListener("click", (e) => { if (e.target === els.dialog) closeDialog(); });
 
-    // Pause on background
-    document.addEventListener("visibilitychange", ()=>{
-      if (document.visibilityState === "hidden") clearTimer();
-      else if (document.visibilityState === "visible" && state.running && !state.practice) runTimer();
-    });
+            // Keyboard shortcuts
+            document.addEventListener("keydown", (e) => {
+                if (e.key === "n" || e.key === "N") startGame();
+                if (e.key === "p" || e.key === "P") els.practice.click();
+                if (e.key === "Escape" && els.dialog.hasAttribute("open")) closeDialog();
+                if (e.key === "Escape" && !els.dialog.hasAttribute("open")) location.href = "/games/";
+            });
 
-    // Init
-    (function init(){
-      els.y.textContent = new Date().getFullYear();
-      load();
-      parseQuery();
-      setDifficulty(state.difficulty);
-      // keep seed/difficulty in URL
-      const qp = new URLSearchParams({ d: state.difficulty, seed: String(state.seed) });
-      history.replaceState(null, "", "?" + qp.toString());
-      els.status.textContent = "Click Start to begin!";
-    })();
-  })();
-  </script>
+            // Pause on background
+            document.addEventListener("visibilitychange", () => {
+                if (document.visibilityState === "hidden") clearTimer();
+                else if (document.visibilityState === "visible" && state.running && !state.practice) runTimer();
+            });
+
+            // Init
+            (function init() {
+                els.y.textContent = new Date().getFullYear();
+                load();
+                parseQuery();
+                setDifficulty(state.difficulty);
+                // keep seed/difficulty in URL
+                const qp = new URLSearchParams({ d: state.difficulty, seed: String(state.seed) });
+                history.replaceState(null, "", "?" + qp.toString());
+                els.status.textContent = "Click Start to begin!";
+            })();
+        })();
+    </script>
 </body>
+
 </html>

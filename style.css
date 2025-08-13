@@ -442,3 +442,5 @@ details.more .menu button{ width:100%; text-align:left; }
 
 /* Smaller note */
 .note.small{ font-size:12px; }
+
+.hl{ color: var(--accent); font-weight: 700; }

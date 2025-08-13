@@ -137,9 +137,9 @@
       <article class="card compact">
         <div class="difficulty-selector" role="group" aria-label="Select difficulty">
           <span class="muted">Difficulty:</span>
-          <button class="difficulty-btn active" data-difficulty="easy" aria-pressed="true">Easy (1–50)</button>
-          <button class="difficulty-btn" data-difficulty="medium" aria-pressed="false">Medium (1–100)</button>
-          <button class="difficulty-btn" data-difficulty="hard" aria-pressed="false">Hard (1–200)</button>
+          <button class="difficulty-btn active" data-difficulty="easy" aria-pressed="true">Easy (1-50)</button>
+          <button class="difficulty-btn" data-difficulty="medium" aria-pressed="false">Medium (1-100)</button>
+          <button class="difficulty-btn" data-difficulty="hard" aria-pressed="false">Hard (1-200)</button>
           <span class="pill-inline" style="margin-left:auto">
             <span class="pill">↩︎ Enter = Guess</span>
             <span class="pill">N = New</span>
@@ -156,7 +156,7 @@
 
         <div class="game-area">
           <div class="game-status" id="game-status" aria-live="polite">Press <b>Start</b> to begin.</div>
-          <div class="range-display" id="range-display">Range: 1–50</div>
+          <div class="range-display" id="range-display">Range: 1-50</div>
           <div class="window-bar" aria-hidden="true"><div id="winFill" class="window-fill" style="width:100%"></div></div>
 
           <form class="guess-input" id="guessForm" autocomplete="off">
@@ -311,7 +311,7 @@
         btn.classList.toggle("active", active);
         btn.setAttribute("aria-pressed", active ? "true":"false");
       });
-      els.range.textContent = `Range: ${cfg.min}–${cfg.max}`;
+      els.range.textContent = `Range: ${cfg.min}-${cfg.max}`;
       els.input.min = cfg.min; els.input.max = cfg.max;
       els.input.placeholder = state.gameActive ? `e.g., ${Math.floor((state.low+state.high)/2)}` : "Start first →";
       updateBestLabel();
@@ -345,7 +345,7 @@
       state.seed = seed;
 
       state.target = seededTarget(cfg.min, cfg.max, seed);
-      els.status.textContent = `I'm thinking of a number between ${cfg.min} and ${cfg.max}…`;
+      els.status.innerHTML = `I'm thinking of a number between <span class="hl">${cfg.min}</span> and <span class="hl">${cfg.max}</span>…`;
       els.attempts.textContent = "0";
       els.history.innerHTML = "";
       els.hintArea.hidden = true;
@@ -412,7 +412,7 @@
       const bucket = state.target <= state.min + third ? "lower third"
                     : state.target <= state.max - third ? "middle third" : "upper third";
 
-      els.hintText.textContent = `It’s ${parity}. Think ${bucket}. Current window: ${state.low}–${state.high}.`;
+      els.hintText.textContent = `It’s ${parity}. Think ${bucket}. Current window: ${state.low}-${state.high}.`;
       els.hintArea.hidden = false;
     }
 
@@ -432,7 +432,7 @@
       if (!state.gameActive) { els.status.textContent = "Press Start to begin."; return; }
       const v = parseInt(els.input.value, 10);
       if (Number.isNaN(v)){ els.status.textContent = "Enter a valid number."; return; }
-      if (v < state.low || v > state.high){ els.status.textContent = `Guess within ${state.low}–${state.high}.`; return; }
+      if (v < state.low || v > state.high){ els.status.textContent = `Guess within ${state.low}-${state.high}.`; return; }
       if (state.guesses.includes(v)){ els.status.textContent = "You already tried that number."; return; }
 
       state.attempts++; state.guesses.push(v);
@@ -441,7 +441,7 @@
       // Narrow the range window
       if (v < state.target) state.low = Math.max(state.low, v+1);
       if (v > state.target) state.high = Math.min(state.high, v-1);
-      els.range.textContent = `Range: ${state.low}–${state.high}`;
+      els.range.textContent = `Range: ${state.low}-${state.high}`;
       updateWindowBar();
 
       const diff = v - state.target;
