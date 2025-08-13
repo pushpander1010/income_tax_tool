@@ -1,16 +1,20 @@
 <!doctype html>
 <html lang="en">
 <head>
+  <!-- Single async ad -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617" crossorigin="anonymous"></script>
+
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Canada CRS Score Calculator (Express Entry) - UpTools</title>
-  <meta name="description" content="Free Canada CRS Score Calculator by UpTools. Estimate your Express Entry CRS points fast. Enter age, education (ECA), CLB language scores, Canadian & foreign work experience, and extras like PNP, French, sibling, and job offer. Get a clean factor-by-factor breakdown plus a shareable permalink. No sign-ups, privacy-first." />
+
+  <title>Canada CRS Score Calculator (Express Entry) - IELTS/CLB Ready | UpTools</title>
+  <meta name="description" content="Free Canada CRS calculator that accepts IELTS (decimals like 7.5) or CLB, and decimal work experience (e.g., 3.6 years). Get a clear breakdown of Core, Transferability, and Additional points with a shareable permalink. No sign-ups, privacy-first." />
   <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
   <meta name="theme-color" content="#0f1419" />
 
   <link rel="canonical" href="https://www.uptools.in/canada-crs-tool/" />
-  <meta property="og:title" content="Canada CRS Score Calculator (Express Entry) - UpTools" />
-  <meta property="og:description" content="Accurate, fast, privacy‑first CRS estimator with breakdown and shareable link." />
+  <meta property="og:title" content="Canada CRS Score Calculator (Express Entry) - IELTS/CLB Ready" />
+  <meta property="og:description" content="Enter IELTS (7.5 etc.) or CLB and decimal experience (e.g., 3.6 yrs). Fast, private CRS estimator with breakdown and permalink." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.uptools.in/canada-crs-tool/" />
   <meta property="og:site_name" content="UpTools" />
@@ -19,58 +23,50 @@
 
   <link rel="icon" type="image/svg+xml" href="/assets/uptools-mark.svg" />
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/uptools-mark.svg" />
-  <link rel="stylesheet" href="/style.css?v=1.0.1" />
+  <link rel="stylesheet" href="/style.css?v=1.0.2" />
 
-  <!-- Per‑tool accent colors -->
+  <!-- Per-tool accent -->
   <style>
-    :root{
-      --accent:#A78BFA;    /* violet for CRS */
-      /* optional subtle page tint */
-      /* --bg2:#141c2a; */
-    }
+    :root{ --accent:#A78BFA; }
+    .grid-2{ display:grid; gap:12px; grid-template-columns:1fr; }
+    @media (min-width:900px){ .grid-2{ grid-template-columns:1fr 1fr; } }
+    .sm{ padding:6px 10px; font-size:13px; }
+    .more > summary { list-style:none; cursor:pointer; }
+    .more > summary::-webkit-details-marker{ display:none; }
+    .more .menu{ margin-top:8px; display:grid; gap:6px; }
+    .spacer{ flex:1; }
+    .compact{ padding:18px; }
+    .sticky-side{ position:sticky; top:84px; align-self:start; }
+    .chip-inline{ display:inline-flex; gap:6px; flex-wrap:wrap; align-items:center; font-size:12px; color:var(--muted); }
+    .chip-inline .pill{ padding:4px 8px; }
+    .muted-small{ color:var(--muted); font-size:12px; }
+    .warn{ color:#f59e0b; }
+    .ok{ color:#22c55e; }
+    .err{ color:#ef4444; }
   </style>
 
-  <!-- Breadcrumbs -->
+  <!-- Structured data (breadcrumbs + howto + faq) -->
   <script type="application/ld+json">
-  {
-    "@context":"https://schema.org",
-    "@type":"BreadcrumbList",
-    "itemListElement":[
-      {"@type":"ListItem","position":1,"name":"UpTools","item":"https://www.uptools.in/"},
-      {"@type":"ListItem","position":2,"name":"Calculators","item":"https://www.uptools.in/#tools"},
-      {"@type":"ListItem","position":3,"name":"Canada CRS Calculator","item":"https://www.uptools.in/canada-crs-tool/"}
-    ]
-  }
-  </script>
-
-  <!-- HowTo + FAQ -->
+  {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
+    {"@type":"ListItem","position":1,"name":"UpTools","item":"https://www.uptools.in/"},
+    {"@type":"ListItem","position":2,"name":"Calculators","item":"https://www.uptools.in/#tools"},
+    {"@type":"ListItem","position":3,"name":"Canada CRS Calculator","item":"https://www.uptools.in/canada-crs-tool/"}
+  ]}</script>
   <script type="application/ld+json">
-  {
-    "@context":"https://schema.org",
-    "@type":"HowTo",
-    "name":"How to calculate your Canada CRS score",
-    "description":"Use the UpTools CRS calculator to estimate your Express Entry points.",
-    "step":[
-      {"@type":"HowToStep","name":"Enter personal details","text":"Select marital status and age."},
-      {"@type":"HowToStep","name":"Add education & language","text":"Pick your ECA-equivalent education and input CLB scores."},
-      {"@type":"HowToStep","name":"Add work experience","text":"Include Canadian and foreign years of experience."},
-      {"@type":"HowToStep","name":"Add optional extras","text":"PNP, job offer, sibling in Canada, and French bonus."},
-      {"@type":"HowToStep","name":"See your breakdown","text":"Get the total and factor-by-factor points."}
-    ]
-  }
-  </script>
+  {"@context":"https://schema.org","@type":"HowTo","name":"How to estimate your Canada CRS score",
+   "description":"Use IELTS (decimals like 7.5) or CLB and decimal work experience (e.g., 3.6 years).",
+   "step":[
+     {"@type":"HowToStep","name":"Pick language input type","text":"Choose CLB or IELTS (General Training)."},
+     {"@type":"HowToStep","name":"Enter IELTS/CLB & experience","text":"Enter IELTS with decimals or CLB 0-12, and experience like 3.6 years."},
+     {"@type":"HowToStep","name":"Add age, education, and bonuses","text":"Fill age, education, and any additional factors."},
+     {"@type":"HowToStep","name":"Calculate & share","text":"Click Calculate to see your breakdown and copy the permalink."}
+   ]}</script>
   <script type="application/ld+json">
-  {
-    "@context":"https://schema.org",
-    "@type":"FAQPage",
-    "mainEntity":[
-      {"@type":"Question","name":"Is this official?",
-       "acceptedAnswer":{"@type":"Answer","text":"No, it's an educational estimator by UpTools. For decisions, see the Government of Canada website."}},
-      {"@type":"Question","name":"Do you store my data?",
-       "acceptedAnswer":{"@type":"Answer","text":"No—everything runs locally in your browser. You may export or clear inputs anytime."}}
-    ]
-  }
-  </script>
+  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+    {"@type":"Question","name":"Can I enter IELTS with decimals (e.g., 7.5)?","acceptedAnswer":{"@type":"Answer","text":"Yes. Select IELTS mode and enter decimal band scores. We convert to CLB using official equivalency thresholds."}},
+    {"@type":"Question","name":"Can I enter fractional experience (e.g., 3.6 years)?","acceptedAnswer":{"@type":"Answer","text":"Yes. Enter decimals; we bracket them to the nearest whole-year category used by CRS (floor)."}},
+    {"@type":"Question","name":"Is this official?","acceptedAnswer":{"@type":"Answer","text":"No. It’s an educational estimator. For decisions, check the Government of Canada."}}
+  ]}</script>
 </head>
 <body>
   <a href="#main" class="sr-only">Skip to content</a>
@@ -95,7 +91,7 @@
       <span class="tool-icon" aria-hidden="true">🍁</span>
       <div>
         <h1 style="margin:0 0 4px;">Canada CRS Score Calculator (Express Entry)</h1>
-        <p class="note" style="margin:0;">Fast, privacy‑first CRS estimator. No sign‑ups. Share a permalink with your exact inputs.</p>
+        <p class="note" style="margin:0;">Now supports IELTS (decimals like <b>7.5</b>) and fractional experience (e.g., <b>3.6</b> yrs). Private, fast, shareable.</p>
       </div>
       <a class="back-btn" href="/" aria-label="Back to home" title="Back to UpTools">←</a>
     </div>
@@ -103,7 +99,7 @@
     <section class="grid" aria-label="Calculator and info">
       <!-- LEFT: CALCULATOR -->
       <article class="card compact" aria-labelledby="calc-title">
-        <div class="toolbar" style="margin-bottom:6px;">
+        <div class="toolbar" style="margin-bottom:6px; display:flex; gap:8px; align-items:center;">
           <h2 id="calc-title" style="margin:0;">Enter your details</h2>
           <span class="spacer"></span>
           <button type="submit" form="tool-form" class="btn sm" id="btn-calc-top">🧮 Calculate</button>
@@ -130,8 +126,9 @@
             </div>
             <div>
               <label class="label" for="age">Age (years)</label>
-              <input class="input" id="age" name="age" type="number" min="17" max="45" placeholder="e.g., 29" />
+              <input class="input" id="age" name="age" type="number" inputmode="numeric" min="17" max="45" step="1" placeholder="e.g., 29" />
             </div>
+
             <div>
               <label class="label" for="edu">Highest education (ECA-equivalent)</label>
               <select class="input" id="edu" name="edu">
@@ -149,36 +146,71 @@
           </div>
 
           <div class="divider"></div>
-          <h3 style="margin:6px 0 8px;">First official language (CLB)</h3>
+          <h3 style="margin:6px 0 8px;">First official language</h3>
+
+          <!-- Language input mode -->
           <div class="grid-2">
             <div>
-              <label class="label" for="clbL">Listening</label>
-              <input class="input" id="clbL" name="clbL" type="number" min="0" max="12" placeholder="0-12" />
+              <label class="label" for="langMode">Input type</label>
+              <select class="input" id="langMode" name="langMode">
+                <option value="clb">CLB (0-12)</option>
+                <option value="ielts">IELTS (General Training)</option>
+              </select>
+            </div>
+            <div class="muted-small" style="align-self:end;">We auto-convert IELTS bands → CLB using official thresholds.</div>
+          </div>
+
+          <!-- CLB inputs -->
+          <div id="groupCLB" class="grid-2" style="margin-top:8px;">
+            <div>
+              <label class="label" for="clbL">CLB Listening (0-12)</label>
+              <input class="input" id="clbL" name="clbL" type="number" inputmode="decimal" min="0" max="12" step="1" placeholder="e.g., 9" />
             </div>
             <div>
-              <label class="label" for="clbR">Reading</label>
-              <input class="input" id="clbR" name="clbR" type="number" min="0" max="12" placeholder="0-12" />
+              <label class="label" for="clbR">CLB Reading (0-12)</label>
+              <input class="input" id="clbR" name="clbR" type="number" inputmode="decimal" min="0" max="12" step="1" placeholder="e.g., 9" />
             </div>
             <div>
-              <label class="label" for="clbW">Writing</label>
-              <input class="input" id="clbW" name="clbW" type="number" min="0" max="12" placeholder="0-12" />
+              <label class="label" for="clbW">CLB Writing (0-12)</label>
+              <input class="input" id="clbW" name="clbW" type="number" inputmode="decimal" min="0" max="12" step="1" placeholder="e.g., 9" />
             </div>
             <div>
-              <label class="label" for="clbS">Speaking</label>
-              <input class="input" id="clbS" name="clbS" type="number" min="0" max="12" placeholder="0-12" />
+              <label class="label" for="clbS">CLB Speaking (0-12)</label>
+              <input class="input" id="clbS" name="clbS" type="number" inputmode="decimal" min="0" max="12" step="1" placeholder="e.g., 9" />
             </div>
+          </div>
+
+          <!-- IELTS inputs -->
+          <div id="groupIELTS" class="grid-2 hidden" style="margin-top:8px;">
+            <div>
+              <label class="label" for="ieltsL">IELTS Listening (0-9)</label>
+              <input class="input" id="ieltsL" name="ieltsL" type="number" inputmode="decimal" min="0" max="9" step="0.5" placeholder="e.g., 8.5" />
+            </div>
+            <div>
+              <label class="label" for="ieltsR">IELTS Reading (0-9)</label>
+              <input class="input" id="ieltsR" name="ieltsR" type="number" inputmode="decimal" min="0" max="9" step="0.5" placeholder="e.g., 7.0" />
+            </div>
+            <div>
+              <label class="label" for="ieltsW">IELTS Writing (0-9)</label>
+              <input class="input" id="ieltsW" name="ieltsW" type="number" inputmode="decimal" min="0" max="9" step="0.5" placeholder="e.g., 7.0" />
+            </div>
+            <div>
+              <label class="label" for="ieltsS">IELTS Speaking (0-9)</label>
+              <input class="input" id="ieltsS" name="ieltsS" type="number" inputmode="decimal" min="0" max="9" step="0.5" placeholder="e.g., 7.5" />
+            </div>
+            <div class="full chip-inline" id="ieltsClbEcho" aria-live="polite"></div>
           </div>
 
           <div class="divider"></div>
           <h3 style="margin:6px 0 8px;">Work experience</h3>
           <div class="grid-2">
             <div>
-              <label class="label" for="caExp">Canadian experience (years)</label>
-              <input class="input" id="caExp" name="caExp" type="number" min="0" max="10" />
+              <label class="label" for="caExp">Canadian experience (years, decimals OK)</label>
+              <input class="input" id="caExp" name="caExp" type="number" inputmode="decimal" min="0" max="50" step="0.1" placeholder="e.g., 2.5" />
             </div>
             <div>
-              <label class="label" for="forExp">Foreign experience (years)</label>
-              <input class="input" id="forExp" name="forExp" type="number" min="0" max="30" />
+              <label class="label" for="forExp">Foreign experience (years, decimals OK)</label>
+              <input class="input" id="forExp" name="forExp" type="number" inputmode="decimal" min="0" max="50" step="0.1" placeholder="e.g., 3.6" />
             </div>
           </div>
 
@@ -197,8 +229,8 @@
                 <label class="label" for="job">Qualifying job offer</label>
                 <select class="input" id="job" name="job">
                   <option value="0">None</option>
-                  <option value="50">Skill type 0/A/B - 50</option>
-                  <option value="200">Major NOC 00 - 200</option>
+                  <option value="50">Skill type 0/A/B — 50</option>
+                  <option value="200">Major NOC 00 — 200</option>
                 </select>
               </div>
               <div>
@@ -212,14 +244,14 @@
                 <label class="label" for="french">French bonus</label>
                 <select class="input" id="french" name="french">
                   <option value="0">None</option>
-                  <option value="25">French (some) - 25</option>
-                  <option value="50">Strong French - 50</option>
+                  <option value="25">French (some) — 25</option>
+                  <option value="50">Strong French — 50</option>
                 </select>
               </div>
             </div>
           </details>
 
-          <div class="toolbar" style="margin-top:12px;">
+          <div class="toolbar" style="margin-top:12px; display:flex; gap:8px; align-items:center;">
             <button type="submit" class="btn sm" id="btn-calc">🧮 Calculate</button>
             <button type="button" class="btn sm secondary" id="btn-clear">🧹 Clear</button>
             <span class="spacer"></span>
@@ -234,6 +266,9 @@
             </details>
           </div>
         </form>
+
+        <div id="tips" class="note" style="margin-top:8px;" aria-live="polite"></div>
+        <div class="muted-small">Source for IELTS→CLB thresholds: Government of Canada (updated Jul 2025).</div>
       </article>
 
       <!-- RIGHT: Sticky results -->
@@ -262,37 +297,65 @@
   </main>
 
   <script type="module">
-    import { $, $$, fmtNum, debounce, serializeForm, setText, persist, read, num } from "/scripts/utils.js";
+    import { $, $$, fmtNum, debounce, serializeForm, setText, persist, read, num, clamp } from "/scripts/utils.js";
 
     const FORM_KEY = "uptools:crs:form";
     const form = $("#tool-form");
-    const el = { total: $("#total"), core: $("#core"), trans: $("#trans"), bonus: $("#bonus"), explain: $("#explain") };
+    const el = {
+      total: $("#total"), core: $("#core"), trans: $("#trans"), bonus: $("#bonus"),
+      explain: $("#explain"), tips: $("#tips"),
+      groupCLB: $("#groupCLB"), groupIELTS: $("#groupIELTS"),
+      langMode: $("#langMode"),
+      ieltsEcho: $("#ieltsClbEcho")
+    };
 
-    // Tiny helpers
-    const clampCLB = v => Math.max(0, Math.min(12, num(v)));
+    // ---- IELTS → CLB thresholds (IELTS General Training, per-skill)
+    // From Government of Canada tables (Reading/Writing/Listening/Speaking).
+    // We map "band >= threshold" to the CLB level shown.
+    const IELTS_THRESHOLDS = {
+      L: [ // [minBand, CLB] descending
+        [8.5,10],[8.0,9],[7.5,8],[6.0,7],[5.5,6],[5.0,5],[4.5,4]
+      ],
+      R: [
+        [8.0,10],[7.0,9],[6.5,8],[6.0,7],[5.0,6],[4.0,5],[3.5,4]
+      ],
+      W: [
+        [7.5,10],[7.0,9],[6.5,8],[6.0,7],[5.5,6],[5.0,5],[4.0,4]
+      ],
+      S: [
+        [7.5,10],[7.0,9],[6.5,8],[6.0,7],[5.5,6],[5.0,5],[4.0,4]
+      ]
+    };
+    const bandToCLB = (skill, band) => {
+      const b = Number(band||0);
+      for (const [min, clb] of IELTS_THRESHOLDS[skill]) if (b >= min) return clb;
+      return 0; // below CLB4
+    };
 
-    // ---- Scoring (practical approximations) ----
+    // ---- Scoring helpers (practical approximations)
+    const clampCLB = v => Math.max(0, Math.min(12, Math.round(num(v)))); // CLB is integral 0-12
+
     function scoreAge(age, married){
       if (!age) return 0;
       const t = married
         ? [0,0,0,0,0,90,85,80,75,70,65,60,55,50,45,40,35,30,25,20,15,10,5,0,0,0,0,0,0]
         : [0,0,0,0,0,110,105,99,94,88,83,77,72,66,61,55,50,39,28,17,6,0,0,0,0,0,0,0,0];
-      const i = Math.max(0, Math.min(t.length-1, age));
+      const i = Math.max(0, Math.min(t.length-1, Math.floor(age)));
       return t[i] || 0;
     }
     function scoreEducation(level, married){
-      const mapSingle = {lessHS:0, hs:30, "1yr":90, "2yr":98, bachelor:120, twoPlus:128, master:135, phd:150};
-      const mapMarried = {lessHS:0, hs:28, "1yr":84, "2yr":91, bachelor:112, twoPlus:119, master:126, phd:140};
-      return (married ? mapMarried : mapSingle)[level] ?? 0;
+      const single = {lessHS:0, hs:30, "1yr":90, "2yr":98, bachelor:120, twoPlus:128, master:135, phd:150};
+      const spouse = {lessHS:0, hs:28, "1yr":84, "2yr":91, bachelor:112, twoPlus:119, master:126, phd:140};
+      return (married ? spouse : single)[level] ?? 0;
     }
-    function scoreLanguage({L,R,W,S}, married){
+    function scoreLanguage(clb, married){
       const per = v => {
         v = clampCLB(v);
         if (v <= 6) return 0;
         if (v === 7) return 17;
         if (v === 8) return 23;
-        if (v >= 9 && v <= 10) return 31;
-        if (v >= 11) return 34;
+        if (v === 9 || v === 10 || v === 11) return 31;
+        if (v >= 12) return 34;
         return 0;
       };
       const perM = v => {
@@ -300,77 +363,123 @@
         if (v <= 6) return 0;
         if (v === 7) return 16;
         if (v === 8) return 22;
-        if (v >= 9 && v <= 10) return 29;
-        if (v >= 11) return 32;
+        if (v === 9 || v === 10 || v === 11) return 29;
+        if (v >= 12) return 32;
         return 0;
       };
       const f = married ? perM : per;
-      return f(L)+f(R)+f(W)+f(S);
+      return f(clb.L)+f(clb.R)+f(clb.W)+f(clb.S);
     }
     function scoreCanadianExp(years, married){
-      const y = Math.max(0, Math.min(10, num(years)));
-      const single = [0,40,53,64,72,80];   // 0-5+
-      const marriedArr = [0,35,46,56,63,70];
-      const idx = Math.min(5, y);
-      return (married ? marriedArr : single)[idx];
+      const y = Math.max(0, num(years));
+      const whole = Math.floor(y); // CRS categories are by completed years
+      const single = [0,40,53,64,72,80];   // 0,1,2,3,4,5+
+      const spouse = [0,35,46,56,63,70];
+      const idx = Math.min(5, whole);
+      return (married ? spouse : single)[idx];
     }
     function scoreTransfer({edu, clb, forExp}){
       let pts = 0;
-      const allGte9  = [clb.L, clb.R, clb.W, clb.S].every(v => clampCLB(v) >= 9);
-      const allGte7  = [clb.L, clb.R, clb.W, clb.S].every(v => clampCLB(v) >= 7);
+      const c = { L:clb.L|0, R:clb.R|0, W:clb.W|0, S:clb.S|0 };
+      const allGte9  = [c.L,c.R,c.W,c.S].every(v => v >= 9);
+      const allGte7  = [c.L,c.R,c.W,c.S].every(v => v >= 7);
       if (["master","phd","twoPlus","bachelor"].includes(edu)) {
         pts += allGte9 ? 50 : (allGte7 ? 25 : 0);
       }
-      const f = Math.max(0, Math.min(10, num(forExp)));
-      if (f >= 3) pts += allGte9 ? 50 : (allGte7 ? 25 : 0);
-      else if (f >= 1) pts += allGte9 ? 25 : (allGte7 ? 13 : 0);
+      const fWhole = Math.floor(Math.max(0, num(forExp)));
+      if (fWhole >= 3) pts += allGte9 ? 50 : (allGte7 ? 25 : 0);
+      else if (fWhole >= 1) pts += allGte9 ? 25 : (allGte7 ? 13 : 0);
       return Math.min(100, pts);
     }
     const scoreBonus = ({pnp, job, sibling, french}) => num(pnp) + num(job) + num(sibling) + num(french);
 
+    // ---- Wire up IELTS mode ↔ CLB mode
+    const readCLB = ()=>{
+      if ($("#langMode").value === "ielts"){
+        const iL = num($("#ieltsL").value), iR = num($("#ieltsR").value), iW = num($("#ieltsW").value), iS = num($("#ieltsS").value);
+        const clb = {
+          L: bandToCLB('L', iL),
+          R: bandToCLB('R', iR),
+          W: bandToCLB('W', iW),
+          S: bandToCLB('S', iS)
+        };
+        // Echo chips
+        el.ieltsEcho.innerHTML = `
+          <span>Converted to CLB:</span>
+          <span class="pill">L ${clb.L}</span>
+          <span class="pill">R ${clb.R}</span>
+          <span class="pill">W ${clb.W}</span>
+          <span class="pill">S ${clb.S}</span>`;
+        return clb;
+      }
+      // CLB mode (use entered values)
+      return {
+        L: clampCLB($("#clbL").value),
+        R: clampCLB($("#clbR").value),
+        W: clampCLB($("#clbW").value),
+        S: clampCLB($("#clbS").value)
+      };
+    };
+
     function compute(formData){
       const married = formData.marital === "married";
-      const clb = { L:num(formData.clbL), R:num(formData.clbR), W:num(formData.clbW), S:num(formData.clbS) };
+      // Build CLB set from current mode
+      const clb = readCLB();
 
       const core =
         scoreAge(num(formData.age), married) +
         scoreEducation(formData.edu, married) +
         scoreLanguage(clb, married) +
-        scoreCanadianExp(num(formData.caExp), married);
+        scoreCanadianExp(formData.caExp, married);
 
       const trans = scoreTransfer({edu:formData.edu, clb, forExp:num(formData.forExp)});
       const bonus = scoreBonus({pnp:formData.pnp, job:formData.job, sibling:formData.sibling, french:formData.french});
 
       const total = core + trans + bonus;
-      return { total, core, trans, bonus, explain:`Core ${core}, Transferability ${trans}, Additional ${bonus}.` };
+      return { total, core, trans, bonus, clb,
+        explain:`Core ${core}, Transferability ${trans}, Additional ${bonus}.` };
     }
 
-    // ---- Utilities & bindings ----
-    function toQuery(obj){ return new URLSearchParams(obj).toString(); }
-    function updateResult(res){
+    // ---- Utilities
+    const toQuery = (obj)=> new URLSearchParams(obj).toString();
+    const updateResult = (res)=>{
       setText(el.total, fmtNum(res.total));
       setText(el.core, fmtNum(res.core));
       setText(el.trans, fmtNum(res.trans));
       setText(el.bonus, fmtNum(res.bonus));
       setText(el.explain, res.explain);
-    }
-    function runCalc(){
+      el.tips.innerHTML = `Language (CLB): L ${res.clb.L}, R ${res.clb.R}, W ${res.clb.W}, S ${res.clb.S}. Experience <span class="muted-small">(categories use completed years)</span>.`;
+    };
+    const runCalc = ()=>{
       const data = serializeForm(form);
       persist(FORM_KEY, data);
       const res = compute(data);
       updateResult(res);
       return { data, res };
-    }
-    function populateFromQuery(){
+    };
+    const populateFromQuery = ()=>{
       const p = new URLSearchParams(location.search);
       if (!p.toString()) return;
       $$("input, select, textarea", form).forEach(i => { if (p.has(i.name)) i.value = p.get(i.name); });
-    }
+      toggleLangMode();
+    };
+
+    // ---- UI behavior
+    const toggleLangMode = ()=>{
+      const isIELTS = el.langMode.value === "ielts";
+      el.groupIELTS.classList.toggle("hidden", !isIELTS);
+      el.groupCLB.classList.toggle("hidden", isIELTS);
+      if (isIELTS) { // nudge placeholders/steps already set
+        el.tips.textContent = "Enter IELTS General Training band scores (decimals like 7.5). We convert to CLB.";
+      } else {
+        el.tips.textContent = "Enter CLB 0-12 directly (integers).";
+      }
+    };
 
     // Submit
     form.addEventListener("submit", e => {
       e.preventDefault();
-      runCalc();
+      const { data } = runCalc();
       history.replaceState(null, "", "?" + toQuery(serializeForm(form))); // permalink
     });
 
@@ -384,7 +493,8 @@
       form.reset();
       persist(FORM_KEY, {});
       history.replaceState(null, "", location.pathname);
-      updateResult({total:0, core:0, trans:0, bonus:0, explain:"Cleared. Enter details to calculate."});
+      updateResult({total:0, core:0, trans:0, bonus:0, clb:{L:0,R:0,W:0,S:0}, explain:"Cleared. Enter details to calculate."});
+      $("#ieltsClbEcho").innerHTML = "";
     };
     $("#btn-clear").addEventListener("click", clearAll);
     $("#btn-clear-top").addEventListener("click", clearAll);
@@ -392,8 +502,8 @@
     // Copy link
     const copyLink = async () => {
       const url = location.origin + location.pathname + "?" + toQuery(serializeForm(form));
-      await navigator.clipboard.writeText(url);
-      el.explain.textContent = "Permalink copied to clipboard!";
+      try{ await navigator.clipboard.writeText(url); el.explain.textContent="Permalink copied!"; }
+      catch{ el.explain.textContent="Copy failed."; }
       setTimeout(() => el.explain.textContent = "", 1500);
     };
     $("#btn-copy").addEventListener("click", copyLink);
@@ -429,14 +539,19 @@
     $("#btn-csv").addEventListener("click", exportCSV);
     $("#btn-csv-2").addEventListener("click", exportCSV);
 
-    // Init: restore, query, live recalc
+    // Reactivity
+    $("#langMode").addEventListener("change", ()=>{ toggleLangMode(); runCalc(); });
+    // Recalculate on input (debounced)
+    form.addEventListener("input", debounce(runCalc, 180));
+
+    // On load: year, restore, query, init
+    $("#y").textContent = new Date().getFullYear();
     (function init(){
       const saved = read(FORM_KEY, null);
       if (saved) { $$("input, select, textarea", form).forEach(i => { if (saved[i.name] != null) i.value = saved[i.name]; }); }
       populateFromQuery();
-      form.addEventListener("input", debounce(runCalc, 200));
+      toggleLangMode();
       runCalc();
-      $("#y").textContent = new Date().getFullYear();
       // top toolbar buttons delegate to bottom
       $("#btn-calc-top").addEventListener("click", () => $("#btn-calc").click());
     })();
