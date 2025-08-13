@@ -472,3 +472,53 @@ details.more .menu button{ width:100%; text-align:left; }
   }
 }
 
+/* Reserve realistic heights for your formats */
+.ad-slot { display:block; width:100%; }
+.ad-leaderboard { min-height: 90px; }      /* 728x90 / 970x90 */
+.ad-rectangle   { min-height: 280px; }     /* 336x280 / 300x250 */
+.ad-mobile      { min-height: 100px; }     /* 320x100 / 320x50 */
+
+/* Optional: add a subtle skeleton so it looks intentional */
+.ad-slot::before{
+  content:""; display:block; height:100%;
+  background:linear-gradient(90deg,rgba(255,255,255,.05),rgba(255,255,255,.09),rgba(255,255,255,.05));
+  background-size:200% 100%; animation:ad-skel 1.2s infinite;
+  border:1px dashed var(--cardBorder); border-radius:8px;
+}
+@keyframes ad-skel{0%{background-position:200% 0}100%{background-position:-200% 0}}
+
+
+/* --- FundingChoices / Consent UI should not push layout --- */
+#fc-consent-root,
+#fundingChoicesModal,
+#fundingChoicesBanner {
+  position: fixed !important;
+  inset: 0 0 auto 0 !important;   /* top banner style; use inset:0 for full-screen modal */
+  z-index: 2147483000 !important; /* above everything */
+}
+
+/* If you prefer a slim top bar instead of full overlay, also add: */
+#fundingChoicesBanner {
+  height: 64px;                   /* pick a fixed height so nothing moves */
+  left: 0; right: 0; top: 0;
+}
+
+/* --- Stabilize header size & border from the very first paint --- */
+header.site{
+  min-height: 56px;                 /* match your real final height */
+  border-bottom: 1px solid var(--cardBorder);
+}
+
+/* Keep header content from wrapping unexpectedly on load */
+.header-inner{
+  min-height: 56px;                 /* same as header.site */
+  display: flex;
+  align-items: center;
+}
+
+/* Prevent logo image causing reflow while it loads */
+.brand img{
+  width: 28px;                      /* match your HTML width */
+  height: 28px;                     /* match your HTML height */
+  aspect-ratio: 1 / 1;              /* belt-and-suspenders to avoid jumps */
+}
