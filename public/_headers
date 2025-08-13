@@ -5,3 +5,18 @@
 /robots.txt
   Content-Type: text/plain; charset=UTF-8
   Cache-Control: public, max-age=3600
+
+/*
+  Cache-Control: public, max-age=0, must-revalidate
+
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.woff2
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.webp
+  Cache-Control: public, max-age=31536000, immutable
+
+/style.css
+  Cache-Control: public, max-age=604800, stale-while-revalidate=86400
