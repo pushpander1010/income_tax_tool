@@ -444,3 +444,31 @@ details.more .menu button{ width:100%; text-align:left; }
 .note.small{ font-size:12px; }
 
 .hl{ color: var(--accent); font-weight: 700; }
+
+/* Make game names always legible on dark backgrounds */
+.game-card .game-title {
+  color: var(--text) !important;           /* force light title */
+  text-decoration: none;                   /* cleaner look */
+}
+.game-card .game-title:visited {
+  color: var(--text) !important;           /* avoid low-contrast purple */
+}
+.game-card:hover .game-title,
+.game-card .game-title:focus-visible {
+  color: #fff;                             /* extra pop on hover/focus */
+  text-decoration: underline; 
+  text-underline-offset: 2px;
+}
+
+/* (Optional) Slightly deepen the card background for contrast */
+.game-card {
+  background: color-mix(in oklab, var(--card) 94%, transparent);
+}
+
+/* (Optional) Extra readability for users who want more contrast */
+@media (prefers-contrast: more) {
+  .game-card .game-title { 
+    text-shadow: 0 1px 1px rgba(0,0,0,.55);
+  }
+}
+
