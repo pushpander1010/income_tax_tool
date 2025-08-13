@@ -3,29 +3,83 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>UpTools - Free Online Calculators, Converters & Mini Games</title>
-  <meta name="description" content="UpTools offers fast, privacy-first tools: Income Tax Calculator, GST, EMI, SIP, Currency Converter, IFSC Finder, JSON Formatter, and free mini games." />
+  <title>UpTools — Free Online Calculators, Converters & Mini Games</title>
+  <meta name="description" content="Fast, privacy‑first tools: Income Tax, GST, EMI, SIP, Currency Converter, IFSC Finder, JSON Formatter, and mini games. No sign‑ups, no bloat." />
   <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
   <meta name="theme-color" content="#0f1419" />
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617" crossorigin="anonymous"></script>
-
-  <!-- Open Graph / Twitter -->
-  <meta property="og:title" content="UpTools - Free Online Calculators, Converters & Mini Games" />
-  <meta property="og:description" content="Fast, lightweight tools for everyday tasks. No sign-ups. Privacy-first." />
+  <meta property="og:title" content="UpTools — Free Online Calculators, Converters & Mini Games" />
+  <meta property="og:description" content="Fast, lightweight tools for everyday tasks. No sign‑ups. Privacy‑first." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.uptools.in/" />
   <meta property="og:site_name" content="UpTools" />
   <meta property="og:image" content="https://www.uptools.in/assets/uptools-mark.svg" />
   <meta name="twitter:card" content="summary" />
-
   <link rel="canonical" href="https://www.uptools.in/" />
   <link rel="icon" type="image/svg+xml" href="/assets/uptools-mark.svg" />
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/uptools-mark.svg" />
+  <meta name="msvalidate.01" content="C86F89179744E081DBEF23338B0E2062" />
 
-  <!-- Use your single, shared stylesheet -->
+  <!-- Ads -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617" crossorigin="anonymous"></script>
+
+  <!-- Shared stylesheet -->
   <link rel="stylesheet" href="/style.css?v=1.0.0" />
 
-  <!-- Schema.org -->
+  <!-- Page-only tweaks -->
+  <style>
+    body{
+      --accent:#60A5FA; /* soft blue accent for home */
+      --bg1:#0f1419;
+      --bg2:#182033;
+      background: radial-gradient(1200px 600px at 10% -10%, #182033 0%, var(--bg1) 45%) fixed;
+    }
+    .wrap{ padding-top: 0 }
+
+    /* Hero polish */
+    .hero{ display:flex; gap:16px; align-items:center; }
+    .hero h1{ margin:0 0 4px; }
+    .hero .note{ margin:0 }
+
+    /* Controls (search + tags) */
+    .controls{
+      display:grid; grid-template-columns:1fr; gap:.75rem; margin:16px 0 8px;
+    }
+    @media (min-width:980px){ .controls{ grid-template-columns: 1fr 440px } }
+
+    .search{
+      display:flex; align-items:center; gap:.5rem; padding:.5rem .6rem;
+      background:var(--card); border:1px solid var(--cardBorder); border-radius:.75rem;
+    }
+    .search input{
+      flex:1; background:transparent; color:var(--text); border:none; outline:none; font:inherit;
+    }
+    .filters{ display:flex; gap:.5rem; flex-wrap:wrap; justify-content:flex-end; align-items:center }
+    .chip input{ accent-color:var(--accent) }
+
+    /* Dynamic grids */
+    .tools-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:12px; }
+    .tool-card{
+      display:grid; grid-template-rows:auto auto 1fr auto; gap:.4rem;
+      background:var(--card); border:1px solid var(--cardBorder); border-radius:var(--radius); padding:14px;
+      transition:transform .12s ease, border-color .12s ease, box-shadow .12s ease;
+    }
+    .tool-card:hover{ transform:translateY(-2px); box-shadow:var(--shadow-hover); border-color:var(--accent) }
+    .tool-top{ display:flex; gap:.6rem; align-items:center; justify-content:space-between }
+    .tool-ico{ font-size:20px }
+    .tool-title{ font-size:1.05rem; font-weight:800; color:var(--text); text-decoration:none }
+    .tool-desc{ color:var(--muted); font-size:.9rem }
+    .tags{ display:flex; gap:.35rem; flex-wrap:wrap; margin-top:.15rem }
+    .tag{ font-size:.75rem; padding:.15rem .4rem; border-radius:999px; background:rgba(255,255,255,.04); border:1px solid var(--cardBorder) }
+    .card-cta{ display:flex; align-items:center; justify-content:space-between; gap:.5rem; margin-top:.35rem }
+    .btn{ padding:.45rem .75rem }
+    .fav{ border:none; background:transparent; color:var(--muted); cursor:pointer }
+    .fav.active{ color:var(--accent) }
+
+    .section{ margin: 1.25rem 0 }
+    .section h2{ display:flex; align-items:center; gap:.5rem; margin:0 0 .5rem }
+  </style>
+
+  <!-- Schema.org (website + featured items) -->
   <script type="application/ld+json">
   {
     "@context":"https://schema.org",
@@ -53,12 +107,11 @@
     ]
   }
   </script>
-
-  <meta name="msvalidate.01" content="C86F89179744E081DBEF23338B0E2062" />
 </head>
 <body>
   <a href="#main" class="sr-only">Skip to content</a>
 
+  <!-- Sticky site header (from your central CSS) -->
   <header class="site" role="banner">
     <div class="header-inner">
       <a class="brand" href="/" aria-label="UpTools Home">
@@ -66,7 +119,7 @@
         <b>UpTools</b>
       </a>
       <nav class="nav-links" aria-label="Primary">
-        <a href="/#tools">Tools</a>
+        <a href="/#tools" aria-current="page">Tools</a>
         <a href="/games/">Games</a>
         <a href="/about/">About</a>
         <a href="/contact/">Contact</a>
@@ -75,49 +128,58 @@
   </header>
 
   <main id="main" class="wrap" role="main">
-    <!-- Colorful, lightweight hero -->
+    <!-- Hero -->
     <section class="card hero" aria-labelledby="hero-title">
       <img class="hero-logo" src="/assets/uptools-mark.svg" alt="" role="presentation" />
       <div>
         <h1 id="hero-title">Your everyday toolkit.</h1>
-        <div class="note">Calculators, converters, and games - fast, privacy-first, no sign-ups.</div>
+        <div class="note">Calculators, converters, formatters & games — fast, privacy‑first, no sign‑ups.</div>
         <div class="chips" style="margin-top:10px;">
           <span class="pill">⚡ Loads fast</span>
-          <span class="pill">🕵️ Privacy-first</span>
+          <span class="pill">🕵️ Privacy‑first</span>
           <a class="chip" href="/sitemap.xml">Sitemap</a>
         </div>
       </div>
     </section>
 
-    <!-- Tools -->
-    <section id="tools" aria-labelledby="tools-heading">
-      <h2 id="tools-heading" class="sr-only">Popular Tools</h2>
-      <nav class="card" role="navigation" aria-label="Tools list">
-        <ul class="tool-list">
-          <li><a class="tool-link accent-blue"   href="/income-tax-tool/"><span class="ico" aria-hidden="true">🧮</span><span>Income Tax Calculator</span></a></li>
-          <li><a class="tool-link accent-teal"   href="/bmi-calculator/"><span class="ico" aria-hidden="true">⚖️</span><span>BMI Calculator</span></a></li>
-          <li><a class="tool-link accent-indigo" href="/emi-calculator/"><span class="ico" aria-hidden="true">💳</span><span>EMI Calculator</span></a></li>
-          <li><a class="tool-link accent-slate"  href="/fd-calculator/"><span class="ico" aria-hidden="true">🏦</span><span>FD Calculator</span></a></li>
-          <li><a class="tool-link accent-emerald" href="/sip-calculator/"><span class="ico" aria-hidden="true">📈</span><span>SIP Calculator</span></a></li>
-          <li><a class="tool-link accent-amber"  href="/age-calculator/"><span class="ico" aria-hidden="true">🎂</span><span>Age Calculator</span></a></li>
-          <li><a class="tool-link accent-purple" href="/gst-calculator/"><span class="ico" aria-hidden="true">🧾</span><span>GST Calculator</span></a></li>
-          <li><a class="tool-link accent-cyan"   href="/currency-converter/"><span class="ico" aria-hidden="true">💱</span><span>Currency Converter (live)</span></a></li>
-          <li><a class="tool-link accent-zinc"   href="/pan-validator/"><span class="ico" aria-hidden="true">🪪</span><span>PAN Format Validator</span></a></li>
-          <li><a class="tool-link accent-green"  href="/ifsc-finder/"><span class="ico" aria-hidden="true">🏧</span><span>IFSC Finder (live)</span></a></li>
-          <li><a class="tool-link accent-red"    href="/canada-crs-tool/"><span class="ico" aria-hidden="true">🍁</span><span>Canada CRS Calculator</span></a></li>
-          <li><a class="tool-link accent-red"    href="/canada-hst-tool/"><span class="ico" aria-hidden="true">🍁</span><span>Canada GST/HST Calculator</span></a></li>
-          <li><a class="tool-link accent-pink"   href="/password-generator/"><span class="ico" aria-hidden="true">🔐</span><span>Password Generator</span></a></li>
-          <li><a class="tool-link accent-sky"    href="/qr-generator/"><span class="ico" aria-hidden="true">🔳</span><span>QR Code Generator</span></a></li>
-          <li><a class="tool-link accent-yellow" href="/text-case-converter/"><span class="ico" aria-hidden="true">🔤</span><span>Text Case Converter</span></a></li>
-          <li><a class="tool-link accent-orange" href="/word-counter/"><span class="ico" aria-hidden="true">📝</span><span>Word Counter</span></a></li>
-          <li><a class="tool-link accent-violet" href="/json-formatter/"><span class="ico" aria-hidden="true">🧩</span><span>JSON Formatter</span></a></li>
-          <li><a class="tool-link accent-lime"   href="/base64-encoder/"><span class="ico" aria-hidden="true">🧪</span><span>Base64 Encoder/Decoder</span></a></li>
-          <li><a class="tool-link accent-indigo" href="/ip-address/"><span class="ico" aria-hidden="true">🌐</span><span>Your IP Address</span></a></li>
-          <li><a class="tool-link accent-fuchsia" href="/uuid-generator/"><span class="ico" aria-hidden="true">🆔</span><span>UUID Generator</span></a></li>
-          <li><a class="tool-link accent-purple" href="/color-picker/"><span class="ico" aria-hidden="true">🎨</span><span>Color Picker</span></a></li>
-          <li><a class="tool-link accent-sky"    href="/games/"><span class="ico" aria-hidden="true">🎮</span><span>Free Online Games</span></a></li>
-        </ul>
-      </nav>
+    <!-- Controls: search + filters -->
+    <section class="controls" aria-label="Search and filters">
+      <div class="search" role="search">
+        <span aria-hidden="true">🔎</span>
+        <input id="q" class="input" type="search" inputmode="search" placeholder="Search tools (e.g., tax, gst, currency, json)…" aria-label="Search tools">
+        <button class="btn secondary" id="clearBtn" aria-label="Clear search" title="Clear">Clear</button>
+      </div>
+      <div class="filters" aria-label="Tags">
+        <label class="chip"><input type="checkbox" value="tax"> Tax</label>
+        <label class="chip"><input type="checkbox" value="finance"> Finance</label>
+        <label class="chip"><input type="checkbox" value="banking"> Banking</label>
+        <label class="chip"><input type="checkbox" value="text"> Text</label>
+        <label class="chip"><input type="checkbox" value="dev"> Dev</label>
+        <label class="chip"><input type="checkbox" value="security"> Security</label>
+        <label class="chip"><input type="checkbox" value="images"> Images</label>
+        <label class="chip"><input type="checkbox" value="identity"> Identity</label>
+        <label class="chip"><input type="checkbox" value="canada"> Canada</label>
+        <label class="chip"><input type="checkbox" value="networking"> Networking</label>
+      </div>
+    </section>
+
+    <!-- Recently used -->
+    <section class="section" id="recentSec" hidden>
+      <h2>⏱️ Continue</h2>
+      <div class="tools-grid" id="recentGrid" role="region" aria-live="polite"></div>
+      <p class="note small">Tip: recent tools are saved on this device only.</p>
+    </section>
+
+    <!-- Favourites -->
+    <section class="section" id="favSec" hidden>
+      <h2>⭐ Your favourites</h2>
+      <div class="tools-grid" id="favGrid" role="region" aria-live="polite"></div>
+    </section>
+
+    <!-- All tools -->
+    <section class="section" id="tools" aria-labelledby="tools-heading">
+      <h2 id="tools-heading">🧰 All tools</h2>
+      <div class="tools-grid" id="grid" role="region" aria-live="polite"></div>
     </section>
 
     <footer class="note small site-footer" role="contentinfo">
@@ -125,6 +187,165 @@
     </footer>
   </main>
 
-  <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
+  <script>
+    // Data: add/adjust freely
+    const TOOLS = [
+      { slug:"income-tax-tool", title:"Income Tax Calculator", icon:"🧮", desc:"Estimate income tax quickly.", href:"/income-tax-tool/", tags:["tax","finance"] },
+      { slug:"gst-calculator", title:"GST Calculator", icon:"🧾", desc:"Add/remove GST from amounts.", href:"/gst-calculator/", tags:["tax","finance"] },
+      { slug:"emi-calculator", title:"EMI Calculator", icon:"💳", desc:"Monthly loan repayment planner.", href:"/emi-calculator/", tags:["finance"] },
+      { slug:"fd-calculator", title:"FD Calculator", icon:"🏦", desc:"Fixed deposit maturity calculator.", href:"/fd-calculator/", tags:["finance"] },
+      { slug:"sip-calculator", title:"SIP Calculator", icon:"📈", desc:"Plan SIP returns with ease.", href:"/sip-calculator/", tags:["finance"] },
+      { slug:"age-calculator", title:"Age Calculator", icon:"🎂", desc:"Find exact age by date.", href:"/age-calculator/", tags:["identity"] },
+      { slug:"currency-converter", title:"Currency Converter (live)", icon:"💱", desc:"Convert FX with live rates.", href:"/currency-converter/", tags:["finance","networking"] },
+      { slug:"pan-validator", title:"PAN Format Validator", icon:"🪪", desc:"Check PAN format validity.", href:"/pan-validator/", tags:["identity","text"] },
+      { slug:"ifsc-finder", title:"IFSC Finder (live)", icon:"🏧", desc:"Search bank IFSC codes.", href:"/ifsc-finder/", tags:["banking","networking"] },
+      { slug:"canada-crs-tool", title:"Canada CRS Calculator", icon:"🍁", desc:"Estimate Express Entry CRS.", href:"/canada-crs-tool/", tags:["canada","identity"] },
+      { slug:"canada-hst-tool", title:"Canada GST/HST Calculator", icon:"🍁", desc:"Sales tax for provinces.", href:"/canada-hst-tool/", tags:["canada","tax"] },
+      { slug:"password-generator", title:"Password Generator", icon:"🔐", desc:"Strong, random passwords.", href:"/password-generator/", tags:["security"] },
+      { slug:"qr-generator", title:"QR Code Generator", icon:"🔳", desc:"Create QR codes instantly.", href:"/qr-generator/", tags:["images","dev"] },
+      { slug:"text-case-converter", title:"Text Case Converter", icon:"🔤", desc:"Upper, lower, title case.", href:"/text-case-converter/", tags:["text"] },
+      { slug:"word-counter", title:"Word Counter", icon:"📝", desc:"Count words & characters.", href:"/word-counter/", tags:["text"] },
+      { slug:"json-formatter", title:"JSON Formatter", icon:"🧩", desc:"Prettify & validate JSON.", href:"/json-formatter/", tags:["dev"] },
+      { slug:"base64-encoder", title:"Base64 Encoder/Decoder", icon:"🧪", desc:"Encode/decode Base64.", href:"/base64-encoder/", tags:["dev"] },
+      { slug:"ip-address", title:"Your IP Address", icon:"🌐", desc:"Public IP & user agent.", href:"/ip-address/", tags:["networking"] },
+      { slug:"uuid-generator", title:"UUID Generator", icon:"🆔", desc:"Generate V4 UUIDs.", href:"/uuid-generator/", tags:["dev"] },
+      { slug:"color-picker", title:"Color Picker", icon:"🎨", desc:"Pick, copy, convert colors.", href:"/color-picker/", tags:["images","dev"] },
+      { slug:"games", title:"Free Online Games", icon:"🎮", desc:"Snake, 2048, Tic Tac Toe & more.", href:"/games/", tags:["fun"] }
+    ];
+
+    // Helpers
+    const $ = (s, el=document) => el.querySelector(s);
+    const grid = $("#grid"), favGrid = $("#favGrid"), favSec = $("#favSec"),
+          recentGrid = $("#recentGrid"), recentSec = $("#recentSec"),
+          q = $("#q"), clearBtn = $("#clearBtn");
+    $("#y").textContent = new Date().getFullYear();
+
+    const FAV_KEY = "uptools-tool-favs";
+    const RECENT_KEY = "uptools-tool-recent";
+
+    const getFavs = () => new Set(JSON.parse(localStorage.getItem(FAV_KEY) || "[]"));
+    const setFavs = (s) => localStorage.setItem(FAV_KEY, JSON.stringify([...s]));
+
+    const getRecent = () => JSON.parse(localStorage.getItem(RECENT_KEY) || "[]"); // [{slug, ts}]
+    const pushRecent = (slug) => {
+      const now = Date.now();
+      const list = getRecent().filter(x => x.slug !== slug);
+      list.unshift({ slug, ts: now });
+      localStorage.setItem(RECENT_KEY, JSON.stringify(list.slice(0, 10)));
+    };
+
+    // Optional: support ?used=slug to mark recents
+    (() => {
+      const u = new URL(location.href);
+      const used = u.searchParams.get("used");
+      if (used) pushRecent(used);
+    })();
+
+    // Rendering
+    function cardHTML(t, favs){
+      const isFav = favs.has(t.slug);
+      const tags = (t.tags || []).slice(0, 4).map(x => `<span class="tag">${x}</span>`).join("");
+      const badge = t.tags?.includes("finance") ? "Finance"
+                  : t.tags?.includes("tax") ? "Tax"
+                  : t.tags?.includes("dev") ? "Dev"
+                  : t.tags?.includes("banking") ? "Banking"
+                  : t.tags?.includes("security") ? "Security"
+                  : t.tags?.includes("images") ? "Images"
+                  : t.tags?.includes("text") ? "Text"
+                  : t.tags?.includes("canada") ? "Canada"
+                  : t.tags?.includes("networking") ? "Networking"
+                  : "Tool";
+      return `
+        <article class="tool-card" data-tags="${(t.tags||[]).join(',')}" data-title="${t.title.toLowerCase()}">
+          <div class="tool-top">
+            <div class="tool-ico" aria-hidden="true">${t.icon}</div>
+            <span class="badge">${badge}</span>
+          </div>
+          <a class="tool-title" href="${t.href}" aria-label="${t.title}">${t.title}</a>
+          <p class="tool-desc">${t.desc}</p>
+          <div class="tags">${tags}</div>
+          <div class="card-cta">
+            <a class="btn" href="${t.href}">Open</a>
+            <button class="fav ${isFav ? 'active':''}" data-fav="${t.slug}" aria-label="Favourite ${t.title}" title="Favourite">
+              ${isFav ? '★ Favourited' : '☆ Favourite'}
+            </button>
+          </div>
+        </article>
+      `;
+    }
+
+    function mount(container, list){
+      const favs = getFavs();
+      container.innerHTML = list.map(t => cardHTML(t, favs)).join("");
+      bindInteractions(container);
+    }
+
+    function bindInteractions(scope){
+      // Favourite toggles
+      scope.querySelectorAll("[data-fav]").forEach(btn=>{
+        btn.addEventListener("click", ()=>{
+          const slug = btn.getAttribute("data-fav");
+          const favs = getFavs();
+          favs.has(slug) ? favs.delete(slug) : favs.add(slug);
+          setFavs(favs);
+          // reflect everywhere
+          document.querySelectorAll(`[data-fav="${slug}"]`).forEach(b=>{
+            const active = favs.has(slug);
+            b.classList.toggle("active", active);
+            b.textContent = active ? "★ Favourited" : "☆ Favourite";
+          });
+          renderFavs();
+        });
+      });
+      // Track opens to recents
+      scope.querySelectorAll("a.btn, a.tool-title").forEach(a=>{
+        a.addEventListener("click", ()=>{
+          const slug = a.closest(".tool-card").querySelector("[data-fav]").getAttribute("data-fav");
+          pushRecent(slug);
+        });
+      });
+    }
+
+    function renderAll(list){ mount(grid, list) }
+    function renderFavs(){
+      const favs = getFavs();
+      const list = TOOLS.filter(t => favs.has(t.slug));
+      favSec.hidden = list.length === 0;
+      if (!favSec.hidden) mount(favGrid, list);
+    }
+    function renderRecent(){
+      const rec = getRecent().slice(0, 8);
+      const list = rec.map(r => TOOLS.find(t => t.slug === r.slug)).filter(Boolean);
+      recentSec.hidden = list.length === 0;
+      if (!recentSec.hidden) mount(recentGrid, list);
+    }
+
+    // Search + filters
+    const filtersEl = document.querySelector('.filters');
+    function currentFilters(){
+      return [...filtersEl.querySelectorAll('input:checked')].map(i=>i.value);
+    }
+    function applyFilters(){
+      const text = q.value.trim().toLowerCase();
+      const filters = currentFilters();
+      const cards = [...document.querySelectorAll(".tool-card")];
+      for (const c of cards){
+        const title = c.dataset.title;
+        const tags = (c.dataset.tags || "").split(",");
+        const matchesText = !text || title.includes(text);
+        const matchesTags = filters.length === 0 || filters.every(f => tags.includes(f));
+        c.style.display = (matchesText && matchesTags) ? "grid" : "none";
+      }
+    }
+    q.addEventListener("input", applyFilters);
+    clearBtn.addEventListener("click", ()=>{ q.value=""; applyFilters(); q.focus() });
+    filtersEl.querySelectorAll('input').forEach(i=> i.addEventListener("change", applyFilters));
+
+    // Init
+    renderAll(TOOLS);
+    renderFavs();
+    renderRecent();
+    applyFilters();
+  </script>
 </body>
 </html>
