@@ -3,16 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Canada CRS Score Calculator (Express Entry) – UpTools</title>
+  <title>Canada CRS Score Calculator (Express Entry) - UpTools</title>
   <meta name="description" content="Free Canada CRS Score Calculator by UpTools. Estimate your Express Entry CRS points fast. Enter age, education (ECA), CLB language scores, Canadian & foreign work experience, and extras like PNP, French, sibling, and job offer. Get a clean factor-by-factor breakdown plus a shareable permalink. No sign-ups, privacy-first." />
   <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
   <meta name="theme-color" content="#0f1419" />
 
-  <link rel="canonical" href="https://www.uptools.in/canada-crs-calculator/" />
-  <meta property="og:title" content="Canada CRS Score Calculator (Express Entry) – UpTools" />
+  <link rel="canonical" href="https://www.uptools.in/canada-crs-tool/" />
+  <meta property="og:title" content="Canada CRS Score Calculator (Express Entry) - UpTools" />
   <meta property="og:description" content="Accurate, fast, privacy‑first CRS estimator with breakdown and shareable link." />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://www.uptools.in/canada-crs-calculator/" />
+  <meta property="og:url" content="https://www.uptools.in/canada-crs-tool/" />
   <meta property="og:site_name" content="UpTools" />
   <meta property="og:image" content="https://www.uptools.in/assets/uptools-mark.svg" />
   <meta name="twitter:card" content="summary" />
@@ -38,7 +38,7 @@
     "itemListElement":[
       {"@type":"ListItem","position":1,"name":"UpTools","item":"https://www.uptools.in/"},
       {"@type":"ListItem","position":2,"name":"Calculators","item":"https://www.uptools.in/#tools"},
-      {"@type":"ListItem","position":3,"name":"Canada CRS Calculator","item":"https://www.uptools.in/canada-crs-calculator/"}
+      {"@type":"ListItem","position":3,"name":"Canada CRS Calculator","item":"https://www.uptools.in/canada-crs-tool/"}
     ]
   }
   </script>
@@ -153,19 +153,19 @@
           <div class="grid-2">
             <div>
               <label class="label" for="clbL">Listening</label>
-              <input class="input" id="clbL" name="clbL" type="number" min="0" max="12" placeholder="0–12" />
+              <input class="input" id="clbL" name="clbL" type="number" min="0" max="12" placeholder="0-12" />
             </div>
             <div>
               <label class="label" for="clbR">Reading</label>
-              <input class="input" id="clbR" name="clbR" type="number" min="0" max="12" placeholder="0–12" />
+              <input class="input" id="clbR" name="clbR" type="number" min="0" max="12" placeholder="0-12" />
             </div>
             <div>
               <label class="label" for="clbW">Writing</label>
-              <input class="input" id="clbW" name="clbW" type="number" min="0" max="12" placeholder="0–12" />
+              <input class="input" id="clbW" name="clbW" type="number" min="0" max="12" placeholder="0-12" />
             </div>
             <div>
               <label class="label" for="clbS">Speaking</label>
-              <input class="input" id="clbS" name="clbS" type="number" min="0" max="12" placeholder="0–12" />
+              <input class="input" id="clbS" name="clbS" type="number" min="0" max="12" placeholder="0-12" />
             </div>
           </div>
 
@@ -197,8 +197,8 @@
                 <label class="label" for="job">Qualifying job offer</label>
                 <select class="input" id="job" name="job">
                   <option value="0">None</option>
-                  <option value="50">Skill type 0/A/B – 50</option>
-                  <option value="200">Major NOC 00 – 200</option>
+                  <option value="50">Skill type 0/A/B - 50</option>
+                  <option value="200">Major NOC 00 - 200</option>
                 </select>
               </div>
               <div>
@@ -212,8 +212,8 @@
                 <label class="label" for="french">French bonus</label>
                 <select class="input" id="french" name="french">
                   <option value="0">None</option>
-                  <option value="25">French (some) – 25</option>
-                  <option value="50">Strong French – 50</option>
+                  <option value="25">French (some) - 25</option>
+                  <option value="50">Strong French - 50</option>
                 </select>
               </div>
             </div>
@@ -309,7 +309,7 @@
     }
     function scoreCanadianExp(years, married){
       const y = Math.max(0, Math.min(10, num(years)));
-      const single = [0,40,53,64,72,80];   // 0–5+
+      const single = [0,40,53,64,72,80];   // 0-5+
       const marriedArr = [0,35,46,56,63,70];
       const idx = Math.min(5, y);
       return (married ? marriedArr : single)[idx];

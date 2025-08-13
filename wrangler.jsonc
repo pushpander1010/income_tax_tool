@@ -13,11 +13,9 @@
       "style.css",
       "index.html",
       "public",
-      "income-tax-calculator",
-      "bmi-calculator",
-      "emi-calculator",
-      "fd-calculator",
-      "sip-calculator",
+      "income-tax-tool",
+      "canada-hst-tool",
+      "canada-crs-tool",
       "gst-calculator",
       "currency-converter",
       "date-difference",
@@ -28,6 +26,10 @@
       "json-formatter",
       "base64-encoder",
       "word-counter",
+      "bmi-calculator",
+      "emi-calculator",
+      "fd-calculator",
+      "sip-calculator",
       "text-case-converter",
       "unit-converter",
       "qr-generator",
@@ -41,4 +43,3 @@
     "local_protocol": "http"
   }
 }
-  
