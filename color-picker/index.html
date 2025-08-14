@@ -1,176 +1,434 @@
 <!doctype html>
 <html lang="en">
-
 <head>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617"
-    crossorigin="anonymous"></script>
+  <!-- Ads (single async include) -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617" crossorigin="anonymous"></script>
+
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Color Picker - UpTools</title>
-  <meta name="description" content="Pick a color and get HEX/RGB/HSL values." />
-  <meta name="robots" content="index,follow" />
+  <meta http-equiv="x-ua-compatible" content="IE=edge" />
+  <meta name="color-scheme" content="dark light" />
+
+  <title>Color Picker (HEX/RGB/HSL, WCAG Contrast, Shades & Saved Swatches) – UpTools</title>
+  <meta name="description" content="Free online color picker. Get HEX/RGB/HSL instantly, check WCAG contrast against light/dark backgrounds, generate shades & tints, copy CSS snippets, use Eyedropper (if supported), save swatches, and share via URL. Fast and privacy‑first." />
+  <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
   <meta name="theme-color" content="#0f1419" />
   <link rel="canonical" href="https://www.uptools.in/color-picker/" />
-  <meta property="og:title" content="Color Picker - UpTools" />
-  <meta property="og:description" content="Pick a color and get HEX/RGB/HSL values." />
+
+  <!-- Open Graph / Twitter -->
   <meta property="og:type" content="website" />
+  <meta property="og:title" content="Color Picker — HEX/RGB/HSL, Contrast, Shades" />
+  <meta property="og:description" content="Pick a color, get HEX/RGB/HSL, check WCAG contrast, generate shades/tints, copy CSS, and save swatches." />
   <meta property="og:url" content="https://www.uptools.in/color-picker/" />
   <meta property="og:site_name" content="UpTools" />
   <meta property="og:image" content="https://www.uptools.in/og/color-picker.png" />
   <meta name="twitter:card" content="summary" />
-  <!-- 1) Inline ONLY tiny critical rules (below) -->
+
+  <!-- Icons -->
+  <link rel="icon" type="image/svg+xml" href="/assets/uptools-mark.svg" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/uptools-mark.svg" />
+
+  <!-- Tiny critical (keep minimal) -->
   <style>
-    :root {
-      --bg: #0f1419;
-      --surface: #121826;
-      --text: #e6edf3;
-      --muted: #9aa4b2;
-      --brand: #7aa2ff;
-      --radius: .75rem
-    }
-
-    * {
-      box-sizing: border-box
-    }
-
-    html {
-      color-scheme: dark light;
-      -webkit-text-size-adjust: 100%
-    }
-
-    body {
-      margin: 0;
-      font: 400 16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, "Noto Sans", sans-serif;
-      background: var(--bg);
-      color: var(--text)
-    }
-
-    img,
-    svg,
-    video {
-      max-width: 100%;
-      height: auto
-    }
-
-    .container {
-      width: min(100% - 24px, 1120px);
-      margin-inline: auto
-    }
-
-    a {
-      color: var(--brand);
-      text-decoration-thickness: .08em;
-      text-underline-offset: .18em
-    }
-
-    .card {
-      background: var(--surface);
-      border: 1px solid #212a3a;
-      border-radius: var(--radius);
-      padding: 1rem
-    }
-
-    .btn {
-      display: inline-block;
-      padding: .65rem .9rem;
-      border-radius: var(--radius);
-      background: var(--brand);
-      color: #0b1020;
-      border: 0;
-      font-weight: 600
-    }
+    :root{ --accent:#7dd3fc; }
+    body{ background: radial-gradient(1100px 700px at 5% -6%, #0b142a 0%, transparent 40%),
+                radial-gradient(900px 600px at 105% 12%, #0b142a 0%, transparent 45%),
+                linear-gradient(135deg,#0f1419,#101827); }
+    .swatch{ width:36px;height:36px;border-radius:8px;border:1px solid var(--border); box-shadow: var(--glow-soft); }
+    .grid-tiles{ display:grid; grid-template-columns:repeat(auto-fill,minmax(120px,1fr)); gap:10px; }
+    .mono{ font-family: ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace; }
+    .badge{ padding:2px 8px; border-radius:999px; font-size:12px; border:1px solid var(--border); }
+    .ok{ color:#22d3ee; }
+    .warn{ color:#FBBF24; }
+    .fail{ color:#f87171; }
+    .preview-box{ height:64px; border-radius:10px; border:1px solid var(--border); display:grid; place-items:center; box-shadow: var(--glow-soft); }
+    .codebox{ background:#0a1224; border:1px solid var(--border); border-radius:10px; padding:10px; box-shadow: var(--glow-soft); }
   </style>
 
-  <!-- 2) Load full stylesheet without blocking first paint -->
+  <!-- Common CSS (non‑blocking) -->
   <link rel="preload" href="/style.css?v=1.1.0" as="style">
   <link rel="stylesheet" href="/style.css?v=1.1.0" media="print" onload="this.media='all'">
-  <noscript>
-    <link rel="stylesheet" href="/style.css?v=1.1.0">
-  </noscript>
+  <noscript><link rel="stylesheet" href="/style.css?v=1.1.0"></noscript>
 
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"SoftwareApplication",
+    "name":"Color Picker",
+    "applicationCategory":"DesignApplication",
+    "operatingSystem":"Any",
+    "url":"https://www.uptools.in/color-picker/",
+    "description":"Pick a color to get HEX/RGB/HSL, check WCAG contrast, generate shades & tints, copy CSS, use Eyedropper, and save swatches.",
+    "offers":{"@type":"Offer","price":"0","priceCurrency":"INR"}
+  }
+  </script>
 </head>
 
-<body style="--accent:#8ab4f8; --bg:#0f1419; --card:#1e2634; background:linear-gradient(135deg,var(--bg),#1a1f2e);">
-  <main class="wrap">
-    <header class="tool-header">
-      <a href="/" class="back-btn" aria-label="Back to home">←</a>
-      <span class="tool-icon" role="img" aria-label="Color Palette">🎨</span>
-      <h1>Color Picker</h1>
-    </header>
-
-    <div class="card">
-      <label for="color-input" class="label">Choose a color:</label>
-      <input id="color-input" class="input" type="color" value="#8ab4f8" />
-      <div id="output" class="result"></div>
+<body style="--accent:#7dd3fc;">
+  <!-- Header -->
+  <header class="site" role="banner">
+    <div class="header-inner container">
+      <a class="brand" href="/" aria-label="UpTools Home">
+        <img src="/assets/uptools-mark.svg" alt="UpTools logo" width="28" height="28" loading="eager">
+        <b>UpTools</b>
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="/#tools">Tools</a>
+        <a href="/games/">Games</a>
+        <a href="/about/">About</a>
+        <a href="/contact/">Contact</a>
+      </nav>
     </div>
+  </header>
 
-    <footer class="note small"><a href="/">UpTools</a></footer>
+  <main class="wrap container" id="main">
+    <!-- Breadcrumb -->
+    <nav aria-label="Breadcrumb" class="note small" style="margin-bottom:8px">
+      <a href="/">Home</a> › <span aria-current="page">Color Picker</span>
+    </nav>
+
+    <!-- Hero -->
+    <section class="tool-header">
+      <a href="/" class="back-btn" aria-label="Back to home">←</a>
+      <div class="tool-icon" aria-hidden="true">🎨</div>
+      <h1 style="margin:0">Color Picker</h1>
+      <span class="pill" style="margin-left:auto">HEX/RGB/HSL</span>
+      <span class="pill">WCAG</span>
+      <span class="pill">Shades</span>
+    </section>
+
+    <!-- Ad (reserved height for CLS safety) -->
+    <section class="card" aria-label="Sponsored" style="min-height:140px">
+      <ins class="adsbygoogle" style="display:block;min-height:140px"
+           data-ad-client="ca-pub-6216304334889617"
+           data-ad-slot="colorpicker-top-01"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+    </section>
+
+    <!-- Picker + Readouts -->
+    <section class="card">
+      <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(260px,1fr));align-items:start">
+        <div>
+          <label for="colorInput" class="label">Choose a color</label>
+          <input id="colorInput" class="input" type="color" value="#8ab4f8" aria-describedby="colorHelp">
+          <div id="colorHelp" class="note small">Tip: Press <kbd>/</kbd> to focus quick search on many pages. Here, try Eyedropper or Random.</div>
+
+          <div class="row" style="border:0; padding:0; margin-top:10px; gap:8px">
+            <button id="eyeBtn" class="btn secondary" type="button">🧪 Eyedropper</button>
+            <button id="randBtn" class="btn secondary" type="button">🎲 Random</button>
+            <button id="saveBtn" class="btn" type="button" title="Save to swatches">⭐ Save</button>
+            <button id="shareBtn" class="btn" type="button">🔗 Share</button>
+          </div>
+
+          <div class="result" id="readouts" style="margin-top:12px"></div>
+        </div>
+
+        <div>
+          <h2>WCAG Contrast</h2>
+          <p class="note small">Checks your color as <b>Text</b> on Light (#ffffff) and Dark (#0b1020) backgrounds.</p>
+
+          <div class="grid-tiles">
+            <div class="card">
+              <div class="note small">On Light</div>
+              <div id="prevLight" class="preview-box" style="background:#ffffff;color:#000">Aa</div>
+              <div class="row"><span>Ratio</span><span id="ratioLight" class="amount">—</span></div>
+              <div class="row"><span>Normal (4.5)</span><span id="aaLight" class="badge">—</span></div>
+              <div class="row"><span>Large (3.0)</span><span id="laaLight" class="badge">—</span></div>
+              <div class="row"><span>AAA (7.0)</span><span id="aaaLight" class="badge">—</span></div>
+            </div>
+
+            <div class="card">
+              <div class="note small">On Dark</div>
+              <div id="prevDark" class="preview-box" style="background:#0b1020;color:#fff">Aa</div>
+              <div class="row"><span>Ratio</span><span id="ratioDark" class="amount">—</span></div>
+              <div class="row"><span>Normal (4.5)</span><span id="aaDark" class="badge">—</span></div>
+              <div class="row"><span>Large (3.0)</span><span id="laaDark" class="badge">—</span></div>
+              <div class="row"><span>AAA (7.0)</span><span id="aaaDark" class="badge">—</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Shades & Tints -->
+    <section class="card">
+      <h2>Shades & Tints</h2>
+      <p class="note small">Auto‑generated from your color (lighter → darker). Click any swatch to copy HEX.</p>
+      <div id="palette" class="grid" style="grid-template-columns:repeat(auto-fill,minmax(120px,1fr))"></div>
+      <div class="row" style="border:0; padding:0; margin-top:8px; gap:8px">
+        <button id="copyCssVars" class="btn secondary" type="button">📋 Copy CSS Variables</button>
+        <button id="copyHSLA" class="btn secondary" type="button">📋 Copy HSLA() Scale</button>
+      </div>
+    </section>
+
+    <!-- Saved Swatches -->
+    <section class="card">
+      <h2>Saved Swatches</h2>
+      <p class="note small">Your starred colors (stored locally on this device). Click to copy. </p>
+      <div id="saved" class="grid-tiles"></div>
+      <div class="row" style="border:0; padding:0; margin-top:8px; gap:8px">
+        <button id="clearSaved" class="btn ghost" type="button">🗑️ Clear</button>
+      </div>
+    </section>
+
+    <!-- Snippets -->
+    <section class="card">
+      <h2>CSS & Utility Snippets</h2>
+      <div class="grid">
+        <div>
+          <div class="note small">CSS background & text example</div>
+          <pre id="cssSnippet" class="codebox mono" style="white-space:pre-wrap"></pre>
+          <button id="copyCSS" class="btn secondary" type="button" style="margin-top:8px">📋 Copy CSS</button>
+        </div>
+        <div>
+          <div class="note small">Tailwind style utilities (approx)</div>
+          <pre id="twSnippet" class="codebox mono" style="white-space:pre-wrap"></pre>
+          <button id="copyTW" class="btn secondary" type="button" style="margin-top:8px">📋 Copy Utilities</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="note small site-footer">
+      © <span id="y"></span> UpTools · <a href="/sitemap.xml">Sitemap</a> · <a href="/about/">About</a>
+    </footer>
   </main>
 
   <script type="module">
-    const colorInput = document.getElementById('color-input');
-    const output = document.getElementById('output');
+    import { $, $$, debounce, setText, persist, read } from '/scripts/utils.js';
 
-    function hexToRgb(hex) {
-      hex = hex.replace('#', '');
-      const bigint = parseInt(hex, 16);
-      return {
-        r: (bigint >> 16) & 255,
-        g: (bigint >> 8) & 255,
-        b: bigint & 255
-      };
-    }
+    // Year
+    setText($('#y'), new Date().getFullYear());
 
-    function rgbToHsl(r, g, b) {
-      r /= 255; g /= 255; b /= 255;
-      const max = Math.max(r, g, b);
-      const min = Math.min(r, g, b);
-      let h, s, l = (max + min) / 2;
-
-      if (max === min) {
-        h = s = 0;
-      } else {
-        const d = max - min;
-        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-        switch (max) {
-          case r: h = (g - b) / d + (g < b ? 6 : 0); break;
-          case g: h = (b - r) / d + 2; break;
-          case b: h = (r - g) / d + 4; break;
+    // --- Helpers ---
+    const clamp = (x,min,max)=>Math.min(max,Math.max(min,x));
+    const toHex = (n)=>n.toString(16).padStart(2,'0');
+    const hexNorm = (hex)=>{
+      hex = hex.trim().replace('#','').toLowerCase();
+      if (hex.length===3) hex = hex.split('').map(c=>c+c).join('');
+      return '#'+hex.slice(0,6);
+    };
+    const hexToRgb = (hex)=>{
+      hex = hexNorm(hex).replace('#','');
+      const n = parseInt(hex,16);
+      return { r:(n>>16)&255, g:(n>>8)&255, b:n&255 };
+    };
+    const rgbToHex = ({r,g,b})=>('#'+toHex(r)+toHex(g)+toHex(b)).toUpperCase();
+    const rgbToHsl = (r,g,b)=>{
+      r/=255; g/=255; b/=255;
+      const max=Math.max(r,g,b), min=Math.min(r,g,b);
+      let h,s,l=(max+min)/2;
+      if(max===min){ h=s=0; }
+      else{
+        const d=max-min;
+        s=l>0.5? d/(2-max-min) : d/(max+min);
+        switch(max){
+          case r: h=(g-b)/d+(g<b?6:0); break;
+          case g: h=(b-r)/d+2; break;
+          case b: h=(r-g)/d+4; break;
         }
-        h /= 6;
+        h/=6;
       }
-
-      return {
-        h: Math.round(h * 360),
-        s: Math.round(s * 100),
-        l: Math.round(l * 100)
+      return { h:Math.round(h*360), s:Math.round(s*100), l:Math.round(l*100) };
+    };
+    const hslToRgb = (h,s,l)=>{
+      h/=360; s/=100; l/=100;
+      if (s===0){ const v=Math.round(l*255); return {r:v,g:v,b:v}; }
+      const hue2rgb=(p,q,t)=>{ if(t<0) t+=1; if(t>1) t-=1;
+        if(t<1/6) return p+(q-p)*6*t;
+        if(t<1/2) return q;
+        if(t<2/3) return p+(q-p)*(2/3 - t)*6;
+        return p;
       };
+      const q = l < 0.5 ? l*(1+s) : l + s - l*s;
+      const p = 2*l - q;
+      const r = Math.round(hue2rgb(p,q,h+1/3)*255);
+      const g = Math.round(hue2rgb(p,q,h)*255);
+      const b = Math.round(hue2rgb(p,q,h-1/3)*255);
+      return {r,g,b};
+    };
+    const hslToHex = (h,s,l)=> rgbToHex(hslToRgb(h,s,l));
+
+    // Relative luminance & contrast ratio (WCAG 2.1)
+    const relLum = ({r,g,b})=>{
+      const srgb=[r,g,b].map(v=>{
+        v/=255;
+        return v<=0.03928 ? v/12.92 : Math.pow(((v+0.055)/1.055),2.4);
+      });
+      return 0.2126*srgb[0] + 0.7152*srgb[1] + 0.0722*srgb[2];
+    };
+    const contrastRatio = (fg,bg)=>{
+      const L1 = relLum(hexToRgb(fg));
+      const L2 = relLum(hexToRgb(bg));
+      const light = Math.max(L1,L2), dark=Math.min(L1,L2);
+      return ( (light+0.05) / (dark+0.05) );
+    };
+    const badge = (ratio, AA=4.5, Large=3.0, AAA=7.0)=>{
+      const aa = ratio>=AA ? 'Pass' : 'Fail';
+      const laa = ratio>=Large ? 'Pass' : 'Fail';
+      const aaa = ratio>=AAA ? 'Pass' : 'Fail';
+      return { aa, laa, aaa };
+    };
+
+    // DOM
+    const colorInput = $('#colorInput');
+    const readouts = $('#readouts');
+    const paletteEl = $('#palette');
+    const savedEl = $('#saved');
+
+    // URL <-> state
+    const syncURL = (hex)=>{
+      const h = hex.replace('#','');
+      history.replaceState({},'', location.pathname + '?c=' + h);
+    };
+    const getFromURL = ()=>{
+      const q = new URLSearchParams(location.search);
+      const c = q.get('c');
+      return c ? '#'+c : null;
+    };
+
+    // Copy util
+    const copy = async (text)=>{
+      try { await navigator.clipboard.writeText(text); } catch {}
+    };
+
+    // Render readouts
+    function renderReadouts(hex){
+      const {r,g,b} = hexToRgb(hex);
+      const {h,s,l} = rgbToHsl(r,g,b);
+      readouts.innerHTML = `
+        <div class="row"><span>HEX</span><span class="amount mono">${hex.toUpperCase()}</span></div>
+        <div class="row"><span>RGB</span><span class="amount mono">rgb(${r}, ${g}, ${b})</span></div>
+        <div class="row"><span>HSL</span><span class="amount mono">hsl(${h} ${s}% ${l}%)</span></div>
+        <div class="row" style="gap:8px; border:0; padding-top:8px">
+          <button class="btn sm secondary" data-copy="${hex.toUpperCase()}">Copy HEX</button>
+          <button class="btn sm secondary" data-copy="rgb(${r}, ${g}, ${b})">Copy RGB</button>
+          <button class="btn sm secondary" data-copy="hsl(${h} ${s}% ${l}%)">Copy HSL</button>
+          <div class="swatch" style="background:${hex}" aria-label="Preview swatch"></div>
+        </div>
+      `;
+      // bind copy
+      $$('#readouts [data-copy]').forEach(b => b.addEventListener('click', () => copy(b.dataset.copy)));
+      // WCAG preview updates
+      $('#prevLight').style.color = hex;
+      $('#prevDark').style.color = hex;
+      const rL = contrastRatio(hex, '#ffffff');
+      const rD = contrastRatio(hex, '#0b1020');
+      setText($('#ratioLight'), rL.toFixed(2)+':1');
+      setText($('#ratioDark'), rD.toFixed(2)+':1');
+      const Lb = badge(rL), Db = badge(rD);
+      const setBadge = (el, val)=>{ el.textContent = val; el.className = 'badge ' + (val==='Pass'?'ok':'fail'); };
+      setBadge($('#aaLight'), Lb.aa); setBadge($('#laaLight'), Lb.laa); setBadge($('#aaaLight'), Lb.aaa);
+      setBadge($('#aaDark'), Db.aa); setBadge($('#laaDark'), Db.laa); setBadge($('#aaaDark'), Db.aaa);
+
+      // Snippets
+      const css = `:root {\n  --brand: ${hex.toUpperCase()};\n}\n.btn{ background:${hex}; color:#0b1020; }\n.text-brand{ color:${hex}; }`;
+      const tw = `/* Tailwind-ish */\n.text-brand { color: ${hex}; }\n.bg-brand { background-color: ${hex}; }\n.border-brand { border-color: ${hex}; }`;
+      $('#cssSnippet').textContent = css;
+      $('#twSnippet').textContent = tw;
     }
 
-    function updateOutput() {
-      const hex = colorInput.value;
-      const { r, g, b } = hexToRgb(hex);
-      const hsl = rgbToHsl(r, g, b);
-
-      output.innerHTML = `
-          <div class='row'>
-            <span>HEX</span>
-            <span class='amount'>${hex}</span>
-          </div>
-          <div class='row'>
-            <span>RGB</span>
-            <span class='amount'>${r}, ${g}, ${b}</span>
-          </div>
-          <div class='row'>
-            <span>HSL</span>
-            <span class='amount'>${hsl.h}°, ${hsl.s}%, ${hsl.l}%</span>
-          </div>
-        `;
+    // Shades & tints
+    function renderPalette(hex){
+      const {h,s,l} = rgbToHsl(...Object.values(hexToRgb(hex)));
+      const steps = [88,80,72,64,56,48,40,32,24,16].map((light,i)=> clamp(light,0,100));
+      const items = steps.map((light,i)=>{
+        const hhex = hslToHex(h, s, light);
+        return `<button class="tool-link" data-copy="${hhex}" style="justify-content:space-between">
+          <span class="ico" style="background:${hhex}"></span>
+          <span class="mono">${hhex}</span>
+        </button>`;
+      }).join('');
+      paletteEl.innerHTML = items || '';
+      // copy on click
+      $$('[data-copy]', paletteEl).forEach(btn=> btn.addEventListener('click', ()=> copy(btn.dataset.copy)));
     }
 
-    colorInput.addEventListener('input', updateOutput);
-    updateOutput();
+    // CSS Variables & HSLA scale
+    function copyCssVars(hex){
+      const {h,s,l} = rgbToHsl(...Object.values(hexToRgb(hex)));
+      const scale = [90,80,70,60,50,40,30,20,10];
+      const vars = [`:root {`,
+        ...scale.map((lv,i)=>`  --brand-${lv}: hsl(${h} ${s}% ${lv}%);`),
+        `}`].join('\n');
+      copy(vars);
+    }
+    function copyHSLA(hex){
+      const {h,s,l} = rgbToHsl(...Object.values(hexToRgb(hex)));
+      const arr = [90,80,70,60,50,40,30,20,10].map(lv=>`hsl(${h} ${s}% ${lv}%)`);
+      copy(arr.join(', '));
+    }
+
+    // Saved swatches
+    const KEY = 'cp:saved';
+    function loadSaved(){ return read(KEY, []); }
+    function saveColor(hex){
+      const list = loadSaved();
+      if (!list.includes(hex)) { list.unshift(hex); persist(KEY, list.slice(0,48)); }
+      renderSaved();
+    }
+    function renderSaved(){
+      const list = loadSaved();
+      savedEl.innerHTML = list.map(c => `
+        <button class="tool-link" data-copy="${c}" title="Copy ${c}">
+          <span class="ico" style="background:${c}"></span>
+          <span class="mono">${c}</span>
+        </button>`).join('') || `<div class="note">No swatches yet. Click ⭐ Save to keep a color.</div>`;
+      $$('[data-copy]', savedEl).forEach(b=> b.addEventListener('click', ()=> copy(b.dataset.copy)));
+    }
+
+    // Share link
+    function share(){
+      const hex = colorInput.value.toUpperCase();
+      syncURL(hex);
+      const url = location.href;
+      if (navigator.share) navigator.share({ title:'Color Picker — UpTools', url }).catch(()=>{});
+      else { copy(url); alert('Link copied to clipboard:\\n' + url); }
+    }
+
+    // Random color
+    function randomHex(){
+      const n = Math.floor(Math.random()*0xFFFFFF);
+      return '#'+n.toString(16).padStart(6,'0');
+    }
+
+    // Update all
+    function updateAll(hex){
+      hex = hexNorm(hex);
+      colorInput.value = hex;
+      renderReadouts(hex);
+      renderPalette(hex);
+      syncURL(hex);
+    }
+
+    // Events
+    colorInput.addEventListener('input', () => updateAll(colorInput.value));
+    $('#shareBtn').addEventListener('click', share);
+    $('#randBtn').addEventListener('click', () => updateAll(randomHex()));
+    $('#saveBtn').addEventListener('click', () => saveColor(colorInput.value.toUpperCase()));
+    $('#clearSaved').addEventListener('click', () => { persist(KEY, []); renderSaved(); });
+    $('#copyCssVars').addEventListener('click', () => copyCssVars(colorInput.value));
+    $('#copyHSLA').addEventListener('click', () => copyHSLA(colorInput.value));
+
+    // Eyedropper if supported
+    $('#eyeBtn').addEventListener('click', async () => {
+      if (!('EyeDropper' in window)) { alert('Eyedropper not supported in this browser.'); return; }
+      try {
+        const ed = new window.EyeDropper();
+        const res = await ed.open();
+        updateAll(res.sRGBHex);
+      } catch {}
+    });
+
+    // Init from URL or default
+    const initial = getFromURL() || '#8ab4f8';
+    updateAll(initial);
+    renderSaved();
+
+    // Init ads
+    try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch {}
   </script>
 </body>
-
 </html>
