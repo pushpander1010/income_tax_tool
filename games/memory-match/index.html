@@ -80,7 +80,7 @@
 
     .status{ text-align:center; margin:.75rem 0 0; color:var(--muted); font-weight:600 }
 
-    /* Grid */
+    /* Base grid (kept) */
     .grid{
       display:grid; gap:10px; margin:1rem auto; justify-content:center;
     }
@@ -115,6 +115,24 @@
 
     .peek .card-tile .face{ opacity:1; transform:scale(1) } /* peek phase shows all */
     .peek .card-tile{ border-color:rgba(255,255,255,.15) }
+
+    /* ---------------------------
+       Responsive sizing override
+       --------------------------- */
+    /* Make gap responsive and let JS set --cols & --tile */
+    .grid{ --gap: clamp(6px, 2.2vw, 14px); gap: var(--gap); }
+    .grid.easy, .grid.medium, .grid.hard{
+      max-width:none;                                 /* remove old caps */
+      grid-template-columns: repeat(var(--cols,4), var(--tile,72px));
+      grid-auto-rows: var(--tile,72px);
+    }
+    /* Emoji scales with tile size */
+    .card-tile .face{ font-size: clamp(18px, calc(var(--tile,72px) * .42), 40px); }
+
+    /* Small screens: tighten HUD */
+    @media (max-width:520px){
+      .hud{ grid-template-columns:repeat(2,1fr); }
+    }
   </style>
 </head>
 <body>
@@ -191,15 +209,15 @@
             "🐶","🐱","🐭","🐹","🐰","🦊","🐻","🐼","🦁","🐯","🦄","🐸","🐵","🐙","🐠","🦋"
           ];
           this.cfg = {
-            easy:   { pairs: 4 },   // 8 cards
-            medium: { pairs: 9 },   // 18 cards
-            hard:   { pairs: 16 },  // 32 cards
+            easy:   { pairs: 4, cols: 4 },   // 8 cards -> 4x2
+            medium: { pairs: 9, cols: 6 },   // 18 cards -> 6x3
+            hard:   { pairs: 16, cols: 8 },  // 32 cards -> 8x4
           };
 
           // State
           this.level = localStorage.getItem("mem-level") || "easy";
-          this.cards = [];       // [{id, symbol, el, matched}]
-          this.flipped = [];     // [cardEl, cardEl]
+          this.cards = [];
+          this.flipped = [];
           this.pairsFound = 0;
           this.moves = 0;
           this.peeking = false;
@@ -210,6 +228,7 @@
 
           // DOM
           this.grid = $("#grid");
+          this.boardWrap = $("#boardWrap");
           this.timerEl = $("#timer");
           this.movesEl = $("#moves");
           this.pairsEl = $("#pairs");
@@ -220,6 +239,13 @@
           this.bindUI();
           this.setLevel(this.level);
           this.newGame(true); // initial render with peek
+
+          // Responsive sizing hooks
+          const layoutNow = () => this.layout();
+          window.addEventListener("resize", layoutNow, { passive: true });
+          window.addEventListener("orientationchange", layoutNow);
+          new ResizeObserver(layoutNow).observe(this.boardWrap);
+          requestAnimationFrame(layoutNow);
         }
 
         bindUI(){
@@ -251,6 +277,7 @@
           // grid class
           this.grid.className = "grid " + level;
           this.updateBestDisplay();
+          this.layout(); // ensure correct sizing when level changes
         }
 
         cardTemplate(id, symbol){
@@ -296,6 +323,8 @@
           // focus first tile for keyboard users
           const first = this.grid.querySelector(".card-tile");
           if (first) first.focus({ preventScroll:true });
+          // layout after DOM paint
+          requestAnimationFrame(() => this.layout());
         }
 
         newGame(withPeek=false){
@@ -312,12 +341,12 @@
             this.statusEl.textContent = "Memorize the board…";
             document.body.classList.add("peek");
             this.cards.forEach(c => c.el.classList.add("flipped"));
-            // reveal for a moment
             setTimeout(() => {
               document.body.classList.remove("peek");
               this.cards.forEach(c => c.el.classList.remove("flipped"));
               this.statusEl.textContent = "Go! Flip two cards to start the timer.";
               this.peeking = false;
+              this.layout(); // in case viewport changed during peek
             }, 1500);
             this.peeking = true;
           } else {
@@ -340,10 +369,7 @@
           if (this.peeking || this.locked) return;
           if (el.classList.contains("matched") || el.classList.contains("flipped")) return;
 
-          // first action starts timer
-          if (!this.running) {
-            this.start();
-          }
+          if (!this.running) this.start();
 
           el.classList.add("flipped");
           el.setAttribute("aria-label","Revealed card");
@@ -385,7 +411,6 @@
           this.stopTimer();
           const t = this.formatTime(this.seconds);
           this.statusEl.innerHTML = `🎉 Completed in <b>${t}</b> with ${this.moves} moves!`;
-          // best time
           const key = `mem-best-${this.level}`;
           const cur = +(localStorage.getItem(key) || 0);
           if (cur === 0 || this.seconds < cur){
@@ -415,6 +440,44 @@
         formatTime(sec){
           const m = Math.floor(sec/60), s = sec%60;
           return `${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`;
+        }
+
+        /* -----------------------------
+           Responsive layout calculator
+           ----------------------------- */
+        layout(){
+          const { pairs, cols } = this.cfg[this.level];
+          const rows = Math.ceil((pairs * 2) / cols);
+
+          // expose to CSS
+          this.grid.style.setProperty('--cols', cols);
+
+          // measurements
+          const wrap = this.boardWrap;
+          const wrapCS = getComputedStyle(wrap);
+          const padX = parseFloat(wrapCS.paddingLeft) + parseFloat(wrapCS.paddingRight);
+          const padY = parseFloat(wrapCS.paddingTop) + parseFloat(wrapCS.paddingBottom);
+          const gridGap = parseFloat(getComputedStyle(this.grid).gap) || 10;
+
+          // Available width inside the panel
+          const availW = wrap.clientWidth - padX;
+
+          // Available height to bottom of viewport (so board doesn't go off-screen)
+          const rect = wrap.getBoundingClientRect();
+          const viewportH = window.innerHeight;
+          const marginBottom = 24; // buffer
+          const availH = Math.max(180, viewportH - rect.top - marginBottom);
+
+          // Tile sizes limited by width and height
+          const tileW = Math.floor((availW - (cols - 1) * gridGap) / cols);
+          const tileH = Math.floor((availH - (rows - 1) * gridGap - padY) / rows);
+          const tile = Math.max(42, Math.min(tileW, tileH)); // clamp to a sensible min
+
+          // Apply
+          this.grid.style.setProperty('--tile', tile + 'px');
+          // Set an explicit width so the board is centered and crisp
+          const boardW = cols * tile + (cols - 1) * gridGap;
+          this.grid.style.width = boardW + 'px';
         }
       }
 
