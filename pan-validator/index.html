@@ -25,17 +25,16 @@
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/uptools-mark.svg" />
 
   <!-- Shared styles -->
-  <link rel="stylesheet" href="/style.css?v=1.0.1" />
+  <link rel="stylesheet" href="/style.css">
+<style>
+  :root{
+    --accent:#86EFAC;
+    --bg1:#0e1f0b;
+    --bg2:#14300e;
+    --cardBorder:#2a6633;
+  }
+</style>
 
-  <!-- Per‑tool theme (fresh green) -->
-  <style>
-    :root{
-      --accent:#86EFAC;   /* pastel green */
-      --bg1:#0e1f0b;
-      --bg2:#14300e;
-      --cardBorder:#2a6633;
-    }
-  </style>
 
   <!-- Breadcrumbs -->
   <script type="application/ld+json">
@@ -210,21 +209,9 @@
           <li>GSTIN checksum computed locally</li>
         </ul>
 
-        <figure class="center" style="margin:10px 0;">
-          <img src="/assets/pan-card.svg" alt="PAN structure illustration" width="360" height="160" loading="lazy">
-          <figcaption class="muted">Illustrative PAN layout: AAAAA‑9999‑A</figcaption>
-        </figure>
 
-        <div class="card" style="padding:12px; margin-top:10px;">
-          <div class="note" style="margin-bottom:8px;">Video: PAN & GSTIN basics (external)</div>
-          <iframe
-            title="PAN and GSTIN Explained"
-            width="100%" height="200"
-            loading="lazy" referrerpolicy="no-referrer"
-            src="https://www.youtube-nocookie.com/embed/VIDEO_ID?rel=0&modestbranding=1"
-            style="border:0;border-radius:8px"></iframe>
-          <div class="note small">Replace <code>VIDEO_ID</code> with a relevant explainer if you like.</div>
-        </div>
+
+
 
         <h3 style="margin-top:14px;">Authoritative links</h3>
         <ul>

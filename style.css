@@ -1,62 +1,50 @@
 /* =========================================================
-   UpTools — Central Styles (friendly, lightweight, reusable)
+   UpTools — Central Styles (shared across all tools)
    ========================================================= */
 
-/* Theme tokens */
 :root{
   --bg:#0f1419;
-  --bg1:#0f1419;           /* page overrideable */
-  --bg2:#1a1f2e;           /* page overrideable */
+  --bg1:#0f1419;
+  --bg2:#1a1f2e;
   --card:#1e2634;
   --text:#e8eaed;
   --muted:#9aa0a6;
-  --accent:#8ab4f8;        /* page overrideable */
+  --accent:#8ab4f8;
   --cardBorder:#3c4043;
-
   --radius:12px;
   --radius-sm:6px;
   --shadow:0 4px 6px rgba(0,0,0,.10);
   --shadow-hover:0 8px 25px rgba(0,0,0,.15);
-
   --content-w:980px;
   --f14:14px;
   --f13:13px;
   --f12:12px;
-
   --trans:0.2s ease;
-
-  /* Accessible button defaults (ensure ≥4.5:1 contrast) */
-  --btn-bg:#2563eb;          /* solid color (not gradient) */
-  --btn-bg-hover:#1d4ed8;    /* slightly darker for hover */
-  --btn-fg:#ffffff;          /* button text */
+  --btn-bg:#2563eb;
+  --btn-bg-hover:#1d4ed8;
+  --btn-fg:#ffffff;
   --btn-fg-hover:#ffffff;
-  --btn-border:#3b82f6;      /* subtle border that keeps contrast */
+  --btn-border:#3b82f6;
 }
 
-/* Base reset */
+/* Reset & Base */
 *{ box-sizing:border-box; }
 html{ scroll-behavior:smooth; }
 body{
   margin:0;
   background:linear-gradient(135deg,var(--bg1),var(--bg2));
   color:var(--text);
-  font:400 var(--f14)/1.6 -apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
+  font:400 var(--f14)/1.6 system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto;
   min-height:100vh;
   -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
 }
 
+/* Layout */
 .wrap{ max-width:var(--content-w); margin:40px auto; padding:20px; }
+.grid{ display:grid; gap:12px; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); }
 
 /* Headings */
-h1{
-  margin:0 0 12px;
-  font-size:28px;
-  font-weight:700;
-  letter-spacing:-.02em;
-  color:var(--text);
-  text-align:left;
-}
+h1{ margin:0 0 12px; font-size:28px; font-weight:700; letter-spacing:-.02em; }
 h2,h3{ margin:0 0 8px; font-weight:700; }
 
 /* Cards */
@@ -70,163 +58,55 @@ h2,h3{ margin:0 0 8px; font-weight:700; }
 }
 .card:hover{ box-shadow:var(--shadow-hover); }
 
-/* Labels & notes */
-.label{
-  display:block;
-  margin:16px 0 8px;
-  color:var(--muted);
-  font-weight:500;
-  font-size:var(--f13);
-}
-.note{ color:var(--muted); margin-top:8px; font-size:var(--f13); line-height:1.55; }
-.small{ font-size:var(--f12); }
-
-/* Inputs & textareas (friendlier sizing) */
-.input,.textarea,select,button{
+/* Form elements */
+.label{ display:block; margin:16px 0 8px; color:var(--muted); font-weight:500; font-size:var(--f13); }
+.input,.textarea,select{
   font:inherit;
-}
-.input{
   width:100%;
   padding:8px 12px;
   border-radius:var(--radius-sm);
   border:1px solid var(--cardBorder);
   background:var(--bg);
   color:var(--text);
-  outline:0;
-  font-size:var(--f14);
-  transition:border-color var(--trans),box-shadow var(--trans),background var(--trans);
 }
-.input:focus{
+.input:focus,.textarea:focus{
   border-color:var(--accent);
   box-shadow:0 0 0 3px rgba(138,180,248,.10);
 }
-.textarea{
-  width:100%;
-  min-height:60px;
-  padding:10px 12px;
-  border-radius:var(--radius-sm);
-  border:1px solid var(--cardBorder);
-  background:var(--bg);
-  color:var(--text);
-  resize:vertical;
-}
 
-/* Remove number spinners (Chrome) */
-.input[type="number"]::-webkit-outer-spin-button,
-.input[type="number"]::-webkit-inner-spin-button{ -webkit-appearance:none; margin:0; }
-.input[type="number"]{ -moz-appearance:textfield; }
-
-/* Friendly Buttons (AA contrast-safe) */
-.btn, a.btn{
-  display:inline-flex;
-  align-items:center;
-  justify-content:center;
-  gap:8px;
-  min-height:40px;
-  padding:8px 16px;
+/* Buttons */
+.btn{
+  display:inline-flex; align-items:center; justify-content:center;
+  gap:8px; min-height:40px; padding:8px 16px;
   border-radius:var(--radius-sm);
   border:1px solid var(--btn-border);
-  background:var(--btn-bg);                 /* default solid color */
-  color:var(--btn-fg);
-  font-weight:600;
-  font-size:var(--f14);
-  cursor:pointer;
-  text-decoration:none;
-  box-shadow:inset 0 -1px 0 rgba(0,0,0,.25);
-  transition:background-color var(--trans),border-color var(--trans),box-shadow var(--trans),transform .15s ease, color var(--trans);
+  background:var(--btn-bg); color:var(--btn-fg);
+  font-weight:600; font-size:var(--f14);
+  cursor:pointer; text-decoration:none;
+  transition:background-color var(--trans),border-color var(--trans),transform .15s ease;
 }
-.btn:hover, a.btn:hover{
-  /* darken on hover to maintain/increase contrast */
+.btn:hover{
   background:var(--btn-bg-hover);
   color:var(--btn-fg-hover);
-  border-color:var(--btn-bg-hover);
-  box-shadow:0 2px 6px rgba(0,0,0,.15);
   transform:translateY(-1px);
 }
-.btn:active, a.btn:active{ transform:translateY(0); box-shadow:none; }
-.btn:disabled, a.btn[aria-disabled="true"]{ opacity:.65; cursor:not-allowed; box-shadow:none; }
+.btn.secondary{ background:rgba(255,255,255,.05); color:var(--text); border-color:var(--cardBorder); }
+.btn.secondary:hover{ background:rgba(255,255,255,.08); border-color:var(--accent); }
+.btn.ghost{ background:transparent; border:1px dashed #334155; color:#e5e7eb; }
 
-/* Keep visited color from lowering contrast on filled buttons */
-a.btn:visited{ color:var(--btn-fg); }
-
-/* Strong visible focus ring */
-.btn:focus-visible, a.btn:focus-visible{
-  outline:3px solid #f59e0b;  /* amber-500 */
-  outline-offset:2px;
-}
-
-/* Secondary / Ghost / Icon */
-.btn.secondary, a.btn.secondary{
-  background:rgba(255,255,255,.05);
-  color:var(--text);
-  border:1px solid var(--cardBorder);
-}
-.btn.secondary:hover, a.btn.secondary:hover{
-  background:rgba(255,255,255,.08);
-  border-color:var(--accent);
-}
-.btn.ghost, a.btn.ghost{
-  background:transparent;
-  color:#e5e7eb;              /* high-contrast light gray */
-  border:1px dashed #334155;  /* slate-700 */
-}
-.btn.icon{ padding:6px 10px; min-width:auto; }
-
-/* Button utilities */
-.btn.block{ width:100%; }
-.btn-group{ display:flex; flex-wrap:wrap; gap:10px; }
-
-/* Rows / key values */
-.row{
-  display:flex; justify-content:space-between; align-items:center; gap:12px;
-  margin:8px 0; padding:8px 0;
-  border-bottom:1px solid rgba(255,255,255,.05);
-}
-.row:last-child{ border-bottom:none; }
-.amount{ font-variant-numeric:tabular-nums; font-weight:600; color:var(--accent); }
-.kvi{ display:flex; align-items:center; justify-content:space-between; padding:8px 0; border-bottom:1px solid rgba(255,255,255,.05); }
-.kvi:last-child{ border-bottom:0; }
-
-/* Result container */
-.result{
-  margin-top:16px;
-  padding:16px;
-  border-radius:var(--radius-sm);
-  background:var(--bg);
-  border:1px solid var(--cardBorder);
-}
-
-/* Header / brand */
+/* Header */
 header.site{
   position:sticky; top:0; z-index:10;
   backdrop-filter:saturate(140%) blur(6px);
   background:color-mix(in oklab,var(--bg1) 70%,transparent);
   border-bottom:1px solid var(--cardBorder);
-  min-height: 56px;                 /* match your real final height */
 }
 .header-inner{
-  max-width:var(--content-w);
-  margin:0 auto;
-  padding:12px 20px;
+  max-width:var(--content-w); margin:0 auto; padding:12px 20px;
   display:flex; align-items:center; justify-content:space-between;
-  min-height: 56px;                 /* keep from wrapping on load */
 }
-.brand{
-  display:inline-flex; align-items:center; gap:10px;
-  text-decoration:none; color:var(--text);
-}
-.brand img{
-  height:28px; width:28px; border-radius:6px; display:block;
-  aspect-ratio: 1 / 1;              /* prevent layout shift */
-}
-.brand b{ font-weight:700; letter-spacing:-.01em; font-size:16px; }
-.nav-links a{
-  color:var(--muted);
-  text-decoration:none;
-  margin-left:14px;
-  font-size:14px;
-}
-.nav-links a:hover{ color:var(--text); text-decoration:underline; text-underline-offset:3px; }
+.brand{ display:inline-flex; align-items:center; gap:10px; text-decoration:none; color:var(--text); }
+.brand img{ height:28px; width:28px; border-radius:6px; }
 
 /* Tool header */
 .tool-header{
@@ -239,420 +119,16 @@ header.site{
   background:var(--accent); color:#0b1020;
   display:grid; place-items:center; font-weight:700; font-size:18px;
 }
-.tool-header h1{ margin:0; font-size:24px; color:var(--text); text-align:left; }
-.back-btn{
-  display:inline-flex; align-items:center; justify-content:center;
-  width:40px; height:40px; border-radius:8px; background:var(--muted);
-  color:var(--bg); text-decoration:none; font-size:16px; font-weight:600; transition:all var(--trans);
-}
-.back-btn:hover{ background:var(--text); transform:translateY(-1px); }
 
-/* Homepage grid (also good for tool lists) */
-.card ul{
-  list-style:none; margin:0; padding:0;
-  display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:16px;
-}
-.card li a{
-  display:block; padding:16px;
-  border:1px solid var(--cardBorder); border-radius:8px;
-  background:var(--bg); color:var(--text); text-decoration:none;
-  transition:all var(--trans);
-  font-weight:500; font-size:var(--f13);
-}
-.card li a:hover{
-  border-color:var(--accent);
-  background:rgba(138,180,248,.05);
-  transform:translateY(-2px);
-}
-
-/* Chips / Pills */
+/* Chips */
 .pill,.chip{
   display:inline-flex; align-items:center; gap:6px;
   padding:6px 10px; border-radius:999px;
   border:1px solid var(--cardBorder);
-  background:var(--bg); color:var(--text);
-  font-size:var(--f12); text-decoration:none; cursor:default;
+  background:var(--bg); font-size:var(--f12);
 }
-.chips{ display:flex; gap:8px; flex-wrap:wrap; }
-.chip{ cursor:pointer; }
-.chip:hover{ border-color:var(--accent); }
 
-/* Helpers */
-.muted{ color:var(--muted); font-size:var(--f12); }
+/* Utilities */
+.note{ color:var(--muted); font-size:var(--f13); }
 .divider{ height:1px; background:var(--cardBorder); margin:10px 0; }
-
-/* Footer */
-footer{ opacity:.9; margin-top:30px; font-size:12px; text-align:center; }
-footer a{ color:var(--accent); text-decoration:none; font-weight:500; }
-footer a:hover{ text-decoration:underline; }
-.site-footer{ border-top:1px solid var(--cardBorder); margin-top:32px; padding-top:16px; }
-
-/* A11y helpers */
-.sr-only{
-  position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden;
-  clip:rect(0,0,0,0); white-space:nowrap; border:0;
-}
-
-/* Layout utilities */
-.grid{ display:grid; gap:12px; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); }
-.flex{ display:flex; }
 .center{ display:grid; place-items:center; }
-.hidden{ display:none !important; }
-
-/* Skeleton loaders */
-.skeleton{
-  background:linear-gradient(90deg,rgba(255,255,255,.05),rgba(255,255,255,.09),rgba(255,255,255,.05));
-  background-size:200% 100%;
-  animation:loading 1.2s infinite;
-  border-radius:6px;
-}
-@keyframes loading{ 0%{background-position:200% 0} 100%{background-position:-200% 0} }
-
-/* Selection & scrollbars */
-::selection{ background:rgba(138,180,248,.2); color:var(--text); }
-::-webkit-scrollbar{ width:6px; }
-::-webkit-scrollbar-track{ background:var(--bg); }
-::-webkit-scrollbar-thumb{ background:var(--cardBorder); border-radius:3px; }
-::-webkit-scrollbar-thumb:hover{ background:var(--muted); }
-
-/* Mobile tweaks */
-@media (max-width:768px){
-  .wrap{ margin:20px auto; padding:16px; }
-  h1{ font-size:24px; }
-  .card{ padding:20px; }
-  .card ul{ grid-template-columns:1fr; gap:12px; }
-  .tool-header{ flex-direction:column; text-align:center; gap:12px; }
-  .tool-header h1{ text-align:center; }
-  .btn-group{ gap:8px; }
-}
-
-/* Reduced motion */
-@media (prefers-reduced-motion:reduce){
-  .card:hover{ box-shadow:var(--shadow); transform:none; }
-  .btn:hover{ transform:none; }
-}
-
-/* --- Colorful tool icons (uses your vars) --- */
-.hero { margin:16px 0; display:flex; align-items:center; gap:16px; }
-.hero-logo { height:48px; width:auto; }
-
-.tool-list { --ico-size: 18px; }
-.tool-link{
-  display:flex; align-items:center; gap:12px;
-  padding:14px; border:1px solid var(--cardBorder); border-radius:8px;
-  background:var(--bg); color:var(--text); text-decoration:none; font-weight:600;
-  transition:transform var(--trans), box-shadow var(--trans), border-color var(--trans), background var(--trans);
-  position:relative; isolation:isolate;
-}
-.tool-link:hover{
-  transform:translateY(-2px);
-  border-color:color-mix(in oklab, var(--accent) 60%, white);
-  box-shadow:0 8px 20px rgba(0,0,0,.18);
-  background:linear-gradient(180deg, color-mix(in oklab, var(--card) 85%, transparent), var(--card));
-}
-.tool-link .ico{
-  width: calc(var(--ico-size) + 14px);
-  height: calc(var(--ico-size) + 14px);
-  border-radius:10px;
-  display:grid; place-items:center;
-  box-shadow: inset 0 0 0 1px rgba(255,255,255,.15), 0 4px 10px rgba(0,0,0,.25);
-  flex:0 0 auto;
-}
-.tool-link .ico svg{ width:var(--ico-size); height:var(--ico-size); color:#0b1020; }
-
-/* Accent gradients (set via class on the link) */
-:root{
-  --g-blue: linear-gradient(135deg,#60A5FA,#3B82F6);
-  --g-cyan: linear-gradient(135deg,#22D3EE,#06B6D4);
-  --g-teal: linear-gradient(135deg,#14B8A6,#0D9488);
-  --g-green: linear-gradient(135deg,#34D399,#22C55E);
-  --g-emerald: linear-gradient(135deg,#10B981,#34D399);
-  --g-lime: linear-gradient(135deg,#A3E635,#65A30D);
-  --g-yellow: linear-gradient(135deg,#FDE047,#FACC15);
-  --g-amber: linear-gradient(135deg,#FBBF24,#F59E0B);
-  --g-orange: linear-gradient(135deg,#FB923C,#F97316);
-  --g-red: linear-gradient(135deg,#F87171,#EF4444);
-  --g-pink: linear-gradient(135deg,#F472B6,#EC4899);
-  --g-fuchsia: linear-gradient(135deg,#E879F9,#D946EF);
-  --g-violet: linear-gradient(135deg,#A78BFA,#8B5CF6);
-  --g-purple: linear-gradient(135deg,#C084FC,#A855F7);
-  --g-indigo: linear-gradient(135deg,#818CF8,#6366F1);
-  --g-sky: linear-gradient(135deg,#7DD3FC,#38BDF8);
-  --g-slate: linear-gradient(135deg,#94A3B8,#64748B);
-  --g-zinc: linear-gradient(135deg,#A1A1AA,#52525B);
-}
-
-.tool-link.accent-blue  .ico{ background:var(--g-blue); }
-.tool-link.accent-cyan  .ico{ background:var(--g-cyan); }
-.tool-link.accent-teal  .ico{ background:var(--g-teal); }
-.tool-link.accent-green .ico{ background:var(--g-green); }
-.tool-link.accent-emerald .ico{ background:var(--g-emerald); }
-.tool-link.accent-lime  .ico{ background:var(--g-lime); }
-.tool-link.accent-yellow .ico{ background:var(--g-yellow); }
-.tool-link.accent-amber .ico{ background:var(--g-amber); }
-.tool-link.accent-orange .ico{ background:var(--g-orange); }
-.tool-link.accent-red   .ico{ background:var(--g-red); }
-.tool-link.accent-pink  .ico{ background:var(--g-pink); }
-.tool-link.accent-fuchsia .ico{ background:var(--g-fuchsia); }
-.tool-link.accent-violet .ico{ background:var(--g-violet); }
-.tool-link.accent-purple .ico{ background:var(--g-purple); }
-.tool-link.accent-indigo .ico{ background:var(--g-indigo); }
-.tool-link.accent-sky    .ico{ background:var(--g-sky); }
-.tool-link.accent-slate  .ico{ background:var(--g-slate); }
-.tool-link.accent-zinc   .ico{ background:var(--g-zinc); }
-
-/* Subtle colorful halo on hover */
-.tool-link::after{
-  content:""; position:absolute; inset:-2px; border-radius:10px; z-index:-1;
-  opacity:0; transition:opacity var(--trans);
-  background: conic-gradient(from 180deg at 50% 50%, #60A5FA, #06B6D4, #22C55E, #A78BFA, #F472B6, #60A5FA);
-  filter: blur(10px);
-}
-.tool-link:hover::after{ opacity:.25; }
-
-/* Hero tweak for color pop */
-.hero{
-  border-image: linear-gradient(90deg,#0EA5E9,#06B6D4,#22C55E) 1;
-  border-width:1px; border-style:solid;
-}
-
-/* =========================================================
-   Compact Tool Mode (to reduce empty space & visual noise)
-   ========================================================= */
-
-/* Widen page on desktops (reduces side emptiness) */
-@media (min-width:1200px){
-  :root{ --content-w:1180px; }
-}
-
-/* Compact cards & header */
-.card.compact{ padding:16px; border-radius:10px; }
-.tool-header{ padding:12px 16px; gap:12px; }
-
-/* Compact inputs */
-#tool-form .input{ padding:7px 10px; font-size:13px; }
-#tool-form .label{ margin:10px 0 6px; font-size:12.5px; }
-
-/* Two-column grid for forms */
-#tool-form .grid-2{
-  display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:10px;
-}
-@media (max-width:720px){
-  #tool-form .grid-2{ grid-template-columns:1fr; }
-}
-
-/* Small buttons + toolbar */
-.btn.sm{ padding:4px 10px; font-size:12px; border-radius:8px; }
-.btn.icon{ padding:5px 8px; border-radius:8px; }
-.toolbar{ display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
-.toolbar .spacer{ flex:1; }
-
-/* “More” dropdown using details/summary */
-details.more{ position:relative; }
-details.more > summary{
-  list-style:none; cursor:pointer; outline:none;
-}
-details.more[open] > summary::after{ content:""; }
-details.more .menu{
-  position:absolute; right:0; top:calc(100% + 6px);
-  background:var(--card); border:1px solid var(--cardBorder);
-  border-radius:10px; padding:8px; min-width:200px; box-shadow:var(--shadow-hover);
-  display:grid; gap:6px; z-index:2;
-}
-details.more .menu button{ width:100%; text-align:left; }
-
-/* Sticky results on wide screens */
-.sticky-side{ position:sticky; top:84px; align-self:start; }
-
-/* Lighter row borders */
-.kvi, .row{ border-bottom-color:rgba(255,255,255,.04); }
-
-/* Smaller note */
-.note.small{ font-size:12px; }
-
-.hl{ color: var(--accent); font-weight: 700; }
-
-/* Make game names always legible on dark backgrounds */
-.game-card .game-title {
-  color: var(--text) !important;           /* force light title */
-  text-decoration: none;                   /* cleaner look */
-}
-.game-card .game-title:visited {
-  color: var(--text) !important;           /* avoid low-contrast purple */
-}
-.game-card:hover .game-title,
-.game-card .game-title:focus-visible {
-  color: #fff;                             /* extra pop on hover/focus */
-  text-decoration: underline; 
-  text-underline-offset: 2px;
-}
-
-/* (Optional) Slightly deepen the card background for contrast */
-.game-card {
-  background: color-mix(in oklab, var(--card) 94%, transparent);
-}
-
-/* (Optional) Extra readability for users who want more contrast */
-@media (prefers-contrast: more) {
-  .game-card .game-title { 
-    text-shadow: 0 1px 1px rgba(0,0,0,.55);
-  }
-}
-
-/* Reserve realistic heights for your formats */
-.ad-slot { display:block; width:100%; }
-.ad-leaderboard { min-height: 90px; }      /* 728x90 / 970x90 */
-.ad-rectangle   { min-height: 280px; }     /* 336x280 / 300x250 */
-.ad-mobile      { min-height: 100px; }     /* 320x100 / 320x50 */
-
-/* Optional: add a subtle skeleton so it looks intentional */
-.ad-slot::before{
-  content:""; display:block; height:100%;
-  background:linear-gradient(90deg,rgba(255,255,255,.05),rgba(255,255,255,.09),rgba(255,255,255,.05));
-  background-size:200% 100%; animation:ad-skel 1.2s infinite;
-  border:1px dashed var(--cardBorder); border-radius:8px;
-}
-@keyframes ad-skel{0%{background-position:200% 0}100%{background-position:-200% 0}}
-
-
-/* --- FundingChoices / Consent UI should not push layout --- */
-#fc-consent-root,
-#fundingChoicesModal,
-#fundingChoicesBanner {
-  position: fixed !important;
-  inset: 0 0 auto 0 !important;   /* top banner style; use inset:0 for full-screen modal */
-  z-index: 2147483000 !important; /* above everything */
-}
-
-/* If you prefer a slim top bar instead of full overlay, also add: */
-#fundingChoicesBanner {
-  height: 64px;                   /* pick a fixed height so nothing moves */
-  left: 0; right: 0; top: 0;
-}
-
-/* --- Stabilize header size & border from the very first paint --- */
-header.site{
-  min-height: 56px;                 /* match your real final height */
-  border-bottom: 1px solid var(--cardBorder);
-}
-
-/* Keep header content from wrapping unexpectedly on load */
-.header-inner{
-  min-height: 56px;                 /* same as header.site */
-  display: flex;
-  align-items: center;
-}
-
-/* Prevent logo image causing reflow while it loads */
-.brand img{
-  width: 28px;                      /* match your HTML width */
-  height: 28px;                     /* match your HTML height */
-  aspect-ratio: 1 / 1;              /* belt-and-suspenders to avoid jumps */
-}
-
-/* ==========================
-   Responsive Game Layout (AA)
-   ========================== */
-
-:root{
-  /* Tune these without touching JS */
-  --board-gap: clamp(4px, 1.2vw, 12px);
-  --cell-min:  34px;                 /* smallest tile size allowed */
-  --hud-gap:   10px;
-}
-
-/* Shell that contains HUD + board + controls */
-.game-shell{
-  display:grid;
-  gap:var(--hud-gap);
-  margin: 0 auto;
-  max-width:min(96vw, var(--content-w));
-}
-
-/* HUD row (score, timer, level, etc.) */
-.game-hud{
-  display:flex; align-items:center; justify-content:space-between; gap:10px;
-  flex-wrap:wrap;
-}
-
-/* Board holder keeps a perfect square that shrinks to fit */
-.board-wrap{
-  position:relative;
-  width:100%;
-  /* height is set by JS to keep a square that fits viewport */
-  margin:0 auto;
-}
-
-/* The actual board grid. We use a CSS var --cols you set in JS. */
-.board{
-  position:absolute; inset:0;
-  display:grid;
-  grid-template-columns: repeat(var(--cols, 4), 1fr);
-  gap:var(--board-gap);
-  padding:var(--board-gap);
-  background: var(--card);
-  border:1px solid var(--cardBorder);
-  border-radius: var(--radius);
-  overflow:hidden;
-}
-
-/* Square tiles that auto-resize */
-.tile{
-  display:grid; place-items:center;
-  border-radius: 10px;
-  background: color-mix(in oklab, var(--accent) 24%, var(--bg));
-  border: 1px solid color-mix(in oklab, var(--accent) 40%, var(--cardBorder));
-  color: var(--text);
-  font-weight:700;
-  user-select:none;
-  aspect-ratio: 1 / 1;          /* <- keeps boxes square */
-  min-width: var(--cell-min);
-  min-height: var(--cell-min);
-}
-
-/* Variant tile styles if needed */
-.tile--odd    { outline: 2px dashed rgba(255,255,255,.18); }
-.tile--active { background: color-mix(in oklab, var(--accent) 38%, var(--bg)); }
-
-/* Mobile controls (D-pad) – shown only on small screens */
-.game-controls{
-  display:none;
-  gap:10px;
-  justify-content:center;
-}
-.game-controls .btn{
-  min-width:56px; min-height:44px;
-  font-size:18px; border-radius:10px;
-}
-
-/* Keep page steady / prevent accidental scroll during play */
-html, body { height:100%; }
-body{
-  overscroll-behavior: contain;     /* stop pull-to-refresh scroll chain */
-  touch-action: manipulation;       /* reduce double-tap zoom */
-}
-
-/* Responsive stacking:
-   - Portrait: HUD -> Board -> Controls (stack)
-   - Landscape: HUD left, Board right (if space), controls under board
-*/
-@media (max-width: 800px){
-  .game-shell{ grid-template-columns: 1fr; }
-  .game-controls{ display:flex; }
-}
-@media (min-width: 801px){
-  .game-shell{
-    grid-template-columns: 360px 1fr;       /* HUD column + big board */
-    align-items:start;
-  }
-  .game-hud{ position:sticky; top:84px; align-self:start; }
-  .game-controls{ display:flex; grid-column: 1 / -1; }
-}
-
-/* Strong focus for tiles if you make them focusable for keyboard play */
-.tile:focus-visible{
-  outline:3px solid #f59e0b; outline-offset:2px;
-}
-
-
-/* --- End of stylesheet --- */

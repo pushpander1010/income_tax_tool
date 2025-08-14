@@ -1,53 +1,68 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617"
-     crossorigin="anonymous"></script>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>SIP Calculator - UpTools</title>
-    <meta name="description" content="SIP Calculator to estimate mutual fund returns." />
-    <meta name="robots" content="index,follow" />
-    <meta name="theme-color" content="#0b1020" />
-    <link rel="canonical" href="https://www.uptools.in/sip-calculator/" />
-    <meta property="og:title" content="SIP Calculator - UpTools" />
-    <meta property="og:description" content="Estimate SIP future value." />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://www.uptools.in/sip-calculator/" />
-    <meta property="og:site_name" content="UpTools" />
-    <meta name="twitter:card" content="summary" />
-    <link rel="stylesheet" href="/style.css" />
-  </head>
-  <body style="--accent:#a7f3d0;--bg1:#0b2018;--bg2:#0e3024;--cardBorder:#2a6650">
-    <main class="wrap">
-      <div class="tool-header"><div class="tool-icon">SIP</div><h1 style="margin:0">SIP Calculator</h1></div>
-      <div class="card">
-        <label class="label" for="amt">Monthly Investment (₹)</label>
-        <input id="amt" class="input" type="number" min="0" step="100" placeholder="e.g., 5000" />
-        <label class="label" for="rate">Expected Return (% p.a.)</label>
-        <input id="rate" class="input" type="number" min="0" step="0.1" placeholder="e.g., 12" />
-        <label class="label" for="yrs">Years</label>
-        <input id="yrs" class="input" type="number" min="1" step="1" placeholder="e.g., 10" />
-        <button id="calc" class="btn">Calculate</button>
-        <div id="out" class="result"></div>
-      </div>
-      <footer class="note small"><a href="/">UpTools</a></footer>
-    </main>
-    <script type="module">
-      const A=document.getElementById('amt'),R=document.getElementById('rate'),Y=document.getElementById('yrs'),O=document.getElementById('out');
-      const fmt = new Intl.NumberFormat('en-IN',{style:'currency',currency:'INR',maximumFractionDigits:0});
-      function calc(){
-        const a=Number(A.value||0), r=(Number(R.value||0)/100)/12, n=Number(Y.value||0)*12;
-        if(!(a>0 && r>=0 && n>0)){ O.textContent='Enter valid values'; return; }
-        const fv = a * ( (Math.pow(1+r,n)-1) / r ) * (1+r);
-        const invested = a*n; const gains = fv - invested;
-        O.innerHTML = `<div class='row'><span>Future Value</span><span class='amount'>${fmt.format(Math.round(fv))}</span></div>
+
+<head>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617"
+    crossorigin="anonymous"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SIP Calculator - UpTools</title>
+  <meta name="description" content="SIP Calculator to estimate mutual fund returns." />
+  <meta name="robots" content="index,follow" />
+  <meta name="theme-color" content="#0b1020" />
+  <link rel="canonical" href="https://www.uptools.in/sip-calculator/" />
+  <meta property="og:title" content="SIP Calculator - UpTools" />
+  <meta property="og:description" content="Estimate SIP future value." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.uptools.in/sip-calculator/" />
+  <meta property="og:site_name" content="UpTools" />
+  <meta name="twitter:card" content="summary" />
+  <link rel="stylesheet" href="/style.css">
+  <style>
+    :root {
+      --accent: #34d399;
+      --bg1: #082c24;
+      --bg2: #0d4437;
+      --cardBorder: #065f46;
+    }
+  </style>
+
+
+</head>
+
+<body>
+  <main class="wrap">
+    <div class="tool-header">
+      <div class="tool-icon">SIP</div>
+      <h1 style="margin:0">SIP Calculator</h1>
+    </div>
+    <div class="card">
+      <label class="label" for="amt">Monthly Investment (₹)</label>
+      <input id="amt" class="input" type="number" min="0" step="100" placeholder="e.g., 5000" />
+      <label class="label" for="rate">Expected Return (% p.a.)</label>
+      <input id="rate" class="input" type="number" min="0" step="0.1" placeholder="e.g., 12" />
+      <label class="label" for="yrs">Years</label>
+      <input id="yrs" class="input" type="number" min="1" step="1" placeholder="e.g., 10" />
+      <button id="calc" class="btn">Calculate</button>
+      <div id="out" class="result"></div>
+    </div>
+    <footer class="note small"><a href="/">UpTools</a></footer>
+  </main>
+  <script type="module">
+    const A = document.getElementById('amt'), R = document.getElementById('rate'), Y = document.getElementById('yrs'), O = document.getElementById('out');
+    const fmt = new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 });
+    function calc() {
+      const a = Number(A.value || 0), r = (Number(R.value || 0) / 100) / 12, n = Number(Y.value || 0) * 12;
+      if (!(a > 0 && r >= 0 && n > 0)) { O.textContent = 'Enter valid values'; return; }
+      const fv = a * ((Math.pow(1 + r, n) - 1) / r) * (1 + r);
+      const invested = a * n; const gains = fv - invested;
+      O.innerHTML = `<div class='row'><span>Future Value</span><span class='amount'>${fmt.format(Math.round(fv))}</span></div>
         <div class='row'><span>Total Invested</span><span class='amount'>${fmt.format(Math.round(invested))}</span></div>
         <div class='row'><span>Estimated Gains</span><span class='amount'>${fmt.format(Math.round(gains))}</span></div>`;
-      }
-      document.getElementById('calc').addEventListener('click', calc);
-      [A,R,Y].forEach(el=>el.addEventListener('keydown',e=>{ if(e.key==='Enter') calc(); }));
-    </script>
-  </body>
-  </html>
+    }
+    document.getElementById('calc').addEventListener('click', calc);
+    [A, R, Y].forEach(el => el.addEventListener('keydown', e => { if (e.key === 'Enter') calc(); }));
+  </script>
+</body>
 
+</html>

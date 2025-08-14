@@ -1,59 +1,73 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617"
-     crossorigin="anonymous"></script>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>GST Calculator (India) - UpTools</title>
-    <meta name="description" content="Calculate GST inclusive or exclusive amounts for 5%, 12%, 18%, 28%." />
-    <meta name="robots" content="index,follow" />
-    <meta name="theme-color" content="#0b1020" />
-    <link rel="canonical" href="https://www.uptools.in/gst-calculator/" />
-    <meta property="og:title" content="GST Calculator (India) - UpTools" />
-    <meta property="og:description" content="Calculate GST inclusive or exclusive amounts." />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://www.uptools.in/gst-calculator/" />
-    <meta property="og:site_name" content="UpTools" />
-    <meta property="og:image" content="https://www.uptools.in/og/gst.png" />
-    <meta name="twitter:card" content="summary" />
-    <link rel="stylesheet" href="/style.css" />
-  </head>
-  <body style="--accent:#ffc6ff;--bg1:#1c0b20;--bg2:#2a0e30;--cardBorder:#663a6b">
-    <main class="wrap">
-      <div class="tool-header"><div class="tool-icon">GST</div><h1 style="margin:0">GST Calculator (India)</h1></div>
-      <div class="card">
-        <label class="label" for="base">Amount</label>
-        <input id="base" class="input" type="number" min="0" step="0.5" placeholder="e.g., 999.99" />
-        <label class="label" for="rate">GST Rate</label>
-        <select id="rate" class="input">
-          <option value="5">5%</option>
-          <option value="12">12%</option>
-          <option value="18" selected>18%</option>
-          <option value="28">28%</option>
-        </select>
-        <label class="check"><input id="inclusive" type="checkbox" /> <span>Input amount is GST-inclusive</span></label>
-        <button id="calc" class="btn">Calculate</button>
-        <div id="out" class="result"></div>
-      </div>
-      <footer class="note small"><a href="/">UpTools</a></footer>
-    </main>
-    <script type="module">
-      const B=document.getElementById('base'),R=document.getElementById('rate'),I=document.getElementById('inclusive'),O=document.getElementById('out');
-      const fmt = new Intl.NumberFormat('en-IN',{style:'currency',currency:'INR',maximumFractionDigits:2});
-      function calc(){
-        const amt=Number(B.value||0), rate=Number(R.value||0)/100;
-        if(!(amt>=0)){ O.textContent='Enter a valid amount'; return; }
-        let gst=0, base=0, total=0;
-        if(I.checked){ total=amt; base=amt/(1+rate); gst=total-base; }
-        else { base=amt; gst=base*rate; total=base+gst; }
-        O.innerHTML=`<div class='row'><span>Base Amount</span><span class='amount'>${fmt.format(base)}</span></div>
+
+<head>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617"
+    crossorigin="anonymous"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>GST Calculator (India) - UpTools</title>
+  <meta name="description" content="Calculate GST inclusive or exclusive amounts for 5%, 12%, 18%, 28%." />
+  <meta name="robots" content="index,follow" />
+  <meta name="theme-color" content="#0b1020" />
+  <link rel="canonical" href="https://www.uptools.in/gst-calculator/" />
+  <meta property="og:title" content="GST Calculator (India) - UpTools" />
+  <meta property="og:description" content="Calculate GST inclusive or exclusive amounts." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.uptools.in/gst-calculator/" />
+  <meta property="og:site_name" content="UpTools" />
+  <meta property="og:image" content="https://www.uptools.in/og/gst.png" />
+  <meta name="twitter:card" content="summary" />
+  <link rel="stylesheet" href="/style.css" />
+  <style>
+    :root {
+      --accent: #4ade80;
+      --bg1: #0d1b12;
+      --bg2: #1a3324;
+      --cardBorder: #166534;
+    }
+  </style>
+
+</head>
+
+<body>
+  <main class="wrap">
+    <div class="tool-header">
+      <div class="tool-icon">GST</div>
+      <h1 style="margin:0">GST Calculator (India)</h1>
+    </div>
+    <div class="card">
+      <label class="label" for="base">Amount</label>
+      <input id="base" class="input" type="number" min="0" step="0.5" placeholder="e.g., 999.99" />
+      <label class="label" for="rate">GST Rate</label>
+      <select id="rate" class="input">
+        <option value="5">5%</option>
+        <option value="12">12%</option>
+        <option value="18" selected>18%</option>
+        <option value="28">28%</option>
+      </select>
+      <label class="check"><input id="inclusive" type="checkbox" /> <span>Input amount is GST-inclusive</span></label>
+      <button id="calc" class="btn">Calculate</button>
+      <div id="out" class="result"></div>
+    </div>
+    <footer class="note small"><a href="/">UpTools</a></footer>
+  </main>
+  <script type="module">
+    const B = document.getElementById('base'), R = document.getElementById('rate'), I = document.getElementById('inclusive'), O = document.getElementById('out');
+    const fmt = new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 2 });
+    function calc() {
+      const amt = Number(B.value || 0), rate = Number(R.value || 0) / 100;
+      if (!(amt >= 0)) { O.textContent = 'Enter a valid amount'; return; }
+      let gst = 0, base = 0, total = 0;
+      if (I.checked) { total = amt; base = amt / (1 + rate); gst = total - base; }
+      else { base = amt; gst = base * rate; total = base + gst; }
+      O.innerHTML = `<div class='row'><span>Base Amount</span><span class='amount'>${fmt.format(base)}</span></div>
         <div class='row'><span>GST</span><span class='amount'>${fmt.format(gst)}</span></div>
         <div class='row'><span>Total</span><span class='amount'>${fmt.format(total)}</span></div>`;
-      }
-      document.getElementById('calc').addEventListener('click', calc);
-      [B,R].forEach(el=>el.addEventListener('keydown',e=>{ if(e.key==='Enter') calc(); }));
-    </script>
-  </body>
-  </html>
+    }
+    document.getElementById('calc').addEventListener('click', calc);
+    [B, R].forEach(el => el.addEventListener('keydown', e => { if (e.key === 'Enter') calc(); }));
+  </script>
+</body>
 
+</html>

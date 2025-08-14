@@ -1,19 +1,22 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617"
-     crossorigin="anonymous"></script>
+    crossorigin="anonymous"></script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Income Tax Calculator (India) FY 2024-25 (AY 2025-26) - New vs Old Regime | UpTools</title>
-  <meta name="description" content="Free India income tax calculator for FY 2024-25 (AY 2025-26). Compare New vs Old Regime, apply standard deduction, 80C, 80D, NPS, HRA, home-loan interest, cess, surcharge and see monthly TDS. Fast and privacy-first." />
+  <meta name="description"
+    content="Free India income tax calculator for FY 2024-25 (AY 2025-26). Compare New vs Old Regime, apply standard deduction, 80C, 80D, NPS, HRA, home-loan interest, cess, surcharge and see monthly TDS. Fast and privacy-first." />
   <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
   <meta name="theme-color" content="#0f1419" />
   <link rel="canonical" href="https://www.uptools.in/income-tax-tool/" />
 
   <!-- OG/Twitter -->
   <meta property="og:title" content="Income Tax Calculator (India) - New vs Old Regime" />
-  <meta property="og:description" content="FY 2024-25 calculator with 80C, 80D, NPS (1B), HRA, home-loan interest, cess, surcharge and monthly TDS." />
+  <meta property="og:description"
+    content="FY 2024-25 calculator with 80C, 80D, NPS (1B), HRA, home-loan interest, cess, surcharge and monthly TDS." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.uptools.in/income-tax-tool/" />
   <meta property="og:site_name" content="UpTools" />
@@ -48,8 +51,19 @@
     ]
   }
   </script>
+  <link rel="stylesheet" href="/style.css">
+  <style>
+    :root {
+      --accent: #93c5fd;
+      --bg1: #0b1020;
+      --bg2: #142040;
+      --cardBorder: #1e3a8a;
+    }
+  </style>
+
 </head>
-<body style="--accent:#8ab4f8; --bg:#0f1419; --card:#1e2634; background:linear-gradient(135deg,var(--bg),#1a1f2e);">
+
+<body>
 
   <!-- Same header as homepage -->
   <header class="site" role="banner">
@@ -78,11 +92,14 @@
       <h2 class="sr-only">Enter income and deductions</h2>
 
       <label class="label" for="annualIncome">Annual Gross Income (₹)</label>
-      <input id="annualIncome" class="input" type="number" inputmode="numeric" min="0" step="1000" placeholder="e.g., 1200000" required>
+      <input id="annualIncome" class="input" type="number" inputmode="numeric" min="0" step="1000"
+        placeholder="e.g., 1200000" required>
 
       <div class="row" style="border:0; padding:0; margin-top:12px; gap:12px">
-        <label class="check"><input id="includeStdDeduction" type="checkbox" checked> <span>Include standard deduction (₹50,000)</span></label>
-        <label class="check"><input id="surchargeToggle" type="checkbox"> <span>Apply surcharge if applicable</span></label>
+        <label class="check"><input id="includeStdDeduction" type="checkbox" checked> <span>Include standard deduction
+            (₹50,000)</span></label>
+        <label class="check"><input id="surchargeToggle" type="checkbox"> <span>Apply surcharge if
+            applicable</span></label>
       </div>
 
       <label class="label" for="regime">Calculate for Regime</label>
@@ -98,7 +115,8 @@
         <p class="note">These apply only in the Old regime. They’ll be ignored automatically under the New regime.</p>
 
         <label class="label" for="sec80c">Section 80C (₹, max 1,50,000)</label>
-        <input id="sec80c" class="input" type="number" min="0" step="1000" placeholder="EPF/PPF/ELSS/Life insurance etc.">
+        <input id="sec80c" class="input" type="number" min="0" step="1000"
+          placeholder="EPF/PPF/ELSS/Life insurance etc.">
 
         <label class="label" for="sec80d">Section 80D - Health Insurance (₹)</label>
         <input id="sec80d" class="input" type="number" min="0" step="1000" placeholder="Self/family/premium paid">
@@ -119,7 +137,8 @@
         <label class="label" for="rentPaid">Rent Paid (₹/year)</label>
         <input id="rentPaid" class="input" type="number" min="0" step="1000" placeholder="e.g., 180000">
 
-        <label class="check"><input id="isMetro" type="checkbox"> <span>Metro city (50% basic). If unchecked, 40% applies.</span></label>
+        <label class="check"><input id="isMetro" type="checkbox"> <span>Metro city (50% basic). If unchecked, 40%
+            applies.</span></label>
 
         <div class="row" style="border:0; padding:0; margin-top:12px"></div>
         <strong>Home Loan Interest (Self-occupied)</strong>
@@ -141,7 +160,10 @@
 
     <section class="card" style="margin-top:16px">
       <h2 class="sr-only">Notes</h2>
-      <p class="note">This tool uses FY 2024-25 (AY 2025-26) slabs, 4% Health & Education Cess, 87A rebate (₹7L new / ₹5L old), and optional surcharge thresholds. Old-regime deductions are capped per Income-tax rules (e.g., 80C ₹1.5L, NPS 80CCD(1B) ₹50k, HRA min rule, home-loan interest set-off up to ₹2L for self-occupied). Calculations are indicative.</p>
+      <p class="note">This tool uses FY 2024-25 (AY 2025-26) slabs, 4% Health & Education Cess, 87A rebate (₹7L new /
+        ₹5L old), and optional surcharge thresholds. Old-regime deductions are capped per Income-tax rules (e.g., 80C
+        ₹1.5L, NPS 80CCD(1B) ₹50k, HRA min rule, home-loan interest set-off up to ₹2L for self-occupied). Calculations
+        are indicative.</p>
     </section>
 
     <footer class="note small site-footer" role="contentinfo">
@@ -149,181 +171,181 @@
     </footer>
   </main>
 
-  <script>document.getElementById('y').textContent=new Date().getFullYear();</script>
+  <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
   <!-- (Optional) If you added /scripts/utils.js, load it with defer. Not required for this page. -->
   <!-- <script src="/scripts/utils.js" defer></script> -->
 
   <script defer>
-  // --- Config: FY 2024-25 (AY 2025-26) ---
-  const SLABS = {
-    new: [
-      { upTo: 300000, rate: 0 },
-      { upTo: 600000, rate: 5 },
-      { upTo: 900000, rate: 10 },
-      { upTo: 1200000, rate: 15 },
-      { upTo: 1500000, rate: 20 },
-      { upTo: Infinity, rate: 30 }
-    ],
-    old: [
-      { upTo: 250000, rate: 0 },
-      { upTo: 500000, rate: 5 },
-      { upTo: 1000000, rate: 20 },
-      { upTo: Infinity, rate: 30 }
-    ]
-  };
-  const STD_DED = 50000;       // standard deduction (salaried/pension)
-  const CESS = 0.04;           // 4%
-  const REBATE_NEW_LIMIT = 700000; // 87A threshold (new)
-  const REBATE_OLD_LIMIT = 500000; // 87A threshold (old)
+    // --- Config: FY 2024-25 (AY 2025-26) ---
+    const SLABS = {
+      new: [
+        { upTo: 300000, rate: 0 },
+        { upTo: 600000, rate: 5 },
+        { upTo: 900000, rate: 10 },
+        { upTo: 1200000, rate: 15 },
+        { upTo: 1500000, rate: 20 },
+        { upTo: Infinity, rate: 30 }
+      ],
+      old: [
+        { upTo: 250000, rate: 0 },
+        { upTo: 500000, rate: 5 },
+        { upTo: 1000000, rate: 20 },
+        { upTo: Infinity, rate: 30 }
+      ]
+    };
+    const STD_DED = 50000;       // standard deduction (salaried/pension)
+    const CESS = 0.04;           // 4%
+    const REBATE_NEW_LIMIT = 700000; // 87A threshold (new)
+    const REBATE_OLD_LIMIT = 500000; // 87A threshold (old)
 
-  // Surcharge thresholds (approx, India)
-  // Note: Highest surcharge under NEW regime capped at 25%.
-  const SURCHARGE_BRACKETS = [
-    { over: 50000000, rateOld: 0.10, rateNew: 0.10 }, // > ₹50L
-    { over: 100000000, rateOld: 0.15, rateNew: 0.15 }, // > ₹1cr
-    { over: 200000000, rateOld: 0.25, rateNew: 0.25 }, // > ₹2cr
-    { over: 500000000, rateOld: 0.37, rateNew: 0.25 }  // > ₹5cr (Old 37%, New capped 25%)
-  ];
+    // Surcharge thresholds (approx, India)
+    // Note: Highest surcharge under NEW regime capped at 25%.
+    const SURCHARGE_BRACKETS = [
+      { over: 50000000, rateOld: 0.10, rateNew: 0.10 }, // > ₹50L
+      { over: 100000000, rateOld: 0.15, rateNew: 0.15 }, // > ₹1cr
+      { over: 200000000, rateOld: 0.25, rateNew: 0.25 }, // > ₹2cr
+      { over: 500000000, rateOld: 0.37, rateNew: 0.25 }  // > ₹5cr (Old 37%, New capped 25%)
+    ];
 
-  const rs = n => new Intl.NumberFormat('en-IN', { maximumFractionDigits: 0 }).format(Math.round(n || 0));
+    const rs = n => new Intl.NumberFormat('en-IN', { maximumFractionDigits: 0 }).format(Math.round(n || 0));
 
-  const $ = sel => document.querySelector(sel);
-  const getVal = id => +(document.getElementById(id).value || 0);
+    const $ = sel => document.querySelector(sel);
+    const getVal = id => +(document.getElementById(id).value || 0);
 
-  function calcSlabTax(income, slabs){
-    let tax = 0, prev=0, remaining=income;
-    for(const s of slabs){
-      const width = Math.min(remaining, s.upTo - prev);
-      if (width > 0) tax += width * (s.rate/100);
-      remaining -= width;
-      prev = s.upTo;
-      if (remaining <= 0) break;
-    }
-    return tax;
-  }
-
-  function rebateAmt(totalIncome, regime){
-    if (regime==='new' && totalIncome <= REBATE_NEW_LIMIT) return Infinity; // wipe tax
-    if (regime==='old' && totalIncome <= REBATE_OLD_LIMIT) return Infinity;
-    return 0;
-  }
-
-  function calcHRAExemption({basic=0, hraRecv=0, rentPaid=0, isMetro=false}={}){
-    if (!basic || !hraRecv || !rentPaid) return 0;
-    const perc = isMetro ? 0.50 : 0.40;
-    const a = hraRecv;
-    const b = Math.max(0, rentPaid - 0.10*basic);
-    const c = perc*basic;
-    return Math.max(0, Math.min(a,b,c));
-  }
-
-  function cap(val, max){ return Math.max(0, Math.min(val||0, max)); }
-
-  function calcOldDeductions(){
-    // 80C (max 1.5L), 80D (no complex per-age logic here), NPS 1B (50k),
-    // HRA exemption (computed), home-loan interest (cap 2L)
-    const sec80c = cap(getVal('sec80c'), 150000);
-    const sec80d = Math.max(0, getVal('sec80d')); // You may add age-based caps later
-    const nps1b  = cap(getVal('nps1b'), 50000);
-    const hra    = calcHRAExemption({
-      basic: getVal('basic'),
-      hraRecv: getVal('hraRecv'),
-      rentPaid: getVal('rentPaid'),
-      isMetro: $('#isMetro').checked
-    });
-    const homeLoan = cap(getVal('homeLoanInt'), 200000);
-    return { sec80c, sec80d, nps1b, hra, homeLoan };
-  }
-
-  function surchargeRate(taxableIncome, regime){
-    let rate = 0;
-    for (const b of SURCHARGE_BRACKETS){
-      if (taxableIncome > b.over){
-        rate = (regime==='new') ? b.rateNew : b.rateOld;
+    function calcSlabTax(income, slabs) {
+      let tax = 0, prev = 0, remaining = income;
+      for (const s of slabs) {
+        const width = Math.min(remaining, s.upTo - prev);
+        if (width > 0) tax += width * (s.rate / 100);
+        remaining -= width;
+        prev = s.upTo;
+        if (remaining <= 0) break;
       }
+      return tax;
     }
-    return rate;
-  }
 
-  function compute({income, includeStd, regimeMode, applySurcharge}){
-    const baseIncome = Math.max(0, income || 0);
+    function rebateAmt(totalIncome, regime) {
+      if (regime === 'new' && totalIncome <= REBATE_NEW_LIMIT) return Infinity; // wipe tax
+      if (regime === 'old' && totalIncome <= REBATE_OLD_LIMIT) return Infinity;
+      return 0;
+    }
 
-    // New regime taxable
-    let newTaxable = baseIncome;
-    if (includeStd) newTaxable -= STD_DED;
-    newTaxable = Math.max(0, newTaxable);
+    function calcHRAExemption({ basic = 0, hraRecv = 0, rentPaid = 0, isMetro = false } = {}) {
+      if (!basic || !hraRecv || !rentPaid) return 0;
+      const perc = isMetro ? 0.50 : 0.40;
+      const a = hraRecv;
+      const b = Math.max(0, rentPaid - 0.10 * basic);
+      const c = perc * basic;
+      return Math.max(0, Math.min(a, b, c));
+    }
 
-    // Old regime taxable (apply deductions)
-    const d = calcOldDeductions();
-    let oldTaxable = baseIncome;
-    // HRA exemption reduces taxable salary component
-    oldTaxable -= d.hra;
-    // Section deductions
-    oldTaxable -= (d.sec80c + d.sec80d + d.nps1b);
-    // Home loan interest (self-occupied set-off)
-    oldTaxable -= d.homeLoan;
-    // Standard deduction (if chosen)
-    if (includeStd) oldTaxable -= STD_DED;
-    oldTaxable = Math.max(0, oldTaxable);
+    function cap(val, max) { return Math.max(0, Math.min(val || 0, max)); }
 
-    // Regime-specific computations
-    const out = {};
+    function calcOldDeductions() {
+      // 80C (max 1.5L), 80D (no complex per-age logic here), NPS 1B (50k),
+      // HRA exemption (computed), home-loan interest (cap 2L)
+      const sec80c = cap(getVal('sec80c'), 150000);
+      const sec80d = Math.max(0, getVal('sec80d')); // You may add age-based caps later
+      const nps1b = cap(getVal('nps1b'), 50000);
+      const hra = calcHRAExemption({
+        basic: getVal('basic'),
+        hraRecv: getVal('hraRecv'),
+        rentPaid: getVal('rentPaid'),
+        isMetro: $('#isMetro').checked
+      });
+      const homeLoan = cap(getVal('homeLoanInt'), 200000);
+      return { sec80c, sec80d, nps1b, hra, homeLoan };
+    }
 
-    // New regime
-    if (regimeMode !== 'old'){
-      let tax = calcSlabTax(newTaxable, SLABS.new);
-      // 87A rebate
-      if (rebateAmt(newTaxable, 'new')===Infinity) tax = 0;
-      // surcharge
-      let surcharge = 0;
-      if (applySurcharge){
-        const r = surchargeRate(newTaxable, 'new');
-        surcharge = tax * r;
+    function surchargeRate(taxableIncome, regime) {
+      let rate = 0;
+      for (const b of SURCHARGE_BRACKETS) {
+        if (taxableIncome > b.over) {
+          rate = (regime === 'new') ? b.rateNew : b.rateOld;
+        }
       }
-      const cess = (tax + surcharge) * CESS;
-      const total = tax + surcharge + cess;
-      out.new = {
-        taxable: newTaxable, basicTax: tax, surcharge, cess, total,
-        mtds: total/12, effRate: income ? (total/income*100) : 0
-      };
+      return rate;
     }
 
-    // Old regime
-    if (regimeMode !== 'new'){
-      let tax = calcSlabTax(oldTaxable, SLABS.old);
-      if (rebateAmt(oldTaxable, 'old')===Infinity) tax = 0;
-      let surcharge = 0;
-      if (applySurcharge){
-        const r = surchargeRate(oldTaxable, 'old');
-        surcharge = tax * r;
+    function compute({ income, includeStd, regimeMode, applySurcharge }) {
+      const baseIncome = Math.max(0, income || 0);
+
+      // New regime taxable
+      let newTaxable = baseIncome;
+      if (includeStd) newTaxable -= STD_DED;
+      newTaxable = Math.max(0, newTaxable);
+
+      // Old regime taxable (apply deductions)
+      const d = calcOldDeductions();
+      let oldTaxable = baseIncome;
+      // HRA exemption reduces taxable salary component
+      oldTaxable -= d.hra;
+      // Section deductions
+      oldTaxable -= (d.sec80c + d.sec80d + d.nps1b);
+      // Home loan interest (self-occupied set-off)
+      oldTaxable -= d.homeLoan;
+      // Standard deduction (if chosen)
+      if (includeStd) oldTaxable -= STD_DED;
+      oldTaxable = Math.max(0, oldTaxable);
+
+      // Regime-specific computations
+      const out = {};
+
+      // New regime
+      if (regimeMode !== 'old') {
+        let tax = calcSlabTax(newTaxable, SLABS.new);
+        // 87A rebate
+        if (rebateAmt(newTaxable, 'new') === Infinity) tax = 0;
+        // surcharge
+        let surcharge = 0;
+        if (applySurcharge) {
+          const r = surchargeRate(newTaxable, 'new');
+          surcharge = tax * r;
+        }
+        const cess = (tax + surcharge) * CESS;
+        const total = tax + surcharge + cess;
+        out.new = {
+          taxable: newTaxable, basicTax: tax, surcharge, cess, total,
+          mtds: total / 12, effRate: income ? (total / income * 100) : 0
+        };
       }
-      const cess = (tax + surcharge) * CESS;
-      const total = tax + surcharge + cess;
-      out.old = {
-        taxable: oldTaxable, basicTax: tax, surcharge, cess, total,
-        mtds: total/12, effRate: income ? (total/income*100) : 0,
-        deductions: d
-      };
+
+      // Old regime
+      if (regimeMode !== 'new') {
+        let tax = calcSlabTax(oldTaxable, SLABS.old);
+        if (rebateAmt(oldTaxable, 'old') === Infinity) tax = 0;
+        let surcharge = 0;
+        if (applySurcharge) {
+          const r = surchargeRate(oldTaxable, 'old');
+          surcharge = tax * r;
+        }
+        const cess = (tax + surcharge) * CESS;
+        const total = tax + surcharge + cess;
+        out.old = {
+          taxable: oldTaxable, basicTax: tax, surcharge, cess, total,
+          mtds: total / 12, effRate: income ? (total / income * 100) : 0,
+          deductions: d
+        };
+      }
+      return out;
     }
-    return out;
-  }
 
-  function render(results, income, includeStd, regimeMode){
-    const el = $('#results');
-    if (!income){ el.innerHTML = '<p class="note">Enter your annual income and click Calculate.</p>'; return; }
+    function render(results, income, includeStd, regimeMode) {
+      const el = $('#results');
+      if (!income) { el.innerHTML = '<p class="note">Enter your annual income and click Calculate.</p>'; return; }
 
-    let compare = '';
-    if (regimeMode === 'compare' && results.new && results.old){
-      const better = results.new.total < results.old.total ? 'new' : 'old';
-      const tag = better==='new' ? 'New Regime is lower tax' : 'Old Regime is lower tax';
-      compare = `
+      let compare = '';
+      if (regimeMode === 'compare' && results.new && results.old) {
+        const better = results.new.total < results.old.total ? 'new' : 'old';
+        const tag = better === 'new' ? 'New Regime is lower tax' : 'Old Regime is lower tax';
+        compare = `
         <div class="row" style="margin-top:0">
           <strong>Best Option:</strong>
           <span class="amount">${tag}</span>
         </div>`;
-    }
+      }
 
-    const newCard = results.new ? `
+      const newCard = results.new ? `
       <div class="card" style="margin-top:12px">
         <h3 style="margin-top:0">New Regime</h3>
         <div class="row"><span>Taxable Income</span><span>₹${rs(results.new.taxable)}</span></div>
@@ -335,8 +357,8 @@
         <div class="row"><span>Effective Tax Rate</span><span>${results.new.effRate.toFixed(2)}%</span></div>
       </div>` : '';
 
-    const oldD = results.old?.deductions;
-    const oldCard = results.old ? `
+      const oldD = results.old?.deductions;
+      const oldCard = results.old ? `
       <div class="card" style="margin-top:12px">
         <h3 style="margin-top:0">Old Regime</h3>
         <div class="row"><span>Taxable Income</span><span>₹${rs(results.old.taxable)}</span></div>
@@ -359,7 +381,7 @@
         </div>
       </div>` : '';
 
-    el.innerHTML = `
+      el.innerHTML = `
       <div class="card" style="margin-top:0">
         <h3 style="margin-top:0">Summary</h3>
         <div class="row"><span>Gross Income</span><span>₹${rs(income)}</span></div>
@@ -371,120 +393,119 @@
         ${oldCard}
       </div>
     `;
-  }
-
-  function toCSV(results, income){
-    const rows = [["Field","New Regime","Old Regime"]];
-    const pick = (obj, k) => obj ? obj[k] : '';
-    const fmt = v => typeof v==="number" ? Math.round(v) : v;
-    rows.push(["Gross Income", fmt(income), fmt(income)]);
-    rows.push(["Taxable Income", fmt(pick(results.new,'taxable')), fmt(pick(results.old,'taxable'))]);
-    rows.push(["Basic Tax", fmt(pick(results.new,'basicTax')), fmt(pick(results.old,'basicTax'))]);
-    rows.push(["Surcharge", fmt(pick(results.new,'surcharge')), fmt(pick(results.old,'surcharge'))]);
-    rows.push(["Cess", fmt(pick(results.new,'cess')), fmt(pick(results.old,'cess'))]);
-    rows.push(["Total Tax", fmt(pick(results.new,'total')), fmt(pick(results.old,'total'))]);
-    rows.push(["Monthly TDS", fmt(pick(results.new,'mtds')), fmt(pick(results.old,'mtds'))]);
-    rows.push(["Effective Rate (%)", pick(results.new,'effRate')?.toFixed?.(2)||'', pick(results.old,'effRate')?.toFixed?.(2)||'']);
-    return rows.map(r=>r.join(',')).join('\n');
-  }
-
-  function syncURL(){
-    const params = new URLSearchParams();
-    const fields = ['annualIncome','sec80c','sec80d','nps1b','basic','hraRecv','rentPaid','homeLoanInt'];
-    for (const id of fields){ params.set(id, document.getElementById(id).value||''); }
-    params.set('std', $('#includeStdDeduction').checked);
-    params.set('metro', $('#isMetro').checked);
-    params.set('srchg', $('#surchargeToggle').checked);
-    params.set('mode', $('#regime').value);
-    history.replaceState({}, '', location.pathname + '?' + params.toString());
-    localStorage.setItem('itc:last', params.toString());
-  }
-
-  function loadFromURLOrMemory(){
-    const q = new URLSearchParams(location.search || localStorage.getItem('itc:last') || '');
-    const set = (id, v) => { const el=document.getElementById(id); if (el) el.value = v ?? ''; };
-    set('annualIncome', q.get('annualIncome'));
-    set('sec80c', q.get('sec80c'));
-    set('sec80d', q.get('sec80d'));
-    set('nps1b', q.get('nps1b'));
-    set('basic', q.get('basic'));
-    set('hraRecv', q.get('hraRecv'));
-    set('rentPaid', q.get('rentPaid'));
-    set('homeLoanInt', q.get('homeLoanInt'));
-    if (q.has('std')) $('#includeStdDeduction').checked = q.get('std')==='true';
-    if (q.has('metro')) $('#isMetro').checked = q.get('metro')==='true';
-    if (q.has('srchg')) $('#surchargeToggle').checked = q.get('srchg')==='true';
-    if (q.has('mode')) $('#regime').value = q.get('mode');
-  }
-
-  function shareLink(){
-    syncURL();
-    const url = location.href;
-    if (navigator.share){ navigator.share({ title: 'Income Tax Calculator - UpTools', url }).catch(()=>{}); }
-    else {
-      navigator.clipboard?.writeText(url);
-      alert('Link copied to clipboard:\n' + url);
     }
-  }
 
-  function resetAll(){
-    document.getElementById('tax-form').reset();
-    $('#includeStdDeduction').checked = true;
-    $('#isMetro').checked = false;
-    $('#surchargeToggle').checked = false;
-    $('#regime').value = 'compare';
-    history.replaceState({}, '', location.pathname);
-    localStorage.removeItem('itc:last');
-    $('#results').innerHTML = '';
-  }
+    function toCSV(results, income) {
+      const rows = [["Field", "New Regime", "Old Regime"]];
+      const pick = (obj, k) => obj ? obj[k] : '';
+      const fmt = v => typeof v === "number" ? Math.round(v) : v;
+      rows.push(["Gross Income", fmt(income), fmt(income)]);
+      rows.push(["Taxable Income", fmt(pick(results.new, 'taxable')), fmt(pick(results.old, 'taxable'))]);
+      rows.push(["Basic Tax", fmt(pick(results.new, 'basicTax')), fmt(pick(results.old, 'basicTax'))]);
+      rows.push(["Surcharge", fmt(pick(results.new, 'surcharge')), fmt(pick(results.old, 'surcharge'))]);
+      rows.push(["Cess", fmt(pick(results.new, 'cess')), fmt(pick(results.old, 'cess'))]);
+      rows.push(["Total Tax", fmt(pick(results.new, 'total')), fmt(pick(results.old, 'total'))]);
+      rows.push(["Monthly TDS", fmt(pick(results.new, 'mtds')), fmt(pick(results.old, 'mtds'))]);
+      rows.push(["Effective Rate (%)", pick(results.new, 'effRate')?.toFixed?.(2) || '', pick(results.old, 'effRate')?.toFixed?.(2) || '']);
+      return rows.map(r => r.join(',')).join('\n');
+    }
 
-  // Bind
-  document.addEventListener('DOMContentLoaded', () => {
-    loadFromURLOrMemory();
+    function syncURL() {
+      const params = new URLSearchParams();
+      const fields = ['annualIncome', 'sec80c', 'sec80d', 'nps1b', 'basic', 'hraRecv', 'rentPaid', 'homeLoanInt'];
+      for (const id of fields) { params.set(id, document.getElementById(id).value || ''); }
+      params.set('std', $('#includeStdDeduction').checked);
+      params.set('metro', $('#isMetro').checked);
+      params.set('srchg', $('#surchargeToggle').checked);
+      params.set('mode', $('#regime').value);
+      history.replaceState({}, '', location.pathname + '?' + params.toString());
+      localStorage.setItem('itc:last', params.toString());
+    }
 
-    const calc = () => {
-      const income = getVal('annualIncome');
-      const includeStd = $('#includeStdDeduction').checked;
-      const regimeMode = $('#regime').value;
-      const applySurcharge = $('#surchargeToggle').checked;
+    function loadFromURLOrMemory() {
+      const q = new URLSearchParams(location.search || localStorage.getItem('itc:last') || '');
+      const set = (id, v) => { const el = document.getElementById(id); if (el) el.value = v ?? ''; };
+      set('annualIncome', q.get('annualIncome'));
+      set('sec80c', q.get('sec80c'));
+      set('sec80d', q.get('sec80d'));
+      set('nps1b', q.get('nps1b'));
+      set('basic', q.get('basic'));
+      set('hraRecv', q.get('hraRecv'));
+      set('rentPaid', q.get('rentPaid'));
+      set('homeLoanInt', q.get('homeLoanInt'));
+      if (q.has('std')) $('#includeStdDeduction').checked = q.get('std') === 'true';
+      if (q.has('metro')) $('#isMetro').checked = q.get('metro') === 'true';
+      if (q.has('srchg')) $('#surchargeToggle').checked = q.get('srchg') === 'true';
+      if (q.has('mode')) $('#regime').value = q.get('mode');
+    }
 
-      const results = compute({ income, includeStd, regimeMode, applySurcharge });
-      render(results, income, includeStd, regimeMode);
+    function shareLink() {
       syncURL();
-    };
+      const url = location.href;
+      if (navigator.share) { navigator.share({ title: 'Income Tax Calculator - UpTools', url }).catch(() => { }); }
+      else {
+        navigator.clipboard?.writeText(url);
+        alert('Link copied to clipboard:\n' + url);
+      }
+    }
 
-    document.getElementById('calcBtn').addEventListener('click', calc);
-    ['annualIncome','sec80c','sec80d','nps1b','basic','hraRecv','rentPaid','homeLoanInt'].forEach(id=>{
-      document.getElementById(id).addEventListener('input', calc);
+    function resetAll() {
+      document.getElementById('tax-form').reset();
+      $('#includeStdDeduction').checked = true;
+      $('#isMetro').checked = false;
+      $('#surchargeToggle').checked = false;
+      $('#regime').value = 'compare';
+      history.replaceState({}, '', location.pathname);
+      localStorage.removeItem('itc:last');
+      $('#results').innerHTML = '';
+    }
+
+    // Bind
+    document.addEventListener('DOMContentLoaded', () => {
+      loadFromURLOrMemory();
+
+      const calc = () => {
+        const income = getVal('annualIncome');
+        const includeStd = $('#includeStdDeduction').checked;
+        const regimeMode = $('#regime').value;
+        const applySurcharge = $('#surchargeToggle').checked;
+
+        const results = compute({ income, includeStd, regimeMode, applySurcharge });
+        render(results, income, includeStd, regimeMode);
+        syncURL();
+      };
+
+      document.getElementById('calcBtn').addEventListener('click', calc);
+      ['annualIncome', 'sec80c', 'sec80d', 'nps1b', 'basic', 'hraRecv', 'rentPaid', 'homeLoanInt'].forEach(id => {
+        document.getElementById(id).addEventListener('input', calc);
+      });
+      ['includeStdDeduction', 'isMetro', 'surchargeToggle', 'regime'].forEach(id => {
+        document.getElementById(id).addEventListener('change', calc);
+      });
+
+      document.getElementById('csvBtn').addEventListener('click', () => {
+        const income = getVal('annualIncome');
+        if (!income) return alert('Please enter income first.');
+        const includeStd = $('#includeStdDeduction').checked;
+        const regimeMode = $('#regime').value;
+        const applySurcharge = $('#surchargeToggle').checked;
+        const results = compute({ income, includeStd, regimeMode, applySurcharge });
+        const csv = toCSV(results, income);
+        const blob = new Blob([csv], { type: 'text/csv' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'income-tax-calculation.csv';
+        a.click();
+        URL.revokeObjectURL(a.href);
+      });
+
+      document.getElementById('shareBtn').addEventListener('click', shareLink);
+      document.getElementById('resetBtn').addEventListener('click', resetAll);
+
+      // Auto-calc on load if income given
+      if (getVal('annualIncome')) calc();
     });
-    ['includeStdDeduction','isMetro','surchargeToggle','regime'].forEach(id=>{
-      document.getElementById(id).addEventListener('change', calc);
-    });
-
-    document.getElementById('csvBtn').addEventListener('click', ()=>{
-      const income = getVal('annualIncome');
-      if (!income) return alert('Please enter income first.');
-      const includeStd = $('#includeStdDeduction').checked;
-      const regimeMode = $('#regime').value;
-      const applySurcharge = $('#surchargeToggle').checked;
-      const results = compute({ income, includeStd, regimeMode, applySurcharge });
-      const csv = toCSV(results, income);
-      const blob = new Blob([csv], {type:'text/csv'});
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = 'income-tax-calculation.csv';
-      a.click();
-      URL.revokeObjectURL(a.href);
-    });
-
-    document.getElementById('shareBtn').addEventListener('click', shareLink);
-    document.getElementById('resetBtn').addEventListener('click', resetAll);
-
-    // Auto-calc on load if income given
-    if (getVal('annualIncome')) calc();
-  });
   </script>
 </body>
+
 </html>
-
-

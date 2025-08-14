@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -8,13 +9,14 @@
 
   <!-- SEO: detailed description (what/why/how) -->
   <meta name="description"
-        content="Free EMI Calculator for quick, private loan planning. Enter loan amount, rate, and tenure to get monthly EMI, total interest, and payoff schedule. Compare two loans, add a one-time prepayment, export amortization as CSV, and share a permalink. Works offline, no sign-ups." />
+    content="Free EMI Calculator for quick, private loan planning. Enter loan amount, rate, and tenure to get monthly EMI, total interest, and payoff schedule. Compare two loans, add a one-time prepayment, export amortization as CSV, and share a permalink. Works offline, no sign-ups." />
 
   <link rel="canonical" href="https://www.uptools.in/emi-calculator/" />
 
   <!-- Open Graph / Twitter -->
   <meta property="og:title" content="EMI Calculator – Loan EMI, Interest & Amortization" />
-  <meta property="og:description" content="Calculate EMI, total interest, and payoff schedule. Add prepayment, compare loans, export CSV, and share a permalink. Fast, private, no sign-ups." />
+  <meta property="og:description"
+    content="Calculate EMI, total interest, and payoff schedule. Add prepayment, compare loans, export CSV, and share a permalink. Fast, private, no sign-ups." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.uptools.in/emi-calculator/" />
   <meta property="og:site_name" content="UpTools" />
@@ -24,18 +26,16 @@
   <link rel="icon" type="image/svg+xml" href="/assets/uptools-mark.svg" />
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/uptools-mark.svg" />
 
-  <!-- Use the shared, common CSS only -->
-  <link rel="stylesheet" href="/style.css?v=1.0.0" />
-
-  <!-- Page color scheme (unique per tool) -->
+  <link rel="stylesheet" href="/style.css">
   <style>
-    :root{
-      /* Indigo → Violet with teal accent (unique to EMI) */
-      --bg1:#0b1020;      /* override page bg start */
-      --bg2:#141a33;      /* override page bg end */
-      --accent:#8b5cf6;   /* primary accent (indigo/violet) */
+    :root {
+      --accent: #c4b5fd;
+      --bg1: #150f1e;
+      --bg2: #261c3b;
+      --cardBorder: #5b21b6;
     }
   </style>
+
 
   <!-- JSON-LD: WebApplication + Breadcrumbs + FAQ -->
   <script type="application/ld+json">
@@ -111,7 +111,8 @@
       <div class="tool-icon" aria-hidden="true">💳</div>
       <div>
         <h1 id="page-title">EMI Calculator</h1>
-        <div class="note">Compute monthly EMI, total interest, and amortization. Add prepayment, compare two loans, export CSV, and share a permalink.</div>
+        <div class="note">Compute monthly EMI, total interest, and amortization. Add prepayment, compare two loans,
+          export CSV, and share a permalink.</div>
       </div>
     </div>
 
@@ -132,7 +133,8 @@
 
         <div>
           <label class="label" for="rate">Annual Interest (%)</label>
-          <input id="rate" class="input" type="number" min="0" step="0.01" inputmode="decimal" placeholder="e.g., 9.5" />
+          <input id="rate" class="input" type="number" min="0" step="0.01" inputmode="decimal"
+            placeholder="e.g., 9.5" />
           <div class="chips" style="margin-top:8px;">
             <button class="chip" data-fill="rate" data-val="8.5">8.5%</button>
             <button class="chip" data-fill="rate" data-val="9">9%</button>
@@ -143,7 +145,8 @@
         <div>
           <label class="label" for="tenure">Tenure</label>
           <div class="flex" style="gap:8px;">
-            <input id="tenure" class="input" type="number" min="1" step="1" inputmode="numeric" placeholder="e.g., 240" />
+            <input id="tenure" class="input" type="number" min="1" step="1" inputmode="numeric"
+              placeholder="e.g., 240" />
             <select id="tenureUnit" class="input" style="max-width:140px;">
               <option value="months">Months</option>
               <option value="years">Years</option>
@@ -223,7 +226,8 @@
     <section class="card" aria-labelledby="about-title">
       <h2 id="about-title">About this EMI Calculator</h2>
       <p class="note">
-        This EMI calculator uses the standard reducing-balance formula to compute your monthly payment. Results are instant and calculated in your browser. Nothing is stored or uploaded.
+        This EMI calculator uses the standard reducing-balance formula to compute your monthly payment. Results are
+        instant and calculated in your browser. Nothing is stored or uploaded.
       </p>
       <details>
         <summary>📘 How to use</summary>
@@ -245,258 +249,261 @@
         </ul>
         <p>If r = 0, EMI = P ÷ n.</p>
       </details>
-      <p class="note">Related: <a href="/fd-calculator/">FD Calculator</a> · <a href="/sip-calculator/">SIP Calculator</a> · <a href="/income-tax-tool/">Income Tax Calculator</a></p>
+      <p class="note">Related: <a href="/fd-calculator/">FD Calculator</a> · <a href="/sip-calculator/">SIP
+          Calculator</a> · <a href="/income-tax-tool/">Income Tax Calculator</a></p>
     </section>
 
     <footer class="note small site-footer" role="contentinfo">
-      © <span id="y"></span> UpTools · <a href="/about/">About</a> · <a href="/contact/">Contact</a> · <a href="/sitemap.xml">Sitemap</a> · <a href="/robots.txt">Robots</a>
+      © <span id="y"></span> UpTools · <a href="/about/">About</a> · <a href="/contact/">Contact</a> · <a
+        href="/sitemap.xml">Sitemap</a> · <a href="/robots.txt">Robots</a>
     </footer>
   </main>
 
   <script defer>
-  (function(){
-    const $ = id => document.getElementById(id);
-    const fmt = n => isFinite(n) ? "₹" + Number(n).toLocaleString("en-IN", {maximumFractionDigits:0}) : "-";
-    const fmt2 = n => isFinite(n) ? "₹" + Number(n).toLocaleString("en-IN", {minimumFractionDigits:2, maximumFractionDigits:2}) : "-";
+    (function () {
+      const $ = id => document.getElementById(id);
+      const fmt = n => isFinite(n) ? "₹" + Number(n).toLocaleString("en-IN", { maximumFractionDigits: 0 }) : "-";
+      const fmt2 = n => isFinite(n) ? "₹" + Number(n).toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : "-";
 
-    const amount=$("amount"), rate=$("rate"), tenure=$("tenure"), tenureUnit=$("tenureUnit");
-    const prepayMonth=$("prepayMonth"), prepayAmount=$("prepayAmount");
-    const amount2=$("amount2"), rate2=$("rate2"), tenure2=$("tenure2");
+      const amount = $("amount"), rate = $("rate"), tenure = $("tenure"), tenureUnit = $("tenureUnit");
+      const prepayMonth = $("prepayMonth"), prepayAmount = $("prepayAmount");
+      const amount2 = $("amount2"), rate2 = $("rate2"), tenure2 = $("tenure2");
 
-    const emiOut=$("emi"), interestOut=$("interest"), totalOut=$("total"), monthsOut=$("monthsOut");
-    const emi2Out=$("emi2"), interest2Out=$("interest2"), diffIntOut=$("diffInt");
-    const compareBox=$("compareBox"), scheduleWrap=$("scheduleWrap"), scheduleDiv=$("schedule");
+      const emiOut = $("emi"), interestOut = $("interest"), totalOut = $("total"), monthsOut = $("monthsOut");
+      const emi2Out = $("emi2"), interest2Out = $("interest2"), diffIntOut = $("diffInt");
+      const compareBox = $("compareBox"), scheduleWrap = $("scheduleWrap"), scheduleDiv = $("schedule");
 
-    const calcBtn=$("calcBtn"), resetBtn=$("resetBtn"), shareBtn=$("shareBtn"), csvBtn=$("csvBtn"), toggleSchedule=$("toggleSchedule");
+      const calcBtn = $("calcBtn"), resetBtn = $("resetBtn"), shareBtn = $("shareBtn"), csvBtn = $("csvBtn"), toggleSchedule = $("toggleSchedule");
 
-    // Fill chips
-    document.querySelectorAll(".chip[data-fill]").forEach(chip=>{
-      chip.addEventListener("click", ()=>{
-        const field = chip.getAttribute("data-fill");
-        const val = chip.getAttribute("data-val");
-        const unit = chip.getAttribute("data-unit");
-        if(field==="tenure" && unit) { tenureUnit.value = unit; }
-        const el = $(field);
-        if(el){ el.value = val; }
-        calc();
-      }, {passive:true});
-    });
+      // Fill chips
+      document.querySelectorAll(".chip[data-fill]").forEach(chip => {
+        chip.addEventListener("click", () => {
+          const field = chip.getAttribute("data-fill");
+          const val = chip.getAttribute("data-val");
+          const unit = chip.getAttribute("data-unit");
+          if (field === "tenure" && unit) { tenureUnit.value = unit; }
+          const el = $(field);
+          if (el) { el.value = val; }
+          calc();
+        }, { passive: true });
+      });
 
-    // URL sync (query params) for shareability
-    function readQuery(){
-      const q = new URLSearchParams(location.search);
-      if(q.has("p")) amount.value = q.get("p");
-      if(q.has("r")) rate.value = q.get("r");
-      if(q.has("n")) { tenure.value = q.get("n"); tenureUnit.value="months"; }
-      if(q.has("y")) { tenure.value = q.get("y"); tenureUnit.value="years"; }
-      if(q.has("pm")) prepayMonth.value = q.get("pm");
-      if(q.has("pa")) prepayAmount.value = q.get("pa");
-      if(q.has("p2")) amount2.value = q.get("p2");
-      if(q.has("r2")) rate2.value = q.get("r2");
-      if(q.has("n2")) tenure2.value = q.get("n2");
-    }
-    function writeQuery(){
-      const q = new URLSearchParams();
-      if(amount.value) q.set("p", amount.value);
-      if(rate.value) q.set("r", rate.value);
-      const months = tenureUnit.value==="years" ? (Number(tenure.value||0)*12) : Number(tenure.value||0);
-      if(months) q.set("n", String(months));
-      if(prepayMonth.value) q.set("pm", prepayMonth.value);
-      if(prepayAmount.value) q.set("pa", prepayAmount.value);
-      if(amount2.value) q.set("p2", amount2.value);
-      if(rate2.value) q.set("r2", rate2.value);
-      if(tenure2.value) q.set("n2", tenure2.value);
-      history.replaceState(null, "", "?" + q.toString());
-      return location.href;
-    }
-
-    // Core EMI calc
-    function compute(p, annualRate, months){
-      p = Number(p||0); annualRate = Number(annualRate||0); months = Math.max(1, Number(months||0));
-      const r = annualRate/12/100;
-      let emi, total, interest;
-      if(r===0){
-        emi = p / months;
-      }else{
-        const pow = Math.pow(1+r, months);
-        emi = p * r * pow / (pow - 1);
+      // URL sync (query params) for shareability
+      function readQuery() {
+        const q = new URLSearchParams(location.search);
+        if (q.has("p")) amount.value = q.get("p");
+        if (q.has("r")) rate.value = q.get("r");
+        if (q.has("n")) { tenure.value = q.get("n"); tenureUnit.value = "months"; }
+        if (q.has("y")) { tenure.value = q.get("y"); tenureUnit.value = "years"; }
+        if (q.has("pm")) prepayMonth.value = q.get("pm");
+        if (q.has("pa")) prepayAmount.value = q.get("pa");
+        if (q.has("p2")) amount2.value = q.get("p2");
+        if (q.has("r2")) rate2.value = q.get("r2");
+        if (q.has("n2")) tenure2.value = q.get("n2");
       }
-      total = emi * months;
-      interest = total - p;
-      return { emi, total, interest, months, r, p };
-    }
-
-    // Build amortization, with optional prepayment (single one-time)
-    function buildSchedule(p, r, months, emi, prepayAtMonth, prepayAmt){
-      let bal = p;
-      let rows = [];
-      let m = 0;
-      while(bal > 0 && m < 1200){ // hard cap for sanity
-        m++;
-        let interest = r===0 ? 0 : bal*r;
-        let principal = emi - interest;
-        if(principal < 0){ // guard if rate too high for given EMI
-          principal = 0;
-        }
-        let newBal = bal - principal;
-
-        if(prepayAtMonth && prepayAmt && m === prepayAtMonth){
-          newBal = Math.max(0, newBal - prepayAmt);
-        }
-
-        // last row correction
-        if(newBal < 0){
-          principal += newBal; // reduce principal by negative overpay
-          newBal = 0;
-        }
-        rows.push({m, opening: bal, interest, principal, emi: newBal>0 ? emi : (principal+interest), closing: newBal});
-        bal = newBal;
-
-        if(months && m >= months && prepayAmt>0){
-          // If original tenure reached but prepayment happened, continue until closure
-          months = 0; // allow loop to continue to natural closure
-        }
-        if(months && prepayAmt===0 && m >= months) break; // fixed tenure
+      function writeQuery() {
+        const q = new URLSearchParams();
+        if (amount.value) q.set("p", amount.value);
+        if (rate.value) q.set("r", rate.value);
+        const months = tenureUnit.value === "years" ? (Number(tenure.value || 0) * 12) : Number(tenure.value || 0);
+        if (months) q.set("n", String(months));
+        if (prepayMonth.value) q.set("pm", prepayMonth.value);
+        if (prepayAmount.value) q.set("pa", prepayAmount.value);
+        if (amount2.value) q.set("p2", amount2.value);
+        if (rate2.value) q.set("r2", rate2.value);
+        if (tenure2.value) q.set("n2", tenure2.value);
+        history.replaceState(null, "", "?" + q.toString());
+        return location.href;
       }
-      return rows;
-    }
 
-    function calc(){
-      const P = Number(amount.value||0);
-      const R = Number(rate.value||0);
-      const n = tenureUnit.value==="years" ? Number(tenure.value||0)*12 : Number(tenure.value||0);
-      const pm = Number(prepayMonth.value||0);
-      const pa = Number(prepayAmount.value||0);
+      // Core EMI calc
+      function compute(p, annualRate, months) {
+        p = Number(p || 0); annualRate = Number(annualRate || 0); months = Math.max(1, Number(months || 0));
+        const r = annualRate / 12 / 100;
+        let emi, total, interest;
+        if (r === 0) {
+          emi = p / months;
+        } else {
+          const pow = Math.pow(1 + r, months);
+          emi = p * r * pow / (pow - 1);
+        }
+        total = emi * months;
+        interest = total - p;
+        return { emi, total, interest, months, r, p };
+      }
 
-      if(!(P>0 && R>=0 && n>0)){
-        emiOut.textContent = interestOut.textContent = totalOut.textContent = monthsOut.textContent = "-";
-        scheduleDiv.textContent = "Enter valid numbers to calculate.";
+      // Build amortization, with optional prepayment (single one-time)
+      function buildSchedule(p, r, months, emi, prepayAtMonth, prepayAmt) {
+        let bal = p;
+        let rows = [];
+        let m = 0;
+        while (bal > 0 && m < 1200) { // hard cap for sanity
+          m++;
+          let interest = r === 0 ? 0 : bal * r;
+          let principal = emi - interest;
+          if (principal < 0) { // guard if rate too high for given EMI
+            principal = 0;
+          }
+          let newBal = bal - principal;
+
+          if (prepayAtMonth && prepayAmt && m === prepayAtMonth) {
+            newBal = Math.max(0, newBal - prepayAmt);
+          }
+
+          // last row correction
+          if (newBal < 0) {
+            principal += newBal; // reduce principal by negative overpay
+            newBal = 0;
+          }
+          rows.push({ m, opening: bal, interest, principal, emi: newBal > 0 ? emi : (principal + interest), closing: newBal });
+          bal = newBal;
+
+          if (months && m >= months && prepayAmt > 0) {
+            // If original tenure reached but prepayment happened, continue until closure
+            months = 0; // allow loop to continue to natural closure
+          }
+          if (months && prepayAmt === 0 && m >= months) break; // fixed tenure
+        }
+        return rows;
+      }
+
+      function calc() {
+        const P = Number(amount.value || 0);
+        const R = Number(rate.value || 0);
+        const n = tenureUnit.value === "years" ? Number(tenure.value || 0) * 12 : Number(tenure.value || 0);
+        const pm = Number(prepayMonth.value || 0);
+        const pa = Number(prepayAmount.value || 0);
+
+        if (!(P > 0 && R >= 0 && n > 0)) {
+          emiOut.textContent = interestOut.textContent = totalOut.textContent = monthsOut.textContent = "-";
+          scheduleDiv.textContent = "Enter valid numbers to calculate.";
+          scheduleWrap.classList.add("hidden");
+          compareBox.style.display = "none";
+          return;
+        }
+
+        // Base compute
+        const base = compute(P, R, n);
+        let rows = buildSchedule(base.p, base.r, base.months, base.emi, pm > 0 ? pm : 0, pa > 0 ? pa : 0);
+
+        // If prepayment reduces months, recompute stats from rows
+        const monthsActual = rows.length;
+        const paidTotal = rows.reduce((s, x) => s + x.emi, 0);
+        const interestTotal = paidTotal - P;
+
+        emiOut.textContent = fmt2(base.emi);
+        interestOut.textContent = fmt2(interestTotal);
+        totalOut.textContent = fmt2(paidTotal);
+        monthsOut.textContent = String(monthsActual);
+
+        // Compare (Loan B)
+        let hasB = Number(amount2.value) > 0 && Number(rate2.value) >= 0 && Number(tenure2.value) > 0;
+        if (hasB) {
+          const b = compute(Number(amount2.value), Number(rate2.value), Number(tenure2.value));
+          emi2Out.textContent = fmt2(b.emi);
+          interest2Out.textContent = fmt2(b.total - Number(amount2.value));
+          diffIntOut.textContent = fmt2((b.total - Number(amount2.value)) - interestTotal);
+          compareBox.style.display = "";
+        } else {
+          compareBox.style.display = "none";
+        }
+
+        // Schedule rendering (deferred until shown)
+        scheduleDiv.dataset.rows = JSON.stringify(rows.map(r => ({
+          m: r.m, opening: r.opening, interest: r.interest, principal: r.principal, emi: r.emi, closing: r.closing
+        })));
+
+        writeQuery(); // keep URL in sync
+      }
+
+      function renderSchedule() {
+        const dataStr = scheduleDiv.dataset.rows;
+        if (!dataStr) { scheduleDiv.textContent = "Run a calculation to see your schedule."; return; }
+        const rows = JSON.parse(dataStr);
+
+        // Build a lightweight table (no external CSS)
+        let html = '<div class="muted" style="overflow:auto; max-height:520px;">';
+        html += '<table style="width:100%; border-collapse:collapse; font-size:12px;">';
+        html += '<thead><tr>';
+        ["Month", "Opening", "Interest", "Principal", "EMI", "Closing"].forEach(h => {
+          html += `<th style="position:sticky; top:0; background:var(--bg); border-bottom:1px solid var(--cardBorder); text-align:right; padding:8px;">${h}</th>`;
+        });
+        html += '</tr></thead><tbody>';
+        rows.forEach(r => {
+          html += '<tr>';
+          html += `<td style="padding:6px; border-bottom:1px solid rgba(255,255,255,.05); text-align:right;">${r.m}</td>`;
+          html += `<td style="padding:6px; border-bottom:1px solid rgba(255,255,255,.05); text-align:right;">${fmt2(r.opening)}</td>`;
+          html += `<td style="padding:6px; border-bottom:1px solid rgba(255,255,255,.05); text-align:right;">${fmt2(r.interest)}</td>`;
+          html += `<td style="padding:6px; border-bottom:1px solid rgba(255,255,255,.05); text-align:right;">${fmt2(r.principal)}</td>`;
+          html += `<td style="padding:6px; border-bottom:1px solid rgba(255,255,255,.05); text-align:right;">${fmt2(r.emi)}</td>`;
+          html += `<td style="padding:6px; border-bottom:1px solid rgba(255,255,255,.05); text-align:right;">${fmt2(r.closing)}</td>`;
+          html += '</tr>';
+        });
+        html += '</tbody></table></div>';
+        scheduleDiv.innerHTML = html;
+      }
+
+      // CSV export
+      function toCSV() {
+        const dataStr = scheduleDiv.dataset.rows;
+        if (!dataStr) { alert("Please calculate first."); return; }
+        const rows = JSON.parse(dataStr);
+        const hdr = ["Month", "Opening", "Interest", "Principal", "EMI", "Closing"];
+        const csv = [hdr.join(",")].concat(rows.map(r => [
+          r.m, r.opening.toFixed(2), r.interest.toFixed(2), r.principal.toFixed(2), r.emi.toFixed(2), r.closing.toFixed(2)
+        ].join(","))).join("\n");
+        const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        a.download = "emi_schedule.csv";
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        URL.revokeObjectURL(url);
+      }
+
+      // Share link
+      function copyShare() {
+        const url = writeQuery();
+        navigator.clipboard.writeText(url).then(() => {
+          shareBtn.textContent = "✅ Link Copied";
+          setTimeout(() => shareBtn.textContent = "🔗 Copy Share Link", 1200);
+        });
+      }
+
+      // Toggle schedule
+      let scheduleShown = false;
+      toggleSchedule.addEventListener("click", () => {
+        scheduleShown = !scheduleShown;
+        toggleSchedule.textContent = scheduleShown ? "📄 Hide Amortization Schedule" : "📄 Show Amortization Schedule";
+        scheduleWrap.classList.toggle("hidden", !scheduleShown);
+        if (scheduleShown) { renderSchedule(); }
+      });
+
+      // Events
+      [amount, rate, tenure, tenureUnit, prepayMonth, prepayAmount, amount2, rate2, tenure2].forEach(el => {
+        el.addEventListener("input", () => { /* debounce-lite */ window.clearTimeout(el._t); el._t = setTimeout(calc, 120); }, { passive: true });
+      });
+      calcBtn.addEventListener("click", calc);
+      resetBtn.addEventListener("click", () => {
+        [amount, rate, tenure, prepayMonth, prepayAmount, amount2, rate2, tenure2].forEach(el => el.value = "");
+        tenureUnit.value = "months";
+        compareBox.style.display = "none";
         scheduleWrap.classList.add("hidden");
-        compareBox.style.display = "none";
-        return;
-      }
-
-      // Base compute
-      const base = compute(P,R,n);
-      let rows = buildSchedule(base.p, base.r, base.months, base.emi, pm>0?pm:0, pa>0?pa:0);
-
-      // If prepayment reduces months, recompute stats from rows
-      const monthsActual = rows.length;
-      const paidTotal = rows.reduce((s,x)=>s + x.emi, 0);
-      const interestTotal = paidTotal - P;
-
-      emiOut.textContent = fmt2(base.emi);
-      interestOut.textContent = fmt2(interestTotal);
-      totalOut.textContent = fmt2(paidTotal);
-      monthsOut.textContent = String(monthsActual);
-
-      // Compare (Loan B)
-      let hasB = Number(amount2.value)>0 && Number(rate2.value)>=0 && Number(tenure2.value)>0;
-      if(hasB){
-        const b = compute(Number(amount2.value), Number(rate2.value), Number(tenure2.value));
-        emi2Out.textContent = fmt2(b.emi);
-        interest2Out.textContent = fmt2(b.total - Number(amount2.value));
-        diffIntOut.textContent = fmt2((b.total - Number(amount2.value)) - interestTotal);
-        compareBox.style.display = "";
-      }else{
-        compareBox.style.display = "none";
-      }
-
-      // Schedule rendering (deferred until shown)
-      scheduleDiv.dataset.rows = JSON.stringify(rows.map(r=>({
-        m:r.m, opening: r.opening, interest:r.interest, principal:r.principal, emi:r.emi, closing:r.closing
-      })));
-
-      writeQuery(); // keep URL in sync
-    }
-
-    function renderSchedule(){
-      const dataStr = scheduleDiv.dataset.rows;
-      if(!dataStr){ scheduleDiv.textContent="Run a calculation to see your schedule."; return; }
-      const rows = JSON.parse(dataStr);
-
-      // Build a lightweight table (no external CSS)
-      let html = '<div class="muted" style="overflow:auto; max-height:520px;">';
-      html += '<table style="width:100%; border-collapse:collapse; font-size:12px;">';
-      html += '<thead><tr>';
-      ["Month","Opening","Interest","Principal","EMI","Closing"].forEach(h=>{
-        html += `<th style="position:sticky; top:0; background:var(--bg); border-bottom:1px solid var(--cardBorder); text-align:right; padding:8px;">${h}</th>`;
+        scheduleDiv.textContent = "Run a calculation to see your schedule.";
+        history.replaceState(null, "", location.pathname);
+        calc();
       });
-      html += '</tr></thead><tbody>';
-      rows.forEach(r=>{
-        html += '<tr>';
-        html += `<td style="padding:6px; border-bottom:1px solid rgba(255,255,255,.05); text-align:right;">${r.m}</td>`;
-        html += `<td style="padding:6px; border-bottom:1px solid rgba(255,255,255,.05); text-align:right;">${fmt2(r.opening)}</td>`;
-        html += `<td style="padding:6px; border-bottom:1px solid rgba(255,255,255,.05); text-align:right;">${fmt2(r.interest)}</td>`;
-        html += `<td style="padding:6px; border-bottom:1px solid rgba(255,255,255,.05); text-align:right;">${fmt2(r.principal)}</td>`;
-        html += `<td style="padding:6px; border-bottom:1px solid rgba(255,255,255,.05); text-align:right;">${fmt2(r.emi)}</td>`;
-        html += `<td style="padding:6px; border-bottom:1px solid rgba(255,255,255,.05); text-align:right;">${fmt2(r.closing)}</td>`;
-        html += '</tr>';
-      });
-      html += '</tbody></table></div>';
-      scheduleDiv.innerHTML = html;
-    }
+      csvBtn.addEventListener("click", toCSV);
+      shareBtn.addEventListener("click", copyShare);
 
-    // CSV export
-    function toCSV(){
-      const dataStr = scheduleDiv.dataset.rows;
-      if(!dataStr){ alert("Please calculate first."); return; }
-      const rows = JSON.parse(dataStr);
-      const hdr = ["Month","Opening","Interest","Principal","EMI","Closing"];
-      const csv = [hdr.join(",")].concat(rows.map(r=>[
-        r.m, r.opening.toFixed(2), r.interest.toFixed(2), r.principal.toFixed(2), r.emi.toFixed(2), r.closing.toFixed(2)
-      ].join(","))).join("\n");
-      const blob = new Blob([csv], {type:"text/csv;charset=utf-8"});
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "emi_schedule.csv";
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      URL.revokeObjectURL(url);
-    }
-
-    // Share link
-    function copyShare(){
-      const url = writeQuery();
-      navigator.clipboard.writeText(url).then(()=> {
-        shareBtn.textContent = "✅ Link Copied";
-        setTimeout(()=>shareBtn.textContent="🔗 Copy Share Link", 1200);
-      });
-    }
-
-    // Toggle schedule
-    let scheduleShown = false;
-    toggleSchedule.addEventListener("click", ()=>{
-      scheduleShown = !scheduleShown;
-      toggleSchedule.textContent = scheduleShown ? "📄 Hide Amortization Schedule" : "📄 Show Amortization Schedule";
-      scheduleWrap.classList.toggle("hidden", !scheduleShown);
-      if(scheduleShown){ renderSchedule(); }
-    });
-
-    // Events
-    [amount,rate,tenure,tenureUnit,prepayMonth,prepayAmount,amount2,rate2,tenure2].forEach(el=>{
-      el.addEventListener("input", ()=>{ /* debounce-lite */ window.clearTimeout(el._t); el._t=setTimeout(calc, 120); }, {passive:true});
-    });
-    calcBtn.addEventListener("click", calc);
-    resetBtn.addEventListener("click", ()=>{
-      [amount,rate,tenure,prepayMonth,prepayAmount,amount2,rate2,tenure2].forEach(el=>el.value="");
-      tenureUnit.value="months";
-      compareBox.style.display="none";
-      scheduleWrap.classList.add("hidden");
-      scheduleDiv.textContent="Run a calculation to see your schedule.";
-      history.replaceState(null,"",location.pathname);
-      calc();
-    });
-    csvBtn.addEventListener("click", toCSV);
-    shareBtn.addEventListener("click", copyShare);
-
-    // Init
-    $("y").textContent = new Date().getFullYear();
-    readQuery();
-    if(amount.value && rate.value && (tenure.value)) calc();
-  })();
+      // Init
+      $("y").textContent = new Date().getFullYear();
+      readQuery();
+      if (amount.value && rate.value && (tenure.value)) calc();
+    })();
   </script>
 </body>
+
 </html>

@@ -8,7 +8,7 @@
   },
   "build": {
     "command": "npm run build",
-    "watch_dir": [
+"watch_dir": [
       "src",
       "style.css",
       "index.html",
@@ -18,7 +18,6 @@
       "canada-crs-tool",
       "gst-calculator",
       "currency-converter",
-      "date-difference",
       "pan-validator",
       "ifsc-finder",
       "ip-address",
