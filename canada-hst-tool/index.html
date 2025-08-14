@@ -1,14 +1,17 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <!-- Ads (optional) -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617" crossorigin="anonymous"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617"
+    crossorigin="anonymous"></script>
 
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <title>GST/HST Calculator for Canada - Add or Remove Tax by Province | UpTools</title>
-  <meta name="description" content="Fast Canadian GST/HST calculator. Enter amount and province to add or remove tax. Supports HST provinces (ON, NS, NL, NB, PE) and GST with optional PST/QST for BC, MB, SK, QC. Shareable link, exact breakdown, print/export. Privacy‑first." />
+  <meta name="description"
+    content="Fast Canadian GST/HST calculator. Enter amount and province to add or remove tax. Supports HST provinces (ON, NS, NL, NB, PE) and GST with optional PST/QST for BC, MB, SK, QC. Shareable link, exact breakdown, print/export. Privacy‑first." />
   <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
   <meta name="theme-color" content="#0f1419" />
 
@@ -16,7 +19,8 @@
 
   <!-- Open Graph / Twitter -->
   <meta property="og:title" content="GST/HST Calculator for Canada - Add or Remove Tax by Province" />
-  <meta property="og:description" content="Instant GST/HST by province with optional PST/QST. Add or remove tax, get a full breakdown, and share a permalink." />
+  <meta property="og:description"
+    content="Instant GST/HST by province with optional PST/QST. Add or remove tax, get a full breakdown, and share a permalink." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.uptools.in/canada-hst-tool/" />
   <meta property="og:site_name" content="UpTools" />
@@ -27,18 +31,76 @@
   <link rel="icon" type="image/svg+xml" href="/assets/uptools-mark.svg" />
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/uptools-mark.svg" />
 
-  <!-- Styles -->
-  <link rel="stylesheet" href="/style.css?v=1.0.1" />
-
-  <!-- Per‑tool accent color (green = money vibes) -->
+  <!-- 1) Inline ONLY tiny critical rules (below) -->
   <style>
-    :root{
-      --accent:#22C55E; /* emerald/green */
-      /* optional tint */
-      /* --bg2:#122019; */
+    :root {
+      --bg: #0f1419;
+      --surface: #121826;
+      --text: #e6edf3;
+      --muted: #9aa4b2;
+      --brand: #7aa2ff;
+      --radius: .75rem
     }
-    /* Compact tweaks are already in your style.css; nothing else needed */
+
+    * {
+      box-sizing: border-box
+    }
+
+    html {
+      color-scheme: dark light;
+      -webkit-text-size-adjust: 100%
+    }
+
+    body {
+      margin: 0;
+      font: 400 16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, "Noto Sans", sans-serif;
+      background: var(--bg);
+      color: var(--text)
+    }
+
+    img,
+    svg,
+    video {
+      max-width: 100%;
+      height: auto
+    }
+
+    .container {
+      width: min(100% - 24px, 1120px);
+      margin-inline: auto
+    }
+
+    a {
+      color: var(--brand);
+      text-decoration-thickness: .08em;
+      text-underline-offset: .18em
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid #212a3a;
+      border-radius: var(--radius);
+      padding: 1rem
+    }
+
+    .btn {
+      display: inline-block;
+      padding: .65rem .9rem;
+      border-radius: var(--radius);
+      background: var(--brand);
+      color: #0b1020;
+      border: 0;
+      font-weight: 600
+    }
   </style>
+
+  <!-- 2) Load full stylesheet without blocking first paint -->
+  <link rel="preload" href="/style.css?v=1.1.0" as="style">
+  <link rel="stylesheet" href="/style.css?v=1.1.0" media="print" onload="this.media='all'">
+  <noscript>
+    <link rel="stylesheet" href="/style.css?v=1.1.0">
+  </noscript>
+
 
   <!-- Breadcrumbs JSON‑LD -->
   <script type="application/ld+json">
@@ -97,6 +159,7 @@
   }
   </script>
 </head>
+
 <body>
   <a href="#main" class="sr-only">Skip to content</a>
 
@@ -122,7 +185,8 @@
       <span class="tool-icon" aria-hidden="true">💵</span>
       <div>
         <h1 style="margin:0 0 4px;">GST/HST Calculator (Canada)</h1>
-        <p class="note" style="margin:0;">Add or remove tax by province — supports HST provinces and GST with optional PST/QST. Privacy‑first, fast, and shareable.</p>
+        <p class="note" style="margin:0;">Add or remove tax by province — supports HST provinces and GST with optional
+          PST/QST. Privacy‑first, fast, and shareable.</p>
       </div>
       <a class="back-btn" href="/" aria-label="Back to home">←</a>
     </div>
@@ -158,7 +222,8 @@
 
             <div>
               <label class="label" for="amount">Amount (CAD)</label>
-              <input class="input" id="amount" name="amount" type="number" min="0" step="0.01" placeholder="e.g., 100.00" required />
+              <input class="input" id="amount" name="amount" type="number" min="0" step="0.01"
+                placeholder="e.g., 100.00" required />
             </div>
 
             <div>
@@ -222,36 +287,54 @@
         <h2 id="res-head" style="margin:0 0 6px;">Breakdown</h2>
 
         <div id="result" class="result" aria-live="polite" aria-atomic="true" style="margin-top:8px;">
-          <div class="row"><div>Mode</div><div id="r-mode">—</div></div>
-          <div class="row"><div>Province</div><div id="r-prov">—</div></div>
-          <div class="row"><div>Effective tax rate</div><div id="r-rate">—</div></div>
+          <div class="row">
+            <div>Mode</div>
+            <div id="r-mode">—</div>
+          </div>
+          <div class="row">
+            <div>Province</div>
+            <div id="r-prov">—</div>
+          </div>
+          <div class="row">
+            <div>Effective tax rate</div>
+            <div id="r-rate">—</div>
+          </div>
           <div class="divider"></div>
           <div id="lines"></div>
           <div class="divider"></div>
-          <div class="row"><div>Subtotal (before tax)</div><div class="amount" id="r-sub">—</div></div>
-          <div class="row"><div>Total tax</div><div class="amount" id="r-tax">—</div></div>
-          <div class="row"><div><b>Total (after tax)</b></div><div class="amount" id="r-total">—</div></div>
-          <div class="note small" id="explain" style="margin-top:8px;">Enter amount and select province, then Calculate.</div>
+          <div class="row">
+            <div>Subtotal (before tax)</div>
+            <div class="amount" id="r-sub">—</div>
+          </div>
+          <div class="row">
+            <div>Total tax</div>
+            <div class="amount" id="r-tax">—</div>
+          </div>
+          <div class="row">
+            <div><b>Total (after tax)</b></div>
+            <div class="amount" id="r-total">—</div>
+          </div>
+          <div class="note small" id="explain" style="margin-top:8px;">Enter amount and select province, then Calculate.
+          </div>
         </div>
 
         <h3 style="margin-top:14px;">About GST/HST</h3>
         <p class="note">
-          Canada charges a 5% federal Goods and Services Tax (GST). Some provinces harmonize GST with provincial tax into a single HST (13%-15%). Others add a separate PST or QST.
+          Canada charges a 5% federal Goods and Services Tax (GST). Some provinces harmonize GST with provincial tax
+          into a single HST (13%-15%). Others add a separate PST or QST.
         </p>
 
         <!-- Lightweight illustrative image (replace with your own SVG if you like) -->
         <figure class="center" style="margin:10px 0;">
-          <img src="/assets/gst-canada.svg" alt="Canada GST/HST map illustration" width="360" height="180" loading="lazy">
+          <img src="/assets/gst-canada.svg" alt="Canada GST/HST map illustration" width="360" height="180"
+            loading="lazy">
           <figcaption class="muted">Illustration of GST/HST and provincial taxes.</figcaption>
         </figure>
 
         <!-- SEO-friendly video (replace VIDEO_ID with a relevant one later) -->
         <div class="card" style="padding:12px; margin-top:10px;">
           <div class="note" style="margin-bottom:8px;">Watch: GST/HST explained in 3 minutes</div>
-          <iframe
-            title="GST HST Explained"
-            width="100%" height="200"
-            loading="lazy" referrerpolicy="no-referrer"
+          <iframe title="GST HST Explained" width="100%" height="200" loading="lazy" referrerpolicy="no-referrer"
             src="https://www.youtube-nocookie.com/embed/VIDEO_ID?rel=0&modestbranding=1"
             style="border:0;border-radius:8px"></iframe>
           <div class="note small">Replace <code>VIDEO_ID</code> with your preferred explainer video ID.</div>
@@ -259,8 +342,11 @@
 
         <h3 style="margin-top:14px;">Authoritative links</h3>
         <ul>
-          <li><a href="https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/gst-hst.html" rel="nofollow noopener" target="_blank">CRA: GST/HST overview</a></li>
-          <li><a href="https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/gst-hst/collecting/gst-hst-rates.html" rel="nofollow noopener" target="_blank">CRA: GST/HST rates by province</a></li>
+          <li><a href="https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/gst-hst.html"
+              rel="nofollow noopener" target="_blank">CRA: GST/HST overview</a></li>
+          <li><a
+              href="https://www.canada.ca/en/revenue-agency/services/tax/businesses/topics/gst-hst/collecting/gst-hst-rates.html"
+              rel="nofollow noopener" target="_blank">CRA: GST/HST rates by province</a></li>
         </ul>
 
         <h3 style="margin-top:14px;">Related tools (internal)</h3>
@@ -277,15 +363,20 @@
     <section class="card" style="margin-top:16px;">
       <h2>Explore more on UpTools</h2>
       <ul class="tool-list">
-        <li><a class="tool-link accent-blue" href="/age-calculator/"><span class="ico">🎂</span><span>Age Calculator</span></a></li>
-        <li><a class="tool-link accent-violet" href="/gst-calculator/"><span class="ico">🧾</span><span>GST Calculator (India)</span></a></li>
-        <li><a class="tool-link accent-sky" href="/qr-generator/"><span class="ico">🔳</span><span>QR Code Generator</span></a></li>
-        <li><a class="tool-link accent-indigo" href="/json-formatter/"><span class="ico">🧩</span><span>JSON Formatter</span></a></li>
+        <li><a class="tool-link accent-blue" href="/age-calculator/"><span class="ico">🎂</span><span>Age
+              Calculator</span></a></li>
+        <li><a class="tool-link accent-violet" href="/gst-calculator/"><span class="ico">🧾</span><span>GST Calculator
+              (India)</span></a></li>
+        <li><a class="tool-link accent-sky" href="/qr-generator/"><span class="ico">🔳</span><span>QR Code
+              Generator</span></a></li>
+        <li><a class="tool-link accent-indigo" href="/json-formatter/"><span class="ico">🧩</span><span>JSON
+              Formatter</span></a></li>
       </ul>
     </section>
 
     <footer class="note small site-footer" role="contentinfo">
-      © <span id="y"></span> UpTools · <a href="/about/">About</a> · <a href="/contact/">Contact</a> · <a href="/sitemap.xml">Sitemap</a> · <a href="/robots.txt">Robots</a>
+      © <span id="y"></span> UpTools · <a href="/about/">About</a> · <a href="/contact/">Contact</a> · <a
+        href="/sitemap.xml">Sitemap</a> · <a href="/robots.txt">Robots</a>
     </footer>
   </main>
 
@@ -323,17 +414,17 @@
       mode: $("#r-mode"),
       prov: $("#r-prov"),
       rate: $("#r-rate"),
-      sub:  $("#r-sub"),
-      tax:  $("#r-tax"),
-      total:$("#r-total"),
-      lines:$("#lines"),
+      sub: $("#r-sub"),
+      tax: $("#r-tax"),
+      total: $("#r-total"),
+      lines: $("#lines"),
       explain: $("#explain")
     };
 
     // Utilities
     const r2 = (x) => Math.round((x + Number.EPSILON) * 100) / 100;
 
-    function getRates(pcode, includeProvSel){
+    function getRates(pcode, includeProvSel) {
       const p = TAX[pcode];
       let lines = [];
       let eff = 0;
@@ -346,9 +437,9 @@
         if (p.gst) { lines.push({ label: "GST", rate: p.gst }); eff += p.gst; }
 
         const include = (includeProvSel === "include") ||
-                        (includeProvSel === "auto" && ["QC","BC","MB","SK"].includes(pcode));
+          (includeProvSel === "auto" && ["QC", "BC", "MB", "SK"].includes(pcode));
 
-        if (include){
+        if (include) {
           if (p.pst) { lines.push({ label: "PST", rate: p.pst }); eff += p.pst; }
           if (p.rst) { lines.push({ label: "RST", rate: p.rst }); eff += p.rst; }
           if (p.qst) { lines.push({ label: "QST", rate: p.qst }); eff += p.qst; }
@@ -357,7 +448,7 @@
       return { lines, eff }; // eff is % (e.g., 13)
     }
 
-    function compute(fd){
+    function compute(fd) {
       const mode = fd.mode || "add";
       const amount = Math.max(0, num(fd.amount));
       const province = fd.province || "ON";
@@ -373,7 +464,7 @@
       if (mode === "add") {
         subtotal = amount;
         total = r2(subtotal * (1 + rateDec));
-        for (const ln of lines){
+        for (const ln of lines) {
           const t = r2(subtotal * (ln.rate / 100));
           parts.push({ ...ln, amount: t });
           taxTotal += t;
@@ -382,7 +473,7 @@
         // remove tax from tax-inclusive amount
         total = amount;
         subtotal = rateDec > 0 ? r2(total / (1 + rateDec)) : total;
-        for (const ln of lines){
+        for (const ln of lines) {
           const t = r2(subtotal * (ln.rate / 100));
           parts.push({ ...ln, amount: t });
           taxTotal += t;
@@ -395,12 +486,12 @@
       };
     }
 
-    function updateUI(res){
+    function updateUI(res) {
       // Province label
       const label = TAX[res.province]?.label ?? res.province;
       setText(out.mode, res.mode === "add" ? "Add tax" : "Remove tax");
       setText(out.prov, label);
-      setText(out.rate, res.eff ? fmtNum(res.eff, { maximumFractionDigits:3 }) + "%" : "0%");
+      setText(out.rate, res.eff ? fmtNum(res.eff, { maximumFractionDigits: 3 }) + "%" : "0%");
       setText(out.sub, fmtCur(res.subtotal, "CAD"));
       setText(out.tax, fmtCur(res.taxTotal, "CAD"));
       setText(out.total, fmtCur(res.total, "CAD"));
@@ -408,7 +499,7 @@
       // Build lines
       out.lines.innerHTML = res.parts.length
         ? res.parts.map(p =>
-          `<div class="kvi"><span>${p.label} (${fmtNum(p.rate, {maximumFractionDigits:3})}%)</span><span>${fmtCur(p.amount,"CAD")}</span></div>`
+          `<div class="kvi"><span>${p.label} (${fmtNum(p.rate, { maximumFractionDigits: 3 })}%)</span><span>${fmtCur(p.amount, "CAD")}</span></div>`
         ).join("")
         : `<div class="note small">No tax lines for the current selection.</div>`;
 
@@ -418,9 +509,9 @@
           : "Removed the tax from the total to show the before‑tax subtotal and tax amounts.";
     }
 
-    function toQuery(obj){ return new URLSearchParams(obj).toString(); }
+    function toQuery(obj) { return new URLSearchParams(obj).toString(); }
 
-    function run(){
+    function run() {
       const data = serializeForm(form);
       persist(FORM_KEY, data);
       const res = compute(data);
@@ -445,7 +536,7 @@
       form.reset();
       persist(FORM_KEY, {});
       history.replaceState(null, "", location.pathname);
-      updateUI({ mode:"add", province:"ON", eff:13, subtotal:0, total:0, taxTotal:0, parts:[{label:"HST", rate:13, amount:0}] });
+      updateUI({ mode: "add", province: "ON", eff: 13, subtotal: 0, total: 0, taxTotal: 0, parts: [{ label: "HST", rate: 13, amount: 0 }] });
     };
     $("#btn-clear").addEventListener("click", clearAll);
     $("#btn-clear-top").addEventListener("click", clearAll);
@@ -467,7 +558,7 @@
     $("#btn-print-2").addEventListener("click", doPrint);
 
     const exportJSON = () => {
-      const blob = new Blob([JSON.stringify(serializeForm(form), null, 2)], {type:"application/json"});
+      const blob = new Blob([JSON.stringify(serializeForm(form), null, 2)], { type: "application/json" });
       const a = document.createElement("a");
       a.href = URL.createObjectURL(blob);
       a.download = "gst-hst-inputs.json";
@@ -478,9 +569,9 @@
 
     const exportCSV = () => {
       const obj = serializeForm(form);
-      const rows = [["field","value"], ...Object.entries(obj)];
-      const csv = rows.map(r => r.map(v => `"${String(v).replace(/"/g,'""')}"`).join(",")).join("\n");
-      const blob = new Blob([csv], {type:"text/csv"});
+      const rows = [["field", "value"], ...Object.entries(obj)];
+      const csv = rows.map(r => r.map(v => `"${String(v).replace(/"/g, '""')}"`).join(",")).join("\n");
+      const blob = new Blob([csv], { type: "text/csv" });
       const a = document.createElement("a");
       a.href = URL.createObjectURL(blob);
       a.download = "gst-hst-inputs.csv";
@@ -490,7 +581,7 @@
     $("#btn-csv-2").addEventListener("click", exportCSV);
 
     // Restore saved + query params
-    (function init(){
+    (function init() {
       const saved = read(FORM_KEY, null);
       if (saved) { $$("input, select, textarea", form).forEach(i => { if (saved[i.name] != null) i.value = saved[i.name]; }); }
 
@@ -508,4 +599,5 @@
     })();
   </script>
 </body>
+
 </html>

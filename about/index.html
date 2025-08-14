@@ -1,29 +1,103 @@
 <!doctype html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>About UpTools - Fast, Privacy-First Web Tools (India & Beyond)</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>About UpTools - Fast, Privacy-First Web Tools (India & Beyond)</title>
 
-<meta name="description" content="UpTools is a fast, privacy-first collection of everyday web tools for India and beyond-tax & finance calculators, text/JSON utilities, converters, and mini games. No logins, lightweight pages, instant results." />
-<meta name="keywords" content="UpTools, free online tools, India calculators, income tax calculator India, GST calculator, EMI calculator, SIP calculator, IFSC finder, PAN validator, currency converter, JSON formatter, text converter, word counter, IP lookup, UUID generator, base64 encoder, QR generator" />
+  <meta name="description"
+    content="UpTools is a fast, privacy-first collection of everyday web tools for India and beyond-tax & finance calculators, text/JSON utilities, converters, and mini games. No logins, lightweight pages, instant results." />
+  <meta name="keywords"
+    content="UpTools, free online tools, India calculators, income tax calculator India, GST calculator, EMI calculator, SIP calculator, IFSC finder, PAN validator, currency converter, JSON formatter, text converter, word counter, IP lookup, UUID generator, base64 encoder, QR generator" />
 
-<link rel="canonical" href="https://www.uptools.in/about/">
-<link rel="icon" type="image/svg+xml" href="/assets/uptools-mark.svg">
+  <link rel="canonical" href="https://www.uptools.in/about/">
+  <link rel="icon" type="image/svg+xml" href="/assets/uptools-mark.svg">
 
-<!-- Open Graph / Twitter -->
-<meta property="og:type" content="website">
-<meta property="og:title" content="About UpTools - Fast, Privacy-First Web Tools" />
-<meta property="og:description" content="Lightweight, no-nonsense tools for finance, formatting, utilities, and mini games." />
-<meta property="og:url" content="https://www.uptools.in/about/">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="About UpTools - Fast, Privacy-First Web Tools">
-<meta name="twitter:description" content="Lightweight, no-nonsense tools for finance, formatting, utilities, and mini games.">
+  <!-- Open Graph / Twitter -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="About UpTools - Fast, Privacy-First Web Tools" />
+  <meta property="og:description"
+    content="Lightweight, no-nonsense tools for finance, formatting, utilities, and mini games." />
+  <meta property="og:url" content="https://www.uptools.in/about/">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="About UpTools - Fast, Privacy-First Web Tools">
+  <meta name="twitter:description"
+    content="Lightweight, no-nonsense tools for finance, formatting, utilities, and mini games.">
 
-<link rel="stylesheet" href="/style.css?v=1.0.0" />
+  <!-- 1) Inline ONLY tiny critical rules (below) -->
+  <style>
+    :root {
+      --bg: #0f1419;
+      --surface: #121826;
+      --text: #e6edf3;
+      --muted: #9aa4b2;
+      --brand: #7aa2ff;
+      --radius: .75rem
+    }
 
-<!-- Structured data: AboutPage + Organization + Breadcrumbs + ItemList (tools) + FAQ -->
-<script type="application/ld+json">
+    * {
+      box-sizing: border-box
+    }
+
+    html {
+      color-scheme: dark light;
+      -webkit-text-size-adjust: 100%
+    }
+
+    body {
+      margin: 0;
+      font: 400 16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, "Noto Sans", sans-serif;
+      background: var(--bg);
+      color: var(--text)
+    }
+
+    img,
+    svg,
+    video {
+      max-width: 100%;
+      height: auto
+    }
+
+    .container {
+      width: min(100% - 24px, 1120px);
+      margin-inline: auto
+    }
+
+    a {
+      color: var(--brand);
+      text-decoration-thickness: .08em;
+      text-underline-offset: .18em
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid #212a3a;
+      border-radius: var(--radius);
+      padding: 1rem
+    }
+
+    .btn {
+      display: inline-block;
+      padding: .65rem .9rem;
+      border-radius: var(--radius);
+      background: var(--brand);
+      color: #0b1020;
+      border: 0;
+      font-weight: 600
+    }
+  </style>
+
+  <!-- 2) Load full stylesheet without blocking first paint -->
+  <link rel="preload" href="/style.css?v=1.1.0" as="style">
+  <link rel="stylesheet" href="/style.css?v=1.1.0" media="print" onload="this.media='all'">
+  <noscript>
+    <link rel="stylesheet" href="/style.css?v=1.1.0">
+  </noscript>
+
+
+  <!-- Structured data: AboutPage + Organization + Breadcrumbs + ItemList (tools) + FAQ -->
+  <script type="application/ld+json">
 {
   "@context":"https://schema.org",
   "@type":"AboutPage",
@@ -33,7 +107,7 @@
   "isPartOf":{"@type":"WebSite","name":"UpTools","url":"https://www.uptools.in/"}
 }
 </script>
-<script type="application/ld+json">
+  <script type="application/ld+json">
 {
   "@context":"https://schema.org",
   "@type":"Organization",
@@ -46,7 +120,7 @@
   ]
 }
 </script>
-<script type="application/ld+json">
+  <script type="application/ld+json">
 {
   "@context":"https://schema.org",
   "@type":"BreadcrumbList",
@@ -56,7 +130,7 @@
   ]
 }
 </script>
-<script type="application/ld+json">
+  <script type="application/ld+json">
 {
   "@context":"https://schema.org",
   "@type":"ItemList",
@@ -73,7 +147,7 @@
   ]
 }
 </script>
-<script type="application/ld+json">
+  <script type="application/ld+json">
 {
   "@context":"https://schema.org",
   "@type":"FAQPage",
@@ -97,139 +171,165 @@
 }
 </script>
 
-<!-- Ads (kept async) -->
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617" crossorigin="anonymous"></script>
+  <!-- Ads (kept async) -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617"
+    crossorigin="anonymous"></script>
 </head>
+
 <body>
-<header class="site">
-  <div class="header-inner">
-    <a class="brand" href="/"><img src="/assets/uptools-mark.svg" alt="UpTools logo" width="28" height="28" loading="eager"><b>UpTools</b></a>
-    <nav class="nav-links">
-      <a href="/#tools">Tools</a>
-      <a href="/games/">Games</a>
-      <a aria-current="page" href="/about/">About</a>
-      <a href="/contact/">Contact</a>
-    </nav>
-  </div>
-</header>
-
-<main class="wrap">
-  <!-- Hero / Intro -->
-  <div class="tool-header">
-    <div class="tool-icon" aria-hidden="true">U</div>
-    <h1>About UpTools</h1>
-  </div>
-
-  <div class="card">
-    <p style="margin-top:12px">UpTools is a growing collection of <b>fast, privacy-first</b> tools for everyday tasks-<i>finance</i>, <i>text & JSON</i>, <i>converters</i>, <i>generators</i>, and <i>mini games</i>. Pages are lightweight, results are instant, and your data stays on your device whenever possible.</p>
-
-    <ul class="chips" style="margin-top:8px">
-      <li class="chip">No logins</li>
-      <li class="chip">Loads fast</li>
-      <li class="chip">Mobile-friendly</li>
-      <li class="chip">A11y-checked</li>
-      <li class="chip">India-focused finance</li>
-    </ul>
-
-    <p class="note">Why it matters: simpler pages, fewer distractions, and accurate outputs you can rely on.</p>
-  </div>
-
-  <!-- Popular Tools (internal backlinks) -->
-  <section aria-labelledby="popular-tools" class="card" style="margin-top:16px">
-    <h2 id="popular-tools">Popular tools</h2>
-    <ul class="tool-list" style="list-style:none;margin:12px 0 0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px">
-      <li><a class="tool-link accent-blue" href="/income-tax-tool/"><span class="ico">₹</span><span>Income Tax Calculator (India)</span></a></li>
-      <li><a class="tool-link accent-green" href="/gst-calculator/"><span class="ico">GST</span><span>GST Calculator</span></a></li>
-      <li><a class="tool-link accent-violet" href="/emi-calculator/"><span class="ico">EMI</span><span>Loan EMI Calculator</span></a></li>
-      <li><a class="tool-link accent-emerald" href="/sip-calculator/"><span class="ico">SIP</span><span>SIP Calculator</span></a></li>
-      <li><a class="tool-link accent-sky" href="/currency-converter/"><span class="ico">₹⇄$</span><span>Currency Converter</span></a></li>
-      <li><a class="tool-link accent-indigo" href="/ifsc-finder/"><span class="ico">🏦</span><span>IFSC Finder</span></a></li>
-      <li><a class="tool-link accent-amber" href="/pan-validator/"><span class="ico">🆔</span><span>PAN Format Validator</span></a></li>
-      <li><a class="tool-link accent-slate" href="/json-formatter/"><span class="ico">{ }</span><span>JSON Formatter & Viewer</span></a></li>
-      <li><a class="tool-link accent-pink" href="/text-case-converter/"><span class="ico">Aa</span><span>Text Case Converter</span></a></li>
-      <li><a class="tool-link accent-red" href="/qr-generator/"><span class="ico">▩</span><span>QR Code Generator</span></a></li>
-      <li><a class="tool-link accent-zinc" href="/uuid-generator/"><span class="ico">🔑</span><span>UUID Generator</span></a></li>
-      <li><a class="tool-link accent-teal" href="/base64-encoder/"><span class="ico">64</span><span>Base64 Encoder / Decoder</span></a></li>
-    </ul>
-    <p class="note" style="margin-top:10px">Browse everything on the <a href="/#tools">Tools</a> page.</p>
-  </section>
-
-  <!-- Learn & Trust (external references for E-E-A-T) -->
-  <section aria-labelledby="learn-more" class="card" style="margin-top:16px">
-    <h2 id="learn-more">Helpful references</h2>
-    <p class="note">Independent resources our users often check alongside our tools:</p>
-    <ul>
-      <li><a href="https://www.incometax.gov.in/" rel="noopener external nofollow" target="_blank">Government of India - Income Tax Department</a> (compare slabs & rules)</li>
-      <li><a href="https://www.rbi.org.in/" rel="noopener external nofollow" target="_blank">Reserve Bank of India</a> (banking, IFSC basics)</li>
-      <li><a href="https://www.canada.ca/en/immigration-refugees-citizenship.html" rel="noopener external nofollow" target="_blank">IRCC (Canada)</a> (Express Entry / CRS background)</li>
-    </ul>
-  </section>
-
-  <!-- Lightweight Video (optional) -->
-  <section aria-labelledby="video" class="card" style="margin-top:16px">
-    <h2 id="video">Quick overview (2 min)</h2>
-    <p class="note">Prefer watching? Here’s a short walkthrough of how to use some of the most-used tools.</p>
-    <div style="position:relative;padding-top:56.25%;border-radius:12px;overflow:hidden;border:1px solid var(--cardBorder)">
-      <!-- Replace VIDEO_ID with your real YouTube video ID -->
-<!-- Replace VIDEO_ID with your real YouTube video ID -->
-<iframe
-  loading="lazy"
-  src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-  title="UpTools overview"
-  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-  allowfullscreen
-  style="position:absolute;inset:0;width:100%;height:100%;border:0;background:#000">
-</iframe>
+  <header class="site">
+    <div class="header-inner">
+      <a class="brand" href="/"><img src="/assets/uptools-mark.svg" alt="UpTools logo" width="28" height="28"
+          loading="eager"><b>UpTools</b></a>
+      <nav class="nav-links">
+        <a href="/#tools">Tools</a>
+        <a href="/games/">Games</a>
+        <a aria-current="page" href="/about/">About</a>
+        <a href="/contact/">Contact</a>
+      </nav>
     </div>
-    <p class="small note">No time now? <a href="https://www.youtube.com/@UpTools" rel="noopener external nofollow" target="_blank">Subscribe on YouTube</a> for tips and updates.</p>
-  </section>
+  </header>
 
-  <!-- How we build (SEO + trust) -->
-  <section aria-labelledby="principles" class="card" style="margin-top:16px">
-    <h2 id="principles">Our principles</h2>
-    <div class="grid">
-      <div>
-        <h3>Privacy-first</h3>
-        <p>Most tools run entirely in your browser. We don’t ask for sign-ups or personal details. Where an API is needed, we keep it transparent.</p>
-      </div>
-      <div>
-        <h3>Performance</h3>
-        <p>Minimal JavaScript, optimized images, and accessible color contrast. Pages are designed for fast FCP/LCP and low CLS.</p>
-      </div>
-      <div>
-        <h3>Clarity</h3>
-        <p>Each tool explains inputs, outputs, and assumptions, with examples where helpful-no dark patterns, no clutter.</p>
-      </div>
-      <div>
-        <h3>Accessibility</h3>
-        <p>Keyboard focus styles, readable fonts, and high-contrast UI. We aim for WCAG AA where practical.</p>
-      </div>
+  <main class="wrap">
+    <!-- Hero / Intro -->
+    <div class="tool-header">
+      <div class="tool-icon" aria-hidden="true">U</div>
+      <h1>About UpTools</h1>
     </div>
-  </section>
 
-  <!-- FAQ (mirrors FAQPage structured data) -->
-  <section aria-labelledby="faq" class="card" style="margin-top:16px">
-    <h2 id="faq">FAQ</h2>
-    <details>
-      <summary><b>Do you store or send my data to a server?</b></summary>
-      <p>No. Most tools run entirely in your browser. For tools that need network calls (e.g., IFSC lookup), we indicate clearly. We don’t ask for logins or personal details.</p>
-    </details>
-    <details>
-      <summary><b>Are your finance tools India-focused?</b></summary>
-      <p>Yes. We prioritize India-first calculators like Income Tax, GST, EMI, SIP, and IFSC, while also offering global utilities such as JSON Formatter, Base64 Encoder, and Currency Converter.</p>
-    </details>
-    <details>
-      <summary><b>Can I suggest a tool or report a bug?</b></summary>
-      <p>Absolutely-use the <a href="/contact/">Contact</a> page to share ideas, report issues, or request new features.</p>
-    </details>
-  </section>
+    <div class="card">
+      <p style="margin-top:12px">UpTools is a growing collection of <b>fast, privacy-first</b> tools for everyday
+        tasks-<i>finance</i>, <i>text & JSON</i>, <i>converters</i>, <i>generators</i>, and <i>mini games</i>. Pages are
+        lightweight, results are instant, and your data stays on your device whenever possible.</p>
 
-  <!-- Footer -->
-  <footer class="note small site-footer">© <span id="y"></span> UpTools · <a href="/sitemap.xml">Sitemap</a></footer>
-</main>
+      <ul class="chips" style="margin-top:8px">
+        <li class="chip">No logins</li>
+        <li class="chip">Loads fast</li>
+        <li class="chip">Mobile-friendly</li>
+        <li class="chip">A11y-checked</li>
+        <li class="chip">India-focused finance</li>
+      </ul>
 
-<script>
-  document.getElementById('y').textContent = new Date().getFullYear();
-</script>
+      <p class="note">Why it matters: simpler pages, fewer distractions, and accurate outputs you can rely on.</p>
+    </div>
+
+    <!-- Popular Tools (internal backlinks) -->
+    <section aria-labelledby="popular-tools" class="card" style="margin-top:16px">
+      <h2 id="popular-tools">Popular tools</h2>
+      <ul class="tool-list"
+        style="list-style:none;margin:12px 0 0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px">
+        <li><a class="tool-link accent-blue" href="/income-tax-tool/"><span class="ico">₹</span><span>Income Tax
+              Calculator (India)</span></a></li>
+        <li><a class="tool-link accent-green" href="/gst-calculator/"><span class="ico">GST</span><span>GST
+              Calculator</span></a></li>
+        <li><a class="tool-link accent-violet" href="/emi-calculator/"><span class="ico">EMI</span><span>Loan EMI
+              Calculator</span></a></li>
+        <li><a class="tool-link accent-emerald" href="/sip-calculator/"><span class="ico">SIP</span><span>SIP
+              Calculator</span></a></li>
+        <li><a class="tool-link accent-sky" href="/currency-converter/"><span class="ico">₹⇄$</span><span>Currency
+              Converter</span></a></li>
+        <li><a class="tool-link accent-indigo" href="/ifsc-finder/"><span class="ico">🏦</span><span>IFSC
+              Finder</span></a></li>
+        <li><a class="tool-link accent-amber" href="/pan-validator/"><span class="ico">🆔</span><span>PAN Format
+              Validator</span></a></li>
+        <li><a class="tool-link accent-slate" href="/json-formatter/"><span class="ico">{ }</span><span>JSON Formatter &
+              Viewer</span></a></li>
+        <li><a class="tool-link accent-pink" href="/text-case-converter/"><span class="ico">Aa</span><span>Text Case
+              Converter</span></a></li>
+        <li><a class="tool-link accent-red" href="/qr-generator/"><span class="ico">▩</span><span>QR Code
+              Generator</span></a></li>
+        <li><a class="tool-link accent-zinc" href="/uuid-generator/"><span class="ico">🔑</span><span>UUID
+              Generator</span></a></li>
+        <li><a class="tool-link accent-teal" href="/base64-encoder/"><span class="ico">64</span><span>Base64 Encoder /
+              Decoder</span></a></li>
+      </ul>
+      <p class="note" style="margin-top:10px">Browse everything on the <a href="/#tools">Tools</a> page.</p>
+    </section>
+
+    <!-- Learn & Trust (external references for E-E-A-T) -->
+    <section aria-labelledby="learn-more" class="card" style="margin-top:16px">
+      <h2 id="learn-more">Helpful references</h2>
+      <p class="note">Independent resources our users often check alongside our tools:</p>
+      <ul>
+        <li><a href="https://www.incometax.gov.in/" rel="noopener external nofollow" target="_blank">Government of India
+            - Income Tax Department</a> (compare slabs & rules)</li>
+        <li><a href="https://www.rbi.org.in/" rel="noopener external nofollow" target="_blank">Reserve Bank of India</a>
+          (banking, IFSC basics)</li>
+        <li><a href="https://www.canada.ca/en/immigration-refugees-citizenship.html" rel="noopener external nofollow"
+            target="_blank">IRCC (Canada)</a> (Express Entry / CRS background)</li>
+      </ul>
+    </section>
+
+    <!-- Lightweight Video (optional) -->
+    <section aria-labelledby="video" class="card" style="margin-top:16px">
+      <h2 id="video">Quick overview (2 min)</h2>
+      <p class="note">Prefer watching? Here’s a short walkthrough of how to use some of the most-used tools.</p>
+      <div
+        style="position:relative;padding-top:56.25%;border-radius:12px;overflow:hidden;border:1px solid var(--cardBorder)">
+        <!-- Replace VIDEO_ID with your real YouTube video ID -->
+        <!-- Replace VIDEO_ID with your real YouTube video ID -->
+        <iframe loading="lazy" src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="UpTools overview"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen style="position:absolute;inset:0;width:100%;height:100%;border:0;background:#000">
+        </iframe>
+      </div>
+      <p class="small note">No time now? <a href="https://www.youtube.com/@UpTools" rel="noopener external nofollow"
+          target="_blank">Subscribe on YouTube</a> for tips and updates.</p>
+    </section>
+
+    <!-- How we build (SEO + trust) -->
+    <section aria-labelledby="principles" class="card" style="margin-top:16px">
+      <h2 id="principles">Our principles</h2>
+      <div class="grid">
+        <div>
+          <h3>Privacy-first</h3>
+          <p>Most tools run entirely in your browser. We don’t ask for sign-ups or personal details. Where an API is
+            needed, we keep it transparent.</p>
+        </div>
+        <div>
+          <h3>Performance</h3>
+          <p>Minimal JavaScript, optimized images, and accessible color contrast. Pages are designed for fast FCP/LCP
+            and low CLS.</p>
+        </div>
+        <div>
+          <h3>Clarity</h3>
+          <p>Each tool explains inputs, outputs, and assumptions, with examples where helpful-no dark patterns, no
+            clutter.</p>
+        </div>
+        <div>
+          <h3>Accessibility</h3>
+          <p>Keyboard focus styles, readable fonts, and high-contrast UI. We aim for WCAG AA where practical.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ (mirrors FAQPage structured data) -->
+    <section aria-labelledby="faq" class="card" style="margin-top:16px">
+      <h2 id="faq">FAQ</h2>
+      <details>
+        <summary><b>Do you store or send my data to a server?</b></summary>
+        <p>No. Most tools run entirely in your browser. For tools that need network calls (e.g., IFSC lookup), we
+          indicate clearly. We don’t ask for logins or personal details.</p>
+      </details>
+      <details>
+        <summary><b>Are your finance tools India-focused?</b></summary>
+        <p>Yes. We prioritize India-first calculators like Income Tax, GST, EMI, SIP, and IFSC, while also offering
+          global utilities such as JSON Formatter, Base64 Encoder, and Currency Converter.</p>
+      </details>
+      <details>
+        <summary><b>Can I suggest a tool or report a bug?</b></summary>
+        <p>Absolutely-use the <a href="/contact/">Contact</a> page to share ideas, report issues, or request new
+          features.</p>
+      </details>
+    </section>
+
+    <!-- Footer -->
+    <footer class="note small site-footer">© <span id="y"></span> UpTools · <a href="/sitemap.xml">Sitemap</a></footer>
+  </main>
+
+  <script>
+    document.getElementById('y').textContent = new Date().getFullYear();
+  </script>
 </body>
+
 </html>

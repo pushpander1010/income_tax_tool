@@ -1,87 +1,158 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617"
-     crossorigin="anonymous"></script>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Color Picker - UpTools</title>
-    <meta name="description" content="Pick a color and get HEX/RGB/HSL values." />
-    <meta name="robots" content="index,follow" />
-    <meta name="theme-color" content="#0f1419" />
-    <link rel="canonical" href="https://www.uptools.in/color-picker/" />
-    <meta property="og:title" content="Color Picker - UpTools" />
-    <meta property="og:description" content="Pick a color and get HEX/RGB/HSL values." />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://www.uptools.in/color-picker/" />
-    <meta property="og:site_name" content="UpTools" />
-    <meta property="og:image" content="https://www.uptools.in/og/color-picker.png" />
-    <meta name="twitter:card" content="summary" />
-    <link rel="stylesheet" href="/style.css?v=1.0.0" />
-  </head>
-  <body style="--accent:#8ab4f8; --bg:#0f1419; --card:#1e2634; background:linear-gradient(135deg,var(--bg),#1a1f2e);">
-    <main class="wrap">
-      <header class="tool-header">
-        <a href="/" class="back-btn" aria-label="Back to home">←</a>
-        <span class="tool-icon" role="img" aria-label="Color Palette">🎨</span>
-        <h1>Color Picker</h1>
-      </header>
-      
-      <div class="card">
-        <label for="color-input" class="label">Choose a color:</label>
-        <input id="color-input" class="input" type="color" value="#8ab4f8" />
-        <div id="output" class="result"></div>
-      </div>
-      
-      <footer class="note small"><a href="/">UpTools</a></footer>
-    </main>
-    
-    <script type="module">
-      const colorInput = document.getElementById('color-input');
-      const output = document.getElementById('output');
-      
-      function hexToRgb(hex) {
-        hex = hex.replace('#', '');
-        const bigint = parseInt(hex, 16);
-        return {
-          r: (bigint >> 16) & 255,
-          g: (bigint >> 8) & 255,
-          b: bigint & 255
-        };
-      }
-      
-      function rgbToHsl(r, g, b) {
-        r /= 255; g /= 255; b /= 255;
-        const max = Math.max(r, g, b);
-        const min = Math.min(r, g, b);
-        let h, s, l = (max + min) / 2;
-        
-        if (max === min) {
-          h = s = 0;
-        } else {
-          const d = max - min;
-          s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
-          switch (max) {
-            case r: h = (g - b) / d + (g < b ? 6 : 0); break;
-            case g: h = (b - r) / d + 2; break;
-            case b: h = (r - g) / d + 4; break;
-          }
-          h /= 6;
+
+<head>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617"
+    crossorigin="anonymous"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Color Picker - UpTools</title>
+  <meta name="description" content="Pick a color and get HEX/RGB/HSL values." />
+  <meta name="robots" content="index,follow" />
+  <meta name="theme-color" content="#0f1419" />
+  <link rel="canonical" href="https://www.uptools.in/color-picker/" />
+  <meta property="og:title" content="Color Picker - UpTools" />
+  <meta property="og:description" content="Pick a color and get HEX/RGB/HSL values." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.uptools.in/color-picker/" />
+  <meta property="og:site_name" content="UpTools" />
+  <meta property="og:image" content="https://www.uptools.in/og/color-picker.png" />
+  <meta name="twitter:card" content="summary" />
+  <!-- 1) Inline ONLY tiny critical rules (below) -->
+  <style>
+    :root {
+      --bg: #0f1419;
+      --surface: #121826;
+      --text: #e6edf3;
+      --muted: #9aa4b2;
+      --brand: #7aa2ff;
+      --radius: .75rem
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    html {
+      color-scheme: dark light;
+      -webkit-text-size-adjust: 100%
+    }
+
+    body {
+      margin: 0;
+      font: 400 16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, "Noto Sans", sans-serif;
+      background: var(--bg);
+      color: var(--text)
+    }
+
+    img,
+    svg,
+    video {
+      max-width: 100%;
+      height: auto
+    }
+
+    .container {
+      width: min(100% - 24px, 1120px);
+      margin-inline: auto
+    }
+
+    a {
+      color: var(--brand);
+      text-decoration-thickness: .08em;
+      text-underline-offset: .18em
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid #212a3a;
+      border-radius: var(--radius);
+      padding: 1rem
+    }
+
+    .btn {
+      display: inline-block;
+      padding: .65rem .9rem;
+      border-radius: var(--radius);
+      background: var(--brand);
+      color: #0b1020;
+      border: 0;
+      font-weight: 600
+    }
+  </style>
+
+  <!-- 2) Load full stylesheet without blocking first paint -->
+  <link rel="preload" href="/style.css?v=1.1.0" as="style">
+  <link rel="stylesheet" href="/style.css?v=1.1.0" media="print" onload="this.media='all'">
+  <noscript>
+    <link rel="stylesheet" href="/style.css?v=1.1.0">
+  </noscript>
+
+</head>
+
+<body style="--accent:#8ab4f8; --bg:#0f1419; --card:#1e2634; background:linear-gradient(135deg,var(--bg),#1a1f2e);">
+  <main class="wrap">
+    <header class="tool-header">
+      <a href="/" class="back-btn" aria-label="Back to home">←</a>
+      <span class="tool-icon" role="img" aria-label="Color Palette">🎨</span>
+      <h1>Color Picker</h1>
+    </header>
+
+    <div class="card">
+      <label for="color-input" class="label">Choose a color:</label>
+      <input id="color-input" class="input" type="color" value="#8ab4f8" />
+      <div id="output" class="result"></div>
+    </div>
+
+    <footer class="note small"><a href="/">UpTools</a></footer>
+  </main>
+
+  <script type="module">
+    const colorInput = document.getElementById('color-input');
+    const output = document.getElementById('output');
+
+    function hexToRgb(hex) {
+      hex = hex.replace('#', '');
+      const bigint = parseInt(hex, 16);
+      return {
+        r: (bigint >> 16) & 255,
+        g: (bigint >> 8) & 255,
+        b: bigint & 255
+      };
+    }
+
+    function rgbToHsl(r, g, b) {
+      r /= 255; g /= 255; b /= 255;
+      const max = Math.max(r, g, b);
+      const min = Math.min(r, g, b);
+      let h, s, l = (max + min) / 2;
+
+      if (max === min) {
+        h = s = 0;
+      } else {
+        const d = max - min;
+        s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+        switch (max) {
+          case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+          case g: h = (b - r) / d + 2; break;
+          case b: h = (r - g) / d + 4; break;
         }
-        
-        return {
-          h: Math.round(h * 360),
-          s: Math.round(s * 100),
-          l: Math.round(l * 100)
-        };
+        h /= 6;
       }
-      
-      function updateOutput() {
-        const hex = colorInput.value;
-        const { r, g, b } = hexToRgb(hex);
-        const hsl = rgbToHsl(r, g, b);
-        
-        output.innerHTML = `
+
+      return {
+        h: Math.round(h * 360),
+        s: Math.round(s * 100),
+        l: Math.round(l * 100)
+      };
+    }
+
+    function updateOutput() {
+      const hex = colorInput.value;
+      const { r, g, b } = hexToRgb(hex);
+      const hsl = rgbToHsl(r, g, b);
+
+      output.innerHTML = `
           <div class='row'>
             <span>HEX</span>
             <span class='amount'>${hex}</span>
@@ -95,11 +166,11 @@
             <span class='amount'>${hsl.h}°, ${hsl.s}%, ${hsl.l}%</span>
           </div>
         `;
-      }
-      
-      colorInput.addEventListener('input', updateOutput);
-      updateOutput();
-    </script>
-  </body>
-</html>
+    }
 
+    colorInput.addEventListener('input', updateOutput);
+    updateOutput();
+  </script>
+</body>
+
+</html>

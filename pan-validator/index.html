@@ -25,14 +25,24 @@
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/uptools-mark.svg" />
 
   <!-- Shared styles -->
-  <link rel="stylesheet" href="/style.css">
+  <!-- 1) Inline ONLY tiny critical rules (below) -->
 <style>
-  :root{
-    --accent:#86EFAC;
-    --bg1:#0e1f0b;
-    --bg2:#14300e;
-    --cardBorder:#2a6633;
-  }
+  :root{--bg:#0f1419;--surface:#121826;--text:#e6edf3;--muted:#9aa4b2;--brand:#7aa2ff;--radius:.75rem}
+  *{box-sizing:border-box}
+  html{color-scheme:dark light;-webkit-text-size-adjust:100%}
+  body{margin:0;font:400 16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Noto Sans",sans-serif;background:var(--bg);color:var(--text)}
+  img,svg,video{max-width:100%;height:auto}
+  .container{width:min(100% - 24px,1120px);margin-inline:auto}
+  a{color:var(--brand);text-decoration-thickness:.08em;text-underline-offset:.18em}
+  .card{background:var(--surface);border:1px solid #212a3a;border-radius:var(--radius);padding:1rem}
+  .btn{display:inline-block;padding:.65rem .9rem;border-radius:var(--radius);background:var(--brand);color:#0b1020;border:0;font-weight:600}
+</style>
+
+<!-- 2) Load full stylesheet without blocking first paint -->
+<link rel="preload" href="/style.css?v=1.1.0" as="style">
+<link rel="stylesheet" href="/style.css?v=1.1.0" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="/style.css?v=1.1.0"></noscript>
+
 </style>
 
 

@@ -17,7 +17,24 @@
     <meta property="og:site_name" content="UpTools" />
     <meta property="og:image" content="https://www.uptools.in/og/currency.png" />
     <meta name="twitter:card" content="summary" />
-    <link rel="stylesheet" href="/style.css" />
+    <!-- 1) Inline ONLY tiny critical rules (below) -->
+<style>
+  :root{--bg:#0f1419;--surface:#121826;--text:#e6edf3;--muted:#9aa4b2;--brand:#7aa2ff;--radius:.75rem}
+  *{box-sizing:border-box}
+  html{color-scheme:dark light;-webkit-text-size-adjust:100%}
+  body{margin:0;font:400 16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Noto Sans",sans-serif;background:var(--bg);color:var(--text)}
+  img,svg,video{max-width:100%;height:auto}
+  .container{width:min(100% - 24px,1120px);margin-inline:auto}
+  a{color:var(--brand);text-decoration-thickness:.08em;text-underline-offset:.18em}
+  .card{background:var(--surface);border:1px solid #212a3a;border-radius:var(--radius);padding:1rem}
+  .btn{display:inline-block;padding:.65rem .9rem;border-radius:var(--radius);background:var(--brand);color:#0b1020;border:0;font-weight:600}
+</style>
+
+<!-- 2) Load full stylesheet without blocking first paint -->
+<link rel="preload" href="/style.css?v=1.1.0" as="style">
+<link rel="stylesheet" href="/style.css?v=1.1.0" media="print" onload="this.media='all'">
+<noscript><link rel="stylesheet" href="/style.css?v=1.1.0"></noscript>
+
   </head>
   <body style="--accent:#9be7ff;--bg1:#0b1420;--bg2:#0e1e30;--cardBorder:#2a4766">
     <main class="wrap">
