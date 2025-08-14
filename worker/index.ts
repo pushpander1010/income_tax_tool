@@ -1,8 +1,9 @@
+/// <reference types="@cloudflare/workers-types" />
 export interface Env {
   ASSETS: { fetch: typeof fetch };
 }
 
-const ALLOWED = new Set([
+const ALLOWED = new Set<string>([
   'https://api.exchangerate.host',
   'https://api.frankfurter.app',
   'https://ifsc.razorpay.com',
@@ -11,151 +12,103 @@ const ALLOWED = new Set([
   'https://ifconfig.me',
 ]);
 
-function isAllowed(url: URL): boolean {
-  const origin = `${url.protocol}//${url.host}`;
-  return ALLOWED.has(origin);
+function addSecurityHeaders(h: Headers) {
+  h.set('X-Content-Type-Options', 'nosniff');
+  h.set('Referrer-Policy', 'strict-origin-when-cross-origin');
+  h.set('Cross-Origin-Opener-Policy', 'same-origin');
+  h.set('Cross-Origin-Resource-Policy', 'cross-origin');
 }
 
-// List of known subpages
-const SUBPAGES = new Set([
-  'income-tax-calculator',
-  'bmi-calculator',
-  'emi-calculator',
-  'fd-calculator',
-  'sip-calculator',
-  'gst-calculator',
-  'currency-converter',
-  'date-difference',
-  'pan-validator',
-  'ifsc-finder',
-  'ip-address',
-  'uuid-generator',
-  'json-formatter',
-  'base64-encoder',
-  'word-counter',
-  'text-case-converter',
-  'unit-converter',
-  'qr-generator',
-  'color-picker',
-  'age-calculator',
-  'password-generator',
-  'percentage-calculator',
-  'games',
-  'games/tic-tac-toe',
-  'games/memory-match',
-  'games/snake',
-  'games/number-guessing',
-  'games/color-rush'
-]);
+function okCors(h: Headers) {
+  h.set('Access-Control-Allow-Origin', '*');
+  h.set('Vary', 'Origin');
+}
+
+function isHtml(r: Response) {
+  const ct = r.headers.get('content-type') || '';
+  return ct.includes('text/html');
+}
+
+function looksLikeAssetPath(p: string) {
+  return /\.[a-z0-9]+$/i.test(p); // has extension
+}
+
+function normalizePath(pathname: string) {
+  if (pathname !== '/' && pathname.endsWith('/')) return pathname.slice(0, -1);
+  return pathname;
+}
 
 export default {
-  async fetch(req: Request, env: Env, ctx: ExecutionContext): Promise<Response> {
+  async fetch(req: Request, env: Env): Promise<Response> {
     const url = new URL(req.url);
-    const pathname = url.pathname;
+    let pathname = normalizePath(url.pathname);
 
-    // Debug logging
-    console.log(`[Worker] Request for: ${pathname}`);
+    // CORS preflight for /api
+    if (req.method === 'OPTIONS') {
+      const h = new Headers();
+      okCors(h);
+      h.set('Access-Control-Allow-Methods', 'GET, OPTIONS');
+      h.set('Access-Control-Allow-Headers', 'Content-Type, Accept');
+      h.set('Access-Control-Max-Age', '86400');
+      return new Response(null, { status: 204, headers: h });
+    }
 
-    // Proxy for external APIs: /api?url=<encoded>
+    // 1) Proxy: /api?url=<encoded>
     if (pathname === '/api' && url.searchParams.has('url')) {
       try {
         const target = new URL(url.searchParams.get('url') || '');
-        if (!isAllowed(target)) {
-          return new Response('Forbidden host', { status: 403 });
-        }
-        const headers = new Headers(req.headers);
-        headers.delete('cookie');
-        headers.set('accept', 'application/json, image/*, */*;q=0.1');
-        const proxied = await fetch(target.toString(), { method: 'GET', headers, cf: { cacheTtl: 3600, cacheEverything: true } });
-        const resp = new Response(proxied.body, { status: proxied.status, headers: proxied.headers });
-        resp.headers.set('Cache-Control', 'public, max-age=3600');
-        resp.headers.set('Access-Control-Allow-Origin', '*');
-        return resp;
-      } catch (err) {
-        console.error('[Worker] API proxy error:', err);
+        const origin = `${target.protocol}//${target.host}`;
+        if (!ALLOWED.has(origin)) return new Response('Forbidden host', { status: 403 });
+
+        const fwd = new Headers(req.headers);
+        fwd.delete('cookie');
+        fwd.set('accept', 'application/json, image/*, */*;q=0.1');
+
+        // ✅ With workers-types loaded, cf is now typed and allowed
+        const proxied = await fetch(target.toString(), {
+          method: 'GET',
+          headers: fwd,
+          cf: { cacheTtl: 3600, cacheEverything: true },
+        });
+
+        const out = new Response(proxied.body, { status: proxied.status, headers: proxied.headers });
+        okCors(out.headers);
+        out.headers.set('Cache-Control', 'public, max-age=3600');
+        addSecurityHeaders(out.headers);
+        return out;
+      } catch {
         return new Response('Bad Request', { status: 400 });
       }
     }
 
-    // Handle static assets first (CSS, JS, etc.) - this is critical for subpages
-    if (pathname === '/style.css' || pathname.startsWith('/assets/')) {
-      console.log(`[Worker] Serving static asset: ${pathname}`);
-      try {
-        const response = await env.ASSETS.fetch(req);
-        console.log(`[Worker] Asset response status: ${response.status}`);
-        
-        if (response.status === 200) {
-          // Set proper content type for CSS
-          if (pathname === '/style.css') {
-            const newResponse = new Response(response.body, response);
-            newResponse.headers.set('Content-Type', 'text/css');
-            newResponse.headers.set('Cache-Control', 'public, max-age=31536000'); // Cache CSS for 1 year
-            newResponse.headers.set('Access-Control-Allow-Origin', '*');
-            console.log(`[Worker] CSS served successfully`);
-            return newResponse;
-          }
-          return response;
-        } else {
-          console.error(`[Worker] Asset not found: ${pathname}, status: ${response.status}`);
-        }
-      } catch (err) {
-        console.error('[Worker] Error serving static asset:', err);
+    // 2) Try subpage /path/index.html for any path without extension (except "/")
+    if (pathname !== '/' && !looksLikeAssetPath(pathname)) {
+      const indexReq = new Request(new URL(`${pathname}/index.html`, req.url), req);
+      const r = await env.ASSETS.fetch(indexReq);
+      if (r.status === 200) {
+        const out = new Response(r.body, r);
+        if (isHtml(out)) out.headers.set('Cache-Control', 'no-store, must-revalidate');
+        addSecurityHeaders(out.headers);
+        return out;
       }
+      // fall through
     }
 
-    // Handle SPA routing for subpages
-    let requestPath = pathname;
-    
-    // Remove trailing slash except for root
-    if (requestPath !== '/' && requestPath.endsWith('/')) {
-      requestPath = requestPath.slice(0, -1);
-    }
-    
-    // Check if this is a known subpage
-    if (requestPath !== '/' && SUBPAGES.has(requestPath.slice(1))) {
-      console.log(`[Worker] Serving subpage: ${requestPath}`);
-      
-      // For nested paths like /games/tic-tac-toe, we need to construct the path correctly
-      let indexPath = requestPath;
-      if (!indexPath.endsWith('/index.html')) {
-        indexPath = indexPath + '/index.html';
-      }
-      
-      console.log(`[Worker] Trying to serve: ${indexPath}`);
-      
-      // Try to serve the subpage's index.html
-      const subpageRequest = new Request(new URL(indexPath, req.url), req);
-      try {
-        const subpageResponse = await env.ASSETS.fetch(subpageRequest);
-        if (subpageResponse.status === 200) {
-          console.log(`[Worker] Subpage served successfully: ${requestPath}`);
-          return subpageResponse;
-        } else {
-          console.error(`[Worker] Subpage not found: ${indexPath}, status: ${subpageResponse.status}`);
-          // Don't fall back to root here - let it continue to the final fallback
-        }
-      } catch (err) {
-        console.error('[Worker] Error serving subpage:', err);
-      }
+    // 3) Normal asset/page fetch
+    const res = await env.ASSETS.fetch(req);
+
+    // SPA fallback
+    if (res.status === 404 && pathname !== '/') {
+      const rootRes = await env.ASSETS.fetch(new Request(new URL('/', req.url), req));
+      const out = new Response(rootRes.body, rootRes);
+      if (isHtml(out)) out.headers.set('Cache-Control', 'no-store, must-revalidate');
+      addSecurityHeaders(out.headers);
+      return out;
     }
 
-    // Serve static assets (fallback to root index.html for 404s)
-    try {
-      const response = await env.ASSETS.fetch(req);
-      if (response.status === 404 && requestPath !== '/') {
-        console.log(`[Worker] 404 fallback to root for: ${requestPath}`);
-        // For 404s on subpages, try to serve root index.html
-        const rootRequest = new Request(new URL('/', req.url), req);
-        return await env.ASSETS.fetch(rootRequest);
-      }
-      return response;
-    } catch (err) {
-      console.error('[Worker] Final fallback error:', err);
-      // Final fallback to root index.html
-      const rootRequest = new Request(new URL('/', req.url), req);
-      return await env.ASSETS.fetch(rootRequest);
-    }
-  }
+    const out = new Response(res.body, res);
+    if (isHtml(out)) out.headers.set('Cache-Control', 'no-store, must-revalidate');
+    addSecurityHeaders(out.headers);
+    return out;
+  },
 };
-
-

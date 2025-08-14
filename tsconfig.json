@@ -1,19 +1,23 @@
 {
   "compilerOptions": {
     "target": "ES2022",
-    "useDefineForClassFields": true,
     "module": "ESNext",
-    "lib": ["ES2022", "DOM", "DOM.Iterable"],
-    "skipLibCheck": true,
 
-    /* Bundler mode */
+    /* Types & environments: app (DOM) + Worker */
+    "lib": ["ES2022", "DOM", "DOM.Iterable", "WebWorker"],
+    "types": ["@cloudflare/workers-types"],
+
+    /* Bundler-friendly settings */
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "verbatimModuleSyntax": true,
     "moduleDetection": "force",
     "noEmit": true,
 
-    /* Linting */
+    /* Speed & compatibility */
+    "skipLibCheck": true,
+
+    /* Linting / strictness */
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
@@ -21,5 +25,17 @@
     "noFallthroughCasesInSwitch": true,
     "noUncheckedSideEffectImports": true
   },
-  "include": ["src"]
+
+  /* Include your site code and Worker/Functions */
+  "include": [
+    "src",
+    "functions",
+    "worker",
+    "functions/**/*.ts",
+    "worker/**/*.ts",
+    "global.d.ts"
+  ],
+
+  /* Keep build outputs and deps out of TS */
+  "exclude": ["dist", "build", "node_modules"]
 }
