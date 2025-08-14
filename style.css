@@ -1,318 +1,207 @@
 /* =========================================================
-   UpTools — Common Dark CSS (responsive, accessible, fast)
+   UpTools — Common CSS (dark, bright, responsive, lightweight)
    ========================================================= */
 
-/* ---- Theme tokens (override per-page in :root if needed) ---- */
+/* ---------- Theme tokens (page accents can override) ---------- */
 :root{
-  --bg:#0f1419;            /* page bg */
-  --bg1:#0f1419;           /* gradient start */
-  --bg2:#1a1f2e;           /* gradient end */
-  --card:#1e2634;          /* surface */
-  --text:#e8eaed;          /* primary text */
-  --muted:#9aa0a6;         /* secondary text */
-  --accent:#8ab4f8;        /* brand (override per page) */
-  --cardBorder:#3c4043;    /* borders/lines */
+  --bg1:#0b1020;             /* page can override */
+  --bg2:#111a2b;             /* page can override */
+  --text:#e6f1ff;            /* bright on dark */
+  --muted:#94a3b8;           /* slate-300/400 */
+  --card:#0f172a;            /* slate-900-ish */
+  --cardBorder:#263246;      /* subtle but visible */
+  --accent:#22c55e;          /* flashy default (emerald) */
+  --danger:#ef4444;
 
   --radius:12px;
   --radius-sm:8px;
-  --shadow:0 4px 6px rgba(0,0,0,.10);
-  --shadow-hover:0 10px 24px rgba(0,0,0,.18);
+  --shadow:0 6px 24px rgba(0,0,0,.18);
+  --shadow-hover:0 12px 36px rgba(0,0,0,.22);
 
   --content-w:980px;
-  --f14:14px; --f13:13px; --f12:12px;
-  --trans:.2s ease;
-
-  /* Buttons (AA+) */
-  --btn-bg:#2563eb;
-  --btn-bg-hover:#1d4ed8;
-  --btn-fg:#ffffff;
-  --btn-border:#2a62d6;
+  --f14:14px;
+  --f13:13px;
+  --f12:12px;
+  --trans:.18s ease;
 }
 
-/* =========================================================
-   Base / Reset
-   ========================================================= */
+/* ---------- Base / reset ---------- */
 *{ box-sizing:border-box; }
-html{ scroll-behavior:smooth; -webkit-text-size-adjust:100%; text-size-adjust:100%; }
+html{ -webkit-text-size-adjust:100%; text-size-adjust:100%; scroll-behavior:smooth; }
 body{
   margin:0; min-height:100vh;
   background:linear-gradient(135deg,var(--bg1),var(--bg2));
   color:var(--text);
-  font:400 var(--f14)/1.6 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+  font:400 var(--f14)/1.6 system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;
   -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
 }
-img,svg,video,canvas,iframe{ max-width:100%; display:block; }
-a{ color:var(--accent); text-decoration:none; }
-a:hover{ text-decoration:underline; text-underline-offset:3px; }
-a:focus-visible, .focus-ring:focus-visible{ outline:3px solid #f59e0b; outline-offset:2px; }
+img,svg,video{ max-width:100%; height:auto; display:block; }
+a{ color:inherit; }
 
 /* Container */
-.wrap{ max-width:var(--content-w); margin:40px auto; padding:20px; }
-@media (min-width:1200px){ :root{ --content-w:1180px; } }
+.wrap{ max-width:var(--content-w); margin:28px auto; padding:16px; }
 
-/* Headings */
-h1,h2,h3{ color:var(--text); font-weight:700; margin:0 0 10px; }
-h1{ font-size:28px; letter-spacing:-.01em; }
-h2{ font-size:20px; }
+/* ---------- Typography ---------- */
+h1,h2,h3{ margin:0 0 10px; font-weight:800; letter-spacing:-.015em; }
+h1{ font-size:22px; }
+h2{ font-size:18px; }
 h3{ font-size:16px; }
-
-/* Text helpers */
-.note{ color:var(--muted); font-size:var(--f13); line-height:1.55; }
+.note{ color:var(--muted); font-size:var(--f13); }
 .small{ font-size:var(--f12); }
-.muted{ color:var(--muted); }
-.divider{ height:1px; background:var(--cardBorder); margin:10px 0; }
 
-/* =========================================================
-   Navbar (matches your markup)
-   ========================================================= */
-header.site{
-  position:sticky; top:0; z-index:50;
-  background: color-mix(in oklab, var(--bg1) 80%, black);
-  border-bottom:1px solid var(--cardBorder);
-  backdrop-filter:saturate(140%) blur(6px);
-  min-height:56px;
-}
-.header-inner{
-  max-width:var(--content-w);
-  margin:0 auto; padding:12px 16px;
-  display:flex; align-items:center; justify-content:space-between; gap:12px;
-  min-height:56px;
-}
-.brand{ display:inline-flex; align-items:center; gap:10px; color:var(--text); text-decoration:none; }
-.brand img{ width:28px; height:28px; border-radius:6px; display:block; aspect-ratio:1/1; }
-.brand b{ font-weight:700; font-size:16px; letter-spacing:-.01em; }
-
-.nav-links{ display:flex; align-items:center; gap:14px; flex-wrap:wrap; }
-.nav-links a{
-  color: color-mix(in oklab, var(--text) 85%, black);
-  font-weight:600; font-size:14px; text-decoration:none;
-  padding:6px 10px; border-radius:8px; border:1px solid transparent;
-  transition:color var(--trans), background var(--trans), border-color var(--trans);
-}
-.nav-links a:hover{ color:#ffffff; background:rgba(255,255,255,.07); }
-.nav-links a[aria-current="page"]{
-  color:#0b1020; background: color-mix(in oklab, var(--accent) 35%, white 0%);
-  border-color: color-mix(in oklab, var(--accent) 35%, transparent);
-}
-
-/* =========================================================
-   Hero (smaller, high-contrast)
-   ========================================================= */
-.hero{
-  margin:14px 0;
-  display:flex; align-items:center; gap:12px;
-  padding:12px 16px;
-  background:var(--card);
-  border:1px solid var(--cardBorder);
-  border-radius:var(--radius);
-  box-shadow:var(--shadow);
-}
-.hero-logo{ height:36px; width:auto; }
-.hero h1{ font-size:20px; margin:0 0 4px; color:var(--text); }
-.hero .note{ font-size:var(--f13); color:var(--muted); }
-@media (max-width:768px){
-  .hero{ flex-direction:column; text-align:center; gap:10px; }
-  .hero-logo{ height:32px; }
-}
-
-/* =========================================================
-   Cards / Sections
-   ========================================================= */
+/* ---------- Cards ---------- */
 .card{
   background:var(--card);
   border:1px solid var(--cardBorder);
   border-radius:var(--radius);
-  padding:20px;
+  padding:16px;
   box-shadow:var(--shadow);
-  transition:box-shadow var(--trans), transform var(--trans), border-color var(--trans);
+  transition:box-shadow var(--trans), transform var(--trans);
 }
 .card:hover{ box-shadow:var(--shadow-hover); transform:translateY(-1px); }
 
-/* Tool header strip */
-.tool-header{
-  display:flex; align-items:center; gap:16px;
-  background:var(--card); border:1px solid var(--cardBorder); border-radius:var(--radius);
-  padding:16px 20px; margin:0 0 16px;
+/* ---------- Inputs ---------- */
+.input,select,.textarea,button{ font:inherit; color:inherit; }
+.input,select{
+  width:100%; padding:8px 10px;
+  background:#0b1422; color:var(--text);
+  border:1px solid var(--cardBorder); border-radius:var(--radius-sm);
+  transition:border-color var(--trans), box-shadow var(--trans);
 }
-.tool-icon{
-  width:40px; height:40px; border-radius:10px;
-  background:var(--accent); color:#0b1020;
-  display:grid; place-items:center; font-weight:800; font-size:18px;
-}
-.back-btn{
-  display:inline-grid; place-items:center;
-  width:40px; height:40px; border-radius:10px;
-  background:#223044; color:#e5e7eb; text-decoration:none; font-weight:800;
-  border:1px solid #2f3f55; transition:transform var(--trans), background var(--trans), border-color var(--trans);
-}
-.back-btn:hover{ transform:translateY(-1px); background:#314561; border-color:#436083; }
-
-/* =========================================================
-   Forms (inputs, selects, textareas)
-   ========================================================= */
-.label{ display:block; margin:12px 0 6px; color:var(--muted); font-weight:600; font-size:var(--f13); }
-input,select,textarea,button{ font:inherit; color:inherit; }
-.input, select{
-  width:100%; padding:10px 12px; border-radius:var(--radius-sm);
-  border:1px solid var(--cardBorder); background:var(--bg1); color:var(--text);
-  transition:border-color var(--trans), box-shadow var(--trans), background var(--trans);
-  outline:0;
-}
-.input:focus, select:focus{
-  border-color:var(--accent);
+.input:focus,select:focus{
+  outline:none; border-color:var(--accent);
   box-shadow:0 0 0 3px color-mix(in oklab, var(--accent) 25%, transparent);
 }
 .textarea{
-  width:100%; min-height:90px; padding:10px 12px; border-radius:var(--radius-sm);
-  border:1px solid var(--cardBorder); background:var(--bg1); color:var(--text);
-  resize:vertical; outline:0;
+  width:100%; min-height:90px; resize:vertical;
+  padding:10px 12px; background:#0b1422; color:var(--text);
+  border:1px solid var(--cardBorder); border-radius:var(--radius-sm);
 }
-.input[type="number"]::-webkit-outer-spin-button,
-.input[type="number"]::-webkit-inner-spin-button{ -webkit-appearance:none; margin:0; }
-.input[type="number"]{ -moz-appearance:textfield; }
+.label{ display:block; margin:10px 0 6px; color:var(--muted); font-size:var(--f13); }
 
-/* Simple form grids */
-.form-grid{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
-.form-grid .full{ grid-column:1 / -1; }
-@media (max-width:720px){ .form-grid{ grid-template-columns:1fr; } }
+/* Remove number spinners (Chrome/Firefox) */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button{ -webkit-appearance:none; margin:0; }
+input[type="number"]{ -moz-appearance:textfield; }
 
-/* =========================================================
-   Buttons (AA/AAA contrast)
-   ========================================================= */
+/* ---------- Buttons (AA contrast) ---------- */
 .btn, a.btn{
   display:inline-flex; align-items:center; justify-content:center; gap:8px;
-  min-height:40px; padding:8px 16px;
-  border-radius:var(--radius-sm);
-  border:1px solid var(--btn-border);
-  background:var(--btn-bg); color:var(--btn-fg);
-  font-weight:700; font-size:var(--f14);
-  cursor:pointer; text-decoration:none;
-  transition: background var(--trans), border-color var(--trans), transform .12s ease, box-shadow var(--trans), color var(--trans);
-  box-shadow:inset 0 -1px 0 rgba(0,0,0,.25);
+  padding:9px 14px; min-height:38px; border-radius:10px;
+  background:var(--accent); color:#07110a;            /* dark text on bright */
+  border:1px solid color-mix(in oklab, var(--accent) 70%, black);
+  text-decoration:none; font-weight:800; cursor:pointer;
+  transition:transform var(--trans), box-shadow var(--trans), filter var(--trans);
 }
-.btn:hover, a.btn:hover{
-  background:var(--btn-bg-hover); border-color:var(--btn-bg-hover);
-  transform:translateY(-1px); box-shadow:0 6px 16px rgba(0,0,0,.25);
-}
-.btn:active{ transform:translateY(0); box-shadow:none; }
-.btn:disabled, a.btn[aria-disabled="true"]{ opacity:.65; cursor:not-allowed; box-shadow:none; }
-.btn:focus-visible, a.btn:focus-visible{ outline:3px solid #f59e0b; outline-offset:2px; }
-a.btn:visited{ color:var(--btn-fg); }
-
-/* Variants */
-.btn.secondary, a.btn.secondary{
-  background:rgba(255,255,255,.05); color:var(--text);
+.btn:hover{ transform:translateY(-1px); box-shadow:0 10px 24px rgba(0,0,0,.25); }
+.btn:active{ transform:translateY(0); }
+.btn.secondary{
+  background:transparent; color:var(--text);
   border:1px solid var(--cardBorder);
 }
-.btn.secondary:hover{ background:rgba(255,255,255,.10); border-color:var(--accent); }
-.btn.ghost, a.btn.ghost{
-  background:transparent; color:#e5e7eb; border:1px dashed #334155;
+.btn.secondary:hover{ border-color:var(--accent); }
+.btn.ghost{
+  background:transparent; color:var(--muted);
+  border:1px dashed var(--cardBorder);
 }
 .btn.block{ width:100%; }
-.btn.sm{ min-height:32px; padding:6px 10px; font-size:var(--f13); }
-.btn-group{ display:flex; flex-wrap:wrap; gap:10px; }
+.btn.sm{ padding:6px 10px; min-height:0; font-size:var(--f13); }
 
-/* =========================================================
-   Lists / Tiles
-   ========================================================= */
+/* ---------- Header / brand ---------- */
+header.site{
+  position:sticky; top:0; z-index:10;
+  backdrop-filter:saturate(140%) blur(6px);
+  background:color-mix(in oklab, var(--bg1) 80%, transparent);
+  border-bottom:1px solid var(--cardBorder);
+}
+.header-inner{
+  max-width:var(--content-w); margin:0 auto; padding:10px 16px;
+  display:flex; align-items:center; justify-content:space-between; gap:10px;
+}
+.brand{ display:inline-flex; align-items:center; gap:10px; text-decoration:none; }
+.brand img{ width:24px; height:24px; border-radius:6px; aspect-ratio:1/1; }
+.brand b{ font-size:15px; letter-spacing:.2px; }
+.nav-links a{
+  color:var(--muted); text-decoration:none; margin-left:12px; font-size:var(--f13);
+}
+.nav-links a:hover{ color:var(--text); text-decoration:underline; text-underline-offset:3px; }
+
+/* ---------- HERO (tiny/compact ≈ 1/8th of typical) ---------- */
+/* Targets: <section class="card hero"> ... */
+.card.hero{
+  padding:6px 8px; margin:8px 0; border-radius:10px; gap:8px;
+  display:flex; align-items:center;
+}
+.hero-logo{ width:18px; height:auto; opacity:.95; }
+.card.hero h1{ font-size:12px; margin:0; line-height:1.2; }
+.card.hero .note{ font-size:11px; margin:0; }
+.card.hero .chips{ display:flex; gap:6px; flex-wrap:wrap; margin:0 !important; }
+.pill,.chip{
+  display:inline-flex; align-items:center; gap:6px;
+  padding:3px 8px; border-radius:999px; font-size:11px;
+  border:1px solid var(--cardBorder); background:#0b1422; color:var(--text);
+  text-decoration:none;
+}
+.chip:hover{ border-color:var(--accent); }
+
+/* ---------- Layout helpers ---------- */
+.grid{ display:grid; gap:12px; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); }
+.flex{ display:flex; }
+.btn-group{ display:flex; gap:8px; flex-wrap:wrap; }
+.row{ display:flex; justify-content:space-between; align-items:center; gap:12px; }
+.amount{ font-variant-numeric:tabular-nums; font-weight:800; color:var(--accent); }
+.result{
+  margin-top:10px; padding:12px; border-radius:10px;
+  background:#0b1422; border:1px solid var(--cardBorder);
+}
+.divider{ height:1px; background:var(--cardBorder); margin:10px 0; }
+.center{ display:grid; place-items:center; }
+
+/* ---------- Lists for tool directories ---------- */
 .card ul{
   list-style:none; margin:0; padding:0;
-  display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:12px;
+  display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:12px;
 }
 .card li a{
-  display:flex; align-items:center; gap:12px;
-  padding:14px; border:1px solid var(--cardBorder); border-radius:10px;
-  background:var(--bg1); color:var(--text);
-  text-decoration:none; font-weight:600;
-  transition: transform var(--trans), box-shadow var(--trans), border-color var(--trans), background var(--trans);
+  display:flex; align-items:center; gap:10px;
+  padding:12px; border-radius:10px;
+  background:#0b1422; color:var(--text); text-decoration:none;
+  border:1px solid var(--cardBorder);
+  transition:transform var(--trans), border-color var(--trans), box-shadow var(--trans);
 }
 .card li a:hover{
   transform:translateY(-2px);
   border-color:var(--accent);
-  box-shadow:var(--shadow-hover);
-  background: color-mix(in oklab, var(--accent) 10%, transparent);
+  box-shadow:0 10px 24px rgba(0,0,0,.22);
 }
 
-/* Chips / Pills */
-.pill,.chip{
-  display:inline-flex; align-items:center; gap:6px;
-  padding:6px 10px; border-radius:999px; border:1px solid var(--cardBorder);
-  background:var(--bg1); color:var(--text); font-size:var(--f12); text-decoration:none;
-}
-.chips{ display:flex; gap:8px; flex-wrap:wrap; }
-.chip{ cursor:pointer; }
-.chip:hover{ border-color:var(--accent); }
-
-/* =========================================================
-   Key-value / Results / Tables
-   ========================================================= */
-.result{
-  margin-top:12px; padding:14px; border-radius:10px;
-  background:var(--bg1); border:1px solid var(--cardBorder);
-}
-.row{
-  display:flex; align-items:center; justify-content:space-between; gap:10px;
-  padding:8px 0; border-bottom:1px solid rgba(255,255,255,.06);
-}
-.row:last-child{ border-bottom:0; }
-.kvi{ display:flex; align-items:center; justify-content:space-between; padding:8px 0; border-bottom:1px solid rgba(255,255,255,.06); }
-.kvi:last-child{ border-bottom:0; }
-.amount{ color:var(--accent); font-weight:800; font-variant-numeric:tabular-nums; }
-
-.table{
-  width:100%; border-collapse:separate; border-spacing:0; font-size:var(--f14);
-  background:var(--card); border:1px solid var(--cardBorder); border-radius:10px; overflow:hidden;
-}
-.table th,.table td{ padding:10px 12px; border-bottom:1px solid var(--cardBorder); text-align:left; }
-.table thead th{ background:#0d1625; color:#e8eaed; font-weight:700; }
-.table tr:last-child td{ border-bottom:0; }
-
-/* =========================================================
-   Layout utilities / helpers
-   ========================================================= */
-.grid{ display:grid; gap:12px; grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); }
-.flex{ display:flex; gap:8px; }
-.center{ display:grid; place-items:center; }
-.hidden{ display:none !important; }
-.spacer{ flex:1; }
-.sticky{ position:sticky; top:84px; align-self:start; }
-.embed{ width:100%; aspect-ratio:16/9; border:0; border-radius:10px; }
-
-/* A11y helpers */
+/* ---------- A11y utilities ---------- */
 .sr-only{
-  position:absolute; width:1px; height:1px; padding:0; margin:-1px;
-  overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;
+  position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden;
+  clip:rect(0,0,0,0); white-space:nowrap; border:0;
+}
+:focus-visible{
+  outline:3px solid color-mix(in oklab, var(--accent) 60%, white);
+  outline-offset:2px;
 }
 
-/* Skeletons (optional) */
-.skeleton{
-  background:linear-gradient(90deg,rgba(255,255,255,.05),rgba(255,255,255,.10),rgba(255,255,255,.05));
-  background-size:200% 100%; animation:loading 1.2s infinite; border-radius:6px;
-}
-@keyframes loading{ 0%{background-position:200% 0} 100%{background-position:-200% 0} }
-
-/* Selection & scrollbars */
-::selection{ background:color-mix(in oklab, var(--accent) 25%, transparent); color:#fff; }
+/* ---------- Scrollbars & selection ---------- */
+::selection{ background:color-mix(in oklab, var(--accent) 35%, transparent); }
 ::-webkit-scrollbar{ width:8px; height:8px; }
-::-webkit-scrollbar-track{ background:transparent; }
-::-webkit-scrollbar-thumb{ background:#445062; border-radius:10px; }
-::-webkit-scrollbar-thumb:hover{ background:#66748a; }
+::-webkit-scrollbar-thumb{ background:var(--cardBorder); border-radius:8px; }
+::-webkit-scrollbar-thumb:hover{ background:color-mix(in oklab, var(--cardBorder) 60%, white); }
 
-/* =========================================================
-   Mobile tweaks
-   ========================================================= */
+/* ---------- Mobile tweaks ---------- */
 @media (max-width:768px){
-  .wrap{ margin:20px auto; padding:16px; }
-  h1{ font-size:24px; }
-  .card{ padding:16px; }
-  .tool-header{ flex-direction:column; align-items:flex-start; gap:10px; }
-  .header-inner{ padding:10px 12px; }
-  .nav-links{ gap:8px; }
-  .nav-links a{ padding:6px 8px; }
+  .wrap{ margin:18px auto; padding:14px; }
+  h1{ font-size:20px; }
+  .card{ padding:14px; }
+  .card ul{ grid-template-columns:1fr; }
+  .header-inner{ padding:8px 12px; }
 }
 
-/* Reduced motion */
+/* ---------- Reduced motion ---------- */
 @media (prefers-reduced-motion:reduce){
-  *{ transition:none !important; animation:none !important; }
-  .card:hover, .btn:hover{ transform:none !important; box-shadow:var(--shadow) !important; }
+  .card:hover, .btn:hover{ transform:none; box-shadow:var(--shadow); }
+  .btn, a.btn{ transition:none; }
 }
