@@ -550,4 +550,109 @@ header.site{
   aspect-ratio: 1 / 1;              /* belt-and-suspenders to avoid jumps */
 }
 
+/* ==========================
+   Responsive Game Layout (AA)
+   ========================== */
+
+:root{
+  /* Tune these without touching JS */
+  --board-gap: clamp(4px, 1.2vw, 12px);
+  --cell-min:  34px;                 /* smallest tile size allowed */
+  --hud-gap:   10px;
+}
+
+/* Shell that contains HUD + board + controls */
+.game-shell{
+  display:grid;
+  gap:var(--hud-gap);
+  margin: 0 auto;
+  max-width:min(96vw, var(--content-w));
+}
+
+/* HUD row (score, timer, level, etc.) */
+.game-hud{
+  display:flex; align-items:center; justify-content:space-between; gap:10px;
+  flex-wrap:wrap;
+}
+
+/* Board holder keeps a perfect square that shrinks to fit */
+.board-wrap{
+  position:relative;
+  width:100%;
+  /* height is set by JS to keep a square that fits viewport */
+  margin:0 auto;
+}
+
+/* The actual board grid. We use a CSS var --cols you set in JS. */
+.board{
+  position:absolute; inset:0;
+  display:grid;
+  grid-template-columns: repeat(var(--cols, 4), 1fr);
+  gap:var(--board-gap);
+  padding:var(--board-gap);
+  background: var(--card);
+  border:1px solid var(--cardBorder);
+  border-radius: var(--radius);
+  overflow:hidden;
+}
+
+/* Square tiles that auto-resize */
+.tile{
+  display:grid; place-items:center;
+  border-radius: 10px;
+  background: color-mix(in oklab, var(--accent) 24%, var(--bg));
+  border: 1px solid color-mix(in oklab, var(--accent) 40%, var(--cardBorder));
+  color: var(--text);
+  font-weight:700;
+  user-select:none;
+  aspect-ratio: 1 / 1;          /* <- keeps boxes square */
+  min-width: var(--cell-min);
+  min-height: var(--cell-min);
+}
+
+/* Variant tile styles if needed */
+.tile--odd    { outline: 2px dashed rgba(255,255,255,.18); }
+.tile--active { background: color-mix(in oklab, var(--accent) 38%, var(--bg)); }
+
+/* Mobile controls (D-pad) – shown only on small screens */
+.game-controls{
+  display:none;
+  gap:10px;
+  justify-content:center;
+}
+.game-controls .btn{
+  min-width:56px; min-height:44px;
+  font-size:18px; border-radius:10px;
+}
+
+/* Keep page steady / prevent accidental scroll during play */
+html, body { height:100%; }
+body{
+  overscroll-behavior: contain;     /* stop pull-to-refresh scroll chain */
+  touch-action: manipulation;       /* reduce double-tap zoom */
+}
+
+/* Responsive stacking:
+   - Portrait: HUD -> Board -> Controls (stack)
+   - Landscape: HUD left, Board right (if space), controls under board
+*/
+@media (max-width: 800px){
+  .game-shell{ grid-template-columns: 1fr; }
+  .game-controls{ display:flex; }
+}
+@media (min-width: 801px){
+  .game-shell{
+    grid-template-columns: 360px 1fr;       /* HUD column + big board */
+    align-items:start;
+  }
+  .game-hud{ position:sticky; top:84px; align-self:start; }
+  .game-controls{ display:flex; grid-column: 1 / -1; }
+}
+
+/* Strong focus for tiles if you make them focusable for keyboard play */
+.tile:focus-visible{
+  outline:3px solid #f59e0b; outline-offset:2px;
+}
+
+
 /* --- End of stylesheet --- */

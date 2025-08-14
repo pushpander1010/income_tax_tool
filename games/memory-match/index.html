@@ -1,426 +1,244 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617" crossorigin="anonymous"></script>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Memory Match – Free Online Game | UpTools</title>
-  <meta name="description" content="Play Memory Match online for free. Flip cards, remember positions, and match pairs. Multiple difficulties, peek start, sounds, haptics, and best-time tracking." />
-  <meta name="robots" content="index,follow" />
-  <meta name="theme-color" content="#0f1419" />
-  <meta property="og:title" content="Memory Match – Free Online Game | UpTools" />
-  <meta property="og:description" content="Test your memory with a fast, polished Memory Match. Peek, sounds, and best-time tracking." />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://www.uptools.in/games/memory-match" />
-  <meta property="og:site_name" content="UpTools" />
-  <link rel="canonical" href="https://www.uptools.in/games/memory-match" />
-  <link rel="stylesheet" href="/style.css?v=1.0.0"/>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>About UpTools — Fast, Privacy‑First Web Tools (India & Beyond)</title>
 
-  <style>
-    body{
-      --accent:#4ecdc4;
-      --accent2:#5fe1d8;
-      --danger:#ff6b6b;
-      --bg:#0f1419;
-      --card:#1e2634;
-      --muted:#9aa4b2;
-      background: radial-gradient(1200px 600px at 10% -10%, #162130 0%, var(--bg) 45%) fixed;
+<meta name="description" content="UpTools is a fast, privacy-first collection of everyday web tools for India and beyond—tax & finance calculators, text/JSON utilities, converters, and mini games. No logins, lightweight pages, instant results." />
+<meta name="keywords" content="UpTools, free online tools, India calculators, income tax calculator India, GST calculator, EMI calculator, SIP calculator, IFSC finder, PAN validator, currency converter, JSON formatter, text converter, word counter, IP lookup, UUID generator, base64 encoder, QR generator" />
+
+<link rel="canonical" href="https://www.uptools.in/about/">
+<link rel="icon" type="image/svg+xml" href="/assets/uptools-mark.svg">
+
+<!-- Open Graph / Twitter -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="About UpTools — Fast, Privacy‑First Web Tools" />
+<meta property="og:description" content="Lightweight, no‑nonsense tools for finance, formatting, utilities, and mini games." />
+<meta property="og:url" content="https://www.uptools.in/about/">
+<meta property="og:image" content="https://www.uptools.in/assets/uptools-hero.webp">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="About UpTools — Fast, Privacy‑First Web Tools">
+<meta name="twitter:description" content="Lightweight, no‑nonsense tools for finance, formatting, utilities, and mini games.">
+<meta name="twitter:image" content="https://www.uptools.in/assets/uptools-hero.webp">
+
+<link rel="preload" as="image" href="/assets/uptools-hero.webp" imagesizes="100vw">
+
+<link rel="stylesheet" href="/style.css?v=1.0.0" />
+
+<!-- Structured data: AboutPage + Organization + Breadcrumbs + ItemList (tools) + FAQ -->
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"AboutPage",
+  "name":"About UpTools",
+  "url":"https://www.uptools.in/about/",
+  "description":"UpTools is a privacy-first collection of fast web tools for everyday tasks in India and beyond.",
+  "isPartOf":{"@type":"WebSite","name":"UpTools","url":"https://www.uptools.in/"},
+  "primaryImageOfPage":{"@type":"ImageObject","url":"https://www.uptools.in/assets/uptools-hero.webp","width":1600,"height":900}
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"Organization",
+  "name":"UpTools",
+  "url":"https://www.uptools.in/",
+  "logo":"https://www.uptools.in/assets/uptools-mark.svg",
+  "sameAs":[
+    "https://www.youtube.com/@UpTools"  ,
+    "https://github.com/uptools"        
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"BreadcrumbList",
+  "itemListElement":[
+    {"@type":"ListItem","position":1,"name":"Home","item":"https://www.uptools.in/"},
+    {"@type":"ListItem","position":2,"name":"About","item":"https://www.uptools.in/about/"}
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"ItemList",
+  "name":"Popular Tools on UpTools",
+  "itemListElement":[
+    {"@type":"ListItem","position":1,"url":"https://www.uptools.in/income-tax-tool/"},
+    {"@type":"ListItem","position":2,"url":"https://www.uptools.in/gst-calculator/"},
+    {"@type":"ListItem","position":3,"url":"https://www.uptools.in/emi-calculator/"},
+    {"@type":"ListItem","position":4,"url":"https://www.uptools.in/sip-calculator/"},
+    {"@type":"ListItem","position":5,"url":"https://www.uptools.in/ifsc-finder/"},
+    {"@type":"ListItem","position":6,"url":"https://www.uptools.in/pan-validator/"},
+    {"@type":"ListItem","position":7,"url":"https://www.uptools.in/currency-converter/"},
+    {"@type":"ListItem","position":8,"url":"https://www.uptools.in/json-formatter/"}
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"FAQPage",
+  "mainEntity":[
+    {
+      "@type":"Question",
+      "name":"Do you store or send my data to a server?",
+      "acceptedAnswer":{"@type":"Answer","text":"No. Most tools run entirely in your browser. For tools that need network calls (e.g., IFSC lookup), we indicate clearly. We don’t ask for logins or personal details."}
+    },
+    {
+      "@type":"Question",
+      "name":"Are your finance tools India-focused?",
+      "acceptedAnswer":{"@type":"Answer","text":"Yes. We prioritize India-first calculators like Income Tax, GST, EMI, SIP, and IFSC, while also offering global utilities such as JSON Formatter, Base64 Encoder, and Currency Converter."}
+    },
+    {
+      "@type":"Question",
+      "name":"Can I suggest a tool or report a bug?",
+      "acceptedAnswer":{"@type":"Answer","text":"Absolutely—use the Contact page to share ideas, report issues, or request new features."}
     }
+  ]
+}
+</script>
 
-    .tool-header{ text-align:center; margin:1rem 0 .25rem }
-    .tool-header h1{ display:flex; align-items:center; justify-content:center; gap:.5rem }
-    .tool-header p{ margin:.25rem 0 0 }
-
-    /* Smart back button */
-    .back-btn{
-      appearance:none; background:transparent; color:var(--text);
-      border:1px solid var(--cardBorder); border-radius:.6rem;
-      padding:.4rem .7rem; font-weight:700; cursor:pointer;
-      transition:transform .12s ease, border-color .12s ease, background .12s ease;
-    }
-    .back-btn:hover{ transform:translateY(-1px); border-color:var(--accent); background:rgba(255,255,255,.03) }
-
-    .game-wrap{ max-width:980px; margin:0 auto; padding:1rem; }
-    .panel{
-      background:var(--card); border:1px solid var(--cardBorder);
-      border-radius:var(--radius); box-shadow:var(--shadow);
-      padding:1rem; margin:0 auto;
-    }
-
-    .hud{
-      display:grid; grid-template-columns:repeat(4,1fr);
-      gap:.75rem; align-items:center; margin-bottom:.75rem;
-    }
-    .kpi{
-      text-align:center; padding:.5rem .75rem; border:1px solid var(--cardBorder);
-      border-radius:.75rem; background:rgba(255,255,255,.02)
-    }
-    .kpi .value{ font-size:1.35rem; font-weight:800; color:var(--accent) }
-    .kpi .label{ font-size:.8rem; color:var(--muted) }
-
-    .bar{
-      display:flex; flex-wrap:wrap; gap:.5rem; align-items:center; justify-content:center; margin:.5rem 0 0;
-    }
-    .difficulty-btn{
-      padding:.5rem .8rem; border-radius:.6rem; border:1px solid var(--cardBorder);
-      background:#0f151f; color:var(--text); font-weight:700; cursor:pointer;
-      transition:transform .12s ease, border-color .12s ease, background .12s ease;
-    }
-    .difficulty-btn:hover{ border-color:var(--accent) }
-    .difficulty-btn.active{ background:var(--accent); color:#0b1020; border-color:var(--accent) }
-
-    .controls{ display:flex; gap:.5rem; justify-content:center; margin: .75rem 0 0 }
-    .btn{
-      padding:.6rem 1rem; border:none; border-radius:.75rem; font-weight:700; cursor:pointer;
-      transition: transform .12s ease, box-shadow .12s ease;
-    }
-    .btn.primary{ background:var(--accent); color:#0b1020 }
-    .btn.secondary{ background:transparent; color:var(--text); border:1px solid var(--cardBorder) }
-    .btn:hover{ transform:translateY(-1px); box-shadow:var(--shadow-hover) }
-
-    .status{ text-align:center; margin:.75rem 0 0; color:var(--muted); font-weight:600 }
-
-    /* Grid */
-    .grid{
-      display:grid; gap:10px; margin:1rem auto; justify-content:center;
-    }
-    .grid.easy   { grid-template-columns:repeat(4,1fr); max-width: 440px; }
-    .grid.medium { grid-template-columns:repeat(6,1fr); max-width: 660px; }
-    .grid.hard   { grid-template-columns:repeat(8,1fr); max-width: 880px; }
-
-    /* Card */
-    .card-tile{
-      aspect-ratio:1; position:relative; border-radius:12px;
-      border:2px solid var(--cardBorder); background:#0f151f;
-      display:grid; place-items:center; cursor:pointer; user-select:none;
-      transition:transform .12s ease, border-color .12s ease, background .12s ease;
-      outline: none;
-    }
-    .card-tile:hover{ transform:translateY(-1px); border-color:var(--accent) }
-    .card-tile:focus-visible{ box-shadow:0 0 0 3px rgba(78,205,196,.25); border-color:var(--accent) }
-
-    .face{
-      font-size:2rem; transform:scale(.85); opacity:0; transition:opacity .12s ease, transform .12s ease;
-    }
-    .flipped .face{ opacity:1; transform:scale(1) }
-    .flipped{ background:linear-gradient(135deg, #0f151f, #203040); border-color:var(--accent) }
-
-    .matched{
-      background:var(--accent); border-color:var(--accent);
-      animation: pulse .35s ease-in-out;
-      color:#0b1020;
-    }
-    .matched .face{ opacity:1 }
-    @keyframes pulse{ 0%,100%{ transform:scale(1)} 50%{ transform:scale(1.05)} }
-
-    .peek .card-tile .face{ opacity:1; transform:scale(1) } /* peek phase shows all */
-    .peek .card-tile{ border-color:rgba(255,255,255,.15) }
-  </style>
+<!-- Ads (kept async) -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617" crossorigin="anonymous"></script>
 </head>
 <body>
-  <div class="container">
-    <div class="tool-header">
-      <button id="backSmart" class="back-btn" type="button" aria-label="Back to games">← Back</button>
-      <h1>🧠 Memory Match</h1>
-      <p>Flip cards and match pairs. How fast can you complete it?</p>
-    </div>
+<header class="site">
+  <div class="header-inner">
+    <a class="brand" href="/"><img src="/assets/uptools-mark.svg" alt="UpTools logo" width="28" height="28" loading="eager"><b>UpTools</b></a>
+    <nav class="nav-links">
+      <a href="/#tools">Tools</a>
+      <a href="/games/">Games</a>
+      <a aria-current="page" href="/about/">About</a>
+      <a href="/contact/">Contact</a>
+    </nav>
+  </div>
+</header>
 
-    <div class="game-wrap">
-      <section class="panel">
-        <div class="hud" aria-live="polite">
-          <div class="kpi"><div class="value" id="timer">00:00</div><div class="label">Time</div></div>
-          <div class="kpi"><div class="value" id="moves">0</div><div class="label">Moves</div></div>
-          <div class="kpi"><div class="value" id="pairs">0</div><div class="label">Pairs Found</div></div>
-          <div class="kpi"><div class="value" id="best">--:--</div><div class="label">Best</div></div>
-        </div>
-
-        <div class="bar" role="toolbar" aria-label="Difficulty">
-          <button class="difficulty-btn" data-level="easy">Easy (8 cards)</button>
-          <button class="difficulty-btn" data-level="medium">Medium (18 cards)</button>
-          <button class="difficulty-btn" data-level="hard">Hard (32 cards)</button>
-        </div>
-
-        <div id="status" class="status">Tap any card to start. You’ll get a quick peek!</div>
-
-        <div id="boardWrap" class="panel" style="padding:.75rem; margin-top:.75rem">
-          <div id="grid" class="grid easy" role="grid" aria-label="Memory cards"></div>
-        </div>
-
-        <div class="controls">
-          <button id="newGame" class="btn primary">New Game</button>
-          <button id="resetBest" class="btn secondary">Reset Best Times</button>
-        </div>
-      </section>
-    </div>
+<main class="wrap">
+  <!-- Hero / Intro -->
+  <div class="tool-header">
+    <div class="tool-icon" aria-hidden="true">U</div>
+    <h1>About UpTools</h1>
   </div>
 
-  <script>
-    (() => {
-      // ---------- Utilities
-      const $ = (s, el=document) => el.querySelector(s);
-      const randInt = (n) => (Math.random() * n) | 0;
+  <div class="card">
+    <picture>
+      <source srcset="/assets/uptools-hero.webp" type="image/webp">
+      <img src="/assets/uptools-hero.webp" alt="UpTools — fast, privacy-first tools" width="1600" height="900" loading="lazy" style="width:100%;height:auto;border-radius:12px">
+    </picture>
 
-      // Smart back
-      $("#backSmart").addEventListener("click", () => {
-        if (history.length > 1) history.back();
-        else window.location.href = "/games/?played=memory-match";
-      });
+    <p style="margin-top:12px">UpTools is a growing collection of <b>fast, privacy‑first</b> tools for everyday tasks—<i>finance</i>, <i>text & JSON</i>, <i>converters</i>, <i>generators</i>, and <i>mini games</i>. Pages are lightweight, results are instant, and your data stays on your device whenever possible.</p>
 
-      // WebAudio bleeps (no files)
-      let audioCtx = null;
-      const beep = (type="square", freq=440, ms=80, gain=0.025) => {
-        try{
-          audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
-          const o = audioCtx.createOscillator();
-          const g = audioCtx.createGain();
-          o.type = type; o.frequency.value = freq;
-          g.gain.value = gain;
-          o.connect(g); g.connect(audioCtx.destination);
-          o.start();
-          setTimeout(()=>{ o.stop(); o.disconnect(); g.disconnect(); }, ms);
-        }catch{}
-      };
-      const buzz = (ms=15) => { if (navigator.vibrate) navigator.vibrate(ms); };
+    <ul class="chips" style="margin-top:8px">
+      <li class="chip">No logins</li>
+      <li class="chip">Loads fast</li>
+      <li class="chip">Mobile‑friendly</li>
+      <li class="chip">A11y‑checked</li>
+      <li class="chip">India‑focused finance</li>
+    </ul>
 
-      // ---------- Game
-      class MemoryMatch {
-        constructor(){
-          // Emoji pool (>= 32 unique)
-          this.pool = [
-            "🍎","🍊","🍋","🍉","🍇","🍓","🍒","🍍","🥝","🥑","🥕","🌶️","🍄","🥨","🍪","🍰",
-            "🐶","🐱","🐭","🐹","🐰","🦊","🐻","🐼","🦁","🐯","🦄","🐸","🐵","🐙","🐠","🦋"
-          ];
-          this.cfg = {
-            easy:   { pairs: 4 },   // 8 cards
-            medium: { pairs: 9 },   // 18 cards
-            hard:   { pairs: 16 },  // 32 cards
-          };
+    <p class="note">Why it matters: simpler pages, fewer distractions, and accurate outputs you can rely on.</p>
+  </div>
 
-          // State
-          this.level = localStorage.getItem("mem-level") || "easy";
-          this.cards = [];       // [{id, symbol, el, matched}]
-          this.flipped = [];     // [cardEl, cardEl]
-          this.pairsFound = 0;
-          this.moves = 0;
-          this.peeking = false;
-          this.locked = false;
-          this.running = false;
-          this.seconds = 0;
-          this.tid = null;
+  <!-- Popular Tools (internal backlinks) -->
+  <section aria-labelledby="popular-tools" class="card" style="margin-top:16px">
+    <h2 id="popular-tools">Popular tools</h2>
+    <ul class="tool-list" style="list-style:none;margin:12px 0 0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px">
+      <li><a class="tool-link accent-blue" href="/income-tax-tool/"><span class="ico">₹</span><span>Income Tax Calculator (India)</span></a></li>
+      <li><a class="tool-link accent-green" href="/gst-calculator/"><span class="ico">GST</span><span>GST Calculator</span></a></li>
+      <li><a class="tool-link accent-violet" href="/emi-calculator/"><span class="ico">EMI</span><span>Loan EMI Calculator</span></a></li>
+      <li><a class="tool-link accent-emerald" href="/sip-calculator/"><span class="ico">SIP</span><span>SIP Calculator</span></a></li>
+      <li><a class="tool-link accent-sky" href="/currency-converter/"><span class="ico">₹⇄$</span><span>Currency Converter</span></a></li>
+      <li><a class="tool-link accent-indigo" href="/ifsc-finder/"><span class="ico">🏦</span><span>IFSC Finder</span></a></li>
+      <li><a class="tool-link accent-amber" href="/pan-validator/"><span class="ico">🆔</span><span>PAN Format Validator</span></a></li>
+      <li><a class="tool-link accent-slate" href="/json-formatter/"><span class="ico">{ }</span><span>JSON Formatter & Viewer</span></a></li>
+      <li><a class="tool-link accent-pink" href="/text-case-converter/"><span class="ico">Aa</span><span>Text Case Converter</span></a></li>
+      <li><a class="tool-link accent-red" href="/qr-generator/"><span class="ico">▩</span><span>QR Code Generator</span></a></li>
+      <li><a class="tool-link accent-zinc" href="/uuid-generator/"><span class="ico">🔑</span><span>UUID Generator</span></a></li>
+      <li><a class="tool-link accent-teal" href="/base64-encoder/"><span class="ico">64</span><span>Base64 Encoder / Decoder</span></a></li>
+    </ul>
+    <p class="note" style="margin-top:10px">Browse everything on the <a href="/#tools">Tools</a> page.</p>
+  </section>
 
-          // DOM
-          this.grid = $("#grid");
-          this.timerEl = $("#timer");
-          this.movesEl = $("#moves");
-          this.pairsEl = $("#pairs");
-          this.bestEl = $("#best");
-          this.statusEl = $("#status");
+  <!-- Learn & Trust (external references for E-E-A-T) -->
+  <section aria-labelledby="learn-more" class="card" style="margin-top:16px">
+    <h2 id="learn-more">Helpful references</h2>
+    <p class="note">Independent resources our users often check alongside our tools:</p>
+    <ul>
+      <li><a href="https://www.incometax.gov.in/" rel="noopener external nofollow" target="_blank">Government of India — Income Tax Department</a> (compare slabs & rules)</li>
+      <li><a href="https://www.rbi.org.in/" rel="noopener external nofollow" target="_blank">Reserve Bank of India</a> (banking, IFSC basics)</li>
+      <li><a href="https://www.canada.ca/en/immigration-refugees-citizenship.html" rel="noopener external nofollow" target="_blank">IRCC (Canada)</a> (Express Entry / CRS background)</li>
+    </ul>
+  </section>
 
-          // Wire UI
-          this.bindUI();
-          this.setLevel(this.level);
-          this.newGame(true); // initial render with peek
-        }
+  <!-- Lightweight Video (optional) -->
+  <section aria-labelledby="video" class="card" style="margin-top:16px">
+    <h2 id="video">Quick overview (2 min)</h2>
+    <p class="note">Prefer watching? Here’s a short walkthrough of how to use some of the most‑used tools.</p>
+    <div style="position:relative;padding-top:56.25%;border-radius:12px;overflow:hidden;border:1px solid var(--cardBorder)">
+      <!-- Replace VIDEO_ID with your real YouTube video ID -->
+      <iframe
+        loading="lazy"
+        src="https://www.youtube.com/embed/VIDEO_ID"
+        title="UpTools overview"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen
+        style="position:absolute;inset:0;width:100%;height:100%;border:0;background:#000">
+      </iframe>
+    </div>
+    <p class="small note">No time now? <a href="https://www.youtube.com/@UpTools" rel="noopener external nofollow" target="_blank">Subscribe on YouTube</a> for tips and updates.</p>
+  </section>
 
-        bindUI(){
-          // Difficulty
-          document.querySelectorAll(".difficulty-btn").forEach(btn=>{
-            btn.addEventListener("click", () => this.setLevel(btn.dataset.level, btn));
-          });
-          // New game & reset best
-          $("#newGame").addEventListener("click", () => this.newGame(true));
-          $("#resetBest").addEventListener("click", () => this.resetBest());
+  <!-- How we build (SEO + trust) -->
+  <section aria-labelledby="principles" class="card" style="margin-top:16px">
+    <h2 id="principles">Our principles</h2>
+    <div class="grid">
+      <div>
+        <h3>Privacy‑first</h3>
+        <p>Most tools run entirely in your browser. We don’t ask for sign‑ups or personal details. Where an API is needed, we keep it transparent.</p>
+      </div>
+      <div>
+        <h3>Performance</h3>
+        <p>Minimal JavaScript, optimized images, and accessible color contrast. Pages are designed for fast FCP/LCP and low CLS.</p>
+      </div>
+      <div>
+        <h3>Clarity</h3>
+        <p>Each tool explains inputs, outputs, and assumptions, with examples where helpful—no dark patterns, no clutter.</p>
+      </div>
+      <div>
+        <h3>Accessibility</h3>
+        <p>Keyboard focus styles, readable fonts, and high‑contrast UI. We aim for WCAG AA where practical.</p>
+      </div>
+    </div>
+  </section>
 
-          // Keyboard: Esc back to /games
-          window.addEventListener("keydown", (e) => {
-            if (e.key === "Escape") {
-              if (history.length > 1) history.back();
-              else window.location.href = "/games/?played=memory-match";
-            }
-          });
-        }
+  <!-- FAQ (mirrors FAQPage structured data) -->
+  <section aria-labelledby="faq" class="card" style="margin-top:16px">
+    <h2 id="faq">FAQ</h2>
+    <details>
+      <summary><b>Do you store or send my data to a server?</b></summary>
+      <p>No. Most tools run entirely in your browser. For tools that need network calls (e.g., IFSC lookup), we indicate clearly. We don’t ask for logins or personal details.</p>
+    </details>
+    <details>
+      <summary><b>Are your finance tools India‑focused?</b></summary>
+      <p>Yes. We prioritize India‑first calculators like Income Tax, GST, EMI, SIP, and IFSC, while also offering global utilities such as JSON Formatter, Base64 Encoder, and Currency Converter.</p>
+    </details>
+    <details>
+      <summary><b>Can I suggest a tool or report a bug?</b></summary>
+      <p>Absolutely—use the <a href="/contact/">Contact</a> page to share ideas, report issues, or request new features.</p>
+    </details>
+  </section>
 
-        setLevel(level, btn){
-          if (!this.cfg[level]) level = "easy";
-          this.level = level;
-          localStorage.setItem("mem-level", level);
-          // button state
-          document.querySelectorAll(".difficulty-btn").forEach(b=>b.classList.remove("active"));
-          const activeBtn = btn || document.querySelector(`.difficulty-btn[data-level="${level}"]`);
-          if (activeBtn) activeBtn.classList.add("active");
-          // grid class
-          this.grid.className = "grid " + level;
-          this.updateBestDisplay();
-        }
+  <!-- Footer -->
+  <footer class="note small site-footer">© <span id="y"></span> UpTools · <a href="/sitemap.xml">Sitemap</a></footer>
+</main>
 
-        cardTemplate(id, symbol){
-          const el = document.createElement("button");
-          el.className = "card-tile";
-          el.setAttribute("type","button");
-          el.setAttribute("role","gridcell");
-          el.setAttribute("aria-label","Hidden card");
-          el.dataset.id = id;
-          el.dataset.symbol = symbol;
-          el.innerHTML = `<span class="face" aria-hidden="true">${symbol}</span>`;
-          el.addEventListener("click", () => this.flip(el));
-          el.addEventListener("keydown", (e)=> {
-            if (e.key === " " || e.key === "Enter") { e.preventDefault(); this.flip(el); }
-          });
-          return el;
-        }
-
-        buildDeck(){
-          const { pairs } = this.cfg[this.level];
-          const symbols = [...this.pool].slice(0, pairs);
-          const deck = [];
-          let id = 0;
-          for (const s of symbols){
-            deck.push({ id:id++, symbol:s, matched:false });
-            deck.push({ id:id++, symbol:s, matched:false });
-          }
-          // shuffle
-          for (let i = deck.length - 1; i > 0; i--){
-            const j = randInt(i+1);
-            [deck[i], deck[j]] = [deck[j], deck[i]];
-          }
-          return deck;
-        }
-
-        mountBoard(deck){
-          this.grid.innerHTML = "";
-          this.cards = deck.map(card => {
-            const el = this.cardTemplate(card.id, card.symbol);
-            this.grid.appendChild(el);
-            return { ...card, el };
-          });
-          // focus first tile for keyboard users
-          const first = this.grid.querySelector(".card-tile");
-          if (first) first.focus({ preventScroll:true });
-        }
-
-        newGame(withPeek=false){
-          this.stopTimer();
-          this.seconds = 0; this.moves = 0; this.pairsFound = 0;
-          this.flipped = []; this.locked = false; this.running = false;
-          this.updateHUD();
-
-          const deck = this.buildDeck();
-          this.mountBoard(deck);
-
-          // peek phase
-          if (withPeek){
-            this.statusEl.textContent = "Memorize the board…";
-            document.body.classList.add("peek");
-            this.cards.forEach(c => c.el.classList.add("flipped"));
-            // reveal for a moment
-            setTimeout(() => {
-              document.body.classList.remove("peek");
-              this.cards.forEach(c => c.el.classList.remove("flipped"));
-              this.statusEl.textContent = "Go! Flip two cards to start the timer.";
-              this.peeking = false;
-            }, 1500);
-            this.peeking = true;
-          } else {
-            this.statusEl.textContent = "Tap any card to start!";
-          }
-        }
-
-        start(){
-          if (this.running) return;
-          this.running = true;
-          this.tid = setInterval(()=>{ this.seconds++; this.updateHUD() }, 1000);
-        }
-
-        stopTimer(){
-          if (this.tid){ clearInterval(this.tid); this.tid = null; }
-          this.running = false;
-        }
-
-        flip(el){
-          if (this.peeking || this.locked) return;
-          if (el.classList.contains("matched") || el.classList.contains("flipped")) return;
-
-          // first action starts timer
-          if (!this.running) {
-            this.start();
-          }
-
-          el.classList.add("flipped");
-          el.setAttribute("aria-label","Revealed card");
-          beep("triangle", 560, 50, .02);
-
-          this.flipped.push(el);
-          if (this.flipped.length === 2){
-            this.moves++; this.updateHUD();
-            this.checkMatch();
-          }
-        }
-
-        checkMatch(){
-          const [a, b] = this.flipped;
-          const same = a.dataset.symbol === b.dataset.symbol;
-          if (same){
-            a.classList.add("matched"); b.classList.add("matched");
-            this.pairsFound++;
-            this.flipped = [];
-            beep("sine", 760, 90, .03); buzz(12);
-            this.updateHUD();
-            if (this.pairsFound === this.cfg[this.level].pairs){
-              this.finish();
-            }
-          } else {
-            this.locked = true;
-            beep("sawtooth", 220, 90, .025);
-            setTimeout(()=>{
-              a.classList.remove("flipped"); b.classList.remove("flipped");
-              a.setAttribute("aria-label","Hidden card");
-              b.setAttribute("aria-label","Hidden card");
-              this.flipped = [];
-              this.locked = false;
-            }, 650);
-          }
-        }
-
-        finish(){
-          this.stopTimer();
-          const t = this.formatTime(this.seconds);
-          this.statusEl.innerHTML = `🎉 Completed in <b>${t}</b> with ${this.moves} moves!`;
-          // best time
-          const key = `mem-best-${this.level}`;
-          const cur = +(localStorage.getItem(key) || 0);
-          if (cur === 0 || this.seconds < cur){
-            localStorage.setItem(key, String(this.seconds));
-          }
-          this.updateBestDisplay();
-        }
-
-        resetBest(){
-          Object.keys(this.cfg).forEach(l => localStorage.removeItem(`mem-best-${l}`));
-          this.updateBestDisplay();
-          this.statusEl.textContent = "Best times reset. Good luck!";
-        }
-
-        updateBestDisplay(){
-          const key = `mem-best-${this.level}`;
-          const s = localStorage.getItem(key);
-          this.bestEl.textContent = s ? this.formatTime(+s) : "--:--";
-        }
-
-        updateHUD(){
-          this.timerEl.textContent = this.formatTime(this.seconds);
-          this.movesEl.textContent = this.moves;
-          this.pairsEl.textContent = this.pairsFound;
-        }
-
-        formatTime(sec){
-          const m = Math.floor(sec/60), s = sec%60;
-          return `${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`;
-        }
-      }
-
-      // Boot
-      new MemoryMatch();
-    })();
-  </script>
+<script>
+  document.getElementById('y').textContent = new Date().getFullYear();
+</script>
 </body>
 </html>
