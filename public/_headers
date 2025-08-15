@@ -1,19 +1,43 @@
+# --- Site-wide safety ---
 /*
   X-Content-Type-Options: nosniff
-  X-Frame-Options: SAMEORIGIN
   Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: geolocation=(), microphone=(), camera=()
+  Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Resource-Policy: cross-origin
+
+# --- HTML: never cache (pages) ---
+/index.html
+  Cache-Control: no-store, must-revalidate
 
 /*.html
-  Cache-Control: public, max-age=3600, must-revalidate
+  Cache-Control: no-store, must-revalidate
 
-/*.css
-  Cache-Control: public, max-age=3600, must-revalidate
+/
+  Cache-Control: no-store, must-revalidate
 
-/*.js
-  Cache-Control: public, max-age=3600, must-revalidate
+# --- XML/TXT: short cache (1 hour) ---
+/sitemap.xml
+  Content-Type: application/xml; charset=UTF-8
+  Cache-Control: public, max-age=3600
 
+/robots.txt
+  Content-Type: text/plain; charset=UTF-8
+  Cache-Control: public, max-age=3600
+
+# --- Shared CSS: 7d + SWR 1d (you version via ?v=) ---
+/style.css
+  Cache-Control: public, max-age=604800, stale-while-revalidate=86400
+
+# --- Static assets: 1 year immutable ---
 /assets/*
-  Cache-Control: public, max-age=3600, must-revalidate
+  Cache-Control: public, max-age=31536000, immutable
 
-/favicon.ico
-  Cache-Control: public, max-age=3600, must-revalidate
+/*.woff2
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.webp
+  Cache-Control: public, max-age=31536000, immutable
+
+/*.(css|js|png|jpg|jpeg|svg|gif|ico|ttf)
+  Cache-Control: public, max-age=31536000, immutable
