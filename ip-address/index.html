@@ -1,64 +1,458 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617"
-     crossorigin="anonymous"></script>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Your IP Address - UpTools</title>
-    <meta name="description" content="Show your public IP address." />
-    <meta name="robots" content="index,follow" />
-    <meta name="theme-color" content="#0b1020" />
-    <link rel="canonical" href="https://www.uptools.in/ip-address/" />
-    <meta property="og:title" content="Your IP Address - UpTools" />
-    <meta property="og:description" content="Show your public IP address." />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://www.uptools.in/ip-address/" />
-    <meta property="og:site_name" content="UpTools" />
-    <meta name="twitter:card" content="summary" />
-    <!-- 1) Inline ONLY tiny critical rules (below) -->
-<style>
-  :root{--bg:#0f1419;--surface:#121826;--text:#e6edf3;--muted:#9aa4b2;--brand:#7aa2ff;--radius:.75rem}
-  *{box-sizing:border-box}
-  html{color-scheme:dark light;-webkit-text-size-adjust:100%}
-  body{margin:0;font:400 16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Noto Sans",sans-serif;background:var(--bg);color:var(--text)}
-  img,svg,video{max-width:100%;height:auto}
-  .container{width:min(100% - 24px,1120px);margin-inline:auto}
-  a{color:var(--brand);text-decoration-thickness:.08em;text-underline-offset:.18em}
-  .card{background:var(--surface);border:1px solid #212a3a;border-radius:var(--radius);padding:1rem}
-  .btn{display:inline-block;padding:.65rem .9rem;border-radius:var(--radius);background:var(--brand);color:#0b1020;border:0;font-weight:600}
-</style>
+<head>
+  <!-- Ads (single async loader; CLS-safe ad slots below) -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617" crossorigin="anonymous"></script>
 
-<!-- 2) Load full stylesheet without blocking first paint -->
-<link rel="preload" href="/style.css?v=1.1.0" as="style">
-<link rel="stylesheet" href="/style.css?v=1.1.0" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="/style.css?v=1.1.0"></noscript>
+  <!-- Perf / basics -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="x-ua-compatible" content="IE=edge" />
+  <meta name="color-scheme" content="dark light" />
 
-  </head>
-  <body style="--accent:#ffd1dc;--bg1:#200b18;--bg2:#300e24;--cardBorder:#661e3a">
-    <main class="wrap">
-      <div class="tool-header"><div class="tool-icon">IP</div><h1 style="margin:0">Your IP Address</h1></div>
-      <div class="card">
-        <div id="out" class="result">Loading...</div>
+  <title>Your IP Address (IPv4/IPv6), ISP, Country, DNS Speed Test & IP Monitor – UpTools</title>
+  <meta name="description" content="See your public IP (IPv4/IPv6) instantly, with ISP/ASN, city/country, reverse DNS and user agent. Run DNS speed tests (Cloudflare vs Google), view a map, detect possible VPN/hosting, generate a shareable link, export JSON, and monitor for IP changes with alerts. Privacy-first." />
+  <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
+  <meta name="theme-color" content="#0b1020" />
+  <link rel="canonical" href="https://www.uptools.in/ip-address/" />
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:title" content="Your IP Address, ISP, DNS Speed Test & IP Monitor – UpTools" />
+  <meta property="og:description" content="Instant IPv4/IPv6, ISP/ASN, reverse DNS, map, DNS speed test (DoH), VPN/hosting hint, export & live change monitor." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.uptools.in/ip-address/" />
+  <meta property="og:site_name" content="UpTools" />
+  <meta property="og:image" content="https://www.uptools.in/assets/og/ip-address.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- Critical (tiny only) -->
+  <style>
+    :root{--bg:#0f1419;--surface:#121826;--text:#e6edf3;--muted:#9aa4b2;--brand:#7aa2ff;--radius:.75rem}
+    *{box-sizing:border-box}
+    html{color-scheme:dark light;-webkit-text-size-adjust:100%}
+    body{margin:0;font:400 16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Noto Sans",sans-serif;background:var(--bg);color:var(--text)}
+    img,svg,video{max-width:100%;height:auto}
+    .container{width:min(100% - 24px,1120px);margin-inline:auto}
+    a{color:var(--brand);text-decoration-thickness:.08em;text-underline-offset:.18em}
+    .card{background:var(--surface);border:1px solid #212a3a;border-radius:var(--radius);padding:1rem}
+    .btn{display:inline-flex;align-items:center;gap:8px;padding:.65rem .9rem;border-radius:var(--radius);background:var(--brand);color:#0b1020;border:0;font-weight:700;cursor:pointer}
+    .btn.secondary{background:transparent;color:var(--text);border:1px solid #2a3550}
+    .sr-only{position:absolute!important;height:1px;width:1px;overflow:hidden;clip:rect(1px,1px,1px,1px)}
+    .kv{display:flex;justify-content:space-between;gap:12px;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.06)}
+    .kv:last-child{border-bottom:0}
+    .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+    .pill{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;border:1px solid #2a3550;background:#0b1224;font-size:12px}
+    .grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+  </style>
+
+  <!-- Common CSS (non-blocking) -->
+  <link rel="preload" href="/style.css?v=1.1.0" as="style" />
+  <link rel="stylesheet" href="/style.css?v=1.1.0" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="/style.css?v=1.1.0" /></noscript>
+
+  <!-- Structured data (Breadcrumb + FAQ + App) -->
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
+    {"@type":"ListItem","position":1,"name":"Home","item":"https://www.uptools.in/"},
+    {"@type":"ListItem","position":2,"name":"Networking","item":"https://www.uptools.in/#tools"},
+    {"@type":"ListItem","position":3,"name":"Your IP Address","item":"https://www.uptools.in/ip-address/"}
+  ]}
+  </script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+    {"@type":"Question","name":"How do I find my public IP?","acceptedAnswer":{"@type":"Answer","text":"Open this page. It queries multiple endpoints over HTTPS and shows your public IPv4/IPv6. If one endpoint is blocked, others are used as fallback."}},
+    {"@type":"Question","name":"Can I check DNS speed?","acceptedAnswer":{"@type":"Answer","text":"Yes. Run the built-in DNS speed test (DoH) to compare resolvers like Cloudflare and Google from your connection."}},
+    {"@type":"Question","name":"Will you store my IP?","acceptedAnswer":{"@type":"Answer","text":"No. Everything runs client-side in your browser. We don’t log your IP on a server."}}
+  ]}
+  </script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"SoftwareApplication","name":"Your IP Address","applicationCategory":"NetworkApplication","operatingSystem":"Any","url":"https://www.uptools.in/ip-address/","description":"Show your public IPv4/IPv6, ISP/ASN, country/city, reverse DNS and user agent. Includes DNS speed test (DoH) and IP change monitoring.","offers":{"@type":"Offer","price":"0","priceCurrency":"INR"},"publisher":{"@type":"Organization","name":"UpTools","url":"https://www.uptools.in/","logo":{"@type":"ImageObject","url":"https://www.uptools.in/assets/logo/uptools-logo.svg"}}}
+  </script>
+</head>
+
+<body style="--accent:#ffd1dc;--bg1:#200b18;--bg2:#300e24;--cardBorder:#661e3a">
+  <a class="sr-only" href="#main">Skip to content</a>
+
+  <!-- Header (shared design) -->
+  <header class="site" role="banner">
+    <div class="header-inner container">
+      <a class="brand" href="/" aria-label="UpTools Home">
+        <img src="/assets/logo/uptools-logo.svg" alt="UpTools logo" width="28" height="28" loading="eager">
+        <b>UpTools</b>
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="/#tools">Tools</a>
+        <a href="/ip-address/" aria-current="page">IP</a>
+        <a href="/dns-lookup/">DNS</a>
+        <a href="/user-agent/">User Agent</a>
+        <a href="/qr-generator/">QR</a>
+        <a href="/contact/">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="wrap container" role="main">
+    <!-- Breadcrumb -->
+    <nav aria-label="Breadcrumb" class="note small" style="margin-bottom:8px">
+      <a href="/">Home</a> › <span aria-current="page">Your IP Address</span>
+    </nav>
+
+    <!-- Hero -->
+    <section class="card hero" aria-labelledby="title">
+      <div class="tool-icon" aria-hidden="true">IP</div>
+      <div>
+        <h1 id="title">Your IP Address</h1>
+        <p class="note">Instant IPv4/IPv6 with ISP, reverse DNS, map & DNS speed test. Monitor for IP changes and share a snapshot.</p>
+        <div class="chips" style="margin-top:6px">
+          <span class="pill" id="ipv6Badge">IPv6: —</span>
+          <span class="pill" id="vpnHint">VPN/Hosting: —</span>
+        </div>
       </div>
-      <footer class="note small"><a href="/">UpTools</a></footer>
-    </main>
-    <script type="module">
-      const O=document.getElementById('out');
-      async function fetchIp(){
-        async function ipify(){ const r=await fetch('https://api.ipify.org?format=json'); if(!r.ok) throw 0; return (await r.json()).ip; }
-        async function ifconfig(){ const r=await fetch('https://ifconfig.me/all.json'); if(!r.ok) throw 0; return (await r.json()).ip_addr; }
-        try{ const ip = await ipify().catch(ifconfig); O.innerHTML = `<div class='row'><span>Public IP</span><span class='amount'>${ip}</span></div>`; }
-        catch{
-          try{
-            const prox = await fetch(`/api?url=${encodeURIComponent('https://api.ipify.org?format=json')}`);
-            const j = await prox.json();
-            O.innerHTML = `<div class='row'><span>Public IP</span><span class='amount'>${j.ip}</span></div>`;
-          }catch{ O.textContent='Could not fetch IP'; }
-        }
-      }
-      fetchIp();
-    </script>
-  </body>
-  </html>
+    </section>
 
+    <!-- Top ad (CLS-safe fixed height) -->
+    <section class="card ad-wrap" aria-label="Sponsored" style="min-height:120px">
+      <ins class="adsbygoogle" style="display:block;min-height:120px"
+           data-ad-client="ca-pub-6216304334889617"
+           data-ad-slot="ip-top-01"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+    </section>
+
+    <!-- Results -->
+    <section class="card" aria-live="polite" aria-atomic="true">
+      <div class="grid" style="margin-top:0">
+        <div class="result">
+          <h2 style="margin:0 0 6px">Current Connection</h2>
+          <div class="kv mono"><span>Public IP (active)</span><span id="ip" class="amount">Loading…</span></div>
+          <div class="kv mono"><span>IPv4</span><span id="ipv4">—</span></div>
+          <div class="kv mono"><span>IPv6</span><span id="ipv6">—</span></div>
+          <div class="kv mono"><span>Version</span><span id="ver">—</span></div>
+          <div class="kv mono"><span>Reverse DNS</span><span id="rdns">—</span></div>
+          <div class="kv mono"><span>Location</span><span id="loc">—</span></div>
+          <div class="kv mono"><span>ISP / ASN</span><span id="asn">—</span></div>
+          <div class="kv mono"><span>User Agent</span><span id="ua" title="navigator.userAgent"></span></div>
+          <div class="divider" style="margin:10px 0"></div>
+          <div class="row" style="gap:8px;flex-wrap:wrap;border:0;padding:0">
+            <button id="copyBtn" class="btn">Copy IP</button>
+            <button id="shareBtn" class="btn secondary">Share</button>
+            <button id="refreshBtn" class="btn secondary">Refresh</button>
+            <a class="btn secondary" id="qrLink" href="/qr-generator/" target="_blank" rel="noopener">Open in QR</a>
+            <button id="exportBtn" class="btn secondary">Copy JSON</button>
+            <button id="permaBtn" class="btn secondary">Copy snapshot link</button>
+          </div>
+          <p class="muted small" style="margin-top:8px">Tip: On VPN/proxy, the IP and ISP shown belong to that service.</p>
+        </div>
+
+        <div class="result">
+          <h2 style="margin:0 0 6px">Map (Approx.)</h2>
+          <div class="note small">Based on public geolocation from your ISP; accuracy varies.</div>
+          <iframe id="map" title="IP Location Map" loading="lazy"
+                  src="about:blank" width="100%" height="240"
+                  style="border-radius:10px;border:1px solid var(--cardBorder)"></iframe>
+          <div class="divider" style="margin:10px 0"></div>
+          <div class="grid">
+            <a class="btn secondary" id="whoisLink" target="_blank" rel="noopener">WHOIS</a>
+            <a class="btn secondary" id="abuseLink" target="_blank" rel="noopener">Abuse/Blacklist</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Connectivity Diagnostics -->
+    <section class="card" aria-labelledby="diag">
+      <h2 id="diag" style="margin-top:0">Connectivity Diagnostics</h2>
+
+      <div class="grid">
+        <div class="result">
+          <h3 style="margin-top:0">DNS Speed Test (DoH)</h3>
+          <p class="note small">Measures resolver latency using DNS-over-HTTPS from your network.</p>
+          <div class="kv mono"><span>Cloudflare (1.1.1.1)</span><span id="tCf">—</span></div>
+          <div class="kv mono"><span>Google (8.8.8.8)</span><span id="tG">—</span></div>
+          <div class="kv mono"><span>Fastest</span><span id="tBest">—</span></div>
+          <div class="row" style="gap:8px;flex-wrap:wrap;border:0;padding:0">
+            <button id="dnsTestBtn" class="btn">Run DNS Test</button>
+          </div>
+        </div>
+
+        <div class="result">
+          <h3 style="margin-top:0">IP Change Monitor</h3>
+          <p class="note small">Watches your public IP; alerts if it changes (e.g., VPN/reconnect).</p>
+          <div class="kv mono"><span>Status</span><span id="monStatus">Stopped</span></div>
+          <div class="kv mono"><span>Last change</span><span id="monLast">—</span></div>
+          <div class="row" style="gap:8px;flex-wrap:wrap;border:0;padding:0">
+            <button id="monToggle" class="btn">Start Monitoring</button>
+            <button id="monClear" class="btn secondary">Clear Log</button>
+          </div>
+          <textarea id="monLog" class="textarea" rows="6" aria-label="IP change log" placeholder="No changes yet."></textarea>
+        </div>
+      </div>
+    </section>
+
+    <!-- Related links -->
+    <section class="card">
+      <h2 style="margin-top:0">Related at UpTools</h2>
+      <ul class="tool-list">
+        <li><a class="tool-link accent-indigo" href="/dns-lookup/"><span class="ico">DNS</span><span>DNS Lookup</span></a></li>
+        <li><a class="tool-link accent-sky" href="/user-agent/"><span class="ico">UA</span><span>User Agent Viewer</span></a></li>
+        <li><a class="tool-link accent-teal" href="/json-formatter/"><span class="ico">JSON</span><span>JSON Formatter</span></a></li>
+        <li><a class="tool-link accent-lime" href="/uuid-generator/"><span class="ico">UUID</span><span>UUID Generator</span></a></li>
+        <li><a class="tool-link accent-orange" href="/qr-generator/"><span class="ico">QR</span><span>QR Code Generator</span></a></li>
+      </ul>
+    </section>
+
+    <!-- Bottom ad -->
+    <section class="card ad-wrap" aria-label="Sponsored" style="min-height:120px">
+      <ins class="adsbygoogle" style="display:block;min-height:120px"
+           data-ad-client="ca-pub-6216304334889617"
+           data-ad-slot="ip-bottom-02"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+    </section>
+
+    <footer class="note small site-footer" role="contentinfo">
+      © <span id="y"></span> UpTools · <a href="/about/">About</a> · <a href="/contact/">Contact</a> · <a href="/sitemap.xml">Sitemap</a>
+      <button id="toTop" class="btn sm secondary" style="float:right">↑ Top</button>
+    </footer>
+  </main>
+
+  <!-- Logic (module). Uses shared /scripts/utils.js helpers -->
+  <script type="module">
+    import { $, setText, persist, read } from '/scripts/utils.js';
+
+    // Footer + ads
+    setText($('#y'), new Date().getFullYear());
+    $('#toTop').addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+    try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch {}
+    try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch {}
+
+    const els = {
+      ip: $('#ip'), ipv4: $('#ipv4'), ipv6: $('#ipv6'), ver: $('#ver'),
+      rdns: $('#rdns'), loc: $('#loc'), asn: $('#asn'), ua: $('#ua'),
+      ipv6Badge: $('#ipv6Badge'), vpnHint: $('#vpnHint'),
+      map: $('#map'), whoisLink: $('#whoisLink'), abuseLink: $('#abuseLink'),
+      copy: $('#copyBtn'), share: $('#shareBtn'), refresh: $('#refreshBtn'),
+      exportBtn: $('#exportBtn'), permaBtn: $('#permaBtn'), qrLink: $('#qrLink'),
+
+      dnsBtn: $('#dnsTestBtn'), tCf: $('#tCf'), tG: $('#tG'), tBest: $('#tBest'),
+
+      monToggle: $('#monToggle'), monClear: $('#monClear'),
+      monStatus: $('#monStatus'), monLast: $('#monLast'), monLog: $('#monLog')
+    };
+    els.ua.textContent = navigator.userAgent || '—';
+
+    // Helpers
+    const isIPv6 = ip => typeof ip === 'string' && ip.includes(':');
+    const now = () => new Date().toLocaleString();
+    const vpnWords = ['cloudflare','digitalocean','amazon','aws','google','gcp','azure','microsoft','ovh','hetzner','linode','vultr','contabo','scaleway','leaseweb','akamai','choopa','colo','datacenter','data center','hosting','hostinger'];
+    const looksLikeHosting = (s='') => vpnWords.some(w => s.toLowerCase().includes(w));
+
+    // IP endpoints
+    const getV6 = async () => fetch('https://api64.ipify.org?format=json').then(r=>r.ok?r.json():Promise.reject()).then(j=>j.ip);
+    const getV4 = async () => fetch('https://api.ipify.org?format=json').then(r=>r.ok?r.json():Promise.reject()).then(j=>j.ip);
+    const getIfconfig = async () => fetch('https://ifconfig.me/all.json').then(r=>r.ok?r.json():Promise.reject()).then(j=>j.ip_addr);
+
+    async function getPublicIPs() {
+      let v6=null, v4=null, active=null;
+      try { v6 = await getV6(); active = active || v6; } catch {}
+      try { v4 = await getV4(); active = active || v4; } catch {}
+      if (!active) { try { active = await getIfconfig(); } catch {} }
+      if (!active) throw new Error('All IP endpoints failed');
+      return { active, v4, v6 };
+    }
+
+    async function getDetails(ip) {
+      // ipwho.is: connection + geo + reverse
+      // If blocked, return minimal details.
+      try {
+        const r = await fetch(`https://ipwho.is/${encodeURIComponent(ip)}`);
+        if (!r.ok) throw 0;
+        const j = await r.json();
+        return {
+          reverse: j.reverse || '—',
+          city: j.city || '', region: j.region || '', country: j.country || '',
+          lat: j.latitude, lon: j.longitude,
+          org: j.connection?.org || '', isp: j.connection?.isp || '', asn: j.connection?.asn || ''
+        };
+      } catch {
+        return { reverse:'—', city:'', region:'', country:'', lat:null, lon:null, org:'', isp:'', asn:'' };
+      }
+    }
+
+    function updateMap(lat, lon) {
+      if (typeof lat === 'number' && typeof lon === 'number') {
+        const z = 8;
+        const src = `https://www.openstreetmap.org/export/embed.html?layer=mapnik&marker=${lat},${lon}&zoom=${z}`;
+        els.map.src = src;
+      } else {
+        els.map.src = 'about:blank';
+      }
+    }
+
+    function updateBadges({ v6, org='', isp='' }) {
+      setText(els.ipv6Badge, `IPv6: ${v6 ? 'Available ✅' : 'Not detected'}`);
+      const hint = looksLikeHosting(org) || looksLikeHosting(isp) ? 'Likely VPN/Hosting' : 'Residential/Unknown';
+      setText(els.vpnHint, `VPN/Hosting: ${hint}`);
+    }
+
+    function linkouts(ip) {
+      els.whoisLink.href = `https://who.is/whois-ip/ip-address/${encodeURIComponent(ip)}`;
+      els.whoisLink.textContent = 'WHOIS';
+      els.abuseLink.href = `https://abuseipdb.com/check/${encodeURIComponent(ip)}`;
+      els.abuseLink.textContent = 'Abuse/Blacklist';
+      els.qrLink.href = `/qr-generator/?data=${encodeURIComponent(ip)}`;
+    }
+
+    // Populate main tiles (supports ?ip= snapshot mode)
+    async function populate() {
+      // Snapshot mode
+      const qs = new URLSearchParams(location.search);
+      const snapIP = qs.get('ip');
+
+      setText(els.ip, 'Loading…'); setText(els.ipv4, '—'); setText(els.ipv6, '—'); setText(els.ver, '—');
+      setText(els.rdns, '—'); setText(els.loc, '—'); setText(els.asn, '—');
+
+      let ipInfo = { active:'', v4:null, v6:null };
+      try {
+        if (snapIP) {
+          ipInfo.active = snapIP;
+          // Probe v4/v6 if desired but not required in snapshot
+        } else {
+          ipInfo = await getPublicIPs();
+        }
+        setText(els.ip, ipInfo.active);
+        setText(els.ver, isIPv6(ipInfo.active) ? 'IPv6' : 'IPv4');
+        setText(els.ipv4, ipInfo.v4 || '—');
+        setText(els.ipv6, ipInfo.v6 || '—');
+        linkouts(ipInfo.active);
+
+        const det = await getDetails(ipInfo.active);
+        setText(els.rdns, det.reverse);
+        const locStr = [det.city, det.region, det.country].filter(Boolean).join(', ') || '—';
+        setText(els.loc, locStr);
+        const asLine = (det.org ? det.org + ' ' : '') + (det.asn ? `(AS${det.asn})` : (det.isp ? det.isp : ''));
+        setText(els.asn, asLine || '—');
+        updateMap(det.lat, det.lon);
+        updateBadges({ v6: !!ipInfo.v6, org: det.org, isp: det.isp });
+      } catch {
+        setText(els.ip, 'Could not fetch IP');
+      }
+    }
+
+    // Export JSON / permalink
+    function snapshotJSON() {
+      const data = {
+        ip: els.ip.textContent.trim(),
+        ipv4: els.ipv4.textContent.trim(),
+        ipv6: els.ipv6.textContent.trim(),
+        version: els.ver.textContent.trim(),
+        rdns: els.rdns.textContent.trim(),
+        location: els.loc.textContent.trim(),
+        asn: els.asn.textContent.trim(),
+        userAgent: els.ua.textContent.trim(),
+        ts: new Date().toISOString()
+      };
+      return JSON.stringify(data, null, 2);
+    }
+    function copy(text){ return navigator.clipboard?.writeText(text).then(()=>true).catch(()=>false); }
+
+    // DNS test (DoH)
+    async function dnsLatency(url){
+      const t0 = performance.now();
+      const r = await fetch(url, { headers: { 'accept':'application/dns-json' } });
+      await r.json();
+      return performance.now() - t0;
+    }
+    async function runDnsTest(){
+      setText(els.tCf, 'Testing…'); setText(els.tG, 'Testing…'); setText(els.tBest, '—');
+      try {
+        const [cf, gg] = await Promise.allSettled([
+          dnsLatency('https://cloudflare-dns.com/dns-query?name=example.com&type=A'),
+          dnsLatency('https://dns.google/resolve?name=example.com&type=A')
+        ]);
+        const cfMs = cf.status === 'fulfilled' ? Math.round(cf.value) : null;
+        const gMs = gg.status === 'fulfilled' ? Math.round(gg.value) : null;
+        setText(els.tCf, cfMs ? `${cfMs} ms` : '—');
+        setText(els.tG, gMs ? `${gMs} ms` : '—');
+        let best = '—';
+        if (cfMs && gMs) best = cfMs < gMs ? `Cloudflare by ${gMs-cfMs} ms` : (gMs < cfMs ? `Google by ${cfMs-gMs} ms` : 'Tie');
+        else if (cfMs) best = 'Cloudflare';
+        else if (gMs) best = 'Google';
+        setText(els.tBest, best);
+      } catch {
+        setText(els.tCf, '—'); setText(els.tG, '—'); setText(els.tBest, 'Test failed');
+      }
+    }
+
+    // Monitor (poll active IP every 30s)
+    let monTimer = null, lastIP = null;
+    function beep(){
+      try{
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const o = ctx.createOscillator(); const g = ctx.createGain();
+        o.type='sine'; o.frequency.value=880; o.connect(g); g.connect(ctx.destination);
+        g.gain.setValueAtTime(.001, ctx.currentTime); g.gain.exponentialRampToValueAtTime(.2, ctx.currentTime+.02);
+        o.start(); setTimeout(()=>{g.gain.exponentialRampToValueAtTime(.001, ctx.currentTime+.2); o.stop(ctx.currentTime+.25);},160);
+      }catch{}
+    }
+    function log(s){
+      const prev = els.monLog.value.trim();
+      els.monLog.value = (prev ? prev + '\n' : '') + s;
+      els.monLog.scrollTop = els.monLog.scrollHeight;
+    }
+    async function pollOnce(){
+      try {
+        const { active } = await getPublicIPs();
+        if (lastIP == null) lastIP = active;
+        if (active !== lastIP){
+          setText(els.monLast, now());
+          log(`[${now()}] IP changed: ${lastIP} → ${active}`);
+          lastIP = active; beep();
+        }
+      } catch {}
+    }
+    function startMon(){
+      if (monTimer) return;
+      lastIP = null;
+      monTimer = setInterval(pollOnce, 30000);
+      setText(els.monStatus, 'Running');
+      log(`[${now()}] Monitor started`);
+      els.monToggle.textContent = 'Stop Monitoring';
+      pollOnce();
+      persist('ip:monitoring', true);
+    }
+    function stopMon(){
+      if (monTimer) clearInterval(monTimer);
+      monTimer = null;
+      setText(els.monStatus, 'Stopped');
+      els.monToggle.textContent = 'Start Monitoring';
+      persist('ip:monitoring', false);
+    }
+
+    // Actions
+    els.copy.addEventListener('click', async ()=>{ const ok = await copy(els.ip.textContent.trim()); alert(ok?'IP copied':'Copy failed'); });
+    els.share.addEventListener('click', async ()=>{
+      const txt = `My public IP is ${els.ip.textContent.trim()}`;
+      if (navigator.share){ try { await navigator.share({ title:'My IP (UpTools)', text:txt, url: location.href }); } catch{} }
+      else { const ok = await copy(`${txt} — ${location.href}`); alert(ok?'Link copied':'Copy failed'); }
+    });
+    els.refresh.addEventListener('click', populate);
+    els.exportBtn.addEventListener('click', async ()=>{ const ok = await copy(snapshotJSON()); alert(ok?'JSON copied':'Copy failed'); });
+    els.permaBtn.addEventListener('click', async ()=>{
+      const u = new URL(location.href);
+      u.searchParams.set('ip', els.ip.textContent.trim());
+      const ok = await copy(u.toString()); alert(ok?'Snapshot link copied':'Copy failed');
+    });
+    els.dnsBtn.addEventListener('click', runDnsTest);
+
+    els.monToggle.addEventListener('click', ()=> monTimer ? stopMon() : startMon());
+    els.monClear.addEventListener('click', ()=> { els.monLog.value=''; setText(els.monLast,'—'); });
+
+    // Init
+    populate().then(()=>{
+      // Restore monitor state
+      if (read('ip:monitoring', false)) startMon();
+    });
+  </script>
+</body>
+</html>

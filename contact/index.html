@@ -1,64 +1,383 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617"
-     crossorigin="anonymous"></script>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Contact - UpTools</title>
-<meta name="description" content="Contact UpTools for feedback, bug reports, or feature requests." />
-<link rel="canonical" href="https://www.uptools.in/contact/">
-<link rel="icon" type="image/svg+xml" href="/assets/uptools-mark.svg">
-<!-- 1) Inline ONLY tiny critical rules (below) -->
-<style>
-  :root{--bg:#0f1419;--surface:#121826;--text:#e6edf3;--muted:#9aa4b2;--brand:#7aa2ff;--radius:.75rem}
-  *{box-sizing:border-box}
-  html{color-scheme:dark light;-webkit-text-size-adjust:100%}
-  body{margin:0;font:400 16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Noto Sans",sans-serif;background:var(--bg);color:var(--text)}
-  img,svg,video{max-width:100%;height:auto}
-  .container{width:min(100% - 24px,1120px);margin-inline:auto}
-  a{color:var(--brand);text-decoration-thickness:.08em;text-underline-offset:.18em}
-  .card{background:var(--surface);border:1px solid #212a3a;border-radius:var(--radius);padding:1rem}
-  .btn{display:inline-block;padding:.65rem .9rem;border-radius:var(--radius);background:var(--brand);color:#0b1020;border:0;font-weight:600}
-</style>
+  <!-- Google Ads (kept async and conditional; ad slot injected only if available) -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617" crossorigin="anonymous"></script>
 
-<!-- 2) Load full stylesheet without blocking first paint -->
-<link rel="preload" href="/style.css?v=1.1.0" as="style">
-<link rel="stylesheet" href="/style.css?v=1.1.0" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="/style.css?v=1.1.0"></noscript>
+  <!-- Basics -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="x-ua-compatible" content="IE=edge" />
+  <meta name="color-scheme" content="dark light" />
+  <title>Contact UpTools — Feedback, Bug Reports & Feature Requests | Fast Reply</title>
+  <meta name="description" content="Contact the UpTools team for feedback, bug reports, feature requests, or partnerships. Use the quick contact form, email support@uptools.in, or open a GitHub issue. Attach system info and screenshots, track your request, and get tips for writing great bug reports." />
+  <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
+  <meta name="theme-color" content="#0b0f1a" />
+  <link rel="canonical" href="https://www.uptools.in/contact/" />
 
-<script type="application/ld+json">
-{"@context":"https://schema.org","@type":"ContactPage","name":"Contact UpTools","url":"https://www.uptools.in/contact/","about":{"@type":"WebSite","name":"UpTools","url":"https://www.uptools.in/"},"description":"Contact UpTools for feedback, bug reports, or feature requests.","contactPoint":[{"@type":"ContactPoint","contactType":"support","email":"support@uptools.in"}]}
-</script>
+  <!-- Icons -->
+  <link rel="icon" type="image/svg+xml" href="/assets/logo/uptools-logo.svg" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/logo/uptools-logo.svg" />
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:title" content="Contact UpTools — Feedback, Bug Reports & Feature Requests" />
+  <meta property="og:description" content="Quickly reach the UpTools team. Share feedback, report issues with logs & screenshots, or request new tools. Email support@uptools.in or use the form." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.uptools.in/contact/" />
+  <meta property="og:site_name" content="UpTools" />
+  <meta property="og:image" content="https://www.uptools.in/assets/og/contact.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Contact UpTools — Feedback, Bug Reports & Feature Requests" />
+  <meta name="twitter:description" content="Quickly reach the UpTools team. Share feedback, report issues, or request new tools." />
+  <meta name="twitter:image" content="https://www.uptools.in/assets/og/contact.png" />
+
+  <!-- Preload + load common CSS non‑blocking (CLS-safe) -->
+  <link rel="preload" href="/style.css?v=1.1.0" as="style">
+  <link rel="stylesheet" href="/style.css?v=1.1.0" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="/style.css?v=1.1.0"></noscript>
+
+  <!-- Small critical tweaks ONLY -->
+  <style>
+    :root{ --accent:#22d3ee; --accent-2:#a78bfa; }
+    /* Reserve aspect ratio for the explainer video to avoid CLS */
+    .video-wrap{ width:100%; max-width:880px; margin:0 auto; border-radius:12px; overflow:hidden; border:1px solid var(--border); box-shadow:var(--glow-soft); }
+    .video-wrap .frame{ width:100%; aspect-ratio:16/9; display:block; }
+    /* Tool-specific accent for "Contact" page */
+    .tool-icon{ font-weight:900; }
+    .links-grid{ display:grid; gap:12px; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); }
+    .kvi-badges{ display:flex; flex-wrap:wrap; gap:8px; margin-top:8px; }
+    .badge{ padding:6px 10px; border-radius:999px; font-size:12px; background:#0b1326; border:1px solid var(--border); box-shadow:var(--glow-soft); }
+    .copy-btn{ display:inline-grid; place-items:center; width:36px; height:36px; border-radius:10px; background:#0b1326; border:1px solid var(--border); box-shadow:var(--glow-soft); cursor:pointer; }
+    .copy-btn:active{ transform:translateY(0); }
+    /* Honeypot (kept offscreen, not display:none to still catch bots) */
+    .hp{ position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden; }
+  </style>
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"ContactPage",
+    "name":"Contact UpTools",
+    "url":"https://www.uptools.in/contact/",
+    "description":"Contact the UpTools team for feedback, bug reports, feature requests, or partnerships.",
+    "about":{"@type":"WebSite","name":"UpTools","url":"https://www.uptools.in/"},
+    "contactPoint":[
+      {"@type":"ContactPoint","contactType":"customer support","email":"support@uptools.in","areaServed":"IN","availableLanguage":["en","hi"]}
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"FAQPage",
+    "mainEntity":[
+      {"@type":"Question","name":"What’s the fastest way to report a bug?", "acceptedAnswer":{"@type":"Answer","text":"Use the contact form and include steps to reproduce, expected vs actual result, your device/OS/browser, and a screenshot. You can also email support@uptools.in or open a GitHub issue."}},
+      {"@type":"Question","name":"How can I request a new tool?", "acceptedAnswer":{"@type":"Answer","text":"Submit the feature request via the form with problem statement, sample inputs/outputs, and any rules or references. We prioritize high‑impact ideas and India‑specific calculators."}},
+      {"@type":"Question","name":"Do you store my messages?", "acceptedAnswer":{"@type":"Answer","text":"We only keep what’s needed to reply. No accounts required. See our Privacy page for details."}},
+      {"@type":"Question","name":"Is there an email address I can use?", "acceptedAnswer":{"@type":"Answer","text":"Yes — support@uptools.in"}}
+    ]
+  }
+  </script>
 </head>
 <body>
-<header class="site"><div class="header-inner">
-  <a class="brand" href="/"><img src="/assets/uptools-mark.svg" alt="UpTools logo" width="28" height="28"><b>UpTools</b></a>
-  <nav class="nav-links"><a href="/#tools">Tools</a><a href="/games/">Games</a><a href="/about/">About</a><a href="/contact/">Contact</a></nav>
-</div></header>
 
-<main class="wrap">
-  <div class="tool-header">
-    <div class="tool-icon">@</div>
-    <h1>Contact</h1>
-  </div>
-  <div class="card">
-    <!-- Simple mailto fallback; replace email with your inbox -->
-    <form onsubmit="window.location.href='mailto:support@uptools.in?subject=UpTools%20Contact&body='+encodeURIComponent(document.getElementById('msg').value); return false;">
-      <label class="label" for="name">Name</label>
-      <input class="input" id="name" name="name" required>
+  <!-- Header (same as site-wide) -->
+  <header class="site" role="banner">
+    <div class="header-inner">
+      <a class="brand" href="/" aria-label="UpTools Home">
+        <img src="/assets/logo/uptools-logo.svg" alt="UpTools logo" width="28" height="28" loading="eager">
+        <b>UpTools</b>
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="/#tools">Tools</a>
+        <a href="/games/">Games</a>
+        <a href="/about/">About</a>
+        <a aria-current="page" href="/contact/">Contact</a>
+      </nav>
+    </div>
+  </header>
 
-      <label class="label" for="email">Email</label>
-      <input class="input" id="email" name="email" type="email" required>
+  <main class="wrap" id="main">
+    <!-- Intro strip -->
+    <div class="tool-header">
+      <div class="tool-icon" aria-hidden="true">CT</div>
+      <div>
+        <h1 style="margin:0">Contact UpTools</h1>
+        <p class="note" style="margin:.25rem 0 0">Feedback, bug reports, feature ideas & partnerships — we usually reply within 1–2 business days.</p>
+        <div class="kvi-badges" aria-hidden="true">
+          <span class="badge">🛡️ Privacy‑first</span>
+          <span class="badge">⚡ Fast response</span>
+          <span class="badge">🌐 English / हिंदी</span>
+        </div>
+      </div>
+    </div>
 
-      <label class="label" for="msg">Message</label>
-      <textarea class="input" id="msg" name="message" rows="5" required></textarea>
+    <!-- Contact options quick links -->
+    <section class="card neon" aria-labelledby="contact-quick">
+      <h2 id="contact-quick" style="margin-top:0">Quick options</h2>
+      <div class="links-grid">
+        <a class="tool-link accent-cyan" href="mailto:support@uptools.in?subject=Hello%20UpTools" rel="nofollow">
+          <span class="ico" aria-hidden="true">CT</span>
+          <div>
+            <b>Email support@uptools.in</b>
+            <div class="note">Best for detailed queries & attachments</div>
+          </div>
+        </a>
 
-      <button class="btn" type="submit">Send</button>
-      <p class="note small">Or email: <a href="mailto:support@uptools.in">support@uptools.in</a></p>
-    </form>
-  </div>
-  <footer class="note small site-footer">© <span id="y"></span> UpTools · <a href="/sitemap.xml">Sitemap</a></footer>
-</main>
-<script>document.getElementById('y').textContent = new Date().getFullYear();</script>
+        <a class="tool-link accent-violet" href="/about/">
+          <span class="ico" aria-hidden="true">ABT</span>
+          <div>
+            <b>About UpTools</b>
+            <div class="note">Our approach, performance & privacy</div>
+          </div>
+        </a>
+
+        <a class="tool-link accent-indigo" href="/privacy/">
+          <span class="ico" aria-hidden="true">PRV</span>
+          <div>
+            <b>Privacy policy</b>
+            <div class="note">What we collect and why</div>
+          </div>
+        </a>
+
+        <a class="tool-link accent-green" href="/#tools">
+          <span class="ico" aria-hidden="true">TL</span>
+          <div>
+            <b>All tools</b>
+            <div class="note">Calculators, converters, formatters & more</div>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- Contact form -->
+    <section class="card neon" aria-labelledby="contact-form">
+      <h2 id="contact-form" style="margin-top:0">Send a message</h2>
+      <p class="note" style="margin-top:-4px">Tip: include steps to reproduce, expected vs actual result, and a link to the page.</p>
+
+      <form id="form" novalidate>
+        <div class="hp" aria-hidden="true">
+          <label>Website (leave blank)<input type="text" name="website" tabindex="-1" autocomplete="off"></label>
+        </div>
+
+        <label class="label" for="topic">Topic</label>
+        <select class="input" id="topic" name="topic" required>
+          <option value="" disabled selected>Choose one…</option>
+          <option>Bug report</option>
+          <option>Feature request</option>
+          <option>General feedback</option>
+          <option>Partnership / Business</option>
+          <option>Other</option>
+        </select>
+
+        <label class="label" for="tool">Which page/tool? (optional)</label>
+        <input class="input" id="tool" name="tool" placeholder="/income-tax-tool, /gst-calculator, …" inputmode="url" />
+
+        <div class="row" style="border:0; padding:0; gap:12px">
+          <div style="flex:1">
+            <label class="label" for="name">Name</label>
+            <input class="input" id="name" name="name" autocomplete="name" required />
+          </div>
+          <div style="flex:1">
+            <label class="label" for="email">Email</label>
+            <input class="input" id="email" name="email" type="email" autocomplete="email" required />
+          </div>
+        </div>
+
+        <label class="label" for="msg">Message</label>
+        <textarea class="textarea" id="msg" name="message" rows="6" placeholder="Tell us what happened, steps to reproduce, expected vs actual." required></textarea>
+        <div class="note" id="count" aria-live="polite">0 / 2000</div>
+
+        <details class="result" style="margin-top:10px">
+          <summary><b>Attach system info (recommended)</b></summary>
+          <div class="note" style="margin:.5rem 0">We auto-fill non-sensitive environment details to help us reproduce issues.</div>
+          <textarea class="textarea" id="sysinfo" name="sysinfo" rows="5" readonly></textarea>
+          <div style="display:flex; gap:8px; margin-top:8px">
+            <button class="btn sm secondary" type="button" id="copySys">Copy system info</button>
+            <button class="btn sm secondary" type="button" id="refreshSys">Refresh</button>
+          </div>
+        </details>
+
+        <div class="row" style="border:0; padding:0; gap:8px; margin-top:12px">
+          <button class="btn" type="submit" id="sendBtn">Send via Email</button>
+          <button class="btn secondary" type="button" id="saveDraft">Save draft</button>
+          <button class="btn secondary" type="button" id="clearDraft">Clear</button>
+          <button class="copy-btn" type="button" id="copyEmail" title="Copy support email" aria-label="Copy support email">📋</button>
+        </div>
+
+        <p class="note small" style="margin-top:8px">Or email: <a href="mailto:support@uptools.in">support@uptools.in</a></p>
+      </form>
+    </section>
+
+    <!-- Help: how to write a great bug report -->
+    <section class="card neon" aria-labelledby="bug-tips">
+      <h2 id="bug-tips" style="margin-top:0">How to write a great bug report</h2>
+      <ol class="note" style="margin:0 0 10px 18px">
+        <li>Page URL and tool name</li>
+        <li>Steps to reproduce (1, 2, 3…)</li>
+        <li>Expected vs actual result</li>
+        <li>Screenshot or short screen recording</li>
+        <li>Your device, OS, browser version (use the “System info” box above)</li>
+      </ol>
+      <!-- Privacy-friendly YouTube embed (no cookies). Fixed ratio prevents layout shifts. -->
+      <div class="video-wrap" aria-label="Explainer video">
+        <iframe class="frame" src="https://www.youtube-nocookie.com/embed/8lGpZkjnkt4" title="How to write a helpful bug report" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      </div>
+    </section>
+
+    <!-- (Conditional) Ad slot — inserted only when adsbygoogle is present -->
+    <section id="ad-mount"></section>
+
+    <!-- More ways to connect / internal SEO links -->
+    <section class="card neon" aria-labelledby="more-links">
+      <h2 id="more-links" style="margin-top:0">Explore UpTools</h2>
+      <ul>
+        <li><a href="/income-tax-tool/"><span class="note">IT</span>&nbsp;Income Tax Calculator (FY 2024–25)</a></li>
+        <li><a href="/gst-calculator/"><span class="note">GST</span>&nbsp;GST Calculator</a></li>
+        <li><a href="/emi-calculator/"><span class="note">EMI</span>&nbsp;EMI Calculator</a></li>
+        <li><a href="/json-formatter/"><span class="note">JS</span>&nbsp;JSON Formatter</a></li>
+        <li><a href="/ip-address/"><span class="note">IP</span>&nbsp;What’s my IP</a></li>
+      </ul>
+    </section>
+
+    <footer class="note small site-footer" role="contentinfo">
+      © <span id="y"></span> UpTools · <a href="/sitemap.xml">Sitemap</a> · <a href="/privacy/">Privacy</a>
+    </footer>
+  </main>
+
+  <!-- Utilities (common) -->
+  <script type="module">
+    import { $, $$, debounce, serializeForm, persist, read } from "/scripts/utils.js";
+
+    // Year in footer
+    $("#y").textContent = new Date().getFullYear();
+
+    // Character counter
+    const msg = $("#msg");
+    const count = $("#count");
+    const MAX = 2000;
+    const updateCount = () => { count.textContent = `${Math.min(msg.value.length, MAX)} / ${MAX}`; };
+    msg.addEventListener("input", debounce(updateCount, 50));
+    updateCount();
+
+    // System info generator
+    function makeSysInfo(){
+      const n = navigator;
+      const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      const dpr = (window.devicePixelRatio || 1).toFixed(2);
+      const size = `${window.screen?.width}x${window.screen?.height}`;
+      return [
+        `Time: ${new Date().toString()}`,
+        `URL: ${location.href}`,
+        `UA: ${n.userAgent}`,
+        `Platform: ${n.platform}`,
+        `Lang: ${n.language} (${(n.languages||[]).join(",")})`,
+        `Online: ${n.onLine}`,
+        `TZ: ${tz}`,
+        `DPR: ${dpr}`,
+        `Screen: ${size}`
+      ].join("\n");
+    }
+    const sysEl = $("#sysinfo");
+    const fillSys = () => { sysEl.value = makeSysInfo(); };
+    fillSys();
+    $("#refreshSys").addEventListener("click", fillSys);
+    $("#copySys").addEventListener("click", async () => {
+      try { await navigator.clipboard.writeText(sysEl.value); alert("System info copied."); } catch { alert("Copy failed."); }
+    });
+
+    // Draft persistence
+    const DKEY = "contact:draft";
+    const form = $("#form");
+    // Restore if any
+    const saved = read(DKEY);
+    if (saved){
+      for (const [k,v] of Object.entries(saved)){
+        const el = form.elements[k];
+        if (!el) continue;
+        if (el.tagName === "SELECT") el.value = v;
+        else el.value = v;
+      }
+      updateCount();
+    }
+    $("#saveDraft").addEventListener("click", () => {
+      const data = serializeForm(form);
+      persist(DKEY, data);
+      alert("Draft saved on this device.");
+    });
+    $("#clearDraft").addEventListener("click", () => {
+      localStorage.removeItem(DKEY);
+      form.reset(); updateCount(); fillSys();
+    });
+
+    // Copy support email
+    $("#copyEmail").addEventListener("click", async () => {
+      try { await navigator.clipboard.writeText("support@uptools.in"); alert("Email copied: support@uptools.in"); } catch {}
+    });
+
+    // Submit via mailto (no server required) with anti-spam honeypot
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const data = serializeForm(form);
+      if (data.website) { return; } // bot detected
+      if (!data.topic || !data.email || !data.name || !data.message) {
+        alert("Please complete all required fields.");
+        return;
+      }
+      const subject = encodeURIComponent(`[UpTools] ${data.topic} — ${data.tool || "General"}`);
+      // Build body
+      const bodyLines = [
+        `Name: ${data.name}`,
+        `Email: ${data.email}`,
+        data.tool ? `Tool/Page: ${data.tool}` : ``,
+        ``,
+        `Message:`,
+        `${data.message}`.slice(0, 5000),
+        ``,
+        `---`,
+        `System info:`,
+        (data.sysinfo || sysEl.value || "").slice(0, 4000)
+      ].filter(Boolean);
+      const body = encodeURIComponent(bodyLines.join("\n"));
+      // Send via default client
+      location.href = `mailto:support@uptools.in?subject=${subject}&body=${body}`;
+    });
+
+    // Conditional ad slot insertion (ONLY if ads library is present)
+    function mountAd(){
+      if (!("adsbygoogle" in window)) return;
+      const mount = $("#ad-mount");
+      if (!mount) return;
+      const wrap = document.createElement("div");
+      wrap.className = "card neon";
+      wrap.setAttribute("aria-label","Sponsored");
+      // Reserve height to avoid CLS; will be reused by AdSense
+      wrap.style.minHeight = "120px";
+      wrap.innerHTML = `
+        <ins class="adsbygoogle"
+             style="display:block; min-height:120px"
+             data-ad-client="ca-pub-6216304334889617"
+             data-ad-slot="auto"
+             data-full-width-responsive="true"></ins>`;
+      mount.appendChild(wrap);
+      try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch {}
+    }
+    // Try now and also once page is fully loaded
+    if ("adsbygoogle" in window) mountAd();
+    window.addEventListener("load", mountAd);
+
+    // Small UX niceties
+    // Prefill tool field if user came from a tool page with ?from=/tool-path
+    const q = new URLSearchParams(location.search);
+    const from = q.get("from");
+    if (from && from.startsWith("/")) { $("#tool").value = from; }
+
+    // Accessibility: focus first invalid on attempt
+    $("#sendBtn").addEventListener("click", () => {
+      const firstInvalid = form.querySelector(":invalid");
+      if (firstInvalid) firstInvalid.focus();
+    });
+  </script>
 </body>
 </html>

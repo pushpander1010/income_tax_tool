@@ -1,109 +1,530 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617"
-     crossorigin="anonymous"></script>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Currency Converter – UpTools</title>
-    <meta name="description" content="Fast currency converter with live exchange rates." />
-    <meta name="robots" content="index,follow" />
-    <meta name="theme-color" content="#0b1020" />
-    <link rel="canonical" href="https://www.uptools.in/currency-converter/" />
-    <meta property="og:title" content="Currency Converter – UpTools" />
-    <meta property="og:description" content="Convert currencies with live rates." />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://www.uptools.in/currency-converter/" />
-    <meta property="og:site_name" content="UpTools" />
-    <meta property="og:image" content="https://www.uptools.in/og/currency.png" />
-    <meta name="twitter:card" content="summary" />
-    <!-- 1) Inline ONLY tiny critical rules (below) -->
-<style>
-  :root{--bg:#0f1419;--surface:#121826;--text:#e6edf3;--muted:#9aa4b2;--brand:#7aa2ff;--radius:.75rem}
-  *{box-sizing:border-box}
-  html{color-scheme:dark light;-webkit-text-size-adjust:100%}
-  body{margin:0;font:400 16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Noto Sans",sans-serif;background:var(--bg);color:var(--text)}
-  img,svg,video{max-width:100%;height:auto}
-  .container{width:min(100% - 24px,1120px);margin-inline:auto}
-  a{color:var(--brand);text-decoration-thickness:.08em;text-underline-offset:.18em}
-  .card{background:var(--surface);border:1px solid #212a3a;border-radius:var(--radius);padding:1rem}
-  .btn{display:inline-block;padding:.65rem .9rem;border-radius:var(--radius);background:var(--brand);color:#0b1020;border:0;font-weight:600}
-</style>
 
-<!-- 2) Load full stylesheet without blocking first paint -->
-<link rel="preload" href="/style.css?v=1.1.0" as="style">
-<link rel="stylesheet" href="/style.css?v=1.1.0" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="/style.css?v=1.1.0"></noscript>
+<head>
+  <!-- Ads (async + minimal). Ad slot is CLS-safe & only mounted if available -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617"
+    crossorigin="anonymous"></script>
 
-  </head>
-  <body style="--accent:#9be7ff;--bg1:#0b1420;--bg2:#0e1e30;--cardBorder:#2a4766">
-    <main class="wrap">
-      <div class="tool-header"><div class="tool-icon">₹$</div><h1 style="margin:0">Currency Converter</h1></div>
-      <div class="card">
+  <!-- Core meta -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="x-ua-compatible" content="IE=edge" />
+  <meta name="color-scheme" content="dark light" />
+
+  <title>Currency Converter (Live FX) — INR, USD, EUR, GBP + Fees & History | UpTools</title>
+  <meta name="description"
+    content="Convert currencies instantly with live exchange rates (INR, USD, EUR, GBP, AED, CAD, AUD, JPY, more). Add bank/card fee %, swap, copy results, and see 30‑day history with a mini chart. Privacy‑first, fast, mobile‑friendly. How to use: enter amount, pick From/To, optionally add fee, and Convert." />
+  <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
+  <meta name="theme-color" content="#0b1020" />
+  <link rel="canonical" href="https://www.uptools.in/currency-converter/" />
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:title" content="Currency Converter (Live FX) — INR, USD, EUR, GBP + Fees & History" />
+  <meta property="og:description"
+    content="Live currency conversion with fees, presets, swap and 30‑day history. Fast, private, mobile‑friendly." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.uptools.in/currency-converter/" />
+  <meta property="og:site_name" content="UpTools" />
+  <meta property="og:image" content="https://www.uptools.in/assets/og/currency-converter.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Currency Converter (Live FX) — INR, USD, EUR, GBP + Fees & History" />
+  <meta name="twitter:description" content="Live FX conversion with fees & a 30‑day mini chart." />
+  <meta name="twitter:image" content="https://www.uptools.in/assets/og/currency-converter.png" />
+
+  <!-- Favicons -->
+  <link rel="icon" type="image/svg+xml" href="/assets/logo/uptools-logo.svg" />
+
+  <!-- Common CSS (non‑blocking) -->
+  <link rel="preload" href="/style.css?v=1.1.0" as="style" />
+  <link rel="stylesheet" href="/style.css?v=1.1.0" media="print" onload="this.media='all'">
+  <noscript>
+    <link rel="stylesheet" href="/style.css?v=1.1.0">
+  </noscript>
+
+  <!-- Small page-only tweaks (keep tiny) -->
+  <style>
+    :root {
+      --accent: #9be7ff;
+      --bg1: #0b1420;
+      --bg2: #0e1e30;
+      --cardBorder: #2a4766;
+    }
+
+    .fx-presets {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 8px 0
+    }
+
+    .chip {
+      padding: .45rem .6rem;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: #0b1326;
+      cursor: pointer
+    }
+
+    .chip:active {
+      transform: translateY(0)
+    }
+
+    .grid {
+      display: grid;
+      gap: 12px;
+      grid-template-columns: 1fr
+    }
+
+    @media(min-width:820px) {
+      .grid {
+        grid-template-columns: 1.2fr .8fr
+      }
+    }
+
+    .kpi {
+      display: grid;
+      gap: 6px
+    }
+
+    .kpi .row {
+      display: flex;
+      justify-content: space-between;
+      border-top: 1px dashed var(--border);
+      padding: .35rem 0
+    }
+
+    .mini {
+      font-size: .875rem;
+      color: var(--muted)
+    }
+
+    .spark-wrap {
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 8px
+    }
+
+    .spark {
+      display: block;
+      width: 100%;
+      height: 120px
+    }
+
+    .swap {
+      min-width: 44px
+    }
+
+    .inline-help {
+      display: flex;
+      gap: 8px;
+      align-items: center
+    }
+
+    .video-wrap {
+      width: 100%;
+      max-width: 880px;
+      margin: 0 auto;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      box-shadow: var(--glow-soft)
+    }
+
+    .video-wrap iframe {
+      width: 100%;
+      aspect-ratio: 16/9;
+      display: block
+    }
+
+    /* Reserve ad height to avoid CLS */
+    #ad-slot {
+      min-height: 120px
+    }
+
+    /* Textual logos for sub-links */
+    .ico {
+      display: inline-grid;
+      place-items: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 7px;
+      border: 1px solid var(--border);
+      font-weight: 700
+    }
+  </style>
+
+  <!-- JSON-LD: SoftwareApplication + FAQ -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"SoftwareApplication",
+    "name":"UpTools Currency Converter",
+    "applicationCategory":"FinanceApplication",
+    "operatingSystem":"Web",
+    "url":"https://www.uptools.in/currency-converter/",
+    "description":"Convert currencies using live exchange rates with fee %, presets, swap, shareable links, and a 30-day history chart.",
+    "featureList":["Live exchange rate","Add fee %","Swap","Popular presets","30-day history","Share link","Copy result","Offline-friendly"],
+    "offers":{"@type":"Offer","price":"0","priceCurrency":"INR"}
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"FAQPage",
+    "mainEntity":[
+      {"@type":"Question","name":"Where do rates come from?","acceptedAnswer":{"@type":"Answer","text":"We fetch rates from reputable public endpoints (exchangerate.host and Frankfurter). If a call fails due to CORS or network, we fall back to a proxy on our domain."}},
+      {"@type":"Question","name":"How do I include bank/card fees?","acceptedAnswer":{"@type":"Answer","text":"Adjust the Fee % slider to add a markup/fee to the live rate. This gives a more realistic amount you might pay."}},
+      {"@type":"Question","name":"Can I share a conversion?","acceptedAnswer":{"@type":"Answer","text":"Yes. Use Share to copy a link with parameters (amount/from/to/fee). Opening it will auto‑prefill the converter."}}
+    ]
+  }
+  </script>
+</head>
+
+<body>
+  <!-- Global header -->
+  <header class="site" role="banner">
+    <div class="header-inner">
+      <a class="brand" href="/" aria-label="UpTools Home">
+        <img src="/assets/logo/uptools-logo.svg" alt="UpTools logo" width="28" height="28" loading="eager">
+        <b>UpTools</b>
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="/#tools">Tools</a>
+        <a href="/income-tax-tool/">Income Tax</a>
+        <a href="/emi-calculator/">EMI</a>
+        <a aria-current="page" href="/currency-converter/">Currency</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <!-- Title strip -->
+    <div class="tool-header">
+      <div class="tool-icon" aria-hidden="true">CC</div>
+      <h1 style="margin:0">Currency Converter</h1>
+    </div>
+
+    <section class="grid">
+      <!-- Left: Converter -->
+      <div class="card neon" id="converter">
+        <div class="fx-presets" aria-label="Popular pairs">
+          <button class="chip" data-pair="INR,USD">INR ⇄ USD</button>
+          <button class="chip" data-pair="INR,AED">INR ⇄ AED</button>
+          <button class="chip" data-pair="USD,EUR">USD ⇄ EUR</button>
+          <button class="chip" data-pair="USD,GBP">USD ⇄ GBP</button>
+          <button class="chip" data-pair="EUR,GBP">EUR ⇄ GBP</button>
+          <button class="chip" data-pair="USD,CAD">USD ⇄ CAD</button>
+          <button class="chip" data-pair="USD,AUD">USD ⇄ AUD</button>
+        </div>
+
         <label class="label" for="amt">Amount</label>
-        <input id="amt" class="input" type="number" step="0.01" placeholder="e.g., 100" />
-        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:8px">
-          <div style="flex:1;min-width:160px">
+        <input id="amt" class="input" type="number" step="0.01" placeholder="e.g., 100" inputmode="decimal" />
+
+        <div class="row" style="gap:8px">
+          <div style="flex:1">
             <label class="label" for="from">From</label>
-            <select id="from" class="input"></select>
+            <select id="from" class="input" aria-label="From currency"></select>
           </div>
-          <div style="flex:1;min-width:160px">
+          <button id="swap" class="btn secondary swap" title="Swap From/To" aria-label="Swap">⇅</button>
+          <div style="flex:1">
             <label class="label" for="to">To</label>
-            <select id="to" class="input"></select>
+            <select id="to" class="input" aria-label="To currency"></select>
           </div>
         </div>
-        <button id="go" class="btn">Convert</button>
-        <div id="out" class="result"></div>
+
+        <label class="label" for="fee">Fee / Markup <span class="mini">(bank/card spread)</span></label>
+        <div class="inline-help">
+          <input id="fee" class="input" type="range" min="0" max="5" step="0.25" value="0" style="flex:1" />
+          <output id="feeVal" for="fee" class="note" style="width:56px;text-align:right">0%</output>
+        </div>
+
+        <div class="row" style="gap:8px;margin-top:8px">
+          <button id="go" class="btn">Convert</button>
+          <button id="share" class="btn secondary">Share</button>
+          <button id="copyRes" class="btn secondary">Copy result</button>
+        </div>
+
+        <div id="out" class="result" style="margin-top:8px"></div>
+        <div id="meta" class="note mini" aria-live="polite"></div>
       </div>
-      <footer class="note small"><a href="/">UpTools</a></footer>
-    </main>
-    <script type="module">
-      const A=document.getElementById('amt'), F=document.getElementById('from'), T=document.getElementById('to'), O=document.getElementById('out');
-      const symbols=["INR","USD","EUR","GBP","AUD","CAD","JPY","CNY","AED","SGD","CHF","ZAR"]; 
-      function fill(){ symbols.forEach(s=>{ const o=document.createElement('option'); o.value=s; o.textContent=s; F.appendChild(o.cloneNode(true)); T.appendChild(o); }); F.value='INR'; T.value='USD'; }
-      async function convert(){
-        const amt=Number(A.value||0); if(!isFinite(amt)){ O.textContent='Enter a number'; return; }
-        const base=F.value, quote=T.value;
-        async function tryHost(){
-          const res = await fetch(`https://api.exchangerate.host/latest?base=${base}&symbols=${quote}`);
-          if(!res.ok) throw new Error('exchangerate.host');
-          const j = await res.json();
-          const rate = j.rates?.[quote];
-          if(!rate) throw new Error('rate');
-          return rate;
-        }
-        async function tryFrankfurter(){
-          const res = await fetch(`https://api.frankfurter.app/latest?from=${base}&to=${quote}`);
-          if(!res.ok) throw new Error('frankfurter');
-          const j = await res.json();
-          const rate = j.rates?.[quote];
-          if(!rate) throw new Error('rate');
-          return rate;
-        }
-        try{
-          let rate = await tryHost().catch(tryFrankfurter);
-          const out = amt*rate;
-          O.innerHTML = `<div class='row'><span>Rate</span><span class='amount'>1 ${base} = ${rate.toFixed(4)} ${quote}</span></div>
-          <div class='row'><span>Converted</span><span class='amount'>${out.toFixed(2)} ${quote}</span></div>`;
-        }catch{
-          // Final attempt via Cloudflare Worker proxy if direct CORS fails in prod
-          try {
-            const prox = await fetch(`/api?url=${encodeURIComponent(`https://api.exchangerate.host/latest?base=${base}&symbols=${quote}`)}`);
-            const j = await prox.json();
-            const rate = j.rates?.[quote];
-            if(!rate) throw 0;
-            const out = amt*rate;
-            O.innerHTML = `<div class='row'><span>Rate</span><span class='amount'>1 ${base} = ${rate.toFixed(4)} ${quote}</span></div>
-            <div class='row'><span>Converted</span><span class='amount'>${out.toFixed(2)} ${quote}</span></div>`;
-          } catch {
-            O.textContent='Rate unavailable (try again later)';
-          }
+
+      <!-- Right: KPI + Chart -->
+      <aside class="card neon">
+        <h2 style="margin-top:0">Overview</h2>
+        <div class="kpi" id="kpi">
+          <div class="row"><span>Mid‑market rate</span><span id="kpiRate" class="amount">—</span></div>
+          <div class="row"><span>With fee</span><span id="kpiAdjRate" class="amount">—</span></div>
+          <div class="row"><span>Converted</span><span id="kpiOut" class="amount">—</span></div>
+        </div>
+        <div class="spark-wrap" style="margin-top:10px">
+          <div class="mini">30‑day history</div>
+          <svg id="spark" class="spark" viewBox="0 0 300 120" preserveAspectRatio="none" role="img"
+            aria-label="30-day exchange rate history">
+            <rect x="0" y="0" width="300" height="120" fill="none"></rect>
+            <path id="sparkLine" d="" vector-effect="non-scaling-stroke"></path>
+          </svg>
+          <div id="sparkMeta" class="mini" style="display:flex;justify-content:space-between">
+            <span id="sparkStart">—</span><span id="sparkEnd">—</span>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <!-- (Conditional) Ad — reserved height to prevent layout shift -->
+    <section id="ad-slot" class="card neon" aria-label="Sponsored" style="margin-top:12px">
+      <ins class="adsbygoogle" style="display:block; min-height:120px" data-ad-client="ca-pub-6216304334889617"
+        data-ad-slot="auto" data-full-width-responsive="true"></ins>
+    </section>
+
+    <!-- Helpful explainer + internal links for SEO -->
+    <section class="card neon" aria-labelledby="how-to">
+      <h2 id="how-to" style="margin-top:0">How to use</h2>
+      <ol class="note" style="margin:0 0 10px 18px">
+        <li>Enter the <b>Amount</b> and choose <b>From</b> and <b>To</b> currencies (or use presets).</li>
+        <li>Optional: adjust <b>Fee %</b> to simulate bank/card markups.</li>
+        <li>Click <b>Convert</b> to see the live rate, adjusted rate, conversion and a 30‑day mini chart.</li>
+        <li>Use <b>Share</b> to copy a link with the same settings.</li>
+      </ol>
+      <div class="video-wrap" aria-label="Currency conversion explainer">
+        <iframe src="https://www.youtube-nocookie.com/embed/zfAYH2Yl6xo"
+          title="Wise Fees & Rates (Mid‑market explained)" loading="lazy"
+          referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+      </div>
+      <div class="note" style="margin-top:10px">
+        Explore more: <span class="ico">IT</span> <a href="/income-tax-tool/">Income Tax Calculator</a> ·
+        <span class="ico">EMI</span> <a href="/emi-calculator/">EMI Calculator</a> ·
+        <span class="ico">GST</span> <a href="/gst-calculator/">GST Calculator</a> ·
+        <span class="ico">JS</span> <a href="/json-formatter/">JSON Formatter</a>
+      </div>
+    </section>
+
+    <footer class="note small site-footer">© <span id="y"></span> UpTools · <a href="/sitemap.xml">Sitemap</a> · <a
+        href="/privacy/">Privacy</a></footer>
+  </main>
+
+  <!-- Common utilities -->
+  <script type="module">
+    import { $, $$, debounce, serializeForm } from "/scripts/utils.js";
+
+    // Footer year
+    $("#y").textContent = new Date().getFullYear();
+
+    // Ad mount (safe even if blocked)
+    try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch { }
+
+    // Currencies (major + INR focus)
+    const CODES = [
+      "INR", "USD", "EUR", "GBP", "AED", "AUD", "CAD", "SGD", "CHF", "JPY", "CNY", "HKD",
+      "NZD", "SEK", "NOK", "DKK", "ZAR", "THB", "MYR", "IDR", "PHP", "BDT", "PKR", "SAR", "QAR", "KWD"
+    ];
+
+    const els = {
+      amt: $("#amt"), from: $("#from"), to: $("#to"),
+      fee: $("#fee"), feeVal: $("#feeVal"),
+      swap: $("#swap"), go: $("#go"), out: $("#out"),
+      share: $("#share"), copyRes: $("#copyRes"),
+      meta: $("#meta"),
+      kpiRate: $("#kpiRate"), kpiAdjRate: $("#kpiAdjRate"), kpiOut: $("#kpiOut"),
+      spark: $("#spark"), sparkLine: $("#sparkLine"), sparkStart: $("#sparkStart"), sparkEnd: $("#sparkEnd")
+    };
+
+    // Fill dropdowns
+    function fillCurrencies() {
+      const fragF = document.createDocumentFragment();
+      const fragT = document.createDocumentFragment();
+      for (const c of CODES) {
+        const of = document.createElement("option"); of.value = c; of.textContent = c; fragF.appendChild(of);
+        const ot = document.createElement("option"); ot.value = c; ot.textContent = c; fragT.appendChild(ot);
+      }
+      els.from.appendChild(fragF);
+      els.to.appendChild(fragT);
+      // Locale-aware defaults (bias to INR if in India)
+      const lang = navigator.language || "";
+      if (lang.toLowerCase().includes("-in")) { els.from.value = "INR"; els.to.value = "USD"; }
+      else { els.from.value = "USD"; els.to.value = "INR"; }
+      // Query param overrides
+      const q = new URLSearchParams(location.search);
+      els.from.value = q.get("from") || els.from.value;
+      els.to.value = q.get("to") || els.to.value;
+      els.amt.value = q.get("amount") || "";
+      const f = Number(q.get("fee") || 0); if (!isNaN(f)) { els.fee.value = String(Math.min(5, Math.max(0, f))); updateFeeLabel(); }
+    }
+
+    function updateFeeLabel() { els.feeVal.textContent = els.fee.value + "%"; }
+    els.fee.addEventListener("input", debounce(updateFeeLabel, 20));
+    updateFeeLabel();
+
+    // Swap
+    els.swap.addEventListener("click", () => {
+      const a = els.from.value;
+      els.from.value = els.to.value;
+      els.to.value = a;
+      runConvert();
+    });
+
+    // Presets
+    $$(".chip[data-pair]").forEach(b => b.addEventListener("click", () => {
+      const [f, t] = b.getAttribute("data-pair").split(",");
+      els.from.value = f; els.to.value = t;
+      runConvert();
+    }));
+
+    // Fetch helpers
+    async function getRate(base, quote) {
+      async function host() {
+        const r = await fetch(`https://api.exchangerate.host/latest?base=${base}&symbols=${quote}`);
+        if (!r.ok) throw 0;
+        const j = await r.json();
+        if (!j || !j.rates || !j.rates[quote]) throw 0;
+        return { rate: j.rates[quote], ts: j.date || "" };
+      }
+      async function frank() {
+        const r = await fetch(`https://api.frankfurter.app/latest?from=${base}&to=${quote}`);
+        if (!r.ok) throw 0;
+        const j = await r.json();
+        if (!j || !j.rates || !j.rates[quote]) throw 0;
+        return { rate: j.rates[quote], ts: j.date || "" };
+      }
+      try { return await host(); } catch {
+        try { return await frank(); } catch {
+          // Proxy fallback (Cloudflare Worker at /api?url=…)
+          const prox = await fetch(`/api?url=${encodeURIComponent(`https://api.exchangerate.host/latest?base=${base}&symbols=${quote}`)}`);
+          const j = await prox.json();
+          if (!j || !j.rates || !j.rates[quote]) throw new Error("rate");
+          return { rate: j.rates[quote], ts: j.date || "" };
         }
       }
-      document.getElementById('go').addEventListener('click', convert);
-      [A,F,T].forEach(el=>el.addEventListener('keydown',e=>{ if(e.key==='Enter') convert(); }));
-      fill();
-    </script>
-  </body>
-  </html>
+    }
 
+    async function getHistory(base, quote, days = 30) {
+      const end = new Date();
+      const start = new Date(Date.now() - (days - 1) * 864e5);
+      const sd = start.toISOString().slice(0, 10);
+      const ed = end.toISOString().slice(0, 10);
+
+      async function frank() {
+        const r = await fetch(`https://api.frankfurter.app/${sd}..${ed}?from=${base}&to=${quote}`);
+        if (!r.ok) throw 0;
+        const j = await r.json();
+        const entries = Object.entries(j.rates || {}).sort((a, b) => a[0] < b[0] ? -1 : 1)
+          .map(([d, obj]) => ({ d, v: obj[quote] }));
+        if (!entries.length) throw 0;
+        return entries;
+      }
+      try { return await frank(); } catch {
+        const r = await fetch(`https://api.exchangerate.host/timeseries?base=${base}&symbols=${quote}&start_date=${sd}&end_date=${ed}`);
+        if (!r.ok) throw [];
+        const j = await r.json();
+        const entries = Object.entries(j.rates || {}).sort((a, b) => a[0] < b[0] ? -1 : 1)
+          .map(([d, obj]) => ({ d, v: obj[quote] }));
+        return entries;
+      }
+    }
+
+    // Formatters
+    const nf = (c) => new Intl.NumberFormat(undefined, { maximumFractionDigits: 4 });
+    const money = (c) => new Intl.NumberFormat(undefined, { style: "currency", currency: c, maximumFractionDigits: 2 });
+
+    // Main conversion
+    async function runConvert() {
+      const amount = Number(els.amt.value || 0);
+      if (!isFinite(amount) || amount < 0) { els.out.textContent = "Enter a valid amount"; return; }
+      const base = els.from.value, quote = els.to.value;
+      if (base === quote) {
+        const out = money(quote).format(amount);
+        els.out.innerHTML = `<div class='row'><span>Rate</span><span class='amount'>1 ${base} = 1 ${quote}</span></div>
+                             <div class='row'><span>Converted</span><span class='amount'>${out}</span></div>`;
+        els.kpiRate.textContent = "1.0000";
+        els.kpiAdjRate.textContent = "1.0000";
+        els.kpiOut.textContent = out;
+        els.meta.textContent = "";
+        drawHistory([], base, quote);
+        return;
+      }
+
+      els.meta.textContent = "Fetching rate…";
+      try {
+        const { rate, ts } = await getRate(base, quote);
+        const feePct = Number(els.fee.value || 0) / 100;
+        const adjRate = rate * (1 - feePct); // fee worsens rate
+        const converted = amount * adjRate;
+
+        els.out.innerHTML = `
+          <div class='row'><span>Mid‑market rate</span><span class='amount'>1 ${base} = ${nf().format(rate)} ${quote}</span></div>
+          <div class='row'><span>With fee (${(feePct * 100).toFixed(2)}%)</span><span class='amount'>1 ${base} = ${nf().format(adjRate)} ${quote}</span></div>
+          <div class='row'><span>Converted</span><span class='amount'>${money(quote).format(converted)}</span></div>
+        `;
+        els.kpiRate.textContent = nf().format(rate);
+        els.kpiAdjRate.textContent = nf().format(adjRate);
+        els.kpiOut.textContent = money(quote).format(converted);
+        els.meta.textContent = ts ? `Last updated: ${ts} (source: live)` : "Live rate";
+
+        // History + sparkline
+        const hist = await getHistory(base, quote, 30);
+        drawHistory(hist, base, quote);
+      } catch {
+        els.meta.textContent = "Rate unavailable (try again later).";
+      }
+    }
+
+    // Sparkline
+    function drawHistory(points, base, quote) {
+      const svg = els.spark, path = els.sparkLine;
+      const W = 300, H = 120, P = 6;
+      svg.setAttribute("viewBox", `0 0 ${W} ${H}`);
+      if (!points || !points.length) { path.setAttribute("d", ""); els.sparkStart.textContent = ""; els.sparkEnd.textContent = ""; return; }
+      const xs = points.map(p => p.d), ys = points.map(p => p.v);
+      const min = Math.min(...ys), max = Math.max(...ys), span = max - min || 1;
+      const step = (W - P * 2) / (ys.length - 1);
+      let d = "";
+      ys.forEach((v, i) => {
+        const x = P + i * step;
+        const y = H - P - ((v - min) / span) * (H - P * 2);
+        d += (i === 0 ? `M ${x} ${y}` : ` L ${x} ${y}`);
+      });
+      path.setAttribute("d", d);
+      path.setAttribute("fill", "none");
+      path.setAttribute("stroke", "var(--accent)");
+      path.setAttribute("stroke-width", "2");
+
+      els.sparkStart.textContent = `${xs[0]} • ${nf().format(ys[0])}`;
+      els.sparkEnd.textContent = `${xs[xs.length - 1]} • ${nf().format(ys[ys.length - 1])}`;
+    }
+
+    // Shareable link
+    function shareLink() {
+      const url = new URL(location.href);
+      const p = url.searchParams;
+      p.set("amount", els.amt.value || "");
+      p.set("from", els.from.value);
+      p.set("to", els.to.value);
+      p.set("fee", els.fee.value || "0");
+      url.search = p.toString();
+      return url.toString();
+    }
+
+    // Events
+    els.go.addEventListener("click", runConvert);
+    [els.amt, els.from, els.to].forEach(el => el.addEventListener("keydown", e => { if (e.key === "Enter") runConvert(); }));
+    els.share.addEventListener("click", async () => {
+      const link = shareLink();
+      try {
+        if (navigator.share) { await navigator.share({ title: "UpTools Currency Converter", url: link }); }
+        else { await navigator.clipboard.writeText(link); alert("Link copied!"); }
+      } catch { }
+    });
+    els.copyRes.addEventListener("click", async () => {
+      const text = `${els.kpiOut.textContent} @ ${els.kpiAdjRate.textContent} ${els.to.value} per ${els.from.value}`;
+      try { await navigator.clipboard.writeText(text); alert("Result copied!"); } catch { }
+    });
+
+    // Init
+    fillCurrencies();
+    // Auto-run if prefilled by URL
+    if (els.amt.value) runConvert();
+  </script>
+</body>
+
+</html>
