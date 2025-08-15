@@ -1,83 +1,529 @@
 <!doctype html>
 <html lang="en">
-
 <head>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617"
-    crossorigin="anonymous"></script>
+  <!-- Google Ads (kept single + async). Slot is injected later only if available to avoid CLS. -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617" crossorigin="anonymous"></script>
+
+  <!-- Hints for 3P -->
+  <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
+  <link rel="dns-prefetch" href="//pagead2.googlesyndication.com">
+
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>GST Calculator (India) - UpTools</title>
-  <meta name="description" content="Calculate GST inclusive or exclusive amounts for 5%, 12%, 18%, 28%." />
-  <meta name="robots" content="index,follow" />
+
+  <title>GST Calculator (India) – Inclusive/Exclusive, CGST/SGST/IGST Split, Rounding | UpTools</title>
+  <meta name="description" content="Free Indian GST calculator. Enter amount and GST rate (5%, 12%, 18%, 28% or custom) to get base, GST and total. Toggle GST‑inclusive vs exclusive, intra‑state (CGST+SGST) vs inter‑state (IGST), rounding to nearest rupee/paise, quick rate buttons, shareable link, copy, CSV download, and recent history. 100% client‑side." />
+  <meta name="keywords" content="GST calculator India, GST inclusive exclusive, CGST SGST IGST split, 5% 12% 18% 28% GST, GST rounding rupee, GST CSV export, GST copy share link, GST tool online" />
+  <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
   <meta name="theme-color" content="#0b1020" />
   <link rel="canonical" href="https://www.uptools.in/gst-calculator/" />
-  <meta property="og:title" content="GST Calculator (India) - UpTools" />
-  <meta property="og:description" content="Calculate GST inclusive or exclusive amounts." />
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:title" content="GST Calculator (India) – Inclusive/Exclusive + CGST/SGST/IGST" />
+  <meta property="og:description" content="Calculate base, GST and total for 5%, 12%, 18%, 28% (or custom). Split into CGST/SGST or IGST, choose inclusive/exclusive, round, copy, export CSV." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.uptools.in/gst-calculator/" />
   <meta property="og:site_name" content="UpTools" />
   <meta property="og:image" content="https://www.uptools.in/og/gst.png" />
   <meta name="twitter:card" content="summary" />
-  <!-- 1) Inline ONLY tiny critical rules (below) -->
-<style>
-  :root{--bg:#0f1419;--surface:#121826;--text:#e6edf3;--muted:#9aa4b2;--brand:#7aa2ff;--radius:.75rem}
-  *{box-sizing:border-box}
-  html{color-scheme:dark light;-webkit-text-size-adjust:100%}
-  body{margin:0;font:400 16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Noto Sans",sans-serif;background:var(--bg);color:var(--text)}
-  img,svg,video{max-width:100%;height:auto}
-  .container{width:min(100% - 24px,1120px);margin-inline:auto}
-  a{color:var(--brand);text-decoration-thickness:.08em;text-underline-offset:.18em}
-  .card{background:var(--surface);border:1px solid #212a3a;border-radius:var(--radius);padding:1rem}
-  .btn{display:inline-block;padding:.65rem .9rem;border-radius:var(--radius);background:var(--brand);color:#0b1020;border:0;font-weight:600}
-</style>
 
-<!-- 2) Load full stylesheet without blocking first paint -->
-<link rel="preload" href="/style.css?v=1.1.0" as="style">
-<link rel="stylesheet" href="/style.css?v=1.1.0" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="/style.css?v=1.1.0"></noscript>
+  <link rel="icon" type="image/svg+xml" href="/assets/uptools-mark.svg" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/uptools-mark.svg" />
+  <link rel="preload" href="/og/gst.png" as="image" imagesrcset="/og/gst.png 1x" />
 
-  
+  <!-- Accent override so this tool has its own vibe (emerald) while using the common CSS -->
+  <style>
+    :root{ --accent:#10B981; --accent-2:#34D399; }
+    /* Tiny critical util – rest comes from /style.css */
+    *{box-sizing:border-box} html{color-scheme:dark light;-webkit-text-size-adjust:100%}
+    body{margin:0;font:400 16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Inter,Noto Sans,sans-serif}
+    .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+  </style>
 
+  <!-- Common stylesheet (non‑blocking) -->
+  <link rel="preload" href="/style.css?v=1.1.0" as="style">
+  <link rel="stylesheet" href="/style.css?v=1.1.0" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="/style.css?v=1.1.0"></noscript>
+
+  <!-- Structured Data (SoftwareApplication + FAQ) -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"SoftwareApplication",
+    "name":"GST Calculator (India)",
+    "applicationCategory":"FinanceApplication",
+    "operatingSystem":"Any",
+    "url":"https://www.uptools.in/gst-calculator/",
+    "image":"https://www.uptools.in/og/gst.png",
+    "description":"Instant Indian GST calculator for inclusive/exclusive amounts with CGST/SGST/IGST split, presets for 5%, 12%, 18%, 28%, rounding, copy, CSV and share.",
+    "offers":{"@type":"Offer","price":"0","priceCurrency":"INR"}
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+      {"@type":"Question","name":"How do I calculate GST from a GST-inclusive amount?","acceptedAnswer":{"@type":"Answer","text":"Tick 'Amount is GST-inclusive', select the GST rate, and the calculator will back-calculate the base and GST (for 18% inclusive, base = amount/1.18; GST = total - base)."}},
+      {"@type":"Question","name":"What's the difference between CGST+SGST and IGST?","acceptedAnswer":{"@type":"Answer","text":"For intra-state supplies, GST splits equally into CGST and SGST. For inter-state supplies, IGST applies. The calculator displays the split automatically based on your selection."}},
+      {"@type":"Question","name":"Can I use a custom GST rate?","acceptedAnswer":{"@type":"Answer","text":"Yes. Pick 'Custom' and enter any rate (e.g., 3% or 7.5%)."}},
+      {"@type":"Question","name":"Can I round to the nearest rupee?","acceptedAnswer":{"@type":"Answer","text":"Yes. Choose 'Nearest ₹1' to round figures to whole rupees; choose 'Paise (2 decimals)' to keep paise."}}
+    ]
+  }
+  </script>
 </head>
 
 <body>
-  <main class="wrap">
-    <div class="tool-header">
-      <div class="tool-icon">GST</div>
-      <h1 style="margin:0">GST Calculator (India)</h1>
+  <!-- Header (shared styles) -->
+  <header class="site" role="banner">
+    <div class="header-inner">
+      <a class="brand" href="/" aria-label="UpTools Home">
+        <img src="/assets/uptools-mark.svg" alt="UpTools logo" width="28" height="28" loading="eager">
+        <b>UpTools</b>
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="/#tools">Tools</a>
+        <a href="/income-tax-tool/">Income Tax</a>
+        <a href="/emi-calculator/">EMI</a>
+        <a aria-current="page" href="/gst-calculator/">GST</a>
+      </nav>
     </div>
-    <div class="card">
-      <label class="label" for="base">Amount</label>
-      <input id="base" class="input" type="number" min="0" step="0.5" placeholder="e.g., 999.99" />
-      <label class="label" for="rate">GST Rate</label>
-      <select id="rate" class="input">
-        <option value="5">5%</option>
-        <option value="12">12%</option>
-        <option value="18" selected>18%</option>
-        <option value="28">28%</option>
-      </select>
-      <label class="check"><input id="inclusive" type="checkbox" /> <span>Input amount is GST-inclusive</span></label>
-      <button id="calc" class="btn">Calculate</button>
-      <div id="out" class="result"></div>
+  </header>
+
+  <main class="wrap" id="main">
+    <!-- Tool header strip -->
+    <div class="tool-header neon" style="margin-top:6px">
+      <div class="tool-icon" aria-hidden="true">GST</div>
+      <div>
+        <h1 style="margin:0">GST Calculator (India)</h1>
+        <p class="note" style="margin:2px 0 0">
+          Inclusive/Exclusive • CGST/SGST/IGST split • Rounding • Presets • Share • CSV • Recent history
+        </p>
+      </div>
     </div>
-    <footer class="note small"><a href="/">UpTools</a></footer>
+
+    <!-- Compact hero image (fixed size to prevent CLS) -->
+    <figure class="card" style="display:flex;align-items:center;gap:12px">
+      <img src="/og/gst.png" alt="Illustration of GST calculation showing base, GST and total" width="96" height="96" decoding="async" loading="lazy" />
+      <figcaption class="note">Privacy‑first: calculations run in your browser. No data leaves your device.</figcaption>
+    </figure>
+
+    <!-- Calculator -->
+    <section class="card" aria-labelledby="calc-title">
+      <h2 id="calc-title" class="sr-only">GST Calculator Form</h2>
+
+      <!-- Presets row -->
+      <div class="chips" style="margin-bottom:10px">
+        <button type="button" class="btn sm" data-rate="5">5%</button>
+        <button type="button" class="btn sm" data-rate="12">12%</button>
+        <button type="button" class="btn sm" data-rate="18">18%</button>
+        <button type="button" class="btn sm" data-rate="28">28%</button>
+        <button type="button" class="btn sm secondary" id="btn-reset">Reset</button>
+        <button type="button" class="btn sm secondary" id="btn-share">Share</button>
+        <button type="button" class="btn sm secondary" id="btn-csv">Download CSV</button>
+      </div>
+
+      <div class="grid">
+        <div>
+          <label class="label" for="amount">Amount (₹)</label>
+          <input id="amount" class="input" type="number" inputmode="decimal" min="0" step="0.01" placeholder="e.g., 999.99" />
+        </div>
+
+        <div>
+          <label class="label" for="rate">GST Rate</label>
+          <select id="rate" class="input">
+            <option value="5">5%</option>
+            <option value="12">12%</option>
+            <option value="18" selected>18%</option>
+            <option value="28">28%</option>
+            <option value="custom">Custom…</option>
+          </select>
+          <div id="customRateWrap" class="hidden">
+            <label class="label" for="customRate">Custom rate (%)</label>
+            <input id="customRate" class="input" type="number" inputmode="decimal" min="0" max="99.99" step="0.01" placeholder="e.g., 7.5" />
+          </div>
+        </div>
+
+        <div>
+          <label class="label">Amount Type</label>
+          <label class="check"><input id="inclusive" type="checkbox" /> <span>Amount is <b>GST‑inclusive</b></span></label>
+          <div class="note">Unchecked = amount is before GST (exclusive)</div>
+        </div>
+
+        <div>
+          <label class="label">Supply Type</label>
+          <div class="chips" role="radiogroup" aria-label="Supply Type">
+            <label class="check"><input type="radio" name="supply" value="intra" checked /> <span>Intra‑state (CGST+SGST)</span></label>
+            <label class="check"><input type="radio" name="supply" value="inter" /> <span>Inter‑state (IGST)</span></label>
+          </div>
+        </div>
+
+        <div>
+          <label class="label" for="rounding">Rounding</label>
+          <select id="rounding" class="input">
+            <option value="paise" selected>Paise (2 decimals)</option>
+            <option value="rupee">Nearest ₹1</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="grid">
+        <button id="btn-calc" class="btn">Calculate</button>
+        <button id="btn-copy" class="btn secondary">Copy result</button>
+        <a class="btn ghost" href="/income-tax-tool/">Also try: Income Tax Calculator</a>
+      </div>
+
+      <div id="out" class="result" aria-live="polite" style="margin-top:12px"></div>
+    </section>
+
+    <!-- Recent history -->
+    <section class="card" aria-labelledby="hist-title">
+      <h2 id="hist-title" style="margin-top:0">Recent calculations</h2>
+      <p class="note" id="hist-note" style="margin:4px 0 10px">Up to 5 items are kept in your browser (private).</p>
+      <div id="history"></div>
+    </section>
+
+    <!-- Explainer + internal links -->
+    <section class="card">
+      <h2 style="margin-top:0">How to use this GST Calculator</h2>
+      <ul>
+        <li>Enter the <b>amount</b>, select <b>GST rate</b> (or Custom), and choose whether your amount is <b>inclusive</b> of GST.</li>
+        <li>Pick <b>Intra‑state</b> to see CGST+SGST split (equal halves), or <b>Inter‑state</b> for IGST.</li>
+        <li>Change <b>rounding</b> to match your invoicing (paise vs nearest ₹1).</li>
+        <li>Use <b>Share</b> to copy a link with your inputs, and <b>Download CSV</b> for records.</li>
+      </ul>
+      <p class="note">Related tools: <a href="/income-tax-tool/">Income Tax</a>, <a href="/emi-calculator/">EMI</a>, <a href="/currency-converter/">Currency Converter</a>.</p>
+    </section>
+
+    <!-- (Optional) Video – add your own file at /media/gst-demo.mp4; fixed sizes to avoid CLS -->
+    <section class="card">
+      <h2 style="margin-top:0">Quick demo (optional)</h2>
+      <video controls preload="none" width="640" height="360" poster="/og/gst.png" style="max-width:100%">
+        <source src="/media/gst-demo.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+      </video>
+      <p class="note" style="margin-top:6px">No audio required. File plays locally if present.</p>
+    </section>
+
+    <!-- Ad slot (only inserted if adsbygoogle is present; else container gets removed to avoid layout jumps) -->
+    <aside id="ad-slot-1" class="card" aria-label="Sponsored" style="min-height:280px">
+      <div class="note">Sponsored</div>
+      <div id="ad-slot-1-inner"></div>
+    </aside>
+
+    <footer class="note small site-footer" role="contentinfo">
+      © <span id="y"></span> UpTools · <a href="/sitemap.xml">Sitemap</a> · <a href="/about/">About</a> · <a href="/contact/">Contact</a>
+    </footer>
   </main>
+
+  <!-- Common utils for all pages -->
   <script type="module">
-    const B = document.getElementById('base'), R = document.getElementById('rate'), I = document.getElementById('inclusive'), O = document.getElementById('out');
-    const fmt = new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 2 });
-    function calc() {
-      const amt = Number(B.value || 0), rate = Number(R.value || 0) / 100;
-      if (!(amt >= 0)) { O.textContent = 'Enter a valid amount'; return; }
-      let gst = 0, base = 0, total = 0;
-      if (I.checked) { total = amt; base = amt / (1 + rate); gst = total - base; }
-      else { base = amt; gst = base * rate; total = base + gst; }
-      O.innerHTML = `<div class='row'><span>Base Amount</span><span class='amount'>${fmt.format(base)}</span></div>
-        <div class='row'><span>GST</span><span class='amount'>${fmt.format(gst)}</span></div>
-        <div class='row'><span>Total</span><span class='amount'>${fmt.format(total)}</span></div>`;
+    import { $, $$, fmtNum, fmtCur, debounce, persist, read, num } from "/scripts/utils.js";
+
+    // ---------- Helpers ----------
+    const INR = (v, decimals=2) =>
+      new Intl.NumberFormat('en-IN', { style:'currency', currency:'INR', minimumFractionDigits:decimals, maximumFractionDigits:decimals }).format(v ?? 0);
+    const round = (v, mode) => (mode === 'rupee' ? Math.round(v) : Math.round((v + Number.EPSILON) * 100) / 100);
+
+    const els = {
+      amount: $('#amount'),
+      rateSel: $('#rate'),
+      customWrap: $('#customRateWrap'),
+      customRate: $('#customRate'),
+      inclusive: $('#inclusive'),
+      rounding: $('#rounding'),
+      out: $('#out'),
+      hist: $('#history'),
+      histNote: $('#hist-note'),
+      supplyRadios: $$('input[name="supply"]'),
+      btnCalc: $('#btn-calc'),
+      btnCopy: $('#btn-copy'),
+      btnCSV: $('#btn-csv'),
+      btnShare: $('#btn-share'),
+      btnReset: $('#btn-reset'),
+      adWrap: $('#ad-slot-1'),
+      adInner: $('#ad-slot-1-inner')
+    };
+
+    // ---------- URL <-> State ----------
+    function syncURL() {
+      const params = new URLSearchParams();
+      params.set('amt', els.amount.value || '');
+      const selRate = els.rateSel.value === 'custom' ? (els.customRate.value || '') : els.rateSel.value;
+      params.set('rate', selRate);
+      params.set('custom', String(els.rateSel.value === 'custom'));
+      params.set('inc', String(els.inclusive.checked));
+      const checked = document.querySelector('input[name="supply"]:checked');
+      params.set('supply', checked ? checked.value : 'intra');
+      params.set('round', els.rounding.value);
+      history.replaceState({}, '', location.pathname + '?' + params.toString());
+      persist('gst:last', params.toString());
     }
-    document.getElementById('calc').addEventListener('click', calc);
-    [B, R].forEach(el => el.addEventListener('keydown', e => { if (e.key === 'Enter') calc(); }));
+    function loadFromURLOrMemory() {
+      const q = new URLSearchParams(location.search || read('gst:last',''));
+      if (q.size === 0) return;
+      const set = (el, v) => { if (el && v!=null) el.value = v; };
+      set(els.amount, q.get('amt'));
+      const isCustom = q.get('custom') === 'true';
+      const rate = q.get('rate');
+      els.rateSel.value = isCustom ? 'custom' : (rate || '18');
+      els.customWrap.classList.toggle('hidden', !isCustom);
+      if (isCustom) set(els.customRate, rate);
+      els.inclusive.checked = q.get('inc') === 'true';
+      const supply = q.get('supply') || 'intra';
+      const supplyEl = document.querySelector('input[name="supply"][value="'+supply+'"]');
+      if (supplyEl) supplyEl.checked = true;
+      set(els.rounding, q.get('round') || 'paise');
+    }
+
+    // ---------- Core Calculation ----------
+    function currentRate() {
+      if (els.rateSel.value === 'custom') {
+        const r = Number(els.customRate.value || 0);
+        return r > 0 ? r : 0;
+      }
+      return Number(els.rateSel.value);
+    }
+
+    function compute({ amount, ratePct, inclusive, supply, rounding }) {
+      const r = ratePct / 100;
+      let base = 0, gst = 0, total = 0;
+
+      if (inclusive) {
+        total = amount;
+        base  = r > 0 ? amount / (1 + r) : amount;
+        gst   = total - base;
+      } else {
+        base  = amount;
+        gst   = base * r;
+        total = base + gst;
+      }
+
+      // Rounding at figure level
+      const baseR  = round(base, rounding);
+      const gstR   = round(gst, rounding);
+      const totalR = round(total, rounding);
+
+      // Split
+      let cgst=0, sgst=0, igst=0;
+      if (supply === 'intra') {
+        cgst = gstR / 2;
+        sgst = gstR / 2;
+      } else {
+        igst = gstR;
+      }
+
+      return {
+        ratePct,
+        inclusive,
+        supply,
+        rounding,
+        base: baseR,
+        gst: gstR,
+        total: totalR,
+        cgst, sgst, igst
+      };
+    }
+
+    function render(res) {
+      if (!isFinite(res.base)) {
+        els.out.innerHTML = `<p class="note">Enter a valid amount and rate.</p>`;
+        return;
+      }
+      const d0 = (els.rounding.value==='rupee'?0:2);
+      const rows = [
+        `<div class="row"><span>Base Amount</span><span class="amount">${INR(res.base, d0)}</span></div>`,
+        `<div class="row"><span>GST (${fmtNum(res.ratePct)}%)</span><span class="amount">${INR(res.gst, d0)}</span></div>`,
+        res.supply === 'intra'
+          ? `<div class="row"><span>CGST (${fmtNum(res.ratePct/2)}%)</span><span>${INR(res.cgst, d0)}</span></div>
+             <div class="row"><span>SGST (${fmtNum(res.ratePct/2)}%)</span><span>${INR(res.sgst, d0)}</span></div>`
+          : `<div class="row"><span>IGST (${fmtNum(res.ratePct)}%)</span><span>${INR(res.igst, d0)}</span></div>`,
+        `<div class="row total"><span>Total</span><span class="amount">${INR(res.total, d0)}</span></div>`
+      ].join("");
+
+      els.out.innerHTML = `
+        <div class="kvi"><span>Amount type</span><span>${res.inclusive ? 'GST‑inclusive' : 'GST‑exclusive'}</span></div>
+        <div class="kvi"><span>Supply</span><span>${res.supply==='intra' ? 'Intra‑state (CGST+SGST)' : 'Inter‑state (IGST)'}</span></div>
+        ${rows}
+      `;
+    }
+
+    // ---------- History (local, 5 items) ----------
+    function pushHistory(entry) {
+      const key = 'gst:hist';
+      const list = read(key, []);
+      list.unshift({ t: Date.now(), ...entry });
+      persist(key, list.slice(0,5));
+      renderHistory();
+    }
+    function renderHistory() {
+      const list = read('gst:hist', []);
+      if (!list.length) {
+        els.hist.innerHTML = `<p class="note">No history yet.</p>`;
+        return;
+      }
+      const html = `
+        <div class="card">
+          <ul>
+            ${list.map(it => `
+              <li>
+                <a href="/gst-calculator/?amt=${encodeURIComponent(it.amt)}&rate=${encodeURIComponent(it.rate)}&custom=${encodeURIComponent(it.custom)}&inc=${it.inc}&supply=${it.supply}&round=${it.round}">
+                  <span class="ico">%</span>
+                  <div>
+                    <div><b>${it.inc ? 'Incl' : 'Excl'}</b> · ${it.supply==='intra'?'CGST+SGST':'IGST'} · ${fmtNum(it.rate)}%</div>
+                    <div class="muted">₹${fmtNum(it.amt)} → Base ${fmtCur(it.base)} · GST ${fmtCur(it.gst)} · Total ${fmtCur(it.total)}</div>
+                  </div>
+                </a>
+              </li>`).join('')}
+          </ul>
+        </div>`;
+      els.hist.innerHTML = html;
+    }
+
+    // ---------- CSV ----------
+    function toCSV(result) {
+      const rows = [
+        ['Field','Value'],
+        ['Amount type', result.inclusive ? 'GST-inclusive' : 'GST-exclusive'],
+        ['Supply', result.supply==='intra' ? 'Intra-state (CGST+SGST)' : 'Inter-state (IGST)'],
+        ['Rate (%)', result.ratePct],
+        ['Base', result.base],
+        ['GST', result.gst],
+        ['CGST', result.cgst],
+        ['SGST', result.sgst],
+        ['IGST', result.igst],
+        ['Total', result.total],
+        ['Rounding', result.rounding]
+      ];
+      return rows.map(r => r.join(',')).join('\n');
+    }
+
+    // ---------- Ads: insert slot only if available ----------
+    function setupAd() {
+      if (!('adsbygoogle' in window)) {
+        if (els.adWrap) els.adWrap.remove(); // remove container to avoid empty space/CLS
+        return;
+      }
+      const ins = document.createElement('ins');
+      ins.className = 'adsbygoogle';
+      ins.style.display = 'block';
+      ins.style.minHeight = '250px';
+      ins.setAttribute('data-ad-format', 'auto');
+      ins.setAttribute('data-full-width-responsive', 'true');
+      // Optional: fixed slot id
+      // ins.setAttribute('data-ad-slot','XXXXXXXXXX');
+      if (els.adInner) els.adInner.appendChild(ins);
+      // @ts-ignore
+      (window.adsbygoogle = window.adsbygoogle || []).push({});
+    }
+
+    // ---------- Bindings ----------
+    function calcAndRender() {
+      const amount = num(els.amount.value);
+      if (!(amount >= 0)) { els.out.innerHTML = `<p class="note">Enter a valid amount.</p>`; return; }
+
+      const custom = (els.rateSel.value === 'custom');
+      const rate = currentRate();
+      const inclusive = els.inclusive.checked;
+      const checked = document.querySelector('input[name="supply"]:checked');
+      const supply = checked ? checked.value : 'intra';
+      const rounding = els.rounding.value;
+
+      const result = compute({ amount, ratePct: rate, inclusive, supply, rounding });
+      render(result);
+      syncURL();
+
+      pushHistory({
+        amt: amount, rate, custom, inc: inclusive, supply, round: rounding,
+        base: result.base, gst: result.gst, total: result.total
+      });
+
+      persist('gst:lastInput', { amount, rate, custom, inclusive, supply, rounding });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const yearEl = document.getElementById('y'); if (yearEl) yearEl.textContent = String(new Date().getFullYear());
+
+      // Preset rate buttons
+      $$('button[data-rate]').forEach(b => b.addEventListener('click', (e) => {
+        const v = e.currentTarget && e.currentTarget.dataset ? e.currentTarget.dataset.rate : '';
+        els.rateSel.value = v || '18';
+        els.customWrap.classList.add('hidden');
+        calcAndRender();
+      }));
+
+      // Rate select toggle for custom
+      els.rateSel.addEventListener('change', () => {
+        const isCustom = els.rateSel.value === 'custom';
+        els.customWrap.classList.toggle('hidden', !isCustom);
+        if (!isCustom) els.customRate.value = '';
+      });
+
+      // Calculate on Enter in amount/customRate
+      [els.amount, els.customRate].forEach(el => el && el.addEventListener('keydown', (ev) => {
+        if (ev.key === 'Enter') calcAndRender();
+      }));
+
+      // Buttons
+      els.btnCalc.addEventListener('click', calcAndRender);
+      els.btnCopy.addEventListener('click', async () => {
+        const txt = els.out.textContent ? els.out.textContent.trim() : '';
+        if (!txt) return;
+        try { await navigator.clipboard.writeText(txt); alert('Result copied!'); } catch {}
+      });
+      els.btnCSV.addEventListener('click', () => {
+        const amount = num(els.amount.value);
+        if (!(amount >= 0)) { alert('Enter amount first.'); return; }
+        const res = compute({
+          amount,
+          ratePct: currentRate(),
+          inclusive: els.inclusive.checked,
+          supply: (document.querySelector('input[name="supply"]:checked') || { value:'intra' }).value,
+          rounding: els.rounding.value
+        });
+        const blob = new Blob([toCSV(res)], { type: 'text/csv' });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'gst-calculation.csv';
+        a.click();
+        URL.revokeObjectURL(a.href);
+      });
+      els.btnShare.addEventListener('click', () => {
+        syncURL();
+        const url = location.href;
+        if (navigator.share) { navigator.share({ title: 'GST Calculator – UpTools', url }).catch(()=>{}); }
+        else { navigator.clipboard?.writeText(url); alert('Link copied:\n' + url); }
+      });
+      els.btnReset.addEventListener('click', () => {
+        els.amount.value = '';
+        els.rateSel.value = '18';
+        els.customRate.value = '';
+        els.customWrap.classList.add('hidden');
+        const supplyIntra = document.querySelector('input[name="supply"][value="intra"]');
+        if (supplyIntra) supplyIntra.checked = true;
+        els.inclusive.checked = false;
+        els.rounding.value = 'paise';
+        els.out.innerHTML = '';
+        history.replaceState({}, '', location.pathname);
+      });
+
+      // Live update with debounce
+      [els.amount, els.customRate].forEach(el => el && el.addEventListener('input', debounce(calcAndRender, 120)));
+      els.inclusive.addEventListener('change', calcAndRender);
+      els.rounding.addEventListener('change', calcAndRender);
+      els.rateSel.addEventListener('change', calcAndRender);
+      els.supplyRadios.forEach(r => r.addEventListener('change', calcAndRender));
+
+      // Restore state from URL/localStorage
+      loadFromURLOrMemory();
+      renderHistory();
+
+      // If amount present, auto-calc
+      if (els.amount.value) calcAndRender();
+
+      // Setup ad (conditionally)
+      setupAd();
+    });
   </script>
 </body>
-
 </html>
