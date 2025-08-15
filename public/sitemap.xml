@@ -7,7 +7,7 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://www.uptools.in/income-tax-calculator/</loc>
+    <loc>https://www.uptools.in/income-tax-tool/</loc>
     <lastmod>2025-08-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
@@ -115,13 +115,13 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://www.uptools.in/canada-hst-calculator/</loc>
+    <loc>https://www.uptools.in/canada-hst-tool/</loc>
     <lastmod>2025-08-15</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://www.uptools.in/canada-crs-calculator</loc>
+    <loc>https://www.uptools.in/canada-crs-tool</loc>
     <lastmod>2025-08-15</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.6</priority>
