@@ -11,36 +11,36 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>GST Calculator (India) – Inclusive/Exclusive, CGST/SGST/IGST Split, Rounding | UpTools</title>
-  <meta name="description" content="Free Indian GST calculator. Enter amount and GST rate (5%, 12%, 18%, 28% or custom) to get base, GST and total. Toggle GST‑inclusive vs exclusive, intra‑state (CGST+SGST) vs inter‑state (IGST), rounding to nearest rupee/paise, quick rate buttons, shareable link, copy, CSV download, and recent history. 100% client‑side." />
+  <title>GST Calculator (India) - Inclusive/Exclusive, CGST/SGST/IGST Split, Rounding | UpTools</title>
+  <meta name="description" content="Free Indian GST calculator. Enter amount and GST rate (5%, 12%, 18%, 28% or custom) to get base, GST and total. Toggle GST-inclusive vs exclusive, intra-state (CGST+SGST) vs inter-state (IGST), rounding to nearest rupee/paise, quick rate buttons, shareable link, copy, CSV download, and recent history. 100% client-side." />
   <meta name="keywords" content="GST calculator India, GST inclusive exclusive, CGST SGST IGST split, 5% 12% 18% 28% GST, GST rounding rupee, GST CSV export, GST copy share link, GST tool online" />
   <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
   <meta name="theme-color" content="#0b1020" />
   <link rel="canonical" href="https://www.uptools.in/gst-calculator/" />
 
   <!-- Open Graph / Twitter -->
-  <meta property="og:title" content="GST Calculator (India) – Inclusive/Exclusive + CGST/SGST/IGST" />
+  <meta property="og:title" content="GST Calculator (India) - Inclusive/Exclusive + CGST/SGST/IGST" />
   <meta property="og:description" content="Calculate base, GST and total for 5%, 12%, 18%, 28% (or custom). Split into CGST/SGST or IGST, choose inclusive/exclusive, round, copy, export CSV." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.uptools.in/gst-calculator/" />
   <meta property="og:site_name" content="UpTools" />
-  <meta property="og:image" content="https://www.uptools.in/og/gst.png" />
+  <meta property="og:image" content="https://www.uptools.in/assets/og/gst.png" />
   <meta name="twitter:card" content="summary" />
 
-  <link rel="icon" type="image/svg+xml" href="/assets/uptools-mark.svg" />
-  <link rel="apple-touch-icon" sizes="180x180" href="/assets/uptools-mark.svg" />
-  <link rel="preload" href="/og/gst.png" as="image" imagesrcset="/og/gst.png 1x" />
+  <link rel="icon" type="image/svg+xml" href="/assets/logo/uptools-mark.svg" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/logo/uptools-mark.svg" />
+  <link rel="preload" href="/assets/og/gst.png" as="image" />
 
   <!-- Accent override so this tool has its own vibe (emerald) while using the common CSS -->
   <style>
     :root{ --accent:#10B981; --accent-2:#34D399; }
-    /* Tiny critical util – rest comes from /style.css */
+    /* Tiny critical util - rest comes from /style.css */
     *{box-sizing:border-box} html{color-scheme:dark light;-webkit-text-size-adjust:100%}
     body{margin:0;font:400 16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Inter,Noto Sans,sans-serif}
     .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
   </style>
 
-  <!-- Common stylesheet (non‑blocking) -->
+  <!-- Common stylesheet (non-blocking) -->
   <link rel="preload" href="/style.css?v=1.1.0" as="style">
   <link rel="stylesheet" href="/style.css?v=1.1.0" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="/style.css?v=1.1.0"></noscript>
@@ -54,7 +54,7 @@
     "applicationCategory":"FinanceApplication",
     "operatingSystem":"Any",
     "url":"https://www.uptools.in/gst-calculator/",
-    "image":"https://www.uptools.in/og/gst.png",
+    "image":"https://www.uptools.in/assets/og/gst.png",
     "description":"Instant Indian GST calculator for inclusive/exclusive amounts with CGST/SGST/IGST split, presets for 5%, 12%, 18%, 28%, rounding, copy, CSV and share.",
     "offers":{"@type":"Offer","price":"0","priceCurrency":"INR"}
   }
@@ -76,7 +76,7 @@
   <header class="site" role="banner">
     <div class="header-inner">
       <a class="brand" href="/" aria-label="UpTools Home">
-        <img src="/assets/uptools-mark.svg" alt="UpTools logo" width="28" height="28" loading="eager">
+        <img src="/assets/logo/uptools-mark.svg" alt="UpTools logo" width="28" height="28" loading="eager">
         <b>UpTools</b>
       </a>
       <nav class="nav-links" aria-label="Primary">
@@ -102,8 +102,18 @@
 
     <!-- Compact hero image (fixed size to prevent CLS) -->
     <figure class="card" style="display:flex;align-items:center;gap:12px">
-      <img src="/og/gst.png" alt="Illustration of GST calculation showing base, GST and total" width="96" height="96" decoding="async" loading="lazy" />
-      <figcaption class="note">Privacy‑first: calculations run in your browser. No data leaves your device.</figcaption>
+      <picture>
+        <source srcset="/assets/og/gst.webp" type="image/webp">
+        <img
+          src="/assets/og/gst.png"
+          alt="Illustration of GST calculation showing base, GST and total"
+          width="96" height="96"
+          decoding="async" loading="lazy"
+          data-fallback="data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='96' height='96' viewBox='0 0 96 96'%3e%3crect width='96' height='96' rx='12' fill='%2310B981'/%3e%3ctext x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' font-family='system-ui,Segoe UI,Roboto' font-size='28' fill='%23070f14'%3eGST%3c/text%3e%3c/svg%3e"
+          onerror="this.src=this.dataset.fallback; this.removeAttribute('srcset');"
+        />
+      </picture>
+      <figcaption class="note">Privacy-first: calculations run in your browser. No data leaves your device.</figcaption>
     </figure>
 
     <!-- Calculator -->
@@ -144,15 +154,15 @@
 
         <div>
           <label class="label">Amount Type</label>
-          <label class="check"><input id="inclusive" type="checkbox" /> <span>Amount is <b>GST‑inclusive</b></span></label>
+          <label class="check"><input id="inclusive" type="checkbox" /> <span>Amount is <b>GST-inclusive</b></span></label>
           <div class="note">Unchecked = amount is before GST (exclusive)</div>
         </div>
 
         <div>
           <label class="label">Supply Type</label>
           <div class="chips" role="radiogroup" aria-label="Supply Type">
-            <label class="check"><input type="radio" name="supply" value="intra" checked /> <span>Intra‑state (CGST+SGST)</span></label>
-            <label class="check"><input type="radio" name="supply" value="inter" /> <span>Inter‑state (IGST)</span></label>
+            <label class="check"><input type="radio" name="supply" value="intra" checked /> <span>Intra-state (CGST+SGST)</span></label>
+            <label class="check"><input type="radio" name="supply" value="inter" /> <span>Inter-state (IGST)</span></label>
           </div>
         </div>
 
@@ -188,21 +198,26 @@
       <h2 style="margin-top:0">How to use this GST Calculator</h2>
       <ul>
         <li>Enter the <b>amount</b>, select <b>GST rate</b> (or Custom), and choose whether your amount is <b>inclusive</b> of GST.</li>
-        <li>Pick <b>Intra‑state</b> to see CGST+SGST split (equal halves), or <b>Inter‑state</b> for IGST.</li>
+        <li>Pick <b>Intra-state</b> to see CGST+SGST split (equal halves), or <b>Inter-state</b> for IGST.</li>
         <li>Change <b>rounding</b> to match your invoicing (paise vs nearest ₹1).</li>
         <li>Use <b>Share</b> to copy a link with your inputs, and <b>Download CSV</b> for records.</li>
       </ul>
       <p class="note">Related tools: <a href="/income-tax-tool/">Income Tax</a>, <a href="/emi-calculator/">EMI</a>, <a href="/currency-converter/">Currency Converter</a>.</p>
     </section>
 
-    <!-- (Optional) Video – add your own file at /media/gst-demo.mp4; fixed sizes to avoid CLS -->
+    <!-- YouTube demo (privacy-enhanced, fixed size to avoid CLS) -->
     <section class="card">
-      <h2 style="margin-top:0">Quick demo (optional)</h2>
-      <video controls preload="none" width="640" height="360" poster="/og/gst.png" style="max-width:100%">
-        <source src="/media/gst-demo.mp4" type="video/mp4">
-        Your browser does not support the video tag.
-      </video>
-      <p class="note" style="margin-top:6px">No audio required. File plays locally if present.</p>
+      <h2 style="margin-top:0">Quick demo</h2>
+      <iframe
+        width="640" height="360"
+        src="https://www.youtube-nocookie.com/embed/7LlfYE45QmU?rel=0&modestbranding=1&playsinline=1"
+        title="GST calculation (inclusive & exclusive)"
+        loading="lazy"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen
+        style="max-width:100%; border:0; aspect-ratio: 16 / 9;"
+      ></iframe>
+      <p class="note" style="margin-top:6px">Video opens from YouTube in a privacy-enhanced player.</p>
     </section>
 
     <!-- Ad slot (only inserted if adsbygoogle is present; else container gets removed to avoid layout jumps) -->
@@ -342,8 +357,8 @@
       ].join("");
 
       els.out.innerHTML = `
-        <div class="kvi"><span>Amount type</span><span>${res.inclusive ? 'GST‑inclusive' : 'GST‑exclusive'}</span></div>
-        <div class="kvi"><span>Supply</span><span>${res.supply==='intra' ? 'Intra‑state (CGST+SGST)' : 'Inter‑state (IGST)'}</span></div>
+        <div class="kvi"><span>Amount type</span><span>${res.inclusive ? 'GST-inclusive' : 'GST-exclusive'}</span></div>
+        <div class="kvi"><span>Supply</span><span>${res.supply==='intra' ? 'Intra-state (CGST+SGST)' : 'Inter-state (IGST)'}</span></div>
         ${rows}
       `;
     }
@@ -491,7 +506,7 @@
       els.btnShare.addEventListener('click', () => {
         syncURL();
         const url = location.href;
-        if (navigator.share) { navigator.share({ title: 'GST Calculator – UpTools', url }).catch(()=>{}); }
+        if (navigator.share) { navigator.share({ title: 'GST Calculator - UpTools', url }).catch(()=>{}); }
         else { navigator.clipboard?.writeText(url); alert('Link copied:\n' + url); }
       });
       els.btnReset.addEventListener('click', () => {
