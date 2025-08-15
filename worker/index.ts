@@ -49,7 +49,7 @@ export default {
       okCors(h);
       h.set('Access-Control-Allow-Methods', 'GET, OPTIONS');
       h.set('Access-Control-Allow-Headers', 'Content-Type, Accept');
-      h.set('Access-Control-Max-Age', '86400');
+      h.set('Access-Control-Max-Age', '3600');
       return new Response(null, { status: 204, headers: h });
     }
 

@@ -27,17 +27,17 @@
 
 # --- Shared CSS: 7d + SWR 1d (you version via ?v=) ---
 /style.css
-  Cache-Control: public, max-age=604800, stale-while-revalidate=86400
+  Cache-Control: public, max-age=3600, stale-while-revalidate=3600
 
 # --- Static assets: 1 year immutable ---
 /assets/*
-  Cache-Control: public, max-age=31536000, immutable
+  Cache-Control: public, max-age=3600, immutable
 
 /*.woff2
-  Cache-Control: public, max-age=31536000, immutable
+  Cache-Control: public, max-age=3600, immutable
 
 /*.webp
-  Cache-Control: public, max-age=31536000, immutable
+  Cache-Control: public, max-age=3600, immutable
 
 /*.(css|js|png|jpg|jpeg|svg|gif|ico|ttf)
-  Cache-Control: public, max-age=31536000, immutable
+  Cache-Control: public, max-age=3600, immutable
