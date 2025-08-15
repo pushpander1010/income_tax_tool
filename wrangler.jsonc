@@ -21,6 +21,7 @@
       "pan-validator",
       "ifsc-finder",
       "ip-address",
+      "image-tool",
       "uuid-generator",
       "json-formatter",
       "base64-encoder",
