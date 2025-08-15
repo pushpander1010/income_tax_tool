@@ -1,43 +1,18 @@
-# --- Site-wide safety ---
-/*
+# HTML should be revalidated on every visit
+/* 
+  Cache-Control: public, max-age=0, s-maxage=0, must-revalidate
+
+# Root stylesheet: cache for 1 hour in browser & edge, then revalidate
+/style.css
+  Cache-Control: public, max-age=3600, stale-while-revalidate=86400
+
+# Fingerprinted assets (e.g., app.3f2c9c.css / .js / .svg / .woff2)
+# These are safe to cache long-term
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Security (recommended)
+*/
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
-  Permissions-Policy: geolocation=(), microphone=(), camera=()
-  Cross-Origin-Opener-Policy: same-origin
-  Cross-Origin-Resource-Policy: cross-origin
-
-# --- HTML: never cache (pages) ---
-/index.html
-  Cache-Control: no-store, must-revalidate
-
-/*.html
-  Cache-Control: no-store, must-revalidate
-
-/
-  Cache-Control: no-store, must-revalidate
-
-# --- XML/TXT: short cache (1 hour) ---
-/sitemap.xml
-  Content-Type: application/xml; charset=UTF-8
-  Cache-Control: public, max-age=3600
-
-/robots.txt
-  Content-Type: text/plain; charset=UTF-8
-  Cache-Control: public, max-age=3600
-
-# --- Shared CSS: 7d + SWR 1d (you version via ?v=) ---
-/style.css
-  Cache-Control: public, max-age=3600, stale-while-revalidate=3600
-
-# --- Static assets: 1 year immutable ---
-/assets/*
-  Cache-Control: public, max-age=3600, immutable
-
-/*.woff2
-  Cache-Control: public, max-age=3600, immutable
-
-/*.webp
-  Cache-Control: public, max-age=3600, immutable
-
-/*.(css|js|png|jpg|jpeg|svg|gif|ico|ttf)
-  Cache-Control: public, max-age=3600, immutable
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
