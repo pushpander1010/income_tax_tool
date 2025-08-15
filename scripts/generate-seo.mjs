@@ -16,7 +16,7 @@ const paths = [
   '/fd-calculator/',
   '/sip-calculator/',
   '/age-calculator/',
-  'image-tool',
+  '/image-tool/',
   '/unit-converter/',
   '/password-generator/',
   '/qr-generator/',
