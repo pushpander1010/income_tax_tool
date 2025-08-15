@@ -1,0 +1,697 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Image Tool – Background Remover, Eraser & Filters | UpTools</title>
+    <meta name="description"
+        content="Free online image editor: one-click background removal, manual eraser, grayscale/monochrome, color correction, brightness/contrast/saturation, and export with transparency. Fast, private, in-browser." />
+    <link rel="canonical" href="https://www.uptools.in/image-tool/" />
+    <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
+    <meta name="theme-color" content="#0b0f1a" />
+    <meta property="og:title" content="Image Tool – Background Remover, Eraser & Filters" />
+    <meta property="og:description"
+        content="Edit images in your browser: remove background, erase, grayscale & color-correct, then export PNG/WebP/JPG." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.uptools.in/image-tool/" />
+    <meta property="og:image" content="/assets/og/image-tool.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" type="image/svg+xml" href="/assets/logo/uptools-logo.svg" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/logo/uptools-logo.svg" />
+    <link rel="preload" href="/style.css?v=1.1.0" as="style">
+    <link rel="stylesheet" href="/style.css?v=1.1.0" media="print" onload="this.media='all'">
+    <noscript>
+        <link rel="stylesheet" href="/style.css?v=1.1.0">
+    </noscript>
+
+    <style>
+        :root {
+            --content-w: 1200px;
+        }
+
+        .tool-grid {
+            display: grid;
+            gap: 12px;
+            grid-template-columns: 320px minmax(0, 1fr) 320px
+        }
+
+        @media (max-width:1080px) {
+            .tool-grid {
+                grid-template-columns: 1fr
+            }
+        }
+
+        #stage.card {
+            display: grid;
+            place-items: center;
+            padding: 0;
+            min-height: 520px;
+            overflow: hidden
+        }
+
+        .stage-inner {
+            width: 100%;
+            height: 100%;
+            display: grid;
+            place-items: center;
+            position: relative
+        }
+
+        #stage[data-bg="transparent"] .stage-inner {
+            background: conic-gradient(#0000 90deg, #1b2236 0) 0 0/32px 32px,
+                conic-gradient(#0000 90deg, #0e1630 0) 16px 16px/32px 32px
+        }
+
+        #stage[data-bg="white"] .stage-inner {
+            background: #fff
+        }
+
+        #stage[data-bg="black"] .stage-inner {
+            background: #000
+        }
+
+        #canvas {
+            max-width: 100%;
+            max-height: 70vh;
+            display: block;
+            background-color: transparent;
+            border-radius: 10px
+        }
+
+        @media (max-width:768px) {
+            #canvas {
+                max-height: 55vh
+            }
+        }
+
+        .controls .row {
+            border: 0;
+            padding: 0
+        }
+
+        .bg-toggle {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            flex-wrap: wrap
+        }
+
+        .bg-toggle .chip input {
+            accent-color: #22d3ee
+        }
+
+        .ctrl {
+            display: grid;
+            gap: 6px;
+            margin: 8px 0
+        }
+
+        .ctrl input[type="range"] {
+            width: 100%
+        }
+
+        .stage-bar {
+            position: sticky;
+            bottom: 0;
+            inset-inline: 0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            background: color-mix(in oklab, #0b1326 82%, transparent);
+            padding: 10px;
+            border-top: 1px solid var(--border)
+        }
+
+        .drop {
+            display: grid;
+            place-items: center;
+            text-align: center;
+            gap: 8px;
+            padding: 18px;
+            border: 1px dashed var(--border);
+            border-radius: 12px;
+            background: #0b1326
+        }
+
+        .drop.dragover {
+            border-style: solid;
+            box-shadow: var(--glow)
+        }
+
+        .video-wrap {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16/9;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #0b1326;
+            border: 1px solid var(--border);
+            box-shadow: var(--glow-soft)
+        }
+
+        .video-wrap iframe {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+            display: block
+        }
+
+        .txt-logo {
+            display: inline-grid;
+            place-items: center;
+            font-weight: 900;
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-2));
+            color: #06121a;
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .25);
+            font-size: 12px
+        }
+
+        .sep {
+            height: 1px;
+            background: color-mix(in oklab, var(--accent) 25%, #243);
+            margin: 10px 0
+        }
+    </style>
+
+    <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"SoftwareApplication","name":"UpTools Image Tool","applicationCategory":"MultimediaApplication","operatingSystem":"Any","url":"https://www.uptools.in/image-tool/","description":"Browser-based image editor with background removal, eraser and color filters. Exports PNG/WebP/JPG.","offers":{"@type":"Offer","price":"0","priceCurrency":"INR"}}
+  </script>
+</head>
+
+<body>
+    <header class="site" role="banner">
+        <div class="header-inner">
+            <a class="brand" href="/" aria-label="UpTools Home">
+                <img src="/assets/logo/uptools-logo.svg" alt="UpTools logo" width="28" height="28" loading="eager">
+                <b>UpTools</b>
+            </a>
+            <nav class="nav-links" aria-label="Primary">
+                <a href="/#tools">Tools</a>
+                <a href="/income-tax-tool/">Income Tax</a>
+                <a href="/emi-calculator/">EMI</a>
+                <a aria-current="page" href="/image-tool/">Image Tool</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="wrap" id="main">
+        <div class="tool-header" style="justify-content:space-between;align-items:center">
+            <div style="display:flex;align-items:center;gap:12px">
+                <div class="tool-icon">🖼️</div>
+                <div>
+                    <h1 style="margin:0">Image Tool – Background Remover, Eraser & Filters</h1>
+                    <p class="note" style="margin:2px 0 0">Upload → adjust → auto/remove by color/erase → export
+                        PNG/WebP/JPG</p>
+                </div>
+            </div>
+            <a href="/image-converter/" class="pill" title="Go to Image Converter">
+                <span class="txt-logo">IC</span> <span>Image Converter</span>
+            </a>
+        </div>
+
+        <section class="tool-grid">
+            <!-- LEFT: Controls -->
+            <aside class="card controls" aria-label="Controls">
+                <h2>1) Upload image</h2>
+                <div class="drop" id="drop">
+                    <img src="data:image/svg+xml;utf8,<?xml version='1.0' ?><svg xmlns='http://www.w3.org/2000/svg' width='120' height='60' viewBox='0 0 120 60'><rect width='120' height='60' rx='10' ry='10' fill='%2312182c'/><path d='M15 40h90M60 18v22M60 18l-9 9M60 18l9 9' stroke='%239fb1c8' stroke-width='2' fill='none' stroke-linecap='round'/></svg>"
+                        alt="Upload icon" width="120" height="60">
+                    <div class="note">Drop image here or</div>
+                    <label class="btn sm" for="file">Choose file</label>
+                    <input id="file" class="hidden" type="file" accept="image/*" />
+                </div>
+
+                <div class="sep"></div>
+
+                <h2>2) Working area background</h2>
+                <div class="bg-toggle">
+                    <label class="chip"><input type="radio" name="stage-bg" value="transparent" checked>
+                        Transparent</label>
+                    <label class="chip"><input type="radio" name="stage-bg" value="white"> White</label>
+                    <label class="chip"><input type="radio" name="stage-bg" value="black"> Black</label>
+                </div>
+
+                <div class="sep"></div>
+
+                <h2>3) Filters</h2>
+                <div class="ctrl"><label class="label" for="brightness">Brightness</label><input id="brightness"
+                        type="range" min="50" max="150" value="100"></div>
+                <div class="ctrl"><label class="label" for="contrast">Contrast</label><input id="contrast" type="range"
+                        min="50" max="150" value="100"></div>
+                <div class="ctrl"><label class="label" for="saturation">Saturation</label><input id="saturation"
+                        type="range" min="0" max="200" value="100"></div>
+                <div class="ctrl"><label class="label" for="grayscale">Grayscale</label><input id="grayscale"
+                        type="range" min="0" max="100" value="0"></div>
+                <div class="ctrl"><label class="label" for="temperature">Temperature (Warm/Cool)</label><input
+                        id="temperature" type="range" min="-50" max="50" value="0"></div>
+
+                <div class="row" style="margin-top:8px">
+                    <button class="btn sm" id="resetFilters" type="button">Reset Filters</button>
+                    <button class="btn sm secondary" id="clearAll" type="button">Clear Canvas</button>
+                </div>
+
+                <div class="sep"></div>
+
+                <h2>4) Background remover</h2>
+                <div class="row" style="gap:8px;flex-wrap:wrap">
+                    <button class="btn sm" id="autoBG" type="button" title="Auto remove background">Auto Remove
+                        BG</button>
+                    <button class="btn sm" id="autoWhite" type="button" title="Remove whites quickly">Remove
+                        Whites</button>
+                </div>
+                <div class="ctrl">
+                    <label class="label" for="pickColor">Key Color</label>
+                    <input id="pickColor" type="color" value="#ffffff" />
+                </div>
+                <div class="ctrl">
+                    <label class="label" for="tolerance">Tolerance</label>
+                    <input id="tolerance" type="range" min="0" max="255" value="28">
+                </div>
+                <div class="row">
+                    <button class="btn sm secondary" id="keyRemove" type="button">Remove by Color</button>
+                    <button class="btn sm secondary" id="clearMask" type="button">Clear Mask</button>
+                </div>
+
+                <div class="sep"></div>
+
+                <h2>5) Eraser</h2>
+                <div class="ctrl">
+                    <label class="label" for="eraserSize">Eraser size</label>
+                    <input id="eraserSize" type="range" min="5" max="100" value="28">
+                </div>
+                <div class="row">
+                    <button class="btn sm" id="toggleEraser" type="button" aria-pressed="false">Enable Eraser</button>
+                    <button class="btn sm secondary" id="undoErase" type="button">Undo</button>
+                </div>
+
+                <div class="sep"></div>
+
+                <h2>6) Export</h2>
+                <div class="row" style="gap:8px;flex-wrap:wrap">
+                    <select id="expFmt" class="input" style="max-width:160px">
+                        <option value="image/png" selected>PNG (transparent if WA=Transparent)</option>
+                        <option value="image/webp">WEBP</option>
+                        <option value="image/jpeg">JPEG (no transparency)</option>
+                    </select>
+                    <input id="expQ" class="input" type="number" min="0.1" max="1" step="0.1" value="0.92"
+                        aria-label="Export quality">
+                    <button class="btn sm" id="exportBtn" type="button">Download</button>
+                </div>
+            </aside>
+
+            <!-- CENTER: Stage -->
+            <section id="stage" class="card" data-bg="transparent" aria-label="Working area">
+                <div class="stage-inner">
+                    <canvas id="canvas" width="1280" height="720" aria-label="Editable canvas"></canvas>
+                    <div class="stage-bar">
+                        <button class="btn sm secondary" id="fitIn" type="button" title="Fit to screen">Fit</button>
+                        <button class="btn sm secondary" id="actualSize" type="button" title="Actual size">100%</button>
+                        <button class="btn sm" id="quickPNG" type="button">Quick Download (PNG)</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- RIGHT: Help / Video / SEO -->
+            <aside class="card" aria-label="Learn">
+                <h2>How to remove background</h2>
+                <ol class="note" style="margin:0 0 10px 18px">
+                    <li>Upload an image</li>
+                    <li>Try <b>Auto Remove BG</b> (or choose a color and click <b>Remove by Color</b>)</li>
+                    <li>Fine-tune with the <b>Eraser</b></li>
+                    <li>Export as <b>PNG</b> for transparency</li>
+                </ol>
+
+                <div class="video-wrap" aria-label="Tutorial video">
+                    <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/f1cL9uavSbU"
+                        title="Microsoft Paint: Layers, Cocreator & Remove Background" loading="lazy"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+
+                </div>
+
+                <div class="sep"></div>
+                <h3>Why UpTools?</h3>
+                <ul class="note" style="margin:0 0 10px 18px">
+                    <li>Private: runs in your browser</li>
+                    <li>No upload limits for common images</li>
+                    <li>Precision eraser + color key</li>
+                </ul>
+
+                <div class="sep"></div>
+                <div class="grid">
+                    <a class="tool-link accent-violet" href="/image-converter/" aria-label="Open Image Converter">
+                        <span class="ico"><span class="txt-logo" aria-hidden="true">IC</span></span>
+                        <div><strong>Image Converter</strong>
+                            <div class="note">Resize, crop & change formats</div>
+                        </div>
+                    </a>
+                    <a class="tool-link accent-cyan" href="/about/" aria-label="About UpTools">
+                        <span class="ico"><span class="txt-logo" aria-hidden="true">ABT</span></span>
+                        <div><strong>About</strong>
+                            <div class="note">What is UpTools?</div>
+                        </div>
+                    </a>
+                    <a class="tool-link accent-green" href="/contact/" aria-label="Contact UpTools">
+                        <span class="ico"><span class="txt-logo" aria-hidden="true">CT</span></span>
+                        <div><strong>Contact</strong>
+                            <div class="note">Tell us what to build next</div>
+                        </div>
+                    </a>
+                </div>
+            </aside>
+        </section>
+
+        <footer class="note small site-footer" role="contentinfo" style="margin-top:16px">
+            © <span id="y"></span> UpTools · <a href="/sitemap.xml">Sitemap</a>
+        </footer>
+    </main>
+
+    <script type="module">
+        import { $, $$, debounce, clamp } from '/scripts/utils.js';
+
+        $('#y').textContent = new Date().getFullYear();
+
+        // Canvas + contexts
+        const canvas = /** @type {HTMLCanvasElement} */($('#canvas'));
+        const ctx = canvas.getContext('2d', { willReadFrequently: true });
+        const maskCanvas = document.createElement('canvas');
+        const mctx = maskCanvas.getContext('2d', { willReadFrequently: true });
+
+        // State
+        let baseBitmap = null;     // original image scaled to canvas size
+        const undoStack = [];
+        const pointer = { x: 0, y: 0 };
+        let erasingActive = false;
+
+        const state = {
+            workingArea: 'transparent', // transparent|white|black
+            eraserSize: 28,
+            isErasing: false,
+            filters: {
+                brightness: 100, contrast: 100, saturation: 100,
+                grayscale: 0, temperature: 0
+            }
+        };
+
+        // --- Helpers ---
+        function fitToCanvas(bmp) {
+            const maxW = 1280, maxH = 1280;
+            const r = Math.min(maxW / bmp.width, maxH / bmp.height, 1);
+            canvas.width = Math.round(bmp.width * r);
+            canvas.height = Math.round(bmp.height * r);
+            maskCanvas.width = canvas.width;
+            maskCanvas.height = canvas.height;
+        }
+
+        function cssFilter() {
+            const f = state.filters;
+            const hue = clamp(f.temperature * 1.8, -90, 90);
+            return `brightness(${f.brightness}%) contrast(${f.contrast}%) saturate(${f.saturation}%) grayscale(${f.grayscale}%) hue-rotate(${hue}deg)`;
+        }
+
+        function drawWorkingArea() {
+            const stage = $('#stage');
+            const mode = state.workingArea;
+            stage.setAttribute('data-bg', mode);
+            if (mode !== 'transparent') {
+                ctx.save();
+                ctx.globalCompositeOperation = 'destination-over';
+                ctx.fillStyle = mode === 'white' ? '#fff' : '#000';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                ctx.restore();
+            }
+        }
+
+        function redraw() {
+            if (!baseBitmap) {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                mctx.clearRect(0, 0, maskCanvas.width, maskCanvas.height);
+                return;
+            }
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            // 1) draw filtered image
+            ctx.save();
+            ctx.filter = cssFilter();
+            ctx.drawImage(baseBitmap, 0, 0, canvas.width, canvas.height);
+            ctx.restore();
+            // 2) apply mask holes (destination-out)
+            ctx.save();
+            ctx.globalCompositeOperation = 'destination-out';
+            ctx.drawImage(maskCanvas, 0, 0);
+            ctx.restore();
+            // 3) draw working area behind if not transparent
+            drawWorkingArea();
+        }
+
+        function pushUndo() {
+            try {
+                const snap = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                const msnap = mctx.getImageData(0, 0, maskCanvas.width, maskCanvas.height);
+                undoStack.push({ snap, msnap });
+                if (undoStack.length > 20) undoStack.shift();
+            } catch { }
+        }
+
+        function restoreUndo(u) {
+            if (!u) return;
+            ctx.putImageData(u.snap, 0, 0);
+            mctx.putImageData(u.msnap, 0, 0);
+        }
+
+        // --- File load & DnD ---
+        const drop = $('#drop'), fileInput = $('#file');
+        function handleFiles(files) { const f = files?.[0]; if (f) loadFile(f); }
+        drop.addEventListener('dragover', e => { e.preventDefault(); drop.classList.add('dragover'); });
+        drop.addEventListener('dragleave', () => drop.classList.remove('dragover'));
+        drop.addEventListener('drop', e => { e.preventDefault(); drop.classList.remove('dragover'); handleFiles(e.dataTransfer.files); });
+        fileInput.addEventListener('change', e => handleFiles(e.target.files));
+
+        async function loadFile(file) {
+            const blobURL = URL.createObjectURL(file);
+            const bmp = await createImageBitmap(await (await fetch(blobURL)).blob());
+            URL.revokeObjectURL(blobURL);
+            baseBitmap = bmp;
+            fitToCanvas(bmp);
+            mctx.clearRect(0, 0, maskCanvas.width, maskCanvas.height);
+            redraw();
+        }
+
+        // --- Filters ---
+        function bindRange(sel, key) {
+            $(sel).addEventListener('input', debounce(e => {
+                state.filters[key] = +e.target.value;
+                redraw();
+            }, 10));
+        }
+        bindRange('#brightness', 'brightness');
+        bindRange('#contrast', 'contrast');
+        bindRange('#saturation', 'saturation');
+        bindRange('#grayscale', 'grayscale');
+        bindRange('#temperature', 'temperature');
+
+        $('#resetFilters').addEventListener('click', () => {
+            state.filters = { brightness: 100, contrast: 100, saturation: 100, grayscale: 0, temperature: 0 };
+            $('#brightness').value = 100; $('#contrast').value = 100; $('#saturation').value = 100; $('#grayscale').value = 0; $('#temperature').value = 0;
+            redraw();
+        });
+        $('#clearAll').addEventListener('click', () => {
+            baseBitmap = null; ctx.clearRect(0, 0, canvas.width, canvas.height); mctx.clearRect(0, 0, maskCanvas.width, maskCanvas.height);
+        });
+
+        // --- Background removal (mask-based) ---
+        function hexToRgb(hex) {
+            const h = hex.replace('#', '');
+            const full = h.length === 3 ? h.split('').map(c => c + c).join('') : h;
+            const n = parseInt(full, 16);
+            return [(n >> 16) & 255, (n >> 8) & 255, n & 255];
+        }
+
+        function buildKeyMask([rK, gK, bK], tol) {
+            // create new mask where near-key pixels => white, others transparent
+            const t = clamp(+tol, 0, 255);
+            // draw current filtered bitmap to temp so user sees similar colors
+            const tmp = document.createElement('canvas'); tmp.width = canvas.width; tmp.height = canvas.height;
+            const tctx = tmp.getContext('2d', { willReadFrequently: true });
+            tctx.filter = cssFilter();
+            tctx.drawImage(baseBitmap, 0, 0, tmp.width, tmp.height);
+            const id = tctx.getImageData(0, 0, tmp.width, tmp.height);
+            const out = mctx.createImageData(tmp.width, tmp.height);
+            const D = id.data, O = out.data;
+            for (let i = 0; i < D.length; i += 4) {
+                const dr = D[i] - rK, dg = D[i + 1] - gK, db = D[i + 2] - bK;
+                const dist = Math.sqrt(dr * dr + dg * dg + db * db);
+                const hit = dist <= t;
+                O[i] = O[i + 1] = O[i + 2] = hit ? 255 : 0;
+                O[i + 3] = hit ? 255 : 0;
+            }
+            return out;
+        }
+
+        function mergeMask(newMask) {
+            // OR alpha into existing mask so multiple runs accumulate
+            const cur = mctx.getImageData(0, 0, maskCanvas.width, maskCanvas.height);
+            const A = cur.data, B = newMask.data;
+            for (let i = 0; i < A.length; i += 4) { A[i] = Math.max(A[i], B[i]); A[i + 1] = Math.max(A[i + 1], B[i + 1]); A[i + 2] = Math.max(A[i + 2], B[i + 2]); A[i + 3] = Math.max(A[i + 3], B[i + 3]); }
+            mctx.putImageData(cur, 0, 0);
+            redraw();
+        }
+
+        function autoRemoveBG() {
+            if (!baseBitmap) return;
+            pushUndo();
+            // sample four corners (8x8) average
+            const s = 8;
+            const tmp = document.createElement('canvas'); tmp.width = canvas.width; tmp.height = canvas.height;
+            const tctx = tmp.getContext('2d', { willReadFrequently: true });
+            tctx.filter = cssFilter();
+            tctx.drawImage(baseBitmap, 0, 0, tmp.width, tmp.height);
+            const samples = [[2, 2], [tmp.width - 10, 2], [2, tmp.height - 10], [tmp.width - 10, tmp.height - 10]].map(([x, y]) => {
+                const d = tctx.getImageData(x, y, s, s).data; let r = 0, g = 0, b = 0, n = 0;
+                for (let i = 0; i < d.length; i += 4) { r += d[i]; g += d[i + 1]; b += d[i + 2]; n++ }
+                return [r / n, g / n, b / n];
+            });
+            // pick the most similar pair (assume background uniform), average them
+            let best = [0, 1, 1e9];
+            for (let i = 0; i < samples.length; i++)for (let j = i + 1; j < samples.length; j++) {
+                const a = samples[i], b = samples[j];
+                const dist = Math.hypot(a[0] - b[0], a[1] - b[1], a[2] - b[2]);
+                if (dist < best[2]) best = [i, j, dist];
+            }
+            const key = [0, 1, 2].map(k => (samples[best[0]][k] + samples[best[1]][k]) / 2);
+            const mask = buildKeyMask(key, +$('#tolerance').value || 28);
+            mergeMask(mask);
+        }
+
+        function removeWhites() {
+            if (!baseBitmap) return;
+            pushUndo();
+            const mask = buildKeyMask([255, 255, 255], +$('#tolerance').value || 28);
+            mergeMask(mask);
+        }
+
+        function removeByPickedColor() {
+            if (!baseBitmap) return;
+            pushUndo();
+            const mask = buildKeyMask(hexToRgb($('#pickColor').value || '#ffffff'), +$('#tolerance').value || 28);
+            mergeMask(mask);
+        }
+
+        $('#autoBG').addEventListener('click', autoRemoveBG);
+        $('#autoWhite').addEventListener('click', removeWhites);
+        $('#keyRemove').addEventListener('click', removeByPickedColor);
+        $('#clearMask').addEventListener('click', () => { mctx.clearRect(0, 0, maskCanvas.width, maskCanvas.height); redraw(); });
+
+        // --- Working area radios ---
+        $$('input[name="stage-bg"]').forEach(r => r.addEventListener('change', () => {
+            state.workingArea = r.value; redraw();
+        }));
+
+        // --- Eraser (writes into maskCanvas) ---
+        $('#eraserSize').addEventListener('input', e => state.eraserSize = +e.target.value);
+        $('#toggleEraser').addEventListener('click', e => {
+            state.isErasing = !state.isErasing;
+            e.currentTarget.setAttribute('aria-pressed', String(state.isErasing));
+            e.currentTarget.classList.toggle('secondary', !state.isErasing);
+        });
+        function getPos(evt) {
+            const rect = canvas.getBoundingClientRect();
+            const x = (evt.clientX - rect.left) * (canvas.width / rect.width);
+            const y = (evt.clientY - rect.top) * (canvas.height / rect.height);
+            return { x, y };
+        }
+        function eraseDot(x, y) {
+            mctx.save();
+            mctx.globalCompositeOperation = 'source-over';
+            mctx.fillStyle = '#fff';
+            mctx.beginPath();
+            mctx.arc(x, y, state.eraserSize / 2, 0, Math.PI * 2);
+            mctx.fill();
+            mctx.restore();
+        }
+        canvas.addEventListener('pointerdown', e => {
+            if (!state.isErasing || !baseBitmap) return;
+            pushUndo();
+            erasingActive = true;
+            canvas.setPointerCapture(e.pointerId);
+            const { x, y } = getPos(e); pointer.x = x; pointer.y = y; eraseDot(x, y); redraw();
+        });
+        canvas.addEventListener('pointermove', e => {
+            if (!erasingActive || !state.isErasing) return;
+            const { x, y } = getPos(e);
+            const dx = x - pointer.x, dy = y - pointer.y;
+            const steps = Math.max(1, Math.ceil(Math.hypot(dx, dy) / (state.eraserSize / 3)));
+            for (let i = 1; i <= steps; i++) {
+                eraseDot(pointer.x + dx * (i / steps), pointer.y + dy * (i / steps));
+            }
+            pointer.x = x; pointer.y = y; redraw();
+        });
+        function stopErase(e) { if (erasingActive) { erasingActive = false; canvas.releasePointerCapture?.(e.pointerId); } }
+        canvas.addEventListener('pointerup', stopErase);
+        canvas.addEventListener('pointercancel', stopErase);
+        $('#undoErase').addEventListener('click', () => restoreUndo(undoStack.pop()));
+
+        // --- Fit / Size ---
+        $('#fitIn').addEventListener('click', () => {
+            if (!baseBitmap) return;
+            canvas.style.maxHeight = '70vh'; canvas.style.width = ''; canvas.style.height = '';
+        });
+        $('#actualSize').addEventListener('click', () => {
+            if (!baseBitmap) return;
+            canvas.style.width = baseBitmap.width + 'px'; canvas.style.height = 'auto';
+        });
+
+        // --- Export (always from recomposed final image) ---
+        function exportCurrent(type = 'image/png', quality = 0.92) {
+            if (!baseBitmap) return;
+            const out = document.createElement('canvas');
+            out.width = canvas.width; out.height = canvas.height;
+            const octx = out.getContext('2d');
+
+            // 1) working area background (if white/black)
+            if (state.workingArea !== 'transparent') {
+                octx.fillStyle = state.workingArea === 'white' ? '#fff' : '#000';
+                octx.fillRect(0, 0, out.width, out.height);
+            }
+
+            // 2) filtered base image
+            octx.filter = cssFilter();
+            octx.drawImage(baseBitmap, 0, 0, out.width, out.height);
+
+            // 3) apply mask (destination-out)
+            octx.save();
+            octx.globalCompositeOperation = 'destination-out';
+            octx.drawImage(maskCanvas, 0, 0);
+            octx.restore();
+
+            // 4) save
+            out.toBlob(blob => {
+                if (!blob) return;
+                const a = document.createElement('a');
+                const url = URL.createObjectURL(blob);
+                a.href = url;
+                a.download = `image.${type.includes('png') ? 'png' : type.includes('webp') ? 'webp' : 'jpg'}`;
+                a.click();
+                URL.revokeObjectURL(url);
+            }, type, quality);
+        }
+
+        $('#exportBtn').addEventListener('click', () => {
+            const type = $('#expFmt').value;
+            const q = parseFloat($('#expQ').value || '0.92');
+            exportCurrent(type, q);
+        });
+        $('#quickPNG').addEventListener('click', () => exportCurrent('image/png', 1));
+
+        // Init defaults
+        $$('input[name="stage-bg"]').forEach(r => { if (r.value === 'transparent') r.checked = true; });
+    </script>
+</body>
+
+</html>
