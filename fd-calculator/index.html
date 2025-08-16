@@ -1,10 +1,8 @@
 <!doctype html>
 <html lang="en">
-
 <head>
   <!-- Ads (async). Consider idle-loading in production for best CWV. -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617"
-    crossorigin="anonymous"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617" crossorigin="anonymous"></script>
 
   <!-- Resource hints for third-party -->
   <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
@@ -14,15 +12,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <title>FD Interest Calculator (India) - Maturity, Interest, Payouts & TDS | UpTools</title>
-  <meta name="description"
-    content="Free Fixed Deposit (FD) Calculator for India. Get maturity amount, total interest, effective annual yield (APY), and optional TDS impact. Supports cumulative (reinvestment) and non-cumulative interest payouts (monthly/quarterly), partial tenures (years, months, days), senior citizen option, and shareable permalink. Privacy-first; runs entirely in your browser." />
+  <meta name="description" content="Free Fixed Deposit (FD) Calculator for India. Get maturity amount, total interest, effective annual yield (APY), and optional TDS impact. Supports cumulative (reinvestment) and non-cumulative interest payouts (monthly/quarterly), partial tenures (years, months, days), senior citizen option, and shareable permalink. Privacy-first; runs entirely in your browser." />
   <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
   <meta name="theme-color" content="#0f1419" />
 
   <link rel="canonical" href="https://www.uptools.in/fd-calculator/" />
   <meta property="og:title" content="FD Interest Calculator (India) - Maturity, Interest, Payouts & TDS" />
-  <meta property="og:description"
-    content="Calculate FD maturity, interest, APY, and optional TDS. Cumulative or monthly/quarterly payouts. Partial tenures supported. Shareable link." />
+  <meta property="og:description" content="Calculate FD maturity, interest, APY, and optional TDS. Cumulative or monthly/quarterly payouts. Partial tenures supported. Shareable link." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.uptools.in/fd-calculator/" />
   <meta property="og:site_name" content="UpTools" />
@@ -35,95 +31,67 @@
   <!-- 1) Inline ONLY tiny critical rules (below) -->
   <style>
     :root {
+      /* base tokens */
       --bg: #0f1419;
       --surface: #121826;
       --text: #e6edf3;
       --muted: #9aa4b2;
       --brand: #7aa2ff;
-      --radius: .75rem
+      --radius: .75rem;
+      /* missing tokens used later */
+      --card: #171f2d;
+      --cardBorder: #212a3a;
+      --accent: #7aa2ff;
     }
-
-    * {
-      box-sizing: border-box
-    }
-
-    html {
-      color-scheme: dark light;
-      -webkit-text-size-adjust: 100%
-    }
-
+    * { box-sizing: border-box }
+    html { color-scheme: dark light; -webkit-text-size-adjust: 100% }
     body {
       margin: 0;
       font: 400 16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, "Noto Sans", sans-serif;
       background: var(--bg);
-      color: var(--text)
+      color: var(--text);
     }
-
-    img,
-    svg,
-    video {
-      max-width: 100%;
-      height: auto
-    }
-
-    .container {
-      width: min(100% - 24px, 1120px);
-      margin-inline: auto
-    }
-
-    a {
-      color: var(--brand);
-      text-decoration-thickness: .08em;
-      text-underline-offset: .18em
-    }
-
-    .card {
-      background: var(--surface);
-      border: 1px solid #212a3a;
-      border-radius: var(--radius);
-      padding: 1rem
-    }
-
-    .btn {
-      display: inline-block;
-      padding: .65rem .9rem;
-      border-radius: var(--radius);
-      background: var(--brand);
-      color: #0b1020;
-      border: 0;
-      font-weight: 600
-    }
+    img, svg, video { max-width: 100%; height: auto }
+    .container { width: min(100% - 24px, 1120px); margin-inline: auto }
+    a { color: var(--brand); text-decoration-thickness: .08em; text-underline-offset: .18em }
+    .card { background: var(--surface); border: 1px solid var(--cardBorder); border-radius: var(--radius); padding: 1rem }
+    .btn { display: inline-block; padding: .65rem .9rem; border-radius: var(--radius); background: var(--brand); color: #0b1020; border: 0; font-weight: 600 }
+    /* tiny utilities used in markup but missing */
+    .hidden { display: none !important }
+    .sr-only { position: absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0 }
   </style>
 
   <!-- 2) Load full stylesheet without blocking first paint -->
   <link rel="preload" href="/style.css?v=1.2.0" as="style">
   <link rel="stylesheet" href="/style.css?v=1.2.0" media="print" onload="this.media='all'">
-  <noscript>
-    <link rel="stylesheet" href="/style.css?v=1.2.0">
-  </noscript>
+  <noscript><link rel="stylesheet" href="/style.css?v=1.2.0"></noscript>
 
-  /* Compact controls & grid */
-  .compact{ padding:18px; }
-  .sm{ padding:6px 10px; font-size:13px; }
-  .grid-2{ display:grid; gap:12px; grid-template-columns:1fr; }
-  @media (min-width:900px){ .grid-2{ grid-template-columns:1fr 1fr; } }
-  .sticky-side{ position:sticky; top:84px; align-self:start; }
-  .toolbar{ display:flex; align-items:center; gap:8px; }
-  .spacer{ flex:1; }
-  .more > summary { list-style:none; cursor:pointer; }
-  .more > summary::-webkit-details-marker{ display:none; }
-  .more .menu{ margin-top:8px; display:grid; gap:6px; }
-  .full{ grid-column:1/-1; }
+  <!-- 3) Page-scoped extras that were previously outside a <style> tag -->
+  <style>
+    /* Compact controls & grid */
+    .compact{ padding:18px; }
+    .sm{ padding:6px 10px; font-size:13px; }
+    .grid-2{ display:grid; gap:12px; grid-template-columns:1fr; }
+    @media (min-width:900px){ .grid-2{ grid-template-columns:1fr 1fr; } }
+    .sticky-side{ position:sticky; top:84px; align-self:start; }
+    .toolbar{ display:flex; align-items:center; gap:8px; }
+    .spacer{ flex:1; }
+    .more > summary { list-style:none; cursor:pointer; }
+    .more > summary::-webkit-details-marker{ display:none; }
+    .more .menu{ margin-top:8px; display:grid; gap:6px; }
+    .full{ grid-column:1/-1; }
 
-  /* Tiny illustration */
-  .illus{ width:100%; height:88px; border-radius:10px; background:
-  radial-gradient(80px 40px at 15% 70%, rgba(255,209,102,.12), transparent),
-  radial-gradient(90px 45px at 85% 30%, rgba(255,209,102,.10), transparent),
-  linear-gradient(180deg, color-mix(in oklab, var(--card) 92%, transparent), var(--card));
-  display:grid; place-items:center; border:1px solid var(--cardBorder);
-  font-weight:700; letter-spacing:.2px; color:color-mix(in oklab, var(--accent) 65%, white);
-  }
-  .help{ font-size:12px; color:var(--muted); }
+    /* Tiny illustration */
+    .illus{
+      width:100%; height:88px; border-radius:10px;
+      background:
+        radial-gradient(80px 40px at 15% 70%, rgba(255,209,102,.12), transparent),
+        radial-gradient(90px 45px at 85% 30%, rgba(255,209,102,.10), transparent),
+        linear-gradient(180deg, color-mix(in oklab, var(--card) 92%, transparent), var(--card));
+      display:grid; place-items:center; border:1px solid var(--cardBorder);
+      font-weight:700; letter-spacing:.2px; color:color-mix(in oklab, var(--accent) 65%, white);
+    }
+    .help{ font-size:12px; color:var(--muted); }
   </style>
 
   <!-- Structured data -->
@@ -173,8 +141,7 @@
       <span class="tool-icon" aria-hidden="true">🏦</span>
       <div>
         <h1 style="margin:0 0 4px;">FD Interest Calculator (India)</h1>
-        <p class="note" style="margin:0;">Cumulative & non-cumulative FDs, partial tenures, APY, and optional TDS
-          simulation. Fast, private, shareable.</p>
+        <p class="note" style="margin:0;">Cumulative & non-cumulative FDs, partial tenures, APY, and optional TDS simulation. Fast, private, shareable.</p>
       </div>
       <a class="back-btn" href="/" aria-label="Back to home" title="Back to UpTools">←</a>
     </div>
@@ -204,15 +171,13 @@
           <div class="grid-2">
             <div>
               <label class="label" for="p">Principal (₹)</label>
-              <input id="p" name="p" class="input" type="number" min="0" step="1" placeholder="e.g., 100000" required
-                inputmode="numeric" />
+              <input id="p" name="p" class="input" type="number" min="0" step="1" placeholder="e.g., 100000" required inputmode="numeric" />
               <div class="help">Tip: Use whole rupees; we'll format automatically.</div>
             </div>
 
             <div>
               <label class="label" for="r">Annual Rate (%)</label>
-              <input id="r" name="r" class="input" type="number" min="0" step="0.01" placeholder="e.g., 7.5" required
-                inputmode="decimal" />
+              <input id="r" name="r" class="input" type="number" min="0" step="0.01" placeholder="e.g., 7.5" required inputmode="decimal" />
             </div>
 
             <div>
@@ -294,8 +259,7 @@
           </div>
         </form>
 
-        <div class="note" id="tips" style="margin-top:8px;" aria-live="polite">Enter values and press Calculate. Use
-          cumulative for typical bank FDs; use non-cumulative for monthly income FDs.</div>
+        <div class="note" id="tips" style="margin-top:8px;" aria-live="polite">Enter values and press Calculate. Use cumulative for typical bank FDs; use non-cumulative for monthly income FDs.</div>
       </article>
 
       <!-- RIGHT: Sticky results + SEO info -->
@@ -317,8 +281,7 @@
         </div>
 
         <h3 style="margin-top:14px;">Learn more</h3>
-        <p class="small">FDs are typically compounded quarterly in India. Non-cumulative FDs pay simple interest
-          periodically. Always confirm exact bank terms.</p>
+        <p class="small">FDs are typically compounded quarterly in India. Non-cumulative FDs pay simple interest periodically. Always confirm exact bank terms.</p>
         <ul class="small">
           <li><a href="/emi-calculator/">💳 EMI Calculator</a></li>
           <li><a href="/sip-calculator/">📈 SIP Calculator</a></li>
@@ -333,8 +296,7 @@
     </section>
 
     <footer class="note small site-footer" role="contentinfo">
-      © <span id="y"></span> UpTools · <a href="/about/">About</a> · <a href="/contact/">Contact</a> · <a
-        href="/sitemap.xml">Sitemap</a> · <a href="/robots.txt">Robots</a>
+      © <span id="y"></span> UpTools · <a href="/about/">About</a> · <a href="/contact/">Contact</a> · <a href="/sitemap.xml">Sitemap</a> · <a href="/robots.txt">Robots</a>
     </footer>
   </main>
 
@@ -373,10 +335,10 @@
       if (!(principal > 0 && rate >= 0 && tYears >= 0)) return { error: "Enter valid values." };
 
       if (mode === "cum") {
-        const times = Math.max(1, Math.round(num(n)));                 // compounding per year
+        const times = Math.max(1, Math.round(num(n))); // compounding per year
         const A = principal * Math.pow(1 + rate / times, times * tYears);
         const interest = A - principal;
-        const apy = Math.pow(1 + rate / times, times) - 1;               // nominal→effective per year
+        const apy = Math.pow(1 + rate / times, times) - 1; // nominal→effective per year
         return { A, interest, apy, mode: "Cumulative", detail: `Compounded ${times === 12 ? 'monthly' : times === 4 ? 'quarterly' : times === 2 ? 'half-yearly' : 'yearly'}` };
       } else {
         // Non-cumulative: simple interest; payout estimate per period
@@ -391,14 +353,11 @@
 
     function tdsCompute(interest, tYears, seniorFlag, tdsMode) {
       if (tdsMode === "no") return { tds: 0, netInt: interest, note: "TDS not applied." };
-      // Approximate annual threshold allocation over the tenure (year-wise, simple split)
       const annualThreshold = (seniorFlag === "yes") ? 50000 : 40000;
-      // Spread interest evenly per year for threshold check (approximation)
       const years = Math.max(1, Math.ceil(tYears));
       const perYearInterest = interest / years;
-      let taxableYearly = Math.max(0, perYearInterest - annualThreshold);
-      // Total taxable across full tenure (approx gross approx)
-      let taxable = taxableYearly * years;
+      const taxableYearly = Math.max(0, perYearInterest - annualThreshold);
+      const taxable = taxableYearly * years;
       const rate = (tdsMode === "pan10") ? 0.10 : 0.20;
       const tds = Math.max(0, taxable * rate);
       return { tds, netInt: Math.max(0, interest - tds), note: `TDS ${rate * 100}% with threshold ₹${annualThreshold.toLocaleString('en-IN')}/year (approx.)` };
@@ -410,26 +369,13 @@
       const startDate = f.start || todayISO();
       const maturityDate = addTenureToDate(startDate, f.ty, f.tm, f.td);
 
-      const res = calcFD({
-        p: f.p, r: f.r, tYears,
-        mode: f.mode, n: f.n, pf: f.pf
-      });
+      const res = calcFD({ p: f.p, r: f.r, tYears, mode: f.mode, n: f.n, pf: f.pf });
       if (res.error) return { error: res.error };
 
-      // TDS simulation (optional)
       const { tds, netInt, note } = tdsCompute(res.interest, tYears, f.senior, f.tds);
       const netMaturity = (f.mode === "cum" ? res.A : num(f.p)) + netInt;
 
-      return {
-        ...res,
-        tYears,
-        startDate,
-        maturityDate,
-        tds,
-        netInt,
-        netMaturity,
-        tdsNote: note
-      };
+      return { ...res, tYears, startDate, maturityDate, tds, netInt, netMaturity, tdsNote: note };
     }
 
     function updateUI(out) {
@@ -474,7 +420,6 @@
     form.addEventListener("submit", (e) => {
       e.preventDefault();
       runCalc();
-      // permalink
       const q = new URLSearchParams(serializeForm(form)).toString();
       history.replaceState(null, "", "?" + q);
     });
@@ -507,10 +452,7 @@
 
     const exportJSON = () => {
       const blob = new Blob([JSON.stringify(serializeForm(form), null, 2)], { type: "application/json" });
-      const a = document.createElement("a");
-      a.href = URL.createObjectURL(blob);
-      a.download = "fd-inputs.json";
-      a.click();
+      const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "fd-inputs.json"; a.click();
     };
     $("#btn-json").addEventListener("click", exportJSON);
     $("#btn-json-2").addEventListener("click", exportJSON);
@@ -520,10 +462,7 @@
       const rows = [["field", "value"], ...Object.entries(obj)];
       const csv = rows.map(r => r.map(v => `"${String(v).replace(/"/g, '""')}"`).join(",")).join("\n");
       const blob = new Blob([csv], { type: "text/csv" });
-      const a = document.createElement("a");
-      a.href = URL.createObjectURL(blob);
-      a.download = "fd-inputs.csv";
-      a.click();
+      const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "fd-inputs.csv"; a.click();
     };
     $("#btn-csv").addEventListener("click", exportCSV);
     $("#btn-csv-2").addEventListener("click", exportCSV);
@@ -533,11 +472,9 @@
       $("#y").textContent = new Date().getFullYear();
       $("#start").value = todayISO();
 
-      // restore from localStorage
       const saved = read(FORM_KEY, null);
       if (saved) { $$("input, select, textarea", form).forEach(i => { if (saved[i.name] != null) i.value = saved[i.name]; }); }
 
-      // populate from query
       const p = new URLSearchParams(location.search);
       if (p.toString()) {
         $$("input, select, textarea", form).forEach(i => { if (p.has(i.name)) i.value = p.get(i.name); });
@@ -545,17 +482,13 @@
 
       toggleMode();
       runCalc();
-
-      // top toolbar delegate
       $("#btn-calc-top").addEventListener("click", () => $("#btn-calc").click());
     })();
 
-    // Non-deprecated lifecycle helpers (optional pattern)
     addEventListener('pagehide', () => persist(FORM_KEY, serializeForm(form)));
     document.addEventListener('visibilitychange', () => {
       if (document.visibilityState === 'hidden') persist(FORM_KEY, serializeForm(form));
     });
   </script>
 </body>
-
 </html>

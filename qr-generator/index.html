@@ -2,50 +2,575 @@
 <html lang="en">
 
 <head>
+  <!-- Performance & Monetization -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617"
+    crossorigin="anonymous"></script>
+  <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
+  <link rel="dns-prefetch" href="//pagead2.googlesyndication.com">
+  <link rel="preconnect" href="https://api.qrserver.com" crossorigin>
+  <link rel="dns-prefetch" href="//api.qrserver.com">
+
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>QR Code Generator - UpTools</title>
-  <meta name="description" content="Create QR codes instantly from text or URLs." />
-  <meta name="robots" content="index,follow" />
+  <meta http-equiv="x-ua-compatible" content="IE=edge" />
+  <meta name="color-scheme" content="dark light" />
+
+  <title>QR Code Generator (Text, URL, Wi-Fi, UPI, vCard) - Free, Fast, No Sign-up | UpTools</title>
+  <meta name="description"
+    content="Create high-quality QR codes for text, links, Wi-Fi, UPI, vCard, SMS, and email. Choose size, error correction, margin, and colors. Instant preview, one-click download (PNG/SVG), shareable permalink, and local history. Private and blazing fast." />
+  <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
   <meta name="theme-color" content="#0b1020" />
+
+  <!-- Canonical -->
   <link rel="canonical" href="https://www.uptools.in/qr-generator/" />
-  <!-- Favicon -->
-  <link rel="icon" sizes="50x50" type="image/svg+xml" href="/assets/logo/uptools-logo.svg">
-  <link rel="apple-touch-icon" sizes="180x180" href="/assets/logo/uptools-logo.svg">
+
+  <!-- Favicons -->
+  <link rel="icon" type="image/svg+xml" href="/assets/logo/uptools-logo.svg" sizes="50x50">
+  <link rel="apple-touch-icon" href="/assets/logo/uptools-logo.svg">
+
+  <!-- Open Graph / Twitter -->
   <meta property="og:title" content="QR Code Generator - UpTools" />
-  <meta property="og:description" content="Generate QR codes quickly." />
+  <meta property="og:description"
+    content="Generate QR codes for links, Wi-Fi, UPI, vCard and more. Customize and download in one click." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.uptools.in/qr-generator/" />
-  <meta property="og:site_name" content="UpTools" />
-  <meta name="twitter:card" content="summary" />
-  <link rel="stylesheet" href="/style.css" />
+  <meta property="og:image" content="https://www.uptools.in/assets/og/qr-generator.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- Structured Data (FAQ) -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"FAQPage",
+    "mainEntity":[
+      {"@type":"Question","name":"Is this QR generator free and private?","acceptedAnswer":{"@type":"Answer","text":"Yes. No sign-up. Your content is encoded client-side into a QR URL and not stored by UpTools."}},
+      {"@type":"Question","name":"What can I encode?","acceptedAnswer":{"@type":"Answer","text":"Text, URLs, Wi-Fi credentials, UPI payment links, vCards, SMS and email templates."}},
+      {"@type":"Question","name":"How do I print or download?","acceptedAnswer":{"@type":"Answer","text":"Use Download PNG/SVG or Print. The image is generated at your chosen size and colors."}}
+    ]
+  }
+  </script>
+
+  <!-- Common CSS and shared utils (site-wide) -->
+  <link rel="preload" href="/style.css?v=1.1.0" as="style">
+  <link rel="stylesheet" href="/style.css?v=1.1.0" media="print" onload="this.media='all'">
+  <noscript>
+    <link rel="stylesheet" href="/style.css?v=1.1.0">
+  </noscript>
+  <script defer src="/scripts/utils.js"></script>
 </head>
 
 <body style="--accent:#ffd166;--bg1:#201a0b;--bg2:#2b230d;--cardBorder:#6b561e">
-  <main class="wrap">
+  <!-- Header (shared pattern) -->
+  <header class="site" role="banner">
+    <div class="header-inner">
+      <a class="brand" href="/" aria-label="UpTools Home">
+        <img src="/assets/logo/uptools-logo.svg" alt="UpTools logo" width="28" height="28" loading="eager">
+        <b>UpTools</b>
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="/#tools">Tools</a>
+        <a href="/income-tax-calculator/">Income Tax</a>
+        <a href="/emi-calculator/">EMI</a>
+        <a href="/gst-calculator/">GST</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap" id="content">
+    <!-- Title row -->
     <div class="tool-header">
-      <div class="tool-icon">QR</div>
-      <h1 style="margin:0">QR Code Generator</h1>
+      <div class="tool-icon" aria-hidden="true">QR</div>
+      <h1 class="h1-tight">QR Code Generator</h1>
     </div>
-    <div class="card">
-      <label class="label" for="txt">Text or URL</label>
-      <input id="txt" class="input" placeholder="https://..." />
-      <button id="gen" class="btn">Generate</button>
-      <div id="out" class="result" style="text-align:center"></div>
-    </div>
-    <footer class="note small"><a href="/">UpTools</a></footer>
+
+    <!-- Controls + Preview (2-column on desktop, stacked on mobile) -->
+    <section class="grid two" style="gap: var(--gap,16px); align-items: stretch;">
+      <!-- Left: Controls -->
+      <form class="card" id="qr-form" autocomplete="off" onsubmit="return false" style="min-height:unset">
+        <div class="row" style="display:grid;grid-template-columns:1fr auto;gap:10px;align-items:end">
+          <label class="label" for="mode">Content Type</label>
+          <select id="mode" class="input">
+            <option value="text" selected>🔤 Text / URL</option>
+            <option value="wifi">📶 Wi-Fi</option>
+            <option value="upi">💳 UPI</option>
+            <option value="vcard">👤 vCard</option>
+            <option value="sms">💬 SMS</option>
+            <option value="mailto">✉️ Email</option>
+          </select>
+        </div>
+
+        <!-- Dynamic fields -->
+        <div id="fields">
+          <label class="label" for="txt">Text or URL</label>
+          <input id="txt" class="input" placeholder="https://example.com or any text" inputmode="text">
+        </div>
+
+        <div class="grid three" style="margin-top:8px">
+          <label class="label">
+            Size (px)
+            <input id="size" class="input" type="number" value="280" min="120" max="1024" step="20">
+          </label>
+          <label class="label">
+            Error (ECC)
+            <select id="ecc" class="input">
+              <option value="L">L (7%)</option>
+              <option value="M" selected>M (15%)</option>
+              <option value="Q">Q (25%)</option>
+              <option value="H">H (30%)</option>
+            </select>
+          </label>
+          <label class="label">
+            Margin
+            <input id="margin" class="input" type="number" value="2" min="0" max="20">
+          </label>
+        </div>
+
+        <div class="grid two">
+          <label class="label">
+            Foreground
+            <input id="fg" class="input" type="color" value="#000000">
+          </label>
+          <label class="label">
+            Background
+            <input id="bg" class="input" type="color" value="#ffffff">
+          </label>
+        </div>
+
+        <div class="row" style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px">
+          <button id="gen" class="btn" type="button" aria-label="Generate QR">Generate</button>
+          <button id="download" class="btn ghost" type="button">Download PNG</button>
+          <button id="download-svg" class="btn ghost" type="button">Download SVG</button>
+          <button id="print" class="btn ghost" type="button">Print</button>
+          <button id="share" class="btn ghost" type="button">Copy Link</button>
+        </div>
+
+        <!-- Helpful links / internal backlinks -->
+        <div class="note small" style="margin-top:6px">
+          Try more tools:
+          <a href="/ip-address/">IP Finder</a> ·
+          <a href="/uuid-generator/">UUID</a> ·
+          <a href="/base64-encoder/">Base64</a> ·
+          <a href="/currency-converter/">Currency</a>
+          &nbsp;|&nbsp; Learn:
+          <a rel="noopener" target="_blank" href="https://en.wikipedia.org/wiki/QR_code">What is a QR code?</a>
+        </div>
+
+        <!-- Ad slot (reserved space to avoid CLS). REMOVE if you don't serve ads. -->
+        <aside class="ad-slot" aria-label="advertisement" style="margin-top:10px">
+          <ins class="adsbygoogle" style="display:block;min-height:120px" data-ad-client="ca-pub-6216304334889617"
+            data-ad-slot="auto" data-full-width-responsive="true"></ins>
+          <script>try { (adsbygoogle = window.adsbygoogle || []).push({}); } catch { }</script>
+        </aside>
+      </form>
+
+      <!-- Right: Live Preview + History -->
+      <section class="card" style="display:grid;grid-template-rows:auto auto 1fr;gap:10px">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <h2 class="h2-tight" style="margin:0">Preview</h2>
+          <span class="pill">No data shared</span>
+        </div>
+
+        <div id="out" class="result" style="text-align:center;min-height:300px;display:grid;place-items:center">
+          <!-- Fixed-size container avoids layout shift -->
+          <img id="qr-img" alt="QR code preview" width="280" height="280" decoding="async" loading="eager"
+            style="image-rendering:pixelated;border-radius:8px;background:#fff;border:1px solid var(--cardBorder,#333);">
+        </div>
+
+        <details class="accordion" style="margin-top:6px">
+          <summary class="label" style="cursor:pointer">History (local)</summary>
+          <div id="history" class="list" style="margin-top:8px"></div>
+        </details>
+      </section>
+    </section>
+
+    <!-- How to use (short, collapsible for UX, SEO-friendly) -->
+    <section class="card" style="margin-top:12px">
+      <details open>
+        <summary class="label">How to use</summary>
+        <ol class="list-num">
+          <li>Pick a content type (Text/URL, Wi-Fi, UPI, vCard, SMS or Email).</li>
+          <li>Fill the fields. Choose size, ECC, margin, and colors.</li>
+          <li>Click <b>Generate</b>. Then <b>Download PNG/SVG</b>, <b>Print</b>, or <b>Copy Link</b>.</li>
+        </ol>
+      </details>
+    </section>
+
+    <!-- Helpful video (fixed aspect, no CLS) -->
+    <section class="card" aria-labelledby="video-title" style="margin-top:12px">
+      <h2 id="video-title" class="h2-tight">Video: QR Code Tips (colors, size, scanning)</h2>
+      <div class="video-wrap"
+        style="position:relative;padding-top:0%;border:1px solid var(--cardBorder);border-radius:12px;overflow:hidden;">
+        <iframe width="930" height="525" src="https://www.youtube.com/embed/3bZbAA4jkV8?si=OZPzzOgUYf7LUPhz"
+          title="YouTube video player" frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      </div>
+    </section>
+
+    <footer class="note small" style="margin:16px 0">
+      <a href="/" aria-label="UpTools Home">UpTools</a> •
+      <a href="/sitemap.xml">Sitemap</a> •
+      <a href="/about/">ABT</a> •
+      <a href="/contact/">CT</a>
+    </footer>
   </main>
+
   <script type="module">
-    const T = document.getElementById('txt'), O = document.getElementById('out');
-    function gen() {
-      const v = T.value.trim();
-      if (!v) { O.textContent = 'Enter text or URL'; return; }
-      const src = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(v)}&size=200x200&margin=2`;
-      O.innerHTML = `<img src="${src}" alt="QR code" width="200" height="200" loading="lazy"/>`;
+    // ------- Helpers (use utils.js if available; otherwise fallback here) -------
+    const $ = (s, r = document) => r.querySelector(s);
+    const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+    const ls = {
+      get(k, d = null) { try { return JSON.parse(localStorage.getItem(k)) ?? d } catch { return d } },
+      set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)) } catch { } }
+    };
+    const encodeUPI = ({ pa, pn, am, cu = 'INR', tn = '' }) => {
+      const q = new URLSearchParams({ pa, pn, am: am || '', cu, tn });
+      return `upi://pay?${q.toString()}`;
+    };
+    const encodeWiFi = ({ ssid, pass, sec = 'WPA', hidden = false }) => {
+      // WIFI:T:WPA;S:MySSID;P:MyPass;H:true;;
+      return `WIFI:T:${sec};S:${ssid};P:${pass};H:${hidden ? 'true' : 'false'};;`;
+    };
+    const encodeVCard = ({ fn, org, tel, email, url }) =>
+      `BEGIN:VCARD
+VERSION:3.0
+FN:${fn || ''}
+ORG:${org || ''}
+TEL:${tel || ''}
+EMAIL:${email || ''}
+URL:${url || ''}
+END:VCARD`;
+
+    // ------- Dynamic fields by mode -------
+    const fieldsBox = $('#fields');
+    const modeSel = $('#mode');
+    function renderFields() {
+      const m = modeSel.value;
+      if (m === 'text') {
+        fieldsBox.innerHTML = `
+          <label class="label" for="txt">Text or URL</label>
+          <input id="txt" class="input" placeholder="https://example.com or any text" inputmode="text">
+        `;
+      }
+      if (m === 'wifi') {
+        fieldsBox.innerHTML = `
+          <div class="grid two">
+            <label class="label">SSID<input id="ssid" class="input" placeholder="Wi-Fi name"></label>
+            <label class="label">Password<input id="wpass" class="input" placeholder="••••••••"></label>
+          </div>
+          <div class="grid two">
+            <label class="label">Security
+              <select id="wsec" class="input">
+                <option>WPA</option><option>WEP</option><option>nopass</option>
+              </select>
+            </label>
+            <label class="label">Hidden?
+              <select id="whid" class="input"><option value="false">No</option><option value="true">Yes</option></select>
+            </label>
+          </div>
+        `;
+      }
+      if (m === 'upi') {
+        fieldsBox.innerHTML = `
+          <div class="grid three">
+            <label class="label">VPA (pa)<input id="pa" class="input" placeholder="name@bank"></label>
+            <label class="label">Name (pn)<input id="pn" class="input" placeholder="Receiver name"></label>
+            <label class="label">Amount (am)<input id="am" class="input" inputmode="decimal" placeholder="199.00"></label>
+          </div>
+          <div class="grid two">
+            <label class="label">Currency<input id="cu" class="input" value="INR"></label>
+            <label class="label">Note (tn)<input id="tn" class="input" placeholder="Payment for..."></label>
+          </div>
+        `;
+      }
+      if (m === 'vcard') {
+        fieldsBox.innerHTML = `
+          <div class="grid three">
+            <label class="label">Full name<input id="fn" class="input" placeholder="Ada Lovelace"></label>
+            <label class="label">Org<input id="org" class="input" placeholder="UpTools"></label>
+            <label class="label">Phone<input id="vtel" class="input" placeholder="+91 90000 00000"></label>
+          </div>
+          <div class="grid two">
+            <label class="label">Email<input id="vemail" class="input" placeholder="you@example.com"></label>
+            <label class="label">URL<input id="vurl" class="input" placeholder="https://example.com"></label>
+          </div>
+        `;
+      }
+      if (m === 'sms') {
+        fieldsBox.innerHTML = `
+          <div class="grid two">
+            <label class="label">To<input id="smsTo" class="input" placeholder="+91 90000 00000"></label>
+            <label class="label">Message<input id="smsBody" class="input" placeholder="Hello..."></label>
+          </div>
+        `;
+      }
+      if (m === 'mailto') {
+        fieldsBox.innerHTML = `
+          <div class="grid three">
+            <label class="label">To<input id="mto" class="input" placeholder="you@example.com"></label>
+            <label class="label">Subject<input id="msub" class="input" placeholder="Subject"></label>
+            <label class="label">Body<input id="mbody" class="input" placeholder="Message"></label>
+          </div>
+        `;
+      }
     }
-    document.getElementById('gen').addEventListener('click', gen);
-    T.addEventListener('keydown', e => { if (e.key === 'Enter') gen(); });
+    renderFields();
+    modeSel.addEventListener('change', () => { renderFields(); setTimeout(generate, 0); });
+
+    // ------- Build payload from fields -------
+    function getPayload() {
+      const m = modeSel.value;
+      if (m === 'text') return ($('#txt')?.value || '').trim();
+
+      if (m === 'wifi') {
+        return encodeWiFi({
+          ssid: $('#ssid')?.value || '',
+          pass: $('#wpass')?.value || '',
+          sec: $('#wsec')?.value || 'WPA',
+          hidden: $('#whid')?.value === 'true'
+        });
+      }
+      if (m === 'upi') {
+        return encodeUPI({
+          pa: $('#pa')?.value || '',
+          pn: $('#pn')?.value || '',
+          am: $('#am')?.value || '',
+          cu: $('#cu')?.value || 'INR',
+          tn: $('#tn')?.value || ''
+        });
+      }
+      if (m === 'vcard') {
+        return encodeVCard({
+          fn: $('#fn')?.value || '',
+          org: $('#org')?.value || '',
+          tel: $('#vtel')?.value || '',
+          email: $('#vemail')?.value || '',
+          url: $('#vurl')?.value || ''
+        });
+      }
+      if (m === 'sms') {
+        const to = $('#smsTo')?.value || '';
+        const body = encodeURIComponent($('#smsBody')?.value || '');
+        return `sms:${to}?&body=${body}`;
+      }
+      if (m === 'mailto') {
+        const to = $('#mto')?.value || '';
+        const sub = encodeURIComponent($('#msub')?.value || '');
+        const body = encodeURIComponent($('#mbody')?.value || '');
+        return `mailto:${to}?subject=${sub}&body=${body}`;
+      }
+      return '';
+    }
+
+    // ------- Generate via qrserver (fast, with fixed size to avoid CLS) -------
+    const img = $('#qr-img');
+    const sizeEl = $('#size'), eccEl = $('#ecc'), marginEl = $('#margin'), fgEl = $('#fg'), bgEl = $('#bg');
+    function buildURL(data, fmt = 'png') {
+      // color params are hex without '#'
+      const size = `${clamp(+sizeEl.value || 280, 120, 1024)}x${clamp(+sizeEl.value || 280, 120, 1024)}`;
+      const ecc = eccEl.value || 'M';
+      const margin = clamp(+marginEl.value || 2, 0, 20);
+      const color = (fgEl.value || '#000000').replace('#', '');
+      const bgcolor = (bgEl.value || '#ffffff').replace('#', '');
+      const u = new URL(`https://api.qrserver.com/v1/create-qr-code/`);
+      u.searchParams.set('data', data);
+      u.searchParams.set('size', size);
+      u.searchParams.set('margin', String(margin));
+      u.searchParams.set('ecc', ecc);
+      u.searchParams.set('color', color);
+      u.searchParams.set('bgcolor', bgcolor);
+      if (fmt === 'svg') u.pathname = '/v1/create-qr-code/';
+      return u.toString();
+    }
+    function clamp(v, min, max) { return Math.max(min, Math.min(max, v)); }
+
+    function generate() {
+      const payload = getPayload();
+      const s = clamp(+sizeEl.value || 280, 120, 1024);
+      img.width = s; img.height = s; // reserve exact space
+      if (!payload) {
+        img.src = '';
+        img.alt = 'Enter details to generate QR';
+        return;
+      }
+      const src = buildURL(payload);
+      img.src = src;
+      img.alt = 'QR code';
+      saveHistory(payload);
+      updatePermalink(payload);
+    }
+
+    // Live preview (debounced)
+    let tId;
+    document.addEventListener('input', (e) => {
+      if (e.target.closest('#qr-form')) {
+        clearTimeout(tId); tId = setTimeout(generate, 200);
+      }
+    });
+    $('#gen').addEventListener('click', generate);
+
+    // ------- Download / Print / Share -------
+    $('#download').addEventListener('click', async () => {
+      const payload = getPayload(); if (!payload) return;
+      const url = buildURL(payload, 'png');
+      const a = document.createElement('a');
+      a.href = url; a.download = 'qrcode.png'; document.body.appendChild(a); a.click(); a.remove();
+    });
+    $('#download-svg').addEventListener('click', async () => {
+      const payload = getPayload(); if (!payload) return;
+      // qrserver returns SVG when format is .svg via "format=svg" OR accept header.
+      const u = buildURL(payload).replace('create-qr-code/', 'create-qr-code/'); // keep same; server infers MIME
+      const resp = await fetch(u, { headers: { 'Accept': 'image/svg+xml' } });
+      const blob = await resp.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = 'qrcode.svg'; document.body.appendChild(a); a.click(); a.remove();
+      setTimeout(() => URL.revokeObjectURL(url), 1500);
+    });
+    $('#print').addEventListener('click', () => window.print());
+
+    function updatePermalink(payload) {
+      const params = new URLSearchParams({
+        m: modeSel.value,
+        d: payload,
+        s: String(clamp(+sizeEl.value || 280, 120, 1024)),
+        e: eccEl.value,
+        mg: String(clamp(+marginEl.value || 2, 0, 20)),
+        fg: fgEl.value,
+        bg: bgEl.value
+      });
+      const link = location.pathname + '?' + params.toString();
+      history.replaceState(null, '', link);
+    }
+    $('#share').addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(location.href);
+        toast('Link copied');
+      } catch {
+        prompt('Copy link:', location.href);
+      }
+    });
+
+    // ------- History (local) -------
+    const HISTORY_KEY = 'qr_history_v1';
+    function saveHistory(data) {
+      if (!data) return;
+      const entry = { d: data, ts: Date.now() };
+      const list = ls.get(HISTORY_KEY, []);
+      if (!list.find(i => i.d === data)) {
+        list.unshift(entry);
+        ls.set(HISTORY_KEY, list.slice(0, 20));
+        renderHistory();
+      }
+    }
+    function renderHistory() {
+      const box = $('#history'); box.innerHTML = '';
+      const list = ls.get(HISTORY_KEY, []);
+      if (!list.length) { box.innerHTML = '<div class="note small">No history yet.</div>'; return; }
+      for (const it of list) {
+        const btn = document.createElement('button');
+        btn.className = 'chip';
+        btn.type = 'button';
+        btn.textContent = it.d.length > 40 ? (it.d.slice(0, 37) + '…') : it.d;
+        btn.addEventListener('click', () => {
+          modeSel.value = guessMode(it.d);
+          renderFields();
+          if (modeSel.value === 'text') { $('#txt').value = it.d; }
+          generate();
+          toast('Loaded from history');
+        });
+        box.appendChild(btn);
+      }
+      const clearBtn = document.createElement('button');
+      clearBtn.className = 'btn danger ghost';
+      clearBtn.textContent = 'Clear history';
+      clearBtn.style.marginTop = '8px';
+      clearBtn.onclick = () => { ls.set(HISTORY_KEY, []); renderHistory(); };
+      box.appendChild(document.createElement('div')).appendChild(clearBtn);
+    }
+    function guessMode(d) {
+      if (d.startsWith('WIFI:')) return 'wifi';
+      if (d.startsWith('upi://pay?')) return 'upi';
+      if (d.startsWith('BEGIN:VCARD')) return 'vcard';
+      if (d.startsWith('sms:')) return 'sms';
+      if (d.startsWith('mailto:')) return 'mailto';
+      return 'text';
+    }
+    renderHistory();
+
+    // ------- Load from URL (permalink support) -------
+    (function initFromQuery() {
+      const q = new URLSearchParams(location.search);
+      const m = q.get('m'); if (m) modeSel.value = m;
+      renderFields();
+      const d = q.get('d'); if (d && modeSel.value === 'text') {
+        setTimeout(() => { const t = $('#txt'); if (t) { t.value = d; generate(); } }, 0);
+      } else if (d) {
+        // For encoded types, just generate directly
+        setTimeout(() => generate(), 0);
+      }
+      if (q.get('s')) sizeEl.value = q.get('s');
+      if (q.get('e')) eccEl.value = q.get('e');
+      if (q.get('mg')) marginEl.value = q.get('mg');
+      if (q.get('fg')) fgEl.value = q.get('fg');
+      if (q.get('bg')) bgEl.value = q.get('bg');
+    })();
+
+    // ------- Tiny toast helper (uses your common CSS if available) -------
+    function toast(msg) {
+      let n = document.createElement('div');
+      n.textContent = msg;
+      n.className = 'toast';
+      n.style.position = 'fixed'; n.style.bottom = '14px'; n.style.left = '50%'; n.style.transform = 'translateX(-50%)';
+      n.style.padding = '8px 12px'; n.style.border = '1px solid var(--cardBorder,#4a5568)';
+      n.style.background = 'var(--card,#111)'; n.style.color = 'var(--text,#fff)';
+      n.style.borderRadius = '10px'; n.style.boxShadow = '0 0 18px rgba(255,209,102,.15)'; n.style.zIndex = '9999';
+      document.body.appendChild(n);
+      setTimeout(() => n.remove(), 1400);
+    }
+
+    // First render (blank preview kept square to avoid CLS)
+    generate();
   </script>
+
+  <style>
+    /* Minor page-specific tweaks that work with your common CSS */
+    .h1-tight {
+      margin: 0;
+      line-height: 1.2
+    }
+
+    .h2-tight {
+      margin: 0 0 6px
+    }
+
+    .grid.two {
+      grid-template-columns: 1fr;
+    }
+
+    .grid.three {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    @media (min-width: 960px) {
+      .grid.two {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .ad-slot {
+      min-height: 120px;
+      display: block
+    }
+
+    .accordion summary::-webkit-details-marker {
+      display: none
+    }
+
+    .accordion summary {
+      list-style: none
+    }
+  </style>
 </body>
 
 </html>

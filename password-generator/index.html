@@ -2,59 +2,690 @@
 <html lang="en">
 
 <head>
+  <!-- Ads (kept async for performance) -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617"
     crossorigin="anonymous"></script>
+
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Password Generator - UpTools</title>
-  <meta name="description" content="Generate strong, secure passwords instantly." />
-  <meta name="robots" content="index,follow" />
+
+  <title>Password Generator (Strong & Memorable) – UpTools</title>
+  <meta name="description"
+    content="Free online password generator by UpTools. Create strong, secure passwords and memorable passphrases with custom length, symbols, similar-char exclusion, and guaranteed character variety. Copy with one click, evaluate strength & entropy, and generate batches for your accounts. No tracking, no sign-ups." />
+  <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:large" />
   <meta name="theme-color" content="#0b1020" />
   <link rel="canonical" href="https://www.uptools.in/password-generator/" />
-  <!-- Favicon -->
+
+  <!-- Favicons -->
   <link rel="icon" sizes="50x50" type="image/svg+xml" href="/assets/logo/uptools-logo.svg">
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/logo/uptools-logo.svg">
-  <meta property="og:title" content="Password Generator - UpTools" />
-  <meta property="og:description" content="Create secure passwords with custom options." />
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:title" content="Password Generator (Strong & Memorable) – UpTools" />
+  <meta property="og:description"
+    content="Generate strong passwords and memorable passphrases. Copy in one click, view entropy, batch create, and avoid similar characters. Privacy-friendly." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.uptools.in/password-generator/" />
   <meta property="og:site_name" content="UpTools" />
-  <meta name="twitter:card" content="summary" />
-  <link rel="stylesheet" href="/style.css?v=1.2.0" />
+  <meta property="og:image" content="/assets/og/password-generator.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- Performance hints -->
+  <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
+  <link rel="dns-prefetch" href="//pagead2.googlesyndication.com">
+
+  <!-- Common CSS (shared across site) -->
+  <link rel="preload" href="/style.css?v=1.2.1" as="style">
+  <link rel="stylesheet" href="/style.css?v=1.2.1" media="print" onload="this.media='all'">
+  <noscript>
+    <link rel="stylesheet" href="/style.css?v=1.2.1">
+  </noscript>
+
+  <!-- Small, page-scoped styles to fine-tune layout without fighting common CSS -->
+  <style>
+    .tool-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    @media (min-width: 880px) {
+      .tool-grid {
+        grid-template-columns: 1.2fr .8fr;
+      }
+    }
+
+    .stack {
+      display: grid;
+      gap: 10px;
+    }
+
+    .row {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .grow {
+      flex: 1 1 auto;
+    }
+
+    .result-wrap {
+      display: grid;
+      gap: 8px;
+    }
+
+    .result {
+      font: 600 16px/1.4 ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+      letter-spacing: .2px;
+      padding: 10px 12px;
+      border-radius: 10px;
+      user-select: all;
+      overflow-wrap: anywhere;
+      min-height: 42px;
+    }
+
+    .meter {
+      height: 8px;
+      border-radius: 999px;
+      overflow: hidden;
+      background: var(--bg2, #1a1f2e);
+    }
+
+    .meter>i {
+      display: block;
+      height: 100%;
+      width: 0%;
+      transition: width .25s ease;
+    }
+
+    .hint {
+      font-size: .9rem;
+      opacity: .85
+    }
+
+    .options-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    @media (min-width:720px) {
+      .options-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+      }
+    }
+
+    .yt-wrap {
+      aspect-ratio: 16/9;
+      width: 100%;
+      max-width: 720px;
+      border-radius: 12px;
+      overflow: hidden;
+      margin-inline: auto
+    }
+
+    .yt-wrap iframe {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .kbd {
+      padding: 2px 6px;
+      border-radius: 6px;
+      border: 1px solid var(--line, #2b3142);
+      font: 600 12px/1 ui-monospace, monospace
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border: 1px solid var(--line, #2b3142);
+      padding: 6px 10px;
+      border-radius: 999px;
+    }
+
+    .align-end {
+      align-items: end
+    }
+
+    .nowrap {
+      white-space: nowrap
+    }
+
+    .mono {
+      font-family: ui-monospace, Menlo, Consolas, monospace
+    }
+
+    .two-col {
+      display: grid;
+      gap: 12px;
+      grid-template-columns: 1fr;
+    }
+
+    @media (min-width: 720px) {
+      .two-col {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    /* reserve space for inline notices */
+    .notice {
+      padding: 8px 10px;
+      border-radius: 8px;
+      border: 1px dashed var(--line, #2b3142);
+    }
+  </style>
+
+  <!-- Structured Data: WebApplication + FAQ -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"WebApplication",
+    "name":"UpTools Password Generator",
+    "applicationCategory":"SecurityApplication",
+    "operatingSystem":"Any",
+    "url":"https://www.uptools.in/password-generator/",
+    "description":"Create strong passwords and memorable passphrases with custom options, entropy meter, and batch generation. Copy in one click. Privacy-friendly.",
+    "publisher":{"@type":"Organization","name":"UpTools","url":"https://www.uptools.in"},
+    "offers":{"@type":"Offer","price":"0","priceCurrency":"INR"}
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"FAQPage",
+    "mainEntity":[
+      {"@type":"Question","name":"Is this password generator secure?","acceptedAnswer":{"@type":"Answer","text":"Yes. It uses the browser's cryptographically secure random generator via window.crypto.getRandomValues. Nothing is sent to a server."}},
+      {"@type":"Question","name":"What password length is recommended?","acceptedAnswer":{"@type":"Answer","text":"Use at least 16 characters with uppercase, lowercase, digits, and symbols. For maximum safety, 20+ is ideal."}},
+      {"@type":"Question","name":"Are generated passwords stored?","acceptedAnswer":{"@type":"Answer","text":"They are never uploaded. Optionally, you can save your last password to local storage on this device only."}}
+    ]
+  }
+  </script>
 </head>
 
 <body>
-  <main class="wrap">
-    <h1>Password Generator</h1>
-    <div class="card">
-      <label class="label">Length</label>
-      <input id="len" class="input" type="number" min="6" max="64" value="16" />
-      <label class="check"><input id="lc" type="checkbox" checked /> <span>Lowercase</span></label>
-      <label class="check"><input id="uc" type="checkbox" checked /> <span>Uppercase</span></label>
-      <label class="check"><input id="dg" type="checkbox" checked /> <span>Digits</span></label>
-      <label class="check"><input id="sc" type="checkbox" /> <span>Symbols</span></label>
-      <button id="gen" class="btn">Generate</button>
-      <div id="out" class="result" style="word-break:break-all"></div>
+  <!-- Site header (shared pattern) -->
+  <header class="site" role="banner">
+    <div class="header-inner">
+      <a class="brand" href="/" aria-label="UpTools Home">
+        <img src="/assets/logo/uptools-logo.svg" alt="UpTools logo" width="28" height="28" loading="eager">
+        <b>UpTools</b>
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="/#tools">Tools</a>
+        <a href="/income-tax-tool/">Income Tax</a>
+        <a href="/emi-calculator/">EMI</a>
+        <a href="/gst-calculator/">GST</a>
+      </nav>
     </div>
-    <footer class="note small"><a href="/">UpTools</a></footer>
+  </header>
+
+  <main class="wrap" id="main">
+    <section class="card hero" aria-labelledby="pg-title">
+      <div class="two-col">
+        <div>
+          <h1 id="pg-title">Password Generator</h1>
+          <p class="note">Create <strong>strong</strong> passwords and <strong>memorable passphrases</strong> with one
+            click. Nothing leaves your browser.</p>
+          <div class="chips" style="margin-top:8px;">
+            <span class="pill">🔐 Secure RNG</span>
+            <span class="pill">📋 1-click copy</span>
+            <span class="pill">🧠 Entropy meter</span>
+            <a class="chip" href="/uuid-generator/">UUID</a>
+            <a class="chip" href="/hash-generator/">Hash</a>
+          </div>
+        </div>
+        <div class="yt-wrap" aria-label="How to make strong passwords (video)">
+          <!-- Fixed size wrapper to avoid CLS -->
+          <iframe width="560" height="315" src="https://www.youtube.com/embed/3f0u-vw58A0?si=cu7ua0T_WVUR-Ety"
+            title="YouTube video player" frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        </div>
+      </div>
+    </section>
+
+    <section class="tool-grid" aria-label="Password and passphrase generator">
+      <!-- Left: Strong password generator -->
+      <div class="card" id="password-card">
+        <h2 class="h3">Strong Password</h2>
+        <div class="stack">
+          <div class="row align-end">
+            <label for="len" class="label nowrap">Length</label>
+            <input id="len" class="input" type="number" min="6" max="64" value="16" inputmode="numeric"
+              style="max-width:110px">
+            <input id="lenRange" class="range grow" type="range" min="6" max="64" value="16" aria-label="Length slider">
+          </div>
+
+          <div class="options-grid">
+            <label class="check"><input id="lc" type="checkbox" checked> <span>Lowercase</span></label>
+            <label class="check"><input id="uc" type="checkbox" checked> <span>Uppercase</span></label>
+            <label class="check"><input id="dg" type="checkbox" checked> <span>Digits</span></label>
+            <label class="check"><input id="sc" type="checkbox"> <span>Symbols</span></label>
+            <label class="check"><input id="ns" type="checkbox"> <span>Exclude similar (O0l1I)</span></label>
+            <label class="check"><input id="reqAll" type="checkbox" checked> <span>Require all selected
+                types</span></label>
+            <label class="check"><input id="amb" type="checkbox"> <span>Only unambiguous symbols</span></label>
+            <label class="check"><input id="startL" type="checkbox"> <span>Start with a letter</span></label>
+          </div>
+
+          <div class="row">
+            <button id="gen" class="btn">Generate</button>
+            <button id="shuffle" class="btn ghost">Regenerate</button>
+            <button id="copy" class="btn success">Copy</button>
+            <button id="toggle" class="btn ghost" aria-pressed="false" aria-controls="out">Show</button>
+          </div>
+
+          <div class="result-wrap">
+            <output id="out" class="result card tone-mono" aria-live="polite" aria-label="Generated password"></output>
+            <div class="meter" aria-hidden="true"><i id="meterFill"></i></div>
+            <div class="row">
+              <div id="entropy" class="hint mono">Entropy: —</div>
+              <div id="est" class="hint">Crack time: —</div>
+            </div>
+          </div>
+
+          <details>
+            <summary class="hint">Batch generate</summary>
+            <div class="row" style="margin-top:8px">
+              <label for="batchCount" class="label nowrap">Count</label>
+              <input id="batchCount" class="input" type="number" min="2" max="50" value="10" style="max-width:100px">
+              <button id="batchGen" class="btn">Generate List</button>
+              <button id="batchCopy" class="btn ghost">Copy List</button>
+            </div>
+            <textarea id="batchOut" class="input mono" rows="6" readonly
+              placeholder="Generated passwords will appear here"></textarea>
+          </details>
+
+          <label class="check"><input id="rememberLast" type="checkbox"> <span>Save last password on this
+              device</span></label>
+          <div id="saveNotice" class="notice hint" hidden>Saved locally. You can clear it anytime.</div>
+        </div>
+      </div>
+
+      <!-- Right: Memorable passphrase -->
+      <div class="card" id="phrase-card">
+        <h2 class="h3">Memorable Passphrase</h2>
+        <div class="stack">
+          <div class="row align-end">
+            <label for="words" class="label nowrap">Words</label>
+            <input id="words" class="input" type="number" min="3" max="12" value="4" style="max-width:100px">
+            <label for="sep" class="label nowrap">Separator</label>
+            <input id="sep" class="input" type="text" value="-" maxlength="3" style="max-width:70px">
+            <label class="check"><input id="capWords" type="checkbox"> <span>Capitalize</span></label>
+            <label class="check"><input id="addNum" type="checkbox" checked> <span>Add number</span></label>
+          </div>
+
+          <div class="row">
+            <button id="phraseGen" class="btn">Generate Passphrase</button>
+            <button id="phraseCopy" class="btn success">Copy</button>
+          </div>
+
+          <output id="phraseOut" class="result card tone-mono" aria-live="polite"
+            aria-label="Generated passphrase"></output>
+          <div class="meter" aria-hidden="true"><i id="meterFill2"></i></div>
+          <div class="hint mono" id="phraseEntropy">Entropy: —</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Helpful tips and internal links -->
+    <section class="card" aria-labelledby="tips-title">
+      <h2 id="tips-title" class="h4">Tips</h2>
+      <ul class="list">
+        <li>Use at least <b>16+ characters</b> or a <b>4–6 word</b> passphrase.</li>
+        <li>Prefer <span class="kbd">Password Manager</span> for storage; avoid reuse across sites.</li>
+        <li>Enable <b>2-factor authentication</b> wherever possible.</li>
+      </ul>
+      <div class="chips" style="margin-top:8px">
+        <a class="chip" href="/random-string/">Random String</a>
+        <a class="chip" href="/uuid-generator/">UUID Generator</a>
+        <a class="chip" href="/json-formatter/">JSON Formatter</a>
+        <a class="chip" href="/ifsc-finder/">IFSC Finder</a>
+      </div>
+    </section>
+
+    <!-- (Ad slot would fit well after the hero or between sections to avoid layout shift) -->
+    <!--
+    Example placement (uncomment only if you have a valid slot id):
+    <section class="card">
+      <ins class="adsbygoogle"
+           style="display:block;min-height:120px"
+           data-ad-client="ca-pub-6216304334889617"
+           data-ad-slot="YOUR_SLOT_ID"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+    </section>
+    -->
+
+    <footer class="site-foot">
+      <nav class="nav-links small">
+        <a href="/">UpTools</a> ·
+        <a href="/sitemap.xml">Sitemap</a> ·
+        <a href="/about/">ABT</a> ·
+        <a href="/contact/">CT</a>
+      </nav>
+      <div class="note small">Made with care. Privacy-first, no sign-ups.</div>
+    </footer>
   </main>
+
+  <!-- Shared helpers (if present) + page script -->
+  <script type="module" src="/scripts/utils.js"></script>
   <script type="module">
-    const L = document.getElementById('len'), lc = document.getElementById('lc'), uc = document.getElementById('uc'), dg = document.getElementById('dg'), sc = document.getElementById('sc'), O = document.getElementById('out');
-    function gen() {
-      const length = Math.min(64, Math.max(6, Number(L.value || 16)));
-      let pool = '';
-      if (lc.checked) pool += 'abcdefghijklmnopqrstuvwxyz';
-      if (uc.checked) pool += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-      if (dg.checked) pool += '0123456789';
-      if (sc.checked) pool += '!@#$%^&*()-_=+[]{};:,.<>?';
-      if (pool.length === 0) { O.textContent = 'Select at least one character set'; return; }
-      const arr = new Uint32Array(length);
-      (crypto || window.msCrypto).getRandomValues(arr);
-      let pass = '';
-      for (let i = 0; i < length; i++) { pass += pool[arr[i] % pool.length]; }
-      O.textContent = pass;
+    // ---- Utilities (fallbacks if utils.js isn't present) ----
+    const U = {
+      copy: async (text) => {
+        try { await navigator.clipboard.writeText(text); toast('Copied'); }
+        catch { fallbackCopy(text); toast('Copied'); }
+      },
+      saveLocal: (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch { } },
+      readLocal: (k) => { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : null; } catch { return null } },
+    };
+    function fallbackCopy(text) {
+      const t = document.createElement('textarea');
+      t.value = text; t.style.position = 'fixed'; t.style.top = '-2000px';
+      document.body.appendChild(t); t.focus(); t.select();
+      try { document.execCommand('copy'); } finally { t.remove(); }
     }
-    document.getElementById('gen').addEventListener('click', gen);
+    function toast(msg) {
+      // simple non-blocking toast that plays nice with common CSS
+      const n = document.createElement('div');
+      n.className = 'toast'; n.textContent = msg;
+      Object.assign(n.style, {
+        position: 'fixed', left: '50%', bottom: '16px', transform: 'translateX(-50%)',
+        padding: '8px 12px', borderRadius: '999px', backdropFilter: 'blur(3px)', border: '1px solid var(--line,#2b3142)',
+        zIndex: '9999', opacity: '0', transition: 'opacity .2s ease'
+      });
+      document.body.appendChild(n);
+      requestAnimationFrame(() => { n.style.opacity = '1'; });
+      setTimeout(() => { n.style.opacity = '0'; setTimeout(() => n.remove(), 250); }, 1200);
+    }
+    const cryptoObj = (window.crypto || (window.msCrypto)); // IE11 safety (rare)
+
+    // ---- DOM ----
+    const els = {
+      len: document.getElementById('len'),
+      lenRange: document.getElementById('lenRange'),
+      lc: document.getElementById('lc'),
+      uc: document.getElementById('uc'),
+      dg: document.getElementById('dg'),
+      sc: document.getElementById('sc'),
+      ns: document.getElementById('ns'),
+      reqAll: document.getElementById('reqAll'),
+      amb: document.getElementById('amb'),
+      startL: document.getElementById('startL'),
+      out: document.getElementById('out'),
+      gen: document.getElementById('gen'),
+      shuffle: document.getElementById('shuffle'),
+      copy: document.getElementById('copy'),
+      toggle: document.getElementById('toggle'),
+      meterFill: document.getElementById('meterFill'),
+      entropy: document.getElementById('entropy'),
+      est: document.getElementById('est'),
+      batchCount: document.getElementById('batchCount'),
+      batchGen: document.getElementById('batchGen'),
+      batchCopy: document.getElementById('batchCopy'),
+      batchOut: document.getElementById('batchOut'),
+      rememberLast: document.getElementById('rememberLast'),
+      saveNotice: document.getElementById('saveNotice'),
+      // passphrase
+      words: document.getElementById('words'),
+      sep: document.getElementById('sep'),
+      capWords: document.getElementById('capWords'),
+      addNum: document.getElementById('addNum'),
+      phraseGen: document.getElementById('phraseGen'),
+      phraseCopy: document.getElementById('phraseCopy'),
+      phraseOut: document.getElementById('phraseOut'),
+      meterFill2: document.getElementById('meterFill2'),
+      phraseEntropy: document.getElementById('phraseEntropy'),
+    };
+
+    // ---- Character pools ----
+    const POOLS = {
+      lc: 'abcdefghijklmnopqrstuvwxyz',
+      uc: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
+      dg: '0123456789',
+      symAll: `!@#$%^&*()-_=+[]{};:,.<>?/\\|~\`'"`,
+      symUnamb: '!@#$%^&*+=?.-_', // safer for sites that hate some symbols
+      similarRX: /[O0l1I]/g
+    };
+
+    // ---- Helpers ----
+    const clamp = (v, min, max) => Math.min(max, Math.max(min, v));
+
+    function getPool(opts) {
+      let pool = '';
+      if (opts.lc) pool += POOLS.lc;
+      if (opts.uc) pool += POOLS.uc;
+      if (opts.dg) pool += POOLS.dg;
+      if (opts.sc) pool += (opts.amb ? POOLS.symUnamb : POOLS.symAll);
+      if (opts.ns) pool = pool.replace(POOLS.similarRX, '');
+      return pool;
+    }
+
+    function secureInts(n, max) {
+      const out = new Uint32Array(n);
+      cryptoObj.getRandomValues(out);
+      if (max) { for (let i = 0; i < n; i++) out[i] = out[i] % max; }
+      return out;
+    }
+
+    function shuffleArray(arr) {
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = secureInts(1, i + 1)[0];
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+
+    function genPassword() {
+      const length = clamp(Number(els.len.value || 16), 6, 64);
+      const opts = {
+        lc: els.lc.checked, uc: els.uc.checked, dg: els.dg.checked, sc: els.sc.checked,
+        ns: els.ns.checked, amb: els.amb.checked, reqAll: els.reqAll.checked, startL: els.startL.checked
+      };
+      let pool = getPool(opts);
+      if (!pool) { els.out.textContent = 'Select at least one character set'; return ''; }
+
+      // Build ensuring all selected sets are present (if requested)
+      const buckets = [];
+      if (opts.reqAll) {
+        if (opts.lc) buckets.push(POOLS.lc);
+        if (opts.uc) buckets.push(POOLS.uc);
+        if (opts.dg) buckets.push(POOLS.dg);
+        if (opts.sc) buckets.push(opts.amb ? POOLS.symUnamb : POOLS.symAll);
+      }
+      // remove similar chars inside buckets too if excluded
+      if (opts.ns) {
+        pool = pool.replace(POOLS.similarRX, '');
+        for (let i = 0; i < buckets.length; i++) buckets[i] = buckets[i].replace(POOLS.similarRX, '');
+      }
+
+      const chars = [];
+      // Guarantee bucket coverage
+      for (const b of buckets) { if (b.length) chars.push(b[secureInts(1, b.length)[0]]); }
+      // Fill remaining
+      const remain = length - chars.length;
+      const idxs = secureInts(remain, pool.length);
+      for (let i = 0; i < remain; i++) chars.push(pool[idxs[i]]);
+
+      // Shuffle for uniformity
+      shuffleArray(chars);
+
+      // Start with a letter if requested
+      if (opts.startL) {
+        const letters = (opts.lc ? POOLS.lc : '') + (opts.uc ? POOLS.uc : '');
+        if (letters) {
+          const first = letters[secureInts(1, letters.length)[0]];
+          // ensure first char is letter by swapping with first index
+          const swapIdx = 0;
+          // if first already letter, keep it; else replace a later char with the previous first
+          if (!letters.includes(chars[swapIdx])) {
+            // find some non-first index to move the previous first into
+            const k = chars.findIndex((c, i) => i > 0 && letters.includes(c));
+            if (k > 0) [chars[swapIdx], chars[k]] = [chars[k], chars[swapIdx]];
+            else chars[swapIdx] = first; // fallback
+          }
+        }
+      }
+
+      const pass = chars.join('');
+      els.out.textContent = pass;
+      updateStrength(pass, pool.length);
+      updateSaved(pass);
+      return pass;
+    }
+
+    function updateStrength(pass, poolSize) {
+      const len = pass.length;
+      // Estimate entropy ≈ log2(pool^len) = len * log2(pool)
+      const entropyBits = Math.round(len * Math.log2(poolSize || 1));
+      els.entropy.textContent = `Entropy: ${entropyBits} bits`;
+      const pct = clamp((entropyBits / 128) * 100, 0, 100);
+      els.meterFill.style.width = pct + '%';
+      els.meterFill.style.background = pct < 35 ? 'var(--danger,#ff4d4f)' : pct < 70 ? 'var(--warn,#f5a623)' : 'var(--ok,#2ecc71)';
+      els.est.textContent = `Crack time: ${estimateTime(entropyBits)}`;
+    }
+
+    function estimateTime(bits) {
+      // super rough: guesses per second ~ 1e12 (high attacker), time = 2^(bits-1)/1e12
+      const sec = Math.pow(2, Math.max(bits - 1, 0)) / 1e12;
+      if (sec < 1) return '<1s';
+      const units = [['s', 60], ['min', 60], ['h', 24], ['days', 365], ['yrs', 1000]];
+      let v = sec, i = 0;
+      while (i < units.length - 1 && v >= units[i][1]) { v /= units[i][1]; i++; }
+      return `${v.toFixed(1)} ${units[i][0]}`;
+    }
+
+    // Batch
+    function genBatch() {
+      const n = clamp(Number(els.batchCount.value || 10), 2, 50);
+      const list = Array.from({ length: n }, () => genPassword());
+      els.batchOut.value = list.join('\n');
+      toast('Batch ready');
+    }
+
+    // Local save (optional)
+    function updateSaved(pass) {
+      if (!els.rememberLast.checked) return;
+      U.saveLocal('uptools.password-generator.last', { v: pass, t: Date.now() });
+      els.saveNotice.hidden = false;
+    }
+    function loadSaved() {
+      const saved = U.readLocal('uptools.password-generator.last');
+      if (saved?.v) {
+        els.out.textContent = saved.v;
+        updateStrength(saved.v, getPool({
+          lc: els.lc.checked, uc: els.uc.checked, dg: els.dg.checked, sc: els.sc.checked,
+          ns: els.ns.checked, amb: els.amb.checked
+        }).length);
+        els.saveNotice.hidden = false;
+      }
+    }
+
+    // Show/Hide
+    let hidden = true;
+    function setMask() {
+      els.out.style.filter = hidden ? 'blur(6px)' : 'none';
+      els.toggle.textContent = hidden ? 'Show' : 'Hide';
+      els.toggle.setAttribute('aria-pressed', String(!hidden));
+    }
+
+    // Sync range/number
+    function syncLenInput(e) {
+      const v = clamp(Number(e.target.value || 16), 6, 64);
+      els.len.value = v; els.lenRange.value = v;
+    }
+
+    // ---- Passphrase ----
+    const WORDS = [
+      'able', 'ace', 'acorn', 'adapt', 'agent', 'alpha', 'amber', 'angle', 'apple', 'arch', 'area', 'armor', 'arrow', 'artist', 'atlas', 'audio',
+      'azure', 'badge', 'basil', 'basic', 'batch', 'beacon', 'bench', 'berry', 'beta', 'biker', 'bird', 'bliss', 'block', 'bloom', 'bolt', 'bonus',
+      'brave', 'brick', 'brush', 'buddy', 'cabin', 'cafe', 'calm', 'canal', 'candy', 'canoe', 'carbon', 'carve', 'cedar', 'cell', 'chalk', 'charm',
+      'cheap', 'chess', 'chief', 'chili', 'chip', 'citrus', 'civic', 'cliff', 'clip', 'clock', 'cloud', 'clover', 'cobalt', 'cobra', 'cocoa',
+      'comet', 'comic', 'coral', 'craft', 'crane', 'cream', 'crest', 'crisp', 'crown', 'cruise', 'cubic', 'cult', 'cumin', 'curve', 'cypress',
+      'daisy', 'delta', 'denim', 'diner', 'disco', 'draft', 'drama', 'dream', 'drift', 'drum', 'eagle', 'early', 'earth', 'ebony', 'echo', 'eden',
+      'ember', 'fair', 'faith', 'family', 'fancy', 'feast', 'felix', 'field', 'film', 'flame', 'flash', 'flora', 'flute', 'focus', 'foggy',
+      'forest', 'fox', 'friday', 'frost', 'fruit', 'galaxy', 'gamer', 'garden', 'garlic', 'gator', 'gem', 'giant', 'ginger', 'glacier', 'glide',
+      'glow', 'gold', 'grace', 'grain', 'grand', 'graph', 'green', 'grid', 'grill', 'groove', 'grove', 'guard', 'habit', 'halo', 'harbor', 'harp',
+      'hazel', 'heart', 'helium', 'hero', 'honey', 'horizon', 'hotel', 'hours', 'humble', 'ice', 'icing', 'icon', 'idea', 'idle', 'igloo', 'image',
+      'iris', 'iron', 'island', 'ivory', 'jacket', 'jade', 'jazz', 'jeans', 'jelly', 'jet', 'jolly', 'jungle', 'juniper', 'kettle', 'key', 'kiwi',
+      'kudos', 'lake', 'laser', 'lemon', 'level', 'linen', 'lion', 'lizard', 'logic', 'lotus', 'lucky', 'lunar', 'magic', 'mango', 'maple', 'marble',
+      'marine', 'marvel', 'matrix', 'meadow', 'melon', 'metro', 'mint', 'mirror', 'mist', 'model', 'monk', 'moon', 'moss', 'mount', 'mouse', 'movie',
+      'muffin', 'music', 'navy', 'nectar', 'neon', 'noble', 'north', 'nova', 'nugget', 'oak', 'oasis', 'ocean', 'olive', 'omega', 'onion', 'opal',
+      'orbit', 'orange', 'orchid', 'owl', 'oxide', 'oyster', 'panda', 'panel', 'paper', 'parrot', 'peach', 'pearl', 'pepper', 'petal', 'photon',
+      'piano', 'pilot', 'pixel', 'plasma', 'plum', 'pocket', 'polar', 'pollen', 'pond', 'poppy', 'portal', 'prairie', 'prime', 'prism', 'pulsar',
+      'puma', 'punch', 'purple', 'puzzle', 'quartz', 'queen', 'quick', 'quiet', 'radar', 'radio', 'raven', 'react', 'reef', 'ribbon', 'rider',
+      'river', 'robot', 'rocket', 'rose', 'ruby', 'sable', 'sage', 'salsa', 'saturn', 'scout', 'sea', 'season', 'seed', 'shadow', 'shark', 'shell',
+      'shift', 'shine', 'short', 'silk', 'silver', 'sky', 'slate', 'smile', 'smoke', 'snack', 'solar', 'sonic', 'sound', 'south', 'space', 'spark',
+      'spice', 'spider', 'spike', 'spoon', 'sport', 'spring', 'square', 'stage', 'star', 'steam', 'steel', 'stone', 'storm', 'story', 'straw',
+      'stream', 'street', 'stripe', 'studio', 'sugar', 'summer', 'sun', 'surf', 'swirl', 'taco', 'tango', 'tartan', 'tiger', 'timber', 'titan',
+      'toast', 'tomato', 'topaz', 'torch', 'trace', 'trail', 'tree', 'trick', 'tulip', 'tundra', 'twist', 'ultra', 'union', 'urban', 'vacay',
+      'valley', 'velvet', 'violet', 'viper', 'vivid', 'vocal', 'volta', 'voyage', 'waltz', 'wave', 'wheat', 'whisper', 'willow', 'win', 'wind',
+      'winter', 'wizard', 'wolf', 'world', 'xenon', 'yacht', 'yoga', 'yukon', 'zebra', 'zero', 'zinc', 'zorro'
+    ];
+
+    function genPhrase() {
+      const w = clamp(Number(els.words.value || 4), 3, 12);
+      const cap = els.capWords.checked;
+      const addNum = els.addNum.checked;
+      const sep = (els.sep.value || '-').slice(0, 3);
+
+      const idxs = secureInts(w, WORDS.length);
+      let chosen = Array.from({ length: w }, (_, i) => WORDS[idxs[i]]);
+      if (cap) chosen = chosen.map(s => s[0].toUpperCase() + s.slice(1));
+      let phrase = chosen.join(sep);
+      if (addNum) phrase += sep + String(secureInts(1, 100)[0]); // 0-99
+      els.phraseOut.textContent = phrase;
+
+      // Entropy ~ words * log2(dict) (+ small number bits if addNum)
+      let bits = Math.round(w * Math.log2(WORDS.length) + (addNum ? Math.log2(100) : 0));
+      els.phraseEntropy.textContent = `Entropy: ${bits} bits`;
+      const pct = clamp((bits / 128) * 100, 0, 100);
+      els.meterFill2.style.width = pct + '%';
+      els.meterFill2.style.background = pct < 35 ? 'var(--danger,#ff4d4f)' : pct < 70 ? 'var(--warn,#f5a623)' : 'var(--ok,#2ecc71)';
+    }
+
+    // ---- Events ----
+    const regen = () => genPassword();
+    els.gen.addEventListener('click', regen);
+    els.shuffle.addEventListener('click', regen);
+    els.copy.addEventListener('click', () => { const t = els.out.textContent.trim(); if (t) { U.copy(t); } });
+    els.batchGen.addEventListener('click', genBatch);
+    els.batchCopy.addEventListener('click', () => { const t = els.batchOut.value.trim(); if (t) U.copy(t); });
+
+    els.toggle.addEventListener('click', () => { hidden = !hidden; setMask(); });
+
+    // Sync length controls
+    els.len.addEventListener('input', syncLenInput);
+    els.lenRange.addEventListener('input', syncLenInput);
+
+    // Recompute on option change (debounced)
+    const opts = [els.lc, els.uc, els.dg, els.sc, els.ns, els.reqAll, els.amb, els.startL, els.len, els.lenRange];
+    let tId;
+    opts.forEach(el => el.addEventListener('input', () => { clearTimeout(tId); tId = setTimeout(regen, 80); }));
+
+    // Save preference checkbox
+    els.rememberLast.addEventListener('change', () => {
+      if (!els.rememberLast.checked) { localStorage.removeItem('uptools.password-generator.last'); els.saveNotice.hidden = true; }
+    });
+
+    // Passphrase
+    els.phraseGen.addEventListener('click', genPhrase);
+    els.phraseCopy.addEventListener('click', () => {
+      const t = els.phraseOut.textContent.trim(); if (t) U.copy(t);
+    });
+
+    // Init
+    setMask();
+    loadSaved();
+    if (!els.out.textContent) genPassword();
+    if (!els.phraseOut.textContent) genPhrase();
   </script>
 </body>
 

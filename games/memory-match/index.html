@@ -1,145 +1,180 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Single async ad (kept minimal for performance) -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617" crossorigin="anonymous"></script>
+
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Memory Match - Free Online Game | UpTools</title>
-    <!-- Favicon -->
-  <link rel="icon" sizes="50x50" type="image/svg+xml" href="/assets/logo/uptools-logo.svg">
-  <link rel="apple-touch-icon" sizes="180x180" href="/assets/logo/uptools-logo.svg">
-  <meta name="description" content="Play Memory Match online for free. Flip cards, remember positions, and match pairs. Multiple difficulties, peek start, sounds, haptics, and best-time tracking." />
-  <meta name="robots" content="index,follow" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+  <title>Memory Match - Free Online Game (Easy/Medium/Hard, Peek, Best Time) | UpTools</title>
+  <meta name="description" content="Play Memory Match online for free on any device. Flip cards and match pairs with Easy, Medium, and Hard modes. Features: smart peek start, keyboard support, sound & haptics toggles, per-level best time tracking, and a responsive play area that fills the screen and never overflows. How to play: choose a difficulty, memorize the board during the short peek, then flip two cards at a time to find all pairs in the fewest moves and fastest time." />
+  <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:large" />
   <meta name="theme-color" content="#0f1419" />
+
+  <!-- Canonical / OG -->
+  <link rel="canonical" href="https://www.uptools.in/games/memory-match" />
   <meta property="og:title" content="Memory Match - Free Online Game | UpTools" />
-  <meta property="og:description" content="Test your memory with a fast, polished Memory Match. Peek, sounds, and best-time tracking." />
+  <meta property="og:description" content="Test your memory with a fast, polished Memory Match. Peek start, sounds, haptics & best-time tracking. Always fits your screen." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.uptools.in/games/memory-match" />
   <meta property="og:site_name" content="UpTools" />
-  <link rel="canonical" href="https://www.uptools.in/games/memory-match" />
-  <link rel="stylesheet" href="/style.css?v=1.2.0"/>
+  <meta property="og:image" content="/assets/og/memory-match.png" />
+  <meta name="twitter:card" content="summary_large_image" />
 
+  <!-- Favicon -->
+  <link rel="icon" sizes="50x50" type="image/svg+xml" href="/assets/logo/uptools-logo.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/logo/uptools-logo.svg">
+
+  <!-- Performance hints -->
+  <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
+  <link rel="dns-prefetch" href="//pagead2.googlesyndication.com">
+
+  <!-- Common CSS (shared across site) -->
+  <link rel="preload" href="/style.css?v=1.2.3" as="style">
+  <link rel="stylesheet" href="/style.css?v=1.2.3" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="/style.css?v=1.2.3"></noscript>
+
+  <!-- Page micro-styles (tiny + CLS-safe) -->
   <style>
+    :root{
+      --accent:#4ecdc4; --accent2:#5fe1d8; --danger:#ff6b6b; --bg:#0f1419;
+      --bg1:#0f1419; --bg2:#121a26; --card:#1e2634; --cardBorder:#2a3b55; --muted:#9aa4b2;
+    }
     body{
-      --accent:#4ecdc4;
-      --accent2:#5fe1d8;
-      --danger:#ff6b6b;
-      --bg:#0f1419;
-      --card:#1e2634;
-      --muted:#9aa4b2;
       background: radial-gradient(1200px 600px at 10% -10%, #162130 0%, var(--bg) 45%) fixed;
+      min-height: 100svh;
     }
 
     .tool-header{ text-align:center; margin:1rem 0 .25rem }
     .tool-header h1{ display:flex; align-items:center; justify-content:center; gap:.5rem }
     .tool-header p{ margin:.25rem 0 0 }
 
-    /* Smart back button */
     .back-btn{
-      appearance:none; background:transparent; color:var(--text);
+      appearance:none; background:transparent; color:var(--text,#e6edf3);
       border:1px solid var(--cardBorder); border-radius:.6rem;
       padding:.4rem .7rem; font-weight:700; cursor:pointer;
       transition:transform .12s ease, border-color .12s ease, background .12s ease;
     }
     .back-btn:hover{ transform:translateY(-1px); border-color:var(--accent); background:rgba(255,255,255,.03) }
 
-    .game-wrap{ max-width:980px; margin:0 auto; padding:1rem; }
+    .game-wrap{ max-width:1100px; margin:0 auto; padding:1rem; }
     .panel{
       background:var(--card); border:1px solid var(--cardBorder);
-      border-radius:var(--radius); box-shadow:var(--shadow);
-      padding:1rem; margin:0 auto;
+      border-radius:var(--radius,.75rem); box-shadow:var(--shadow,0 6px 30px rgba(0,0,0,.25));
+      padding:1rem; margin:0 auto; overflow:hidden;
     }
 
-    .hud{
-      display:grid; grid-template-columns:repeat(4,1fr);
-      gap:.75rem; align-items:center; margin-bottom:.75rem;
-    }
-    .kpi{
-      text-align:center; padding:.5rem .75rem; border:1px solid var(--cardBorder);
-      border-radius:.75rem; background:rgba(255,255,255,.02)
-    }
+    .hud{ display:grid; grid-template-columns:repeat(4,1fr); gap:.75rem; align-items:center; margin-bottom:.75rem; }
+    .kpi{ text-align:center; padding:.5rem .75rem; border:1px solid var(--cardBorder); border-radius:.75rem; background:rgba(255,255,255,.02) }
     .kpi .value{ font-size:1.35rem; font-weight:800; color:var(--accent) }
     .kpi .label{ font-size:.8rem; color:var(--muted) }
 
-    .bar{
-      display:flex; flex-wrap:wrap; gap:.5rem; align-items:center; justify-content:center; margin:.5rem 0 0;
-    }
+    .bar{ display:flex; flex-wrap:wrap; gap:.5rem; align-items:center; justify-content:center; margin:.5rem 0 0; }
     .difficulty-btn{
       padding:.5rem .8rem; border-radius:.6rem; border:1px solid var(--cardBorder);
-      background:#0f151f; color:var(--text); font-weight:700; cursor:pointer;
+      background:#0f151f; color:var(--text,#e6edf3); font-weight:700; cursor:pointer;
       transition:transform .12s ease, border-color .12s ease, background .12s ease;
     }
     .difficulty-btn:hover{ border-color:var(--accent) }
     .difficulty-btn.active{ background:var(--accent); color:#0b1020; border-color:var(--accent) }
 
-    .controls{ display:flex; gap:.5rem; justify-content:center; margin: .75rem 0 0 }
-    .btn{
-      padding:.6rem 1rem; border:none; border-radius:.75rem; font-weight:700; cursor:pointer;
-      transition: transform .12s ease, box-shadow .12s ease;
-    }
+    .controls{ display:flex; flex-wrap:wrap; gap:.5rem; justify-content:center; margin: .75rem 0 0 }
+    .btn{ padding:.6rem 1rem; border:none; border-radius:.75rem; font-weight:700; cursor:pointer; transition: transform .12s ease, box-shadow .12s ease; }
     .btn.primary{ background:var(--accent); color:#0b1020 }
-    .btn.secondary{ background:transparent; color:var(--text); border:1px solid var(--cardBorder) }
-    .btn:hover{ transform:translateY(-1px); box-shadow:var(--shadow-hover) }
+    .btn.secondary{ background:transparent; color:var(--text,#e6edf3); border:1px solid var(--cardBorder) }
+    .btn:hover{ transform:translateY(-1px); box-shadow:var(--shadow-hover,0 8px 26px rgba(0,0,0,.25)) }
 
     .status{ text-align:center; margin:.75rem 0 0; color:var(--muted); font-weight:600 }
 
-    /* Base grid (kept) */
+    /* =========================
+       GRID - always fits container
+       ========================= */
     .grid{
-      display:grid; gap:10px; margin:1rem auto; justify-content:center;
+      --gap: clamp(6px, 2.2vw, 14px);
+      display:grid; gap: var(--gap);
+      margin:1rem auto; justify-content:center;
+      width: 100%; max-width: 100%;
     }
-    .grid.easy   { grid-template-columns:repeat(4,1fr); max-width: 440px; }
-    .grid.medium { grid-template-columns:repeat(6,1fr); max-width: 660px; }
-    .grid.hard   { grid-template-columns:repeat(8,1fr); max-width: 880px; }
+    .grid.easy, .grid.medium, .grid.hard{
+      grid-template-columns: repeat(var(--cols,4), var(--tile,72px));
+      grid-auto-rows: var(--tile,72px);
+    }
 
-    /* Card */
+    /* Card tiles */
     .card-tile{
       aspect-ratio:1; position:relative; border-radius:12px;
       border:2px solid var(--cardBorder); background:#0f151f;
       display:grid; place-items:center; cursor:pointer; user-select:none;
       transition:transform .12s ease, border-color .12s ease, background .12s ease;
       outline: none;
+      min-width: 26px; min-height: 26px;
     }
     .card-tile:hover{ transform:translateY(-1px); border-color:var(--accent) }
-    .card-tile:focus-visible{ box-shadow:0 0 0 3px rgba(78,205,196,.25); border-color:var(--accent) }
+    .card-tile:focus-visible{ box-shadow:0 0 0 3px color-mix(in hsl, var(--accent) 35%, transparent); border-color:var(--accent) }
 
     .face{
-      font-size:2rem; transform:scale(.85); opacity:0; transition:opacity .12s ease, transform .12s ease;
+      font-size: clamp(16px, calc(var(--tile,72px) * .42), 40px);
+      transform:scale(.85); opacity:0; transition:opacity .12s ease, transform .12s ease;
     }
     .flipped .face{ opacity:1; transform:scale(1) }
     .flipped{ background:linear-gradient(135deg, #0f151f, #203040); border-color:var(--accent) }
 
-    .matched{
-      background:var(--accent); border-color:var(--accent);
-      animation: pulse .35s ease-in-out;
-      color:#0b1020;
-    }
+    .matched{ background:var(--accent); border-color:var(--accent); animation: pulse .35s ease-in-out; color:#0b1020; }
     .matched .face{ opacity:1 }
     @keyframes pulse{ 0%,100%{ transform:scale(1)} 50%{ transform:scale(1.05)} }
 
-    .peek .card-tile .face{ opacity:1; transform:scale(1) } /* peek phase shows all */
+    .peek .card-tile .face{ opacity:1; transform:scale(1) }
     .peek .card-tile{ border-color:rgba(255,255,255,.15) }
 
-    /* ---------------------------
-       Responsive sizing override
-       --------------------------- */
-    /* Make gap responsive and let JS set --cols & --tile */
-    .grid{ --gap: clamp(6px, 2.2vw, 14px); gap: var(--gap); }
-    .grid.easy, .grid.medium, .grid.hard{
-      max-width:none;                                 /* remove old caps */
-      grid-template-columns: repeat(var(--cols,4), var(--tile,72px));
-      grid-auto-rows: var(--tile,72px);
-    }
-    /* Emoji scales with tile size */
-    .card-tile .face{ font-size: clamp(18px, calc(var(--tile,72px) * .42), 40px); }
+    /* When the play area is locked during a run */
+    .board-locked{ will-change: auto; }
 
-    /* Small screens: tighten HUD */
+    /* Tighten on small phones */
     @media (max-width:520px){
       .hud{ grid-template-columns:repeat(2,1fr); }
+      .panel{ padding:.75rem; }
     }
+
+    /* SEO video (fixed size to avoid CLS) */
+    .video-wrap{ width:560px; height:315px; max-width:100%; margin:1rem auto 0; border:1px solid var(--cardBorder); border-radius:.6rem; overflow:hidden; }
+    .video-wrap iframe{ width:560px; height:315px; border:0; display:block; }
   </style>
+
+  <!-- Structured data for the game -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"Game",
+    "name":"Memory Match",
+    "url":"https://www.uptools.in/games/memory-match",
+    "applicationCategory":"Game",
+    "operatingSystem":"Any",
+    "publisher":{"@type":"Organization","name":"UpTools"},
+    "sameAs":[
+      "https://www.uptools.in/games/",
+      "https://www.uptools.in/"
+    ]
+  }
+  </script>
 </head>
 <body>
-  <div class="container">
+  <!-- Site header (shared pattern) -->
+  <header class="site" role="banner">
+    <div class="header-inner">
+      <a class="brand" href="/" aria-label="UpTools Home">
+        <img src="/assets/logo/uptools-logo.svg" alt="UpTools logo" width="28" height="28" loading="eager">
+        <b>UpTools</b>
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="/#tools">Tools</a>
+        <a href="/games/">Games</a>
+        <a href="/about/">About</a>
+        <a href="/contact/">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap" id="main">
     <div class="tool-header">
       <button id="backSmart" class="back-btn" type="button" aria-label="Back to games">← Back</button>
       <h1>🧠 Memory Match</h1>
@@ -163,6 +198,7 @@
 
         <div id="status" class="status">Tap any card to start. You'll get a quick peek!</div>
 
+        <!-- PLAY AREA (kept inside a wrapper we can size/lock) -->
         <div id="boardWrap" class="panel" style="padding:.75rem; margin-top:.75rem">
           <div id="grid" class="grid easy" role="grid" aria-label="Memory cards"></div>
         </div>
@@ -170,16 +206,67 @@
         <div class="controls">
           <button id="newGame" class="btn primary">New Game</button>
           <button id="resetBest" class="btn secondary">Reset Best Times</button>
+          <button id="toggleSound" class="btn secondary" aria-pressed="true">🔊 Sound On</button>
+          <button id="toggleHaptics" class="btn secondary" aria-pressed="true">📳 Haptics On</button>
         </div>
+
+        <!-- Fixed-size YouTube (SEO-supporting, no layout shift) -->
+        <details class="panel" style="margin-top:.75rem">
+          <summary><b>🎬 How to play & tips</b></summary>
+          <div class="video-wrap">
+            <iframe loading="lazy" title="How to play Memory Match (tips)"
+              src="https://www.youtube.com/embed/5jK8kGmCazA?rel=0"
+              width="560" height="315" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"></iframe>
+          </div>
+          <ul class="small" style="margin:.75rem 1rem 0">
+            <li>Memorize during the <i>peek</i> phase, then flip two cards per move.</li>
+            <li>Use keyboard: <kbd>Enter</kbd>/<kbd>Space</kbd> to flip, <kbd>Esc</kbd> to go back.</li>
+            <li>Best times are stored per difficulty on your device.</li>
+          </ul>
+        </details>
       </section>
     </div>
-  </div>
 
+    <footer class="site-foot small" style="text-align:center; margin:1rem 0 2rem">
+      <nav class="nav-links small">
+        <a href="/">UpTools</a> · <a href="/sitemap.xml">Sitemap</a> · <a href="/games/">Games</a> · <a href="/about/">ABT</a> · <a href="/contact/">CT</a>
+      </nav>
+      <div class="note">Privacy-first · Works offline once loaded</div>
+      <nav class="nav-links small" style="margin-top:.25rem">
+        Related: <a href="/games/color-rush/">Color Rush</a> · <a href="/games/snake/">Snake</a>
+      </nav>
+    </footer>
+  </main>
+
+  <!-- Optional ad slot (ONLY IF you have a valid slot; otherwise keep commented to avoid CLS) -->
+  <!--
+  <section class="card">
+    <ins class="adsbygoogle"
+         style="display:block;min-height:120px"
+         data-ad-client="ca-pub-6216304334889617"
+         data-ad-slot="YOUR_SLOT_ID"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+  </section>
+  -->
+
+  <!-- Common helpers -->
+  <script type="module" src="/scripts/utils.js"></script>
   <script>
     (() => {
       // ---------- Utilities
       const $ = (s, el=document) => el.querySelector(s);
       const randInt = (n) => (Math.random() * n) | 0;
+
+      // Prevent arrow keys / Space from scrolling the page (keeps play area steady)
+      window.addEventListener("keydown", (e) => {
+        const k = e.key;
+        if (k === "ArrowUp" || k === "ArrowDown" || k === " ") {
+          e.preventDefault();
+        }
+      }, { passive:false });
 
       // Smart back
       $("#backSmart").addEventListener("click", () => {
@@ -187,9 +274,30 @@
         else window.location.href = "/games/?played=memory-match";
       });
 
+      // Toggles
+      let soundOn = JSON.parse(localStorage.getItem("mem-sound") ?? "true");
+      let hapticsOn = JSON.parse(localStorage.getItem("mem-haptics") ?? "true");
+      const btnSound = $("#toggleSound");
+      const btnHaptics = $("#toggleHaptics");
+      const setToggle = (btn, on, labelOn, labelOff) => {
+        btn.setAttribute("aria-pressed", String(on));
+        btn.textContent = on ? labelOn : labelOff;
+      };
+      setToggle(btnSound, soundOn, "🔊 Sound On", "🔇 Sound Off");
+      setToggle(btnHaptics, hapticsOn, "📳 Haptics On", "📴 Haptics Off");
+      btnSound.addEventListener("click", () => {
+        soundOn = !soundOn; localStorage.setItem("mem-sound", JSON.stringify(soundOn));
+        setToggle(btnSound, soundOn, "🔊 Sound On", "🔇 Sound Off");
+      });
+      btnHaptics.addEventListener("click", () => {
+        hapticsOn = !hapticsOn; localStorage.setItem("mem-haptics", JSON.stringify(hapticsOn));
+        setToggle(btnHaptics, hapticsOn, "📳 Haptics On", "📴 Haptics Off");
+      });
+
       // WebAudio bleeps (no files)
       let audioCtx = null;
       const beep = (type="square", freq=440, ms=80, gain=0.025) => {
+        if (!soundOn) return;
         try{
           audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
           const o = audioCtx.createOscillator();
@@ -201,7 +309,7 @@
           setTimeout(()=>{ o.stop(); o.disconnect(); g.disconnect(); }, ms);
         }catch{}
       };
-      const buzz = (ms=15) => { if (navigator.vibrate) navigator.vibrate(ms); };
+      const buzz = (ms=15) => { if (hapticsOn && navigator.vibrate) navigator.vibrate(ms); };
 
       // ---------- Game
       class MemoryMatch {
@@ -212,9 +320,9 @@
             "🐶","🐱","🐭","🐹","🐰","🦊","🐻","🐼","🦁","🐯","🦄","🐸","🐵","🐙","🐠","🦋"
           ];
           this.cfg = {
-            easy:   { pairs: 4, cols: 4 },   // 8 cards -> 4x2
-            medium: { pairs: 9, cols: 6 },   // 18 cards -> 6x3
-            hard:   { pairs: 16, cols: 8 },  // 32 cards -> 8x4
+            easy:   { pairs: 4,  cols: 4,  minTile: 64 }, // 8 cards -> 4x2
+            medium: { pairs: 9,  cols: 6,  minTile: 42 }, // 18 cards -> 6x3
+            hard:   { pairs: 16, cols: 8,  minTile: 28 }  // 32 cards -> 8x4
           };
 
           // State
@@ -224,10 +332,14 @@
           this.pairsFound = 0;
           this.moves = 0;
           this.peeking = false;
-          this.locked = false;
-          this.running = false;
+          this.locked = false;       // prevents flipping during mismatch
+          this.running = false;      // timer running?
           this.seconds = 0;
           this.tid = null;
+
+          // Play area lock (sticks while playing)
+          this.sizeLock = null;      // { innerW, innerH }
+          this._resizeObs = null;
 
           // DOM
           this.grid = $("#grid");
@@ -243,11 +355,12 @@
           this.setLevel(this.level);
           this.newGame(true); // initial render with peek
 
-          // Responsive sizing hooks
+          // Responsive sizing hooks (active only when NOT locked)
           const layoutNow = () => this.layout();
           window.addEventListener("resize", layoutNow, { passive: true });
           window.addEventListener("orientationchange", layoutNow);
-          new ResizeObserver(layoutNow).observe(this.boardWrap);
+          this._resizeObs = new ResizeObserver(layoutNow);
+          this._resizeObs.observe(this.boardWrap);
           requestAnimationFrame(layoutNow);
         }
 
@@ -280,7 +393,7 @@
           // grid class
           this.grid.className = "grid " + level;
           this.updateBestDisplay();
-          this.layout(); // ensure correct sizing when level changes
+          this.layout(); // ensure correct sizing when level changes (honors size lock)
         }
 
         cardTemplate(id, symbol){
@@ -331,6 +444,9 @@
         }
 
         newGame(withPeek=false){
+          // Unlock play area for a fresh measurement cycle
+          this.unlockPlayArea();
+
           this.stopTimer();
           this.seconds = 0; this.moves = 0; this.pairsFound = 0;
           this.flipped = []; this.locked = false; this.running = false;
@@ -359,6 +475,8 @@
 
         start(){
           if (this.running) return;
+          // Lock the play area the moment the game actually starts
+          this.lockPlayArea();
           this.running = true;
           this.tid = setInterval(()=>{ this.seconds++; this.updateHUD() }, 1000);
         }
@@ -420,6 +538,7 @@
             localStorage.setItem(key, String(this.seconds));
           }
           this.updateBestDisplay();
+          // Keep size lock until user clicks "New Game" (so the board never jumps)
         }
 
         resetBest(){
@@ -445,42 +564,118 @@
           return `${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`;
         }
 
-        /* -----------------------------
-           Responsive layout calculator
-           ----------------------------- */
+        /* -------------------------------------------
+           Play area lock: sticks while playing
+           - lockPlayArea(): compute near-full-screen area and freeze it
+           - unlockPlayArea(): remove styles (for fresh games)
+           ------------------------------------------- */
+        lockPlayArea(){
+          // Compute available inner width/height BEFORE locking
+          const { innerW, innerH } = this._measureAvailableInner();
+          // Use ~92% of height to leave breathing room on tiny screens
+          const targetH = Math.max(180, Math.floor(innerH * 0.92));
+          const targetW = Math.max(200, Math.floor(innerW));
+
+          this.sizeLock = { innerW: targetW, innerH: targetH };
+
+          // Freeze wrapper size (includes padding already on the element)
+          const wrap = this.boardWrap;
+          const cs = getComputedStyle(wrap);
+          const padX = parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight);
+          const padY = parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom);
+
+          // Set explicit dimensions so the page does not jump during play
+          wrap.style.width = `${wrap.clientWidth}px`;   // keep current width to avoid sudden expansion
+          wrap.style.maxWidth = `${wrap.clientWidth}px`;
+          wrap.style.height = `${targetH + padY}px`;
+          wrap.style.maxHeight = `${targetH + padY}px`;
+          wrap.classList.add("board-locked");
+
+          this.layout(); // lay out tiles to the locked box
+        }
+
+        unlockPlayArea(){
+          const wrap = this.boardWrap;
+          wrap.style.width = "";
+          wrap.style.maxWidth = "";
+          wrap.style.height = "";
+          wrap.style.maxHeight = "";
+          wrap.classList.remove("board-locked");
+          this.sizeLock = null;
+        }
+
+        _measureAvailableInner(){
+          const wrap = this.boardWrap;
+          const rect = wrap.getBoundingClientRect();
+          const cs = getComputedStyle(wrap);
+          const padX = parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight);
+          const padY = parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom);
+          const bLeft  = parseFloat(cs.borderLeftWidth)  || 0;
+          const bRight = parseFloat(cs.borderRightWidth) || 0;
+
+          // Available width is the wrapper's current content box width
+          const innerW = Math.max(160, wrap.clientWidth - padX - bLeft - bRight);
+
+          // Available height is from wrapper top to viewport bottom minus a small margin
+          const viewportH = window.innerHeight;
+          const marginBottom = 24;
+          const innerH = Math.max(180, viewportH - rect.top - marginBottom - padY);
+
+          return { innerW, innerH };
+        }
+
+        /* ------------------------------------------------
+           Responsive layout calculator - NO OVERFLOW
+           Tiles shrink (esp. on Hard) to always fit
+           Honors sizeLock if present
+           ------------------------------------------------ */
         layout(){
-          const { pairs, cols } = this.cfg[this.level];
-          const rows = Math.ceil((pairs * 2) / cols);
+          const cfg = this.cfg[this.level];
+          const cols = cfg.cols;
+          const rows = Math.ceil((cfg.pairs * 2) / cols);
 
           // expose to CSS
           this.grid.style.setProperty('--cols', cols);
 
-          // measurements
+          // current wrapper metrics
           const wrap = this.boardWrap;
           const wrapCS = getComputedStyle(wrap);
           const padX = parseFloat(wrapCS.paddingLeft) + parseFloat(wrapCS.paddingRight);
           const padY = parseFloat(wrapCS.paddingTop) + parseFloat(wrapCS.paddingBottom);
-          const gridGap = parseFloat(getComputedStyle(this.grid).gap) || 10;
+          const bLeft  = parseFloat(wrapCS.borderLeftWidth)  || 0;
+          const bRight = parseFloat(wrapCS.borderRightWidth) || 0;
+          const gridCS = getComputedStyle(this.grid);
+          const gridGap = parseFloat(gridCS.gap) || 10;
 
-          // Available width inside the panel
-          const availW = wrap.clientWidth - padX;
+          let availW, availH;
 
-          // Available height to bottom of viewport (so board doesn't go off-screen)
-          const rect = wrap.getBoundingClientRect();
-          const viewportH = window.innerHeight;
-          const marginBottom = 24; // buffer
-          const availH = Math.max(180, viewportH - rect.top - marginBottom);
+          if (this.sizeLock){
+            // Use locked inner size (content area)
+            availW = Math.max(160, this.sizeLock.innerW - bLeft - bRight - padX);
+            availH = Math.max(180, this.sizeLock.innerH - padY);
+          } else {
+            // Free mode: measure dynamically to nearly fill screen
+            const measured = this._measureAvailableInner();
+            availW = measured.innerW;
+            availH = measured.innerH;
+          }
 
-          // Tile sizes limited by width and height
+          // Candidate tile sizes
           const tileW = Math.floor((availW - (cols - 1) * gridGap) / cols);
-          const tileH = Math.floor((availH - (rows - 1) * gridGap - padY) / rows);
-          const tile = Math.max(42, Math.min(tileW, tileH)); // clamp to a sensible min
+          const tileH = Math.floor((availH - (rows - 1) * gridGap) / rows);
 
-          // Apply
+          // Allow difficulty-based minimums
+          const minTile = cfg.minTile; // 64 / 42 / 28
+          const tile = Math.max(minTile, Math.min(tileW, tileH));
+
+          // Apply tile size
           this.grid.style.setProperty('--tile', tile + 'px');
-          // Set an explicit width so the board is centered and crisp
+
+          // Compute intended board width, clamp to available width to avoid overflow
           const boardW = cols * tile + (cols - 1) * gridGap;
-          this.grid.style.width = boardW + 'px';
+          const finalW = Math.min(boardW, availW);
+          this.grid.style.maxWidth = '100%';
+          this.grid.style.width = finalW + 'px';
         }
       }
 

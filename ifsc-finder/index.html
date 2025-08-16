@@ -1,19 +1,25 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617"
-     crossorigin="anonymous"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617" crossorigin="anonymous"></script>
+
+  <!-- Hints -->
+  <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
+  <link rel="dns-prefetch" href="//pagead2.googlesyndication.com">
+  <link rel="preconnect" href="https://ifsc.razorpay.com" crossorigin>
+  <link rel="dns-prefetch" href="//ifsc.razorpay.com">
+
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>IFSC Finder (India) - Search Bank Branch Details by IFSC Code | UpTools</title>
-  <meta name="description" content="Find bank branch details by IFSC code in India. Get bank name, branch, MICR, address, city, state & contact. Fast, lightweight, and privacy-friendly." />
+  <meta name="description" content="Find bank branch details by IFSC code in India. Get bank name, branch, MICR, address, city, state & contact. Bulk lookup, CSV/JSON export, vCard and maps. Fast & privacy-friendly." />
   <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
   <meta name="theme-color" content="#0b1020" />
   <link rel="canonical" href="https://www.uptools.in/ifsc-finder/" />
 
   <!-- OG/Twitter -->
   <meta property="og:title" content="IFSC Finder - Bank Branch Lookup by IFSC Code" />
-  <meta property="og:description" content="Instantly find bank, branch, MICR, address, city & state using IFSC code. UpTools IFSC Finder is fast and lightweight." />
+  <meta property="og:description" content="Instantly find bank, branch, MICR, address, city & state using IFSC code. Bulk lookup + CSV/JSON export + vCard." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.uptools.in/ifsc-finder/" />
   <meta property="og:site_name" content="UpTools" />
@@ -22,71 +28,68 @@
 
   <link rel="icon" sizes="50x50" type="image/svg+xml" href="/assets/logo/uptools-logo.svg" />
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/logo/uptools-logo.svg" />
-  <!-- 1) Inline ONLY tiny critical rules (below) -->
-<style>
-  :root{--bg:#0f1419;--surface:#121826;--text:#e6edf3;--muted:#9aa4b2;--brand:#7aa2ff;--radius:.75rem}
-  *{box-sizing:border-box}
-  html{color-scheme:dark light;-webkit-text-size-adjust:100%}
-  body{margin:0;font:400 16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Noto Sans",sans-serif;background:var(--bg);color:var(--text)}
-  img,svg,video{max-width:100%;height:auto}
-  .container{width:min(100% - 24px,1120px);margin-inline:auto}
-  a{color:var(--brand);text-decoration-thickness:.08em;text-underline-offset:.18em}
-  .card{background:var(--surface);border:1px solid #212a3a;border-radius:var(--radius);padding:1rem}
-  .btn{display:inline-block;padding:.65rem .9rem;border-radius:var(--radius);background:var(--brand);color:#0b1020;border:0;font-weight:600}
-</style>
 
-<!-- 2) Load full stylesheet without blocking first paint -->
-<link rel="preload" href="/style.css?v=1.2.0" as="style">
-<link rel="stylesheet" href="/style.css?v=1.2.0" media="print" onload="this.media='all'">
-<noscript><link rel="stylesheet" href="/style.css?v=1.2.0"></noscript>
+  <!-- Critical tiny rules -->
+  <style>
+    :root{--bg:#0f1419;--surface:#121826;--text:#e6edf3;--muted:#9aa4b2;--brand:#7aa2ff;--radius:.75rem;--cardBorder:#212a3a}
+    *{box-sizing:border-box}
+    html{color-scheme:dark light;-webkit-text-size-adjust:100%}
+    body{margin:0;font:400 16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Noto Sans",sans-serif;background:var(--bg);color:var(--text)}
+    img,svg,video{max-width:100%;height:auto}
+    .container{width:min(100% - 24px,1120px);margin-inline:auto}
+    a{color:var(--brand);text-decoration-thickness:.08em;text-underline-offset:.18em}
+    .card{background:var(--surface);border:1px solid var(--cardBorder);border-radius:var(--radius);padding:1rem}
+    .btn{display:inline-block;padding:.65rem .9rem;border-radius:var(--radius);background:var(--brand);color:#0b1020;border:0;font-weight:600}
+    .btn.ghost{background:transparent;color:var(--text);border:1px solid var(--cardBorder)}
+    .btn.secondary{background:transparent;color:var(--text);border:1px solid var(--cardBorder)}
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+  </style>
 
+  <!-- Non-blocking site CSS -->
+  <link rel="preload" href="/style.css?v=1.2.0" as="style">
+  <link rel="stylesheet" href="/style.css?v=1.2.0" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="/style.css?v=1.2.0"></noscript>
 
   <!-- Schema -->
   <script type="application/ld+json">
-  {
-    "@context":"https://schema.org",
-    "@type":"FinancialService",
-    "name":"IFSC Finder",
-    "url":"https://www.uptools.in/ifsc-finder/",
-    "description":"Find Indian bank branch details using IFSC code, including bank name, branch, MICR, address, city and state.",
-    "areaServed":{"@type":"Country","name":"India"},
-    "provider":{"@type":"Organization","name":"UpTools"}
-  }
+  {"@context":"https://schema.org","@type":"FinancialService","name":"IFSC Finder","url":"https://www.uptools.in/ifsc-finder/","description":"Find Indian bank branch details using IFSC code, including bank name, branch, MICR, address, city and state. Bulk lookup, CSV/JSON export, vCard and maps.","areaServed":{"@type":"Country","name":"India"},"provider":{"@type":"Organization","name":"UpTools"}}
   </script>
-  <style>
-    /* page accent */
-    body { --accent:#bdb2ff; --bg1:#120b20; --bg2:#1b0e30; --cardBorder:#3f2a66; }
 
-    .search-row { display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
-    .input.ifsc { text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; }
-    .muted { color: var(--muted); font-size: 12px; }
-    .bank-head { display:flex; align-items:center; gap:12px; margin-bottom:8px; }
-    .bank-logo {
-      width:40px; height:40px; border-radius:10px; display:grid; place-items:center;
-      background: color-mix(in oklab, var(--accent) 60%, #000);
-      color:#0b1020; font-weight:800;
-    }
-    .chip {
-      display:inline-flex; align-items:center; gap:6px;
-      padding:6px 10px; border-radius:999px; border:1px solid var(--cardBorder);
-      background: var(--bg); color: var(--text); text-decoration:none; cursor:pointer; font-size:12px;
-    }
-    .chip:hover { border-color: var(--accent); }
-    .chips { display:flex; gap:8px; flex-wrap:wrap; }
-    .copy-btn, .share-btn {
-      border:1px solid var(--cardBorder); background:var(--bg);
-      color:var(--text); border-radius:8px; padding:6px 10px; cursor:pointer; font-size:12px;
-    }
-    .copy-btn:hover, .share-btn:hover { border-color: var(--accent); }
-    .divider { height:1px; background:var(--cardBorder); margin:10px 0; }
-    .row.key { font-weight:600; }
-    .skeleton { background: linear-gradient(90deg, rgba(255,255,255,0.05), rgba(255,255,255,0.09), rgba(255,255,255,0.05)); background-size:200% 100%; animation:loading 1.2s infinite; border-radius:6px; height:16px; }
-    @keyframes loading { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+  <!-- Page-scoped styles -->
+  <style>
+    body { --accent:#bdb2ff; }
+    .tool-header{display:flex;align-items:center;gap:10px;margin:12px 0}
+    .tool-icon{font-size:22px}
+    .search-row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+    .input.ifsc{text-transform:uppercase;letter-spacing:.08em;font-weight:600}
+    .muted{color:var(--muted);font-size:12px}
+    .bank-head{display:flex;align-items:center;gap:12px;margin-bottom:8px}
+    .bank-logo{width:40px;height:40px;border-radius:10px;display:grid;place-items:center;background:color-mix(in oklab,var(--accent) 60%,#000);color:#0b1020;font-weight:800}
+    .bank-logo--img{width:40px;height:40px;border-radius:10px;display:block;object-fit:contain;background:#0000}
+    .chip{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;border:1px solid var(--cardBorder);background:var(--bg);color:var(--text);text-decoration:none;cursor:pointer;font-size:12px}
+    .chip:hover{border-color:var(--accent)}
+    .chips{display:flex;gap:8px;flex-wrap:wrap}
+    .copy-btn,.share-btn{border:1px solid var(--cardBorder);background:var(--bg);color:var(--text);border-radius:8px;padding:6px 10px;cursor:pointer;font-size:12px}
+    .copy-btn:hover,.share-btn:hover{border-color:var(--accent)}
+    .divider{height:1px;background:var(--cardBorder);margin:10px 0}
+    .row{display:flex;justify-content:space-between;gap:12px;padding:6px 0;border-bottom:1px dashed rgba(255,255,255,.06)}
+    .row:last-child{border-bottom:0}
+    .row.key{font-weight:600}
+    .amount{font-variant-numeric:tabular-nums}
+    .note{opacity:.9}
+    .toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+    .skeleton{background:linear-gradient(90deg,rgba(255,255,255,.05),rgba(255,255,255,.09),rgba(255,255,255,.05));background-size:200% 100%;animation:loading 1.2s infinite;border-radius:6px;height:16px}
+    @keyframes loading{0%{background-position:200% 0}100%{background-position:-200% 0}}
+
+    /* Bulk results table */
+    .table{width:100%;border-collapse:separate;border-spacing:0}
+    .table th,.table td{padding:8px;border-bottom:1px solid var(--cardBorder);text-align:left}
+    .table th{font-weight:700}
+    .status-ok{color:#9cffbf}
+    .status-err{color:#ff9aa2}
   </style>
 </head>
 <body>
-
-  <!-- Site header (same as homepage) -->
   <header class="site" role="banner">
     <div class="header-inner">
       <a class="brand" href="/" aria-label="UpTools Home">
@@ -94,27 +97,33 @@
         <b>UpTools</b>
       </a>
       <nav class="nav-links" aria-label="Primary">
-        <a href="/#tools">Tools</a>
-        <a href="/games/">Games</a>
-        <a href="/about/">About</a>
-        <a href="/contact/">Contact</a>
+        <a href="/#tools">Tools</a><a href="/games/">Games</a><a href="/about/">About</a><a href="/contact/">Contact</a>
       </nav>
     </div>
   </header>
 
   <main class="wrap" id="main">
+    <a class="sr-only" href="#search">Skip to search</a>
+
     <div class="tool-header">
-      <div class="tool-icon">🏦</div>
-      <h1>IFSC Finder</h1>
+      <div class="tool-icon" aria-hidden="true">🏦</div>
+      <h1 id="pageTitle">IFSC Finder</h1>
     </div>
 
-    <section class="card" role="form" aria-labelledby="ifscLabel">
-      <label id="ifscLabel" class="label" for="ifscInput">IFSC Code</label>
-      <div class="search-row">
-        <input id="ifscInput" class="input ifsc" placeholder="e.g., SBIN0000001" maxlength="11" autocomplete="off" spellcheck="false" />
-        <button id="findBtn" class="btn" type="button" aria-controls="result">Find</button>
-      </div>
-      <div class="muted" style="margin-top:6px">Format: 4 letters + 0 + 6 alphanumeric (e.g., <code>SBIN0000001</code>)</div>
+    <section class="card" role="search" aria-labelledby="ifscLabel" id="search">
+      <form id="ifscForm" novalidate>
+        <label id="ifscLabel" class="label" for="ifscInput">IFSC Code</label>
+        <div class="search-row">
+          <input id="ifscInput" class="input ifsc" name="code" inputmode="latin" autocomplete="off" spellcheck="false"
+                 placeholder="e.g., SBIN0000001" maxlength="11" minlength="11" aria-describedby="ifscHint" required />
+          <button id="findBtn" class="btn" type="submit" aria-controls="result">Find</button>
+          <button id="pasteBtn" class="btn ghost" type="button">Paste & Search</button>
+          <button id="clearBtn" class="btn secondary" type="button">Clear</button>
+        </div>
+        <div id="ifscHint" class="muted" style="margin-top:6px">
+          Format: 4 letters + 0 + 6 alphanumeric (e.g., <code>SBIN0000001</code>). Tip: Press <kbd>/</kbd> to focus the box.
+        </div>
+      </form>
 
       <!-- recent searches -->
       <div id="recentWrap" class="note" style="margin-top:12px; display:none;">
@@ -122,14 +131,39 @@
         <div id="recent" class="chips"></div>
       </div>
 
-      <div id="result" class="result" style="margin-top:16px" aria-live="polite"></div>
+      <div id="result" class="result" style="margin-top:16px" aria-live="polite" aria-atomic="true"></div>
+
+      <!-- Single-result actions -->
+      <div id="actions" class="toolbar" style="display:none; margin-top:10px;">
+        <button class="btn secondary" id="btnJson">Copy JSON</button>
+        <button class="btn secondary" id="btnCsv">Copy CSV row</button>
+        <button class="btn secondary" id="btnVcf">Download vCard</button>
+        <button class="btn secondary" id="btnMaps">Open in Maps</button>
+      </div>
+    </section>
+
+    <!-- Bulk lookup -->
+    <section class="card" aria-labelledby="bulkTitle">
+      <div class="toolbar" style="justify-content:space-between">
+        <h2 id="bulkTitle" style="margin:0">Bulk IFSC Lookup</h2>
+        <div>
+          <button id="bulkRun" class="btn">Run</button>
+          <button id="bulkCsv" class="btn secondary" disabled>Export CSV</button>
+          <button id="bulkJson" class="btn secondary" disabled>Copy JSON</button>
+        </div>
+      </div>
+      <p class="note" style="margin-top:8px">Paste multiple IFSC codes (one per line). We’ll fetch in parallel with smart limits, and you can export results.</p>
+      <textarea id="bulkBox" class="input" rows="6" placeholder="SBIN0000001
+HDFC0000001
+ICIC0000001" style="width:100%;resize:vertical"></textarea>
+      <div id="bulkOut" style="margin-top:10px;"></div>
     </section>
 
     <section class="card">
       <h2 class="sr-only">Notes</h2>
       <p class="note">
         Tip: Paste an IFSC code and the search runs automatically. We also support shareable URLs like
-        <code>/ifsc-finder/?code=SBIN0000001</code>.
+        <code>/ifsc-finder/?code=SBIN0000001</code>. Data is sourced from the public Razorpay IFSC endpoint.
       </p>
     </section>
 
@@ -141,70 +175,172 @@
   <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
 
   <script defer>
-    // ========= Utilities =========
+    // ========== Utilities ==========
     const $ = (s, r=document) => r.querySelector(s);
     const rs = (v) => (v ?? '').toString().trim();
     const IFSC_RE = /^[A-Z]{4}0[0-9A-Z]{6}$/;
 
+    addEventListener('DOMContentLoaded', () => $('#ifscInput')?.focus({ preventScroll:true }));
+
+    // Keyboard: '/' focuses input
+    addEventListener('keydown', e => {
+      if (e.key === '/' && !/input|textarea|select/i.test(document.activeElement.tagName)) {
+        e.preventDefault(); $('#ifscInput')?.focus();
+      }
+    });
+
+    // ======== Recent list (localStorage) ========
     const STORAGE_KEY = 'ifsc:recent';
-    function getRecent(){ try { return JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]'); } catch { return []; } }
-    function addRecent(code){
-      let arr = getRecent().filter(c => c !== code);
-      arr.unshift(code);
-      if (arr.length > 8) arr = arr.slice(0,8);
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(arr));
-      renderRecent();
+    const CACHE_KEY = 'ifsc:cache:v1';   // persistent cache (map IFSC -> {data, ts})
+    const CACHE_TTL_MS = 14 * 24 * 60 * 60 * 1000; // 14 days
+
+    const getRecent = () => { try { return JSON.parse(localStorage.getItem(STORAGE_KEY)||'[]'); } catch { return []; } };
+    const setRecent = (arr) => localStorage.setItem(STORAGE_KEY, JSON.stringify(arr.slice(0,8)));
+    const addRecent = (code) => { const a = [code, ...getRecent().filter(c=>c!==code)]; setRecent(a); renderRecent(); };
+
+    function renderRecent(){
+      const list = getRecent();
+      const wrap = $('#recentWrap'); const box = $('#recent');
+      if (!list.length){ wrap.style.display='none'; box.innerHTML=''; return; }
+      wrap.style.display='block';
+      box.innerHTML = list.map(code => `<button class="chip" data-code="${code}" title="Search ${code}">${code}</button>`).join('');
+      box.querySelectorAll('.chip').forEach(ch => ch.addEventListener('click', () => { $('#ifscInput').value = ch.dataset.code; runSearch(); }));
     }
 
-    function copyText(t){
-      if (!t) return;
-      navigator.clipboard?.writeText(t).then(()=> toast('Copied!')).catch(()=>{});
+    // ======== Toast + copy ========
+    const toast = (msg) => {
+      const n = document.createElement('div'); n.textContent = msg;
+      Object.assign(n.style,{position:'fixed',left:'50%',transform:'translateX(-50%)',bottom:'18px',background:'var(--surface)',color:'var(--text)',padding:'8px 12px',border:'1px solid var(--cardBorder)',borderRadius:'8px',fontSize:'12px',zIndex:9999});
+      document.body.appendChild(n); setTimeout(()=>n.remove(), 1200);
+    };
+    const copyText = (t) => navigator.clipboard?.writeText(t).then(()=>toast('Copied!')).catch(()=>{});
+
+    // ======== Persistent cache ========
+    const mem = new Map(); // in-memory too
+    const readCache = () => { try { return JSON.parse(localStorage.getItem(CACHE_KEY)||'{}'); } catch { return {}; } };
+    const writeCache = (obj) => localStorage.setItem(CACHE_KEY, JSON.stringify(obj));
+    function getCached(code){
+      const key = code.toUpperCase();
+      if (mem.has(key)) return mem.get(key);
+      const store = readCache();
+      const rec = store[key];
+      if (rec && (Date.now() - rec.ts) < CACHE_TTL_MS){ mem.set(key, rec.data); return rec.data; }
+      return null;
     }
-    function toast(msg){
-      const n = document.createElement('div');
-      n.textContent = msg;
-      Object.assign(n.style, {
-        position:'fixed', left:'50%', transform:'translateX(-50%)',
-        bottom:'18px', background:'var(--card)', color:'var(--text)', padding:'8px 12px',
-        border:'1px solid var(--cardBorder)', borderRadius:'8px', fontSize:'12px', zIndex:9999
+    function setCached(code, data){
+      const key = code.toUpperCase();
+      mem.set(key, data);
+      const store = readCache();
+      store[key] = { data, ts: Date.now() };
+      writeCache(store);
+    }
+
+    // ========== Fetch with timeout, cancel, retry ==========
+    let inflight; // AbortController for current request
+
+    const fetchWithTimeout = (url, opts={}, ms=6000) =>
+      new Promise((resolve, reject) => {
+        const ctl = new AbortController();
+        const t = setTimeout(() => ctl.abort(new Error('timeout')), ms);
+        fetch(url, { ...opts, signal: ctl.signal, credentials:'omit', cache:'no-store' })
+          .then(r => { clearTimeout(t); resolve(r); })
+          .catch(e => { clearTimeout(t); reject(e); });
       });
-      document.body.appendChild(n);
-      setTimeout(()=>n.remove(), 1200);
-    }
 
-    // ========= Fetch logic with proxy fallback & cache =========
-    const cache = new Map(); // in-memory cache for session
     async function fetchIFSC(code){
       code = code.toUpperCase();
-      if (cache.has(code)) return cache.get(code);
+      const cached = getCached(code);
+      if (cached) return cached;
 
-      // primary API
-      try{
-        const r = await fetch(`https://ifsc.razorpay.com/${code}`, { credentials:'omit' });
-        if (r.ok){
-          const d = await r.json();
-          cache.set(code, d);
-          return d;
-        }
-      }catch{}
+      inflight?.abort?.();
+      inflight = new AbortController();
 
-      // fallback proxy (optional: your /api?url=… endpoint)
-      try{
-        const prox = await fetch(`/api?url=${encodeURIComponent(`https://ifsc.razorpay.com/${code}`)}`);
-        if (prox.ok){
-          const d = await prox.json();
-          cache.set(code, d);
-          return d;
-        }
-      }catch{}
+      const primary = () => fetchWithTimeout(`https://ifsc.razorpay.com/${code}`, { signal: inflight.signal });
+      const fallback = () => fetchWithTimeout(`/api?url=${encodeURIComponent(`https://ifsc.razorpay.com/${code}`)}`, { signal: inflight.signal });
 
+      for (const attempt of [primary, fallback]) {
+        try {
+          const r = await attempt();
+          if (r.ok) {
+            const d = await r.json();
+            setCached(code, d);
+            return d;
+          }
+        } catch(_) {}
+      }
       throw new Error('NOT_FOUND');
     }
 
-    // ========= Render helpers =========
-    function bankCodeFromIFSC(code){ return code.slice(0,4); }
+    // ======== Bank logos (local, offline-friendly) ========
+    const BANK_LOGOS = {
+      SBIN: "/assets/banks/sbi.svg",
+      HDFC: "/assets/banks/hdfc.svg",
+      ICIC: "/assets/banks/icici.svg",
+      UTIB: "/assets/banks/axis.svg",
+      KKBK: "/assets/banks/kotak.svg",
+      PUNB: "/assets/banks/pnb.svg",
+      BARB: "/assets/banks/bob.svg",
+      CNRB: "/assets/banks/canara.svg",
+      UBIN: "/assets/banks/union.svg",
+      IDIB: "/assets/banks/indian-bank.svg",
+      BKID: "/assets/banks/boi.svg",
+      CBIN: "/assets/banks/cbi.svg",
+      IDFB: "/assets/banks/idfc-first.svg",
+      INDB: "/assets/banks/indusind.svg",
+      YESB: "/assets/banks/yes.svg",
+      FDRL: "/assets/banks/federal.svg",
+      RATN: "/assets/banks/rbl.svg",
+      AUBL: "/assets/banks/au.svg",
+      ESFB: "/assets/banks/equitas.svg",
+      BDBL: "/assets/banks/bandhan.svg",
+      UJVN: "/assets/banks/ujjivan.svg"
+    };
+    const BANK_NAME_ALIASES = {
+      "STATE BANK OF INDIA": "SBIN",
+      "AXIS BANK": "UTIB",
+      "KOTAK MAHINDRA BANK": "KKBK",
+      "PUNJAB NATIONAL BANK": "PUNB",
+      "BANK OF BARODA": "BARB",
+      "CANARA BANK": "CNRB",
+      "UNION BANK OF INDIA": "UBIN",
+      "INDIAN BANK": "IDIB",
+      "BANK OF INDIA": "BKID",
+      "CENTRAL BANK OF INDIA": "CBIN",
+      "IDFC FIRST BANK": "IDFB",
+      "INDUSIND BANK": "INDB",
+      "YES BANK": "YESB",
+      "FEDERAL BANK": "FDRL",
+      "RBL BANK": "RATN",
+      "AU SMALL FINANCE BANK": "AUBL",
+      "EQUITAS SMALL FINANCE BANK": "ESFB",
+      "BANDHAN BANK": "BDBL",
+      "UJJIVAN SMALL FINANCE BANK": "UJVN"
+    };
+    const normalize = s => (s||"").toString().trim().toUpperCase();
+    const bankCodeFromIFSC = (code) => code?.slice(0,4) ?? 'BANK';
 
-    function renderSkeleton(){
+    function getBankLogoUrl(bankName, ifscCode){
+      const prefix = normalize(ifscCode).slice(0,4);
+      if (BANK_LOGOS[prefix]) return BANK_LOGOS[prefix];
+      const alias = BANK_NAME_ALIASES[normalize(bankName)];
+      if (alias && BANK_LOGOS[alias]) return BANK_LOGOS[alias];
+      return null;
+    }
+    function buildBankLogoHTML(bankName, ifscCode){
+      const url = getBankLogoUrl(bankName, ifscCode);
+      if (url){
+        return `<img class="bank-logo--img" src="${url}" alt="${bankName||'Bank'} logo" loading="lazy" decoding="async">`;
+      }
+      const initials = (bankName || (ifscCode||'Bank')).slice(0,3).toUpperCase();
+      return `<div class="bank-logo" aria-hidden="true">${initials}</div>`;
+    }
+
+    // ========== CSV helpers ==========
+    const csvCell = v => `"${String(v ?? '').replace(/"/g,'""')}"`;
+    const toCSV = (rows) => rows.map(r => r.map(csvCell).join(',')).join('\n');
+
+    // ========== Renderers ==========
+    const renderSkeleton = () => {
       $('#result').innerHTML = `
         <div class="bank-head">
           <div class="bank-logo skeleton" style="width:40px;height:40px;"></div>
@@ -214,131 +350,240 @@
           </div>
         </div>
         <div class="divider"></div>
-        <div class="row"><span>IFSC</span><span class="skeleton" style="width:120px"></span></div>
-        <div class="row"><span>MICR</span><span class="skeleton" style="width:120px"></span></div>
-        <div class="row"><span>Branch</span><span class="skeleton" style="width:180px"></span></div>
-        <div class="row"><span>City</span><span class="skeleton" style="width:140px"></span></div>
-        <div class="row"><span>State</span><span class="skeleton" style="width:120px"></span></div>
-        <div class="row"><span>Contact</span><span class="skeleton" style="width:160px"></span></div>
-        <div class="row"><span>Address</span><span class="skeleton" style="width:70%"></span></div>
+        ${['IFSC','MICR','Branch','City','State','Contact','Address'].map(k=>`
+          <div class="row"><span>${k}</span><span class="skeleton" style="width:${k==='Address'?'70%':'140px'}"></span></div>
+        `).join('')}
       `;
-    }
+      $('#actions').style.display = 'none';
+    };
 
     function renderResult(d){
-      const logoText = (d.BANK || bankCodeFromIFSC(d.IFSC) || 'BNK').slice(0,3).toUpperCase();
-      const micr = rs(d.MICR) || '-';
-      const contact = rs(d.CONTACT) || '-';
-      const address = rs(d.ADDRESS) || '-';
-      const city = rs(d.CITY) || '-';
-      const state = rs(d.STATE) || '-';
-      const branch = rs(d.BRANCH) || '-';
+      const IFSC = rs(d?.IFSC);
+      const BANK = rs(d?.BANK);
+      const micr = rs(d?.MICR) || '-';
+      const contact = rs(d?.CONTACT) || '-';
+      const address = rs(d?.ADDRESS) || '-';
+      const city = rs(d?.CITY) || '-';
+      const state = rs(d?.STATE) || '-';
+      const branch = rs(d?.BRANCH) || '-';
+
+      const logoHTML = buildBankLogoHTML(BANK, IFSC);
 
       $('#result').innerHTML = `
         <div class="bank-head">
-          <div class="bank-logo" aria-hidden="true">${logoText}</div>
+          ${logoHTML}
           <div style="flex:1">
-            <div style="font-weight:700">${d.BANK || 'Bank'}</div>
-            <div class="muted">${branch}, ${city}, ${state}</div>
+            <div style="font-weight:700">${BANK || 'Bank'}</div>
+            <div class="muted">${branch}${branch && (city||state)?', ':''}${city}${city && state?', ':''}${state}</div>
           </div>
           <div style="display:flex; gap:8px;">
-            <button class="copy-btn" type="button" id="copyIFSC">Copy IFSC</button>
+            <button class="copy-btn" type="button" id="copyIFSC" ${IFSC?'':'disabled'}>Copy IFSC</button>
             <button class="share-btn" type="button" id="shareBtn">Share</button>
           </div>
         </div>
         <div class="divider"></div>
 
-        <div class="row key"><span>IFSC</span><span class="amount">${d.IFSC}</span></div>
+        <div class="row key"><span>IFSC</span><span class="amount">${IFSC || '-'}</span></div>
         <div class="row"><span>MICR</span><span>${micr}</span></div>
         <div class="row"><span>Branch</span><span>${branch}</span></div>
-        <div class="row"><span>Bank</span><span>${d.BANK || '-'}</span></div>
+        <div class="row"><span>Bank</span><span>${BANK || '-'}</span></div>
         <div class="row"><span>City</span><span>${city}</span></div>
         <div class="row"><span>State</span><span>${state}</span></div>
         <div class="row"><span>Contact</span><span>${contact}</span></div>
         <div class="row"><span>Address</span><span>${address}</span></div>
       `;
 
-      $('#copyIFSC')?.addEventListener('click', () => copyText(d.IFSC));
+      // Actions bar
+      $('#actions').style.display = 'flex';
+      $('#copyIFSC')?.addEventListener('click', () => IFSC && copyText(IFSC));
       $('#shareBtn')?.addEventListener('click', () => {
         const url = new URL(location.href);
-        url.searchParams.set('code', d.IFSC);
+        IFSC && url.searchParams.set('code', IFSC);
         const shareUrl = url.toString();
         if (navigator.share) {
-          navigator.share({ title: `IFSC: ${d.IFSC}`, text: `${d.BANK} - ${branch}, ${city}, ${state}`, url: shareUrl }).catch(()=>{});
+          navigator.share({ title: `IFSC: ${IFSC}`, text: `${BANK} - ${branch}, ${city}, ${state}`, url: shareUrl }).catch(()=>{});
         } else {
           copyText(shareUrl);
         }
       });
+
+      // Copy JSON
+      $('#btnJson').onclick = () => copyText(JSON.stringify(d, null, 2));
+
+      // Copy CSV (single row)
+      $('#btnCsv').onclick = () => {
+        const row = [["IFSC","MICR","Bank","Branch","City","State","Contact","Address"],
+                     [IFSC, micr, BANK, branch, city, state, contact, address]];
+        copyText(toCSV(row));
+      };
+
+      // vCard download
+      $('#btnVcf').onclick = () => {
+        const lines = [
+          "BEGIN:VCARD",
+          "VERSION:3.0",
+          `FN:${BANK || 'Bank'} - ${branch || 'Branch'}`,
+          `ORG:${BANK || ''}`,
+          `NOTE:IFSC ${IFSC || ''} | MICR ${micr}`,
+          address ? `ADR;TYPE=WORK:;;${address.replace(/,/g,'\\,')};${city};${state};;India` : "",
+          contact ? `TEL;TYPE=WORK:${contact}` : "",
+          "END:VCARD"
+        ].filter(Boolean).join('\n');
+        const blob = new Blob([lines], {type:'text/vcard'});
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = `${(BANK||'bank')}-${(branch||'branch')}.vcf`.replace(/\s+/g,'-').toLowerCase();
+        a.click();
+      };
+
+      // Open in Maps
+      $('#btnMaps').onclick = () => {
+        const q = encodeURIComponent([address, branch, city, state, BANK].filter(Boolean).join(', '));
+        window.open(`https://www.google.com/maps/search/?api=1&query=${q}`, '_blank', 'noopener,noreferrer');
+      };
     }
 
-    function renderError(msg){
-      $('#result').innerHTML = `<p class="note" role="status">${msg}</p>`;
-    }
+    const renderError = (msg) => { $('#result').innerHTML = `<p class="note" role="status">${msg}</p>`; $('#actions').style.display='none'; };
 
-    // ========= Recent =========
-    function renderRecent(){
-      const list = getRecent();
-      const wrap = $('#recentWrap');
-      const box = $('#recent');
-      if (!list.length){ wrap.style.display='none'; box.innerHTML=''; return; }
-      wrap.style.display='block';
-      box.innerHTML = list.map(code => `<button class="chip" data-code="${code}" title="Search ${code}">${code}</button>`).join('');
-      box.querySelectorAll('.chip').forEach(ch => ch.addEventListener('click', () => {
-        $('#ifscInput').value = ch.dataset.code;
-        runSearch();
-      }));
-    }
-
-    // ========= Main search =========
-    async function runSearch(){
-      const raw = rs($('#ifscInput').value).toUpperCase();
-      if (!raw){ renderError('Enter an IFSC code.'); return; }
-      if (!IFSC_RE.test(raw)){ renderError('Invalid IFSC format. Example: SBIN0000001'); return; }
-
-      // update URL
+    // ========== Validation + Search ==========
+    function setPermalink(code){
       const u = new URL(location.href);
-      u.searchParams.set('code', raw);
+      if (code) u.searchParams.set('code', code); else u.searchParams.delete('code');
       history.replaceState({}, '', u);
+    }
 
+    async function runSearch(){
+      const input = $('#ifscInput');
+      const raw = rs(input.value).toUpperCase();
+      input.value = raw;
+
+      if (!raw){ renderError('Enter an IFSC code.'); setPermalink(''); return; }
+      if (raw.length !== 11 || !IFSC_RE.test(raw)){ renderError('Invalid IFSC format. Example: SBIN0000001'); setPermalink(''); return; }
+
+      setPermalink(raw);
       renderSkeleton();
+
       try{
         const data = await fetchIFSC(raw);
         renderResult(data);
         addRecent(raw);
-      }catch(e){
-        renderError('Not found. Please check the IFSC code.');
+      }catch{
+        renderError('Not found or temporarily unavailable. Please check the code and try again.');
       }
     }
 
-    // ========= Init =========
+    // ========== Bulk Lookup ==========
+    // Run tasks with limited concurrency
+    async function runPool(items, limit, worker){
+      let i = 0;
+      const out = new Array(items.length);
+      const run = async () => {
+        while(i < items.length){
+          const idx = i++;
+          try { out[idx] = await worker(items[idx], idx); }
+          catch (e){ out[idx] = { error: true, message: e?.message || 'Error' }; }
+        }
+      };
+      const workers = Array.from({length: Math.min(limit, items.length)}, run);
+      await Promise.all(workers);
+      return out;
+    }
+
+    function renderBulkTable(rows){
+      const el = $('#bulkOut');
+      if (!rows.length){ el.innerHTML = ''; return; }
+      el.innerHTML = `
+        <div style="overflow:auto">
+          <table class="table" aria-describedby="bulkTitle">
+            <thead><tr>
+              <th>#</th><th>Status</th><th>IFSC</th><th>Bank</th><th>Branch</th><th>City</th><th>State</th><th>MICR</th>
+            </tr></thead>
+            <tbody>
+              ${rows.map((r,idx)=>`
+                <tr>
+                  <td>${idx+1}</td>
+                  <td>${r.error ? '<span class="status-err">Error</span>' : '<span class="status-ok">OK</span>'}</td>
+                  <td>${r.IFSC || r.code || '-'}</td>
+                  <td>${r.BANK || '-'}</td>
+                  <td>${r.BRANCH || '-'}</td>
+                  <td>${r.CITY || '-'}</td>
+                  <td>${r.STATE || '-'}</td>
+                  <td>${r.MICR || '-'}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+        </div>
+      `;
+    }
+
+    async function runBulk(){
+      const raw = $('#bulkBox').value.split(/\r?\n/).map(s => rs(s).toUpperCase());
+      const codes = Array.from(new Set(raw.filter(x => x))); // dedupe, keep truthy
+      if (!codes.length){ renderBulkTable([]); $('#bulkCsv').disabled = true; $('#bulkJson').disabled = true; return; }
+
+      // prepare rows with quick validation
+      const valid = codes.map(c => ({ code: c, valid: IFSC_RE.test(c) }));
+      renderBulkTable(valid.map(v => v.valid ? { code: v.code } : { code: v.code, error: true }));
+
+      // fetch valid ones with concurrency 5
+      const results = await runPool(valid, 5, async (v) => {
+        if (!v.valid) return { code: v.code, error: true, message: 'Invalid format' };
+        try {
+          const d = await fetchIFSC(v.code);
+          return d;
+        } catch {
+          return { code: v.code, error: true };
+        }
+      });
+
+      renderBulkTable(results);
+
+      // Enable exports
+      $('#bulkCsv').disabled = false;
+      $('#bulkJson').disabled = false;
+
+      // bind export handlers
+      $('#bulkCsv').onclick = () => {
+        const header = ["IFSC","Bank","Branch","City","State","MICR"];
+        const rows = [header, ...results.map(r => [r.IFSC||r.code||'', r.BANK||'', r.BRANCH||'', r.CITY||'', r.STATE||'', r.MICR||''])];
+        const csv = toCSV(rows);
+        const blob = new Blob([csv], {type:'text/csv'});
+        const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'ifsc-bulk.csv'; a.click();
+      };
+      $('#bulkJson').onclick = () => copyText(JSON.stringify(results, null, 2));
+    }
+
+    // ========== Init ==========
     document.addEventListener('DOMContentLoaded', () => {
+      $('#y').textContent = new Date().getFullYear();
       renderRecent();
 
+      const form = $('#ifscForm');
       const input = $('#ifscInput');
-      const btn = $('#findBtn');
 
-      btn.addEventListener('click', runSearch);
+      form.addEventListener('submit', (e) => { e.preventDefault(); runSearch(); });
 
-      input.addEventListener('input', () => {
-        input.value = input.value.toUpperCase();
+      // quick buttons
+      $('#pasteBtn').addEventListener('click', async () => {
+        try {
+          const t = await navigator.clipboard.readText();
+          if (t) { input.value = t.trim().toUpperCase(); runSearch(); }
+        } catch { toast('Clipboard unavailable'); }
       });
+      $('#clearBtn').addEventListener('click', () => { input.value = ''; $('#result').innerHTML = ''; $('#actions').style.display='none'; setPermalink(''); });
 
-      // Search on Enter
-      input.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') { e.preventDefault(); runSearch(); }
-      });
+      input.addEventListener('input', () => { input.value = input.value.toUpperCase(); });
+      input.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); runSearch(); } });
+      input.addEventListener('paste', () => { setTimeout(() => { if (IFSC_RE.test(input.value.toUpperCase())) runSearch(); }, 0); });
 
-      // Auto-run when a valid IFSC is pasted
-      input.addEventListener('paste', (e) => {
-        setTimeout(() => { if (IFSC_RE.test(input.value.toUpperCase())) runSearch(); }, 0);
-      });
+      // Bulk handlers
+      $('#bulkRun').addEventListener('click', (e) => { e.preventDefault(); runBulk(); });
 
-      // If URL has ?code=..., load it
+      // Load via ?code=...
       const qs = new URLSearchParams(location.search);
-      const code = qs.get('code');
-      if (code) {
-        input.value = code.toUpperCase();
-        runSearch();
-      }
+      const code = (qs.get('code') || '').toUpperCase();
+      if (code) { input.value = code; runSearch(); }
     });
   </script>
 </body>

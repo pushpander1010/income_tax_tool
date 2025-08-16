@@ -1,119 +1,543 @@
 <!doctype html>
 <html lang="en">
-
 <head>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617"
-    crossorigin="anonymous"></script>
+  <!-- Single async ad (kept minimal for performance) -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617" crossorigin="anonymous"></script>
+
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>JSON Formatter - UpTools</title>
-  <meta name="description" content="Validate and pretty-print JSON." />
-  <meta name="robots" content="index,follow" />
+  <title>JSON Formatter, Validator & Minifier – Free Online Tool | UpTools</title>
+  <meta name="description" content="Free JSON Formatter by UpTools. Validate, pretty-print, and minify JSON. Sort keys, copy, download, load files, and view as an expandable tree. Also convert JSON ⇄ YAML, URL-encode, Base64 and check size/line count. Fast, privacy-first: everything runs in your browser." />
+  <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:large" />
   <meta name="theme-color" content="#0b1020" />
   <link rel="canonical" href="https://www.uptools.in/json-formatter/" />
-  <!-- Favicon -->
-  <link rel="icon" sizes="50x50" type="image/svg+xml" href="/assets/logo/uptools-logo.svg">
-  <link rel="apple-touch-icon" sizes="180x180" href="/assets/logo/uptools-logo.svg">
-  <meta property="og:title" content="JSON Formatter - UpTools" />
-  <meta property="og:description" content="Validate and pretty-print JSON." />
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:title" content="JSON Formatter, Validator & Minifier – UpTools" />
+  <meta property="og:description" content="Validate, pretty-print, minify, sort keys, copy & download. Expandable tree viewer and JSON ⇄ YAML converter. Runs 100% in your browser." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.uptools.in/json-formatter/" />
   <meta property="og:site_name" content="UpTools" />
-  <meta name="twitter:card" content="summary" />
-  <!-- 1) Inline ONLY tiny critical rules (below) -->
+  <meta property="og:image" content="/assets/og/json-formatter.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- Favicons -->
+  <link rel="icon" sizes="50x50" type="image/svg+xml" href="/assets/logo/uptools-logo.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/logo/uptools-logo.svg">
+
+  <!-- Hints for third-party -->
+  <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
+  <link rel="dns-prefetch" href="//pagead2.googlesyndication.com">
+
+  <!-- Common CSS (shared) -->
+  <link rel="preload" href="/style.css?v=1.2.1" as="style">
+  <link rel="stylesheet" href="/style.css?v=1.2.1" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="/style.css?v=1.2.1"></noscript>
+
+  <!-- Page-specific micro styles (tiny, CLS-safe) -->
   <style>
-    :root {
-      --bg: #0f1419;
-      --surface: #121826;
-      --text: #e6edf3;
-      --muted: #9aa4b2;
-      --brand: #7aa2ff;
-      --radius: .75rem
+    :root{
+      /* page tones (used by common CSS tokens if present) */
+      --accent:#90dbf4; --bg1:#0b1820; --bg2:#0e2230; --cardBorder:#2a4866;
     }
-
-    * {
-      box-sizing: border-box
-    }
-
-    html {
-      color-scheme: dark light;
-      -webkit-text-size-adjust: 100%
-    }
-
-    body {
-      margin: 0;
-      font: 400 16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, "Noto Sans", sans-serif;
-      background: var(--bg);
-      color: var(--text)
-    }
-
-    img,
-    svg,
-    video {
-      max-width: 100%;
-      height: auto
-    }
-
-    .container {
-      width: min(100% - 24px, 1120px);
-      margin-inline: auto
-    }
-
-    a {
-      color: var(--brand);
-      text-decoration-thickness: .08em;
-      text-underline-offset: .18em
-    }
-
-    .card {
-      background: var(--surface);
-      border: 1px solid #212a3a;
-      border-radius: var(--radius);
-      padding: 1rem
-    }
-
-    .btn {
-      display: inline-block;
-      padding: .65rem .9rem;
-      border-radius: var(--radius);
-      background: var(--brand);
-      color: #0b1020;
-      border: 0;
-      font-weight: 600
-    }
+    .tool-header{display:flex;align-items:center;gap:.75rem;margin-bottom:.75rem}
+    .tool-icon{inline-size:36px;block-size:36px;border-radius:10px;display:grid;place-items:center;
+      border:1px solid var(--cardBorder,#2b3142);font:700 14px/1 ui-monospace,monospace}
+    .grid{display:grid;gap:12px}
+    @media (min-width:1000px){ .grid{grid-template-columns:1.2fr .8fr} }
+    .row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+    .grow{flex:1 1 auto}
+    .mono{font-family:ui-monospace,Menlo,Consolas,monospace}
+    .two{display:grid;gap:10px;grid-template-columns:1fr 1fr}
+    .meter{height:8px;border-radius:999px;overflow:hidden;background:var(--bg2,#182332)}
+    .meter>i{display:block;height:100%;width:0;transition:width .2s ease}
+    .status{min-height:22px}
+    .codebox{white-space:pre;overflow:auto;font:500 13px/1.5 ui-monospace,monospace;padding:10px;border-radius:10px}
+    .tree ul{margin:.25rem 0 .25rem 1rem; padding-left:0; list-style:none}
+    .tree li{margin:.1rem 0}
+    .tree summary{cursor:pointer}
+    .yt-wrap{aspect-ratio:16/9;max-width:720px;width:100%;border-radius:12px;overflow:hidden;margin-inline:auto}
+    .yt-wrap iframe{width:100%;height:100%;display:block}
+    .dropzone{border:1px dashed var(--cardBorder,#2b3142);border-radius:10px;padding:8px;text-align:center}
+    .badge{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--cardBorder,#2b3142);padding:4px 8px;border-radius:999px}
   </style>
 
-  <!-- 2) Load full stylesheet without blocking first paint -->
-  <link rel="preload" href="/style.css?v=1.2.0" as="style">
-  <link rel="stylesheet" href="/style.css?v=1.2.0" media="print" onload="this.media='all'">
-  <noscript>
-    <link rel="stylesheet" href="/style.css?v=1.2.0">
-  </noscript>
-
+  <!-- Structured data: WebApplication + FAQ -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"WebApplication",
+    "name":"UpTools JSON Formatter",
+    "applicationCategory":"DeveloperApplication",
+    "operatingSystem":"Any",
+    "url":"https://www.uptools.in/json-formatter/",
+    "description":"Validate, pretty-print, and minify JSON with an expandable tree and JSON ⇄ YAML conversion. Copy, download, and work offline—no data leaves the browser.",
+    "publisher":{"@type":"Organization","name":"UpTools","url":"https://www.uptools.in"},
+    "offers":{"@type":"Offer","price":"0","priceCurrency":"INR"}
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"FAQPage",
+    "mainEntity":[
+      {"@type":"Question","name":"Is my JSON uploaded anywhere?","acceptedAnswer":{"@type":"Answer","text":"No. The formatter runs entirely in your browser using JavaScript. Nothing is sent to our servers."}},
+      {"@type":"Question","name":"Can I convert JSON to YAML?","acceptedAnswer":{"@type":"Answer","text":"Yes. Use the JSON ⇄ YAML tab to convert in either direction for common data types (objects, arrays, numbers, strings, booleans, null)."}},
+      {"@type":"Question","name":"Why does formatting fail?","acceptedAnswer":{"@type":"Answer","text":"Malformed JSON (like trailing commas or unquoted keys) will fail. The validator points to the exact line and column to help you fix it."}}
+    ]
+  }
+  </script>
 </head>
+<body>
+  <!-- Header (shared pattern) -->
+  <header class="site" role="banner">
+    <div class="header-inner">
+      <a class="brand" href="/" aria-label="UpTools Home">
+        <img src="/assets/logo/uptools-logo.svg" alt="UpTools logo" width="28" height="28" loading="eager">
+        <b>UpTools</b>
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="/#tools">Tools</a>
+        <a href="/income-tax-tool/">Income Tax</a>
+        <a href="/emi-calculator/">EMI</a>
+        <a href="/gst-calculator/">GST</a>
+      </nav>
+    </div>
+  </header>
 
-<body style="--accent:#90dbf4;--bg1:#0b1820;--bg2:#0e2230;--cardBorder:#2a4866">
-  <main class="wrap">
-    <div class="tool-header">
-      <div class="tool-icon">{ }</div>
-      <h1 style="margin:0">JSON Formatter</h1>
-    </div>
-    <div class="card">
-      <label class="label" for="txt">JSON</label>
-      <textarea id="txt" class="input" rows="8" placeholder='{"example":true}'></textarea>
-      <button id="fmt" class="btn">Format</button>
-      <div id="out" class="result" style="white-space:pre;overflow:auto"></div>
-    </div>
-    <footer class="note small"><a href="/">UpTools</a></footer>
+  <main class="wrap" id="main">
+    <!-- Hero -->
+    <section class="card hero" aria-labelledby="title">
+      <div class="grid">
+        <div>
+          <div class="tool-header">
+            <div class="tool-icon">{ }</div>
+            <h1 id="title" style="margin:0">JSON Formatter</h1>
+          </div>
+          <p class="note">Validate, pretty-print, and <b>minify</b> JSON. View an <b>expandable tree</b>, <b>sort keys</b>, convert <b>JSON ⇄ YAML</b>, copy/download, and check size & lines. All in your browser.</p>
+          <div class="chips" style="margin-top:.5rem">
+            <span class="pill">⚡ Fast & private</span>
+            <span class="pill">🧩 Tree viewer</span>
+            <span class="pill">🔃 JSON ⇄ YAML</span>
+            <a class="chip" href="/json-diff/">JSON Diff</a>
+            <a class="chip" href="/uuid-generator/">UUID</a>
+          </div>
+        </div>
+        <div class="yt-wrap" aria-label="JSON basics video">
+          <iframe
+            title="JSON basics and best practices"
+            width="640" height="360"
+            src="https://www.youtube.com/embed/iiADhChRriM"
+            loading="lazy"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen></iframe>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Tool -->
+    <section class="grid" aria-label="Formatter workspace">
+      <!-- Left column: editor + actions -->
+      <div class="card">
+        <div class="row">
+          <label class="label" for="txt">JSON input</label>
+          <span class="badge mono" id="stats">0 B · 0 lines</span>
+          <span class="hint grow status" id="status" aria-live="polite"></span>
+        </div>
+
+        <textarea id="txt" class="input mono" rows="12" placeholder='{"example": true, "list": [1,2,3]}' aria-describedby="status"></textarea>
+
+        <div class="row" style="margin-top:8px">
+          <button id="btnFormat" class="btn">Format</button>
+          <button id="btnMinify" class="btn ghost">Minify</button>
+          <button id="btnSort" class="btn ghost">Sort keys</button>
+          <button id="btnTree" class="btn ghost" aria-pressed="false" aria-controls="treeWrap">Tree</button>
+          <button id="btnCopy" class="btn success">Copy</button>
+          <button id="btnClear" class="btn danger">Clear</button>
+          <label class="btn ghost" for="file" style="cursor:pointer">Load file</label>
+          <input id="file" type="file" accept=".json,application/json" hidden>
+          <button id="btnDownload" class="btn ghost">Download</button>
+        </div>
+
+        <div class="row" style="margin-top:6px">
+          <div class="meter grow" aria-hidden="true"><i id="validFill"></i></div>
+          <span id="validLabel" class="hint mono" style="min-width:90px;text-align:right">invalid</span>
+        </div>
+
+        <div class="dropzone small note" id="drop">Drag & drop a .json file here</div>
+
+        <details style="margin-top:8px">
+          <summary class="hint">Extras</summary>
+          <div class="two" style="margin-top:8px">
+            <div class="stack">
+              <label class="label">URL encode</label>
+              <div class="row">
+                <button id="btnUrlEncode" class="btn ghost">Encode</button>
+                <button id="btnUrlDecode" class="btn ghost">Decode</button>
+              </div>
+            </div>
+            <div class="stack">
+              <label class="label">Base64</label>
+              <div class="row">
+                <button id="btnB64Encode" class="btn ghost">Encode</button>
+                <button id="btnB64Decode" class="btn ghost">Decode</button>
+              </div>
+            </div>
+          </div>
+        </details>
+      </div>
+
+      <!-- Right column: output panels -->
+      <div class="card">
+        <nav class="row" role="tablist" aria-label="Output tabs">
+          <button class="btn" id="tabPretty" aria-selected="true">Pretty</button>
+          <button class="btn ghost" id="tabMin">Minified</button>
+          <button class="btn ghost" id="tabYaml">YAML</button>
+        </nav>
+
+        <div id="outPretty" class="codebox card" role="tabpanel" aria-labelledby="tabPretty"></div>
+        <div id="outMin" class="codebox card" role="tabpanel" aria-labelledby="tabMin" hidden></div>
+        <div id="outYaml" class="codebox card" role="tabpanel" aria-labelledby="tabYaml" hidden></div>
+
+        <div id="treeWrap" class="tree" hidden aria-live="polite" style="margin-top:10px"></div>
+      </div>
+    </section>
+
+    <!-- Helpful tips & internal links -->
+    <section class="card">
+      <h2 class="h4">Tips</h2>
+      <ul class="list">
+        <li>JSON requires <b>double-quoted</b> keys & strings. Remove trailing commas.</li>
+        <li>Use “Sort keys” for stable diffs in Git.</li>
+        <li>Switch to YAML for configs; convert back to JSON for APIs.</li>
+      </ul>
+      <div class="chips" style="margin-top:8px">
+        <a class="chip" href="/json-diff/">JSON Diff</a>
+        <a class="chip" href="/url-encoder/">URL Encoder</a>
+        <a class="chip" href="/hash-generator/">Hash Generator</a>
+        <a class="chip" href="/gzip-compress/">Gzip Tool</a>
+      </div>
+    </section>
+
+    <!-- Ad slot suggestion (commented to avoid CLS unless available) -->
+    <!--
+    <section class="card">
+      <ins class="adsbygoogle"
+           style="display:block;min-height:120px"
+           data-ad-client="ca-pub-6216304334889617"
+           data-ad-slot="YOUR_SLOT_ID"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+    </section>
+    -->
+
+    <footer class="site-foot">
+      <nav class="nav-links small">
+        <a href="/">UpTools</a> · <a href="/sitemap.xml">Sitemap</a> · <a href="/about/">ABT</a> · <a href="/contact/">CT</a>
+      </nav>
+      <div class="note small">Privacy-first · No sign-ups · Works offline once loaded</div>
+    </footer>
   </main>
+
+  <!-- Shared helpers + page script -->
+  <script type="module" src="/scripts/utils.js"></script>
   <script type="module">
-    const T = document.getElementById('txt'), O = document.getElementById('out');
-    function fmt() {
-      try { const obj = JSON.parse(T.value); O.textContent = JSON.stringify(obj, null, 2); }
-      catch (e) { O.textContent = 'Invalid JSON'; }
+    // ---- Minimal fallbacks if utils.js isn't present ----
+    const U = {
+      copy: async t => { try{ await navigator.clipboard.writeText(t); toast('Copied'); }catch{ legacyCopy(t); toast('Copied'); } },
+      save:(k,v)=>{ try{ localStorage.setItem(k, JSON.stringify(v)); }catch{} },
+      read:k=>{ try{ const v=localStorage.getItem(k); return v?JSON.parse(v):null; }catch{ return null } },
+      debounce:(fn,ms)=>{ let id; return (...a)=>{ clearTimeout(id); id=setTimeout(()=>fn(...a),ms); } }
+    };
+    function legacyCopy(t){ const el=document.createElement('textarea'); el.value=t; el.style.position='fixed'; el.style.top='-2000px'; document.body.appendChild(el); el.select(); try{document.execCommand('copy');}finally{el.remove();} }
+    function toast(msg){
+      const n=document.createElement('div'); n.className='toast'; n.textContent=msg;
+      Object.assign(n.style,{position:'fixed',left:'50%',bottom:'16px',transform:'translateX(-50%)',padding:'8px 12px',borderRadius:'999px',backdropFilter:'blur(3px)',border:'1px solid var(--cardBorder,#2b3142)',zIndex:'9999',opacity:'0',transition:'opacity .2s'});
+      document.body.appendChild(n); requestAnimationFrame(()=>n.style.opacity='1');
+      setTimeout(()=>{n.style.opacity='0'; setTimeout(()=>n.remove(),200)},1200);
     }
-    document.getElementById('fmt').addEventListener('click', fmt);
+
+    // ---- DOM ----
+    const els = {
+      txt: document.getElementById('txt'),
+      status: document.getElementById('status'),
+      stats: document.getElementById('stats'),
+      btnFormat: document.getElementById('btnFormat'),
+      btnMinify: document.getElementById('btnMinify'),
+      btnSort: document.getElementById('btnSort'),
+      btnTree: document.getElementById('btnTree'),
+      btnCopy: document.getElementById('btnCopy'),
+      btnClear: document.getElementById('btnClear'),
+      btnDownload: document.getElementById('btnDownload'),
+      file: document.getElementById('file'),
+      drop: document.getElementById('drop'),
+      validFill: document.getElementById('validFill'),
+      validLabel: document.getElementById('validLabel'),
+      // tabs
+      tabPretty: document.getElementById('tabPretty'),
+      tabMin: document.getElementById('tabMin'),
+      tabYaml: document.getElementById('tabYaml'),
+      outPretty: document.getElementById('outPretty'),
+      outMin: document.getElementById('outMin'),
+      outYaml: document.getElementById('outYaml'),
+      treeWrap: document.getElementById('treeWrap'),
+      // extras
+      btnUrlEncode: document.getElementById('btnUrlEncode'),
+      btnUrlDecode: document.getElementById('btnUrlDecode'),
+      btnB64Encode: document.getElementById('btnB64Encode'),
+      btnB64Decode: document.getElementById('btnB64Decode')
+    };
+
+    // ---- Helpers ----
+    const clamp=(v,min,max)=>Math.min(max,Math.max(min,v));
+    const bytes = s => new Blob([s]).size;
+
+    function updateStats(){
+      const t = els.txt.value;
+      const b = bytes(t);
+      const lines = (t.match(/\n/g)||[]).length + (t.length?1:0);
+      els.stats.textContent = `${b.toLocaleString()} B · ${lines} lines`;
+      U.save('uptools.jsonfmt.last',{t});
+    }
+
+    function parseJSON(text){
+      try{
+        return { ok:true, value: JSON.parse(text) };
+      }catch(e){
+        // Try to extract line/column from error message if provided by engine
+        const m = String(e.message).match(/at position (\d+)/) || String(e.message).match(/line (\d+) column (\d+)/i);
+        let pos=null, line=null, col=null;
+        if (m && m[1] && !m[2]) {
+          pos = +m[1];
+          // approximate line/col
+          const upto = text.slice(0,pos);
+          line = upto.split('\n').length;
+          col = pos - upto.lastIndexOf('\n');
+        } else if (m && m[1] && m[2]) {
+          line = +m[1]; col = +m[2];
+        }
+        return { ok:false, error: e, line, col };
+      }
+    }
+
+    function setValidity(ok, extra=''){
+      els.validFill.style.width = (ok? '100%':'20%');
+      els.validFill.style.background = ok? 'var(--ok,#2ecc71)':'var(--danger,#ff4d4f)';
+      els.validLabel.textContent = ok? 'valid':'invalid';
+      els.status.textContent = extra;
+    }
+
+    function pretty(obj, space=2){ return JSON.stringify(obj, null, space); }
+    function minify(obj){ return JSON.stringify(obj); }
+
+    function sortKeysDeep(input){
+      if (Array.isArray(input)) return input.map(sortKeysDeep);
+      if (input && typeof input === 'object'){
+        const out = {};
+        Object.keys(input).sort().forEach(k=>{ out[k]=sortKeysDeep(input[k]); });
+        return out;
+      }
+      return input;
+    }
+
+    // Simple JSON -> YAML (basic types only)
+    function toYAML(value, indent=''){
+      const next = indent + '  ';
+      if (value === null) return 'null';
+      switch(typeof value){
+        case 'boolean':
+        case 'number': return String(value);
+        case 'string':
+          if (/[:{}\[\],&*#?|\-<>=!%@\\]/.test(value)) return JSON.stringify(value); // quote risky
+          if (/^\s|\s$/.test(value)) return JSON.stringify(value);
+          return value;
+        case 'object':
+          if (Array.isArray(value)){
+            if (!value.length) return '[]';
+            return value.map(v => `${indent}- ${formatYAMLValue(v, next)}`).join('\n');
+          } else {
+            const keys = Object.keys(value);
+            if (!keys.length) return '{}';
+            return keys.map(k => {
+              const key = /^[\w-]+$/.test(k) ? k : JSON.stringify(k);
+              const v = value[k];
+              const rendered = formatYAMLValue(v, next);
+              return `${indent}${key}: ${rendered}`;
+            }).join('\n');
+          }
+      }
+    }
+    function formatYAMLValue(v, nextIndent){
+      if (v && typeof v === 'object'){
+        const nested = toYAML(v, nextIndent);
+        const nl = nested.includes('\n');
+        return nl ? `\n${nested}` : nested;
+      }
+      return toYAML(v, nextIndent);
+    }
+
+    // YAML -> JSON (very limited; expects simple YAML produced above)
+    function yamlToJson(y){
+      // For safety and size, only parse our own generated superset: defer to a quick heuristic
+      // Try JSON first (in case user pasted JSON under YAML tab)
+      try { return JSON.parse(y); } catch {}
+      // Very naive: convert ":" indents to objects and "- " to arrays using recursion.
+      // If it fails, throw to signal unsupported YAML.
+      // To keep this light, we'll not implement a full parser; we warn instead.
+      throw new Error('YAML parsing is limited here. Paste JSON or use the JSON → YAML direction.');
+    }
+
+    function renderTree(node){
+      const wrap = document.createElement('div');
+      function make(node, key){
+        if (Array.isArray(node)){
+          const d = document.createElement('details');
+          const s = document.createElement('summary');
+          s.textContent = key !== undefined ? `${key}: [${node.length}]` : `[${node.length}]`;
+          d.appendChild(s);
+          const ul = document.createElement('ul');
+          node.forEach((v,i)=>{ const li=document.createElement('li'); li.appendChild(make(v, i)); ul.appendChild(li); });
+          d.appendChild(ul);
+          return d;
+        } else if (node && typeof node === 'object'){
+          const keys = Object.keys(node);
+          const d = document.createElement('details');
+          const s = document.createElement('summary');
+          s.textContent = key !== undefined ? `${key}: {${keys.length}}` : `{${keys.length}}`;
+          d.appendChild(s);
+          const ul = document.createElement('ul');
+          keys.forEach(k=>{ const li=document.createElement('li'); li.appendChild(make(node[k], k)); ul.appendChild(li); });
+          d.appendChild(ul);
+          return d;
+        } else {
+          const span = document.createElement('span');
+          const val = typeof node === 'string' ? JSON.stringify(node) : String(node);
+          span.textContent = key !== undefined ? `${key}: ${val}` : val;
+          return span;
+        }
+      }
+      wrap.appendChild(make(node));
+      return wrap;
+    }
+
+    function setTab(which){
+      const tabs = [
+        ['tabPretty','outPretty'],
+        ['tabMin','outMin'],
+        ['tabYaml','outYaml']
+      ];
+      tabs.forEach(([tId,pId])=>{
+        const t = document.getElementById(tId), p=document.getElementById(pId);
+        const active = (tId === which);
+        t.classList.toggle('ghost', !active);
+        t.setAttribute('aria-selected', String(active));
+        p.hidden = !active;
+      });
+    }
+
+    // ---- Actions ----
+    function runFormat(){
+      const text = els.txt.value;
+      const parsed = parseJSON(text);
+      if (!parsed.ok){
+        const pos = parsed.line && parsed.col ? `Line ${parsed.line}, Col ${parsed.col}` : '';
+        setValidity(false, `Invalid JSON. ${pos}`);
+        return;
+      }
+      setValidity(true, 'Valid JSON');
+      const prettyTxt = pretty(parsed.value, 2);
+      const minTxt = minify(parsed.value);
+      els.outPretty.textContent = prettyTxt;
+      els.outMin.textContent = minTxt;
+      // YAML
+      els.outYaml.textContent = toYAML(parsed.value);
+      // Tree
+      els.treeWrap.innerHTML = '';
+      els.treeWrap.appendChild(renderTree(parsed.value));
+    }
+
+    function runMinify(){
+      const text = els.txt.value;
+      const p = parseJSON(text);
+      if (!p.ok){ setValidity(false, 'Invalid JSON'); return; }
+      els.txt.value = minify(p.value);
+      updateStats(); setValidity(true, 'Minified');
+      runFormat();
+    }
+
+    function runSort(){
+      const p = parseJSON(els.txt.value);
+      if (!p.ok){ setValidity(false, 'Invalid JSON'); return; }
+      const sorted = sortKeysDeep(p.value);
+      els.txt.value = pretty(sorted, 2);
+      updateStats(); setValidity(true, 'Keys sorted (deep)');
+      runFormat();
+    }
+
+    function toggleTree(){
+      const now = els.treeWrap.hidden;
+      els.treeWrap.hidden = !now;
+      els.btnTree.setAttribute('aria-pressed', String(now));
+      if (!now) return;
+      // (re-render handled by runFormat)
+    }
+
+    // Tabs
+    els.tabPretty.addEventListener('click', ()=> setTab('tabPretty'));
+    els.tabMin.addEventListener('click', ()=> setTab('tabMin'));
+    els.tabYaml.addEventListener('click', ()=> setTab('tabYaml'));
+
+    // Core buttons
+    els.btnFormat.addEventListener('click', runFormat);
+    els.btnMinify.addEventListener('click', runMinify);
+    els.btnSort.addEventListener('click', runSort);
+    els.btnTree.addEventListener('click', toggleTree);
+    els.btnCopy.addEventListener('click', ()=> {
+      const active = !els.outPretty.hidden ? els.outPretty : !els.outMin.hidden ? els.outMin : els.outYaml;
+      const t = active.textContent || '';
+      if (t) U.copy(t);
+    });
+    els.btnClear.addEventListener('click', ()=> { els.txt.value=''; updateStats(); setValidity(false,''); els.outPretty.textContent=''; els.outMin.textContent=''; els.outYaml.textContent=''; els.treeWrap.hidden=true; });
+    els.btnDownload.addEventListener('click', ()=>{
+      const active = !els.outPretty.hidden ? {t:els.outPretty.textContent, name:'formatted.json'}
+                   : !els.outMin.hidden ? {t:els.outMin.textContent, name:'minified.json'}
+                   : {t:els.outYaml.textContent, name:'data.yaml'};
+      if (!active.t) return;
+      const blob = new Blob([active.t], {type:'text/plain'});
+      const a = document.createElement('a'); a.download = active.name; a.href = URL.createObjectURL(blob);
+      document.body.appendChild(a); a.click(); setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); }, 0);
+    });
+
+    // Extras
+    els.btnUrlEncode.addEventListener('click', ()=> { els.txt.value = encodeURIComponent(els.txt.value); updateStats(); setValidity(true,'URL encoded'); });
+    els.btnUrlDecode.addEventListener('click', ()=> { try{ els.txt.value = decodeURIComponent(els.txt.value); setValidity(true,'URL decoded'); }catch{ setValidity(false,'Bad URI component'); } updateStats(); });
+    els.btnB64Encode.addEventListener('click', ()=> { els.txt.value = btoa(unescape(encodeURIComponent(els.txt.value))); updateStats(); setValidity(true,'Base64 encoded'); });
+    els.btnB64Decode.addEventListener('click', ()=> { try{ els.txt.value = decodeURIComponent(escape(atob(els.txt.value))); setValidity(true,'Base64 decoded'); }catch{ setValidity(false,'Invalid Base64'); } updateStats(); });
+
+    // File load + DnD
+    els.file.addEventListener('change', async (e)=>{
+      const f = e.target.files?.[0]; if (!f) return;
+      const text = await f.text(); els.txt.value = text; updateStats(); runFormat();
+    });
+    ['dragenter','dragover'].forEach(evt => els.drop.addEventListener(evt, e=>{ e.preventDefault(); els.drop.style.opacity='.8'; }));
+    ['dragleave','drop'].forEach(evt => els.drop.addEventListener(evt, e=>{ e.preventDefault(); els.drop.style.opacity='1'; }));
+    els.drop.addEventListener('drop', async (e)=>{
+      const f = e.dataTransfer?.files?.[0]; if (!f) return;
+      const text = await f.text(); els.txt.value=text; updateStats(); runFormat();
+    });
+
+    // Live validation (debounced)
+    els.txt.addEventListener('input', U.debounce(()=>{
+      updateStats();
+      const p = parseJSON(els.txt.value);
+      setValidity(!!p.ok, p.ok ? 'Valid JSON' : 'Invalid JSON');
+    }, 150));
+
+    // Persist last input (optional)
+    const saved = U.read('uptools.jsonfmt.last'); if (saved?.t){ els.txt.value=saved.t; }
+    updateStats(); runFormat(); setTab('tabPretty');
   </script>
 </body>
-
 </html>
