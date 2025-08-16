@@ -77,7 +77,8 @@
       background: var(--surface);
       border: 1px solid #212a3a;
       border-radius: var(--radius);
-      padding: 1rem
+      padding: 1rem;
+      overflow : auto;
     }
 
     .btn {
@@ -272,7 +273,7 @@
         <button id="icsBtn" class="btn secondary" type="button">Add Next Birthday (.ics)</button>
         <button id="resetBtn" class="btn secondary" type="button">Reset</button>
       </div>
-      <p class="muted" style="margin-top:6px">Tip: Set “As of” to any past/future date to see age on that date (useful
+      <p class="muted" style="margin-top:6px">Tip: Set "As of” to any past/future date to see age on that date (useful
         for forms).</p>
     </section>
 
@@ -323,7 +324,7 @@
         allow="accelerometer; clipboard-write; encrypted-media; picture-in-picture; web-share" allowfullscreen></iframe>
 
       <p class="note" style="margin:8px 0 0">Resource: See <a href="https://en.wikipedia.org/wiki/Age"
-          rel="nofollow noopener" target="_blank">what “age” means</a> and <a
+          rel="nofollow noopener" target="_blank">what "age” means</a> and <a
           href="https://en.wikipedia.org/wiki/Legal_driving_age" rel="nofollow noopener" target="_blank">legal driving
           ages</a>.</p>
     </section>
@@ -472,7 +473,7 @@
     function renderSummary(dob, asof, retAgeVal) {
       if (!dob) { $('#summary').innerHTML = '<p class="note">Enter your Date of Birth.</p>'; $('#milestones').innerHTML = ''; return; }
       if (!asof) asof = new Date();
-      if (asof < dob) { $('#summary').innerHTML = '<p class="note">“As of” date cannot be before DOB.</p>'; $('#milestones').innerHTML = ''; return; }
+      if (asof < dob) { $('#summary').innerHTML = '<p class="note">"As of” date cannot be before DOB.</p>'; $('#milestones').innerHTML = ''; return; }
 
       const ymd = diffYMD(dob, asof);
       const totals = totalUnits(dob, asof);
