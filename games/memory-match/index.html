@@ -130,6 +130,7 @@
       display:grid; place-items:center; cursor:pointer; user-select:none;
       transition:transform .12s ease, border-color .12s ease, background .12s ease;
       outline:none; min-width:24px; min-height:24px;
+      touch-action: manipulation; /* snappier taps */
     }
     .card-tile:hover{ transform:translateY(-1px); border-color:var(--accent) }
     .card-tile:focus-visible{ box-shadow:0 0 0 3px color-mix(in hsl, var(--accent) 35%, transparent); border-color:var(--accent) }
@@ -140,9 +141,6 @@
     @keyframes pulse{ 0%,100%{ transform:scale(1)} 50%{ transform:scale(1.05)} }
     .peek .card-tile .face{ opacity:1; transform:scale(1) }
     .peek .card-tile{ border-color:rgba(255,255,255,.15) }
-
-    /* (Was used earlier) Color-blind assist mark — no longer rendered */
-    .cb .card-tile .cb-mark{ display:none; }
   </style>
 
   <!-- Structured data -->
@@ -245,350 +243,381 @@
     <div class="note">Use <kbd>Space</kbd>/<kbd>Enter</kbd> to flip, <kbd>Esc</kbd> or <b>Back</b> to stop.</div>
   </section>
 
-  <!-- Common helpers -->
-  <script type="module" src="/scripts/utils.js"></script>
-  <script>
-    (() => {
-      // ===== Utilities =====
-      const $ = (s, el=document) => el.querySelector(s);
-      const $$ = (s, el=document) => [...el.querySelectorAll(s)];
-      const randInt = (n) => (Math.random() * n) | 0;
-      const pad2 = (n)=>String(n).padStart(2,"0");
+  <!-- App script (ESM, imports from /scripts/utils.js) -->
+  <script type="module">
+    import * as U from "/scripts/utils.js";
+    const $  = U.$  ?? ((s, el=document) => el.querySelector(s));
+    const $$ = U.$$ ?? ((s, el=document) => [...el.querySelectorAll(s)]);
+    const clamp = U.clamp ?? ((x,min,max)=>Math.min(max,Math.max(min,x)));
 
-      // Prevent arrow keys/space from scrolling page
-      addEventListener("keydown", (e) => {
-        if (["ArrowUp","ArrowDown"," "].includes(e.key)) e.preventDefault();
-      }, {passive:false});
+    // Game-local helpers
+    const randInt = (n) => (Math.random() * n) | 0;
+    const pad2 = (n)=>String(n).padStart(2,"0");
 
-      // Toggles persisted
-      let soundOn   = JSON.parse(localStorage.getItem("mem-sound")   ?? "true");
-      let hapticsOn = JSON.parse(localStorage.getItem("mem-haptics") ?? "true");
-      let cbAssist  = JSON.parse(localStorage.getItem("mem-cb")      ?? "false");
-      const setToggle = (btn, on, onTxt, offTxt) => { btn?.setAttribute("aria-pressed", String(on)); if(btn) btn.textContent = on?onTxt:offTxt; };
+    // Prevent arrow keys/space from scrolling page
+    addEventListener("keydown", (e) => {
+      if (["ArrowUp","ArrowDown"," "].includes(e.key)) e.preventDefault();
+    }, {passive:false});
 
-      setToggle($("#toggleSound"), soundOn, "🔊 Sound On", "🔇 Sound Off");
-      setToggle($("#toggleHaptics"), hapticsOn, "📳 Haptics On", "📴 Haptics Off");
-      setToggle($("#toggleCB"), cbAssist, "🅰️ CB Assist", "🅰️ CB Assist Off");
-      document.body.classList.toggle("cb", cbAssist);
+    // Toggles persisted
+    let soundOn   = JSON.parse(localStorage.getItem("mem-sound")   ?? "true");
+    let hapticsOn = JSON.parse(localStorage.getItem("mem-haptics") ?? "true");
+    let cbAssist  = JSON.parse(localStorage.getItem("mem-cb")      ?? "false");
+    const setToggle = (btn, on, onTxt, offTxt) => { btn?.setAttribute("aria-pressed", String(on)); if(btn) btn.textContent = on?onTxt:offTxt; };
 
-      $("#toggleSound")?.addEventListener("click", ()=>{ soundOn=!soundOn; localStorage.setItem("mem-sound", JSON.stringify(soundOn)); setToggle($("#toggleSound"), soundOn, "🔊 Sound On", "🔇 Sound Off"); });
-      $("#toggleHaptics")?.addEventListener("click", ()=>{ hapticsOn=!hapticsOn; localStorage.setItem("mem-haptics", JSON.stringify(hapticsOn)); setToggle($("#toggleHaptics"), hapticsOn, "📳 Haptics On", "📴 Haptics Off"); });
-      $("#toggleCB")?.addEventListener("click", ()=>{ cbAssist=!cbAssist; localStorage.setItem("mem-cb", JSON.stringify(cbAssist)); setToggle($("#toggleCB"), cbAssist, "🅰️ CB Assist", "🅰️ CB Assist Off"); document.body.classList.toggle("cb", cbAssist); });
+    setToggle($("#toggleSound"), soundOn, "🔊 Sound On", "🔇 Sound Off");
+    setToggle($("#toggleHaptics"), hapticsOn, "📳 Haptics On", "📴 Haptics Off");
+    setToggle($("#toggleCB"), cbAssist, "🅰️ CB Assist", "🅰️ CB Assist Off");
+    document.body.classList.toggle("cb", cbAssist);
 
-      // WebAudio bleeps
-      let audioCtx = null;
-      const beep = (type="square", freq=440, ms=80, gain=0.025) => {
-        if (!soundOn) return;
-        try{
-          audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
-          const o = audioCtx.createOscillator(), g = audioCtx.createGain();
-          o.type = type; o.frequency.value = freq; g.gain.value = gain;
-          o.connect(g); g.connect(audioCtx.destination); o.start();
-          setTimeout(()=>{ o.stop(); o.disconnect(); g.disconnect(); }, ms);
-        }catch{}
-      };
-      const buzz = (ms=15) => { if (hapticsOn && navigator.vibrate) navigator.vibrate(ms); };
+    $("#toggleSound")?.addEventListener("click", ()=>{ soundOn=!soundOn; localStorage.setItem("mem-sound", JSON.stringify(soundOn)); setToggle($("#toggleSound"), soundOn, "🔊 Sound On", "🔇 Sound Off"); });
+    $("#toggleHaptics")?.addEventListener("click", ()=>{ hapticsOn=!hapticsOn; localStorage.setItem("mem-haptics", JSON.stringify(hapticsOn)); setToggle($("#toggleHaptics"), hapticsOn, "📳 Haptics On", "📴 Haptics Off"); });
+    $("#toggleCB")?.addEventListener("click", ()=>{ cbAssist=!cbAssist; localStorage.setItem("mem-cb", JSON.stringify(cbAssist)); setToggle($("#toggleCB"), cbAssist, "🅰️ CB Assist", "🅰️ CB Assist Off"); document.body.classList.toggle("cb", cbAssist); });
 
-      // Seed helpers for shareable boards
-      const mulberry32 = (seed) => { let t=seed>>>0; return ()=>{ t+=0x6D2B79F5; let r=Math.imul(t^t>>>15,1|t); r^=r+Math.imul(r^r>>>7,61|r); return ((r^r>>>14)>>>0)/4294967296; }; };
-      const strHash = (s) => { let h=2166136261>>>0; for(let i=0;i<s.length;i++){ h^=s.charCodeAt(i); h=Math.imul(h,16777619);} return h>>>0; };
+    // WebAudio bleeps
+    let audioCtx = null;
+    const beep = (type="square", freq=440, ms=80, gain=0.025) => {
+      if (!soundOn) return;
+      try{
+        audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+        const o = audioCtx.createOscillator(), g = audioCtx.createGain();
+        o.type = type; o.frequency.value = freq; g.gain.value = gain;
+        o.connect(g); g.connect(audioCtx.destination); o.start();
+        setTimeout(()=>{ o.stop(); o.disconnect(); g.disconnect(); }, ms);
+      }catch{}
+    };
+    const buzz = (ms=15) => { if (hapticsOn && navigator.vibrate) navigator.vibrate(ms); };
 
-      // ===== Game Class (rendered only inside #playScreen) =====
-      class MemoryMatch {
-        constructor(level, seed=""){
-          this.level = level;
-          this.seed = seed;
-          this.pool = ["🍎","🍊","🍋","🍉","🍇","🍓","🍒","🍍","🥝","🥑","🥕","🌶️","🍄","🥨","🍪","🍰","🐶","🐱","🐭","🐹","🐰","🦊","🐻","🐼","🦁","🐯","🦄","🐸","🐵","🐙","🐠","🦋"];
-          this.cfg = { easy:{pairs:4,cols:4,minTile:64}, medium:{pairs:9,cols:6,minTile:42}, hard:{pairs:16,cols:8,minTile:26} };
+    // Seed helpers for shareable boards
+    const mulberry32 = (seed) => { let t=seed>>>0; return ()=>{ t+=0x6D2B79F5; let r=Math.imul(t^t>>>15,1|t); r^=r+Math.imul(r^r>>>7,61|r); return ((r^r>>>14)>>>0)/4294967296; }; };
+    const strHash = (s) => { let h=2166136261>>>0; for(let i=0;i<s.length;i++){ h^=s.charCodeAt(i); h=Math.imul(h,16777619);} return h>>>0; };
 
-          // State
-          this.cards=[]; this.flipped=[]; this.pairsFound=0; this.moves=0;
-          this.running=false; this.paused=false; this.seconds=0; this.penalty=0; this._tick=null;
+    // ===== Game Class (rendered only inside #playScreen) =====
+    class MemoryMatch {
+      constructor(level, seed=""){
+        this.level = level;
+        this.seed = seed;
+        this.pool = ["🍎","🍊","🍋","🍉","🍇","🍓","🍒","🍍","🥝","🥑","🥕","🌶️","🍄","🥨","🍪","🍰","🐶","🐱","🐭","🐹","🐰","🦊","🐻","🐼","🦁","🐯","🦄","🐸","🐵","🐙","🐠","🦋"];
+        this.cfg = { easy:{pairs:4,cols:4,minTile:64}, medium:{pairs:9,cols:6,minTile:42}, hard:{pairs:16,cols:8,minTile:26} };
 
-          // DOM in play window
-          this.grid = $("#grid");
-          this.timerEl = $("#psTimer");
+        // State
+        this.cards=[]; this.flipped=[]; this.pairsFound=0; this.moves=0;
+        this.running=false; this.paused=false; this.seconds=0; this.penalty=0; this._tick=null;
 
-          // Build & show
-          this.setup();
-        }
+        // Mobile-friendly interaction control
+        this.lock = false;      // lock only during mismatch flip-back
+        this._queued = null;    // queue a tap during lock
 
-        setup(){
-          this.grid.className = "grid " + this.level;
+        // DOM in play window
+        this.grid = $("#grid");
+        this.timerEl = $("#psTimer");
 
-          const deck = this.buildDeck();
-          this.mount(deck);
-
-          // Peek
-          document.body.classList.add("peek");
-          this.cards.forEach(c=>c.el.classList.add("flipped"));
-          setTimeout(()=>{
-            document.body.classList.remove("peek");
-            this.cards.forEach(c=>c.el.classList.remove("flipped"));
-            statusHome("Go! Flip any card to start the timer.");
-          }, 1200);
-
-          requestAnimationFrame(()=>this.layout());
-          addEventListener("resize", this._onResize = ()=>this.layout(), {passive:true});
-          addEventListener("orientationchange", this._onResize);
-        }
-
-        destroy(){
-          clearInterval(this._tick); this._tick=null;
-          removeEventListener("resize", this._onResize);
-          removeEventListener("orientationchange", this._onResize);
-          this.grid.innerHTML="";
-          this.running=false; this.paused=false;
-        }
-
-        buildDeck(){
-          const {pairs} = this.cfg[this.level];
-          let symbols = [...this.pool];
-          if (this.seed){
-            const rng = mulberry32(strHash(this.seed));
-            for(let i=symbols.length-1;i>0;i--){ const j=Math.floor(rng()*(i+1)); [symbols[i],symbols[j]]=[symbols[j],symbols[i]]; }
-          }
-          symbols = symbols.slice(0,pairs);
-          const deck = []; let id=0;
-          for(const s of symbols){ deck.push({id:id++,symbol:s}); deck.push({id:id++,symbol:s}); }
-          const rng = this.seed ? mulberry32(strHash(this.seed+"shuf")) : null;
-          for(let i=deck.length-1;i>0;i--){
-            const j = rng ? Math.floor(rng()*(i+1)) : randInt(i+1);
-            [deck[i],deck[j]]=[deck[j],deck[i]];
-          }
-          return deck;
-        }
-
-        mount(deck){
-          this.grid.innerHTML="";
-          this.cards = deck.map(card=>{
-            const el = document.createElement("button");
-            el.className="card-tile"; el.type="button"; el.role="gridcell";
-            el.dataset.symbol = card.symbol;
-            /* Removed the cheat letters (cb-mark) */
-            el.innerHTML = `<span class="face" aria-hidden="true">${card.symbol}</span>`;
-            el.addEventListener("click",()=>this.flip(el));
-            el.addEventListener("keydown",(e)=>{ if(e.key===" "||e.key==="Enter"){ e.preventDefault(); this.flip(el);} });
-            this.grid.appendChild(el);
-            return { ...card, el, matched:false };
-          });
-          this.grid.querySelector(".card-tile")?.focus({preventScroll:true});
-        }
-
-        start(){
-          if(this.running) return;
-          this.running=true;
-          this._tick = setInterval(()=>{ if(!this.paused){ this.seconds++; this.renderTimer(); }},1000);
-        }
-
-        pauseToggle(on){
-          this.paused = on ?? !this.paused;
-          $("#psPause").setAttribute("aria-pressed", String(this.paused));
-          $("#psPause").textContent = this.paused ? "▶️ Resume" : "⏸️ Pause";
-        }
-
-        stop(){
-          clearInterval(this._tick); this._tick=null; this.running=false; this.paused=false;
-        }
-
-        flip(el){
-          if(this.paused || el.classList.contains("matched") || el.classList.contains("flipped")) return;
-          if(!this.running) this.start();
-          el.classList.add("flipped"); beep("triangle", 560, 50, .02);
-          this.flipped = this.flipped || [];
-          this.flipped.push(el);
-          if(this.flipped.length===2){
-            this.checkMatch();
-          }
-        }
-
-        checkMatch(){
-          const [a,b] = this.flipped;
-          this.moves++;
-          const same = a.dataset.symbol === b.dataset.symbol;
-          if(same){
-            a.classList.add("matched"); b.classList.add("matched");
-            this.pairsFound++; this.flipped=[];
-            beep("sine",760,90,.03); buzz(12);
-            if(this.isDone()) this.finish();
-          }else{
-            beep("sawtooth",220,90,.025);
-            setTimeout(()=>{ a.classList.remove("flipped"); b.classList.remove("flipped"); this.flipped=[]; }, 650);
-          }
-        }
-
-        isDone(){ return this.pairsFound === this.cfg[this.level].pairs; }
-
-        finish(){
-          this.stop();
-          const total = this.seconds + this.penalty;
-          const kT=`mem-best-${this.level}-time`, kM=`mem-best-${this.level}-moves`;
-          const curT=+(localStorage.getItem(kT)||0), curM=+(localStorage.getItem(kM)||0);
-          if(curT===0 || total<curT) localStorage.setItem(kT,String(total));
-          if(curM===0 || this.moves<curM) localStorage.setItem(kM,String(this.moves));
-          renderHomeBests();
-          statusHome(`🎉 ${this.formatTime(total)} · ${this.moves} moves`);
-        }
-
-        hint(){
-          if(!this.running) this.start();
-          this.penalty += 5;
-          document.body.classList.add("peek");
-          this.cards.forEach(c=>c.el.classList.add("flipped"));
-          setTimeout(()=>{
-            document.body.classList.remove("peek");
-            this.cards.filter(c=>!c.el.classList.contains("matched")).forEach(c=>c.el.classList.remove("flipped"));
-          }, 1000);
-        }
-
-        share(){
-          if(!this.seed){ this.seed = Date.now().toString(36); }
-          const url = new URL(location.href);
-          url.searchParams.set("level", this.level);
-          url.searchParams.set("seed", this.seed);
-          navigator.clipboard?.writeText(url.toString());
-          statusHome("🔗 Link copied. Challenge a friend!");
-        }
-
-        formatTime(s){ return `${pad2(Math.floor(s/60))}:${pad2(s%60)}`; }
-        renderTimer(){ this.timerEl.textContent = this.formatTime(this.seconds + this.penalty); }
-
-        layout(){
-          const cfg=this.cfg[this.level], cols=cfg.cols, rows=Math.ceil((cfg.pairs*2)/cols);
-          this.grid.style.setProperty('--cols', cols);
-
-          const board = this.grid.closest(".board");
-          const bcs = getComputedStyle(board);
-          const padX = parseFloat(bcs.paddingLeft)+parseFloat(bcs.paddingRight);
-          const padY = parseFloat(bcs.paddingTop)+parseFloat(bcs.paddingBottom);
-          const availW = Math.max(160, board.clientWidth - padX);
-          const availH = Math.max(180, board.clientHeight - padY);
-
-          const gap = parseFloat(getComputedStyle(this.grid).gap) || 10;
-          const tileW = Math.floor((availW - (cols-1)*gap)/cols);
-          const tileH = Math.floor((availH - (rows-1)*gap)/rows);
-          const tile = Math.max(cfg.minTile, Math.min(tileW, tileH));
-
-          this.grid.style.setProperty('--tile', tile + 'px');
-          const boardW = cols*tile + (cols-1)*gap;
-          this.grid.style.width = Math.min(boardW, availW) + "px";
-        }
+        // Build & show
+        this.setup();
       }
 
-      // ===== Landing screen interactions =====
-      let currentLevel = localStorage.getItem("mem-level") || "easy";
-      const applyLevelButtons = ()=>{
-        $$(".difficulty-btn").forEach(b=>b.classList.toggle("active", b.dataset.level===currentLevel));
-      };
-      applyLevelButtons();
-      $$(".difficulty-btn").forEach(btn=>{
-        btn.addEventListener("click", ()=>{ currentLevel = btn.dataset.level; localStorage.setItem("mem-level", currentLevel); applyLevelButtons(); });
-      });
+      setup(){
+        this.grid.className = "grid " + this.level;
 
-      $("#shareBtn").addEventListener("click", ()=>{
-        const url = new URL(location.href);
-        url.searchParams.set("level", currentLevel);
-        navigator.clipboard?.writeText(url.toString());
-        statusHome("🔗 Link copied. Share your preferred level.");
-      });
+        const deck = this.buildDeck();
+        this.mount(deck);
 
-      $("#resetBest").addEventListener("click", ()=>{
-        ["easy","medium","hard"].forEach(l=>{
-          localStorage.removeItem(`mem-best-${l}-time`);
-          localStorage.removeItem(`mem-best-${l}-moves`);
+        // Peek
+        document.body.classList.add("peek");
+        this.cards.forEach(c=>c.el.classList.add("flipped"));
+        setTimeout(()=>{
+          document.body.classList.remove("peek");
+          this.cards.forEach(c=>c.el.classList.remove("flipped"));
+          statusHome("Go! Flip any card to start the timer.");
+        }, 1200);
+
+        requestAnimationFrame(()=>this.layout());
+        addEventListener("resize", this._onResize = ()=>this.layout(), {passive:true});
+        addEventListener("orientationchange", this._onResize);
+      }
+
+      destroy(){
+        clearInterval(this._tick); this._tick=null;
+        removeEventListener("resize", this._onResize);
+        removeEventListener("orientationchange", this._onResize);
+        this.grid.innerHTML="";
+        this.running=false; this.paused=false; this.lock=false; this._queued=null;
+      }
+
+      buildDeck(){
+        const {pairs} = this.cfg[this.level];
+        let symbols = [...this.pool];
+        if (this.seed){
+          const rng = mulberry32(strHash(this.seed));
+          for(let i=symbols.length-1;i>0;i--){ const j=Math.floor(rng()*(i+1)); [symbols[i],symbols[j]]=[symbols[j],symbols[i]]; }
+        }
+        symbols = symbols.slice(0,pairs);
+        const deck = []; let id=0;
+        for(const s of symbols){ deck.push({id:id++,symbol:s}); deck.push({id:id++,symbol:s}); }
+        const rng = this.seed ? mulberry32(strHash(this.seed+"shuf")) : null;
+        for(let i=deck.length-1;i>0;i--){
+          const j = rng ? Math.floor(rng()*(i+1)) : randInt(i+1);
+          [deck[i],deck[j]]=[deck[j],deck[i]];
+        }
+        return deck;
+      }
+
+      mount(deck){
+        this.grid.innerHTML="";
+        this.cards = deck.map(card=>{
+          const el = document.createElement("button");
+          el.className="card-tile"; el.type="button"; el.role="gridcell";
+          el.dataset.symbol = card.symbol;
+          // No letters (anti-cheat)
+          el.innerHTML = `<span class="face" aria-hidden="true">${card.symbol}</span>`;
+          el.addEventListener("click",()=>this.flip(el));
+          el.addEventListener("keydown",(e)=>{ if(e.key===" "||e.key==="Enter"){ e.preventDefault(); this.flip(el);} });
+          this.grid.appendChild(el);
+          return { ...card, el, matched:false };
         });
+        this.grid.querySelector(".card-tile")?.focus({preventScroll:true});
+      }
+
+      start(){
+        if(this.running) return;
+        this.running=true;
+        this._tick = setInterval(()=>{ if(!this.paused){ this.seconds++; this.renderTimer(); }},1000);
+      }
+
+      pauseToggle(on){
+        this.paused = on ?? !this.paused;
+        $("#psPause").setAttribute("aria-pressed", String(this.paused));
+        $("#psPause").textContent = this.paused ? "▶️ Resume" : "⏸️ Pause";
+      }
+
+      stop(){
+        clearInterval(this._tick); this._tick=null; this.running=false; this.paused=false;
+      }
+
+      flip(el){
+        // ignore invalid targets
+        if (!el || el.classList.contains("matched") || el.classList.contains("flipped")) return;
+
+        // if a mismatch is animating, queue one tap (mobile UX)
+        if (this.lock){
+          this._queued = el; // keep last intent
+          return;
+        }
+        if(this.paused) return;
+
+        if(!this.running) this.start();
+
+        el.classList.add("flipped"); beep("triangle", 560, 50, .02);
+        this.flipped = this.flipped || [];
+        this.flipped.push(el);
+
+        if(this.flipped.length===2){
+          this.checkMatch();
+        }
+      }
+
+      checkMatch(){
+        const [a,b] = this.flipped;
+        this.moves++;
+        const same = a.dataset.symbol === b.dataset.symbol;
+
+        if(same){
+          a.classList.add("matched"); b.classList.add("matched");
+          this.pairsFound++; this.flipped=[];
+          beep("sine",760,90,.03); buzz(12);
+          if(this.isDone()) this.finish();
+          // No lock on match → allow immediate third flip
+        }else{
+          // lock only during flip-back; make it snappy on phones
+          this.lock = true;
+          beep("sawtooth",220,90,.025);
+          setTimeout(()=>{
+            a.classList.remove("flipped");
+            b.classList.remove("flipped");
+            this.flipped=[];
+            this.lock = false;
+
+            // if the player tapped a third card while locked, flip it now
+            if (this._queued && !this._queued.classList.contains("matched") && !this._queued.classList.contains("flipped")){
+              const next = this._queued; this._queued = null;
+              this.flip(next);
+            } else {
+              this._queued = null;
+            }
+          }, 420); // shorter than before (650ms)
+        }
+      }
+
+      isDone(){ return this.pairsFound === this.cfg[this.level].pairs; }
+
+      finish(){
+        this.stop();
+        const total = this.seconds + this.penalty;
+        const kT=`mem-best-${this.level}-time`, kM=`mem-best-${this.level}-moves`;
+        const curT=+(localStorage.getItem(kT)||0), curM=+(localStorage.getItem(kM)||0);
+        if(curT===0 || total<curT) localStorage.setItem(kT,String(total));
+        if(curM===0 || this.moves<curM) localStorage.setItem(kM,String(this.moves));
         renderHomeBests();
-        statusHome("Best stats reset.");
-      });
-
-      const timeStr = (s)=>`${pad2(Math.floor(s/60))}:${pad2(s%60)}`;
-      function renderHomeBests(){
-        const tE = localStorage.getItem("mem-best-easy-time");
-        const tM = localStorage.getItem("mem-best-medium-time");
-        const tH = localStorage.getItem("mem-best-hard-time");
-        $("#bestEasy").textContent = tE ? timeStr(+tE) : "--:--";
-        $("#bestMed").textContent  = tM ? timeStr(+tM) : "--:--";
-        $("#bestHard").textContent = tH ? timeStr(+tH) : "--:--";
-        const bm = localStorage.getItem(`mem-best-${currentLevel}-moves`);
-        $("#bestMoves").textContent = bm || "--";
-        const streak = +(localStorage.getItem("mem-daily-streak") || 0);
-        $("#streak").textContent = String(streak);
-      }
-      function statusHome(msg){ $("#homeStatus").textContent = msg; }
-      renderHomeBests();
-
-      // ===== Full-screen window control (uses inert instead of aria-hidden) =====
-      let game = null;
-      let escHandler = null;
-      const playScreen = $("#playScreen");
-      const homeScreen = $("#homeScreen");
-
-      function setInert(el, val){
-        // Set both attribute and property for widest support
-        if (val){ el.setAttribute("inert",""); el.inert = true; }
-        else { el.removeAttribute("inert"); el.inert = false; }
+        statusHome(`🎉 ${this.formatTime(total)} · ${this.moves} moves`);
       }
 
-      function openPlayWindow(seedFromURL = (new URL(location.href)).searchParams.get("seed") || ""){
-        // Activate play screen; deactivate home
-        setInert(homeScreen, true);
-        setInert(playScreen, false);
-        playScreen.classList.add("open");
-        document.body.classList.add("lock-scroll");
-
-        // Create game instance
-        game = new MemoryMatch(currentLevel, seedFromURL);
-
-        // Reflect CB assist
-        document.body.classList.toggle("cb", JSON.parse(localStorage.getItem("mem-cb") ?? "false"));
-
-        // Wire quick controls
-        $("#psPause").onclick = ()=> game.pauseToggle();
-        $("#psHint").onclick = ()=> game.hint();
-        $("#psNew").onclick  = ()=> { game.destroy(); game = new MemoryMatch(currentLevel, ""); };
-        $("#psShare").onclick= ()=> game.share();
-
-        // Focus management (avoid focused element inside an inert ancestor later)
-        $("#psBack").focus({preventScroll:true});
-
-        // Keyboard Esc leaves
-        escHandler = (e)=>{ if(e.key==="Escape"){ closePlayWindow(true); } };
-        addEventListener("keydown", escHandler);
+      hint(){
+        if(!this.running) this.start();
+        this.penalty += 5;
+        document.body.classList.add("peek");
+        this.cards.forEach(c=>c.el.classList.add("flipped"));
+        setTimeout(()=>{
+          document.body.classList.remove("peek");
+          this.cards.filter(c=>!c.el.classList.contains("matched")).forEach(c=>c.el.classList.remove("flipped"));
+        }, 1000);
       }
 
-      function closePlayWindow(stopGame){
-        // Move focus back to home before making playScreen inert
-        $("#newGame").focus({preventScroll:true});
-
-        playScreen.classList.remove("open");
-        document.body.classList.remove("lock-scroll");
-
-        if (stopGame && game){ game.stop(); }
-        if (game){ game.destroy(); game=null; }
-
-        removeEventListener("keydown", escHandler); escHandler=null;
-
-        // Deactivate play, reactivate home (no aria-hidden; use inert)
-        setInert(playScreen, true);
-        setInert(homeScreen, false);
-
-        renderHomeBests();
+      share(){
+        if(!this.seed){ this.seed = Date.now().toString(36); }
+        const url = new URL(location.href);
+        url.searchParams.set("level", this.level);
+        url.searchParams.set("seed", this.seed);
+        navigator.clipboard?.writeText(url.toString());
+        statusHome("🔗 Link copied. Challenge a friend!");
       }
 
-      $("#newGame").addEventListener("click", ()=> openPlayWindow());
-      $("#psBack").addEventListener("click", ()=> closePlayWindow(true));
+      formatTime(s){ return `${pad2(Math.floor(s/60))}:${pad2(s%60)}`; }
+      renderTimer(){ this.timerEl.textContent = this.formatTime(this.seconds + this.penalty); }
 
-      // Support challenge links (?level=&seed=) to auto-open play
+      layout(){
+        const cfg=this.cfg[this.level], cols=cfg.cols, rows=Math.ceil((cfg.pairs*2)/cols);
+        this.grid.style.setProperty('--cols', cols);
+
+        const board = this.grid.closest(".board");
+        const bcs = getComputedStyle(board);
+        const padX = parseFloat(bcs.paddingLeft)+parseFloat(bcs.paddingRight);
+        const padY = parseFloat(bcs.paddingTop)+parseFloat(bcs.paddingBottom);
+        const availW = Math.max(160, board.clientWidth - padX);
+        const availH = Math.max(180, board.clientHeight - padY);
+
+        const gap = parseFloat(getComputedStyle(this.grid).gap) || 10;
+        const tileW = Math.floor((availW - (cols-1)*gap)/cols);
+        const tileH = Math.floor((availH - (rows-1)*gap)/rows);
+        const tile = Math.max(cfg.minTile, Math.min(tileW, tileH));
+
+        this.grid.style.setProperty('--tile', tile + 'px');
+        const boardW = cols*tile + (cols-1)*gap;
+        this.grid.style.width = Math.min(boardW, availW) + "px";
+      }
+    }
+
+    // ===== Landing screen interactions =====
+    let currentLevel = localStorage.getItem("mem-level") || "easy";
+    const applyLevelButtons = ()=>{
+      $$(".difficulty-btn").forEach(b=>b.classList.toggle("active", b.dataset.level===currentLevel));
+    };
+    applyLevelButtons();
+    $$(".difficulty-btn").forEach(btn=>{
+      btn.addEventListener("click", ()=>{ currentLevel = btn.dataset.level; localStorage.setItem("mem-level", currentLevel); applyLevelButtons(); });
+    });
+
+    $("#shareBtn").addEventListener("click", ()=>{
       const url = new URL(location.href);
-      const qLevel = url.searchParams.get("level");
-      if (qLevel && ["easy","medium","hard"].includes(qLevel)){
-        currentLevel = qLevel; applyLevelButtons();
-        openPlayWindow(url.searchParams.get("seed") || "");
-        // Clean URL (no reload) after opening
-        url.searchParams.delete("level"); url.searchParams.delete("seed");
-        history.replaceState(null,"",url.toString());
-      }
-    })();
+      url.searchParams.set("level", currentLevel);
+      navigator.clipboard?.writeText(url.toString());
+      statusHome("🔗 Link copied. Share your preferred level.");
+    });
+
+    $("#resetBest").addEventListener("click", ()=>{
+      ["easy","medium","hard"].forEach(l=>{
+        localStorage.removeItem(`mem-best-${l}-time`);
+        localStorage.removeItem(`mem-best-${l}-moves`);
+      });
+      renderHomeBests();
+      statusHome("Best stats reset.");
+    });
+
+    const timeStr = (s)=>`${pad2(Math.floor(s/60))}:${pad2(s%60)}`;
+    function renderHomeBests(){
+      const tE = localStorage.getItem("mem-best-easy-time");
+      const tM = localStorage.getItem("mem-best-medium-time");
+      const tH = localStorage.getItem("mem-best-hard-time");
+      $("#bestEasy").textContent = tE ? timeStr(+tE) : "--:--";
+      $("#bestMed").textContent  = tM ? timeStr(+tM) : "--:--";
+      $("#bestHard").textContent = tH ? timeStr(+tH) : "--:--";
+      const bm = localStorage.getItem(`mem-best-${currentLevel}-moves`);
+      $("#bestMoves").textContent = bm || "--";
+      const streak = +(localStorage.getItem("mem-daily-streak") || 0);
+      $("#streak").textContent = String(streak);
+    }
+    function statusHome(msg){ $("#homeStatus").textContent = msg; }
+    renderHomeBests();
+
+    // ===== Full-screen window control (uses inert instead of aria-hidden) =====
+    let game = null;
+    let escHandler = null;
+    const playScreen = $("#playScreen");
+    const homeScreen = $("#homeScreen");
+
+    function setInert(el, val){
+      if (val){ el.setAttribute("inert",""); el.inert = true; }
+      else { el.removeAttribute("inert"); el.inert = false; }
+    }
+
+    function openPlayWindow(seedFromURL = (new URL(location.href)).searchParams.get("seed") || ""){
+      // Activate play screen; deactivate home
+      setInert(homeScreen, true);
+      setInert(playScreen, false);
+      playScreen.classList.add("open");
+      document.body.classList.add("lock-scroll");
+
+      // Create game instance
+      game = new MemoryMatch(currentLevel, seedFromURL);
+
+      // Reflect CB assist toggle (no letters rendered, but kept for future)
+      document.body.classList.toggle("cb", JSON.parse(localStorage.getItem("mem-cb") ?? "false"));
+
+      // Wire quick controls
+      $("#psPause").onclick = ()=> game.pauseToggle();
+      $("#psHint").onclick = ()=> game.hint();
+      $("#psNew").onclick  = ()=> { game.destroy(); game = new MemoryMatch(currentLevel, ""); };
+      $("#psShare").onclick= ()=> game.share();
+
+      // Focus
+      $("#psBack").focus({preventScroll:true});
+
+      // Keyboard Esc leaves
+      escHandler = (e)=>{ if(e.key==="Escape"){ closePlayWindow(true); } };
+      addEventListener("keydown", escHandler);
+    }
+
+    function closePlayWindow(stopGame){
+      // Move focus back to home before making playScreen inert
+      $("#newGame").focus({preventScroll:true});
+
+      playScreen.classList.remove("open");
+      document.body.classList.remove("lock-scroll");
+
+      if (stopGame && game){ game.stop(); }
+      if (game){ game.destroy(); game=null; }
+
+      removeEventListener("keydown", escHandler); escHandler=null;
+
+      // Deactivate play, reactivate home
+      setInert(playScreen, true);
+      setInert(homeScreen, false);
+
+      renderHomeBests();
+    }
+
+    $("#newGame").addEventListener("click", ()=> openPlayWindow());
+    $("#psBack").addEventListener("click", ()=> closePlayWindow(true));
+
+    // Support challenge links (?level=&seed=) to auto-open play
+    const url = new URL(location.href);
+    const qLevel = url.searchParams.get("level");
+    if (qLevel && ["easy","medium","hard"].includes(qLevel)){
+      currentLevel = qLevel; applyLevelButtons();
+      openPlayWindow(url.searchParams.get("seed") || "");
+      // Clean URL (no reload) after opening
+      url.searchParams.delete("level"); url.searchParams.delete("seed");
+      history.replaceState(null,"",url.toString());
+    }
   </script>
 </body>
 </html>
