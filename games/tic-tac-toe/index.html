@@ -1,12 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617"
-     crossorigin="anonymous"></script>
+        crossorigin="anonymous"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tic Tac Toe - Free Online Game | UpTools</title>
-    <meta name="description" content="Play Tic Tac Toe online for free. Challenge the AI or play with a friend. Classic X's and O's game at UpTools.">
+    <!-- Favicon -->
+    <link rel="icon" sizes="50x50" type="image/svg+xml" href="/assets/logo/uptools-logo.svg">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/logo/uptools-logo.svg">
+    <meta name="description"
+        content="Play Tic Tac Toe online for free. Challenge the AI or play with a friend. Classic X's and O's game at UpTools.">
     <meta name="robots" content="index,follow">
     <meta name="theme-color" content="#0f1419">
     <meta property="og:title" content="Tic Tac Toe - Free Online Game | UpTools">
@@ -23,13 +28,13 @@
             --card: #1e2634;
             background: linear-gradient(135deg, var(--bg), #1a1f2e);
         }
-        
+
         .game-container {
             max-width: 500px;
             margin: 0 auto;
             text-align: center;
         }
-        
+
         .game-board {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -37,7 +42,7 @@
             margin: 2rem auto;
             max-width: 300px;
         }
-        
+
         .cell {
             aspect-ratio: 1;
             background: var(--card);
@@ -52,31 +57,38 @@
             transition: all 0.2s ease;
             color: var(--text);
         }
-        
+
         .cell:hover {
             border-color: var(--accent);
             transform: scale(1.05);
         }
-        
+
         .cell.x {
             color: #ff6b6b;
         }
-        
+
         .cell.o {
             color: #4ecdc4;
         }
-        
+
         .cell.winning {
             background: var(--accent);
             color: white;
             animation: pulse 0.6s ease-in-out;
         }
-        
+
         @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.1); }
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
         }
-        
+
         .game-info {
             display: flex;
             justify-content: space-between;
@@ -87,40 +99,40 @@
             border-radius: var(--radius);
             border: 1px solid var(--cardBorder);
         }
-        
+
         .score {
             display: flex;
             gap: 1rem;
         }
-        
+
         .score-item {
             text-align: center;
         }
-        
+
         .score-value {
             font-size: 1.5rem;
             font-weight: bold;
             color: var(--accent);
         }
-        
+
         .score-label {
             font-size: 0.8rem;
             color: var(--muted);
         }
-        
+
         .game-status {
             font-size: 1.2rem;
             font-weight: 600;
             color: var(--text);
         }
-        
+
         .controls {
             display: flex;
             gap: 1rem;
             justify-content: center;
             margin: 1rem 0;
         }
-        
+
         .btn-game {
             padding: 0.75rem 1.5rem;
             border: none;
@@ -131,20 +143,20 @@
             cursor: pointer;
             transition: all 0.2s ease;
         }
-        
+
         .btn-game:hover {
             transform: translateY(-2px);
             box-shadow: var(--shadow-hover);
         }
-        
+
         .btn-secondary {
             background: var(--cardBorder);
         }
-        
+
         .difficulty-selector {
             margin: 1rem 0;
         }
-        
+
         .difficulty-btn {
             padding: 0.5rem 1rem;
             margin: 0 0.25rem;
@@ -155,18 +167,19 @@
             cursor: pointer;
             transition: all 0.2s ease;
         }
-        
+
         .difficulty-btn.active {
             background: var(--accent);
             color: white;
             border-color: var(--accent);
         }
-        
+
         .difficulty-btn:hover {
             border-color: var(--accent);
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <div class="tool-header">
@@ -230,7 +243,7 @@
                     [0, 3, 6], [1, 4, 7], [2, 5, 8], // Columns
                     [0, 4, 8], [2, 4, 6] // Diagonals
                 ];
-                
+
                 this.initializeGame();
             }
 
@@ -277,7 +290,7 @@
 
                 this.board[index] = this.currentPlayer;
                 this.updateCell(index);
-                
+
                 if (this.checkWin()) {
                     this.endGame();
                     return;
@@ -395,7 +408,7 @@
 
             endGame(isDraw = false) {
                 this.gameActive = false;
-                
+
                 if (isDraw) {
                     document.getElementById('game-status').textContent = "It's a draw!";
                 } else {
@@ -414,12 +427,12 @@
                 this.board = Array(9).fill('');
                 this.currentPlayer = 'X';
                 this.gameActive = true;
-                
+
                 document.querySelectorAll('.cell').forEach(cell => {
                     cell.textContent = '';
                     cell.classList.remove('x', 'o', 'winning');
                 });
-                
+
                 document.getElementById('game-status').textContent = 'Your turn!';
             }
 
@@ -430,7 +443,7 @@
             }
 
             updateDisplay() {
-                document.getElementById('game-status').textContent = 
+                document.getElementById('game-status').textContent =
                     this.currentPlayer === 'X' ? 'Your turn!' : 'AI is thinking...';
             }
 
@@ -476,4 +489,5 @@
         });
     </script>
 </body>
+
 </html>

@@ -12,8 +12,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta http-equiv="x-ua-compatible" content="IE=edge" />
   <meta name="color-scheme" content="dark light" />
+  <!-- Favicon -->
+  <link rel="icon" sizes="50x50" type="image/svg+xml" href="/assets/logo/uptools-logo.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/logo/uptools-logo.svg">
 
-  <title>BMI Calculator (Metric & US) – Healthy Range, Body Fat %, WHtR, BMR/TDEE | UpTools</title>
+
+  <title>BMI Calculator (Metric & US) - Healthy Range, Body Fat %, WHtR, BMR/TDEE | UpTools</title>
   <meta name="description"
     content="Free BMI Calculator with instant results. Works for Metric (cm/kg) and US (ft/in, lb). Shows category (WHO/Asian), healthy weight range, BMI Prime, estimated body fat %, WHtR, BMR & TDEE for calorie planning. Fast, private, offline-friendly." />
   <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
@@ -21,7 +25,7 @@
   <link rel="canonical" href="https://www.uptools.in/bmi-calculator/" />
 
   <!-- Open Graph / Twitter -->
-  <meta property="og:title" content="BMI Calculator – Healthy Range, Body Fat %, WHtR, BMR/TDEE" />
+  <meta property="og:title" content="BMI Calculator - Healthy Range, Body Fat %, WHtR, BMR/TDEE" />
   <meta property="og:description"
     content="Instant BMI with WHO/Asian categories, healthy weight range, BMI Prime, body fat %, WHtR, and calorie targets (BMR/TDEE). Metric & US." />
   <meta property="og:type" content="website" />
@@ -542,7 +546,7 @@
   </script>
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
-    {"@type":"Question","name":"What is a healthy BMI?","acceptedAnswer":{"@type":"Answer","text":"Using WHO adult cut-offs: 18.5–24.9 is considered normal. For many Asian populations, 18.5–22.9 is used as the normal range."}},
+    {"@type":"Question","name":"What is a healthy BMI?","acceptedAnswer":{"@type":"Answer","text":"Using WHO adult cut-offs: 18.5-24.9 is considered normal. For many Asian populations, 18.5-22.9 is used as the normal range."}},
     {"@type":"Question","name":"Is BMI accurate?","acceptedAnswer":{"@type":"Answer","text":"BMI is a screening tool and does not distinguish fat from muscle. Waist-to-height ratio and body fat % add context."}},
     {"@type":"Question","name":"Does this work for children?","acceptedAnswer":{"@type":"Answer","text":"No. Children require age- and sex-specific percentiles, which this adult calculator does not provide."}}]}
   </script>
@@ -597,7 +601,7 @@
         <div class="ad-fallback">
           <a class="tool-link" href="/age-calculator/">
             <span class="tlogo" aria-hidden="true">AC</span>
-            <span><b>Try our Age Calculator</b> – exact age, next birthday, working days.</span>
+            <span><b>Try our Age Calculator</b> - exact age, next birthday, working days.</span>
           </a>
         </div>
         <script>(window.adsbygoogle = window.adsbygoogle || []).push({});</script>
@@ -754,7 +758,7 @@
             <h2 id="faq">FAQs</h2>
             <details>
               <summary>What are Asian BMI cut-offs?</summary>
-              <div class="note">Under &lt;18.5, Normal 18.5–22.9, Overweight 23–24.9, Obese ≥25. Choose “Asian” from the
+              <div class="note">Under &lt;18.5, Normal 18.5-22.9, Overweight 23-24.9, Obese ≥25. Choose “Asian” from the
                 Cut-offs menu.</div>
             </details>
             <details>
@@ -764,7 +768,7 @@
             </details>
             <details>
               <summary>What is WHtR?</summary>
-              <div class="note">Waist-to-height ratio (waist/height). Aim for &lt;0.5; 0.50–0.59 increased risk; ≥0.60
+              <div class="note">Waist-to-height ratio (waist/height). Aim for &lt;0.5; 0.50-0.59 increased risk; ≥0.60
                 high risk.</div>
             </details>
           </section>
@@ -811,15 +815,15 @@
 
       <div class="divider"></div>
       <h3 id="cal-head-m" style="margin:0">Calorie Planner</h3>
-      <p class="note small" id="cal-note-m">Get BMR &amp; TDEE based on Mifflin–St Jeor. Add age &amp; sex above for
+      <p class="note small" id="cal-note-m">Get BMR &amp; TDEE based on Mifflin-St Jeor. Add age &amp; sex above for
         accuracy.</p>
 
       <label class="label" for="activity">Activity level</label>
       <select id="activity" class="input">
         <option value="1.2">Sedentary (little/no exercise)</option>
-        <option value="1.375">Light (1–3 days/week)</option>
-        <option value="1.55">Moderate (3–5 days/week)</option>
-        <option value="1.725">Active (6–7 days/week)</option>
+        <option value="1.375">Light (1-3 days/week)</option>
+        <option value="1.55">Moderate (3-5 days/week)</option>
+        <option value="1.725">Active (6-7 days/week)</option>
         <option value="1.9">Very active (physical job)</option>
       </select>
 
@@ -1025,7 +1029,7 @@
       const isUS = E.unit.value === 'us';
       const lo = isUS ? (range.lo / KG_PER_LB) : range.lo;
       const hi = isUS ? (range.hi / KG_PER_LB) : range.hi;
-      setText(E.outRange, (isUS ? `${fmt1(lo)}–${fmt1(hi)} lb` : `${fmt1(range.lo)}–${fmt1(range.hi)} kg`));
+      setText(E.outRange, (isUS ? `${fmt1(lo)}-${fmt1(hi)} lb` : `${fmt1(range.lo)}-${fmt1(range.hi)} kg`));
       setText(E.outPrime, fmt1(prime));
       setText(E.outBF, bf == null ? '—' : `${fmt1(bf)}%`);
       setText(E.outWHtR, ratio == null ? '—' : `${fmt1(ratio)} (${whtrLabel(ratio)})`);

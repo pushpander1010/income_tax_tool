@@ -1,56 +1,61 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617"
-     crossorigin="anonymous"></script>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Password Generator - UpTools</title>
-    <meta name="description" content="Generate strong, secure passwords instantly." />
-    <meta name="robots" content="index,follow" />
-    <meta name="theme-color" content="#0b1020" />
-    <link rel="canonical" href="https://www.uptools.in/password-generator/" />
-    <meta property="og:title" content="Password Generator - UpTools" />
-    <meta property="og:description" content="Create secure passwords with custom options." />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://www.uptools.in/password-generator/" />
-    <meta property="og:site_name" content="UpTools" />
-    <meta name="twitter:card" content="summary" />
-    <link rel="stylesheet" href="/style.css?v=1.2.0" />
-  </head>
-  <body>
-    <main class="wrap">
-      <h1>Password Generator</h1>
-      <div class="card">
-        <label class="label">Length</label>
-        <input id="len" class="input" type="number" min="6" max="64" value="16" />
-        <label class="check"><input id="lc" type="checkbox" checked /> <span>Lowercase</span></label>
-        <label class="check"><input id="uc" type="checkbox" checked /> <span>Uppercase</span></label>
-        <label class="check"><input id="dg" type="checkbox" checked /> <span>Digits</span></label>
-        <label class="check"><input id="sc" type="checkbox" /> <span>Symbols</span></label>
-        <button id="gen" class="btn">Generate</button>
-        <div id="out" class="result" style="word-break:break-all"></div>
-      </div>
-      <footer class="note small"><a href="/">UpTools</a></footer>
-    </main>
-    <script type="module">
-      const L=document.getElementById('len'),lc=document.getElementById('lc'),uc=document.getElementById('uc'),dg=document.getElementById('dg'),sc=document.getElementById('sc'),O=document.getElementById('out');
-      function gen(){
-        const length = Math.min(64,Math.max(6, Number(L.value||16)));
-        let pool = '';
-        if(lc.checked) pool+='abcdefghijklmnopqrstuvwxyz';
-        if(uc.checked) pool+='ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-        if(dg.checked) pool+='0123456789';
-        if(sc.checked) pool+='!@#$%^&*()-_=+[]{};:,.<>?';
-        if(pool.length===0){ O.textContent='Select at least one character set'; return; }
-        const arr = new Uint32Array(length);
-        (crypto||window.msCrypto).getRandomValues(arr);
-        let pass='';
-        for(let i=0;i<length;i++){ pass += pool[arr[i]%pool.length]; }
-        O.textContent = pass;
-      }
-      document.getElementById('gen').addEventListener('click', gen);
-    </script>
-  </body>
-  </html>
 
+<head>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617"
+    crossorigin="anonymous"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Password Generator - UpTools</title>
+  <meta name="description" content="Generate strong, secure passwords instantly." />
+  <meta name="robots" content="index,follow" />
+  <meta name="theme-color" content="#0b1020" />
+  <link rel="canonical" href="https://www.uptools.in/password-generator/" />
+  <!-- Favicon -->
+  <link rel="icon" sizes="50x50" type="image/svg+xml" href="/assets/logo/uptools-logo.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/logo/uptools-logo.svg">
+  <meta property="og:title" content="Password Generator - UpTools" />
+  <meta property="og:description" content="Create secure passwords with custom options." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.uptools.in/password-generator/" />
+  <meta property="og:site_name" content="UpTools" />
+  <meta name="twitter:card" content="summary" />
+  <link rel="stylesheet" href="/style.css?v=1.2.0" />
+</head>
+
+<body>
+  <main class="wrap">
+    <h1>Password Generator</h1>
+    <div class="card">
+      <label class="label">Length</label>
+      <input id="len" class="input" type="number" min="6" max="64" value="16" />
+      <label class="check"><input id="lc" type="checkbox" checked /> <span>Lowercase</span></label>
+      <label class="check"><input id="uc" type="checkbox" checked /> <span>Uppercase</span></label>
+      <label class="check"><input id="dg" type="checkbox" checked /> <span>Digits</span></label>
+      <label class="check"><input id="sc" type="checkbox" /> <span>Symbols</span></label>
+      <button id="gen" class="btn">Generate</button>
+      <div id="out" class="result" style="word-break:break-all"></div>
+    </div>
+    <footer class="note small"><a href="/">UpTools</a></footer>
+  </main>
+  <script type="module">
+    const L = document.getElementById('len'), lc = document.getElementById('lc'), uc = document.getElementById('uc'), dg = document.getElementById('dg'), sc = document.getElementById('sc'), O = document.getElementById('out');
+    function gen() {
+      const length = Math.min(64, Math.max(6, Number(L.value || 16)));
+      let pool = '';
+      if (lc.checked) pool += 'abcdefghijklmnopqrstuvwxyz';
+      if (uc.checked) pool += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      if (dg.checked) pool += '0123456789';
+      if (sc.checked) pool += '!@#$%^&*()-_=+[]{};:,.<>?';
+      if (pool.length === 0) { O.textContent = 'Select at least one character set'; return; }
+      const arr = new Uint32Array(length);
+      (crypto || window.msCrypto).getRandomValues(arr);
+      let pass = '';
+      for (let i = 0; i < length; i++) { pass += pool[arr[i] % pool.length]; }
+      O.textContent = pass;
+    }
+    document.getElementById('gen').addEventListener('click', gen);
+  </script>
+</body>
+
+</html>
