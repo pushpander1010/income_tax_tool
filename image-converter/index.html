@@ -1,0 +1,1160 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Image Converter – Resize, Crop & Change Format (PNG/JPEG/WEBP) | UpTools</title>
+    <meta name="description"
+        content="Free online image converter: resize by pixels or percentage, crop with aspect ratios, rotate/flip, and convert to PNG, JPEG, or WEBP with quality control. Private, fast—runs in your browser." />
+    <link rel="canonical" href="https://www.uptools.in/image-converter/" />
+    <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
+    <meta name="theme-color" content="#0b0f1a" />
+
+    <!-- Open Graph / Twitter -->
+    <meta property="og:title" content="Image Converter – Resize, Crop & Change Format" />
+    <meta property="og:description"
+        content="Resize, crop, rotate/flip and convert to PNG/JPEG/WEBP—entirely in your browser." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.uptools.in/image-converter/" />
+    <meta property="og:site_name" content="UpTools" />
+    <meta property="og:image" content="/assets/og/image-converter.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Icons -->
+    <link rel="icon" href="/assets/logo/uptools-logo.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/assets/logo/uptools-logo.svg">
+
+    <!-- Shared CSS -->
+    <link rel="preload" href="/style.css?v=1.2.0" as="style">
+    <link rel="stylesheet" href="/style.css?v=1.2.0" media="print" onload="this.media='all'">
+    <noscript>
+        <link rel="stylesheet" href="/style.css?v=1.2.0">
+    </noscript>
+
+    <!-- Page-specific -->
+    <style>
+        :root {
+            --content-w: 1200px;
+            --accent: #22d3ee;
+            --accent-2: #a78bfa;
+            --stage-vh: 78dvh;
+        }
+
+        html,
+        body {
+            height: 100%
+        }
+
+        main.wrap {
+            min-height: calc(100dvh - 64px)
+        }
+
+        /* header ~64px */
+
+        .grid-3 {
+            display: grid;
+            gap: 12px;
+            grid-template-columns: 320px minmax(0, 1fr) 320px;
+            align-items: stretch;
+        }
+
+        @media (max-width:1080px) {
+            .grid-3 {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Side panels scroll so center can be tall */
+        @media (min-width:1081px) {
+
+            aside.panel[aria-label="Controls"],
+            aside.panel[aria-label="Help"] {
+                max-height: calc(100dvh - 180px);
+                overflow: auto;
+                overscroll-behavior: contain;
+            }
+        }
+
+        /* Stage gets taller */
+        .stage {
+            display: grid;
+            grid-template-rows: auto 1fr auto auto;
+            gap: 8px;
+            padding: 12px;
+            height: var(--stage-vh);
+            overflow: hidden;
+        }
+
+        .canvas-wrap {
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            box-shadow: var(--glow-soft);
+            display: grid;
+            place-items: center;
+            min-height: 360px;
+        }
+
+        #icCanvas {
+            max-width: 100%;
+            max-height: 100%;
+            display: block;
+            image-rendering: auto;
+            background: transparent
+        }
+
+        .checker {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background:
+                conic-gradient(#0000 90deg, #1b2336 0) 0 0/24px 24px,
+                conic-gradient(#0000 90deg, #101931 0) 12px 12px/24px 24px;
+            opacity: .9
+        }
+
+        .crop-guide {
+            position: absolute;
+            inset: 0;
+            pointer-events: none
+        }
+
+        /* Panels */
+        .panel {
+            background: #0b1326;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            box-shadow: var(--glow-soft)
+        }
+
+        .panel-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 12px;
+            border-bottom: 1px solid color-mix(in oklab, var(--accent) 25%, #243);
+        }
+
+        .panel-body {
+            padding: 10px
+        }
+
+        .row-wrap {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-items: center
+        }
+
+        .inline-num {
+            width: 110px
+        }
+
+        .inline-sel {
+            min-width: 160px
+        }
+
+        .hint {
+            font-size: 12px;
+            color: var(--muted)
+        }
+
+        /* Toolbar */
+        .toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-items: center;
+            position: static;
+            z-index: 1
+        }
+
+        /* Collapsibles */
+        .fold {
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: #0b1326;
+            padding: 4px 8px
+        }
+
+        .fold+.fold {
+            margin-top: 8px
+        }
+
+        .fold>summary {
+            cursor: pointer;
+            list-style: none;
+            font-weight: 700;
+            padding: 6px 2px;
+            display: flex;
+            align-items: center;
+            gap: 8px
+        }
+
+        .fold>summary::-webkit-details-marker {
+            display: none
+        }
+
+        .fold .content {
+            padding: 6px 2px 8px
+        }
+
+        /* Video */
+        .video-responsive {
+            width: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            box-shadow: var(--glow-soft)
+        }
+
+        .video-frame {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16/9
+        }
+
+        .video-frame iframe {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+            display: block
+        }
+
+        /* Badges / Utility */
+        .txt-logo {
+            display: inline-grid;
+            place-items: center;
+            font-weight: 900;
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-2));
+            color: #06121a;
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .25);
+            font-size: 12px
+        }
+
+        .sep {
+            height: 1px;
+            background: color-mix(in oklab, var(--accent) 25%, #243);
+            margin: 8px 0
+        }
+
+        .stat {
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* Working Area background (page-scoped; no common CSS changes) */
+        .canvas-wrap[data-bg="transparent"] {
+            background: transparent;
+        }
+
+        .canvas-wrap[data-bg="white"] {
+            background: #fff;
+        }
+
+        .canvas-wrap[data-bg="black"] {
+            background: #000;
+        }
+
+        .canvas-wrap[data-bg="transparent"] .checker {
+            display: block;
+        }
+
+        .canvas-wrap:not([data-bg="transparent"]) .checker {
+            display: none;
+        }
+
+        /* Undo bar inside panel */
+        #undoBar {
+            margin-top: 6px;
+            padding: 6px 2px 4px;
+            border-top: 1px solid var(--border);
+        }
+    </style>
+
+    <!-- Schema -->
+    <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"SoftwareApplication",
+    "name":"UpTools Image Converter",
+    "applicationCategory":"MultimediaApplication",
+    "operatingSystem":"Any",
+    "url":"https://www.uptools.in/image-converter/",
+    "description":"Resize, crop and convert images to PNG/JPEG/WEBP with quality control, entirely in the browser.",
+    "offers":{"@type":"Offer","price":"0","priceCurrency":"INR"}
+  }
+  </script>
+</head>
+
+<body>
+    <!-- Header -->
+    <header class="site" role="banner">
+        <div class="header-inner">
+            <a class="brand" href="/" aria-label="UpTools Home">
+                <img src="/assets/logo/uptools-logo.svg" alt="UpTools logo" width="28" height="28" loading="eager">
+                <b>UpTools</b>
+            </a>
+            <nav class="nav-links" aria-label="Primary">
+                <a href="/#tools">Tools</a>
+                <a href="/image-tool/">Image Editor</a>
+                <a aria-current="page" href="/image-converter/">Image Converter</a>
+                <a href="/emi-calculator/">EMI</a>
+                <a href="/gst-calculator/">GST</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="wrap">
+        <section class="tool-header" style="justify-content:space-between;align-items:center">
+            <div class="tool-icon">IC</div>
+            <div>
+                <h1 style="margin:0">Image Converter – Resize, Crop & Change Format</h1>
+                <p class="note" style="margin:2px 0 0">Private & fast · drag & drop, paste, or select a file</p>
+            </div>
+            <a href="/image-tool/" class="pill" title="Go to Image Tool"><span class="txt-logo">IT</span> Image Tool</a>
+        </section>
+
+        <section class="grid-3">
+            <!-- LEFT: Controls -->
+            <aside class="panel" aria-label="Controls">
+                <div class="panel-header">
+                    <strong>Controls</strong>
+                    <button id="resetAll" type="button" class="btn sm secondary">Reset</button>
+                </div>
+                <div class="panel-body">
+                    <!-- Load -->
+                    <details class="fold" open>
+                        <summary>1) Load image</summary>
+                        <div class="content">
+                            <div id="drop" class="row-wrap"
+                                style="border:1px dashed var(--border);border-radius:10px;padding:10px;justify-content:center;background:#0b1326">
+                                <span class="note">Drop image here or</span>
+                                <label for="file" class="btn sm">Choose file</label>
+                                <input id="file" type="file" accept="image/*" class="hidden">
+                                <button id="pasteBtn" type="button" class="btn sm secondary">Paste</button>
+                                <button id="sampleBtn" type="button" class="btn sm ghost">Sample</button>
+                            </div>
+                            <p class="hint">PNG, JPG, WEBP supported. EXIF is stripped on export.</p>
+                        </div>
+                    </details>
+
+                    <!-- Resize -->
+                    <details class="fold" id="fold-resize">
+                        <summary>2) Resize</summary>
+                        <div class="content">
+                            <div class="row-wrap">
+                                <label class="chip"><input id="lockAR" type="checkbox" checked> Lock aspect</label>
+                                <label class="chip"><input id="smartDown" type="checkbox" checked> Sharper
+                                    downscale</label>
+                            </div>
+                            <div class="row-wrap">
+                                <label class="label">Width (px)</label>
+                                <input id="wOut" type="number" class="input inline-num" min="1" step="1" value="1024">
+                                <label class="label">Height (px)</label>
+                                <input id="hOut" type="number" class="input inline-num" min="1" step="1" value="768">
+                            </div>
+                            <div class="row-wrap">
+                                <label class="label">Scale (%)</label>
+                                <input id="scalePct" type="range" min="10" max="200" value="100" class="range"
+                                    style="width:200px">
+                                <output id="scaleOut" class="stat">100%</output>
+                            </div>
+                            <div class="row-wrap">
+                                <span class="chip" data-preset="512x512">512x512</span>
+                                <span class="chip" data-preset="800x600">800x600</span>
+                                <span class="chip" data-preset="1024x768">1024x768</span>
+                                <span class="chip" data-preset="1920x1080">1920x1080</span>
+                            </div>
+                            <p class="hint">Outputs update live; values apply when you Export.</p>
+                        </div>
+                    </details>
+
+                    <!-- Crop -->
+                    <details class="fold" id="fold-crop">
+                        <summary>3) Crop</summary>
+                        <div class="content">
+                            <div class="row-wrap">
+                                <button id="cropToggle" type="button" class="btn sm">Enable Crop</button>
+                                <button id="cropReset" type="button" class="btn sm secondary">Reset</button>
+                                <select id="cropRatio" class="input inline-sel">
+                                    <option value="free" selected>Free</option>
+                                    <option value="1:1">1:1 Square</option>
+                                    <option value="4:3">4:3</option>
+                                    <option value="16:9">16:9</option>
+                                    <option value="9:16">9:16</option>
+                                </select>
+                            </div>
+                            <p class="hint">Drag inside to move. Drag corners/edges to resize. Aspect ratio locks when
+                                selected.</p>
+                        </div>
+                    </details>
+
+                    <!-- Format -->
+                    <details class="fold" id="fold-format">
+                        <summary>4) Format & Quality</summary>
+                        <div class="content">
+                            <div class="row-wrap">
+                                <select id="fmt" class="input inline-sel">
+                                    <option value="image/png">PNG (lossless, supports alpha)</option>
+                                    <option value="image/jpeg">JPEG (small, no alpha)</option>
+                                    <option value="image/webp">WEBP (modern, small)</option>
+                                </select>
+                                <label class="label">Quality</label>
+                                <input id="quality" type="range" min="0.1" max="1" step="0.01" value="0.92"
+                                    class="range" style="width:180px">
+                                <output id="qOut" class="stat">0.92</output>
+                            </div>
+                            <div class="row-wrap">
+                                <label class="chip"><input id="flattenBG" type="checkbox"> Flatten transparency</label>
+                                <input id="bgColor" type="color" value="#ffffff"
+                                    title="Background color for flattening">
+                                <span class="hint">JPEG always flattens. PNG/WEBP only if checked.</span>
+                            </div>
+                            <div class="row-wrap">
+                                <label class="label">Target size (KB)</label>
+                                <input id="targetKB" type="number" class="input inline-num" min="10" step="10"
+                                    placeholder="e.g., 200">
+                                <button id="compressToSize" class="btn sm secondary" type="button">Compress to
+                                    size</button>
+                            </div>
+                            <div class="row-wrap">
+                                <button id="estimateBtn" class="btn sm ghost" type="button">Estimate output
+                                    size</button>
+                                <span id="estOut" class="note stat"></span>
+                            </div>
+                        </div>
+                    </details>
+
+                    <!-- Export -->
+                    <details class="fold" id="fold-export">
+                        <summary>5) Export</summary>
+                        <div class="content">
+                            <div class="row-wrap">
+                                <button id="downloadBtn" class="btn" type="button">Download</button>
+                                <button id="copyBtn" class="btn secondary" type="button">Copy</button>
+                            </div>
+                            <p class="hint">Filename preserved when possible. Clipboard copies PNG/WEBP in supporting
+                                browsers.</p>
+                        </div>
+                    </details>
+                </div>
+            </aside>
+
+            <!-- CENTER: Stage -->
+            <section class="panel stage" aria-label="Preview">
+                <div class="toolbar" role="toolbar" aria-label="Canvas toolbar">
+                    <button id="fitBtn" class="pill" type="button">Fit</button>
+                    <button id="zoomOut" class="pill" type="button">-</button>
+                    <span id="zoomLabel" class="pill">100%</span>
+                    <button id="zoomIn" class="pill" type="button">+</button>
+                    <button id="rotL" class="pill" type="button">⟲ 90°</button>
+                    <button id="rotR" class="pill" type="button">⟳ 90°</button>
+                    <button id="flipH" class="pill" type="button">Flip H</button>
+                    <button id="flipV" class="pill" type="button">Flip V</button>
+                </div>
+
+                <div class="canvas-wrap" id="icWrap" data-bg="transparent">
+                    <div class="checker" id="checker"></div>
+                    <canvas id="icCanvas" width="1280" height="720" aria-label="Image preview canvas"></canvas>
+                    <canvas id="cropLayer" class="crop-guide" width="1280" height="720" aria-hidden="true"></canvas>
+                </div>
+
+                <div class="row-wrap" style="justify-content:space-between">
+                    <div>
+                        <span class="note">Input:</span>
+                        <span id="inMeta" class="stat">-</span>
+                        <span class="note" style="margin-left:10px">Output:</span>
+                        <span id="outMeta" class="stat">-</span>
+                    </div>
+                    <div class="row-wrap">
+                        <label class="chip"><input type="radio" name="wa" value="transparent" checked>
+                            Transparent</label>
+                        <label class="chip"><input type="radio" name="wa" value="white"> White</label>
+                        <label class="chip"><input type="radio" name="wa" value="black"> Black</label>
+                    </div>
+                </div>
+
+                <!-- Undo bar -->
+                <div id="undoBar" class="row-wrap">
+                    <button id="undoBtn" class="btn secondary" type="button">Undo</button>
+                    <span id="undoCount" class="note">0 steps</span>
+                </div>
+            </section>
+
+            <!-- RIGHT: Help / Video / Links -->
+            <aside class="panel" aria-label="Help">
+                <div class="panel-header"><strong>Tips & Help</strong></div>
+                <div class="panel-body">
+                    <p class="note">Lock aspect to keep proportions while resizing. Enable Crop to trim before export.
+                        For JPEG, pick a background color to replace transparent pixels.</p>
+                    <div class="sep"></div>
+                    <div class="video-responsive" aria-label="Tutorial video">
+                        <div class="video-frame">
+                            <!-- replace your video iframe block with this -->
+                            <div class="video-responsive" aria-label="Tutorial video">
+                                <button class="yt-proxy" data-id="e_QGePW-GBw" type="button" aria-label="Play video">
+                                    <img src="https://i.ytimg.com/vi_webp/e_QGePW-GBw/maxresdefault.webp"
+                                        alt="Resize & Convert Images tutorial thumbnail" width="560" height="315"
+                                        loading="lazy" style="width:100%;height:100%;object-fit:cover;">
+                                    <span class="play-badge">▶ Play</span>
+                                </button>
+                            </div>
+
+                            <!-- minimal, component-scoped styles -->
+                            <style>
+                                .yt-proxy {
+                                    position: relative;
+                                    display: block;
+                                    width: 100%;
+                                    aspect-ratio: 16/9;
+                                    cursor: pointer;
+                                    padding: 0;
+                                    border: 1px solid var(--border);
+                                    border-radius: 12px;
+                                    overflow: hidden;
+                                    background: #0b1326;
+                                    box-shadow: var(--glow-soft);
+                                }
+
+                                .yt-proxy img {
+                                    display: block;
+                                    width: 100%;
+                                    height: 100%;
+                                    object-fit: cover;
+                                    filter: brightness(.9)
+                                }
+
+                                .yt-proxy .play-badge {
+                                    position: absolute;
+                                    left: 12px;
+                                    bottom: 12px;
+                                    padding: 8px 12px;
+                                    border-radius: 999px;
+                                    font-weight: 900;
+                                    background: rgba(0, 0, 0, .55);
+                                    color: #fff;
+                                    border: 1px solid var(--border);
+                                    box-shadow: var(--glow-soft)
+                                }
+
+                                .yt-proxy:focus-visible {
+                                    outline: 3px solid color-mix(in oklab, var(--accent) 55%, white);
+                                    outline-offset: 2px
+                                }
+                            </style>
+
+                            <script type="module">
+                                document.querySelectorAll('.yt-proxy').forEach(btn => {
+                                    btn.addEventListener('click', () => {
+                                        const id = btn.dataset.id;
+                                        const iframe = document.createElement('iframe');
+                                        iframe.src =
+                                            `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&modestbranding=1&playsinline=1`;
+                                        iframe.loading = 'lazy';
+                                        iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
+                                        iframe.referrerPolicy = 'strict-origin-when-cross-origin';
+                                        iframe.allowFullscreen = true;
+                                        iframe.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;border:0;display:block';
+                                        // keep the same wrapper layout
+                                        const frameWrap = document.createElement('div');
+                                        frameWrap.className = 'video-frame';
+                                        frameWrap.appendChild(iframe);
+                                        btn.closest('.video-responsive').innerHTML = '';
+                                        btn.closest('.video-responsive').appendChild(frameWrap);
+                                    });
+                                });
+                            </script>
+
+                        </div>
+                    </div>
+
+                    <div class="sep"></div>
+
+                    <div class="grid">
+                        <a class="tool-link accent-indigo" href="/image-tool/" aria-label="Open Image Tool">
+                            <span class="ico"><span class="txt-logo" aria-hidden="true">IT</span></span>
+                            <div><strong>Image Tool</strong>
+                                <div class="note">Remove background, erase, color-fix</div>
+                            </div>
+                        </a>
+                        <a class="tool-link accent-teal" href="/jpg-to-png/" aria-label="JPG to PNG">
+                            <span class="ico"><span class="txt-logo" aria-hidden="true">JP</span></span>
+                            <div><strong>JPG → PNG</strong>
+                                <div class="note">Convert photos to transparent PNG</div>
+                            </div>
+                        </a>
+                        <a class="tool-link accent-violet" href="/png-to-webp/" aria-label="PNG to WEBP">
+                            <span class="ico"><span class="txt-logo" aria-hidden="true">PW</span></span>
+                            <div><strong>PNG → WEBP</strong>
+                                <div class="note">Smaller files, same quality</div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </aside>
+        </section>
+
+        <footer class="note small" style="margin-top:8px">
+            © <span id="year"></span> UpTools · <a href="/sitemap.xml">Sitemap</a>
+        </footer>
+    </main>
+
+    <!-- App -->
+    <script type="module">
+        import { $, $$, debounce, clamp } from '/scripts/utils.js';
+
+        // Year
+        $('#year').textContent = new Date().getFullYear();
+
+        // DOM
+        const canvas = document.getElementById('icCanvas');
+        const ctx = canvas.getContext('2d', { willReadFrequently: true });
+        const cropCv = document.getElementById('cropLayer');
+        const cropCtx = cropCv.getContext('2d', { willReadFrequently: true });
+        const wrap = document.getElementById('icWrap');
+        const checker = document.getElementById('checker');
+
+        // Controls
+        const fileInput = $('#file'); const pasteBtn = $('#pasteBtn'); const sampleBtn = $('#sampleBtn');
+        const wOut = $('#wOut'); const hOut = $('#hOut'); const lockAR = $('#lockAR'); const smartDown = $('#smartDown');
+        const scalePct = $('#scalePct'); const scaleOut = $('#scaleOut');
+        const presets = $$('[data-preset]');
+        const cropToggle = $('#cropToggle'); const cropReset = $('#cropReset'); const cropRatioSel = $('#cropRatio');
+        const fmtSel = $('#fmt'); const qRange = $('#quality'); const qOut = $('#qOut');
+        const flattenBG = $('#flattenBG'); const bgColor = $('#bgColor');
+        const targetKB = $('#targetKB'); const compressToSize = $('#compressToSize'); const estimateBtn = $('#estimateBtn'); const estOut = $('#estOut');
+        const downloadBtn = $('#downloadBtn'); const copyBtn = $('#copyBtn'); const resetAll = $('#resetAll');
+        const inMeta = $('#inMeta'); const outMeta = $('#outMeta');
+        const fitBtn = $('#fitBtn'); const zoomInBtn = $('#zoomIn'); const zoomOutBtn = $('#zoomOut'); const zoomLabel = $('#zoomLabel');
+        const rotL = $('#rotL'), rotR = $('#rotR'), flipH = $('#flipH'), flipV = $('#flipV');
+
+        // Undo UI
+        const undoBtn = $('#undoBtn'); const undoCount = $('#undoCount');
+
+        // Working area background radios
+        let workingArea = 'transparent';
+        wrap.dataset.bg = 'transparent';
+        $$('input[name="wa"]').forEach(r => {
+            r.addEventListener('change', () => {
+                workingArea = r.value;
+                wrap.dataset.bg = workingArea; // CSS-driven background
+                draw();
+            });
+        });
+
+        // State
+        let bmp = null;
+        let imgName = 'image';
+        let view = { scale: 1, rotation: 0, flipX: 1, flipY: 1 };
+        let crop = null;                // {x,y,w,h}
+        let cropping = false;
+        let arImg = 1;
+        let arLock = true;
+
+        const pxRatio = Math.min(devicePixelRatio || 1, 2);
+
+        // ---------- Undo Stack ----------
+        const historyStack = [];
+        const _clone = (o) => o ? JSON.parse(JSON.stringify(o)) : o;
+        function snapshotState() {
+            return {
+                view: { ...view },
+                crop: _clone(crop),
+                cropping,
+                controls: {
+                    w: +wOut.value, h: +hOut.value, scale: +scalePct.value,
+                    lock: lockAR.checked, sharp: smartDown.checked,
+                    fmt: fmtSel.value, q: +qRange.value,
+                    flat: flattenBG.checked, bg: bgColor.value,
+                    target: +targetKB.value || '',
+                    cropRatio: cropRatioSel.value,
+                    wa: workingArea
+                }
+            };
+        }
+        function applyState(s) {
+            if (!s) return;
+            view = { ...s.view };
+            crop = s.crop; cropping = s.cropping;
+            cropToggle.textContent = cropping ? 'Disable Crop' : 'Enable Crop';
+
+            wOut.value = s.controls.w; hOut.value = s.controls.h;
+            scalePct.value = s.controls.scale; scaleOut.textContent = s.controls.scale + '%';
+            lockAR.checked = s.controls.lock; smartDown.checked = s.controls.sharp;
+            fmtSel.value = s.controls.fmt; qRange.value = s.controls.q; qOut.textContent = (+qRange.value).toFixed(2);
+            flattenBG.checked = s.controls.flat; bgColor.value = s.controls.bg;
+            targetKB.value = s.controls.target; cropRatioSel.value = s.controls.cropRatio;
+
+            workingArea = s.controls.wa;
+            wrap.dataset.bg = workingArea;
+            $$('input[name="wa"]').forEach(r => r.checked = (r.value === workingArea));
+
+            zoomLabel.textContent = Math.round(view.scale * 100) + '%';
+            draw(); updateMeta();
+        }
+        function pushHistory() {
+            historyStack.push(snapshotState());
+            if (historyStack.length > 30) historyStack.shift();
+            if (undoCount) undoCount.textContent = `${historyStack.length} step${historyStack.length === 1 ? '' : 's'}`;
+        }
+        function armHistoryWatchers() {
+            const onClickCap = el => el && el.addEventListener('click', pushHistory, { capture: true });
+            const onChangeCap = el => el && el.addEventListener('change', pushHistory, { capture: true });
+
+            [rotL, rotR, flipH, flipV, fitBtn, zoomInBtn, zoomOutBtn, cropToggle, cropReset].forEach(onClickCap);
+            [wOut, hOut, scalePct, lockAR, smartDown, fmtSel, qRange, flattenBG, bgColor, targetKB, cropRatioSel].forEach(onChangeCap);
+            presets.forEach(onClickCap);
+            $$('input[name="wa"]').forEach(onChangeCap);
+
+            canvas.addEventListener('pointerdown', () => { if (cropping) pushHistory(); }, { capture: true });
+        }
+        armHistoryWatchers();
+        undoBtn?.addEventListener('click', () => {
+            const prev = historyStack.pop();
+            applyState(prev);
+            if (undoCount) undoCount.textContent = `${historyStack.length} step${historyStack.length === 1 ? '' : 's'}`;
+        });
+
+        // ---------- Utils ----------
+        function setCanvasSize() {
+            const pad = 24;
+            const w = Math.max(360, wrap.clientWidth - pad);
+            const h = Math.max(320, wrap.clientHeight - pad); // a bit more vertical room
+            canvas.width = Math.round(w * pxRatio);
+            canvas.height = Math.round(h * pxRatio);
+            cropCv.width = canvas.width; cropCv.height = canvas.height;
+            canvas.style.width = w + 'px'; canvas.style.height = h + 'px';
+            cropCv.style.width = w + 'px'; cropCv.style.height = h + 'px';
+        }
+
+        function updateMeta() {
+            if (!bmp) { inMeta.textContent = '-'; outMeta.textContent = '-'; return; }
+            const w0 = bmp.width, h0 = bmp.height;
+            const [wo, ho] = getOutputDims();
+            inMeta.textContent = `${w0}x${h0}px`;
+            outMeta.textContent = `${wo}x${ho}px`;
+        }
+
+        function toCSSFilter() { return 'none'; }
+
+        function draw() {
+            ctx.setTransform(1, 0, 0, 1, 0, 0);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            cropCtx.clearRect(0, 0, cropCv.width, cropCv.height);
+            if (!bmp) return;
+
+            const iw = bmp.width, ih = bmp.height;
+            const s = Math.min(canvas.width / iw, canvas.height / ih) * view.scale;
+            const dw = iw * s, dh = ih * s;
+            const dx = (canvas.width - dw) / 2, dy = (canvas.height - dh) / 2;
+
+            // Preview background (fill whole canvas for white/black)
+            if (workingArea !== 'transparent') {
+                ctx.fillStyle = (workingArea === 'white') ? '#fff' : '#000';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+            }
+
+            ctx.save();
+            ctx.translate(dx + dw / 2, dy + dh / 2);
+            ctx.scale(view.flipX, view.flipY);
+            ctx.rotate(view.rotation * Math.PI / 180);
+            ctx.filter = toCSSFilter();
+            ctx.drawImage(bmp, -dw / 2, -dh / 2, dw, dh);
+            ctx.restore();
+
+            if (cropping && crop) {
+                drawCropOverlay(crop, { dx, dy, dw, dh, iw, ih });
+            }
+        }
+
+        function imgToCanvas(x, y, info) {
+            const { dx, dy, dw, dh, iw, ih } = info;
+            const sx = dx + (x / iw) * dw;
+            const sy = dy + (y / ih) * dh;
+            return [sx, sy];
+        }
+        function canvasToImg(x, y, info) {
+            const { dx, dy, dw, dh, iw, ih } = info;
+            const ix = clamp((x - dx) / dw * iw, 0, iw);
+            const iy = clamp((y - dy) / dh * ih, 0, ih);
+            return [ix, iy];
+        }
+
+        function drawCropOverlay(cr, info) {
+            const [x1, y1] = imgToCanvas(cr.x, cr.y, info);
+            const [x2, y2] = imgToCanvas(cr.x + cr.w, cr.y + cr.h, info);
+            const rx = Math.min(x1, x2), ry = Math.min(y1, y2);
+            const rw = Math.abs(x2 - x1), rh = Math.abs(y2 - y1);
+
+            cropCtx.save();
+            cropCtx.fillStyle = 'rgba(0,0,0,.45)';
+            cropCtx.fillRect(0, 0, cropCv.width, cropCv.height);
+            cropCtx.clearRect(rx, ry, rw, rh);
+
+            cropCtx.strokeStyle = 'rgba(255,255,255,.9)';
+            cropCtx.lineWidth = 2;
+            cropCtx.strokeRect(rx + .5, ry + .5, rw - 1, rh - 1);
+            cropCtx.setLineDash([6, 6]);
+            cropCtx.beginPath();
+            cropCtx.moveTo(rx + rw / 3, ry); cropCtx.lineTo(rx + rw / 3, ry + rh);
+            cropCtx.moveTo(rx + 2 * rw / 3, ry); cropCtx.lineTo(rx + 2 * rw / 3, ry + rh);
+            cropCtx.moveTo(rx, ry + rh / 3); cropCtx.lineTo(rx + rw, ry + rh / 3);
+            cropCtx.moveTo(rx, ry + 2 * rh / 3); cropCtx.lineTo(rx + rw, ry + 2 * rh / 3);
+            cropCtx.stroke();
+
+            cropCtx.setLineDash([]);
+            cropCtx.fillStyle = '#22d3ee';
+            const hs = 10 * pxRatio;
+            const pts = [
+                [rx, ry], [rx + rw / 2, ry], [rx + rw, ry],
+                [rx, ry + rh / 2], [rx + rw, ry + rh / 2],
+                [rx, ry + rh], [rx + rw / 2, ry + rh], [rx + rw, ry + rh]
+            ];
+            for (const [hx, hy] of pts) { cropCtx.fillRect(hx - hs / 2, hy - hs / 2, hs, hs); }
+            cropCtx.restore();
+        }
+
+        // ---------- Load ----------
+        async function loadFile(file) {
+            if (!file) return;
+            imgName = (file.name || 'image').replace(/\.[^.]+$/, '') || 'image';
+            const url = URL.createObjectURL(file);
+            const bitmap = await createImageBitmap(await (await fetch(url)).blob());
+            URL.revokeObjectURL(url);
+            bmp = bitmap; arImg = bmp.width / bmp.height;
+            if (lockAR.checked) arLock = true;
+            wOut.value = bmp.width; hOut.value = bmp.height; scalePct.value = 100; scaleOut.textContent = '100%';
+            crop = null; cropping = false; cropToggle.textContent = 'Enable Crop';
+            view = { scale: 1, rotation: 0, flipX: 1, flipY: 1 };
+            setCanvasSize(); draw(); updateMeta();
+
+            historyStack.length = 0; pushHistory();
+        }
+
+        // Drag & drop / paste / sample
+        const drop = $('#drop');
+        drop.addEventListener('dragover', e => { e.preventDefault(); drop.classList.add('neon'); });
+        drop.addEventListener('dragleave', () => drop.classList.remove('neon'));
+        drop.addEventListener('drop', e => { e.preventDefault(); drop.classList.remove('neon'); const f = e.dataTransfer.files?.[0]; if (f) loadFile(f); });
+        fileInput.addEventListener('change', e => loadFile(e.target.files?.[0]));
+        pasteBtn.addEventListener('click', async () => {
+            try {
+                const items = await navigator.clipboard.read();
+                for (const it of items) {
+                    const t = it.types.find(x => x.startsWith('image/'));
+                    if (t) { const blob = await it.getType(t); return loadFile(new File([blob], 'pasted.png', { type: t })); }
+                }
+                alert('No image in clipboard.');
+            } catch { alert('Clipboard access denied.'); }
+        });
+        sampleBtn.addEventListener('click', () => {
+            const img = new Image();
+            img.onload = async () => { bmp = await createImageBitmap(img); arImg = bmp.width / bmp.height; wOut.value = bmp.width; hOut.value = bmp.height; setCanvasSize(); draw(); updateMeta(); historyStack.length = 0; pushHistory(); };
+            img.src = '/assets/ui/sample-portrait-1024.jpg';
+        });
+
+        // ---------- Resize ----------
+        function getOutputDims() {
+            let W = Math.max(1, Math.round(+wOut.value || 1));
+            let H = Math.max(1, Math.round(+hOut.value || 1));
+            return [W, H];
+        }
+        function setOutputFromScale(pct) {
+            if (!bmp) return;
+            const s = clamp(pct, 1, 200) / 100;
+            const W = Math.max(1, Math.round(bmp.width * s));
+            const H = Math.max(1, Math.round(bmp.height * s));
+            wOut.value = W; hOut.value = H; scaleOut.textContent = Math.round(s * 100) + '%';
+            updateMeta();
+        }
+        scalePct.addEventListener('input', e => setOutputFromScale(+e.target.value));
+        function syncHeightFromWidth() {
+            if (!bmp || !lockAR.checked) return updateMeta();
+            const ratio = (crop ? crop.w / crop.h : bmp.width / bmp.height);
+            hOut.value = Math.max(1, Math.round(+wOut.value / ratio));
+            updateMeta();
+        }
+        function syncWidthFromHeight() {
+            if (!bmp || !lockAR.checked) return updateMeta();
+            const ratio = (crop ? crop.w / crop.h : bmp.width / bmp.height);
+            wOut.value = Math.max(1, Math.round(+hOut.value * ratio));
+            updateMeta();
+        }
+        wOut.addEventListener('input', syncHeightFromWidth);
+        hOut.addEventListener('input', syncWidthFromHeight);
+        lockAR.addEventListener('change', () => { arLock = lockAR.checked; syncHeightFromWidth(); });
+        presets.forEach(p => p.addEventListener('click', () => {
+            const [W, H] = p.dataset.preset.split('x').map(n => +n);
+            wOut.value = W; hOut.value = H; scaleOut.textContent = '-'; updateMeta();
+        }));
+
+        // ---------- Zoom / Transform ----------
+        function setZoom(z) {
+            view.scale = clamp(z, 0.1, 6);
+            zoomLabel.textContent = Math.round(view.scale * 100) + '%';
+            draw();
+        }
+        fitBtn.addEventListener('click', () => setZoom(1));
+        zoomInBtn.addEventListener('click', () => setZoom(view.scale * 1.1));
+        zoomOutBtn.addEventListener('click', () => setZoom(view.scale / 1.1));
+        rotL.addEventListener('click', () => { view.rotation = (view.rotation - 90) % 360; draw(); });
+        rotR.addEventListener('click', () => { view.rotation = (view.rotation + 90) % 360; draw(); });
+        flipH.addEventListener('click', () => { view.flipX *= -1; draw(); });
+        flipV.addEventListener('click', () => { view.flipY *= -1; draw(); });
+
+        // ---------- Crop ----------
+        function infoForDraw() {
+            const iw = bmp.width, ih = bmp.height;
+            const s = Math.min(canvas.width / iw, canvas.height / ih) * view.scale;
+            const dw = iw * s, dh = ih * s;
+            const dx = (canvas.width - dw) / 2, dy = (canvas.height - dh) / 2;
+            return { dx, dy, dw, dh, iw, ih };
+        }
+        function imgToFromCanvas() {
+            const info = infoForDraw();
+            return {
+                toCanvas: (x, y) => imgToCanvas(x, y, info),
+                toImg: (x, y) => canvasToImg(x, y, info)
+            };
+        }
+        function initCrop() {
+            if (!bmp) { alert('Load an image first.'); return; }
+            if (!crop) crop = { x: Math.round(bmp.width * 0.1), y: Math.round(bmp.height * 0.1), w: Math.round(bmp.width * 0.8), h: Math.round(bmp.height * 0.8) };
+            cropping = true; cropToggle.textContent = 'Disable Crop';
+            draw();
+        }
+        function endCrop() { cropping = false; cropToggle.textContent = 'Enable Crop'; cropCtx.clearRect(0, 0, cropCv.width, cropCv.height); }
+        cropToggle.addEventListener('click', () => cropping ? endCrop() : initCrop());
+        cropReset.addEventListener('click', () => { if (!bmp) return; crop = null; draw(); });
+        cropRatioSel.addEventListener('change', () => { if (!crop) return; applyCropAspect(cropRatioSel.value); draw(); updateMeta(); });
+
+        function applyCropAspect(val) {
+            if (!bmp || !crop) return;
+            if (val === 'free') return;
+            const [a, b] = val.split(':').map(Number);
+            const target = a / b;
+            let cx = crop.x + crop.w / 2, cy = crop.y + crop.h / 2;
+            let w = crop.w, h = crop.h;
+            if (w / h > target) { w = Math.round(h * target); }
+            else { h = Math.round(w / target); }
+            crop.x = clamp(Math.round(cx - w / 2), 0, bmp.width - w);
+            crop.y = clamp(Math.round(cy - h / 2), 0, bmp.height - h);
+            crop.w = w; crop.h = h;
+        }
+
+        // Crop interactions
+        let drag = null;
+        function hitHandle(mx, my, cr, info) {
+            const [x1, y1] = imgToCanvas(cr.x, cr.y, info);
+            const [x2, y2] = imgToCanvas(cr.x + cr.w, cr.y + cr.h, info);
+            const rx = Math.min(x1, x2), ry = Math.min(y1, y2);
+            const rw = Math.abs(x2 - x1), rh = Math.abs(y2 - y1);
+            const hs = 12 * pxRatio;
+            const handles = {
+                nw: [rx, ry], n: [rx + rw / 2, ry], ne: [rx + rw, ry],
+                w: [rx, ry + rh / 2], e: [rx + rw, ry + rh / 2],
+                sw: [rx, ry + rh], s: [rx + rw / 2, ry + rh], se: [rx + rw, ry + rh]
+            };
+            for (const k in handles) {
+                const [hx, hy] = handles[k];
+                if (Math.abs(mx - hx) <= hs && Math.abs(my - hy) <= hs) return k;
+            }
+            if (mx >= rx && mx <= rx + rw && my >= ry && my <= ry + rh) return 'move';
+            return null;
+        }
+        function pointerToImg(e, info) {
+            const rect = canvas.getBoundingClientRect();
+            const x = (e.clientX - rect.left) * (canvas.width / rect.width);
+            const y = (e.clientY - rect.top) * (canvas.height / rect.height);
+            return canvasToImg(x, y, info);
+        }
+
+        canvas.addEventListener('pointerdown', e => {
+            if (!cropping || !bmp) return;
+            const info = infoForDraw();
+            if (!crop) { crop = { x: 0, y: 0, w: bmp.width, h: bmp.height }; }
+            const mode = hitHandle((e.clientX - canvas.getBoundingClientRect().left) * (canvas.width / canvas.getBoundingClientRect().width), (e.clientY - canvas.getBoundingClientRect().top) * (canvas.height / canvas.getBoundingClientRect().height), crop, info);
+            const [ix, iy] = pointerToImg(e, info);
+            drag = { mode: mode || 'new', startX: ix, startY: iy, startCrop: { ...crop } };
+            if (drag.mode === 'new') { crop = { x: ix, y: iy, w: 1, h: 1 }; }
+            canvas.setPointerCapture(e.pointerId);
+        });
+        canvas.addEventListener('pointermove', e => {
+            if (!cropping || !drag || !bmp) return;
+            const info = infoForDraw();
+            const [ix, iy] = pointerToImg(e, info);
+            const dx = Math.round(ix - drag.startX), dy = Math.round(iy - drag.startY);
+            let c = { ...drag.startCrop };
+
+            const applyAR = (w, h) => {
+                const val = cropRatioSel.value;
+                if (val === 'free') return [w, h];
+                const [a, b] = val.split(':').map(Number); const r = a / b;
+                if (Math.abs(w / h - r) < 0.01) return [w, h];
+                if (Math.abs(dx) > Math.abs(dy)) h = Math.round(w / r); else w = Math.round(h * r);
+                return [w, h];
+            };
+
+            switch (drag.mode) {
+                case 'move':
+                    c.x = clamp(c.x + dx, 0, bmp.width - c.w);
+                    c.y = clamp(c.y + dy, 0, bmp.height - c.h);
+                    break;
+                case 'new':
+                case 'se': { let w = Math.abs(dx), h = Math.abs(dy);[w, h] = applyAR(w, h); c.w = Math.max(1, w); c.h = Math.max(1, h); c.x = Math.min(drag.startX, drag.startX + Math.sign(dx) * c.w); c.y = Math.min(drag.startY, drag.startY + Math.sign(dy) * c.h); } break;
+                case 'nw': { const nx = Math.max(0, Math.min(drag.startCrop.x + drag.startCrop.w - 1, drag.startCrop.x + dx)); const ny = Math.max(0, Math.min(drag.startCrop.y + drag.startCrop.h - 1, drag.startCrop.y + dy)); let w = drag.startCrop.x + drag.startCrop.w - nx; let h = drag.startCrop.y + drag.startCrop.h - ny;[w, h] = applyAR(w, h); c.x = nx; c.y = ny; c.w = w; c.h = h; } break;
+                case 'ne': { const nx = drag.startCrop.x; const ny = Math.max(0, Math.min(drag.startCrop.y + drag.startCrop.h - 1, drag.startCrop.y + dy)); let w = Math.max(1, Math.round((drag.startCrop.x + drag.startCrop.w) - nx + dx)); let h = drag.startCrop.y + drag.startCrop.h - ny;[w, h] = applyAR(w, h); c.x = nx; c.y = ny; c.w = w; c.h = h; } break;
+                case 'sw': { const nx = Math.max(0, Math.min(drag.startCrop.x + drag.startCrop.w - 1, drag.startCrop.x + dx)); const ny = drag.startCrop.y; let w = drag.startCrop.x + drag.startCrop.w - nx; let h = Math.max(1, Math.round((drag.startCrop.y + drag.startCrop.h) - ny + dy));[w, h] = applyAR(w, h); c.x = nx; c.y = ny; c.w = w; c.h = h; } break;
+                case 's': { let h = Math.max(1, drag.startCrop.h + dy); let w = drag.startCrop.w;[w, h] = applyAR(w, h); c.h = h; c.w = w; } break;
+                case 'n': { let h = Math.max(1, drag.startCrop.h - dy); let w = drag.startCrop.w;[w, h] = applyAR(w, h); c.y = drag.startCrop.y + (drag.startCrop.h - h); c.h = h; c.w = w; } break;
+                case 'e': { let w = Math.max(1, drag.startCrop.w + dx); let h = drag.startCrop.h;[w, h] = applyAR(w, h); c.w = w; c.h = h; } break;
+                case 'w': { let w = Math.max(1, drag.startCrop.w - dx); let h = drag.startCrop.h;[w, h] = applyAR(w, h); c.x = drag.startCrop.x + (drag.startCrop.w - w); c.w = w; c.h = h; } break;
+            }
+            c.x = clamp(c.x, 0, bmp.width - 1); c.y = clamp(c.y, 0, bmp.height - 1);
+            c.w = clamp(c.w, 1, bmp.width - c.x); c.h = clamp(c.h, 1, bmp.height - c.y);
+            crop = c;
+            draw(); updateMeta();
+        });
+        const stopDrag = e => { if (drag) { canvas.releasePointerCapture?.(e.pointerId); drag = null; } };
+        canvas.addEventListener('pointerup', stopDrag);
+        canvas.addEventListener('pointercancel', stopDrag);
+
+        // ---------- Export ----------
+        function makeOutputCanvas() {
+            if (!bmp) return null;
+            // Source rect
+            const sx = crop ? crop.x : 0, sy = crop ? crop.y : 0;
+            const sw = crop ? crop.w : bmp.width, sh = crop ? crop.h : bmp.height;
+
+            // Output dims
+            let [W, H] = getOutputDims();
+            if (W <= 0 || H <= 0) { W = sw; H = sh; }
+
+            // Offscreen
+            const out = document.createElement('canvas');
+            out.width = W; out.height = H;
+            const octx = out.getContext('2d');
+
+            // Optional background flatten (or JPEG forced)
+            const mime = fmtSel.value;
+            const needBG = (mime === 'image/jpeg') || (flattenBG.checked && (workingArea !== 'transparent'));
+            if (needBG) {
+                octx.fillStyle = (workingArea === 'transparent') ? bgColor.value : (workingArea === 'white' ? '#fff' : '#000');
+                octx.fillRect(0, 0, W, H);
+            }
+
+            // High quality resize (step-down if enabled)
+            const drawScaled = () => {
+                octx.save();
+                octx.translate(W / 2, H / 2);
+                const rad = (view.rotation % 360) * Math.PI / 180;
+                octx.scale(view.flipX, view.flipY);
+                octx.rotate(rad);
+                octx.filter = 'none';
+                octx.drawImage(bmp, sx, sy, sw, sh, -W / 2, -H / 2, W, H);
+                octx.restore();
+            };
+
+            if (smartDown.checked && (sw > W * 1.8 || sh > H * 1.8)) {
+                // downscale in steps to reduce aliasing
+                let cur = document.createElement('canvas');
+                cur.width = sw; cur.height = sh;
+                cur.getContext('2d').drawImage(bmp, sx, sy, sw, sh, 0, 0, sw, sh);
+                let tw = sw, th = sh;
+                while (tw * 0.5 > W && th * 0.5 > H) {
+                    const t = document.createElement('canvas');
+                    t.width = Math.max(W, Math.round(tw * 0.5));
+                    t.height = Math.max(H, Math.round(th * 0.5));
+                    t.getContext('2d').drawImage(cur, 0, 0, tw, th, 0, 0, t.width, t.height);
+                    cur = t; tw = t.width; th = t.height;
+                }
+                octx.drawImage(cur, 0, 0, tw, th, 0, 0, W, H);
+            } else {
+                drawScaled();
+            }
+            return out;
+        }
+
+        function downloadBlob(blob, filename) {
+            const a = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            a.href = url; a.download = filename; a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function exportOnce(mime, quality) {
+            const out = makeOutputCanvas(); if (!out) return;
+            out.toBlob((blob) => {
+                if (!blob) return;
+                const ext = mime.includes('png') ? 'png' : mime.includes('webp') ? 'webp' : 'jpg';
+                downloadBlob(blob, `${imgName}.${ext}`);
+            }, mime, quality);
+        }
+        downloadBtn.addEventListener('click', () => exportOnce(fmtSel.value, parseFloat(qRange.value)));
+        copyBtn.addEventListener('click', () => {
+            const out = makeOutputCanvas(); if (!out) return;
+            out.toBlob(async (blob) => {
+                try {
+                    await navigator.clipboard.write([new ClipboardItem({ [blob.type]: blob })]);
+                    alert('Copied to clipboard.');
+                } catch { alert('Clipboard not permitted.'); }
+            }, 'image/png', 1);
+        });
+        estimateBtn.addEventListener('click', () => {
+            const out = makeOutputCanvas(); if (!out) return;
+            out.toBlob((blob) => { if (!blob) return; estOut.textContent = `~ ${Math.round(blob.size / 1024)} KB`; }, fmtSel.value, parseFloat(qRange.value));
+        });
+        compressToSize.addEventListener('click', () => {
+            const target = Math.max(10, +targetKB.value || 0) * 1024;
+            const mime = fmtSel.value;
+            if (!/image\/(jpeg|webp)/.test(mime)) { alert('Target size works best with JPEG/WEBP.'); return; }
+            const out = makeOutputCanvas(); if (!out) return;
+            let lo = 0.1, hi = 1.0, bestBlob = null, tries = 0;
+            const step = () => {
+                if (tries++ > 7) { if (bestBlob) downloadBlob(bestBlob, `${imgName}.${mime.includes('webp') ? 'webp' : 'jpg'}`); return; }
+                const q = (lo + hi) / 2;
+                out.toBlob(blob => {
+                    if (!blob) { hi = q; return step(); }
+                    if (!bestBlob || Math.abs(blob.size - target) < Math.abs((bestBlob.size || 0) - target)) { bestBlob = blob; }
+                    if (blob.size > target) hi = q; else lo = q;
+                    if (Math.abs(blob.size - target) / target < 0.05) { downloadBlob(blob, `${imgName}.${mime.includes('webp') ? 'webp' : 'jpg'}`); }
+                    else step();
+                }, mime, q);
+            };
+            step();
+        });
+
+        // ---------- Working area, Reset ----------
+        resetAll.addEventListener('click', () => {
+            bmp = null; crop = null; cropping = false; cropToggle.textContent = 'Enable Crop';
+            view = { scale: 1, rotation: 0, flipX: 1, flipY: 1 };
+            scalePct.value = 100; scaleOut.textContent = '100%';
+            wOut.value = 1024; hOut.value = 768; lockAR.checked = true; arLock = true;
+            fmtSel.value = 'image/png'; qRange.value = 0.92; qOut.textContent = '0.92';
+            flattenBG.checked = false; bgColor.value = '#ffffff';
+            workingArea = 'transparent'; wrap.dataset.bg = 'transparent'; $$('input[name="wa"]').forEach(r => r.checked = r.value === 'transparent');
+            inMeta.textContent = '-'; outMeta.textContent = '-';
+            ctx.clearRect(0, 0, canvas.width, canvas.height); cropCtx.clearRect(0, 0, cropCv.width, cropCv.height);
+            historyStack.length = 0; if (undoCount) undoCount.textContent = '0 steps';
+        });
+
+        // Resize + initial
+        window.addEventListener('resize', () => { setCanvasSize(); draw(); });
+        setCanvasSize(); draw();
+
+        // Keep sections collapsed by default
+        $('#fold-resize').open = false;
+        $('#fold-crop').open = false;
+        $('#fold-format').open = false;
+        $('#fold-export').open = false;
+    </script>
+</body>
+
+</html>
