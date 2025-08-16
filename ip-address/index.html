@@ -10,7 +10,7 @@
   <meta http-equiv="x-ua-compatible" content="IE=edge" />
   <meta name="color-scheme" content="dark light" />
 
-  <title>Your IP Address (IPv4/IPv6), ISP, Country, DNS Speed Test & IP Monitor – UpTools</title>
+  <title>Your IP Address (IPv4/IPv6), ISP, Country, DNS Speed Test & IP Monitor - UpTools</title>
   <meta name="description" content="See your public IP (IPv4/IPv6) instantly, with ISP/ASN, city/country, reverse DNS and user agent. Run DNS speed tests (Cloudflare vs Google), view a map, detect possible VPN/hosting, generate a shareable link, export JSON, and monitor for IP changes with alerts. Privacy-first." />
   <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
   <meta name="theme-color" content="#0b1020" />
@@ -20,7 +20,7 @@
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/logo/uptools-logo.svg">
 
   <!-- Open Graph / Twitter -->
-  <meta property="og:title" content="Your IP Address, ISP, DNS Speed Test & IP Monitor – UpTools" />
+  <meta property="og:title" content="Your IP Address, ISP, DNS Speed Test & IP Monitor - UpTools" />
   <meta property="og:description" content="Instant IPv4/IPv6, ISP/ASN, reverse DNS, map, DNS speed test (DoH), VPN/hosting hint, export & live change monitor." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.uptools.in/ip-address/" />
@@ -65,7 +65,7 @@
   {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
     {"@type":"Question","name":"How do I find my public IP?","acceptedAnswer":{"@type":"Answer","text":"Open this page. It queries multiple endpoints over HTTPS and shows your public IPv4/IPv6. If one endpoint is blocked, others are used as fallback."}},
     {"@type":"Question","name":"Can I check DNS speed?","acceptedAnswer":{"@type":"Answer","text":"Yes. Run the built-in DNS speed test (DoH) to compare resolvers like Cloudflare and Google from your connection."}},
-    {"@type":"Question","name":"Will you store my IP?","acceptedAnswer":{"@type":"Answer","text":"No. Everything runs client-side in your browser. We don’t log your IP on a server."}}
+    {"@type":"Question","name":"Will you store my IP?","acceptedAnswer":{"@type":"Answer","text":"No. Everything runs client-side in your browser. We don't log your IP on a server."}}
   ]}
   </script>
   <script type="application/ld+json">
@@ -107,8 +107,8 @@
         <h1 id="title">Your IP Address</h1>
         <p class="note">Instant IPv4/IPv6 with ISP, reverse DNS, map & DNS speed test. Monitor for IP changes and share a snapshot.</p>
         <div class="chips" style="margin-top:6px">
-          <span class="pill" id="ipv6Badge">IPv6: —</span>
-          <span class="pill" id="vpnHint">VPN/Hosting: —</span>
+          <span class="pill" id="ipv6Badge">IPv6: -</span>
+          <span class="pill" id="vpnHint">VPN/Hosting: -</span>
         </div>
       </div>
     </section>
@@ -128,12 +128,12 @@
         <div class="result">
           <h2 style="margin:0 0 6px">Current Connection</h2>
           <div class="kv mono"><span>Public IP (active)</span><span id="ip" class="amount">Loading…</span></div>
-          <div class="kv mono"><span>IPv4</span><span id="ipv4">—</span></div>
-          <div class="kv mono"><span>IPv6</span><span id="ipv6">—</span></div>
-          <div class="kv mono"><span>Version</span><span id="ver">—</span></div>
-          <div class="kv mono"><span>Reverse DNS</span><span id="rdns">—</span></div>
-          <div class="kv mono"><span>Location</span><span id="loc">—</span></div>
-          <div class="kv mono"><span>ISP / ASN</span><span id="asn">—</span></div>
+          <div class="kv mono"><span>IPv4</span><span id="ipv4">-</span></div>
+          <div class="kv mono"><span>IPv6</span><span id="ipv6">-</span></div>
+          <div class="kv mono"><span>Version</span><span id="ver">-</span></div>
+          <div class="kv mono"><span>Reverse DNS</span><span id="rdns">-</span></div>
+          <div class="kv mono"><span>Location</span><span id="loc">-</span></div>
+          <div class="kv mono"><span>ISP / ASN</span><span id="asn">-</span></div>
           <div class="kv mono"><span>User Agent</span><span id="ua" title="navigator.userAgent"></span></div>
           <div class="divider" style="margin:10px 0"></div>
           <div class="row" style="gap:8px;flex-wrap:wrap;border:0;padding:0">
@@ -170,9 +170,9 @@
         <div class="result">
           <h3 style="margin-top:0">DNS Speed Test (DoH)</h3>
           <p class="note small">Measures resolver latency using DNS-over-HTTPS from your network.</p>
-          <div class="kv mono"><span>Cloudflare (1.1.1.1)</span><span id="tCf">—</span></div>
-          <div class="kv mono"><span>Google (8.8.8.8)</span><span id="tG">—</span></div>
-          <div class="kv mono"><span>Fastest</span><span id="tBest">—</span></div>
+          <div class="kv mono"><span>Cloudflare (1.1.1.1)</span><span id="tCf">-</span></div>
+          <div class="kv mono"><span>Google (8.8.8.8)</span><span id="tG">-</span></div>
+          <div class="kv mono"><span>Fastest</span><span id="tBest">-</span></div>
           <div class="row" style="gap:8px;flex-wrap:wrap;border:0;padding:0">
             <button id="dnsTestBtn" class="btn">Run DNS Test</button>
           </div>
@@ -182,7 +182,7 @@
           <h3 style="margin-top:0">IP Change Monitor</h3>
           <p class="note small">Watches your public IP; alerts if it changes (e.g., VPN/reconnect).</p>
           <div class="kv mono"><span>Status</span><span id="monStatus">Stopped</span></div>
-          <div class="kv mono"><span>Last change</span><span id="monLast">—</span></div>
+          <div class="kv mono"><span>Last change</span><span id="monLast">-</span></div>
           <div class="row" style="gap:8px;flex-wrap:wrap;border:0;padding:0">
             <button id="monToggle" class="btn">Start Monitoring</button>
             <button id="monClear" class="btn secondary">Clear Log</button>
@@ -242,7 +242,7 @@
       monToggle: $('#monToggle'), monClear: $('#monClear'),
       monStatus: $('#monStatus'), monLast: $('#monLast'), monLog: $('#monLog')
     };
-    els.ua.textContent = navigator.userAgent || '—';
+    els.ua.textContent = navigator.userAgent || '-';
 
     // Helpers
     const isIPv6 = ip => typeof ip === 'string' && ip.includes(':');
@@ -272,13 +272,13 @@
         if (!r.ok) throw 0;
         const j = await r.json();
         return {
-          reverse: j.reverse || '—',
+          reverse: j.reverse || '-',
           city: j.city || '', region: j.region || '', country: j.country || '',
           lat: j.latitude, lon: j.longitude,
           org: j.connection?.org || '', isp: j.connection?.isp || '', asn: j.connection?.asn || ''
         };
       } catch {
-        return { reverse:'—', city:'', region:'', country:'', lat:null, lon:null, org:'', isp:'', asn:'' };
+        return { reverse:'-', city:'', region:'', country:'', lat:null, lon:null, org:'', isp:'', asn:'' };
       }
     }
 
@@ -312,8 +312,8 @@
       const qs = new URLSearchParams(location.search);
       const snapIP = qs.get('ip');
 
-      setText(els.ip, 'Loading…'); setText(els.ipv4, '—'); setText(els.ipv6, '—'); setText(els.ver, '—');
-      setText(els.rdns, '—'); setText(els.loc, '—'); setText(els.asn, '—');
+      setText(els.ip, 'Loading…'); setText(els.ipv4, '-'); setText(els.ipv6, '-'); setText(els.ver, '-');
+      setText(els.rdns, '-'); setText(els.loc, '-'); setText(els.asn, '-');
 
       let ipInfo = { active:'', v4:null, v6:null };
       try {
@@ -325,16 +325,16 @@
         }
         setText(els.ip, ipInfo.active);
         setText(els.ver, isIPv6(ipInfo.active) ? 'IPv6' : 'IPv4');
-        setText(els.ipv4, ipInfo.v4 || '—');
-        setText(els.ipv6, ipInfo.v6 || '—');
+        setText(els.ipv4, ipInfo.v4 || '-');
+        setText(els.ipv6, ipInfo.v6 || '-');
         linkouts(ipInfo.active);
 
         const det = await getDetails(ipInfo.active);
         setText(els.rdns, det.reverse);
-        const locStr = [det.city, det.region, det.country].filter(Boolean).join(', ') || '—';
+        const locStr = [det.city, det.region, det.country].filter(Boolean).join(', ') || '-';
         setText(els.loc, locStr);
         const asLine = (det.org ? det.org + ' ' : '') + (det.asn ? `(AS${det.asn})` : (det.isp ? det.isp : ''));
-        setText(els.asn, asLine || '—');
+        setText(els.asn, asLine || '-');
         updateMap(det.lat, det.lon);
         updateBadges({ v6: !!ipInfo.v6, org: det.org, isp: det.isp });
       } catch {
@@ -367,7 +367,7 @@
       return performance.now() - t0;
     }
     async function runDnsTest(){
-      setText(els.tCf, 'Testing…'); setText(els.tG, 'Testing…'); setText(els.tBest, '—');
+      setText(els.tCf, 'Testing…'); setText(els.tG, 'Testing…'); setText(els.tBest, '-');
       try {
         const [cf, gg] = await Promise.allSettled([
           dnsLatency('https://cloudflare-dns.com/dns-query?name=example.com&type=A'),
@@ -375,15 +375,15 @@
         ]);
         const cfMs = cf.status === 'fulfilled' ? Math.round(cf.value) : null;
         const gMs = gg.status === 'fulfilled' ? Math.round(gg.value) : null;
-        setText(els.tCf, cfMs ? `${cfMs} ms` : '—');
-        setText(els.tG, gMs ? `${gMs} ms` : '—');
-        let best = '—';
+        setText(els.tCf, cfMs ? `${cfMs} ms` : '-');
+        setText(els.tG, gMs ? `${gMs} ms` : '-');
+        let best = '-';
         if (cfMs && gMs) best = cfMs < gMs ? `Cloudflare by ${gMs-cfMs} ms` : (gMs < cfMs ? `Google by ${cfMs-gMs} ms` : 'Tie');
         else if (cfMs) best = 'Cloudflare';
         else if (gMs) best = 'Google';
         setText(els.tBest, best);
       } catch {
-        setText(els.tCf, '—'); setText(els.tG, '—'); setText(els.tBest, 'Test failed');
+        setText(els.tCf, '-'); setText(els.tG, '-'); setText(els.tBest, 'Test failed');
       }
     }
 
@@ -437,7 +437,7 @@
     els.share.addEventListener('click', async ()=>{
       const txt = `My public IP is ${els.ip.textContent.trim()}`;
       if (navigator.share){ try { await navigator.share({ title:'My IP (UpTools)', text:txt, url: location.href }); } catch{} }
-      else { const ok = await copy(`${txt} — ${location.href}`); alert(ok?'Link copied':'Copy failed'); }
+      else { const ok = await copy(`${txt} - ${location.href}`); alert(ok?'Link copied':'Copy failed'); }
     });
     els.refresh.addEventListener('click', populate);
     els.exportBtn.addEventListener('click', async ()=>{ const ok = await copy(snapshotJSON()); alert(ok?'JSON copied':'Copy failed'); });
@@ -449,7 +449,7 @@
     els.dnsBtn.addEventListener('click', runDnsTest);
 
     els.monToggle.addEventListener('click', ()=> monTimer ? stopMon() : startMon());
-    els.monClear.addEventListener('click', ()=> { els.monLog.value=''; setText(els.monLast,'—'); });
+    els.monClear.addEventListener('click', ()=> { els.monLog.value=''; setText(els.monLast,'-'); });
 
     // Init
     populate().then(()=>{

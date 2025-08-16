@@ -12,30 +12,30 @@
   <meta http-equiv="x-ua-compatible" content="IE=edge" />
   <meta name="color-scheme" content="dark light" />
 
-  <title>Currency Converter (Live FX) — INR, USD, EUR, GBP + Fees & History | UpTools</title>
+  <title>Currency Converter (Live FX) - INR, USD, EUR, GBP + Fees & History | UpTools</title>
   <meta name="description"
-    content="Convert currencies instantly with live exchange rates (INR, USD, EUR, GBP, AED, CAD, AUD, JPY, more). Add bank/card fee %, swap, copy results, and see 30‑day history with a mini chart. Privacy‑first, fast, mobile‑friendly. How to use: enter amount, pick From/To, optionally add fee, and Convert." />
+    content="Convert currencies instantly with live exchange rates (INR, USD, EUR, GBP, AED, CAD, AUD, JPY, more). Add bank/card fee %, swap, copy results, and see 30-day history with a mini chart. Privacy-first, fast, mobile-friendly. How to use: enter amount, pick From/To, optionally add fee, and Convert." />
   <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
   <meta name="theme-color" content="#0b1020" />
   <link rel="canonical" href="https://www.uptools.in/currency-converter/" />
 
   <!-- Open Graph / Twitter -->
-  <meta property="og:title" content="Currency Converter (Live FX) — INR, USD, EUR, GBP + Fees & History" />
+  <meta property="og:title" content="Currency Converter (Live FX) - INR, USD, EUR, GBP + Fees & History" />
   <meta property="og:description"
-    content="Live currency conversion with fees, presets, swap and 30‑day history. Fast, private, mobile‑friendly." />
+    content="Live currency conversion with fees, presets, swap and 30-day history. Fast, private, mobile-friendly." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.uptools.in/currency-converter/" />
   <meta property="og:site_name" content="UpTools" />
   <meta property="og:image" content="https://www.uptools.in/assets/og/currency-converter.png" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Currency Converter (Live FX) — INR, USD, EUR, GBP + Fees & History" />
-  <meta name="twitter:description" content="Live FX conversion with fees & a 30‑day mini chart." />
+  <meta name="twitter:title" content="Currency Converter (Live FX) - INR, USD, EUR, GBP + Fees & History" />
+  <meta name="twitter:description" content="Live FX conversion with fees & a 30-day mini chart." />
   <meta name="twitter:image" content="https://www.uptools.in/assets/og/currency-converter.png" />
 
   <!-- Favicons -->
   <link rel="icon" sizes="50x50" type="image/svg+xml" href="/assets/logo/uptools-logo.svg" />
 
-  <!-- Common CSS (non‑blocking) -->
+  <!-- Common CSS (non-blocking) -->
   <link rel="preload" href="/style.css?v=1.2.0" as="style" />
   <link rel="stylesheet" href="/style.css?v=1.2.0" media="print" onload="this.media='all'">
   <noscript>
@@ -175,7 +175,7 @@
     "mainEntity":[
       {"@type":"Question","name":"Where do rates come from?","acceptedAnswer":{"@type":"Answer","text":"We fetch rates from reputable public endpoints (exchangerate.host and Frankfurter). If a call fails due to CORS or network, we fall back to a proxy on our domain."}},
       {"@type":"Question","name":"How do I include bank/card fees?","acceptedAnswer":{"@type":"Answer","text":"Adjust the Fee % slider to add a markup/fee to the live rate. This gives a more realistic amount you might pay."}},
-      {"@type":"Question","name":"Can I share a conversion?","acceptedAnswer":{"@type":"Answer","text":"Yes. Use Share to copy a link with parameters (amount/from/to/fee). Opening it will auto‑prefill the converter."}}
+      {"@type":"Question","name":"Can I share a conversion?","acceptedAnswer":{"@type":"Answer","text":"Yes. Use Share to copy a link with parameters (amount/from/to/fee). Opening it will auto-prefill the converter."}}
     ]
   }
   </script>
@@ -253,25 +253,25 @@
       <aside class="card neon">
         <h2 style="margin-top:0">Overview</h2>
         <div class="kpi" id="kpi">
-          <div class="row"><span>Mid‑market rate</span><span id="kpiRate" class="amount">—</span></div>
-          <div class="row"><span>With fee</span><span id="kpiAdjRate" class="amount">—</span></div>
-          <div class="row"><span>Converted</span><span id="kpiOut" class="amount">—</span></div>
+          <div class="row"><span>Mid-market rate</span><span id="kpiRate" class="amount">-</span></div>
+          <div class="row"><span>With fee</span><span id="kpiAdjRate" class="amount">-</span></div>
+          <div class="row"><span>Converted</span><span id="kpiOut" class="amount">-</span></div>
         </div>
         <div class="spark-wrap" style="margin-top:10px">
-          <div class="mini">30‑day history</div>
+          <div class="mini">30-day history</div>
           <svg id="spark" class="spark" viewBox="0 0 300 120" preserveAspectRatio="none" role="img"
             aria-label="30-day exchange rate history">
             <rect x="0" y="0" width="300" height="120" fill="none"></rect>
             <path id="sparkLine" d="" vector-effect="non-scaling-stroke"></path>
           </svg>
           <div id="sparkMeta" class="mini" style="display:flex;justify-content:space-between">
-            <span id="sparkStart">—</span><span id="sparkEnd">—</span>
+            <span id="sparkStart">-</span><span id="sparkEnd">-</span>
           </div>
         </div>
       </aside>
     </section>
 
-    <!-- (Conditional) Ad — reserved height to prevent layout shift -->
+    <!-- (Conditional) Ad - reserved height to prevent layout shift -->
     <section id="ad-slot" class="card neon" aria-label="Sponsored" style="margin-top:12px">
       <ins class="adsbygoogle" style="display:block; min-height:120px" data-ad-client="ca-pub-6216304334889617"
         data-ad-slot="auto" data-full-width-responsive="true"></ins>
@@ -283,12 +283,12 @@
       <ol class="note" style="margin:0 0 10px 18px">
         <li>Enter the <b>Amount</b> and choose <b>From</b> and <b>To</b> currencies (or use presets).</li>
         <li>Optional: adjust <b>Fee %</b> to simulate bank/card markups.</li>
-        <li>Click <b>Convert</b> to see the live rate, adjusted rate, conversion and a 30‑day mini chart.</li>
+        <li>Click <b>Convert</b> to see the live rate, adjusted rate, conversion and a 30-day mini chart.</li>
         <li>Use <b>Share</b> to copy a link with the same settings.</li>
       </ol>
       <div class="video-wrap" aria-label="Currency conversion explainer">
         <iframe src="https://www.youtube-nocookie.com/embed/zfAYH2Yl6xo"
-          title="Wise Fees & Rates (Mid‑market explained)" loading="lazy"
+          title="Wise Fees & Rates (Mid-market explained)" loading="lazy"
           referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
       </div>
@@ -452,7 +452,7 @@
         const converted = amount * adjRate;
 
         els.out.innerHTML = `
-          <div class='row'><span>Mid‑market rate</span><span class='amount'>1 ${base} = ${nf().format(rate)} ${quote}</span></div>
+          <div class='row'><span>Mid-market rate</span><span class='amount'>1 ${base} = ${nf().format(rate)} ${quote}</span></div>
           <div class='row'><span>With fee (${(feePct * 100).toFixed(2)}%)</span><span class='amount'>1 ${base} = ${nf().format(adjRate)} ${quote}</span></div>
           <div class='row'><span>Converted</span><span class='amount'>${money(quote).format(converted)}</span></div>
         `;

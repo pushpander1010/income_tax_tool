@@ -11,7 +11,7 @@
 
   <title>GST/HST Calculator for Canada - Add or Remove Tax by Province | UpTools</title>
   <meta name="description"
-    content="Fast Canadian GST/HST calculator. Enter amount and province to add or remove tax. Supports HST provinces (ON, NS, NL, NB, PE) and GST with optional PST/QST for BC, MB, SK, QC. Shareable link, exact breakdown, print/export. Privacy‑first." />
+    content="Fast Canadian GST/HST calculator. Enter amount and province to add or remove tax. Supports HST provinces (ON, NS, NL, NB, PE) and GST with optional PST/QST for BC, MB, SK, QC. Shareable link, exact breakdown, print/export. Privacy-first." />
   <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
   <meta name="theme-color" content="#0f1419" />
 
@@ -24,12 +24,12 @@
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.uptools.in/canada-hst-tool/" />
   <meta property="og:site_name" content="UpTools" />
-  <meta property="og:image" content="https://www.uptools.in/assets/uptools-mark.svg" />
+  <meta property="og:image" content="https://www.uptools.in/assets/logo/uptools-logo.svg" />
   <meta name="twitter:card" content="summary" />
 
   <!-- Icons -->
-  <link rel="icon" sizes="50x50" type="image/svg+xml" href="/assets/uptools-mark.svg" />
-  <link rel="apple-touch-icon" sizes="180x180" href="/assets/uptools-mark.svg" />
+  <link rel="icon" sizes="50x50" type="image/svg+xml" href="/assets/logo/uptools-logo.svg" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/logo/uptools-logo.svg" />
 
   <!-- 1) Inline ONLY tiny critical rules (below) -->
   <style>
@@ -102,7 +102,7 @@
   </noscript>
 
 
-  <!-- Breadcrumbs JSON‑LD -->
+  <!-- Breadcrumbs JSON-LD -->
   <script type="application/ld+json">
   {
     "@context":"https://schema.org",
@@ -115,7 +115,7 @@
   }
   </script>
 
-  <!-- HowTo JSON‑LD -->
+  <!-- HowTo JSON-LD -->
   <script type="application/ld+json">
   {
     "@context":"https://schema.org",
@@ -133,7 +133,7 @@
   }
   </script>
 
-  <!-- FAQ JSON‑LD -->
+  <!-- FAQ JSON-LD -->
   <script type="application/ld+json">
   {
     "@context":"https://schema.org",
@@ -167,7 +167,7 @@
   <header class="site" role="banner">
     <div class="header-inner">
       <a class="brand" href="/" aria-label="UpTools Home">
-        <img src="/assets/uptools-mark.svg" alt="UpTools logo" width="28" height="28">
+        <img src="/assets/logo/uptools-logo.svg" alt="UpTools logo" width="28" height="28">
         <b>UpTools</b>
       </a>
       <nav class="nav-links" aria-label="Primary">
@@ -185,8 +185,8 @@
       <span class="tool-icon" aria-hidden="true">💵</span>
       <div>
         <h1 style="margin:0 0 4px;">GST/HST Calculator (Canada)</h1>
-        <p class="note" style="margin:0;">Add or remove tax by province — supports HST provinces and GST with optional
-          PST/QST. Privacy‑first, fast, and shareable.</p>
+        <p class="note" style="margin:0;">Add or remove tax by province - supports HST provinces and GST with optional
+          PST/QST. Privacy-first, fast, and shareable.</p>
       </div>
       <a class="back-btn" href="/" aria-label="Back to home">←</a>
     </div>
@@ -289,30 +289,30 @@
         <div id="result" class="result" aria-live="polite" aria-atomic="true" style="margin-top:8px;">
           <div class="row">
             <div>Mode</div>
-            <div id="r-mode">—</div>
+            <div id="r-mode">-</div>
           </div>
           <div class="row">
             <div>Province</div>
-            <div id="r-prov">—</div>
+            <div id="r-prov">-</div>
           </div>
           <div class="row">
             <div>Effective tax rate</div>
-            <div id="r-rate">—</div>
+            <div id="r-rate">-</div>
           </div>
           <div class="divider"></div>
           <div id="lines"></div>
           <div class="divider"></div>
           <div class="row">
             <div>Subtotal (before tax)</div>
-            <div class="amount" id="r-sub">—</div>
+            <div class="amount" id="r-sub">-</div>
           </div>
           <div class="row">
             <div>Total tax</div>
-            <div class="amount" id="r-tax">—</div>
+            <div class="amount" id="r-tax">-</div>
           </div>
           <div class="row">
             <div><b>Total (after tax)</b></div>
-            <div class="amount" id="r-total">—</div>
+            <div class="amount" id="r-total">-</div>
           </div>
           <div class="note small" id="explain" style="margin-top:8px;">Enter amount and select province, then Calculate.
           </div>
@@ -506,7 +506,7 @@
       out.explain.textContent =
         res.mode === "add"
           ? "Subtotal + tax = total. Use 'Remove tax' if your price already includes tax."
-          : "Removed the tax from the total to show the before‑tax subtotal and tax amounts.";
+          : "Removed the tax from the total to show the before-tax subtotal and tax amounts.";
     }
 
     function toQuery(obj) { return new URLSearchParams(obj).toString(); }

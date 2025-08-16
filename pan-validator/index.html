@@ -7,22 +7,22 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>PAN & GSTIN Validator (India) – Pattern, Category, Surname Initial & GSTIN Checksum | UpTools</title>
-  <meta name="description" content="Free PAN & GSTIN validator by UpTools. Validate PAN pattern (AAAAA9999A), detect category from 4th letter, verify 5th letter vs surname (for individuals), and validate GSTIN format with checksum — plus PAN embedded match. Bulk checks, mask/unmask, QR deep-link. Privacy‑first." />
+  <title>PAN & GSTIN Validator (India) - Pattern, Category, Surname Initial & GSTIN Checksum | UpTools</title>
+  <meta name="description" content="Free PAN & GSTIN validator by UpTools. Validate PAN pattern (AAAAA9999A), detect category from 4th letter, verify 5th letter vs surname (for individuals), and validate GSTIN format with checksum - plus PAN embedded match. Bulk checks, mask/unmask, QR deep-link. Privacy-first." />
   <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
   <meta name="theme-color" content="#0b1020" />
 
   <link rel="canonical" href="https://www.uptools.in/pan-validator/" />
-  <meta property="og:title" content="PAN & GSTIN Validator (India) – UpTools" />
+  <meta property="og:title" content="PAN & GSTIN Validator (India) - UpTools" />
   <meta property="og:description" content="Validate PAN format, detect category, check surname initial; validate GSTIN format & checksum and compare embedded PAN. Bulk mode, mask/unmask, QR link. No data leaves your browser." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.uptools.in/pan-validator/" />
   <meta property="og:site_name" content="UpTools" />
-  <meta property="og:image" content="https://www.uptools.in/assets/uptools-mark.svg" />
+  <meta property="og:image" content="https://www.uptools.in/assets/logo/uptools-logo.svg" />
   <meta name="twitter:card" content="summary" />
 
-  <link rel="icon" sizes="50x50" type="image/svg+xml" href="/assets/uptools-mark.svg" />
-  <link rel="apple-touch-icon" sizes="180x180" href="/assets/uptools-mark.svg" />
+  <link rel="icon" sizes="50x50" type="image/svg+xml" href="/assets/logo/uptools-logo.svg" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/logo/uptools-logo.svg" />
 
   <!-- Shared styles -->
   <!-- 1) Inline ONLY tiny critical rules (below) -->
@@ -66,8 +66,8 @@
     "step":[
       {"@type":"HowToStep","name":"Enter PAN","text":"Type a PAN using letters and digits only (AAAAA9999A)."},
       {"@type":"HowToStep","name":"(Optional) Enter surname","text":"For individual PANs, we verify the 5th letter equals the first letter of the surname."},
-      {"@type":"HowToStep","name":"Enter GSTIN (optional)","text":"We validate GSTIN format and checksum, and compare its embedded PAN (chars 3–12) with your PAN."},
-      {"@type":"HowToStep","name":"Bulk validate (optional)","text":"Paste a list of PANs/GSTINs to get a quick multi‑line report."}
+      {"@type":"HowToStep","name":"Enter GSTIN (optional)","text":"We validate GSTIN format and checksum, and compare its embedded PAN (chars 3-12) with your PAN."},
+      {"@type":"HowToStep","name":"Bulk validate (optional)","text":"Paste a list of PANs/GSTINs to get a quick multi-line report."}
     ],
     "tool":[{"@type":"HowToTool","name":"UpTools PAN & GSTIN Validator"}]
   }
@@ -84,7 +84,7 @@
       {"@type":"Question","name":"What does the 4th and 5th letter mean?",
        "acceptedAnswer":{"@type":"Answer","text":"The 4th letter denotes the PAN category (e.g., P=Individual, C=Company). For individuals, the 5th letter should match the surname's first letter."}},
       {"@type":"Question","name":"How do you validate a GSTIN?",
-       "acceptedAnswer":{"@type":"Answer","text":"We check the standard 15‑character format and compute the checksum using the documented base‑36 method. We also cross‑check that the PAN embedded in the GSTIN matches the PAN you entered."}},
+       "acceptedAnswer":{"@type":"Answer","text":"We check the standard 15-character format and compute the checksum using the documented base-36 method. We also cross-check that the PAN embedded in the GSTIN matches the PAN you entered."}},
       {"@type":"Question","name":"Is my data stored?",
        "acceptedAnswer":{"@type":"Answer","text":"No. All validation happens locally in your browser. Nothing is uploaded."}}
     ]
@@ -97,7 +97,7 @@
   <header class="site" role="banner">
     <div class="header-inner">
       <a class="brand" href="/" aria-label="UpTools Home">
-        <img src="/assets/uptools-mark.svg" alt="UpTools logo" width="28" height="28">
+        <img src="/assets/logo/uptools-logo.svg" alt="UpTools logo" width="28" height="28">
         <b>UpTools</b>
       </a>
       <nav class="nav-links" aria-label="Primary">
@@ -114,7 +114,7 @@
       <span class="tool-icon" aria-hidden="true">🪪</span>
       <div>
         <h1 style="margin:0 0 4px;">PAN & GSTIN Validator (India)</h1>
-        <p class="note" style="margin:0;">Instant PAN format check, category & surname‑initial (optional), GSTIN format + checksum, and PAN ↔ GSTIN cross‑check. Bulk mode. Privacy‑first.</p>
+        <p class="note" style="margin:0;">Instant PAN format check, category & surname-initial (optional), GSTIN format + checksum, and PAN ↔ GSTIN cross-check. Bulk mode. Privacy-first.</p>
       </div>
       <a class="back-btn" href="/" aria-label="Back to home">←</a>
     </div>
@@ -195,14 +195,14 @@
         <h2 id="res-title" style="margin:0 0 6px;">Result</h2>
 
         <div id="result" class="result" aria-live="polite" aria-atomic="true" style="margin-top:8px;">
-          <div class="row"><div>Status</div><div class="amount" id="r-status">—</div></div>
-          <div class="kvi"><span>Normalized PAN</span><span id="r-pan">—</span></div>
-          <div class="kvi"><span>Pattern</span><span id="r-pattern">—</span></div>
-          <div class="kvi"><span>Category (4th letter)</span><span id="r-cat">—</span></div>
-          <div class="kvi"><span>5th letter vs Surname</span><span id="r-surname">—</span></div>
-          <div class="kvi"><span>Breakdown</span><span id="r-break">—</span></div>
-          <div class="kvi"><span>GSTIN status</span><span id="r-gstin">—</span></div>
-          <div class="kvi"><span>GSTIN ↔ PAN match</span><span id="r-gstin-pan">—</span></div>
+          <div class="row"><div>Status</div><div class="amount" id="r-status">-</div></div>
+          <div class="kvi"><span>Normalized PAN</span><span id="r-pan">-</span></div>
+          <div class="kvi"><span>Pattern</span><span id="r-pattern">-</span></div>
+          <div class="kvi"><span>Category (4th letter)</span><span id="r-cat">-</span></div>
+          <div class="kvi"><span>5th letter vs Surname</span><span id="r-surname">-</span></div>
+          <div class="kvi"><span>Breakdown</span><span id="r-break">-</span></div>
+          <div class="kvi"><span>GSTIN status</span><span id="r-gstin">-</span></div>
+          <div class="kvi"><span>GSTIN ↔ PAN match</span><span id="r-gstin-pan">-</span></div>
           <div class="note small" id="explain" style="margin-top:8px;">Type your PAN to validate instantly. No data leaves your browser.</div>
         </div>
 
@@ -222,9 +222,9 @@
 
         <h3 style="margin-top:14px;">Authoritative links</h3>
         <ul>
-          <li><a href="https://www.incometax.gov.in/iec/foportal/" rel="nofollow noopener" target="_blank">Income Tax Department (e‑Filing)</a></li>
-          <li><a href="https://www.protean-tinpan.com/services/pan/" rel="nofollow noopener" target="_blank">Protean (NSDL) – PAN services</a></li>
-          <li><a href="https://www.utiitsl.com/UTIITSL_SITE/pan/" rel="nofollow noopener" target="_blank">UTIITSL – PAN services</a></li>
+          <li><a href="https://www.incometax.gov.in/iec/foportal/" rel="nofollow noopener" target="_blank">Income Tax Department (e-Filing)</a></li>
+          <li><a href="https://www.protean-tinpan.com/services/pan/" rel="nofollow noopener" target="_blank">Protean (NSDL) - PAN services</a></li>
+          <li><a href="https://www.utiitsl.com/UTIITSL_SITE/pan/" rel="nofollow noopener" target="_blank">UTIITSL - PAN services</a></li>
           <li><a href="https://www.gst.gov.in/" rel="nofollow noopener" target="_blank">GST Portal (CBIC)</a></li>
         </ul>
 
@@ -237,7 +237,7 @@
         </ul>
 
         <h3 style="margin-top:14px;">Bulk results</h3>
-        <pre id="bulk-out" class="result" style="white-space:pre-wrap; min-height:40px;">—</pre>
+        <pre id="bulk-out" class="result" style="white-space:pre-wrap; min-height:40px;">-</pre>
       </aside>
     </section>
 
@@ -310,7 +310,7 @@
     const GSTIN_RE = /^[0-3][0-9][A-Z]{5}[0-9]{4}[A-Z][1-9A-Z]Z[0-9A-Z]$/;
     const panFromGSTIN = gstin => (gstin || "").toUpperCase().slice(2, 12);
 
-    // Checksum (base‑36, alt multiply 1,2 across first 14 chars)
+    // Checksum (base-36, alt multiply 1,2 across first 14 chars)
     const code36 = c => {
       const x = c.toUpperCase().charCodeAt(0);
       if (x >= 48 && x <= 57) return x - 48;      // 0-9
@@ -336,8 +336,8 @@
     }
 
     // Mask helpers
-    const maskPAN = s => s ? (s.slice(0,5) + "••••" + (s[9]||"")) : "—";
-    const maskGSTIN = s => s ? (s.slice(0,2) + "••••••••••••" + s.slice(-1)) : "—";
+    const maskPAN = s => s ? (s.slice(0,5) + "••••" + (s[9]||"")) : "-";
+    const maskGSTIN = s => s ? (s.slice(0,2) + "••••••••••••" + s.slice(-1)) : "-";
 
     // Classify PAN
     function classifyPAN(pan, surname){
@@ -348,24 +348,24 @@
       const aaaaa = norm.slice(0,5);
       const nnnn  = norm.slice(5,9);
       const last  = norm.slice(9,10);
-      const shape = norm ? (aaaaa + (nnnn ? "-" + nnnn : "") + (last ? "-" + last : "")) : "—";
+      const shape = norm ? (aaaaa + (nnnn ? "-" + nnnn : "") + (last ? "-" + last : "")) : "-";
 
       const catKey = norm[3] || "";
-      const category = CAT[catKey] || (catKey ? `Unknown (${catKey})` : "—");
+      const category = CAT[catKey] || (catKey ? `Unknown (${catKey})` : "-");
 
-      let surnameMsg = "—";
+      let surnameMsg = "-";
       if (catKey === 'P') {
         const s = (surname || "").trim();
         if (s) {
           const expected = s[0].toUpperCase();
           surnameMsg = (norm[4] === expected)
             ? `✅ matches (${expected})`
-            : `❌ expected ${expected}, got ${norm[4] || "—"}`;
+            : `❌ expected ${expected}, got ${norm[4] || "-"}`;
         } else {
           surnameMsg = "Enter surname to verify (Individuals only)";
         }
       } else if (catKey) {
-        surnameMsg = "Not applicable (non‑individual)";
+        surnameMsg = "Not applicable (non-individual)";
       }
 
       const patternExp = isValid ? "Valid AAAAA9999A" : "Invalid (needs AAAAA9999A)";
@@ -375,22 +375,22 @@
     // Classify GSTIN
     function classifyGSTIN(gstin){
       const s = (gstin || "").toUpperCase().replace(/[^A-Z0-9]/g,"").slice(0,15);
-      if (!s) return { s:"", ok:false, msg:"—", panPart:"", match:null };
+      if (!s) return { s:"", ok:false, msg:"-", panPart:"", match:null };
       const chk = validateGSTINChecksum(s);
       return { s, ok:chk.ok, msg:chk.msg, panPart: panFromGSTIN(s) };
     }
 
     function updateUI(p, g){
       // PAN
-      setText(O.pan, p.norm || "—");
-      setText(O.pattern, p.patternExp || "—");
-      setText(O.cat, p.category || "—");
-      setText(O.surname, p.surnameMsg || "—");
-      setText(O.brk, p.shape || "—");
+      setText(O.pan, p.norm || "-");
+      setText(O.pattern, p.patternExp || "-");
+      setText(O.cat, p.category || "-");
+      setText(O.surname, p.surnameMsg || "-");
+      setText(O.brk, p.shape || "-");
       setText(I.lenNote, `${p.len || 0} / 10`);
 
       if (!p.norm) {
-        setText(O.status, "—");
+        setText(O.status, "-");
         O.status.style.color = "";
         setText(O.explain, "Type your PAN to validate instantly. No data leaves your browser.");
       } else if (p.isValid) {
@@ -405,21 +405,21 @@
 
       // GSTIN
       if (!g.s) {
-        setText(O.gstin, "—");
-        setText(O.gstinPan, "—");
+        setText(O.gstin, "-");
+        setText(O.gstinPan, "-");
         O.gstin.style.color = "";
       } else {
         setText(O.gstin, g.ok ? "Valid GSTIN" : "Invalid GSTIN");
         O.gstin.style.color = g.ok ? "var(--accent)" : "#ffb4b4";
         const panNorm = p.norm;
         if (panNorm && p.isValid) {
-          setText(O.gstinPan, g.panPart === panNorm ? "✅ matches" : `❌ GSTIN has ${g.panPart || "—"}`);
+          setText(O.gstinPan, g.panPart === panNorm ? "✅ matches" : `❌ GSTIN has ${g.panPart || "-"}`);
         } else {
           setText(O.gstinPan, panNorm ? "Enter valid PAN to compare" : "Enter PAN to compare");
         }
       }
 
-      // Mask toggle — affects display only
+      // Mask toggle - affects display only
       if (I.mask.checked) {
         if (p.norm) { O.pan.textContent = maskPAN(p.norm); O.pan.title = p.norm; } else { O.pan.title = ""; }
         if (g.s) { O.gstin.title = g.s; } else { O.gstin.title = ""; }
@@ -428,7 +428,7 @@
         O.gstin.title = "";
       }
 
-      // QR deep‑link (prefill with whichever is present)
+      // QR deep-link (prefill with whichever is present)
       const payload = g.s || p.norm || "";
       I.qrLink.href = payload ? `/qr-generator/?text=${encodeURIComponent(payload)}` : `/qr-generator/`;
     }
@@ -454,7 +454,7 @@
     // Bulk validation
     function bulkValidate(text){
       const lines = (text||"").split(/\r?\n/).map(s=>s.trim()).filter(Boolean);
-      if (!lines.length) return "—";
+      if (!lines.length) return "-";
       const out = [];
       for (const raw of lines){
         const s = raw.toUpperCase().replace(/[^A-Z0-9]/g,"");
@@ -490,10 +490,10 @@
       persist(FORM_KEY, {});
       history.replaceState(null, "", location.pathname);
       updateUI(
-        { norm:"", len:0, isValid:false, category:"—", catKey:"", patternExp:"—", shape:"—", surnameMsg:"—" },
-        { s:"", ok:false, msg:"—", panPart:"" }
+        { norm:"", len:0, isValid:false, category:"-", catKey:"", patternExp:"-", shape:"-", surnameMsg:"-" },
+        { s:"", ok:false, msg:"-", panPart:"" }
       );
-      O.bulkOut.textContent = "—";
+      O.bulkOut.textContent = "-";
     };
     $("#btn-clear").addEventListener("click", clearAll);
     $("#btn-clear-top").addEventListener("click", clearAll);
@@ -544,7 +544,7 @@
     });
     $("#bulk-clear").addEventListener("click", () => {
       I.bulk.value = "";
-      O.bulkOut.textContent = "—";
+      O.bulkOut.textContent = "-";
     });
 
     // Keyboard shortcut

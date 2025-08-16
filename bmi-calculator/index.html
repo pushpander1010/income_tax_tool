@@ -706,8 +706,8 @@
           <!-- Education -->
           <section class="card" aria-labelledby="learn">
             <h2 id="learn">Understanding your BMI</h2>
-            <p style="overflow-wrap:anywhere">BMI (Body Mass Index) = weight (kg) ÷ height (m)<sup>2</sup>. It’s a quick
-              screen—not a diagnosis. Muscular people may read “high” despite low body fat, while some with “normal” BMI
+            <p style="overflow-wrap:anywhere">BMI (Body Mass Index) = weight (kg) ÷ height (m)<sup>2</sup>. It's a quick
+              screen-not a diagnosis. Muscular people may read "high" despite low body fat, while some with "normal" BMI
               may still have central obesity.</p>
 
             <!-- Mini scale -->
@@ -758,7 +758,7 @@
             <h2 id="faq">FAQs</h2>
             <details>
               <summary>What are Asian BMI cut-offs?</summary>
-              <div class="note">Under &lt;18.5, Normal 18.5-22.9, Overweight 23-24.9, Obese ≥25. Choose “Asian” from the
+              <div class="note">Under &lt;18.5, Normal 18.5-22.9, Overweight 23-24.9, Obese ≥25. Choose "Asian" from the
                 Cut-offs menu.</div>
             </details>
             <details>
@@ -798,14 +798,14 @@
         <h2 style="margin:0">Your results</h2>
         <button type="button" class="close-x" id="closeSheet" aria-label="Close results">✕</button>
       </div>
-      <div id="status" class="badge">—</div>
+      <div id="status" class="badge">-</div>
 
-      <div class="kvi"><span>BMI</span><span id="outBMI" class="amount">—</span></div>
-      <div class="kvi"><span>Category</span><span id="outCat" class="amount">—</span></div>
-      <div class="kvi"><span>Healthy weight range</span><span id="outRange" class="amount">—</span></div>
-      <div class="kvi"><span>BMI Prime</span><span id="outPrime" class="amount">—</span></div>
-      <div class="kvi"><span>Body fat % (est.)</span><span id="outBF" class="amount">—</span></div>
-      <div class="kvi"><span>Waist-to-height (WHtR)</span><span id="outWHtR" class="amount">—</span></div>
+      <div class="kvi"><span>BMI</span><span id="outBMI" class="amount">-</span></div>
+      <div class="kvi"><span>Category</span><span id="outCat" class="amount">-</span></div>
+      <div class="kvi"><span>Healthy weight range</span><span id="outRange" class="amount">-</span></div>
+      <div class="kvi"><span>BMI Prime</span><span id="outPrime" class="amount">-</span></div>
+      <div class="kvi"><span>Body fat % (est.)</span><span id="outBF" class="amount">-</span></div>
+      <div class="kvi"><span>Waist-to-height (WHtR)</span><span id="outWHtR" class="amount">-</span></div>
 
       <div class="divider"></div>
       <div class="btn-group" style="display:flex;gap:8px;flex-wrap:wrap">
@@ -827,8 +827,8 @@
         <option value="1.9">Very active (physical job)</option>
       </select>
 
-      <div class="kvi"><span>BMR</span><span id="outBMR" class="amount">—</span></div>
-      <div class="kvi"><span>TDEE</span><span id="outTDEE" class="amount">—</span></div>
+      <div class="kvi"><span>BMR</span><span id="outBMR" class="amount">-</span></div>
+      <div class="kvi"><span>TDEE</span><span id="outTDEE" class="amount">-</span></div>
 
       <label class="label" for="goalRate">Goal pace</label>
       <select id="goalRate" class="input" title="Weekly change">
@@ -839,13 +839,13 @@
         <option value="500">Gain ~0.5 kg/wk</option>
       </select>
 
-      <div class="kvi"><span>Suggested calories</span><span id="outCals" class="amount">—</span></div>
+      <div class="kvi"><span>Suggested calories</span><span id="outCals" class="amount">-</span></div>
 
       <div class="divider"></div>
       <label class="label" for="targetBMI">Target BMI</label>
       <input id="targetBMI" class="input" type="number" step="0.1" min="16" max="30" placeholder="e.g., 22.5" />
-      <div class="kvi"><span>Target weight</span><span id="outTargetW" class="amount">—</span></div>
-      <div class="kvi"><span>Δ from current</span><span id="outDeltaW" class="amount">—</span></div>
+      <div class="kvi"><span>Target weight</span><span id="outTargetW" class="amount">-</span></div>
+      <div class="kvi"><span>Δ from current</span><span id="outDeltaW" class="amount">-</span></div>
     </div>
   </section>
 
@@ -914,7 +914,7 @@
     const stdCfg = () => (E.std.value === 'asian' ? ASIAN : WHO);
 
     const catFor = (bmi, std) => {
-      if (!bmi) return '—';
+      if (!bmi) return '-';
       if (bmi < std.under) return 'Underweight';
       if (bmi <= std.normalHi) return 'Normal';
       if (bmi <= std.overHi) return 'Overweight';
@@ -939,7 +939,7 @@
     };
 
     const whtr = (waistCm, heightCm) => (!waistCm || !heightCm) ? null : (waistCm / heightCm);
-    const whtrLabel = (v) => v == null ? '—' : (v < 0.5 ? 'Healthy' : v < 0.6 ? 'Increased risk' : 'High risk');
+    const whtrLabel = (v) => v == null ? '-' : (v < 0.5 ? 'Healthy' : v < 0.6 ? 'Increased risk' : 'High risk');
 
     const renderScale = () => {
       const s = stdCfg();
@@ -961,7 +961,7 @@
       E.status.textContent = text;
     };
 
-    const fmt1 = (x) => (x == null || !isFinite(x)) ? '—' : Number(x).toFixed(1);
+    const fmt1 = (x) => (x == null || !isFinite(x)) ? '-' : Number(x).toFixed(1);
     const updatePin = (bmi) => { const max = 40; const pct = clamp((bmi / max) * 100, 0, 100); $('#pin').style.left = pct + '%'; }
 
     const updatePermalink = () => {
@@ -991,12 +991,12 @@
       const base = bmr(kg, cm, age, sex);
       const tdee = base ? base * act : null;
 
-      setText(E.outBMR, base ? Math.round(base) + ' kcal' : '—');
-      setText(E.outTDEE, tdee ? Math.round(tdee) + ' kcal' : '—');
+      setText(E.outBMR, base ? Math.round(base) + ' kcal' : '-');
+      setText(E.outTDEE, tdee ? Math.round(tdee) + ' kcal' : '-');
 
       const adj = Number(E.goalRate.value || 0);
       const sug = tdee ? clamp(tdee + adj, 1000, 5000) : null;
-      setText(E.outCals, sug ? Math.round(sug) + ' kcal/day' : '—');
+      setText(E.outCals, sug ? Math.round(sug) + ' kcal/day' : '-');
 
       const tBMI = num(E.targetBMI.value);
       if (tBMI && cm) {
@@ -1009,7 +1009,7 @@
         setText(E.outTargetW, (isUS ? outW.toFixed(1) + ' lb' : outW.toFixed(1) + ' kg'));
         setText(E.outDeltaW, (delta > 0 ? '+' : '') + (isUS ? delta.toFixed(1) + ' lb' : delta.toFixed(1) + ' kg'));
       } else {
-        setText(E.outTargetW, '—'); setText(E.outDeltaW, '—');
+        setText(E.outTargetW, '-'); setText(E.outDeltaW, '-');
       }
     };
 
@@ -1031,8 +1031,8 @@
       const hi = isUS ? (range.hi / KG_PER_LB) : range.hi;
       setText(E.outRange, (isUS ? `${fmt1(lo)}-${fmt1(hi)} lb` : `${fmt1(range.lo)}-${fmt1(range.hi)} kg`));
       setText(E.outPrime, fmt1(prime));
-      setText(E.outBF, bf == null ? '—' : `${fmt1(bf)}%`);
-      setText(E.outWHtR, ratio == null ? '—' : `${fmt1(ratio)} (${whtrLabel(ratio)})`);
+      setText(E.outBF, bf == null ? '-' : `${fmt1(bf)}%`);
+      setText(E.outWHtR, ratio == null ? '-' : `${fmt1(ratio)} (${whtrLabel(ratio)})`);
 
       const cls = (cat === 'Normal') ? 'ok' : (cat === 'Overweight' ? 'warn' : (cat === 'Obese' ? 'err' : 'warn'));
       setStatus(`Result: ${cat}`, cls);
@@ -1100,7 +1100,7 @@
       ['heightCm', 'heightFt', 'heightIn', 'weightKg', 'weightLb', 'age', 'waist'].forEach(id => { const el = $('#' + id); if (el) el.value = ''; });
       E.sex.value = 'none';
       setStatus('Cleared', 'warn');
-      ['outBMI', 'outCat', 'outRange', 'outPrime', 'outBF', 'outWHtR', 'outBMR', 'outTDEE', 'outCals', 'outTargetW', 'outDeltaW'].forEach(id => setText($('#' + id), '—'));
+      ['outBMI', 'outCat', 'outRange', 'outPrime', 'outBF', 'outWHtR', 'outBMR', 'outTDEE', 'outCals', 'outTargetW', 'outDeltaW'].forEach(id => setText($('#' + id), '-'));
       $('#tips').textContent = '';
       updatePermalink();
     });

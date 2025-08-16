@@ -11,22 +11,22 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>Number Guessing Game — Start, Guess, Win! | UpTools</title>
+  <title>Number Guessing Game - Start, Guess, Win! | UpTools</title>
   <meta name="description" content="Super clear Number Guessing game. 1) Pick difficulty, 2) Press Start, 3) Type a number & hit Guess. Smart hints, midpoint button, streaks & shareable challenges. Fast and privacy-first." />
   <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
   <meta name="theme-color" content="#0f1419" />
 
   <link rel="canonical" href="https://www.uptools.in/games/number-guessing/" />
-  <meta property="og:title" content="Number Guessing — Free Online Game | UpTools" />
-  <meta property="og:description" content="It’s simple: Pick difficulty → Start → Guess. Get smart hints and try the midpoint button. Share challenge links with friends." />
+  <meta property="og:title" content="Number Guessing - Free Online Game | UpTools" />
+  <meta property="og:description" content="It's simple: Pick difficulty → Start → Guess. Get smart hints and try the midpoint button. Share challenge links with friends." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.uptools.in/games/number-guessing/" />
   <meta property="og:site_name" content="UpTools" />
-  <meta property="og:image" content="https://www.uptools.in/assets/uptools-mark.svg" />
+  <meta property="og:image" content="https://www.uptools.in/assets/logo/uptools-logo.svg" />
   <meta name="twitter:card" content="summary" />
 
-  <link rel="icon" sizes="50x50" type="image/svg+xml" href="/assets/uptools-mark.svg" />
-  <link rel="apple-touch-icon" sizes="180x180" href="/assets/uptools-mark.svg" />
+  <link rel="icon" sizes="50x50" type="image/svg+xml" href="/assets/logo/uptools-logo.svg" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/logo/uptools-logo.svg" />
 
   <!-- Shared CSS -->
   <link rel="stylesheet" href="/style.css?v=1.2.0" />
@@ -106,7 +106,7 @@
   <header class="site" role="banner">
     <div class="header-inner">
       <a class="brand" href="/" aria-label="UpTools Home">
-        <img src="/assets/uptools-mark.svg" alt="UpTools logo" width="28" height="28">
+        <img src="/assets/logo/uptools-logo.svg" alt="UpTools logo" width="28" height="28">
         <b>UpTools</b>
       </a>
       <nav class="nav-links" aria-label="Primary">
@@ -124,7 +124,7 @@
       <span class="tool-icon" aria-hidden="true">🎲</span>
       <div>
         <h1 style="margin:0 0 4px;">Number Guessing</h1>
-        <p class="note" style="margin:0;">It’s simple: <b>Pick difficulty → Press Start → Type a number & hit Guess</b>. Try the <em>Midpoint</em> helper for a smart first move.</p>
+        <p class="note" style="margin:0;">It's simple: <b>Pick difficulty → Press Start → Type a number & hit Guess</b>. Try the <em>Midpoint</em> helper for a smart first move.</p>
         <div class="steps" aria-hidden="true">
           <span class="step">① Choose difficulty</span>
           <span class="step">② Press <b>Start</b></span>
@@ -412,7 +412,7 @@
       const bucket = state.target <= state.min + third ? "lower third"
                     : state.target <= state.max - third ? "middle third" : "upper third";
 
-      els.hintText.textContent = `It’s ${parity}. Think ${bucket}. Current window: ${state.low}-${state.high}.`;
+      els.hintText.textContent = `It's ${parity}. Think ${bucket}. Current window: ${state.low}-${state.high}.`;
       els.hintArea.hidden = false;
     }
 
@@ -453,7 +453,7 @@
         endGame(true);
         return;
       } else {
-        els.status.textContent = (diff>0) ? "Too high — try lower…" : "Too low — try higher…";
+        els.status.textContent = (diff>0) ? "Too high - try lower…" : "Too low - try higher…";
         showHint(false);
       }
 

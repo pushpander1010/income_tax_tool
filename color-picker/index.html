@@ -9,15 +9,15 @@
   <meta http-equiv="x-ua-compatible" content="IE=edge" />
   <meta name="color-scheme" content="dark light" />
 
-  <title>Color Picker (HEX/RGB/HSL, WCAG Contrast, Shades & Saved Swatches) – UpTools</title>
-  <meta name="description" content="Free online color picker. Get HEX/RGB/HSL instantly, check WCAG contrast against light/dark backgrounds, generate shades & tints, copy CSS snippets, use Eyedropper (if supported), save swatches, and share via URL. Fast and privacy‑first." />
+  <title>Color Picker (HEX/RGB/HSL, WCAG Contrast, Shades & Saved Swatches) - UpTools</title>
+  <meta name="description" content="Free online color picker. Get HEX/RGB/HSL instantly, check WCAG contrast against light/dark backgrounds, generate shades & tints, copy CSS snippets, use Eyedropper (if supported), save swatches, and share via URL. Fast and privacy-first." />
   <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
   <meta name="theme-color" content="#0f1419" />
   <link rel="canonical" href="https://www.uptools.in/color-picker/" />
 
   <!-- Open Graph / Twitter -->
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Color Picker — HEX/RGB/HSL, Contrast, Shades" />
+  <meta property="og:title" content="Color Picker - HEX/RGB/HSL, Contrast, Shades" />
   <meta property="og:description" content="Pick a color, get HEX/RGB/HSL, check WCAG contrast, generate shades/tints, copy CSS, and save swatches." />
   <meta property="og:url" content="https://www.uptools.in/color-picker/" />
   <meta property="og:site_name" content="UpTools" />
@@ -25,8 +25,8 @@
   <meta name="twitter:card" content="summary" />
 
   <!-- Icons -->
-  <link rel="icon" sizes="50x50" type="image/svg+xml" href="/assets/uptools-mark.svg" />
-  <link rel="apple-touch-icon" sizes="180x180" href="/assets/uptools-mark.svg" />
+  <link rel="icon" sizes="50x50" type="image/svg+xml" href="/assets/logo/uptools-logo.svg" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/logo/uptools-logo.svg" />
 
   <!-- Tiny critical (keep minimal) -->
   <style>
@@ -45,7 +45,7 @@
     .codebox{ background:#0a1224; border:1px solid var(--border); border-radius:10px; padding:10px; box-shadow: var(--glow-soft); }
   </style>
 
-  <!-- Common CSS (non‑blocking) -->
+  <!-- Common CSS (non-blocking) -->
   <link rel="preload" href="/style.css?v=1.2.0" as="style">
   <link rel="stylesheet" href="/style.css?v=1.2.0" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="/style.css?v=1.2.0"></noscript>
@@ -70,7 +70,7 @@
   <header class="site" role="banner">
     <div class="header-inner container">
       <a class="brand" href="/" aria-label="UpTools Home">
-        <img src="/assets/uptools-mark.svg" alt="UpTools logo" width="28" height="28" loading="eager">
+        <img src="/assets/logo/uptools-logo.svg" alt="UpTools logo" width="28" height="28" loading="eager">
         <b>UpTools</b>
       </a>
       <nav class="nav-links" aria-label="Primary">
@@ -133,19 +133,19 @@
             <div class="card">
               <div class="note small">On Light</div>
               <div id="prevLight" class="preview-box" style="background:#ffffff;color:#000">Aa</div>
-              <div class="row"><span>Ratio</span><span id="ratioLight" class="amount">—</span></div>
-              <div class="row"><span>Normal (4.5)</span><span id="aaLight" class="badge">—</span></div>
-              <div class="row"><span>Large (3.0)</span><span id="laaLight" class="badge">—</span></div>
-              <div class="row"><span>AAA (7.0)</span><span id="aaaLight" class="badge">—</span></div>
+              <div class="row"><span>Ratio</span><span id="ratioLight" class="amount">-</span></div>
+              <div class="row"><span>Normal (4.5)</span><span id="aaLight" class="badge">-</span></div>
+              <div class="row"><span>Large (3.0)</span><span id="laaLight" class="badge">-</span></div>
+              <div class="row"><span>AAA (7.0)</span><span id="aaaLight" class="badge">-</span></div>
             </div>
 
             <div class="card">
               <div class="note small">On Dark</div>
               <div id="prevDark" class="preview-box" style="background:#0b1020;color:#fff">Aa</div>
-              <div class="row"><span>Ratio</span><span id="ratioDark" class="amount">—</span></div>
-              <div class="row"><span>Normal (4.5)</span><span id="aaDark" class="badge">—</span></div>
-              <div class="row"><span>Large (3.0)</span><span id="laaDark" class="badge">—</span></div>
-              <div class="row"><span>AAA (7.0)</span><span id="aaaDark" class="badge">—</span></div>
+              <div class="row"><span>Ratio</span><span id="ratioDark" class="amount">-</span></div>
+              <div class="row"><span>Normal (4.5)</span><span id="aaDark" class="badge">-</span></div>
+              <div class="row"><span>Large (3.0)</span><span id="laaDark" class="badge">-</span></div>
+              <div class="row"><span>AAA (7.0)</span><span id="aaaDark" class="badge">-</span></div>
             </div>
           </div>
         </div>
@@ -155,7 +155,7 @@
     <!-- Shades & Tints -->
     <section class="card">
       <h2>Shades & Tints</h2>
-      <p class="note small">Auto‑generated from your color (lighter → darker). Click any swatch to copy HEX.</p>
+      <p class="note small">Auto-generated from your color (lighter → darker). Click any swatch to copy HEX.</p>
       <div id="palette" class="grid" style="grid-template-columns:repeat(auto-fill,minmax(120px,1fr))"></div>
       <div class="row" style="border:0; padding:0; margin-top:8px; gap:8px">
         <button id="copyCssVars" class="btn secondary" type="button">📋 Copy CSS Variables</button>
@@ -384,7 +384,7 @@
       const hex = colorInput.value.toUpperCase();
       syncURL(hex);
       const url = location.href;
-      if (navigator.share) navigator.share({ title:'Color Picker — UpTools', url }).catch(()=>{});
+      if (navigator.share) navigator.share({ title:'Color Picker - UpTools', url }).catch(()=>{});
       else { copy(url); alert('Link copied to clipboard:\\n' + url); }
     }
 
