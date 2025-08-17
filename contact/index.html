@@ -1,8 +1,10 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <!-- Google Ads (kept async and conditional; ad slot injected only if available) -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617" crossorigin="anonymous"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617"
+    crossorigin="anonymous"></script>
 
   <!-- Basics -->
   <meta charset="UTF-8" />
@@ -10,7 +12,8 @@
   <meta http-equiv="x-ua-compatible" content="IE=edge" />
   <meta name="color-scheme" content="dark light" />
   <title>Contact UpTools - Feedback, Bug Reports & Feature Requests | Fast Reply</title>
-  <meta name="description" content="Contact the UpTools team for feedback, bug reports, feature requests, or partnerships. Use the quick contact form, email support@uptools.in, or open a GitHub issue. Attach system info and screenshots, track your request, and get tips for writing great bug reports." />
+  <meta name="description"
+    content="Contact the UpTools team for feedback, bug reports, feature requests, or partnerships. Use the quick contact form, email support@uptools.in, or open a GitHub issue. Attach system info and screenshots, track your request, and get tips for writing great bug reports." />
   <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
   <meta name="theme-color" content="#0b0f1a" />
   <link rel="canonical" href="https://www.uptools.in/contact/" />
@@ -21,36 +24,100 @@
 
   <!-- Open Graph / Twitter -->
   <meta property="og:title" content="Contact UpTools - Feedback, Bug Reports & Feature Requests" />
-  <meta property="og:description" content="Quickly reach the UpTools team. Share feedback, report issues with logs & screenshots, or request new tools. Email support@uptools.in or use the form." />
+  <meta property="og:description"
+    content="Quickly reach the UpTools team. Share feedback, report issues with logs & screenshots, or request new tools. Email support@uptools.in or use the form." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.uptools.in/contact/" />
   <meta property="og:site_name" content="UpTools" />
   <meta property="og:image" content="https://www.uptools.in/assets/og/contact.png" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Contact UpTools - Feedback, Bug Reports & Feature Requests" />
-  <meta name="twitter:description" content="Quickly reach the UpTools team. Share feedback, report issues, or request new tools." />
+  <meta name="twitter:description"
+    content="Quickly reach the UpTools team. Share feedback, report issues, or request new tools." />
   <meta name="twitter:image" content="https://www.uptools.in/assets/og/contact.png" />
 
   <!-- Preload + load common CSS non-blocking (CLS-safe) -->
   <link rel="preload" href="/style.css?v=1.2.0" as="style">
   <link rel="stylesheet" href="/style.css?v=1.2.0" media="print" onload="this.media='all'">
-  <noscript><link rel="stylesheet" href="/style.css?v=1.2.0"></noscript>
+  <noscript>
+    <link rel="stylesheet" href="/style.css?v=1.2.0">
+  </noscript>
 
   <!-- Small critical tweaks ONLY -->
   <style>
-    :root{ --accent:#22d3ee; --accent-2:#a78bfa; }
+    :root {
+      --accent: #22d3ee;
+      --accent-2: #a78bfa;
+    }
+
     /* Reserve aspect ratio for the explainer video to avoid CLS */
-    .video-wrap{ width:100%; max-width:880px; margin:0 auto; border-radius:12px; overflow:hidden; border:1px solid var(--border); box-shadow:var(--glow-soft); }
-    .video-wrap .frame{ width:100%; aspect-ratio:16/9; display:block; }
+    .video-wrap {
+      width: 100%;
+      max-width: 880px;
+      margin: 0 auto;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      box-shadow: var(--glow-soft);
+    }
+
+    .video-wrap .frame {
+      width: 100%;
+      aspect-ratio: 16/9;
+      display: block;
+    }
+
     /* Tool-specific accent for "Contact" page */
-    .tool-icon{ font-weight:900; }
-    .links-grid{ display:grid; gap:12px; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); }
-    .kvi-badges{ display:flex; flex-wrap:wrap; gap:8px; margin-top:8px; }
-    .badge{ padding:6px 10px; border-radius:999px; font-size:12px; background:#0b1326; border:1px solid var(--border); box-shadow:var(--glow-soft); }
-    .copy-btn{ display:inline-grid; place-items:center; width:36px; height:36px; border-radius:10px; background:#0b1326; border:1px solid var(--border); box-shadow:var(--glow-soft); cursor:pointer; }
-    .copy-btn:active{ transform:translateY(0); }
+    .tool-icon {
+      font-weight: 900;
+    }
+
+    .links-grid {
+      display: grid;
+      gap: 12px;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    }
+
+    .kvi-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .badge {
+      padding: 6px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      background: #0b1326;
+      border: 1px solid var(--border);
+      box-shadow: var(--glow-soft);
+    }
+
+    .copy-btn {
+      display: inline-grid;
+      place-items: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: #0b1326;
+      border: 1px solid var(--border);
+      box-shadow: var(--glow-soft);
+      cursor: pointer;
+    }
+
+    .copy-btn:active {
+      transform: translateY(0);
+    }
+
     /* Honeypot (kept offscreen, not display:none to still catch bots) */
-    .hp{ position:absolute; left:-9999px; width:1px; height:1px; overflow:hidden; }
+    .hp {
+      position: absolute;
+      left: -9999px;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+    }
   </style>
 
   <!-- Structured Data -->
@@ -80,6 +147,7 @@
   }
   </script>
 </head>
+
 <body>
 
   <!-- Header (same as site-wide) -->
@@ -104,7 +172,8 @@
       <div class="tool-icon" aria-hidden="true">CT</div>
       <div>
         <h1 style="margin:0">Contact UpTools</h1>
-        <p class="note" style="margin:.25rem 0 0">Feedback, bug reports, feature ideas & partnerships - we usually reply within 1-2 business days.</p>
+        <p class="note" style="margin:.25rem 0 0">Feedback, bug reports, feature ideas & partnerships - we usually reply
+          within 1-2 business days.</p>
         <div class="kvi-badges" aria-hidden="true">
           <span class="badge">🛡️ Privacy-first</span>
           <span class="badge">⚡ Fast response</span>
@@ -154,7 +223,8 @@
     <!-- Contact form -->
     <section class="card neon" aria-labelledby="contact-form">
       <h2 id="contact-form" style="margin-top:0">Send a message</h2>
-      <p class="note" style="margin-top:-4px">Tip: include steps to reproduce, expected vs actual result, and a link to the page.</p>
+      <p class="note" style="margin-top:-4px">Tip: include steps to reproduce, expected vs actual result, and a link to
+        the page.</p>
 
       <form id="form" novalidate>
         <div class="hp" aria-hidden="true">
@@ -186,12 +256,14 @@
         </div>
 
         <label class="label" for="msg">Message</label>
-        <textarea class="textarea" id="msg" name="message" rows="6" placeholder="Tell us what happened, steps to reproduce, expected vs actual." required></textarea>
+        <textarea class="textarea" id="msg" name="message" rows="6"
+          placeholder="Tell us what happened, steps to reproduce, expected vs actual." required></textarea>
         <div class="note" id="count" aria-live="polite">0 / 2000</div>
 
         <details class="result" style="margin-top:10px">
           <summary><b>Attach system info (recommended)</b></summary>
-          <div class="note" style="margin:.5rem 0">We auto-fill non-sensitive environment details to help us reproduce issues.</div>
+          <div class="note" style="margin:.5rem 0">We auto-fill non-sensitive environment details to help us reproduce
+            issues.</div>
           <textarea class="textarea" id="sysinfo" name="sysinfo" rows="5" readonly></textarea>
           <div style="display:flex; gap:8px; margin-top:8px">
             <button class="btn sm secondary" type="button" id="copySys">Copy system info</button>
@@ -203,10 +275,12 @@
           <button class="btn" type="submit" id="sendBtn">Send via Email</button>
           <button class="btn secondary" type="button" id="saveDraft">Save draft</button>
           <button class="btn secondary" type="button" id="clearDraft">Clear</button>
-          <button class="copy-btn" type="button" id="copyEmail" title="Copy support email" aria-label="Copy support email">📋</button>
+          <button class="copy-btn" type="button" id="copyEmail" title="Copy support email"
+            aria-label="Copy support email">📋</button>
         </div>
 
-        <p class="note small" style="margin-top:8px">Or email: <a href="mailto:support@uptools.in">support@uptools.in</a></p>
+        <p class="note small" style="margin-top:8px">Or email: <a
+            href="mailto:support@uptools.in">support@uptools.in</a></p>
       </form>
     </section>
 
@@ -222,7 +296,9 @@
       </ol>
       <!-- Privacy-friendly YouTube embed (no cookies). Fixed ratio prevents layout shifts. -->
       <div class="video-wrap" aria-label="Explainer video">
-        <iframe class="frame" src="https://www.youtube-nocookie.com/embed/8lGpZkjnkt4" title="How to write a helpful bug report" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+        <iframe class="frame" src="https://www.youtube-nocookie.com/embed/8lGpZkjnkt4"
+          title="How to write a helpful bug report" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen></iframe>
       </div>
     </section>
 
@@ -262,7 +338,7 @@
     updateCount();
 
     // System info generator
-    function makeSysInfo(){
+    function makeSysInfo() {
       const n = navigator;
       const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
       const dpr = (window.devicePixelRatio || 1).toFixed(2);
@@ -272,7 +348,7 @@
         `URL: ${location.href}`,
         `UA: ${n.userAgent}`,
         `Platform: ${n.platform}`,
-        `Lang: ${n.language} (${(n.languages||[]).join(",")})`,
+        `Lang: ${n.language} (${(n.languages || []).join(",")})`,
         `Online: ${n.onLine}`,
         `TZ: ${tz}`,
         `DPR: ${dpr}`,
@@ -292,8 +368,8 @@
     const form = $("#form");
     // Restore if any
     const saved = read(DKEY);
-    if (saved){
-      for (const [k,v] of Object.entries(saved)){
+    if (saved) {
+      for (const [k, v] of Object.entries(saved)) {
         const el = form.elements[k];
         if (!el) continue;
         if (el.tagName === "SELECT") el.value = v;
@@ -313,7 +389,7 @@
 
     // Copy support email
     $("#copyEmail").addEventListener("click", async () => {
-      try { await navigator.clipboard.writeText("support@uptools.in"); alert("Email copied: support@uptools.in"); } catch {}
+      try { await navigator.clipboard.writeText("support@uptools.in"); alert("Email copied: support@uptools.in"); } catch { }
     });
 
     // Submit via mailto (no server required) with anti-spam honeypot
@@ -345,13 +421,13 @@
     });
 
     // Conditional ad slot insertion (ONLY if ads library is present)
-    function mountAd(){
+    function mountAd() {
       if (!("adsbygoogle" in window)) return;
       const mount = $("#ad-mount");
       if (!mount) return;
       const wrap = document.createElement("div");
       wrap.className = "card neon";
-      wrap.setAttribute("aria-label","Sponsored");
+      wrap.setAttribute("aria-label", "Sponsored");
       // Reserve height to avoid CLS; will be reused by AdSense
       wrap.style.minHeight = "120px";
       wrap.innerHTML = `
@@ -361,7 +437,7 @@
              data-ad-slot="auto"
              data-full-width-responsive="true"></ins>`;
       mount.appendChild(wrap);
-      try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch {}
+      try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch { }
     }
     // Try now and also once page is fully loaded
     if ("adsbygoogle" in window) mountAd();
@@ -380,4 +456,5 @@
     });
   </script>
 </body>
+
 </html>

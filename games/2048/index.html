@@ -1,393 +1,154 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <!-- Single async ad (kept minimal for performance) -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617"
-        crossorigin="anonymous"></script>
+  <!-- Single async ad (kept minimal for performance) -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617" crossorigin="anonymous"></script>
 
-    <!-- Third-party hints -->
-    <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
-    <link rel="dns-prefetch" href="//pagead2.googlesyndication.com">
+  <!-- Third-party hints -->
+  <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
+  <link rel="dns-prefetch" href="//pagead2.googlesyndication.com">
 
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <title>2048 - Free Online Game (Undo, Save, Share) | UpTools</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"/>
+  <title>2048 - Free Online Game (Undo, Save, Share) | UpTools</title>
 
-    <!-- SEO -->
-    <meta name="description"
-        content="Play 2048 online (mobile + desktop). Smooth swipes & arrows, undo, auto-save, best score & best tile, and a clean full-screen play window with a back button. Share your run to challenge friends!" />
-    <link rel="canonical" href="https://www.uptools.in/games/2048/" />
-    <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:large" />
-    <meta name="theme-color" content="#0f1419" />
+  <!-- SEO -->
+  <meta name="description" content="Play 2048 online (mobile + desktop). Smooth swipes & arrows, undo, auto-save, best score & best tile, and a clean full-screen play window with a back button. Share your run to challenge friends!" />
+  <link rel="canonical" href="https://www.uptools.in/games/2048/" />
+  <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:large" />
+  <meta name="theme-color" content="#0f1419" />
 
-    <!-- OpenGraph / Twitter -->
-    <meta property="og:title" content="Play 2048 - Free Online Game | UpTools" />
-    <meta property="og:description"
-        content="Swipe or use arrow keys to merge tiles and reach 2048. Undo, auto-save, best score, and share." />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://www.uptools.in/games/2048/" />
-    <meta property="og:image" content="https://www.uptools.in/assets/social/2048-card.png" />
-    <meta name="twitter:card" content="summary_large_image" />
+  <!-- OpenGraph / Twitter -->
+  <meta property="og:title" content="Play 2048 - Free Online Game | UpTools" />
+  <meta property="og:description" content="Swipe or use arrow keys to merge tiles and reach 2048. Undo, auto-save, best score, and share." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.uptools.in/games/2048/" />
+  <meta property="og:image" content="https://www.uptools.in/assets/social/2048-card.png" />
+  <meta name="twitter:card" content="summary_large_image" />
 
-    <!-- Icons -->
-    <link rel="icon" sizes="50x50" type="image/svg+xml" href="/assets/logo/uptools-logo.svg">
-    <link rel="apple-touch-icon" sizes="180x180" href="/assets/logo/uptools-logo.svg">
+  <!-- Icons -->
+  <link rel="icon" sizes="50x50" type="image/svg+xml" href="/assets/logo/uptools-logo.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/logo/uptools-logo.svg">
 
-    <!-- Base CSS -->
-    <link rel="preload" href="/style.css?v=1.3.0" as="style">
-    <link rel="stylesheet" href="/style.css?v=1.3.0" media="print" onload="this.media='all'">
-    <noscript>
-        <link rel="stylesheet" href="/style.css?v=1.3.0">
-    </noscript>
+  <!-- Base CSS -->
+  <link rel="preload" href="/style.css?v=1.3.0" as="style">
+  <link rel="stylesheet" href="/style.css?v=1.3.0" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="/style.css?v=1.3.0"></noscript>
 
-    <!-- Per-game styles (CLS-safe) -->
-    <style>
-        :root {
-            --accent: #6cf;
-            --accent2: #8bffb0;
-            --danger: #ff6b6b;
-            --bg: #0f1419;
-            --bg1: #0f1419;
-            --bg2: #121a26;
-            --card: #0e1526;
-            --cardBorder: #223249;
-            --muted: #9aa4b2;
-            --bar-h: 56px;
-            --board-size: 512px;
-            --gap: 10px;
-            --tile-radius: 12px;
-        }
+  <!-- Per-game styles (CLS-safe) -->
+  <style>
+    :root{
+      --accent:#6cf; --accent2:#8bffb0; --danger:#ff6b6b;
+      --bg:#0f1419; --bg1:#0f1419; --bg2:#121a26; --card:#0e1526; --cardBorder:#223249; --muted:#9aa4b2;
+      --board-size: 512px; /* dynamically set via ResizeObserver */
+      --gap: 10px; --tile-radius: 12px;
+    }
+    body{ background: radial-gradient(1100px 700px at 10% -10%, #101a34 0%, var(--bg) 45%) fixed; min-height:100svh; }
+    body.playing{ overflow:hidden; overscroll-behavior:none; }
 
-        body {
-            background: radial-gradient(1100px 700px at 10% -10%, #101a34 0%, var(--bg) 45%) fixed;
-            min-height: 100svh;
-        }
+    /* Home */
+    .game-wrap{ max-width:1100px; margin:0 auto; padding:1rem; }
+    .panel{
+      background:var(--card); border:1px solid var(--cardBorder);
+      border-radius:.85rem; box-shadow:0 6px 30px rgba(0,0,0,.25);
+      padding:1rem; margin:0 auto; overflow:hidden;
+    }
+    .hud{ display:grid; grid-template-columns:repeat(4,1fr); gap:.75rem; align-items:center; margin-bottom:.75rem; }
+    .kpi{ text-align:center; padding:.5rem .75rem; border:1px solid var(--cardBorder); border-radius:.75rem; background:rgba(255,255,255,.02) }
+    .kpi .value{ font-size:1.15rem; font-weight:800; color:var(--accent) }
+    .kpi .label{ font-size:.75rem; color:var(--muted) }
 
-        body.playing {
-            overflow: hidden;
-            overscroll-behavior: none;
-        }
+    .controls{ display:flex; flex-wrap:wrap; gap:.5rem; justify-content:center; margin:.75rem 0 0 }
+    .btn{ padding:.66rem 1.05rem; border:none; border-radius:.75rem; font-weight:800; cursor:pointer; transition: transform .12s ease, box-shadow .12s ease; }
+    .btn.primary{ background:var(--accent); color:#0b1020 }
+    .btn.secondary{ background:transparent; color:#e6edf3; border:1px solid var(--cardBorder) }
+    .btn.danger{ background:var(--danger); color:#0b1020 }
+    .btn:hover{ transform:translateY(-1px); box-shadow:0 8px 26px rgba(0,0,0,.25) }
+    .status{ text-align:center; margin:.75rem 0 0; color:var(--muted); font-weight:600 }
 
-        /* Home */
-        .game-wrap {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 1rem;
-        }
+    @media (max-width:760px){ .hud{ grid-template-columns:repeat(2,1fr); } .panel{ padding:.8rem; } }
 
-        .panel {
-            background: var(--card);
-            border: 1px solid var(--cardBorder);
-            border-radius: .85rem;
-            box-shadow: 0 6px 30px rgba(0, 0, 0, .25);
-            padding: 1rem;
-            margin: 0 auto;
-            overflow: hidden;
-        }
+    /* ======= FULL-SCREEN PLAY WINDOW ======= */
+    #playScreen{
+      position:fixed; inset:0; display:none; z-index:50;
+      background:linear-gradient(180deg, rgba(7,12,20,.96), rgba(9,14,22,.985));
+      /* Use dynamic viewport to avoid iOS URL bar jumps */
+      min-height:100dvh;
+      padding: max(8px, env(safe-area-inset-top)) clamp(8px, 2vw, 18px) max(10px, env(safe-area-inset-bottom));
+    }
+    #playScreen.open{ display:grid; grid-template-rows:auto 1fr auto; gap:.6rem; min-height:100dvh; }
+    .ps-top{
+      display:flex; align-items:center; justify-content:space-between; gap:.5rem;
+      background:rgba(255,255,255,.03); border:1px solid var(--cardBorder); border-radius:.65rem; padding:.5rem .6rem;
+    }
+    .ps-top .left, .ps-top .right{ display:flex; align-items:center; gap:.5rem }
+    .ps-title{ font-weight:900 }
+    .ps-btn{ padding:.5rem .8rem; border-radius:.6rem; border:1px solid var(--cardBorder); background:#0f151f; color:#e6edf3; font-weight:800; cursor:pointer }
+    .ps-btn.primary{ background:var(--accent); color:#0b1020; border-color:var(--accent) }
 
-        .hud {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: .75rem;
-            align-items: center;
-            margin-bottom: .75rem;
-        }
+    .ps-stage{ min-height:0; display:grid; align-items:center; justify-items:center; }
+    .board{
+      width:min(1100px, 100%); height:100%;
+      background:var(--card); border:1px solid var(--cardBorder); border-radius:.85rem;
+      padding:.9rem; display:grid; align-content:center; justify-items:center; overflow:hidden;
+      touch-action:none; /* prevent touch scroll while playing */
+      min-height:0;      /* critical for flex/grid children sizing */
+    }
 
-        .kpi {
-            text-align: center;
-            padding: .5rem .75rem;
-            border: 1px solid var(--cardBorder);
-            border-radius: .75rem;
-            background: rgba(255, 255, 255, .02)
-        }
+    .ps-bottom{ display:flex; flex-wrap:wrap; gap:.5rem; justify-content:center }
 
-        .kpi .value {
-            font-size: 1.15rem;
-            font-weight: 800;
-            color: var(--accent)
-        }
+    /* Square board that always fits its wrapper (.board) */
+    #board{
+      position:relative;
+      width:var(--board-size);
+      height:var(--board-size);
+      max-width:100%;
+      max-height:100%;
+      background:linear-gradient(180deg,#0c1324,#0b1426);
+      border:1px solid rgba(255,255,255,.06);
+      border-radius:16px; padding:var(--gap);
+      display:grid; grid-template-columns:repeat(4,1fr); grid-template-rows:repeat(4,1fr); gap:var(--gap);
+      box-shadow: 0 0 0 1px rgba(108,240,255,.12), 0 0 40px -15px rgba(108,240,255,.35) inset;
+    }
+    .bgcell{
+      background:#0f162a; border-radius:var(--tile-radius);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.06);
+    }
 
-        .kpi .label {
-            font-size: .75rem;
-            color: var(--muted)
-        }
+    .tile{
+      position:absolute; inset:auto;
+      width: calc((var(--board-size) - var(--gap) * 5) / 4);
+      height: calc((var(--board-size) - var(--gap) * 5) / 4);
+      border-radius:var(--tile-radius);
+      display:grid; place-items:center;
+      font-weight:900; font-size:clamp(18px, 6.2vmin, 42px);
+      color:#0b1020;
+      transition: transform .12s ease-out;
+      will-change: transform;
+    }
+    .tile.pop{ animation:pop .14s ease-out; }
+    .tile.merge{ animation:merge .16s ease-out; }
+    @keyframes pop{ from{ transform:scale(.72) } to{ transform:scale(1) } }
+    @keyframes merge{ 0%{ transform:scale(1) } 50%{ transform:scale(1.08) } 100%{ transform:scale(1) } }
 
-        .controls {
-            display: flex;
-            flex-wrap: wrap;
-            gap: .5rem;
-            justify-content: center;
-            margin: .75rem 0 0
-        }
+    /* Classic 2048 palette */
+    .n2{background:#eee4da;color:#776e65}
+    .n4{background:#ede0c8;color:#776e65}
+    .n8{background:#f2b179;color:#fff}
+    .n16{background:#f59563;color:#fff}
+    .n32{background:#f67c5f;color:#fff}
+    .n64{background:#f65e3b;color:#fff}
+    .n128{background:#edcf72;color:#243}
+    .n256{background:#edcc61;color:#243}
+    .n512{background:#edc850;color:#243}
+    .n1024{background:#edc53f;color:#243; font-size:clamp(16px, 5.2vmin, 36px)}
+    .n2048{background:linear-gradient(135deg,#6cf,#8bffb0); color:#05202e; font-size:clamp(16px, 5.2vmin, 36px)}
 
-        .btn {
-            padding: .66rem 1.05rem;
-            border: none;
-            border-radius: .75rem;
-            font-weight: 800;
-            cursor: pointer;
-            transition: transform .12s ease, box-shadow .12s ease;
-        }
+    .note{ color:var(--muted); font-size:.85rem; text-align:center; margin-top:.35rem }
+  </style>
 
-        .btn.primary {
-            background: var(--accent);
-            color: #0b1020
-        }
-
-        .btn.secondary {
-            background: transparent;
-            color: #e6edf3;
-            border: 1px solid var(--cardBorder)
-        }
-
-        .btn.danger {
-            background: var(--danger);
-            color: #0b1020
-        }
-
-        .btn:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 8px 26px rgba(0, 0, 0, .25)
-        }
-
-        .status {
-            text-align: center;
-            margin: .75rem 0 0;
-            color: var(--muted);
-            font-weight: 600
-        }
-
-        @media (max-width:760px) {
-            .hud {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .panel {
-                padding: .8rem;
-            }
-        }
-
-        /* ======= FULL-SCREEN PLAY WINDOW ======= */
-        #playScreen {
-            position: fixed;
-            inset: 0;
-            display: none;
-            z-index: 50;
-            background: linear-gradient(180deg, rgba(7, 12, 20, .96), rgba(9, 14, 22, .985));
-            padding: max(8px, env(safe-area-inset-top)) clamp(8px, 2vw, 18px) max(10px, env(safe-area-inset-bottom));
-        }
-
-        #playScreen.open {
-            display: grid;
-            grid-template-rows: auto 1fr auto;
-            gap: .6rem;
-        }
-
-        .ps-top {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: .5rem;
-            background: rgba(255, 255, 255, .03);
-            border: 1px solid var(--cardBorder);
-            border-radius: .65rem;
-            padding: .5rem .6rem;
-        }
-
-        .ps-top .left,
-        .ps-top .right {
-            display: flex;
-            align-items: center;
-            gap: .5rem
-        }
-
-        .ps-title {
-            font-weight: 900
-        }
-
-        .ps-btn {
-            padding: .5rem .8rem;
-            border-radius: .6rem;
-            border: 1px solid var(--cardBorder);
-            background: #0f151f;
-            color: #e6edf3;
-            font-weight: 800;
-            cursor: pointer
-        }
-
-        .ps-btn.primary {
-            background: var(--accent);
-            color: #0b1020;
-            border-color: var(--accent)
-        }
-
-        .ps-stage {
-            min-height: 0;
-            display: grid;
-            align-items: center;
-            justify-items: center;
-        }
-
-        .board {
-            width: min(1100px, 100%);
-            height: 100%;
-            background: var(--card);
-            border: 1px solid var(--cardBorder);
-            border-radius: .85rem;
-            padding: .9rem;
-            display: grid;
-            align-content: center;
-            justify-items: center;
-            overflow: hidden;
-            touch-action: none;
-            /* prevent touch scroll while playing */
-        }
-
-        .ps-bottom {
-            display: flex;
-            flex-wrap: wrap;
-            gap: .5rem;
-            justify-content: center
-        }
-
-        /* Square board that always fits */
-        #board {
-            position: relative;
-            width: var(--board-size);
-            height: var(--board-size);
-            background: linear-gradient(180deg, #0c1324, #0b1426);
-            border: 1px solid rgba(255, 255, 255, .06);
-            border-radius: 16px;
-            padding: var(--gap);
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            grid-template-rows: repeat(4, 1fr);
-            gap: var(--gap);
-            box-shadow: 0 0 0 1px rgba(108, 240, 255, .12), 0 0 40px -15px rgba(108, 240, 255, .35) inset;
-        }
-
-        .bgcell {
-            background: #0f162a;
-            border-radius: var(--tile-radius);
-            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .06);
-        }
-
-        .tile {
-            position: absolute;
-            inset: auto;
-            width: calc((var(--board-size) - var(--gap) * 5) / 4);
-            height: calc((var(--board-size) - var(--gap) * 5) / 4);
-            border-radius: var(--tile-radius);
-            display: grid;
-            place-items: center;
-            font-weight: 900;
-            font-size: clamp(18px, 6.2vmin, 42px);
-            color: #0b1020;
-            transition: transform .12s ease-out;
-            will-change: transform;
-        }
-
-        .tile.pop {
-            animation: pop .14s ease-out;
-        }
-
-        .tile.merge {
-            animation: merge .16s ease-out;
-        }
-
-        @keyframes pop {
-            from {
-                transform: scale(.72)
-            }
-
-            to {
-                transform: scale(1)
-            }
-        }
-
-        @keyframes merge {
-            0% {
-                transform: scale(1)
-            }
-
-            50% {
-                transform: scale(1.08)
-            }
-
-            100% {
-                transform: scale(1)
-            }
-        }
-
-        /* Classic 2048 palette with slight neon vibe */
-        .n2 {
-            background: #eee4da;
-            color: #776e65
-        }
-
-        .n4 {
-            background: #ede0c8;
-            color: #776e65
-        }
-
-        .n8 {
-            background: #f2b179;
-            color: #fff
-        }
-
-        .n16 {
-            background: #f59563;
-            color: #fff
-        }
-
-        .n32 {
-            background: #f67c5f;
-            color: #fff
-        }
-
-        .n64 {
-            background: #f65e3b;
-            color: #fff
-        }
-
-        .n128 {
-            background: #edcf72;
-            color: #243
-        }
-
-        .n256 {
-            background: #edcc61;
-            color: #243
-        }
-
-        .n512 {
-            background: #edc850;
-            color: #243
-        }
-
-        .n1024 {
-            background: #edc53f;
-            color: #243;
-            font-size: clamp(16px, 5.2vmin, 36px)
-        }
-
-        .n2048 {
-            background: linear-gradient(135deg, #6cf, #8bffb0);
-            color: #05202e;
-            font-size: clamp(16px, 5.2vmin, 36px)
-        }
-
-        .note {
-            color: var(--muted);
-            font-size: .85rem;
-            text-align: center;
-            margin-top: .35rem
-        }
-    </style>
-
-    <!-- Structured Data -->
-    <script type="application/ld+json">
+  <!-- Structured Data -->
+  <script type="application/ld+json">
   {
     "@context":"https://schema.org",
     "@type":"VideoGame",
@@ -402,658 +163,620 @@
   }
   </script>
 </head>
-
 <body>
-    <!-- Header -->
-    <header class="site" role="banner">
-        <div class="header-inner">
-            <a class="brand" href="/" aria-label="UpTools Home">
-                <img src="/assets/logo/uptools-logo.svg" alt="UpTools logo" width="28" height="28" loading="eager">
-                <b>UpTools</b>
-            </a>
-            <nav class="nav-links" aria-label="Primary">
-                <a href="/#tools">Tools</a>
-                <a aria-current="page" href="/games/">Games</a>
-                <a href="/about/">About</a>
-                <a href="/contact/">Contact</a>
-            </nav>
+  <!-- Header -->
+  <header class="site" role="banner">
+    <div class="header-inner">
+      <a class="brand" href="/" aria-label="UpTools Home">
+        <img src="/assets/logo/uptools-logo.svg" alt="UpTools logo" width="28" height="28" loading="eager">
+        <b>UpTools</b>
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="/#tools">Tools</a>
+        <a aria-current="page" href="/games/">Games</a>
+        <a href="/about/">About</a>
+        <a href="/contact/">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Home / Landing -->
+  <main class="wrap" id="homeScreen">
+    <div class="tool-header" style="text-align:center;margin:1rem 0 .25rem">
+      <h1>🎲 2048</h1>
+      <p>Press <b>New Game</b>. A dedicated full-screen window opens with a back button and your score on top.</p>
+    </div>
+
+    <div class="game-wrap">
+      <section class="panel">
+        <div class="hud" aria-live="polite">
+          <div class="kpi"><div class="value" id="bestScore">0</div><div class="label">Best Score</div></div>
+          <div class="kpi"><div class="value" id="bestTile">0</div><div class="label">Best Tile</div></div>
+          <div class="kpi"><div class="value" id="lastScore">0</div><div class="label">Last Score</div></div>
+          <div class="kpi"><div class="value" id="movesHome">0</div><div class="label">Last Moves</div></div>
         </div>
-    </header>
 
-    <!-- Home / Landing -->
-    <main class="wrap" id="homeScreen">
-        <div class="tool-header" style="text-align:center;margin:1rem 0 .25rem">
-            <h1>🎲 2048</h1>
-            <p>Press <b>New Game</b>. A dedicated full-screen window opens with a back button and your score on top.</p>
+        <div class="controls" role="toolbar" aria-label="Controls">
+          <button id="newGame" class="btn primary">New Game</button>
+          <button id="continueBtn" class="btn secondary">↩️ Continue</button>
+          <button id="shareBtn" class="btn secondary">📣 Challenge Friends</button>
+          <button id="resetBest" class="btn danger">Reset Best</button>
         </div>
 
-        <div class="game-wrap">
-            <section class="panel">
-                <div class="hud" aria-live="polite">
-                    <div class="kpi">
-                        <div class="value" id="bestScore">0</div>
-                        <div class="label">Best Score</div>
-                    </div>
-                    <div class="kpi">
-                        <div class="value" id="bestTile">0</div>
-                        <div class="label">Best Tile</div>
-                    </div>
-                    <div class="kpi">
-                        <div class="value" id="lastScore">0</div>
-                        <div class="label">Last Score</div>
-                    </div>
-                    <div class="kpi">
-                        <div class="value" id="movesHome">0</div>
-                        <div class="label">Last Moves</div>
-                    </div>
-                </div>
+        <p class="status" id="homeStatus">Keyboard: <kbd>←</kbd><kbd>→</kbd><kbd>↑</kbd><kbd>↓</kbd> or swipe on mobile. Bests saved on this device.</p>
 
-                <div class="controls" role="toolbar" aria-label="Controls">
-                    <button id="newGame" class="btn primary">New Game</button>
-                    <button id="continueBtn" class="btn secondary">↩️ Continue</button>
-                    <button id="shareBtn" class="btn secondary">📣 Challenge Friends</button>
-                    <button id="resetBest" class="btn danger">Reset Best</button>
-                </div>
-
-                <p class="status" id="homeStatus">Keyboard: <kbd>←</kbd><kbd>→</kbd><kbd>↑</kbd><kbd>↓</kbd> or swipe on
-                    mobile. Bests saved on this device.</p>
-
-                <div class="grid" style="display:grid;grid-template-columns:1fr;gap:.75rem;margin-top:1rem">
-                    <div class="card"
-                        style="background:#0b1326;border:1px solid #233351;border-radius:.75rem;padding:.75rem">
-                        <b>How to play</b>
-                        <p class="note">Each move slides all tiles. If two tiles with the same number collide, they
-                            merge into one and add to your score. Create a tile with <b>2048</b> to win - or keep going
-                            for a higher score.</p>
-                        <div
-                            style="aspect-ratio:16/9; border-radius:12px; overflow:hidden; border:1px solid #233351; background:#0f151f">
-                            <iframe width="877" height="493"
-                                src="https://www.youtube.com/embed/kQhkkqjGkFA?si=ILkv1dvVHiEsxCTy"
-                                title="YouTube video player" frameborder="0"
-                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                        </div>
-                        <p class="note" style="margin-top:.5rem">
-                            Learn more on <a href="https://en.wikipedia.org/wiki/2048_(video_game)"
-                                rel="noopener nofollow">Wikipedia</a> or try the
-                            <a href="https://play2048.co/" rel="noopener nofollow">original 2048</a> by Gabriele
-                            Cirulli.
-                        </p>
-                    </div>
-                </div>
-
-                <nav class="nav-links small" style="justify-content:center;margin-top:.75rem">
-                    Related on UpTools:
-                    <a href="/games/">All Games</a> ·
-                    <a href="/qr-generator/">QR Code Generator</a> ·
-                    <a href="/image-converter/">Image Converter</a> ·
-                    <a href="/bmi-calculator/">BMI Calculator</a> ·
-                    <a href="/ifsc-finder/">IFSC Finder</a> ·
-                    <a href="/gst-calculator/">GST Calculator</a> ·
-                    <a href="/currency-converter/">Currency Converter</a>
-                </nav>
-            </section>
-        </div>
-    </main>
-
-    <!-- FULL-SCREEN Play Window (focusable when opened; never use aria-hidden to avoid AT issues) -->
-    <section id="playScreen" role="dialog" aria-modal="true" inert>
-        <div class="ps-top">
-            <div class="left">
-                <button id="psBack" class="ps-btn" type="button" aria-label="Stop and go back">⟵ Back</button>
-                <span class="ps-title">2048</span>
+        <div class="grid" style="display:grid;grid-template-columns:1fr;gap:.75rem;margin-top:1rem">
+          <div class="card" style="background:#0b1326;border:1px solid #233351;border-radius:.75rem;padding:.75rem">
+            <b>How to play</b>
+            <p class="note">Each move slides all tiles. If two tiles with the same number collide, they merge into one and add to your score. Create a tile with <b>2048</b> to win — or keep going for a higher score.</p>
+            <div style="aspect-ratio:16/9; border-radius:12px; overflow:hidden; border:1px solid #233351; background:#0f151f">
+              <iframe width="100%" height="100%"
+                src="https://www.youtube.com/embed/kQhkkqjGkFA?si=ILkv1dvVHiEsxCTy"
+                title="YouTube video player" frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
             </div>
-            <div class="mid" style="display:flex;gap:.5rem;align-items:center">
-                <span class="ps-btn" style="font-variant-numeric:tabular-nums" id="psScore">0</span>
-                <span class="ps-btn" style="font-variant-numeric:tabular-nums" id="psBest">Best: 0</span>
-            </div>
-            <div class="right" aria-label="Quick actions">
-                <button id="psUndo" class="ps-btn">↶ Undo</button>
-                <button id="psRestart" class="ps-btn">⟲ Restart</button>
-                <button id="psShare" class="ps-btn">🔗 Share</button>
-            </div>
+            <p class="note" style="margin-top:.5rem">
+              Learn more on <a href="https://en.wikipedia.org/wiki/2048_(video_game)" rel="noopener nofollow">Wikipedia</a> or try the
+              <a href="https://play2048.co/" rel="noopener nofollow">original 2048</a> by Gabriele Cirulli.
+            </p>
+          </div>
         </div>
 
-        <div class="ps-stage">
-            <div class="board">
-                <!-- The square board that always fits -->
-                <div id="board" aria-label="2048 board" aria-live="polite" aria-atomic="false">
-                    <!-- Background cells for layout stability (avoid CLS) -->
-                    <div class="bgcell"></div>
-                    <div class="bgcell"></div>
-                    <div class="bgcell"></div>
-                    <div class="bgcell"></div>
-                    <div class="bgcell"></div>
-                    <div class="bgcell"></div>
-                    <div class="bgcell"></div>
-                    <div class="bgcell"></div>
-                    <div class="bgcell"></div>
-                    <div class="bgcell"></div>
-                    <div class="bgcell"></div>
-                    <div class="bgcell"></div>
-                    <div class="bgcell"></div>
-                    <div class="bgcell"></div>
-                    <div class="bgcell"></div>
-                    <div class="bgcell"></div>
-                </div>
-            </div>
+        <nav class="nav-links small" style="justify-content:center;margin-top:.75rem">
+          Related on UpTools:
+          <a href="/games/">All Games</a> ·
+          <a href="/qr-generator/">QR Code Generator</a> ·
+          <a href="/image-converter/">Image Converter</a> ·
+          <a href="/bmi-calculator/">BMI Calculator</a> ·
+          <a href="/ifsc-finder/">IFSC Finder</a> ·
+          <a href="/gst-calculator/">GST Calculator</a> ·
+          <a href="/currency-converter/">Currency Converter</a>
+        </nav>
+      </section>
+    </div>
+  </main>
+
+  <!-- FULL-SCREEN Play Window (focusable when opened; uses inert when hidden) -->
+  <section id="playScreen" role="dialog" aria-modal="true" inert>
+    <div class="ps-top">
+      <div class="left">
+        <button id="psBack" class="ps-btn" type="button" aria-label="Stop and go back">⟵ Back</button>
+        <span class="ps-title">2048</span>
+      </div>
+      <div class="mid" style="display:flex;gap:.5rem;align-items:center">
+        <span class="ps-btn" style="font-variant-numeric:tabular-nums" id="psScore">0</span>
+        <span class="ps-btn" style="font-variant-numeric:tabular-nums" id="psBest">Best: 0</span>
+      </div>
+      <div class="right" aria-label="Quick actions">
+        <button id="psUndo" class="ps-btn">↶ Undo</button>
+        <button id="psRestart" class="ps-btn">⟲ Restart</button>
+        <button id="psShare" class="ps-btn">🔗 Share</button>
+      </div>
+    </div>
+
+    <div class="ps-stage">
+      <div class="board">
+        <!-- The square board that always fits -->
+        <div id="board" aria-label="2048 board" aria-live="polite" aria-atomic="false">
+          <!-- Background cells for layout stability (avoid CLS) -->
+          <div class="bgcell"></div><div class="bgcell"></div><div class="bgcell"></div><div class="bgcell"></div>
+          <div class="bgcell"></div><div class="bgcell"></div><div class="bgcell"></div><div class="bgcell"></div>
+          <div class="bgcell"></div><div class="bgcell"></div><div class="bgcell"></div><div class="bgcell"></div>
+          <div class="bgcell"></div><div class="bgcell"></div><div class="bgcell"></div><div class="bgcell"></div>
         </div>
+      </div>
+    </div>
 
-        <div class="ps-bottom">
-            <span class="note">Tip: use <kbd>WASD</kbd> too. Press <b>Back</b> to stop - progress is saved.</span>
-        </div>
-    </section>
+    <div class="ps-bottom">
+      <span class="note">Tip: use <kbd>WASD</kbd> too. Press <b>Back</b> to stop — progress is saved.</span>
+    </div>
+  </section>
 
-    <!-- App (ESM). Uses your shared /scripts/utils.js -->
-    <script type="module">
-        import * as U from "/scripts/utils.js"; // ES module import
-        const $ = U.$ ?? ((s, el = document) => el.querySelector(s));
-        const $$ = U.$$ ?? ((s, el = document) => [...el.querySelectorAll(s)]);
-        const clamp = U.clamp ?? ((x, min, max) => Math.min(max, Math.max(min, x)));
+  <!-- App (ESM). Uses your shared /scripts/utils.js -->
+  <script type="module">
+    import * as U from "/scripts/utils.js"; // ES module import
+    const $  = U.$  ?? ((s, el=document)=>el.querySelector(s));
+    const $$ = U.$$ ?? ((s, el=document)=>[...el.querySelectorAll(s)]);
 
-        // ---------- Elements ----------
-        const els = {
-            home: $("#homeScreen"),
-            play: $("#playScreen"),
-            newGame: $("#newGame"),
-            continue: $("#continueBtn"),
-            share: $("#shareBtn"),
-            resetBest: $("#resetBest"),
-            homeBest: $("#bestScore"),
-            homeTile: $("#bestTile"),
-            homeLast: $("#lastScore"),
-            homeMoves: $("#movesHome"),
-            status: $("#homeStatus"),
-            board: $("#board"),
-            psBack: $("#psBack"),
-            psScore: $("#psScore"),
-            psBest: $("#psBest"),
-            psUndo: $("#psUndo"),
-            psRestart: $("#psRestart"),
-            psShare: $("#psShare"),
-        };
+    // ---------- Elements ----------
+    const els = {
+      home:       $("#homeScreen"),
+      play:       $("#playScreen"),
+      newGame:    $("#newGame"),
+      continue:   $("#continueBtn"),
+      share:      $("#shareBtn"),
+      resetBest:  $("#resetBest"),
+      homeBest:   $("#bestScore"),
+      homeTile:   $("#bestTile"),
+      homeLast:   $("#lastScore"),
+      homeMoves:  $("#movesHome"),
+      status:     $("#homeStatus"),
+      boardWrap:  document.querySelector(".board"), // wrapper that owns the available size
+      board:      $("#board"),
+      psBack:     $("#psBack"),
+      psScore:    $("#psScore"),
+      psBest:     $("#psBest"),
+      psUndo:     $("#psUndo"),
+      psRestart:  $("#psRestart"),
+      psShare:    $("#psShare"),
+    };
 
-        // ---------- Storage keys (localStorage + cookie mirror for bests) ----------
-        const LS = {
-            STATE: "ut_2048_state_v1",
-            BEST: "ut_2048_best",
-            BESTT: "ut_2048_bestTile",
-            LAST: "ut_2048_last",
-            MOVES: "ut_2048_lastMoves",
-            SEED: "ut_2048_seed"
-        };
+    // ---------- Storage keys ----------
+    const LS = {
+      STATE: "ut_2048_state_v1",
+      BEST:  "ut_2048_best",
+      BESTT: "ut_2048_bestTile",
+      LAST:  "ut_2048_last",
+      MOVES: "ut_2048_lastMoves",
+      SEED:  "ut_2048_seed"
+    };
 
-        // Cookies helper (for "save in cookies" requirement)
-        function setCookie(name, value, days = 365) {
-            const d = new Date(Date.now() + days * 864e5);
-            document.cookie = encodeURIComponent(name) + "=" + encodeURIComponent(value) + "; path=/; expires=" + d.toUTCString();
+    // Cookies helper (for "save in cookies" requirement)
+    function setCookie(name, value, days=365){
+      const d = new Date(Date.now()+days*864e5);
+      document.cookie = encodeURIComponent(name)+"="+encodeURIComponent(value)+"; path=/; expires="+d.toUTCString();
+    }
+    function getCookie(name){
+      const m = document.cookie.match('(?:^|;)\\s*'+encodeURIComponent(name)+'=([^;]*)');
+      return m ? decodeURIComponent(m[1]) : null;
+    }
+
+    // ---------- Game State ----------
+    const state = {
+      size: 4,
+      grid: [],  // 2D numbers (tile ids)
+      tiles: new Map(), // id -> {id,v,r,c,el}
+      nextId: 1,
+      score: 0,
+      moves: 0,
+      best:  Number(localStorage.getItem(LS.BEST) || getCookie(LS.BEST) || 0),
+      bestTile: Number(localStorage.getItem(LS.BESTT) || getCookie(LS.BESTT) || 0),
+      history: [], // snapshots for undo
+      playing: false,
+      pointer: {x:0,y:0,active:false},
+      seed:  localStorage.getItem(LS.SEED) || ""
+    };
+
+    // ---------- RNG (seedable for shareable start) ----------
+    function mulberry32(seed){ let t=seed>>>0; return ()=>{ t+=0x6D2B79F5; let r=Math.imul(t^t>>>15,1|t); r^=r+Math.imul(r^r>>>7,61|r); return ((r^r>>>14)>>>0)/4294967296; }; }
+    function strHash(s){ let h=2166136261>>>0; for(let i=0;i<s.length;i++){ h^=s.charCodeAt(i); h=Math.imul(h,16777619);} return h>>>0; }
+    let rnd = Math.random;
+    function reseed(seed){
+      if(!seed){ rnd = Math.random; return; }
+      const h = strHash(seed);
+      rnd = mulberry32(h);
+      localStorage.setItem(LS.SEED, seed);
+    }
+
+    // ---------- Responsive: fit square board to visible wrapper (.board) ----------
+    function fitBoardSize(){
+      // Measure the wrapper that actually receives the available height in the grid (no magic constants)
+      const wrap = els.boardWrap;
+      if(!wrap) return;
+      const cs = getComputedStyle(wrap);
+      const padX = parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight);
+      const padY = parseFloat(cs.paddingTop)  + parseFloat(cs.paddingBottom);
+      const availW = Math.max(160, wrap.clientWidth  - padX);
+      const availH = Math.max(180, wrap.clientHeight - padY);
+      // Square that always fits — never clips, even on small phones with toolbars
+      const size = Math.floor(Math.min(availW, availH));
+      document.documentElement.style.setProperty('--board-size', size + 'px');
+      // Re-position tiles after size change
+      for(const t of state.tiles.values()) placeTile(t);
+    }
+
+    // Observe size changes of the wrapper (handles rotations, browser bars, split view)
+    const ro = new ResizeObserver(()=>fitBoardSize());
+    ro.observe(els.boardWrap);
+    addEventListener('orientationchange', fitBoardSize, {passive:true});
+
+    // ---------- Utilities ----------
+    function bgPos(r,c){
+      const gap  = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--gap')) || 10;
+      const size = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--board-size')) || 480;
+      const cell = (size - gap*5)/4;
+      const x = gap + (cell+gap)*c;
+      const y = gap + (cell+gap)*r;
+      return {x,y};
+    }
+    function placeTile(t){
+      const {x,y} = bgPos(t.r,t.c);
+      t.el.style.transform = `translate(${x}px, ${y}px)`;
+      t.el.className = `tile n${t.v}`;
+      t.el.textContent = t.v;
+    }
+    function spawnTile(v,r,c,animate=false){
+      const id = state.nextId++;
+      const el = document.createElement('div');
+      el.className = `tile n${v}${animate?' pop':''}`;
+      el.setAttribute('role','button');
+      el.setAttribute('aria-label', String(v));
+      el.textContent = v;
+      const t = {id,v,r,c,el};
+      state.tiles.set(id,t);
+      state.grid[r][c]=id;
+      els.board.appendChild(el);
+      placeTile(t);
+    }
+    function removeTile(id){
+      const t = state.tiles.get(id);
+      if(t){ t.el.remove(); state.tiles.delete(id); }
+    }
+
+    function emptyGrid(n=state.size){ return Array.from({length:n},()=>Array.from({length:n},()=>null)); }
+    function getEmptyCells(){
+      const res=[];
+      for(let r=0;r<state.size;r++) for(let c=0;c<state.size;c++){
+        if(state.grid[r][c]==null) res.push([r,c]);
+      }
+      return res;
+    }
+    function addRandomTile(){
+      const empties = getEmptyCells();
+      if(!empties.length) return;
+      const [r,c] = empties[(rnd()*empties.length)|0];
+      const v = rnd()<.9 ? 2 : 4;
+      spawnTile(v,r,c,true);
+    }
+
+    function snapshot(){
+      return {
+        grid: state.grid.map(row=>row.slice()),
+        tiles: [...state.tiles.values()].map(t=>({id:t.id,v:t.v,r:t.r,c:t.c})),
+        score: state.score,
+        moves: state.moves,
+        nextId: state.nextId
+      };
+    }
+    function restore(s){
+      for(const t of state.tiles.values()) t.el.remove();
+      state.tiles.clear();
+      state.grid = s.grid.map(row=>row.slice());
+      state.score = s.score;
+      state.moves = s.moves;
+      state.nextId = s.nextId;
+      for(const t of s.tiles){
+        const el = document.createElement('div');
+        el.className = `tile n${t.v}`;
+        el.textContent = t.v;
+        const tile = { ...t, el };
+        state.tiles.set(tile.id, tile);
+        els.board.appendChild(el);
+        placeTile(tile);
+      }
+      updateHUD(); saveLocal(); fitBoardSize();
+    }
+
+    function saveLocal(){
+      const obj = {
+        grid: state.grid,
+        tiles: [...state.tiles.values()].map(t=>({id:t.id,v:t.v,r:t.r,c:t.c})),
+        score: state.score,
+        moves: state.moves,
+        nextId: state.nextId,
+        best: state.best,
+        bestTile: state.bestTile,
+        seed: state.seed
+      };
+      localStorage.setItem(LS.STATE, JSON.stringify(obj));
+      localStorage.setItem(LS.BEST, String(state.best));
+      localStorage.setItem(LS.BESTT, String(state.bestTile));
+      localStorage.setItem(LS.LAST, String(state.score));
+      localStorage.setItem(LS.MOVES, String(state.moves));
+      setCookie(LS.BEST, String(state.best));
+      setCookie(LS.BESTT, String(state.bestTile));
+    }
+    function loadLocal(){ try{ return JSON.parse(localStorage.getItem(LS.STATE) || "null"); }catch{ return null; } }
+
+    // ---------- Game Flow ----------
+    function reset(){
+      for(const t of state.tiles.values()) t.el.remove();
+      state.tiles.clear();
+      state.grid = emptyGrid();
+      state.nextId = 1;
+      state.score = 0;
+      state.moves = 0;
+      updateHUD();
+    }
+    function startNew(seed=""){
+      reset();
+      state.seed = seed || "";
+      reseed(state.seed);
+      addRandomTile(); addRandomTile();
+      updateHUD(); saveLocal(); fitBoardSize();
+    }
+    function continueSaved(){
+      const s = loadLocal();
+      if(!s){ startNew(); return; }
+      state.best = Math.max(state.best, s.best||0);
+      state.bestTile = Math.max(state.bestTile, s.bestTile||0);
+      state.seed = s.seed || "";
+      reseed(state.seed);
+      restore(s);
+    }
+
+    // ---------- Move Logic ----------
+    function canMove(){
+      if(getEmptyCells().length) return true;
+      for(let r=0;r<state.size;r++){
+        for(let c=0;c<state.size;c++){
+          const id = state.grid[r][c]; if(id==null) continue;
+          const v = state.tiles.get(id).v;
+          const right = c+1<state.size ? state.grid[r][c+1] : null;
+          const down  = r+1<state.size ? state.grid[r+1][c] : null;
+          if((right && state.tiles.get(right).v===v) || (down && state.tiles.get(down).v===v)) return true;
         }
-        function getCookie(name) {
-            const m = document.cookie.match('(?:^|;)\\s*' + encodeURIComponent(name) + '=([^;]*)');
-            return m ? decodeURIComponent(m[1]) : null;
-        }
+      }
+      return false;
+    }
 
-        // ---------- Game State ----------
-        const state = {
-            size: 4,
-            grid: [],  // 2D numbers
-            tiles: new Map(), // id -> {id,v,r,c,el}
-            nextId: 1,
-            score: 0,
-            moves: 0,
-            best: Number(localStorage.getItem(LS.BEST) || getCookie(LS.BEST) || 0),
-            bestTile: Number(localStorage.getItem(LS.BESTT) || getCookie(LS.BESTT) || 0),
-            history: [], // snapshots for undo
-            playing: false,
-            pointer: { x: 0, y: 0, active: false },
-            seed: localStorage.getItem(LS.SEED) || ""
-        };
+    function move(dir){
+      const before = JSON.stringify(state.grid);
+      const his = snapshot();
 
-        // ---------- RNG (seedable for shareable start) ----------
-        function mulberry32(seed) { let t = seed >>> 0; return () => { t += 0x6D2B79F5; let r = Math.imul(t ^ t >>> 15, 1 | t); r ^= r + Math.imul(r ^ r >>> 7, 61 | r); return ((r ^ r >>> 14) >>> 0) / 4294967296; }; }
-        function strHash(s) { let h = 2166136261 >>> 0; for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; }
-        let rnd = Math.random;
-        function reseed(seed) {
-            if (!seed) { rnd = Math.random; return; }
-            const h = strHash(seed);
-            const r = mulberry32(h);
-            rnd = r;
-            localStorage.setItem(LS.SEED, seed);
-        }
+      let gained = 0;
+      const order = [...Array(state.size).keys()];
+      const orderRev = [...order].reverse();
 
-        // ---------- Layout: compute --board-size to fit viewport (no movement) ----------
-        function setBoardSize() {
-            const topBar = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--bar-h')) || 56;
-            const vw = Math.max(320, window.innerWidth);
-            const vh = Math.max(420, window.innerHeight);
-            const maxSide = Math.min(vw - 24, vh - topBar - 28); // padding around
-            document.documentElement.style.setProperty('--board-size', Math.floor(maxSide) + 'px');
-        }
-        setBoardSize();
-        addEventListener('resize', setBoardSize, { passive: true });
-        addEventListener('orientationchange', setBoardSize, { passive: true });
+      function processLine(get,set){
+        const line=[]; for(const i of order){ const id=get(i); if(id!=null) line.push(id); }
+        if(line.length===0) return false;
 
-        // ---------- Utilities ----------
-        function bgPos(r, c) {
-            const gap = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--gap')) || 10;
-            const size = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--board-size')) || 480;
-            const cell = (size - gap * 5) / 4;
-            const x = gap + (cell + gap) * c;
-            const y = gap + (cell + gap) * r;
-            return { x, y };
+        const vals=line.map(id=>state.tiles.get(id).v);
+        const comp=[];
+        for(let i=0;i<vals.length;i++){
+          if(i+1<vals.length && vals[i]===vals[i+1]){
+            const nv = vals[i]*2;
+            comp.push(nv); gained += nv; i++;
+          }else comp.push(vals[i]);
         }
-        function placeTile(t) {
-            const { x, y } = bgPos(t.r, t.c);
-            t.el.style.transform = `translate(${x}px, ${y}px)`;
-            t.el.className = `tile n${t.v}`;
-            t.el.textContent = t.v;
-        }
-        function spawnTile(v, r, c, animate = false) {
-            const id = state.nextId++;
+        while(comp.length<state.size) comp.push(null);
+
+        // wipe old
+        for(const i of order){ const id=get(i); if(id!=null) set(i,null); }
+        // Rebuild using existing tiles when possible, otherwise create merged ones
+        const reuse=[...line];
+        let changed=false;
+        for(let i=0;i<state.size;i++){
+          const val = comp[i];
+          if(val==null) continue;
+
+          // find reusable tile with same value
+          let useId = null;
+          for(let k=0;k<reuse.length;k++){
+            const tid=reuse[k]; if(tid==null) continue;
+            if(state.tiles.get(tid).v===val){ useId=tid; reuse[k]=null; break; }
+          }
+          if(useId==null){
+            // merged; create new tile and delete two originals closest from reuse
+            useId = state.nextId++;
             const el = document.createElement('div');
-            el.className = `tile n${v}${animate ? ' pop' : ''}`;
-            el.setAttribute('role', 'button');
-            el.setAttribute('aria-label', String(v));
-            el.textContent = v;
-            const t = { id, v, r, c, el };
-            state.tiles.set(id, t);
-            state.grid[r][c] = id;
-            els.board.appendChild(el);
-            placeTile(t);
+            el.className = `tile n${val} merge`;
+            el.textContent = val;
+            const t = {id:useId, v:val, r:0, c:0, el};
+            state.tiles.set(useId,t); els.board.appendChild(el);
+          }
+          set(i, useId);
         }
-        function removeTile(id) {
-            const t = state.tiles.get(id);
-            if (t) { t.el.remove(); state.tiles.delete(id); }
+        // purge non-reused
+        for(const tid of reuse){ if(tid!=null) removeTile(tid); }
+
+        // decide if changed (line now has any tiles)
+        for(let i=0;i<state.size;i++){ if(get(i)!=null) changed=true; }
+        return changed;
+      }
+
+      let moved=false;
+      if(dir==='left'){
+        for(let r=0;r<state.size;r++){
+          const ch = processLine(
+            (i)=>state.grid[r][i],
+            (i,id)=>{ state.grid[r][i]=id; if(id!=null){ const t=state.tiles.get(id); t.r=r; t.c=i; } }
+          ); moved = moved || ch;
         }
-
-        function emptyGrid(n = state.size) {
-            return Array.from({ length: n }, () => Array.from({ length: n }, () => null));
+      }
+      if(dir==='right'){
+        for(let r=0;r<state.size;r++){
+          const ch = (function(){
+            const get = i => state.grid[r][orderRev[i]];
+            const set = (i,id)=>{ const c=orderRev[i]; state.grid[r][c]=id; if(id!=null){ const t=state.tiles.get(id); t.r=r; t.c=c; } };
+            return processLine(get,set);
+          })(); moved = moved || ch;
         }
-        function getEmptyCells() {
-            const res = [];
-            for (let r = 0; r < state.size; r++) for (let c = 0; c < state.size; c++) {
-                if (state.grid[r][c] == null) res.push([r, c]);
-            }
-            return res;
+      }
+      if(dir==='up'){
+        for(let c=0;c<state.size;c++){
+          const ch = processLine(
+            (i)=>state.grid[i][c],
+            (i,id)=>{ state.grid[i][c]=id; if(id!=null){ const t=state.tiles.get(id); t.r=i; t.c=c; } }
+          ); moved = moved || ch;
         }
-        function addRandomTile() {
-            const empties = getEmptyCells();
-            if (!empties.length) return;
-            const [r, c] = empties[(rnd() * empties.length) | 0];
-            const v = rnd() < 0.9 ? 2 : 4;
-            spawnTile(v, r, c, true);
+      }
+      if(dir==='down'){
+        for(let c=0;c<state.size;c++){
+          const ch = (function(){
+            const get = i => state.grid[orderRev[i]][c];
+            const set = (i,id)=>{ const r=orderRev[i]; state.grid[r][c]=id; if(id!=null){ const t=state.tiles.get(id); t.r=r; t.c=c; } };
+            return processLine(get,set);
+          })(); moved = moved || ch;
         }
+      }
 
-        function snapshot() {
-            return {
-                grid: state.grid.map(row => row.slice()),
-                tiles: [...state.tiles.values()].map(t => ({ id: t.id, v: t.v, r: t.r, c: t.c })),
-                score: state.score,
-                moves: state.moves,
-                nextId: state.nextId
-            };
-        }
-        function restore(s) {
-            for (const t of state.tiles.values()) t.el.remove();
-            state.tiles.clear();
-            state.grid = s.grid.map(row => row.slice());
-            state.score = s.score;
-            state.moves = s.moves;
-            state.nextId = s.nextId;
-            for (const t of s.tiles) {
-                const el = document.createElement('div');
-                el.className = `tile n${t.v}`;
-                el.textContent = t.v;
-                const tile = { ...t, el };
-                state.tiles.set(tile.id, tile);
-                els.board.appendChild(el);
-                placeTile(tile);
-            }
-            updateHUD();
-            saveLocal();
-        }
+      if(!moved || JSON.stringify(state.grid)===before) return false;
 
-        function saveLocal() {
-            const obj = {
-                grid: state.grid,
-                tiles: [...state.tiles.values()].map(t => ({ id: t.id, v: t.v, r: t.r, c: t.c })),
-                score: state.score,
-                moves: state.moves,
-                nextId: state.nextId,
-                best: state.best,
-                bestTile: state.bestTile,
-                seed: state.seed
-            };
-            localStorage.setItem(LS.STATE, JSON.stringify(obj));
-            localStorage.setItem(LS.BEST, String(state.best));
-            localStorage.setItem(LS.BESTT, String(state.bestTile));
-            localStorage.setItem(LS.LAST, String(state.score));
-            localStorage.setItem(LS.MOVES, String(state.moves));
-            setCookie(LS.BEST, String(state.best));
-            setCookie(LS.BESTT, String(state.bestTile));
-        }
-        function loadLocal() {
-            try { return JSON.parse(localStorage.getItem(LS.STATE) || "null"); } catch { return null; }
-        }
-        function clearLocal() { localStorage.removeItem(LS.STATE); }
+      // place tiles to new positions
+      for(const t of state.tiles.values()) placeTile(t);
 
-        // ---------- Game Flow ----------
-        function reset() {
-            for (const t of state.tiles.values()) t.el.remove();
-            state.tiles.clear();
-            state.grid = emptyGrid();
-            state.nextId = 1;
-            state.score = 0;
-            state.moves = 0;
-            updateHUD();
-        }
-        function startNew(seed = "") {
-            reset();
-            state.seed = seed || "";
-            reseed(state.seed);
-            addRandomTile(); addRandomTile();
-            updateHUD(); saveLocal();
-        }
-        function continueSaved() {
-            const s = loadLocal();
-            if (!s) { startNew(); return; }
-            state.best = Math.max(state.best, s.best || 0);
-            state.bestTile = Math.max(state.bestTile, s.bestTile || 0);
-            state.seed = s.seed || "";
-            reseed(state.seed);
-            restore(s);
-        }
+      // score, moves, bests
+      state.score += gained;
+      state.moves += 1;
+      state.best = Math.max(state.best, state.score);
+      const biggest = Math.max(...[...state.tiles.values()].map(t=>t.v), 0);
+      state.bestTile = Math.max(state.bestTile, biggest);
 
-        // ---------- Move Logic ----------
-        function canMove() {
-            if (getEmptyCells().length) return true;
-            for (let r = 0; r < state.size; r++) {
-                for (let c = 0; c < state.size; c++) {
-                    const id = state.grid[r][c]; if (id == null) continue;
-                    const v = state.tiles.get(id).v;
-                    const right = c + 1 < state.size ? state.grid[r][c + 1] : null;
-                    const down = r + 1 < state.size ? state.grid[r + 1][c] : null;
-                    if ((right && state.tiles.get(right).v === v) || (down && state.tiles.get(down).v === v)) return true;
-                }
-            }
-            return false;
-        }
+      // spawn new
+      addRandomTile();
 
-        function move(dir) {
-            const before = JSON.stringify(state.grid);
-            const his = snapshot();
+      // keep undo history short
+      state.history.push(his);
+      if(state.history.length>32) state.history.shift();
 
-            let gained = 0;
-            const order = [...Array(state.size).keys()];
-            const orderRev = [...order].reverse();
+      updateHUD(); saveLocal();
 
-            function processLine(get, set) {
-                const line = []; for (const i of order) { const id = get(i); if (id != null) line.push(id); }
-                if (line.length === 0) return false;
+      if(!canMove()) setTimeout(()=>alert("No more moves. Try again!"), 50);
+      return true;
+    }
 
-                const vals = line.map(id => state.tiles.get(id).v);
-                const comp = [];
-                for (let i = 0; i < vals.length; i++) {
-                    if (i + 1 < vals.length && vals[i] === vals[i + 1]) {
-                        const nv = vals[i] * 2;
-                        comp.push(nv); gained += nv; i++;
-                    } else comp.push(vals[i]);
-                }
-                while (comp.length < state.size) comp.push(null);
+    // ---------- Input ----------
+    const keyDirs = { ArrowLeft:'left', ArrowRight:'right', ArrowUp:'up', ArrowDown:'down', a:'left', d:'right', w:'up', s:'down', h:'left', l:'right', k:'up', j:'down' };
+    function onKey(e){
+      if(!state.playing) return;
+      const dir = keyDirs[e.key];
+      if(!dir) return;
+      e.preventDefault();  // prevent page scroll with arrows/space
+      move(dir);
+    }
 
-                // wipe old
-                for (const i of order) { const id = get(i); if (id != null) set(i, null); }
-                // Rebuild using existing tiles when values match, otherwise create merged ones
-                const reuse = [...line];
-                let changed = false;
-                for (let i = 0; i < state.size; i++) {
-                    const val = comp[i];
-                    if (val == null) continue;
+    function getPoint(e){
+      if(e.changedTouches && e.changedTouches[0]) return {x:e.changedTouches[0].clientX, y:e.changedTouches[0].clientY};
+      return {x:e.clientX, y:e.clientY};
+    }
+    function onPointerDown(e){
+      if(!state.playing) return;
+      state.pointer.active = true;
+      const p = getPoint(e); state.pointer.x=p.x; state.pointer.y=p.y;
+    }
+    function onPointerUp(e){
+      if(!state.playing || !state.pointer.active) return;
+      const p = getPoint(e);
+      const dx = p.x - state.pointer.x;
+      const dy = p.y - state.pointer.y;
+      state.pointer.active = false;
+      const absX = Math.abs(dx), absY = Math.abs(dy);
+      const threshold = 24;
+      if(absX < threshold && absY < threshold) return;
+      const dir = absX>absY ? (dx>0?'right':'left') : (dy>0?'down':'up');
+      move(dir);
+    }
 
-                    // find reusable tile with same value
-                    let useId = null;
-                    for (let k = 0; k < reuse.length; k++) {
-                        const tid = reuse[k]; if (tid == null) continue;
-                        if (state.tiles.get(tid).v === val) { useId = tid; reuse[k] = null; break; }
-                    }
-                    if (useId == null) {
-                        // merged; create new tile and delete two originals closest from reuse
-                        useId = state.nextId++;
-                        const el = document.createElement('div');
-                        el.className = `tile n${val} merge`;
-                        el.textContent = val;
-                        const t = { id: useId, v: val, r: 0, c: 0, el };
-                        state.tiles.set(useId, t); els.board.appendChild(el);
-                    }
-                    set(i, useId);
-                }
-                // purge non-reused
-                for (const tid of reuse) { if (tid != null) removeTile(tid); }
+    // ---------- HUD / Screen Toggle ----------
+    function updateHUD(){
+      els.psScore.textContent = state.score;
+      els.psBest.textContent = "Best: " + state.best;
+      els.homeBest.textContent = state.best;
+      els.homeTile.textContent = state.bestTile;
+      els.homeLast.textContent = localStorage.getItem(LS.LAST) || "0";
+      els.homeMoves.textContent = localStorage.getItem(LS.MOVES) || "0";
+    }
 
-                // changed?
-                for (let i = 0; i < state.size; i++) {
-                    if (get(i) != null) changed = true;
-                }
-                return changed;
-            }
+    function setInert(el, val){
+      if(val){ el.setAttribute("inert",""); el.inert = true; }
+      else { el.removeAttribute("inert"); el.inert = false; }
+    }
 
-            let moved = false;
-            if (dir === 'left') {
-                for (let r = 0; r < state.size; r++) {
-                    const ch = processLine(
-                        (i) => state.grid[r][i],
-                        (i, id) => { state.grid[r][i] = id; if (id != null) { const t = state.tiles.get(id); t.r = r; t.c = i; } }
-                    ); moved = moved || ch;
-                }
-            }
-            if (dir === 'right') {
-                for (let r = 0; r < state.size; r++) {
-                    const ch = (function () {
-                        const get = i => state.grid[r][orderRev[i]];
-                        const set = (i, id) => { const c = orderRev[i]; state.grid[r][c] = id; if (id != null) { const t = state.tiles.get(id); t.r = r; t.c = c; } };
-                        return processLine(get, set);
-                    })(); moved = moved || ch;
-                }
-            }
-            if (dir === 'up') {
-                for (let c = 0; c < state.size; c++) {
-                    const ch = processLine(
-                        (i) => state.grid[i][c],
-                        (i, id) => { state.grid[i][c] = id; if (id != null) { const t = state.tiles.get(id); t.r = i; t.c = c; } }
-                    ); moved = moved || ch;
-                }
-            }
-            if (dir === 'down') {
-                for (let c = 0; c < state.size; c++) {
-                    const ch = (function () {
-                        const get = i => state.grid[orderRev[i]][c];
-                        const set = (i, id) => { const r = orderRev[i]; state.grid[r][c] = id; if (id != null) { const t = state.tiles.get(id); t.r = r; t.c = c; } };
-                        return processLine(get, set);
-                    })(); moved = moved || ch;
-                }
-            }
+    function openPlay(seedFromURL = (new URL(location.href)).searchParams.get("seed") || ""){
+      document.body.classList.add('playing');
+      setInert(els.home, true);
+      setInert(els.play, false);
+      els.play.classList.add("open");
+      state.playing = true;
 
-            if (!moved || JSON.stringify(state.grid) === before) return false;
+      // listeners
+      document.addEventListener('keydown', onKey, {passive:false});
+      els.board.addEventListener('pointerdown', onPointerDown, {passive:true});
+      els.board.addEventListener('pointerup', onPointerUp, {passive:true});
+      els.board.addEventListener('touchstart', onPointerDown, {passive:true});
+      els.board.addEventListener('touchend', onPointerUp, {passive:true});
 
-            // place tiles to new positions
-            for (const t of state.tiles.values()) placeTile(t);
+      if(seedFromURL){ state.seed = seedFromURL; reseed(state.seed); }
+      startNew(state.seed);
+      fitBoardSize(); // ensure correct size on open
+      els.psBack.focus({preventScroll:true});
+    }
 
-            // score, moves, bests
-            state.score += gained;
-            state.moves += 1;
-            state.best = Math.max(state.best, state.score);
-            const biggest = Math.max(...[...state.tiles.values()].map(t => t.v), 0);
-            state.bestTile = Math.max(state.bestTile, biggest);
+    function closePlay(stop=true){
+      document.body.classList.remove('playing');
+      els.play.classList.remove("open");
+      state.playing = false;
 
-            // spawn new
-            addRandomTile();
+      // remove listeners
+      document.removeEventListener('keydown', onKey);
+      els.board.removeEventListener('pointerdown', onPointerDown);
+      els.board.removeEventListener('pointerup', onPointerUp);
+      els.board.removeEventListener('touchstart', onPointerDown);
+      els.board.removeEventListener('touchend', onPointerUp);
 
-            // keep undo history short
-            state.history.push(his);
-            if (state.history.length > 32) state.history.shift();
+      if(stop){
+        localStorage.setItem(LS.LAST, String(state.score));
+        localStorage.setItem(LS.MOVES, String(state.moves));
+      }
 
-            updateHUD(); saveLocal();
+      setInert(els.play, true);
+      setInert(els.home, false);
+      $("#newGame").focus({preventScroll:true});
+      updateHUD();
+    }
 
-            if (!canMove()) {
-                // game over
-                setTimeout(() => alert("No more moves. Try again!"), 50);
-            }
-            return true;
-        }
+    // ---------- Buttons ----------
+    els.newGame.addEventListener('click', ()=> openPlay(""));
+    els.continue.addEventListener('click', ()=>{
+      const saved = loadLocal();
+      openPlay(saved?.seed || "");
+      if(saved) restore(saved);
+    });
+    els.share.addEventListener('click', ()=>{
+      const seed = Date.now().toString(36);
+      const url = new URL(location.href);
+      url.searchParams.set("seed", seed);
+      navigator.clipboard?.writeText(url.toString());
+      els.status.textContent = "🔗 Link copied. Challenge a friend!";
+    });
+    els.resetBest.addEventListener('click', ()=>{
+      localStorage.setItem(LS.BEST, "0"); localStorage.setItem(LS.BESTT, "0");
+      setCookie(LS.BEST, "0"); setCookie(LS.BESTT, "0");
+      state.best = 0; state.bestTile = 0; updateHUD();
+      els.status.textContent = "Bests cleared.";
+    });
 
-        // ---------- Input ----------
-        const keyDirs = { ArrowLeft: 'left', ArrowRight: 'right', ArrowUp: 'up', ArrowDown: 'down', a: 'left', d: 'right', w: 'up', s: 'down', h: 'left', l: 'right', k: 'up', j: 'down' };
-        function onKey(e) {
-            if (!state.playing) return;
-            const dir = keyDirs[e.key];
-            if (!dir) return;
-            e.preventDefault();  // prevent page scroll with arrows/space
-            move(dir);
-        }
+    els.psBack.addEventListener('click', ()=> closePlay(true));
+    els.psRestart.addEventListener('click', ()=> startNew(state.seed || ""));
+    els.psUndo.addEventListener('click', ()=>{
+      const snap = state.history.pop();
+      if(!snap) return;
+      restore(snap); saveLocal();
+    });
+    els.psShare.addEventListener('click', ()=>{
+      const seed = state.seed || Date.now().toString(36);
+      state.seed = seed; reseed(seed);
+      const url = new URL(location.href);
+      url.searchParams.set("seed", seed);
+      navigator.clipboard?.writeText(url.toString());
+      els.status.textContent = "🔗 Run link copied. Share and compete!";
+    });
 
-        function getPoint(e) {
-            if (e.changedTouches && e.changedTouches[0]) return { x: e.changedTouches[0].clientX, y: e.changedTouches[0].clientY };
-            return { x: e.clientX, y: e.clientY };
-        }
-        function onPointerDown(e) {
-            if (!state.playing) return;
-            state.pointer.active = true;
-            const p = getPoint(e); state.pointer.x = p.x; state.pointer.y = p.y;
-        }
-        function onPointerUp(e) {
-            if (!state.playing || !state.pointer.active) return;
-            const p = getPoint(e);
-            const dx = p.x - state.pointer.x;
-            const dy = p.y - state.pointer.y;
-            state.pointer.active = false;
-            const absX = Math.abs(dx), absY = Math.abs(dy);
-            const threshold = 24;
-            if (absX < threshold && absY < threshold) return;
-            const dir = absX > absY ? (dx > 0 ? 'right' : 'left') : (dy > 0 ? 'down' : 'up');
-            move(dir);
-        }
+    // Prevent page scroll on arrows/space globally while playing
+    addEventListener("keydown", (e) => {
+      if(!state.playing) return;
+      if (["ArrowUp","ArrowDown","ArrowLeft","ArrowRight"," "].includes(e.key)) e.preventDefault();
+    }, {passive:false});
 
-        // ---------- HUD / Screen Toggle ----------
-        function updateHUD() {
-            els.psScore.textContent = state.score;
-            els.psBest.textContent = "Best: " + state.best;
-            els.homeBest.textContent = state.best;
-            els.homeTile.textContent = state.bestTile;
-            els.homeLast.textContent = localStorage.getItem(LS.LAST) || "0";
-            els.homeMoves.textContent = localStorage.getItem(LS.MOVES) || "0";
-        }
+    // ---------- Home init + Auto open from ?seed= ----------
+    (function initHome(){
+      els.homeBest.textContent = state.best;
+      els.homeTile.textContent = state.bestTile;
+      els.homeLast.textContent = localStorage.getItem(LS.LAST) || "0";
+      els.homeMoves.textContent = localStorage.getItem(LS.MOVES) || "0";
+      if(!loadLocal()){ els.continue.disabled = true; els.continue.style.opacity=.7; }
+    })();
 
-        function setInert(el, val) {
-            if (val) { el.setAttribute("inert", ""); el.inert = true; }
-            else { el.removeAttribute("inert"); el.inert = false; }
-        }
-
-        function openPlay(seedFromURL = (new URL(location.href)).searchParams.get("seed") || "") {
-            document.body.classList.add('playing');
-            setInert(els.home, true);
-            setInert(els.play, false);
-            els.play.classList.add("open");
-            state.playing = true;
-
-            // listeners
-            document.addEventListener('keydown', onKey, { passive: false });
-            els.board.addEventListener('pointerdown', onPointerDown, { passive: true });
-            els.board.addEventListener('pointerup', onPointerUp, { passive: true });
-            els.board.addEventListener('touchstart', onPointerDown, { passive: true });
-            els.board.addEventListener('touchend', onPointerUp, { passive: true });
-
-            if (seedFromURL) { state.seed = seedFromURL; reseed(state.seed); }
-            startNew(state.seed);
-            els.psBack.focus({ preventScroll: true });
-        }
-
-        function closePlay(stop = true) {
-            document.body.classList.remove('playing');
-            els.play.classList.remove("open");
-            state.playing = false;
-
-            // remove listeners
-            document.removeEventListener('keydown', onKey);
-            els.board.removeEventListener('pointerdown', onPointerDown);
-            els.board.removeEventListener('pointerup', onPointerUp);
-            els.board.removeEventListener('touchstart', onPointerDown);
-            els.board.removeEventListener('touchend', onPointerUp);
-
-            if (stop) {
-                // store last (already saved in saveLocal each move, but ensure)
-                localStorage.setItem(LS.LAST, String(state.score));
-                localStorage.setItem(LS.MOVES, String(state.moves));
-            }
-
-            setInert(els.play, true);
-            setInert(els.home, false);
-            $("#newGame").focus({ preventScroll: true });
-            updateHUD();
-        }
-
-        // ---------- Buttons ----------
-        els.newGame.addEventListener('click', () => openPlay(""));
-        els.continue.addEventListener('click', () => {
-            const saved = loadLocal();
-            openPlay(saved?.seed || "");
-            if (saved) restore(saved);
-        });
-        els.share.addEventListener('click', () => {
-            // Share a seeded start (two tiles are random based on seed)
-            const seed = Date.now().toString(36);
-            const url = new URL(location.href);
-            url.searchParams.set("seed", seed);
-            navigator.clipboard?.writeText(url.toString());
-            els.status.textContent = "🔗 Link copied. Challenge a friend!";
-        });
-        els.resetBest.addEventListener('click', () => {
-            localStorage.setItem(LS.BEST, "0"); localStorage.setItem(LS.BESTT, "0");
-            setCookie(LS.BEST, "0"); setCookie(LS.BESTT, "0");
-            state.best = 0; state.bestTile = 0; updateHUD();
-            els.status.textContent = "Bests cleared.";
-        });
-
-        els.psBack.addEventListener('click', () => closePlay(true));
-        els.psRestart.addEventListener('click', () => startNew(state.seed || ""));
-        els.psUndo.addEventListener('click', () => {
-            const snap = state.history.pop();
-            if (!snap) return;
-            restore(snap); saveLocal();
-        });
-        els.psShare.addEventListener('click', () => {
-            const seed = state.seed || Date.now().toString(36);
-            state.seed = seed; reseed(seed);
-            const url = new URL(location.href);
-            url.searchParams.set("seed", seed);
-            navigator.clipboard?.writeText(url.toString());
-            els.status.textContent = "🔗 Run link copied. Share and compete!";
-        });
-
-        // ---------- Prevent page scroll on arrows/space globally while playing ----------
-        addEventListener("keydown", (e) => {
-            if (!state.playing) return;
-            if (["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", " "].includes(e.key)) e.preventDefault();
-        }, { passive: false });
-
-        // ---------- Home init + Auto open from ?seed= ----------
-        (function initHome() {
-            els.homeBest.textContent = state.best;
-            els.homeTile.textContent = state.bestTile;
-            els.homeLast.textContent = localStorage.getItem(LS.LAST) || "0";
-            els.homeMoves.textContent = localStorage.getItem(LS.MOVES) || "0";
-            // Continue disabled if no saved grid
-            if (!loadLocal()) { els.continue.disabled = true; els.continue.style.opacity = .7; }
-        })();
-
-        // If challenge link (?seed=), open directly
-        const u = new URL(location.href);
-        if (u.searchParams.get("seed")) {
-            openPlay(u.searchParams.get("seed") || "");
-            // Clean URL after opening
-            u.searchParams.delete("seed");
-            history.replaceState(null, "", u.toString());
-        }
-    </script>
+    const u = new URL(location.href);
+    if (u.searchParams.get("seed")){
+      openPlay(u.searchParams.get("seed") || "");
+      // Clean URL after opening
+      u.searchParams.delete("seed");
+      history.replaceState(null,"",u.toString());
+    }
+  </script>
 </body>
-
 </html>
