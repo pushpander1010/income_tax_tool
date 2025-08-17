@@ -53,7 +53,7 @@
             --muted: #9aa4b2;
         }
 
-        /* IMPORTANT: keep overflow-x hidden on page, NOT the play layer */
+        /* Hide horizontal overflow on the page only (not the play layer) */
         html,
         body {
             overflow-x: hidden;
@@ -190,7 +190,6 @@
         #playScreen {
             position: fixed;
             inset: 0;
-            /* Use the visual viewport; do NOT clip horizontally here */
             width: 100dvw;
             max-width: 100dvw;
             display: none;
@@ -199,9 +198,10 @@
             padding: max(8px, env(safe-area-inset-top)) clamp(8px, 2vw, 18px) max(10px, env(safe-area-inset-bottom));
         }
 
+        /* Removed bottom row to give full height to the board */
         #playScreen.open {
             display: grid;
-            grid-template-rows: auto 1fr auto;
+            grid-template-rows: auto 1fr;
             gap: .6rem;
             min-height: 100dvh;
         }
@@ -215,9 +215,7 @@
             border: 1px solid var(--cardBorder);
             border-radius: .65rem;
             padding: .5rem .6rem;
-            /* CRITICAL: allow wrapping and shrinking so nothing overflows right edge */
-            flex-wrap: nowrap;
-            flex-shrink: 1 1 auto;
+            flex-wrap: wrap;
             min-width: 0;
             max-width: 100%;
         }
@@ -237,7 +235,7 @@
 
         .ps-top .mid {
             display: flex;
-            flex-wrap: nowrap;
+            flex-wrap: wrap;
             gap: .5rem;
             align-items: center;
             justify-content: center;
@@ -261,7 +259,6 @@
             font-weight: 800;
             cursor: pointer;
             min-width: 0;
-            /* let them shrink on tiny widths */
         }
 
         .ps-btn.primary {
@@ -279,8 +276,6 @@
             .ps-title {
                 display: none;
             }
-
-            /* free up space on very small screens */
         }
 
         .ps-stage {
@@ -336,13 +331,7 @@
             margin: .2rem 0 .6rem
         }
 
-        .ps-bottom {
-            display: flex;
-            flex-wrap: wrap;
-            gap: .5rem;
-            justify-content: center
-        }
-
+        /* On-screen touch arrows */
         .touchbar {
             position: absolute;
             inset: auto 12px 12px 12px;
@@ -412,8 +401,8 @@
     <main class="wrap" id="homeScreen">
         <div class="tool-header" style="text-align:center;margin:1rem 0 .25rem">
             <h1>🧱 Breakout</h1>
-            <p>Hit <b>New Game</b> to open a distraction-free full-screen window with back button. Bricks auto-scale to
-                fill the play area. Collect power-ups!</p>
+            <p>Hit <b>New Game</b> to open a distraction-free full-screen window. Bricks auto-scale to fill the play
+                area. Collect power-ups!</p>
         </div>
 
         <div class="game-wrap">
@@ -520,7 +509,7 @@
                 <span class="ps-btn" id="psBuffs" title="Active power-ups"></span>
             </div>
             <div class="right" aria-label="Quick actions">
-                <button id="psPause" class="ps-btn">⏸ Pause</button>
+                <!-- Pause button removed per request -->
                 <button id="psRestart" class="ps-btn">⟲ Restart</button>
                 <button id="psShare" class="ps-btn">🔗 Share</button>
             </div>
@@ -534,7 +523,7 @@
                 <div id="overlay" class="overlay" aria-hidden="true">
                     <div class="panel">
                         <h3 id="ovTitle">Paused</h3>
-                        <p class="status" id="ovDesc">Press Resume to continue</p>
+                        <p class="status" id="ovDesc">Tap anywhere, press Space/P to resume</p>
                         <div class="row" style="margin-top:.5rem">
                             <button id="ovResume" class="ps-btn primary">Resume</button>
                             <button id="ovRestart" class="ps-btn">Restart</button>
@@ -542,19 +531,14 @@
                     </div>
                 </div>
 
-                <!-- touch controls show on narrow screens -->
+                <!-- touch controls (no center launch button; tap canvas to play/pause) -->
                 <div class="touchbar" id="touchbar" hidden>
                     <button class="touchbtn" id="btnLeft">⟵</button>
-                    <button class="touchbtn" id="btnLaunch">⏯</button>
                     <button class="touchbtn" id="btnRight">⟶</button>
                 </div>
             </div>
         </div>
-
-        <div class="ps-bottom">
-            <span class="status">Keys: <kbd>←</kbd>/<kbd>→</kbd> or <kbd>A</kbd>/<kbd>D</kbd>, <kbd>Space</kbd> to
-                launch, <kbd>P</kbd> pause. Progress is auto-saved.</span>
-        </div>
+        <!-- bottom note removed to increase play area -->
     </section>
 
     <!-- App (ESM). Uses your shared /scripts/utils.js -->
@@ -575,11 +559,11 @@
             homeLast: $("#lastScore"), homeLastLevel: $("#lastLevel"), homeLastDate: $("#lastDate"),
             status: $("#homeStatus"),
             canvas: $("#gameCanvas"), boardWrap: $(".board"),
-            psBack: $("#psBack"), psPause: $("#psPause"), psRestart: $("#psRestart"), psShare: $("#psShare"),
+            psBack: $("#psBack"), psRestart: $("#psRestart"), psShare: $("#psShare"),
             psScore: $("#psScore"), psLevel: $("#psLevel"), psLives: $("#psLives"), psBest: $("#psBest"), psBuffs: $("#psBuffs"),
             overlay: $("#overlay"), ovTitle: $("#ovTitle"), ovDesc: $("#ovDesc"),
             ovResume: $("#ovResume"), ovRestart: $("#ovRestart"),
-            touchbar: $("#touchbar"), btnLeft: $("#btnLeft"), btnRight: $("#btnRight"), btnLaunch: $("#btnLaunch"),
+            touchbar: $("#touchbar"), btnLeft: $("#btnLeft"), btnRight: $("#btnRight")
         };
 
         // ---------- Storage keys ----------
@@ -617,7 +601,7 @@
             paddle: null, ball: null, bricks: [], powerups: [],
             keys: { left: false, right: false }, touch: { left: false, right: false },
             fireball: 0, slowTimer: 0, expandTimer: 0, stickyTimer: 0, shield: 0, x2Timer: 0, laserTimer: 0,
-            autoTimer: 0, /* NEW: AutoPilot */
+            autoTimer: 0, /* AutoPilot */
             beams: [], beamCooldown: 0.12, beamClock: 0,
             lastTime: 0
         };
@@ -629,7 +613,6 @@
             const cs = getComputedStyle(wrap);
             const padX = parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight);
             const padY = parseFloat(cs.paddingTop) + parseFloat(cs.paddingBottom);
-            // Use clientWidth/Height (excludes borders/scrollbars) -> subtract padding to get content box
             const w = Math.max(320, Math.floor(wrap.clientWidth - padX));
             const h = Math.max(260, Math.floor(wrap.clientHeight - padY));
             S.width = w; S.height = h;
@@ -639,7 +622,6 @@
             els.canvas.style.height = S.height + "px";
             ctx.setTransform(S.dpr, 0, 0, S.dpr, 0, 0);
 
-            // Keep paddle/ball aligned
             if (S.paddle) { S.paddle.y = S.height - S.height * 0.08; S.paddle.w = Math.max(60, S.width * 0.14 * (S.expandTimer > 0 ? 1.4 : 1)); }
             if (S.ball && S.state !== "running") { S.ball.x = S.paddle.x; S.ball.y = S.paddle.y - S.paddle.h / 2 - S.ball.r - 2; }
             packBricksToScreen();
@@ -702,7 +684,7 @@
         // ---------- Power-ups ----------
         function maybeDropPower(x, y) {
             const chance = 0.16; if (rnd() > chance) return;
-            const types = ["expand", "slow", "fire", "shield", "sticky", "x2", "laser", "auto"]; // + AutoPilot
+            const types = ["expand", "slow", "fire", "shield", "sticky", "x2", "laser", "auto"];
             const kind = types[(rnd() * types.length) | 0];
             S.powerups.push({ x, y, w: 22, h: 22, vy: 120, kind, alive: true });
         }
@@ -714,7 +696,7 @@
             if (kind === "sticky") { S.stickyTimer = 10; beep(350, .08, "triangle", .03); }
             if (kind === "x2") { S.x2Timer = 10; beep(420, .08, "square", .03); }
             if (kind === "laser") { S.laserTimer = 6; S.beamClock = 0; beep(660, .08, "square", .035); }
-            if (kind === "auto") { S.autoTimer = 6; beep(580, .08, "triangle", .03); } // NEW
+            if (kind === "auto") { S.autoTimer = 6; beep(580, .08, "triangle", .03); }
             updateBuffBadges();
         }
         function updateBuffBadges() {
@@ -792,13 +774,14 @@
             resetEntities();
             updateTopHUD(); updateBuffBadges();
             saveLocal();
+            showOverlay("Ready", "Tap anywhere or press Space to launch");
         }
         function nextLevel() {
             S.level++; S.state = "ready";
             if (S.level > S.bestLevel) { S.bestLevel = S.level; }
             resetEntities();
             updateTopHUD(); saveLocal();
-            showOverlay("Level " + S.level, "Press Resume or Space to launch!");
+            showOverlay("Level " + S.level, "Tap anywhere or Space to launch!");
         }
         function loseLife() {
             if (S.shield > 0) {
@@ -811,7 +794,7 @@
             S.state = "ready"; S.ball.launched = false;
             S.ball.x = S.paddle.x; S.ball.y = S.paddle.y - S.paddle.h / 2 - S.ball.r - 2;
             updateTopHUD(); saveLocal();
-            showOverlay("Life lost", "Press Resume or Space to relaunch");
+            showOverlay("Life lost", "Tap anywhere or Space to relaunch");
         }
         function gameOver() {
             S.state = "gameOver"; stopLoop();
@@ -846,7 +829,6 @@
 
         // ---------- Update & Draw ----------
         function update(dt) {
-            // timers
             if (S.fireball > 0) S.fireball -= dt;
             if (S.slowTimer > 0) S.slowTimer -= dt;
             if (S.expandTimer > 0) S.expandTimer -= dt;
@@ -859,12 +841,10 @@
 
             // paddle
             let dir = (S.keys.left || S.touch.left ? -1 : 0) + (S.keys.right || S.touch.right ? 1 : 0);
-            // AutoPilot steers towards ball (but still clamp speed)
             if (S.autoTimer > 0) {
                 const target = S.ball.x;
                 const delta = target - S.paddle.x;
                 dir = Math.sign(delta);
-                // soften: if very close, stop jitter
                 if (Math.abs(delta) < S.paddle.speed * dt * 0.5) dir = 0;
             }
             S.paddle.x += dir * S.paddle.speed * dt;
@@ -888,13 +868,13 @@
             if (S.ball.y <= S.ball.r + 6) { S.ball.y = S.ball.r + 6; S.ball.vy = Math.abs(S.ball.vy); beep(500, .04); }
             if (S.ball.y > S.height + S.ball.r * 2) { haptic(20); loseLife(); return; }
 
-            // paddle collision (with sticky support)
+            // paddle collision
             if (S.ball.y + S.ball.r >= S.paddle.y - S.paddle.h / 2 &&
                 S.ball.y - S.ball.r <= S.paddle.y + S.paddle.h / 2 &&
                 S.ball.x >= S.paddle.x - half && S.ball.x <= S.paddle.x + half &&
                 S.ball.vy > 0) {
-                const rel = (S.ball.x - S.paddle.x) / half; // -1..1
-                const angle = rel * (Math.PI / 3); // max 60deg
+                const rel = (S.ball.x - S.paddle.x) / half;
+                const angle = rel * (Math.PI / 3);
                 const speed = Math.hypot(S.ball.vx, S.ball.vy);
                 S.ball.vx = Math.sin(angle) * speed;
                 S.ball.vy = -Math.cos(angle) * speed;
@@ -922,7 +902,7 @@
             }
             if (!anyAlive) { haptic(15); nextLevel(); }
 
-            // powerups fall
+            // powerups
             for (const p of S.powerups) {
                 if (!p.alive) continue;
                 p.y += p.vy * dt;
@@ -933,7 +913,7 @@
                 if (p.y > S.height + 30) p.alive = false;
             }
 
-            // LASERS (auto-firing while active)
+            // lasers
             if (S.laserTimer > 0) {
                 S.beamClock -= dt;
                 if (S.beamClock <= 0) {
@@ -965,28 +945,23 @@
             const w = S.width, h = S.height;
             ctx.clearRect(0, 0, w, h);
 
-            // bricks
             for (const b of S.bricks) {
                 if (!b.alive) continue;
                 ctx.fillStyle = b.color; ctx.fillRect(b.x, b.y, b.w, b.h);
                 if (b.hp > 1) { ctx.fillStyle = "rgba(0,0,0,.15)"; ctx.fillRect(b.x + 3, b.y + 3, b.w - 6, b.h - 6); }
             }
 
-            // paddle
             ctx.fillStyle = "#8bffb0";
             ctx.fillRect(S.paddle.x - S.paddle.w / 2, S.paddle.y - S.paddle.h / 2, S.paddle.w, S.paddle.h);
 
-            // shield indicator
             if (S.shield > 0) {
                 ctx.strokeStyle = "rgba(139,255,176,0.65)"; ctx.lineWidth = 4;
                 ctx.beginPath(); ctx.moveTo(8, h - 6); ctx.lineTo(w - 8, h - 6); ctx.stroke();
             }
 
-            // ball
             ctx.fillStyle = S.fireball > 0 ? "#ffd166" : "#6cf";
             ctx.beginPath(); ctx.arc(S.ball.x, S.ball.y, S.ball.r, 0, Math.PI * 2); ctx.fill();
 
-            // powerups
             for (const p of S.powerups) {
                 if (!p.alive) continue;
                 ctx.fillStyle = "rgba(255,255,255,.1)"; ctx.fillRect(p.x - 14, p.y - 14, 28, 28);
@@ -996,11 +971,9 @@
                 ctx.fillText(label, p.x, p.y);
             }
 
-            // lasers
             ctx.fillStyle = "#9ae6ff";
             for (const m of S.beams) { if (m.alive) { ctx.fillRect(m.x - 2, m.y - 10, 4, 12); } }
 
-            // HUD watermarks
             ctx.save(); ctx.globalAlpha = .12; ctx.fillStyle = "#e6edf3"; ctx.font = "700 24px system-ui";
             ctx.fillText("Score " + S.score, 16, 28);
             ctx.fillText("Lvl " + S.level, 16, 54);
@@ -1025,7 +998,7 @@
             if (["ArrowRight", "d", "D", "l", "L"].includes(e.key)) S.keys.right = false;
         });
 
-        // touch buttons
+        // touch arrows
         function hold(btn, on) {
             btn.addEventListener("pointerdown", e => { e.preventDefault(); on(true); btn.setPointerCapture?.(e.pointerId); });
             btn.addEventListener("pointerup", e => { e.preventDefault(); on(false); btn.releasePointerCapture?.(e.pointerId); });
@@ -1034,12 +1007,17 @@
         }
         hold(els.btnLeft, v => S.touch.left = v);
         hold(els.btnRight, v => S.touch.right = v);
-        els.btnLaunch.addEventListener("click", () => {
-            if (S.state === "ready") { S.ball.launched = true; S.state = "running"; hideOverlay(); }
-            else togglePause();
-        });
 
-        // pointer move paddle
+        // Tap anywhere on the board (except buttons) to launch / pause / resume
+        function boardTapHandler(e) {
+            if (e.target.closest('button,a,.touchbtn')) return;
+            if (S.state === "ready") { S.ball.launched = true; S.state = "running"; hideOverlay(); }
+            else { togglePause(); }
+        }
+        els.boardWrap.addEventListener("click", boardTapHandler);
+        els.overlay.addEventListener("click", boardTapHandler);
+
+        // pointer move paddle (drag anywhere over canvas)
         els.canvas.addEventListener("pointermove", e => {
             if (els.play.hasAttribute("inert")) return;
             const rect = els.canvas.getBoundingClientRect();
@@ -1086,7 +1064,6 @@
 
         $("#psBack").addEventListener('click', closePlay);
         $("#psRestart").addEventListener('click', () => { resetRun(); hideOverlay(); });
-        $("#psPause").addEventListener('click', () => togglePause());
         $("#psShare").addEventListener('click', () => {
             const seed = S.seed || Date.now().toString(36); S.seed = seed; reseed(seed);
             const url = new URL(location.href); url.searchParams.set("seed", seed); url.searchParams.set("d", S.difficulty);
@@ -1102,7 +1079,7 @@
             if (forceResume === false) { S.paused = false; hideOverlay(); return; }
             if (S.state === "gameOver") return;
             S.paused = !S.paused;
-            if (S.paused) { showOverlay("Paused", "Press Resume or P to continue"); } else { hideOverlay(); }
+            if (S.paused) { showOverlay("Paused", "Tap anywhere or press P/Space"); } else { hideOverlay(); }
         }
         window.addEventListener("blur", () => { if (!els.play.hasAttribute("inert")) { S.paused = true; showOverlay("Paused", "Window unfocused"); } });
 
