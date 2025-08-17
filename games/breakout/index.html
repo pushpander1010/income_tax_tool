@@ -2,21 +2,20 @@
 <html lang="en">
 
 <head>
-    <!-- Single async ad (kept minimal for performance) -->
+    <!-- Single async ad -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617"
         crossorigin="anonymous"></script>
 
-    <!-- Third-party hints -->
     <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
     <link rel="dns-prefetch" href="//pagead2.googlesyndication.com">
 
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <title>Breakout — Free Online Game (Fast, Mobile Friendly) | UpTools</title>
+    <title>Breakout — Free Online Game (Fast, Mobile-Perfect) | UpTools</title>
 
     <!-- SEO -->
     <meta name="description"
-        content="Play Breakout online (mobile + desktop). Smooth controls, levels, power-ups (Shield, Sticky, Laser, x2, AutoPilot), sounds, auto-save, best score — full-screen play with a back button. Challenge friends with a seed link!" />
+        content="Play Breakout online (mobile + desktop). Super responsive canvas, fixed compact HUD, power-ups (Shield, Sticky, Laser, x2, AutoPilot), auto-save, challenge links. Tap to play/pause!" />
     <link rel="canonical" href="https://www.uptools.in/games/breakout/" />
     <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:large" />
     <meta name="theme-color" content="#0f1419" />
@@ -24,13 +23,12 @@
     <!-- OpenGraph / Twitter -->
     <meta property="og:title" content="Play Breakout — Free Online Game | UpTools" />
     <meta property="og:description"
-        content="Paddle, bricks, and power-ups! Levels, sounds, auto-save and shareable seed links. Play in full-screen on mobile or desktop." />
+        content="Mobile-perfect Breakout with power-ups, levels, and auto-save. Tap to play/pause." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://www.uptools.in/games/breakout/" />
     <meta property="og:image" content="https://www.uptools.in/assets/social/breakout-card.png" />
     <meta name="twitter:card" content="summary_large_image" />
 
-    <!-- Icons -->
     <link rel="icon" sizes="50x50" type="image/svg+xml" href="/assets/logo/uptools-logo.svg">
     <link rel="apple-touch-icon" sizes="180x180" href="/assets/logo/uptools-logo.svg">
 
@@ -41,7 +39,7 @@
         <link rel="stylesheet" href="/style.css?v=1.3.0">
     </noscript>
 
-    <!-- Per-game styles (NO overflow rules anywhere) -->
+    <!-- Game styles (NO overflow hidden anywhere) -->
     <style>
         :root {
             --accent: #6cf;
@@ -51,23 +49,44 @@
             --card: #0e1526;
             --cardBorder: #223249;
             --muted: #9aa4b2;
-            --bar-h: 44px;
-            /* fixed playbar height */
+            --bar-h: 46px;
         }
 
-        /* Box sizing to avoid accidental width growth */
+        @media (max-width:380px) {
+            :root {
+                --bar-h: 44px;
+            }
+        }
+
+        /* ensure nothing gets hidden by globals */
+        html,
+        body,
+        #playScreen,
+        .board,
+        .panel,
+        .wrap,
+        .site {
+            overflow: visible !important;
+        }
+
         *,
         *::before,
         *::after {
             box-sizing: border-box;
         }
 
+        html,
+        body {
+            margin: 0;
+            color: #e6edf3;
+        }
+
         body {
             background: radial-gradient(1100px 700px at 10% -10%, #101a34 0%, var(--bg) 45%) fixed;
             min-height: 100svh;
-            margin: 0;
-            font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-            color: #e6edf3;
+            font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, "Helvetica Neue", Arial, "Noto Sans";
+            touch-action: manipulation;
+            /* normal on home */
         }
 
         .game-wrap {
@@ -186,38 +205,42 @@
             font-weight: 700
         }
 
-        /* ======= FULL-SCREEN Play Window (no overflow rules) ======= */
+        /* ======= FULL-SCREEN Play Layer ======= */
         #playScreen {
             position: fixed;
             inset: 0;
-            width: 100svw;
-            max-width: 100svw;
             display: none;
             z-index: 50;
             box-sizing: border-box;
             background: linear-gradient(180deg, rgba(7, 12, 20, .965), rgba(9, 14, 22, .985));
             padding: max(6px, env(safe-area-inset-top)) clamp(8px, 2vw, 16px) max(8px, env(safe-area-inset-bottom));
+            overscroll-behavior: contain;
+            /* stop browser panning while open */
+            touch-action: none;
+            /* handled in-canvas */
+            width: 100vw;
+            /* no 100vw to avoid layout spill */
         }
 
         #playScreen.open {
             display: grid;
             grid-template-rows: var(--bar-h) 1fr;
-            gap: .6rem;
-            min-height: 100svh;
+            height: 100svh;
+            /* true visual viewport height */
         }
 
-        /* Fixed-height top bar; contents compress, height stays constant */
+        /* Fixed-height HUD */
         .ps-top {
             height: var(--bar-h);
             background: rgba(255, 255, 255, .03);
             border: 1px solid var(--cardBorder);
             border-radius: .65rem;
             padding: 0 .5rem;
-            /* vertical padding = 0 keeps height hard-fixed */
+            /* vertical=0 keeps height constant */
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: .4rem;
+            gap: .35rem;
             min-width: 0;
         }
 
@@ -225,43 +248,54 @@
             min-width: 0;
             display: flex;
             align-items: center;
-            gap: .4rem;
+            gap: .35rem;
+        }
+
+        .left,
+        .mid,
+        .right {
+            flex: 1 1 0;
+        }
+
+        .left {
+            justify-content: flex-start;
+        }
+
+        .mid {
+            justify-content: center;
+            flex-wrap: nowrap;
+        }
+
+        .right {
+            justify-content: flex-end;
         }
 
         .ps-title {
             font-weight: 900;
             white-space: nowrap;
-            text-overflow: ellipsis;
-            max-width: 28ch;
         }
 
-        /* Chips are compact and auto-shrink */
-        .ps-chip {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            height: calc(var(--bar-h) - 10px);
-            padding: 0 .5rem;
-            border: 1px solid var(--cardBorder);
-            border-radius: .55rem;
-            background: #0f151f;
-            font-weight: 800;
-            font-size: clamp(.78rem, 2.2vw, .95rem);
-            white-space: nowrap;
+        @media (max-width:500px) {
+            .ps-title {
+                display: none;
+            }
         }
 
+        .ps-chip,
         .ps-btn {
             display: inline-flex;
             align-items: center;
             justify-content: center;
             height: calc(var(--bar-h) - 10px);
-            padding: 0 .6rem;
+            padding: 0 .55rem;
             border-radius: .55rem;
             border: 1px solid var(--cardBorder);
             background: #0f151f;
             color: #e6edf3;
             font-weight: 800;
             font-size: clamp(.78rem, 2.2vw, .95rem);
+            white-space: nowrap;
+            min-width: 0;
         }
 
         .ps-btn.primary {
@@ -270,30 +304,31 @@
             border-color: var(--accent)
         }
 
-        /* On very narrow screens: use ultra-compact labels */
+        .chip-full {
+            display: inline;
+        }
+
+        .chip-short {
+            display: none;
+        }
+
         @media (max-width:430px) {
-            .ps-title {
+            .chip-full {
                 display: none;
             }
 
-            .chip-label-full {
-                display: none;
-            }
-
-            .chip-label-short {
+            .chip-short {
                 display: inline;
             }
         }
 
-        @media (min-width:431px) {
-            .chip-label-full {
-                display: inline;
-            }
-
-            .chip-label-short {
+        @media (max-width:360px) {
+            #psBest {
                 display: none;
             }
         }
+
+        /* last to make space on ultra-narrow */
 
         .ps-stage {
             min-height: 0;
@@ -322,6 +357,7 @@
             display: block;
             background: radial-gradient(100% 140% at 15% 10%, #0d1630 0%, #0b1226 55%, #08101e 100%);
             border-radius: .65rem;
+            touch-action: none;
         }
 
         .overlay {
@@ -345,7 +381,6 @@
             margin: .2rem 0 .6rem
         }
 
-        /* Touch arrows */
         .touchbar {
             position: absolute;
             left: 12px;
@@ -410,12 +445,11 @@
         </div>
     </header>
 
-    <!-- Home / Landing -->
+    <!-- Home -->
     <main class="wrap" id="homeScreen">
         <div class="tool-header" style="text-align:center;margin:1rem 0 .25rem">
             <h1>🧱 Breakout</h1>
-            <p>Tap <b>New Game</b> for a distraction-free full-screen window. Bricks auto-scale to fill the play area.
-                Collect power-ups!</p>
+            <p>Tap <b>New Game</b> to open a full-screen window. Bricks auto-scale; tap playfield to launch/pause.</p>
         </div>
 
         <div class="game-wrap">
@@ -464,8 +498,8 @@
                     <button id="resetBest" class="btn danger">Reset Best</button>
                 </div>
 
-                <p class="status" id="homeStatus">Keyboard: ← / → or A / D, Space to toggle, P to pause. Mobile: use
-                    arrows or tap canvas.</p>
+                <p class="status" id="homeStatus">Keyboard: ← / → or A / D. On mobile: drag to steer, tap to
+                    pause/resume.</p>
 
                 <div class="grid" style="display:grid;grid-template-columns:1fr;gap:.75rem;margin-top:1rem">
                     <div class="card"
@@ -484,7 +518,7 @@
                                 referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
                         </div>
                         <p class="status" style="margin-top:.6rem">
-                            Also try <a href="/games/2048/" rel="internal">2048</a> or read about the classic on
+                            Also try <a href="/games/2048/" rel="internal">2048</a> · learn more on
                             <a href="https://wikipedia.org/wiki/Breakout_(video_game)"
                                 rel="noopener nofollow">Wikipedia</a>.
                         </p>
@@ -509,18 +543,18 @@
     <section id="playScreen" role="dialog" aria-modal="true" inert>
         <div class="ps-top">
             <div class="left">
-                <button id="psBack" class="ps-btn" type="button" aria-label="Stop and go back">⟵</button>
+                <button id="psBack" class="ps-btn" type="button" aria-label="Back">⟵</button>
                 <span class="ps-title">Breakout</span>
             </div>
-            <div class="mid" aria-live="polite" style="display:flex;gap:.4rem;align-items:center;min-width:0;">
-                <span class="ps-chip" id="psScore"><span class="chip-label-full">Score:</span><span
-                        class="chip-label-short">S:</span>&nbsp;0</span>
-                <span class="ps-chip" id="psLevel"><span class="chip-label-full">Level:</span><span
-                        class="chip-label-short">Lv:</span>&nbsp;1</span>
-                <span class="ps-chip" id="psLives"><span class="chip-label-full">Lives:</span><span
-                        class="chip-label-short">♥:</span>&nbsp;3</span>
-                <span class="ps-chip" id="psBest"><span class="chip-label-full">Best:</span><span
-                        class="chip-label-short">B:</span>&nbsp;0</span>
+            <div class="mid" aria-live="polite">
+                <span class="ps-chip" id="psScore"><span class="chip-full">Score:</span><span
+                        class="chip-short">S:</span>&nbsp;<span id="scoreVal">0</span></span>
+                <span class="ps-chip" id="psLevel"><span class="chip-full">Level:</span><span
+                        class="chip-short">Lv:</span>&nbsp;<span id="levelVal">1</span></span>
+                <span class="ps-chip" id="psLives"><span class="chip-full">Lives:</span><span
+                        class="chip-short">♥:</span>&nbsp;<span id="livesVal">3</span></span>
+                <span class="ps-chip" id="psBest"><span class="chip-full">Best:</span><span
+                        class="chip-short">B:</span>&nbsp;<span id="bestVal">0</span></span>
                 <span class="ps-chip" id="psBuffs" title="Active power-ups"></span>
             </div>
             <div class="right" aria-label="Actions">
@@ -533,7 +567,7 @@
             <div class="board" id="board">
                 <canvas id="gameCanvas" aria-label="Breakout game area"></canvas>
 
-                <!-- overlay messages -->
+                <!-- overlay -->
                 <div id="overlay" class="overlay" aria-hidden="true">
                     <div class="panel">
                         <h3 id="ovTitle">Paused</h3>
@@ -545,7 +579,7 @@
                     </div>
                 </div>
 
-                <!-- touch controls -->
+                <!-- touch arrows -->
                 <div class="touchbar" id="touchbar">
                     <button class="touchbtn" id="btnLeft">⟵</button>
                     <button class="touchbtn" id="btnRight">⟶</button>
@@ -554,15 +588,13 @@
         </div>
     </section>
 
-    <!-- App (ESM) -->
+    <!-- App -->
     <script type="module">
-        // You can still use your shared utils if present:
         const $ = (s, el = document) => el.querySelector(s);
         const $$ = (s, el = document) => [...el.querySelectorAll(s)];
         const clamp = (x, min, max) => Math.min(max, Math.max(min, x));
         const haptic = (ms) => { try { if (navigator.vibrate) navigator.vibrate(ms || 8) } catch { } };
 
-        // ---------- Elements ----------
         const els = {
             home: $("#homeScreen"), play: $("#playScreen"),
             newGame: $("#newGame"), continueBtn: $("#continueBtn"),
@@ -573,20 +605,19 @@
             status: $("#homeStatus"),
             canvas: $("#gameCanvas"), boardWrap: $("#board"),
             psBack: $("#psBack"), psRestart: $("#psRestart"), psShare: $("#psShare"),
-            psScore: $("#psScore"), psLevel: $("#psLevel"), psLives: $("#psLives"), psBest: $("#psBest"), psBuffs: $("#psBuffs"),
+            scoreVal: $("#scoreVal"), levelVal: $("#levelVal"), livesVal: $("#livesVal"), bestVal: $("#bestVal"),
+            psBuffs: $("#psBuffs"),
             overlay: $("#overlay"), ovTitle: $("#ovTitle"), ovDesc: $("#ovDesc"),
             ovResume: $("#ovResume"), ovRestart: $("#ovRestart"),
             touchbar: $("#touchbar"), btnLeft: $("#btnLeft"), btnRight: $("#btnRight"),
         };
 
-        // ---------- Storage keys ----------
         const LS = {
             STATE: "ut_breakout_state_v1", BEST: "ut_breakout_best_score", BESTLV: "ut_breakout_best_level",
             LAST: "ut_breakout_last_score", LASTLV: "ut_breakout_last_level", LASTAT: "ut_breakout_last_played",
             OPTS: "ut_breakout_opts", SEED: "ut_breakout_seed"
         };
 
-        // Cookies helper
         function setCookie(name, value, days = 365) {
             const d = new Date(Date.now() + days * 864e5);
             document.cookie = encodeURIComponent(name) + "=" + encodeURIComponent(value) + "; path=/; expires=" + d.toUTCString();
@@ -596,13 +627,11 @@
             return m ? decodeURIComponent(m[1]) : null;
         }
 
-        // ---------- Seeded RNG ----------
         function mulberry32(seed) { let t = seed >>> 0; return () => { t += 0x6D2B79F5; let r = Math.imul(t ^ t >>> 15, 1 | t); r ^= r + Math.imul(r ^ r >>> 7, 61 | r); return ((r ^ r >>> 14) >>> 0) / 4294967296; }; }
         function strHash(s) { let h = 2166136261 >>> 0; for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; }
         let rnd = Math.random;
         function reseed(seed) { if (!seed) { rnd = Math.random; return; } const h = strHash(seed); rnd = mulberry32(h); localStorage.setItem(LS.SEED, seed); }
 
-        // ---------- State ----------
         const S = {
             width: 800, height: 600, dpr: Math.max(1, Math.min(3, window.devicePixelRatio || 1)),
             running: false, paused: false, state: "ready",
@@ -618,8 +647,8 @@
             lastTime: 0
         };
 
-        // ---------- Canvas / Responsive ----------
         const ctx = els.canvas.getContext("2d");
+
         function fitCanvas() {
             const wrap = els.boardWrap;
             const cs = getComputedStyle(wrap);
@@ -640,8 +669,8 @@
         }
         new ResizeObserver(() => fitCanvas()).observe(els.boardWrap);
         addEventListener("orientationchange", fitCanvas, { passive: true });
+        if (window.visualViewport) visualViewport.addEventListener('resize', fitCanvas);
 
-        // ---------- Audio ----------
         let audioCtx = null;
         function beep(freq = 440, dur = 0.06, type = "square", gain = 0.02) {
             if (!S.soundOn) return;
@@ -654,7 +683,6 @@
             } catch { }
         }
 
-        // ---------- Entities ----------
         function resetEntities() {
             S.paddle = { x: S.width / 2, y: S.height - S.height * 0.08, w: Math.max(60, S.width * 0.14), h: Math.max(12, S.height * 0.018), speed: Math.max(220, S.width * 0.45) };
             const base = { easy: 250, normal: 300, hard: 360 }[S.difficulty] || 300;
@@ -675,7 +703,6 @@
                 }
             }
         }
-
         function packBricksToScreen() {
             if (!S.bricks.length) return;
             const rows = 1 + Math.max(...S.bricks.map(b => b.row));
@@ -692,7 +719,6 @@
             for (const b of S.bricks) { b.w = bw; b.h = bh; b.x = startX + b.col * (bw + gap); b.y = startY + b.row * (bh + gap); }
         }
 
-        // ---------- Power-ups ----------
         function maybeDropPower(x, y) {
             const chance = 0.16; if (rnd() > chance) return;
             const types = ["expand", "slow", "fire", "shield", "sticky", "x2", "laser", "auto"];
@@ -723,7 +749,6 @@
             els.psBuffs.innerHTML = badges.join("");
         }
 
-        // ---------- Save / Load ----------
         function saveLocal() {
             const obj = {
                 score: S.score, level: S.level, lives: S.lives, best: S.best, bestLevel: S.bestLevel,
@@ -742,30 +767,48 @@
         }
         function loadLocal() { try { return JSON.parse(localStorage.getItem(LS.STATE) || "null"); } catch { return null; } }
         function updateHomeStats() {
-            els.homeBest.textContent = S.best;
-            els.homeBestLevel.textContent = S.bestLevel;
-            els.homeLast.textContent = localStorage.getItem(LS.LAST) || "0";
-            els.homeLastLevel.textContent = localStorage.getItem(LS.LASTLV) || "1";
+            $("#bestScore").textContent = S.best;
+            $("#bestLevel").textContent = S.bestLevel;
+            $("#lastScore").textContent = localStorage.getItem(LS.LAST) || "0";
+            $("#lastLevel").textContent = localStorage.getItem(LS.LASTLV) || "1";
             const ts = Number(localStorage.getItem(LS.LASTAT) || 0);
-            els.homeLastDate.textContent = ts ? new Date(ts).toLocaleString() : "—";
+            $("#lastDate").textContent = ts ? new Date(ts).toLocaleString() : "—";
         }
 
-        // ---------- UI helpers ----------
         function setInert(el, val) { if (val) { el.setAttribute("inert", ""); el.inert = true; } else { el.removeAttribute("inert"); el.inert = false; } }
         function showOverlay(title, desc) { els.ovTitle.textContent = title; els.ovDesc.textContent = desc; els.overlay.classList.add("show"); els.overlay.setAttribute("aria-hidden", "false"); }
         function hideOverlay() { els.overlay.classList.remove("show"); els.overlay.setAttribute("aria-hidden", "true"); }
+
+        // prevent page panning (no overflow hacks)
+        const stop = e => e.preventDefault();
+        function lockInteractions(lock) {
+            if (lock) {
+                els.play.addEventListener('touchmove', stop, { passive: false });
+                els.play.addEventListener('wheel', stop, { passive: false });
+                document.addEventListener('gesturestart', stop, { passive: false });
+                document.addEventListener('gesturechange', stop, { passive: false });
+                document.addEventListener('gestureend', stop, { passive: false });
+            } else {
+                els.play.removeEventListener('touchmove', stop);
+                els.play.removeEventListener('wheel', stop);
+                document.removeEventListener('gesturestart', stop);
+                document.removeEventListener('gesturechange', stop);
+                document.removeEventListener('gestureend', stop);
+            }
+        }
 
         function openPlay(seedFromURL, diffFromURL) {
             setInert(els.home, true); setInert(els.play, false);
             els.play.classList.add("open");
 
             if (seedFromURL) { S.seed = seedFromURL; reseed(S.seed); }
-            if (diffFromURL) { S.difficulty = diffFromURL; els.difficulty.value = S.difficulty; }
+            if (diffFromURL) { S.difficulty = diffFromURL; $("#difficulty").value = S.difficulty; }
 
             resetRun();
             fitCanvas();
             startLoop();
-            els.psBack.focus({ preventScroll: true });
+            $("#psBack").focus({ preventScroll: true });
+            lockInteractions(true);
         }
         function closePlay() {
             stopLoop();
@@ -773,23 +816,23 @@
             setInert(els.play, true); setInert(els.home, false);
             $("#newGame").focus({ preventScroll: true });
             updateHomeStats();
+            lockInteractions(false);
         }
 
-        // ---------- Game flow ----------
         function resetRun() {
             S.score = 0; S.level = 1; S.lives = 3; S.state = "ready"; S.paused = false;
             reseed(S.seed);
             resetEntities();
-            updateTopHUD(); updateBuffBadges();
+            refreshHUD();
             saveLocal();
-            showOverlay("Ready", "Tap anywhere or press Space to launch");
+            showOverlay("Ready", "Tap playfield or press Space to launch");
         }
         function nextLevel() {
             S.level++; S.state = "ready";
             if (S.level > S.bestLevel) S.bestLevel = S.level;
             resetEntities();
-            updateTopHUD(); saveLocal();
-            showOverlay("Level " + S.level, "Tap anywhere or Space to launch!");
+            refreshHUD(); saveLocal();
+            showOverlay("Level " + S.level, "Tap to launch!");
         }
         function loseLife() {
             if (S.shield > 0) {
@@ -801,25 +844,24 @@
             S.lives--; if (S.lives <= 0) { gameOver(); return; }
             S.state = "ready"; S.ball.launched = false;
             S.ball.x = S.paddle.x; S.ball.y = S.paddle.y - S.paddle.h / 2 - S.ball.r - 2;
-            updateTopHUD(); saveLocal();
-            showOverlay("Life lost", "Tap anywhere or Space to relaunch");
+            refreshHUD(); saveLocal();
+            showOverlay("Life lost", "Tap to relaunch");
         }
         function gameOver() {
             S.state = "gameOver"; stopLoop();
             if (S.score > S.best) S.best = S.score;
             if (S.level > S.bestLevel) S.bestLevel = S.level;
-            saveLocal(); updateTopHUD();
+            saveLocal(); refreshHUD();
             showOverlay("Game Over", "Score: " + S.score + " | Level: " + S.level);
         }
-        function updateTopHUD() {
-            // compact labels to prevent width growth (matches HTML)
-            els.psScore.lastChild.nodeValue = " " + S.score;
-            els.psLevel.lastChild.nodeValue = " " + S.level;
-            els.psLives.lastChild.nodeValue = " " + S.lives;
-            els.psBest.lastChild.nodeValue = " " + S.best;
+        function refreshHUD() {
+            els.scoreVal.textContent = S.score;
+            els.levelVal.textContent = S.level;
+            els.livesVal.textContent = S.lives;
+            els.bestVal.textContent = S.best;
+            updateBuffBadges();
         }
 
-        // ---------- Loop ----------
         let rafId = null;
         function startLoop() { if (rafId) return; S.running = true; S.lastTime = performance.now(); rafId = requestAnimationFrame(tick); }
         function stopLoop() { if (rafId) { cancelAnimationFrame(rafId); rafId = null; } S.running = false; }
@@ -829,14 +871,12 @@
             rafId = requestAnimationFrame(tick);
         }
 
-        // ---------- Score helper ----------
         function addScore(base) {
             const mul = S.x2Timer > 0 ? 2 : 1;
             S.score += base * mul;
-            updateTopHUD();
+            els.scoreVal.textContent = S.score;
         }
 
-        // ---------- Update & Draw ----------
         function update(dt) {
             if (S.fireball > 0) S.fireball -= dt;
             if (S.slowTimer > 0) S.slowTimer -= dt;
@@ -848,7 +888,6 @@
 
             updateBuffBadges();
 
-            // paddle
             let dir = (S.keys.left || S.touch.left ? -1 : 0) + (S.keys.right || S.touch.right ? 1 : 0);
             if (S.autoTimer > 0) {
                 const delta = S.ball.x - S.paddle.x;
@@ -860,7 +899,6 @@
             S.paddle.x = clamp(S.paddle.x, half + 6, S.width - half - 6);
             S.paddle.w = Math.max(60, Math.min(S.width * 0.28, (S.width * 0.14) * (S.expandTimer > 0 ? 1.4 : 1)));
 
-            // ball
             const speedMul = S.slowTimer > 0 ? 0.7 : 1;
             if (!S.ball.launched) {
                 S.ball.x = S.paddle.x;
@@ -870,13 +908,11 @@
                 S.ball.y += S.ball.vy * dt * speedMul;
             }
 
-            // walls
             if (S.ball.x <= S.ball.r) { S.ball.x = S.ball.r; S.ball.vx = Math.abs(S.ball.vx); beep(600, .04); }
             if (S.ball.x >= S.width - S.ball.r) { S.ball.x = S.width - S.ball.r; S.ball.vx = -Math.abs(S.ball.vx); beep(600, .04); }
             if (S.ball.y <= S.ball.r + 6) { S.ball.y = S.ball.r + 6; S.ball.vy = Math.abs(S.ball.vy); beep(500, .04); }
             if (S.ball.y > S.height + S.ball.r * 2) { haptic(20); loseLife(); return; }
 
-            // paddle hit
             if (S.ball.y + S.ball.r >= S.paddle.y - S.paddle.h / 2 &&
                 S.ball.y - S.ball.r <= S.paddle.y + S.paddle.h / 2 &&
                 S.ball.x >= S.paddle.x - half && S.ball.x <= S.paddle.x + half &&
@@ -891,7 +927,6 @@
                 beep(440, .04);
             }
 
-            // bricks
             let anyAlive = false;
             for (const b of S.bricks) {
                 if (!b.alive) continue; anyAlive = true;
@@ -908,9 +943,8 @@
                     beep(300 + rnd() * 200, .045, "square", .03);
                 }
             }
-            if (!anyAlive) { haptic(15); nextLevel(); }
+            if (!anyAlive) { nextLevel(); }
 
-            // powerups
             for (const p of S.powerups) {
                 if (!p.alive) continue;
                 p.y += p.vy * dt;
@@ -920,7 +954,6 @@
                 }
             }
 
-            // lasers
             if (S.laserTimer > 0) {
                 S.beamClock -= dt;
                 if (S.beamClock <= 0) {
@@ -968,28 +1001,26 @@
             ctx.fillStyle = S.fireball > 0 ? "#ffd166" : "#6cf";
             ctx.beginPath(); ctx.arc(S.ball.x, S.ball.y, S.ball.r, 0, Math.PI * 2); ctx.fill();
 
-            // powerups
+            ctx.fillStyle = "#e6edf3";
             for (const p of S.powerups) {
                 if (!p.alive) continue;
-                ctx.fillStyle = "#e6edf3";
                 ctx.fillRect(p.x - p.w / 2, p.y - p.h / 2, p.w, p.h);
                 ctx.fillStyle = "#0b1020"; ctx.font = "700 14px system-ui"; ctx.textAlign = "center"; ctx.textBaseline = "middle";
                 const label = ({ expand: "E", slow: "S", fire: "F", shield: "🛡", sticky: "🧲", x2: "x2", laser: "⚡", auto: "🤖" })[p.kind] || "?";
                 ctx.fillText(label, p.x, p.y);
+                ctx.fillStyle = "#e6edf3";
             }
 
-            // lasers
             ctx.fillStyle = "#9ae6ff";
             for (const m of S.beams) { if (m.alive) { ctx.fillRect(m.x - 2, m.y - 10, 4, 12); } }
 
-            // subtle HUD watermarks
             ctx.save(); ctx.globalAlpha = .12; ctx.fillStyle = "#e6edf3"; ctx.font = "700 24px system-ui";
             ctx.fillText("Score " + S.score, 16, 28);
             ctx.fillText("Lvl " + S.level, 16, 54);
             ctx.restore();
         }
 
-        // ---------- Input ----------
+        // Inputs
         document.addEventListener("keydown", (e) => {
             if (["ArrowLeft", "a", "A", "h", "H"].includes(e.key)) S.keys.left = true;
             if (["ArrowRight", "d", "D", "l", "L"].includes(e.key)) S.keys.right = true;
@@ -1004,7 +1035,6 @@
             if (["ArrowRight", "d", "D", "l", "L"].includes(e.key)) S.keys.right = false;
         });
 
-        // Touch arrows
         function hold(btn, on) {
             btn.addEventListener("pointerdown", e => { e.preventDefault(); on(true); btn.setPointerCapture?.(e.pointerId); });
             btn.addEventListener("pointerup", e => { e.preventDefault(); on(false); btn.releasePointerCapture?.(e.pointerId); });
@@ -1014,7 +1044,7 @@
         hold(els.btnLeft, v => S.touch.left = v);
         hold(els.btnRight, v => S.touch.right = v);
 
-        // Tap canvas/board to toggle run/pause or launch
+        // tap canvas to launch/pause
         function boardTapHandler(e) {
             if (e.target.closest('button,a,.touchbtn')) return;
             if (S.state === "ready") { S.ball.launched = true; S.state = "running"; hideOverlay(); }
@@ -1023,7 +1053,7 @@
         els.boardWrap.addEventListener("click", boardTapHandler);
         els.overlay.addEventListener("click", boardTapHandler);
 
-        // Drag paddle
+        // pointer steer
         els.canvas.addEventListener("pointermove", e => {
             if (els.play.hasAttribute("inert")) return;
             const rect = els.canvas.getBoundingClientRect();
@@ -1032,16 +1062,16 @@
             if (!S.ball.launched && S.state === "ready") { S.ball.x = S.paddle.x; }
         }, { passive: true });
 
-        // ---------- Buttons ----------
+        // Buttons
         $("#newGame").addEventListener('click', () => {
-            S.difficulty = els.difficulty.value; S.soundOn = (els.soundToggle.value === "on");
+            S.difficulty = $("#difficulty").value; S.soundOn = ($("#soundToggle").value === "on");
             S.seed = ""; reseed(S.seed);
             openPlay("", S.difficulty);
         });
         $("#continueBtn").addEventListener('click', () => {
             const saved = loadLocal();
             const seed = saved?.seed || "";
-            const diff = saved?.difficulty || els.difficulty.value;
+            const diff = saved?.difficulty || $("#difficulty").value;
             S.difficulty = diff; S.soundOn = (saved?.sound !== "off");
             openPlay(seed, diff);
             S.score = saved?.score || 0; S.level = saved?.level || 1; S.lives = saved?.lives ?? 3;
@@ -1052,7 +1082,7 @@
                 S.stickyTimer = saved.timers.sticky || 0; S.shield = saved.timers.shield || 0; S.x2Timer = saved.timers.x2 || 0;
                 S.laserTimer = saved.timers.laser || 0; S.autoTimer = saved.timers.auto || 0; updateBuffBadges();
             }
-            updateTopHUD(); fitCanvas();
+            refreshHUD(); fitCanvas();
         });
         $("#resetBest").addEventListener('click', () => {
             localStorage.setItem(LS.BEST, "0"); localStorage.setItem(LS.BESTLV, "1");
@@ -1062,7 +1092,7 @@
         });
         $("#shareBtn").addEventListener('click', () => {
             const seed = Date.now().toString(36);
-            const url = new URL(location.href); url.searchParams.set("seed", seed); url.searchParams.set("d", els.difficulty.value);
+            const url = new URL(location.href); url.searchParams.set("seed", seed); url.searchParams.set("d", $("#difficulty").value);
             navigator.clipboard?.writeText(url.toString());
             els.status.textContent = "🔗 Link copied. Challenge a friend!";
         });
@@ -1087,26 +1117,21 @@
         }
         window.addEventListener("blur", () => { if (!els.play.hasAttribute("inert")) { S.paused = true; showOverlay("Paused", "Window unfocused"); } });
 
-        // ---------- URL challenge link ----------
         (function initHome() {
             try {
                 const opts = JSON.parse(localStorage.getItem(LS.OPTS) || "{}");
-                if (opts.difficulty) els.difficulty.value = opts.difficulty;
-                if (opts.sound) els.soundToggle.value = opts.sound;
-                S.difficulty = els.difficulty.value; S.soundOn = (els.soundToggle.value === "on");
+                if (opts.difficulty) $("#difficulty").value = opts.difficulty;
+                if (opts.sound) $("#soundToggle").value = opts.sound;
+                S.difficulty = $("#difficulty").value; S.soundOn = ($("#soundToggle").value === "on");
             } catch { }
             updateHomeStats();
-            if (!loadLocal()) { els.continueBtn.disabled = true; els.continueBtn.style.opacity = .7; }
+            if (!loadLocal()) { $("#continueBtn").disabled = true; $("#continueBtn").style.opacity = .7; }
         })();
         const u = new URL(location.href);
         const qSeed = u.searchParams.get("seed"), qDiff = u.searchParams.get("d");
-        if (qSeed) { openPlay(qSeed, qDiff || els.difficulty.value); u.searchParams.delete("seed"); u.searchParams.delete("d"); history.replaceState(null, "", u.toString()); }
+        if (qSeed) { openPlay(qSeed, qDiff || $("#difficulty").value); u.searchParams.delete("seed"); u.searchParams.delete("d"); history.replaceState(null, "", u.toString()); }
 
-        // ---------- Initial frame ----------
-        resetEntities(); fitCanvas(); (function drawOnce() {
-            const w = S.width, h = S.height;
-            ctx.clearRect(0, 0, w, h);
-        })();
+        resetEntities(); fitCanvas(); // initial visual
     </script>
 </body>
 
