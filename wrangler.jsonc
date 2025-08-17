@@ -2,13 +2,20 @@
   "name": "uptools",
   "main": "worker/index.ts",
   "compatibility_date": "2025-08-10",
+
   "assets": {
     "directory": "./dist",
     "binding": "ASSETS"
   },
+
+  "vars": {
+    "PPLX_BASE": "https://api.perplexity.ai",
+    "PPLX_MODEL": "sonar"
+  },
+
   "build": {
     "command": "npm run build",
-"watch_dir": [
+    "watch_dir": [
       "src",
       "style.css",
       "index.html",
@@ -37,6 +44,7 @@
       "scripts"
     ]
   },
+
   "dev": {
     "ip": "127.0.0.1",
     "port": 8787,
