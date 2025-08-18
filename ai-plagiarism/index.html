@@ -113,7 +113,6 @@
             grid-template-columns: 1fr 1fr;
             gap: var(--gap);
             align-items: start;
-            /* prevent stretch-caused collisions when one panel is taller */
         }
 
         @media (max-width: 1024px) {
@@ -122,13 +121,12 @@
             }
         }
 
-        /* Panels are AUTO height on all breakpoints (no forced viewport clamp) */
+        /* Panels are AUTO height on all breakpoints */
         .panel {
             display: flex;
             flex-direction: column;
             border-radius: 12px;
             min-height: 0;
-            /* allow content to define height */
         }
 
         .panel-head {
@@ -138,15 +136,12 @@
             gap: 10px;
             padding: var(--panel-pad);
             flex-wrap: wrap;
-            /* title and toolbar never collide */
             min-width: 0;
-            /* enable wrapping long titles */
         }
 
         .panel-body {
             display: grid;
             grid-template-rows: auto auto 1fr;
-            /* options, textarea, footer toolbars */
             gap: 10px;
             padding: var(--panel-pad);
             min-width: 0;
@@ -172,27 +167,25 @@
             min-width: 0;
         }
 
-        /* prevent children from forcing overflow */
         @media (max-width: 760px) {
             .row {
                 grid-template-columns: 1fr;
             }
         }
 
-        /* Inputs — clamp sizes; scroll inside the component when needed (no page overlap) */
+        /* Inputs — clamp sizes; scroll inside the component when needed */
         textarea.input {
             width: 100%;
             min-height: 160px;
             height: auto;
             max-height: 48vh;
-            /* comfortable on laptops/phones */
             resize: vertical;
             padding: 10px 12px;
             line-height: 1.45;
             border-radius: 12px;
         }
 
-        /* On smaller viewports or when containers are narrow, override any inline width attrs */
+        /* On smaller viewports override any inline width attrs */
         .panel .select,
         .panel .input {
             max-width: 100%;
@@ -211,7 +204,6 @@
             min-height: 200px;
             height: auto;
             max-height: 52vh;
-            /* scrolls inside; avoids bumping into other blocks */
             margin: 0;
             padding: 12px 14px;
             overflow: auto;
@@ -365,9 +357,8 @@
                         <label class="inline tiny"><span>Chars:</span> <output id="charCount">0</output></label>
                         <label class="inline tiny"><span>Words:</span> <output id="wordCount">0</output></label>
                         <button id="pasteBtn" class="btn sm" type="button" title="Paste from clipboard">Paste</button>
-                        <label class="btn sm" title="Import .txt or .md">
-                            Import <input id="fileIn" type="file" accept=".txt,.md" hidden>
-                        </label>
+                        <label class="btn sm" title="Import .txt or .md">Import <input id="fileIn" type="file"
+                                accept=".txt,.md" hidden></label>
                         <button id="clearBtn" class="btn sm secondary" type="button" title="Clear input">Clear</button>
                     </div>
                 </div>
@@ -472,8 +463,7 @@
                 <iframe src="https://www.youtube.com/embed/5MgBikgcWnY?rel=0"
                     title="AI Plagiarism Checker demo — UpTools" loading="lazy"
                     allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    referrerpolicy="strict-origin-when-cross-origin">
-                </iframe>
+                    referrerpolicy="strict-origin-when-cross-origin"></iframe>
             </div>
             <p class="tiny" style="margin-top:8px">Video covers originality %, risky line highlights, paraphrasing with
                 tone, and generating permalinks.</p>
@@ -539,13 +529,14 @@
 
         id('y').textContent = new Date().getFullYear();
 
-        // ---- Provider & Models ----
+        /* ---------- Provider & Models (robust across /ai worker) ---------- */
         const PROVIDER_MODELS = {
             perplexity: [
                 { id: 'sonar', label: 'sonar' },
                 { id: 'sonar-pro', label: 'sonar-pro' },
                 { id: 'sonar-reasoning', label: 'sonar-reasoning' }
             ],
+            // UI says "Google (Gemini)" but worker often expects "google_genai"
             google: [
                 { id: 'gemini-2.5-flash', label: 'gemini-2.5-flash' },
                 { id: 'gemini-2.5-pro', label: 'gemini-2.5-pro' }
@@ -557,6 +548,14 @@
                 { id: 'gemma2-9b-it', label: 'gemma2-9b-it' }
             ]
         };
+
+        // Map the UI selection to whatever your /ai worker expects
+        const PROVIDER_ID_MAP = {
+            perplexity: 'perplexity',
+            google: 'google_genai', // <- key fix for Gemini worker id
+            groq: 'groq'
+        };
+
         const CFG_KEY = 'plagiarism:cfg';
         const cfg = Object.assign({ provider: 'perplexity', model: 'sonar' }, read(CFG_KEY, {}));
 
@@ -718,71 +717,130 @@
             ].join('\n');
         }
 
-        // ---- Streaming via Worker proxy (/ai) ----
+        /* ---------- Robust SSE/stream reader (handles JSON & raw text) ---------- */
         let aborter = null;
+        /**
+         * Supports:
+         * - OpenAI-style SSE JSON deltas (data: {"choices":[{"delta":{"content":"..."}}]})
+         * - JSON single-shot responses (no stream)
+         * - Raw text streaming (some Gemini/Groq variants)
+         * - [DONE] finisher tokens
+         */
         async function streamChat({ provider, model, prompt }) {
             const res = await fetch('/ai', {
                 method: 'POST',
                 signal: (aborter = new AbortController()).signal,
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    provider, model, stream: true, temperature: 0.3,
+                    provider: PROVIDER_ID_MAP[provider] || provider, // normalize for worker
+                    model,
+                    stream: true,
+                    temperature: 0.3,
                     messages: [
                         { role: 'system', content: 'You are a concise, careful assistant.' },
                         { role: 'user', content: prompt }
                     ]
                 })
             });
+
             if (!res.ok) throw new Error(`HTTP ${res.status}`);
-            const reader = res.body.getReader(); const dec = new TextDecoder();
+
+            const reader = res.body?.getReader();
+            const dec = new TextDecoder();
             let acc = '';
-            output.textContent = ''; // clear before stream
+            output.textContent = '';
+
+            // Non-stream fallback (some providers can do this)
+            if (!reader) {
+                const text = await res.text();
+                try {
+                    const j = JSON.parse(text);
+                    const content = j.choices?.[0]?.message?.content ?? j.output ?? text;
+                    output.textContent = content;
+                    return content;
+                } catch {
+                    output.textContent = text;
+                    return text;
+                }
+            }
+
             for (; ;) {
                 const { value, done } = await reader.read();
                 if (done) break;
+
                 const chunk = dec.decode(value);
-                for (const line of chunk.split('\n')) {
-                    const t = line.trim(); if (!t || !t.startsWith('data:')) continue;
-                    const payload = t.slice(5).trim();
+                const lines = chunk.split('\n').map(l => l.trim()).filter(Boolean);
+
+                for (const line of lines) {
+                    const hasPrefix = line.startsWith('data:');
+                    const payload = hasPrefix ? line.slice(5).trim() : line;
+
+                    if (!payload) continue;
                     if (payload === '[DONE]') { aborter = null; return acc; }
-                    try {
-                        const j = JSON.parse(payload);
-                        const delta = j.choices?.[0]?.delta?.content ?? '';
-                        if (delta) {
-                            acc += delta;
-                            output.append(document.createTextNode(delta));
-                            output.scrollTop = output.scrollHeight;
-                        }
-                    } catch { }
+
+                    // Try JSON first
+                    let appended = false;
+                    if (payload[0] === '{' || payload[0] === '[') {
+                        try {
+                            const j = JSON.parse(payload);
+                            const delta = j.choices?.[0]?.delta?.content
+                                ?? j.choices?.[0]?.message?.content
+                                ?? j.content
+                                ?? '';
+                            if (delta) {
+                                acc += delta;
+                                output.append(document.createTextNode(delta));
+                                output.scrollTop = output.scrollHeight;
+                                appended = true;
+                            }
+                        } catch { /* fall through */ }
+                    }
+                    // Raw text chunk
+                    if (!appended && !hasPrefix) {
+                        acc += payload;
+                        output.append(document.createTextNode(payload));
+                        output.scrollTop = output.scrollHeight;
+                    }
                 }
             }
-            aborter = null; return acc;
+
+            aborter = null;
+            return acc;
         }
 
-        id('stopBtn').addEventListener('click', () => {
-            if (aborter) { aborter.abort(); aborter = null; stopBtn.disabled = true; status.textContent = 'Stopped.'; }
+        /* ---------- Run / Stop ---------- */
+        stopBtn.addEventListener('click', () => {
+            if (aborter) {
+                aborter.abort();
+                aborter = null;
+                stopBtn.disabled = true;
+                status.textContent = 'Stopped.';
+            }
         });
 
-        id('runBtn').addEventListener('click', async () => {
+        runBtn.addEventListener('click', async () => {
             const text = input.value.trim();
             if (!text) { toast('Enter some text first'); input.focus(); return; }
 
             updateKPIs(text);
 
-            const provider = providerSel.value || 'perplexity';
-            const model = modelSel.value || (PROVIDER_MODELS[provider]?.[0]?.id ?? '');
+            const providerUi = providerSel.value || 'perplexity';
+            const model = modelSel.value || (PROVIDER_MODELS[providerUi]?.[0]?.id ?? '');
             if (!model) { toast('Pick a model'); return; }
 
             const task = taskSel.value;
-            output.textContent = ''; stopBtn.disabled = false; status.textContent = 'Running…';
+            output.textContent = '';
+            stopBtn.disabled = false;
+            status.textContent = 'Running…';
 
             try {
                 const prompt = buildPrompt(task, text);
-                await streamChat({ provider, model, prompt });
+                await streamChat({ provider: providerUi, model, prompt });
                 status.textContent = 'Done.';
             } catch (e) {
                 console.error(e);
-                status.textContent = 'Error. Check console & settings.'; toast('Request failed.');
+                status.textContent = 'Error. Check console & settings.';
+                toast('Request failed.');
             } finally {
                 stopBtn.disabled = true;
             }
