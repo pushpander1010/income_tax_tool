@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <!-- Google Ads (space is reserved; we mount the slot only if this loads to avoid CLS) -->
+    <!-- Google Ads (slot is injected only if the lib loads; fixed min-height to avoid CLS) -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617"
         crossorigin="anonymous"></script>
 
@@ -41,7 +41,7 @@
         <link rel="stylesheet" href="/style.css?v=1.3.0">
     </noscript>
 
-    <!-- Structured Data: App + Breadcrumb + FAQ -->
+    <!-- Structured Data -->
     <script type="application/ld+json">
   {
     "@context":"https://schema.org",
@@ -80,12 +80,14 @@
   }
   </script>
 
-    <!-- Page-scoped layout styles (keep tiny; rely on /style.css classes) -->
+    <!-- Page-scoped responsive fixes (lean; rely on /style.css utilities) -->
     <style>
         :root {
-            /* Height tuned to fit 1 screen with header/footer visible, while allowing inner scrolls */
-            --panel-h: clamp(560px, 74dvh, 820px);
             --gap: 14px;
+            --panel-h-desktop: 74dvh;
+            /* used only for ≥960px */
+            --panel-min: 520px;
+            --panel-pad: 10px 12px;
         }
 
         body {
@@ -98,29 +100,37 @@
             padding: 12px var(--container-px, 12px);
         }
 
+        /* Two column on wide, stack on phones */
         .grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: var(--gap);
-            align-items: stretch;
         }
 
-        @media (max-width: 1080px) {
+        @media (max-width: 960px) {
             .grid {
                 grid-template-columns: 1fr;
             }
         }
 
+        /* Panels: desktop gets fixed viewport height; mobile becomes auto to prevent overlap */
         .panel {
             display: flex;
             flex-direction: column;
-            height: var(--panel-h);
-            min-height: 520px;
+            min-height: var(--panel-min);
+            border-radius: 12px;
         }
 
-        @media (max-width: 520px) {
+        @media (min-width: 960px) {
             .panel {
-                min-height: 480px;
+                height: var(--panel-h-desktop);
+            }
+        }
+
+        @media (max-width: 959.98px) {
+            .panel {
+                min-height: unset;
+                height: auto;
             }
         }
 
@@ -129,16 +139,19 @@
             align-items: center;
             justify-content: space-between;
             gap: 10px;
-            padding: 10px 12px;
+            padding: var(--panel-pad);
+            flex-wrap: wrap;
+            /* allow toolbar to wrap under title on mobile */
         }
 
         .panel-body {
             flex: 1;
             min-height: 0;
+            /* allow children to size with overflow */
             display: grid;
             grid-template-rows: auto 1fr auto;
             gap: 10px;
-            padding: 10px 12px;
+            padding: var(--panel-pad);
         }
 
         .toolbar {
@@ -160,29 +173,35 @@
             }
         }
 
-        /* Input area should never overflow screen; scroll internally if long */
+        /* Inputs — clamp sizes so nothing overlaps; scroll inside component when needed */
         textarea.input {
             width: 100%;
+            min-height: 160px;
             height: auto;
-            min-height: 180px;
-            max-height: min(36dvh, 420px);
+            max-height: 40vh;
+            /* phones */
             resize: vertical;
             padding: 10px 12px;
             line-height: 1.45;
             border-radius: 12px;
         }
 
-        /* Output: tall enough by default & scrolls internally; clearly visible when empty */
+        @media (min-width: 960px) {
+            textarea.input {
+                max-height: 32vh;
+            }
+        }
+
         pre.output {
             width: 100%;
-            min-height: clamp(220px, 28dvh, 360px);
-            max-height: min(48dvh, 520px);
+            min-height: 180px;
             height: auto;
+            max-height: 46vh;
+            /* phones: roomy but safe */
             margin: 0;
             padding: 12px 14px;
             overflow: auto;
             white-space: pre-wrap;
-            word-wrap: break-word;
             word-break: break-word;
             border-radius: 12px;
             background: #121826;
@@ -191,20 +210,27 @@
             line-height: 1.55;
         }
 
-        pre.output:focus {
-            outline: 2px solid #3b82f6;
-            outline-offset: 2px;
+        @media (min-width: 960px) {
+            pre.output {
+                max-height: 52vh;
+            }
         }
 
         .kpis {
             display: grid;
-            grid-template-columns: repeat(4, minmax(120px, 1fr));
             gap: 10px;
+            grid-template-columns: repeat(4, minmax(120px, 1fr));
         }
 
         @media (max-width: 880px) {
             .kpis {
                 grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 420px) {
+            .kpis {
+                grid-template-columns: 1fr;
             }
         }
 
@@ -226,6 +252,37 @@
             opacity: .85;
         }
 
+        .danger {
+            background: transparent;
+            color: #ffb4b4;
+            border: 1px solid color-mix(in oklab, red 60%, #223);
+        }
+
+        /* Selects and buttons behave nicely on phones */
+        .select,
+        .input {
+            max-width: 100%;
+        }
+
+        @media (max-width:720px) {
+
+            .panel .select[style],
+            .panel .input[style] {
+                width: 100% !important;
+            }
+
+            /* override inline widths on mobile */
+        }
+
+        /* Chips wrap */
+        .chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            align-items: center;
+        }
+
+        /* Ad slot */
         .ad-wrap {
             display: none;
             margin: 10px 0;
@@ -241,21 +298,7 @@
             min-height: 120px;
         }
 
-        .danger {
-            background: transparent;
-            color: #ffb4b4;
-            border: 1px solid color-mix(in oklab, red 60%, #223);
-        }
-
-        /* hero chips wrap nicely on phones */
-        .chips {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            align-items: center;
-        }
-
-        /* Video container fixed size to avoid layout jumps */
+        /* Video container with fixed aspect to avoid reflow */
         .yt-wrap {
             width: 100%;
             max-width: 720px;
@@ -272,7 +315,7 @@
             display: block;
         }
 
-        /* keep page compact: footer links on one line where possible */
+        /* Footer nav remains compact */
         .site-footer .nav-links {
             gap: 12px;
             flex-wrap: wrap;
@@ -293,7 +336,7 @@
                 <a href="/#tools">Tools</a>
                 <a href="/ai-writer/">AI Writer</a>
                 <a href="/word-counter/">Word Counter</a>
-                <a href="/json-formatter/">JSON</a>
+                <a aria-current="page" href="/plagiarism-checker/">Plagiarism</a>
             </nav>
         </div>
     </header>
@@ -317,16 +360,16 @@
             </div>
         </section>
 
-        <!-- Ad slot (mounted via JS only if ads library exists; fixed height to avoid CLS) -->
+        <!-- Ad (only mounted if adsbygoogle exists) -->
         <section id="adMount" class="ad-wrap" aria-label="Advertisement area"></section>
 
         <section class="grid" aria-label="Workspace">
-            <!-- LEFT: INPUT -->
+            <!-- LEFT -->
             <article class="panel card" aria-labelledby="input-title">
                 <div class="panel-head">
                     <h2 id="input-title" class="h4">Your Text</h2>
                     <div class="toolbar">
-                        <label class="inline tiny"><span>Characters:</span> <output id="charCount">0</output></label>
+                        <label class="inline tiny"><span>Chars:</span> <output id="charCount">0</output></label>
                         <label class="inline tiny"><span>Words:</span> <output id="wordCount">0</output></label>
                         <button id="pasteBtn" class="btn sm" type="button" title="Paste from clipboard">Paste</button>
                         <label class="btn sm" title="Import .txt or .md">
@@ -378,7 +421,7 @@
                 </div>
             </article>
 
-            <!-- RIGHT: OUTPUT -->
+            <!-- RIGHT -->
             <article class="panel card" aria-labelledby="output-title">
                 <div class="panel-head">
                     <h2 id="output-title" class="h4">Results</h2>
@@ -391,7 +434,7 @@
                 </div>
 
                 <div class="panel-body">
-                    <!-- KPIs (local heuristics) -->
+                    <!-- KPIs -->
                     <div class="kpis" id="kpis" aria-live="polite">
                         <div class="kpi"><span class="tiny">Estimated Originality</span><b id="kpiOriginality">—</b>
                         </div>
@@ -474,35 +517,34 @@
 
     <!-- Page Script (ESM) -->
     <script type="module">
-        /* Import from the shared public path */
         import { $, $$, debounce, persist, read } from '/scripts/utils.js';
 
         // ---- DOM Refs ----
-        const byId = (id) => document.getElementById(id);
-        const input = byId('input');
-        const status = byId('status');
-        const output = byId('output');
-        const runBtn = byId('runBtn');
-        const stopBtn = byId('stopBtn');
-        const pasteBtn = byId('pasteBtn');
-        const clearBtn = byId('clearBtn');
-        const fileIn = byId('fileIn');
-        const copyBtn = byId('copyBtn');
-        const downloadBtn = byId('downloadBtn');
-        const permBtn = byId('permBtn');
-        const saveCfg = byId('saveCfg');
-        const taskSel = byId('task');
-        const taskOptions = byId('taskOptions');
-        const charCount = byId('charCount');
-        const wordCount = byId('wordCount');
-        const kpiOriginality = byId('kpiOriginality');
-        const kpiVariety = byId('kpiVariety');
-        const kpiFlesch = byId('kpiFlesch');
-        const kpiNgram = byId('kpiNgram');
-        const providerSel = byId('provider');
-        const modelSel = byId('modelSel');
+        const id = (x) => document.getElementById(x);
+        const input = id('input');
+        const status = id('status');
+        const output = id('output');
+        const runBtn = id('runBtn');
+        const stopBtn = id('stopBtn');
+        const pasteBtn = id('pasteBtn');
+        const clearBtn = id('clearBtn');
+        const fileIn = id('fileIn');
+        const copyBtn = id('copyBtn');
+        const downloadBtn = id('downloadBtn');
+        const permBtn = id('permBtn');
+        const saveCfg = id('saveCfg');
+        const taskSel = id('task');
+        const taskOptions = id('taskOptions');
+        const charCount = id('charCount');
+        const wordCount = id('wordCount');
+        const kpiOriginality = id('kpiOriginality');
+        const kpiVariety = id('kpiVariety');
+        const kpiFlesch = id('kpiFlesch');
+        const kpiNgram = id('kpiNgram');
+        const providerSel = id('provider');
+        const modelSel = id('modelSel');
 
-        byId('y').textContent = new Date().getFullYear();
+        id('y').textContent = new Date().getFullYear();
 
         // ---- Provider & Models ----
         const PROVIDER_MODELS = {
@@ -530,9 +572,8 @@
             const models = PROVIDER_MODELS[prov] || [];
             modelSel.innerHTML = '';
             for (const m of models) {
-                const opt = document.createElement('option');
-                opt.value = m.id; opt.textContent = m.label;
-                modelSel.appendChild(opt);
+                const o = document.createElement('option');
+                o.value = m.id; o.textContent = m.label; modelSel.appendChild(o);
             }
             const ok = models.some(m => m.id === cfg.model);
             modelSel.value = ok ? cfg.model : (models[0]?.id || '');
@@ -550,10 +591,10 @@
             populateModels();
         });
 
-        // ---- Character / Word counts ----
-        function counts(text) {
-            const words = (text.trim().match(/\b[\w’'-]+\b/gu) || []).length;
-            return { chars: text.length, words };
+        // ---- Counters ----
+        function counts(t) {
+            const words = (t.trim().match(/\b[\w’'-]+\b/gu) || []).length;
+            return { chars: t.length, words };
         }
         function updateCounts() {
             const { chars, words } = counts(input.value);
@@ -568,16 +609,18 @@
             try { input.value = await navigator.clipboard.readText(); updateCounts(); input.focus(); }
             catch { toast('Clipboard blocked by browser'); }
         });
-        clearBtn.addEventListener('click', () => { input.value = ''; updateCounts(); input.focus(); resetKPIs(); output.textContent = ''; status.textContent = ''; });
+        clearBtn.addEventListener('click', () => {
+            input.value = '';
+            updateCounts(); input.focus(); resetKPIs(); output.textContent = ''; status.textContent = '';
+        });
         fileIn.addEventListener('change', async (e) => {
             const f = e.target.files?.[0]; if (!f) return;
             const text = await f.text(); input.value = text; updateCounts();
         });
 
-        // ---- Task options (rendered inline) ----
+        // ---- Task Options ----
         function renderTaskOptions() {
-            const t = taskSel.value;
-            let html = '';
+            const t = taskSel.value; let html = '';
             if (t === 'originality') {
                 html = `
           <label class="inline"><span class="tiny">Depth</span>
@@ -605,7 +648,7 @@
           <label class="inline"><span class="tiny">Constraints</span>
             <input id="optRules" class="input" placeholder="e.g. shorter, active voice, vary sentence structure" style="width:260px">
           </label>`;
-            } else if (t === 'keywords') {
+            } else {
                 html = `
           <label class="inline"><span class="tiny">Top N</span>
             <input id="optTopN" type="number" class="input" value="20" min="5" max="60" style="width:90px">
@@ -619,66 +662,44 @@
         taskSel.addEventListener('change', renderTaskOptions);
         renderTaskOptions();
 
-        // ---- Heuristics (local-only; instant) ----
-        function sentences(text) {
-            return (text.trim().match(/[^.!?]+[.!?]*/g) || []).map(s => s.trim()).filter(Boolean);
-        }
-        function avg(a) { return a.length ? a.reduce((x, y) => x + y, 0) / a.length : 0; }
-        function stddev(a) {
-            if (!a.length) return 0;
-            const m = avg(a); const v = avg(a.map(x => (x - m) * (x - m)));
-            return Math.sqrt(v);
-        }
-        function fleschReadingEase(text) {
-            const words = (text.match(/\b[a-zA-Z’'-]+\b/g) || []);
-            const syllables = words.reduce((sum, w) => {
-                const s = (w.toLowerCase().match(/[aeiouy]+/g) || []).length || 1;
-                return sum + s;
-            }, 0);
-            const sents = sentences(text).length || 1;
-            const W = Math.max(words.length, 1), S = Math.max(sents, 1), SYL = Math.max(syllables, 1);
+        // ---- Local Heuristics ----
+        const sentences = (t) => (t.trim().match(/[^.!?]+[.!?]*/g) || []).map(s => s.trim()).filter(Boolean);
+        const avg = (a) => a.length ? a.reduce((x, y) => x + y, 0) / a.length : 0;
+        function stddev(a) { if (!a.length) return 0; const m = avg(a); return Math.sqrt(avg(a.map(x => (x - m) * (x - m)))) }
+        function fleschReadingEase(t) {
+            const words = (t.match(/\b[a-zA-Z’'-]+\b/g) || []);
+            const syllables = words.reduce((sum, w) => sum + ((w.toLowerCase().match(/[aeiouy]+/g) || []).length || 1), 0);
+            const S = sentences(t).length || 1;
+            const W = Math.max(words.length, 1), SYL = Math.max(syllables, 1);
             return Math.max(0, Math.min(100, 206.835 - 1.015 * (W / S) - 84.6 * (SYL / W)));
         }
-        function ngramRepeats(text, n = 4) {
-            const tokens = (text.toLowerCase().match(/\b[\w’'-]+\b/g) || []);
-            const grams = new Map();
-            for (let i = 0; i <= tokens.length - n; i++) {
-                const g = tokens.slice(i, i + n).join(' ');
-                grams.set(g, (grams.get(g) || 0) + 1);
-            }
-            let repeats = 0;
-            grams.forEach(c => { if (c > 1) repeats += (c - 1); });
-            return repeats;
+        function ngramRepeats(t, n = 4) {
+            const tokens = (t.toLowerCase().match(/\b[\w’'-]+\b/g) || []);
+            const grams = new Map(); for (let i = 0; i <= tokens.length - n; i++) { const g = tokens.slice(i, i + n).join(' '); grams.set(g, (grams.get(g) || 0) + 1); }
+            let repeats = 0; grams.forEach(c => { if (c > 1) repeats += (c - 1); }); return repeats;
         }
-        function sentenceVariety(text) {
-            const lens = sentences(text).map(s => s.split(/\s+/).filter(Boolean).length);
+        function sentenceVariety(t) {
+            const lens = sentences(t).map(s => s.split(/\s+/).filter(Boolean).length);
             return stddev(lens);
         }
-        function heuristicOriginality(text) {
-            if (!text || text.trim().length < 60) return 100;
-            const fre = fleschReadingEase(text);
-            const rep4 = ngramRepeats(text, 4);
-            const varS = sentenceVariety(text);
+        function heuristicOriginality(t) {
+            if (!t || t.trim().length < 60) return 100;
+            const fre = fleschReadingEase(t), rep4 = ngramRepeats(t, 4), varS = sentenceVariety(t);
             let score = 92 - Math.min(40, rep4 * 2.5) + Math.min(6, varS * 0.6) + Math.min(6, (fre - 50) / 10);
             return Math.max(0, Math.min(100, Math.round(score)));
         }
-        function updateKPIs(text) {
-            kpiOriginality.textContent = heuristicOriginality(text) + '%';
-            kpiVariety.textContent = sentenceVariety(text).toFixed(1);
-            kpiFlesch.textContent = fleschReadingEase(text).toFixed(0);
-            kpiNgram.textContent = ngramRepeats(text, 4).toString();
+        function updateKPIs(t) {
+            kpiOriginality.textContent = heuristicOriginality(t) + '%';
+            kpiVariety.textContent = sentenceVariety(t).toFixed(1);
+            kpiFlesch.textContent = fleschReadingEase(t).toFixed(0);
+            kpiNgram.textContent = ngramRepeats(t, 4).toString();
         }
-        function resetKPIs() {
-            kpiOriginality.textContent = '—';
-            kpiVariety.textContent = '—';
-            kpiFlesch.textContent = '—';
-            kpiNgram.textContent = '—';
-        }
+        function resetKPIs() { kpiOriginality.textContent = kpiVariety.textContent = kpiFlesch.textContent = kpiNgram.textContent = '—'; }
         input.addEventListener('input', debounce(() => updateKPIs(input.value), 100));
 
-        // ---- Prompt builder ----
+        // ---- Prompt Builder ----
+        const v = (id) => document.getElementById(id)?.value;
         function buildPrompt(task, text) {
-            const v = id => document.getElementById(id)?.value;
             if (task === 'originality') {
                 return [
                     "You are an academic integrity assistant.",
@@ -691,13 +712,12 @@
             }
             if (task === 'paraphrase') {
                 return [
-                    `Paraphrase the text to improve originality while preserving meaning.`,
+                    "Paraphrase the text to improve originality while preserving meaning.",
                     `Tone: ${v('optTone') || 'Neutral'}. Constraints: ${v('optRules') || 'vary sentence structure; avoid clichés; active voice; keep citations if present.'}`,
                     "Return only the rewritten text.",
                     "\n---\n", text
                 ].join('\n');
             }
-            // keywords
             return [
                 `Extract top ${(v('optTopN') || 20)} keywords from the text${(v('optPhrases') || 'Yes') === 'Yes' ? ' including keyphrases' : ''}.`,
                 "Return as a comma-separated list only.",
@@ -708,60 +728,52 @@
         // ---- Streaming via Worker proxy (/ai) ----
         let aborter = null;
         async function streamChat({ provider, model, prompt }) {
-            const url = '/ai';
-            const body = {
-                provider, model, stream: true, temperature: 0.3,
-                messages: [
-                    { role: 'system', content: 'You are a concise, careful assistant.' },
-                    { role: 'user', content: prompt }
-                ]
-            };
-            aborter = new AbortController();
-            const res = await fetch(url, {
+            const res = await fetch('/ai', {
                 method: 'POST',
-                signal: aborter.signal,
+                signal: (aborter = new AbortController()).signal,
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(body)
+                body: JSON.stringify({
+                    provider, model, stream: true, temperature: 0.3,
+                    messages: [
+                        { role: 'system', content: 'You are a concise, careful assistant.' },
+                        { role: 'user', content: prompt }
+                    ]
+                })
             });
             if (!res.ok) throw new Error(`HTTP ${res.status}`);
-            const reader = res.body.getReader();
-            const dec = new TextDecoder();
-            let accumulated = '';
-            output.textContent = ''; // make sure we start clean and avoid long DOM nodes
+            const reader = res.body.getReader(); const dec = new TextDecoder();
+            let acc = '';
+            output.textContent = ''; // clear before stream
             for (; ;) {
                 const { value, done } = await reader.read();
                 if (done) break;
                 const chunk = dec.decode(value);
                 for (const line of chunk.split('\n')) {
-                    const trimmed = line.trim();
-                    if (!trimmed || !trimmed.startsWith('data:')) continue;
-                    const payload = trimmed.slice(5).trim();
-                    if (payload === '[DONE]') { aborter = null; return accumulated; }
+                    const t = line.trim(); if (!t || !t.startsWith('data:')) continue;
+                    const payload = t.slice(5).trim();
+                    if (payload === '[DONE]') { aborter = null; return acc; }
                     try {
-                        const json = JSON.parse(payload);
-                        const delta = json.choices?.[0]?.delta?.content ?? '';
+                        const j = JSON.parse(payload);
+                        const delta = j.choices?.[0]?.delta?.content ?? '';
                         if (delta) {
-                            accumulated += delta;
-                            // Append efficiently to reduce layout thrash on mobile
+                            acc += delta;
                             output.append(document.createTextNode(delta));
                             output.scrollTop = output.scrollHeight;
                         }
                     } catch { }
                 }
             }
-            aborter = null;
-            return accumulated;
+            aborter = null; return acc;
         }
 
-        stopBtn.addEventListener('click', () => {
+        id('stopBtn').addEventListener('click', () => {
             if (aborter) { aborter.abort(); aborter = null; stopBtn.disabled = true; status.textContent = 'Stopped.'; }
         });
 
-        runBtn.addEventListener('click', async () => {
+        id('runBtn').addEventListener('click', async () => {
             const text = input.value.trim();
             if (!text) { toast('Enter some text first'); input.focus(); return; }
 
-            // Update heuristics upfront (instant feedback)
             updateKPIs(text);
 
             const provider = providerSel.value || 'perplexity';
@@ -769,9 +781,7 @@
             if (!model) { toast('Pick a model'); return; }
 
             const task = taskSel.value;
-            output.textContent = '';
-            stopBtn.disabled = false;
-            status.textContent = 'Running…';
+            output.textContent = ''; stopBtn.disabled = false; status.textContent = 'Running…';
 
             try {
                 const prompt = buildPrompt(task, text);
@@ -779,8 +789,7 @@
                 status.textContent = 'Done.';
             } catch (e) {
                 console.error(e);
-                status.textContent = 'Error. Check console & settings.';
-                toast('Request failed.');
+                status.textContent = 'Error. Check console & settings.'; toast('Request failed.');
             } finally {
                 stopBtn.disabled = true;
             }
@@ -793,33 +802,20 @@
         });
         downloadBtn.addEventListener('click', () => {
             const blob = new Blob([output.textContent || ''], { type: 'text/plain;charset=utf-8' });
-            const a = document.createElement('a');
-            a.href = URL.createObjectURL(blob);
-            a.download = 'ai-result.txt';
-            a.click();
-            URL.revokeObjectURL(a.href);
+            const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
+            a.download = 'ai-result.txt'; a.click(); URL.revokeObjectURL(a.href);
         });
         permBtn.addEventListener('click', async () => {
             const o = { t: taskSel.value, p: providerSel.value, m: modelSel.value };
-            const url = new URL(location.href);
-            url.hash = encodeURIComponent(btoa(JSON.stringify(o)));
-            try {
-                await navigator.clipboard.writeText(url.toString());
-                toast('Permalink copied');
-            } catch {
-                toast('Permalink ready (check address bar)');
-                history.replaceState({}, '', url);
-            }
+            const url = new URL(location.href); url.hash = encodeURIComponent(btoa(JSON.stringify(o)));
+            try { await navigator.clipboard.writeText(url.toString()); toast('Permalink copied'); }
+            catch { toast('Permalink ready (check address bar)'); history.replaceState({}, '', url); }
         });
 
-        // Small toast (status-line fallback)
-        function toast(msg) {
-            status.textContent = msg;
-            setTimeout(() => { if (status.textContent === msg) status.textContent = ''; }, 1800);
-        }
+        function toast(msg) { status.textContent = msg; setTimeout(() => { if (status.textContent === msg) status.textContent = ''; }, 1800); }
 
-        // ---- Restore settings from hash (permalink) ----
-        (function restoreFromHash() {
+        // Restore from hash
+        (function () {
             if (!location.hash) return;
             try {
                 const o = JSON.parse(atob(decodeURIComponent(location.hash.slice(1))));
@@ -831,10 +827,10 @@
             } catch { }
         })();
 
-        // ---- Mount AdSense only if available (avoid layout shifts) ----
-        (function mountAd() {
+        // Mount AdSense if available (no layout shifts)
+        (function () {
             if (!('adsbygoogle' in window)) return;
-            const mount = byId('adMount');
+            const mount = id('adMount');
             const ins = document.createElement('ins');
             ins.className = 'adsbygoogle';
             ins.setAttribute('data-ad-client', 'ca-pub-6216304334889617');
@@ -846,16 +842,20 @@
             try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch { }
         })();
 
-        // Init KPIs (empty state)
-        resetKPIs();
-
-        // ---- Resize guards (mobile): keep panels fitting 1 screen, scroll inside if needed
-        const mq = matchMedia('(max-width: 1080px)');
-        const clampPanelHeights = () => {
-            document.documentElement.style.setProperty('--panel-h', mq.matches ? '74dvh' : '74dvh');
+        // Ensure mobile friendliness by overriding inline widths when narrow
+        const mq = matchMedia('(max-width: 720px)');
+        const fixInlineWidths = () => {
+            if (!mq.matches) return;
+            // Force selects/inputs with inline widths to fill line on small screens
+            [...$$('.panel .select,[style*="width"],.panel .input')].forEach(el => {
+                el.style.maxWidth = '100%';
+            });
         };
-        mq.addEventListener?.('change', clampPanelHeights);
-        clampPanelHeights();
+        mq.addEventListener?.('change', fixInlineWidths);
+        fixInlineWidths();
+
+        // Init KPIs
+        resetKPIs();
     </script>
 </body>
 
