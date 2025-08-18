@@ -80,18 +80,25 @@
   }
   </script>
 
-    <!-- Page-scoped responsive fixes (lean; rely on /style.css utilities) -->
+    <!-- Page-scoped fixes to prevent ANY overlap (desktop + mobile) -->
     <style>
         :root {
             --gap: 14px;
-            --panel-h-desktop: 74dvh;
-            /* used only for ≥960px */
-            --panel-min: 520px;
             --panel-pad: 10px 12px;
         }
 
         body {
             overscroll-behavior: contain;
+        }
+
+        /* Header nav wraps to avoid collision with brand on narrow widths */
+        .site .header-inner {
+            gap: 12px;
+        }
+
+        .site .nav-links {
+            flex-wrap: wrap;
+            row-gap: 6px;
         }
 
         main.tool {
@@ -100,58 +107,50 @@
             padding: 12px var(--container-px, 12px);
         }
 
-        /* Two column on wide, stack on phones */
+        /* Grid never overlaps: items align to start; equal columns on wide, stacked on small */
         .grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: var(--gap);
+            align-items: start;
+            /* prevent stretch-caused collisions when one panel is taller */
         }
 
-        @media (max-width: 960px) {
+        @media (max-width: 1024px) {
             .grid {
                 grid-template-columns: 1fr;
             }
         }
 
-        /* Panels: desktop gets fixed viewport height; mobile becomes auto to prevent overlap */
+        /* Panels are AUTO height on all breakpoints (no forced viewport clamp) */
         .panel {
             display: flex;
             flex-direction: column;
-            min-height: var(--panel-min);
             border-radius: 12px;
-        }
-
-        @media (min-width: 960px) {
-            .panel {
-                height: var(--panel-h-desktop);
-            }
-        }
-
-        @media (max-width: 959.98px) {
-            .panel {
-                min-height: unset;
-                height: auto;
-            }
+            min-height: 0;
+            /* allow content to define height */
         }
 
         .panel-head {
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             justify-content: space-between;
             gap: 10px;
             padding: var(--panel-pad);
             flex-wrap: wrap;
-            /* allow toolbar to wrap under title on mobile */
+            /* title and toolbar never collide */
+            min-width: 0;
+            /* enable wrapping long titles */
         }
 
         .panel-body {
-            flex: 1;
-            min-height: 0;
-            /* allow children to size with overflow */
             display: grid;
-            grid-template-rows: auto 1fr auto;
+            grid-template-rows: auto auto 1fr;
+            /* options, textarea, footer toolbars */
             gap: 10px;
             padding: var(--panel-pad);
+            min-width: 0;
+            min-height: 0;
         }
 
         .toolbar {
@@ -159,45 +158,60 @@
             flex-wrap: wrap;
             gap: 8px;
             align-items: center;
+            min-width: 0;
         }
 
         .row {
             display: grid;
             gap: 8px;
             grid-template-columns: 1fr 1fr;
+            min-width: 0;
         }
 
-        @media (max-width: 720px) {
+        .row>* {
+            min-width: 0;
+        }
+
+        /* prevent children from forcing overflow */
+        @media (max-width: 760px) {
             .row {
                 grid-template-columns: 1fr;
             }
         }
 
-        /* Inputs — clamp sizes so nothing overlaps; scroll inside component when needed */
+        /* Inputs — clamp sizes; scroll inside the component when needed (no page overlap) */
         textarea.input {
             width: 100%;
             min-height: 160px;
             height: auto;
-            max-height: 40vh;
-            /* phones */
+            max-height: 48vh;
+            /* comfortable on laptops/phones */
             resize: vertical;
             padding: 10px 12px;
             line-height: 1.45;
             border-radius: 12px;
         }
 
-        @media (min-width: 960px) {
-            textarea.input {
-                max-height: 32vh;
+        /* On smaller viewports or when containers are narrow, override any inline width attrs */
+        .panel .select,
+        .panel .input {
+            max-width: 100%;
+        }
+
+        @media (max-width: 1024px) {
+
+            .panel .select[style],
+            .panel .input[style] {
+                width: 100% !important;
             }
         }
 
         pre.output {
             width: 100%;
-            min-height: 180px;
+            min-height: 200px;
             height: auto;
-            max-height: 46vh;
-            /* phones: roomy but safe */
+            max-height: 52vh;
+            /* scrolls inside; avoids bumping into other blocks */
             margin: 0;
             padding: 12px 14px;
             overflow: auto;
@@ -210,25 +224,20 @@
             line-height: 1.55;
         }
 
-        @media (min-width: 960px) {
-            pre.output {
-                max-height: 52vh;
-            }
-        }
-
         .kpis {
             display: grid;
             gap: 10px;
-            grid-template-columns: repeat(4, minmax(120px, 1fr));
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            min-width: 0;
         }
 
-        @media (max-width: 880px) {
+        @media (max-width: 900px) {
             .kpis {
                 grid-template-columns: repeat(2, 1fr);
             }
         }
 
-        @media (max-width: 420px) {
+        @media (max-width: 480px) {
             .kpis {
                 grid-template-columns: 1fr;
             }
@@ -258,22 +267,6 @@
             border: 1px solid color-mix(in oklab, red 60%, #223);
         }
 
-        /* Selects and buttons behave nicely on phones */
-        .select,
-        .input {
-            max-width: 100%;
-        }
-
-        @media (max-width:720px) {
-
-            .panel .select[style],
-            .panel .input[style] {
-                width: 100% !important;
-            }
-
-            /* override inline widths on mobile */
-        }
-
         /* Chips wrap */
         .chips {
             display: flex;
@@ -282,7 +275,7 @@
             align-items: center;
         }
 
-        /* Ad slot */
+        /* Ad slot (no layout shift) */
         .ad-wrap {
             display: none;
             margin: 10px 0;
@@ -381,7 +374,7 @@
 
                 <div class="panel-body">
                     <div class="row">
-                        <label class="inline" style="gap:6px">
+                        <label class="inline" style="gap:6px;min-width:0">
                             <span class="tiny">Task</span>
                             <select id="task" class="select" style="width:210px">
                                 <option value="originality" selected>Check Originality (AI)</option>
@@ -390,7 +383,7 @@
                             </select>
                         </label>
 
-                        <div class="inline" id="taskOptions" aria-live="polite"></div>
+                        <div class="inline" id="taskOptions" aria-live="polite" style="min-width:0"></div>
                     </div>
 
                     <textarea id="input" class="input" placeholder="Paste or type your text here…" spellcheck="true"
@@ -401,7 +394,7 @@
                         <button id="runBtn" class="btn" type="button">Run ▶</button>
                         <button id="stopBtn" class="btn danger sm" type="button" disabled>Stop</button>
 
-                        <label class="inline" title="Inference provider">
+                        <label class="inline" title="Inference provider" style="min-width:0">
                             <span class="tiny">Provider</span>
                             <select id="provider" class="select" style="width:160px">
                                 <option value="perplexity">Perplexity</option>
@@ -410,7 +403,7 @@
                             </select>
                         </label>
 
-                        <label class="inline" title="Model">
+                        <label class="inline" title="Model" style="min-width:0">
                             <span class="tiny">Model</span>
                             <select id="modelSel" class="select" style="width:230px"></select>
                         </label>
@@ -841,18 +834,6 @@
             mount.classList.add('ready');
             try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch { }
         })();
-
-        // Ensure mobile friendliness by overriding inline widths when narrow
-        const mq = matchMedia('(max-width: 720px)');
-        const fixInlineWidths = () => {
-            if (!mq.matches) return;
-            // Force selects/inputs with inline widths to fill line on small screens
-            [...$$('.panel .select,[style*="width"],.panel .input')].forEach(el => {
-                el.style.maxWidth = '100%';
-            });
-        };
-        mq.addEventListener?.('change', fixInlineWidths);
-        fixInlineWidths();
 
         // Init KPIs
         resetKPIs();
