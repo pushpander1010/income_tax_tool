@@ -41,3 +41,6 @@
 
 /*.(css|js|png|jpg|jpeg|svg|gif|ico|ttf)
   Cache-Control: public, max-age=3600, immutable
+
+/qr-reader/*
+  Permissions-Policy: camera=(self), microphone=()

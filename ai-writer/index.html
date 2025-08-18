@@ -6,35 +6,35 @@
 
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>AI Writing Assistant — Perplexity Sonar (Summarize, Rewrite, SEO) | UpTools</title>
+  <title>AI Writing Assistant — Perplexity, Gemini 2.5 & Groq | UpTools</title>
 
   <!-- Favicons -->
   <link rel="icon" sizes="50x50" type="image/svg+xml" href="/assets/logo/uptools-logo.svg">
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/logo/uptools-logo.svg">
 
   <!-- SEO -->
-  <meta name="description" content="Free AI Writing Assistant powered by Perplexity Sonar. Summarize, rewrite, translate, extract keywords, and generate SEO titles & meta descriptions. Fast, privacy-first, mobile-ready." />
+  <meta name="description" content="AI Writing Assistant powered by Perplexity Sonar, Google Gemini 2.5 (Flash/Pro), and Groq. Summarize, rewrite, translate, extract keywords, and generate SEO metadata — privacy-first via a server-side proxy." />
   <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:large" />
-  <link rel="canonical" href="https://www.uptools.in/ai-writing-assistant/" />
+  <link rel="canonical" href="https://www.uptools.in/ai-writer/" />
   <meta name="theme-color" content="#0b1020" />
 
   <!-- Open Graph / Twitter -->
-  <meta property="og:title" content="AI Writing Assistant — Perplexity Sonar" />
-  <meta property="og:description" content="Summarize, rewrite, translate, outline, and SEO metadata with Perplexity Sonar. Free and mobile-first." />
+  <meta property="og:title" content="AI Writing Assistant — Perplexity, Gemini 2.5 & Groq" />
+  <meta property="og:description" content="Summarize, rewrite, translate, outline, and SEO metadata with Perplexity Sonar, Google Gemini 2.5, or Groq — free and mobile-first." />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://www.uptools.in/ai-writing-assistant/" />
+  <meta property="og:url" content="https://www.uptools.in/ai-writer/" />
   <meta property="og:image" content="https://www.uptools.in/assets/og/ai-writing-assistant.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="AI Writing Assistant — Perplexity Sonar" />
-  <meta name="twitter:description" content="Summarize, rewrite, translate, outline, and SEO metadata with Perplexity Sonar." />
+  <meta name="twitter:title" content="AI Writing Assistant — Perplexity, Gemini 2.5 & Groq" />
+  <meta name="twitter:description" content="Summarize, rewrite, translate, outline, and SEO metadata with Perplexity Sonar, Google Gemini 2.5, or Groq." />
   <meta name="twitter:image" content="https://www.uptools.in/assets/og/ai-writing-assistant.png" />
 
-  <!-- Preload / CSS (versioned for cache-busting) -->
-  <link rel="preload" href="/style.css?v=1.2.1" as="style">
-  <link rel="stylesheet" href="/style.css?v=1.2.1" media="print" onload="this.media='all'">
-  <noscript><link rel="stylesheet" href="/style.css?v=1.2.1"></noscript>
+  <!-- CSS (no version query to keep Vite quiet) -->
+  <link rel="preload" href="/style.css" as="style">
+  <link rel="stylesheet" href="/style.css" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="/style.css"></noscript>
 
   <!-- Structured Data -->
   <script type="application/ld+json">
@@ -54,7 +54,7 @@
     "@type":"BreadcrumbList",
     "itemListElement":[
       {"@type":"ListItem","position":1,"name":"Home","item":"https://www.uptools.in/"},
-      {"@type":"ListItem","position":2,"name":"AI Writing Assistant","item":"https://www.uptools.in/ai-writing-assistant/"}
+      {"@type":"ListItem","position":2,"name":"AI Writing Assistant","item":"https://www.uptools.in/ai-writer/"}
     ]
   }
   </script>
@@ -63,22 +63,16 @@
     "@context":"https://schema.org",
     "@type":"FAQPage",
     "mainEntity":[
-      {"@type":"Question","name":"Is my API key stored on your servers?",
-       "acceptedAnswer":{"@type":"Answer","text":"No. If you provide a key, it remains in your browser storage unless you configure an environment-provided key via /env.js. For the env variant, your Worker injects the key at runtime without exposing it in version control."}},
+      {"@type":"Question","name":"Do you store my text?",
+       "acceptedAnswer":{"@type":"Answer","text":"No. Requests go to our Cloudflare Worker, which forwards to the selected provider using a server-side key. The key is never exposed to your browser."}},
       {"@type":"Question","name":"Which models are supported?",
-       "acceptedAnswer":{"@type":"Answer","text":"Perplexity Sonar family via OpenAI-compatible /chat/completions API: sonar, sonar-pro, and sonar-reasoning."}}
+       "acceptedAnswer":{"@type":"Answer","text":"Perplexity Sonar (sonar, sonar-pro, sonar-reasoning), Google Gemini 2.5 (Flash, Pro), and Groq (popular Llama/Gemma/Mixtral variants)."}}
     ]
   }
   </script>
 
-  <!-- Optional runtime env (generated by your Worker/CI). If present, it sets window.__ENV__.PPLX_API_KEY -->
-  <script src="/env.js" defer></script>
-
   <style>
-    :root {
-      --panel-h: clamp(520px, 82dvh, 760px);
-      --gap: 14px;
-    }
+    :root { --panel-h: clamp(520px, 82dvh, 760px); --gap: 14px; }
     main.ai { max-width: 1200px; margin-inline: auto; padding: 12px var(--container-px, 12px); }
     .ai-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap); align-items: stretch; }
     @media (max-width: 950px) { .ai-grid { grid-template-columns: 1fr; } :root { --panel-h: clamp(560px, 84dvh, 820px); } }
@@ -129,11 +123,11 @@
   <main class="ai container" id="top">
     <section class="card hero" aria-labelledby="title">
       <div>
-        <h1 id="title">AI Writing Assistant (Perplexity Sonar)</h1>
-        <p class="note">Summarize, rewrite tone, translate, extract keywords, make SEO title & meta, or build a blog outline — now powered by <b>Perplexity Sonar</b>.</p>
+        <h1 id="title">AI Writing Assistant (Perplexity • Gemini 2.5 • Groq)</h1>
+        <p class="note">Summarize, rewrite tone, translate, extract keywords, make SEO title & meta, or build a blog outline — pick your provider: <b>Perplexity Sonar</b>, <b>Google Gemini 2.5</b>, or <b>Groq</b>. All via a secure server-side proxy.</p>
         <div class="chips" style="margin-top:8px">
           <span class="pill">⚡ Streams live</span>
-          <span class="pill">🔒 Env key support</span>
+          <span class="pill">🔒 No browser API key</span>
           <a class="chip" href="/sitemap.xml">Sitemap</a>
         </div>
       </div>
@@ -182,27 +176,21 @@
           <div class="toolbar">
             <button id="runBtn" class="btn primary" type="button">Run ▶</button>
 
-            <!-- Perplexity endpoint fixed by default -->
-            <label class="inline" title="OpenAI-compatible endpoint">
-              <span class="tiny-note">Base URL</span>
-              <input id="baseURL" class="input small" style="width:240px" value="https://api.perplexity.ai" placeholder="https://api.perplexity.ai">
+            <!-- NEW: Provider + Model selectors -->
+            <label class="inline" title="Inference provider">
+              <span class="tiny-note">Provider</span>
+              <select id="provider" class="select" style="width:160px">
+                <option value="perplexity">Perplexity</option>
+                <option value="google">Google (Gemini)</option>
+                <option value="groq">Groq</option>
+              </select>
             </label>
 
-            <!-- API key field auto-hides if env key exists -->
-            <label class="inline" id="apiKeyRow" title="API key is stored locally unless an env key is provided">
-              <span class="tiny-note">API Key</span>
-              <input id="apiKey" class="input small" style="width:220px" placeholder="pplx-••••">
-            </label>
-
-            <label class="inline" title="Perplexity Sonar models">
+            <label class="inline" title="Model for selected provider">
               <span class="tiny-note">Model</span>
-              <input id="model" class="input small" style="width:180px" value="sonar" list="modelList">
-              <datalist id="modelList">
-                <option value="sonar"></option>
-                <option value="sonar-pro"></option>
-                <option value="sonar-reasoning"></option>
-              </datalist>
+              <select id="modelSel" class="select" style="width:220px"></select>
             </label>
+            <!-- END: Provider + Model selectors -->
 
             <button id="saveCfg" class="btn small subtle" type="button" title="Save settings">Save</button>
           </div>
@@ -272,7 +260,7 @@
     </footer>
   </main>
 
-  <!-- Import utils + page script -->
+  <!-- Page script (module) -->
   <script type="module">
     // Load /scripts/utils.js if available
     let Utils = {};
@@ -298,10 +286,6 @@
     const pasteBtn = byId('pasteBtn');
     const clearBtn = byId('clearBtn');
     const fileIn = byId('fileIn');
-    const baseURL = byId('baseURL');
-    const apiKey = byId('apiKey');
-    const apiKeyRow = byId('apiKeyRow');
-    const model  = byId('model');
     const saveCfg= byId('saveCfg');
     const permBtn= byId('permBtn');
     const copyBtn= byId('copyBtn');
@@ -309,35 +293,12 @@
     const taskSel= byId('task');
     const taskOptions = byId('taskOptions');
 
+    // NEW: Provider + model
+    const providerSel = byId('provider');
+    const modelSel = byId('modelSel');
+
     // Footer year
     byId('y').textContent = new Date().getFullYear();
-
-    // Config
-    const CFG_KEY = 'ai-writer:cfg';
-    const envKey = (window.__ENV && window.__ENV.PPLX_API_KEY) ? String(window.__ENV.PPLX_API_KEY) : '';
-    const hasEnvKey = !!envKey;
-
-    // Default to Perplexity API + Sonar model
-    const cfg = Object.assign({ baseURL:'https://api.perplexity.ai', model:'sonar', apiKey:'' }, store.get(CFG_KEY, {}));
-
-    baseURL.value = cfg.baseURL || 'https://api.perplexity.ai';
-    model.value = cfg.model || 'sonar';
-
-    // If env key is present, hide the API key field (we'll use envKey)
-    if (hasEnvKey) {
-      apiKeyRow.style.display = 'none';
-    } else {
-      // Show masked if previously saved
-      apiKey.value = cfg.apiKey ? '••••••••' : '';
-    }
-
-    saveCfg.addEventListener('click', ()=>{
-      // Only persist a key if user explicitly inputs (env key is not stored)
-      const maybeKey = apiKey.value.startsWith('pplx-') ? apiKey.value : (cfg.apiKey || '');
-      const next = { baseURL: baseURL.value.trim(), model: model.value.trim(), apiKey: hasEnvKey ? '' : maybeKey };
-      store.set(CFG_KEY, next);
-      toast('Settings saved locally');
-    });
 
     // Character counter
     const updateCount = ()=>{ charCount.textContent = input.value.length.toLocaleString(); };
@@ -434,12 +395,67 @@
       return text;
     }
 
-    // Streaming Chat Completions (OpenAI-compatible; Perplexity supports SSE at /chat/completions)
+    // ---- NEW: Provider & model presets ----
+    const PROVIDER_MODELS = {
+      perplexity: [
+        { id: 'sonar', label: 'sonar' },
+        { id: 'sonar-pro', label: 'sonar-pro' },
+        { id: 'sonar-reasoning', label: 'sonar-reasoning' }
+      ],
+      google: [
+        { id: 'gemini-2.5-flash', label: 'gemini-2.5-flash' },
+        { id: 'gemini-2.5-pro', label: 'gemini-2.5-pro' }
+      ],
+      groq: [
+        { id: 'llama-3.1-8b-instant', label: 'llama-3.1-8b-instant' },
+        { id: 'llama-3.1-70b-versatile', label: 'llama-3.1-70b-versatile' },
+        { id: 'mixtral-8x7b-32768', label: 'mixtral-8x7b-32768' },
+        { id: 'gemma2-9b-it', label: 'gemma2-9b-it' }
+      ]
+    };
+
+    function populateModels(){
+      const prov = providerSel.value || 'perplexity';
+      const models = PROVIDER_MODELS[prov] || [];
+      modelSel.innerHTML = '';
+      for(const m of models){
+        const opt = document.createElement('option');
+        opt.value = m.id;
+        opt.textContent = m.label;
+        modelSel.appendChild(opt);
+      }
+      // Keep previous selection if still valid; else select first
+      const current = cfg.model;
+      const ok = models.some(m => m.id === current);
+      modelSel.value = ok ? current : (models[0]?.id || '');
+    }
+    // ---------------------------------------
+
+    // Config (provider + model; endpoint fixed to /ai)
+    const CFG_KEY = 'ai-writer:cfg';
+    const cfg = Object.assign({ provider:'perplexity', model:'sonar' }, store.get(CFG_KEY, {}));
+
+    providerSel.value = cfg.provider || 'perplexity';
+    populateModels();
+    if (cfg.model) modelSel.value = cfg.model;
+
+    saveCfg.addEventListener('click', ()=>{
+      const next = { provider: providerSel.value, model: modelSel.value };
+      store.set(CFG_KEY, next);
+      toast('Settings saved locally');
+    });
+
+    providerSel.addEventListener('change', ()=>{
+      cfg.provider = providerSel.value;
+      populateModels();
+    });
+
+    // Streaming via Worker proxy (/ai). We pass provider + model.
     let aborter = null;
-    async function streamChat({endpoint, key, model, prompt}){
-      const url = `${endpoint.replace(/\/+$/,'')}/chat/completions`;
+    async function streamChat({ provider, model, prompt }){
+      const url = '/ai';
       const body = {
-        model, stream: true, temperature: 0.4,
+        provider, model, stream: true, temperature: 0.4,
         messages: [
           {role:'system', content:'You are a helpful, concise writing assistant.'},
           {role:'user', content: prompt}
@@ -449,10 +465,7 @@
       const res = await fetch(url, {
         method:'POST',
         signal: aborter.signal,
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${key}`
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body)
       });
       if(!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -479,26 +492,18 @@
       return accumulated;
     }
 
-    stopBtn.addEventListener('click', ()=>{ if(aborter){ aborter.abort(); aborter = null; stopBtn.disabled = true; status.textContent = 'Stopped.'; }});
+    byId('stopBtn').addEventListener('click', ()=>{
+      if(aborter){ aborter.abort(); aborter = null; stopBtn.disabled = true; status.textContent = 'Stopped.'; }
+    });
 
-    runBtn.addEventListener('click', async ()=>{
-      const endpoint = baseURL.value.trim() || 'https://api.perplexity.ai';
-      const mdl = model.value.trim() || 'sonar';
+    byId('runBtn').addEventListener('click', async ()=>{
+      const provider = providerSel.value || 'perplexity';
+      const model = modelSel.value || (PROVIDER_MODELS[provider]?.[0]?.id ?? '');
       const text = input.value.trim();
       const task = taskSel.value;
 
       if(!text){ toast('Enter some text first'); input.focus(); return; }
-
-      // Prefer env key; fall back to saved local key if user provided one
-      const saved = store.get(CFG_KEY, {});
-      const localKey = saved?.apiKey || '';
-      const key = hasEnvKey ? envKey : localKey;
-
-      if(!key){
-        toast('No API key. Provide one or configure /env.js');
-        if(!hasEnvKey) apiKey.focus();
-        return;
-      }
+      if(!model){ toast('Pick a model'); return; }
 
       output.textContent = '';
       stopBtn.disabled = false;
@@ -506,12 +511,12 @@
 
       try{
         const prompt = buildPrompt(task, text);
-        await streamChat({endpoint, key, model: mdl, prompt});
+        await streamChat({ provider, model, prompt });
         status.textContent = 'Done.';
       }catch(e){
         console.error(e);
         status.textContent = 'Error. Check console & settings.';
-        toast('Request failed. Verify Base URL / Key / Model.');
+        toast('Request failed.');
       }finally{
         stopBtn.disabled = true;
       }
@@ -530,8 +535,10 @@
       a.click();
       URL.revokeObjectURL(a.href);
     });
+
+    // Permalink now includes task (t), provider (p), and model (m)
     permBtn.addEventListener('click', async ()=>{
-      const o = { t: taskSel.value, b: baseURL.value.trim(), m: model.value.trim() };
+      const o = { t: taskSel.value, p: providerSel.value, m: modelSel.value };
       const url = new URL(location.href);
       url.hash = encodeURIComponent(btoa(JSON.stringify(o)));
       try{
@@ -561,7 +568,7 @@
       try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch {}
     })();
 
-    // Simple toast (uses utils if available)
+    // Small toast using your utils (or a basic fallback)
     function toast(msg){
       if (typeof Utils?.toast === 'function') return Utils.toast(msg);
       status.textContent = msg;
@@ -574,8 +581,9 @@
       try{
         const o = JSON.parse(atob(decodeURIComponent(location.hash.slice(1))));
         if(o?.t) taskSel.value = o.t;
-        if(o?.b) baseURL.value = o.b || 'https://api.perplexity.ai';
-        if(o?.m) model.value = o.m || 'sonar';
+        if(o?.p) providerSel.value = o.p;
+        populateModels();
+        if(o?.m) modelSel.value = o.m;
         renderTaskOptions();
       }catch{}
     })();

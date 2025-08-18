@@ -1,194 +1,305 @@
-/// <reference types="@cloudflare/workers-types" />
-
 export interface Env {
-  // Static assets (Cloudflare Pages/ASSETS binding)
-  ASSETS: { fetch: typeof fetch };
+  ASSETS: Fetcher;
 
-  // Secret: classic (string) or Secrets Store (object with get()) — we support both
-  PPLX_API_KEY?: string | { get: () => Promise<string> };
+  // Secrets
+  PERPLEXITY_API_KEY: string;
+  GROQ_API_KEY: string;
+  GOOGLE_API_KEY: string;
 
-  // Optional non-secret defaults (keep empty if you want)
-  PPLX_BASE?: string;   // e.g. "https://api.perplexity.ai"
-  PPLX_MODEL?: string;  // e.g. "sonar" | "sonar-pro" | "sonar-reasoning"
-}
+  // Vars
+  CORS_ORIGINS?: string;
+  PROVIDER_DEFAULT?: "perplexity" | "groq" | "google";
+  LOG_LEVEL?: "debug" | "info" | "warn" | "error";
 
-/* ---------- Your existing allow-list for /api proxy ---------- */
-const ALLOWED = new Set<string>([
-  'https://api.exchangerate.host',
-  'https://api.frankfurter.app',
-  'https://ifsc.razorpay.com',
-  'https://api.qrserver.com',
-  'https://api.ipify.org',
-  'https://ifconfig.me',
-]);
-
-/* ---------- Helpers ---------- */
-function addSecurityHeaders(h: Headers) {
-  h.set('X-Content-Type-Options', 'nosniff');
-  h.set('Referrer-Policy', 'strict-origin-when-cross-origin');
-  h.set('Cross-Origin-Opener-Policy', 'same-origin');
-  h.set('Cross-Origin-Resource-Policy', 'cross-origin');
-}
-function okCors(h: Headers) {
-  h.set('Access-Control-Allow-Origin', '*');
-  h.set('Vary', 'Origin');
-}
-function isHtml(r: Response) {
-  const ct = r.headers.get('content-type') || '';
-  return ct.includes('text/html');
-}
-function looksLikeAssetPath(p: string) {
-  return /\.[a-z0-9]+$/i.test(p); // has extension
-}
-function normalizePath(pathname: string) {
-  if (pathname !== '/' && pathname.endsWith('/')) return pathname.slice(0, -1);
-  return pathname;
-}
-async function getSecretMaybe(env: Env, key: keyof Env): Promise<string> {
-  const v: any = (env as any)[key];
-  if (!v) return '';
-  if (typeof v === 'string') return v;
-  if (v && typeof v.get === 'function') return await v.get();
-  return '';
+  // Optional bases/models
+  PPLX_BASE?: string;
+  PPLX_MODEL?: string;
+  GROQ_BASE?: string;
+  GROQ_MODEL?: string;
+  GOOGLE_GENAI_BASE?: string;
+  GOOGLE_MODEL?: string;
 }
 
-/* ---------- Worker ---------- */
+const enc = new TextEncoder();
+
 export default {
-  async fetch(req: Request, env: Env): Promise<Response> {
+  async fetch(req: Request, env: Env) {
     const url = new URL(req.url);
-    const pathname = normalizePath(url.pathname);
 
-    /* ----- CORS preflight ----- */
-    if (req.method === 'OPTIONS') {
-      const h = new Headers();
-      okCors(h);
-      h.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-      h.set('Access-Control-Allow-Headers', 'Content-Type, Accept');
-      h.set('Access-Control-Max-Age', '3600');
-      return new Response(null, { status: 204, headers: h });
+    // --- serve your site (everything except /ai) ---
+    if (url.pathname !== "/ai") {
+      return serveSite(req, env);
     }
 
-    /* ===== 1) SECURE AI PROXY (POST /ai) =====
-       Send body like:
-       {
-         "model": "sonar",
-         "stream": true,
-         "messages": [{ "role": "user", "content": "Hello!" }]
-       }
-       We forward to Perplexity's OpenAI-compatible /chat/completions.
-    */
-    if (pathname === '/ai' && req.method === 'POST') {
-      const apiKey = await getSecretMaybe(env, 'PPLX_API_KEY');
-      if (!apiKey) {
-        const h = new Headers({ 'content-type': 'text/plain; charset=utf-8' });
-        okCors(h);
-        return new Response('PPLX_API_KEY not configured', { status: 500, headers: h });
+    // --- /ai: unified proxy for Perplexity, Groq, Gemini ---
+    try {
+      if (req.method === "OPTIONS") return corsPreflight(req, env);
+      const cors = corsHeaders(req, env);
+
+      if (req.method === "GET" && url.searchParams.get("health") === "1") {
+        return new Response("ok", { headers: cors });
       }
-
-      const base = (env.PPLX_BASE || 'https://api.perplexity.ai').replace(/\/+$/, '');
-      const endpoint = `${base}/chat/completions`;
-
-      let payload: any;
-      try {
-        payload = await req.json();
-      } catch {
-        const h = new Headers({ 'content-type': 'text/plain; charset=utf-8' });
-        okCors(h);
-        return new Response('Invalid JSON', { status: 400, headers: h });
-      }
-
-      const model = payload?.model || env.PPLX_MODEL || 'sonar';
-      const stream = payload?.stream !== false; // default true
-      const messages = Array.isArray(payload?.messages)
-        ? payload.messages
-        : [{ role: 'user', content: String(payload?.prompt ?? '') }];
-
-      const upstream = await fetch(endpoint, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${apiKey}`,
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          model,
-          messages,
-          stream,
-          temperature: typeof payload?.temperature === 'number' ? payload.temperature : 0.4
-        })
-      });
-
-      // Mirror upstream headers minimally and enable CORS
-      const h = new Headers(upstream.headers);
-      okCors(h);
-      // Ensure proper content-type for SSE
-      if (stream) h.set('content-type', 'text/event-stream; charset=utf-8');
-      // Prevent caching of AI responses
-      h.set('cache-control', 'no-store');
-
-      return new Response(upstream.body, { status: upstream.status, headers: h });
-    }
-
-    /* ===== 2) Your existing allow-listed GET proxy (/api?url=...) ===== */
-    if (pathname === '/api' && url.searchParams.has('url')) {
-      try {
-        const target = new URL(url.searchParams.get('url') || '');
-        const origin = `${target.protocol}//${target.host}`;
-        if (!ALLOWED.has(origin)) return new Response('Forbidden host', { status: 403 });
-
-        const fwd = new Headers(req.headers);
-        fwd.delete('cookie');
-        fwd.set('accept', 'application/json, image/*, */*;q=0.1');
-
-        const proxied = await fetch(target.toString(), {
-          method: 'GET',
-          headers: fwd,
-          cf: { cacheTtl: 3600, cacheEverything: true },
+      if (req.method !== "POST") {
+        return new Response(JSON.stringify({ error: "Use POST" }), {
+          status: 405,
+          headers: { ...cors, "Content-Type": "application/json" }
         });
-
-        const out = new Response(proxied.body, { status: proxied.status, headers: proxied.headers });
-        okCors(out.headers);
-        out.headers.set('Cache-Control', 'public, max-age=3600');
-        addSecurityHeaders(out.headers);
-        return out;
-      } catch {
-        return new Response('Bad Request', { status: 400 });
       }
-    }
 
-    /* ===== 3) Friendly health check ===== */
-    if (pathname === '/health') {
-      const h = new Headers({ 'content-type': 'text/plain; charset=utf-8' });
-      addSecurityHeaders(h);
-      return new Response('ok', { status: 200, headers: h });
-    }
+      // parse
+      let body: any;
+      try { body = await req.json(); }
+      catch { return json({ error: "Invalid JSON body" }, 400, cors); }
 
-    /* ===== 4) Static routing (subpage /path/index.html) ===== */
-    if (pathname !== '/' && !looksLikeAssetPath(pathname)) {
-      const indexReq = new Request(new URL(`${pathname}/index.html`, req.url), req);
-      const r = await env.ASSETS.fetch(indexReq);
-      if (r.status === 200) {
-        const out = new Response(r.body, r);
-        if (isHtml(out)) out.headers.set('Cache-Control', 'no-store, must-revalidate');
-        addSecurityHeaders(out.headers);
-        return out;
+      const provider = (body.provider || env.PROVIDER_DEFAULT || "perplexity") as "perplexity" | "groq" | "google";
+      const model = String(body.model || defaultModelFor(provider, env));
+      const messages = Array.isArray(body.messages) ? body.messages : null;
+      const temperature = clamp(Number(body.temperature ?? 0.4), 0, 2);
+      const stream = body.stream !== false;
+
+      if (!messages?.length) return json({ error: "messages[] required" }, 400, cors);
+      if (!model) return json({ error: "model required" }, 400, cors);
+
+      // Perplexity
+      if (provider === "perplexity") {
+        if (!env.PERPLEXITY_API_KEY) return json({ error: "PERPLEXITY_API_KEY missing" }, 500, cors);
+        const endpoint = (env.PPLX_BASE || "https://api.perplexity.ai") + "/chat/completions";
+        const up = { model, messages, temperature, stream };
+        const res = await fetch(endpoint, {
+          method: "POST",
+          headers: { "Authorization": `Bearer ${env.PERPLEXITY_API_KEY}`, "Content-Type": "application/json" },
+          body: JSON.stringify(up),
+        });
+        if (!res.ok) return relayJsonError(res, cors);
+        if (!stream) return json(await res.json(), 200, cors);
+        return translateOpenAIStyleSSE(res, cors);
       }
-      // fall through
+
+      // Groq
+      if (provider === "groq") {
+        if (!env.GROQ_API_KEY) return json({ error: "GROQ_API_KEY missing" }, 500, cors);
+        const endpoint = (env.GROQ_BASE || "https://api.groq.com/openai/v1") + "/chat/completions";
+        const up = { model, messages, temperature, stream };
+        const res = await fetch(endpoint, {
+          method: "POST",
+          headers: { "Authorization": `Bearer ${env.GROQ_API_KEY}`, "Content-Type": "application/json" },
+          body: JSON.stringify(up),
+        });
+        if (!res.ok) return relayJsonError(res, cors);
+        if (!stream) return json(await res.json(), 200, cors);
+        return translateOpenAIStyleSSE(res, cors);
+      }
+
+      // Google Gemini 2.5
+      if (provider === "google") {
+        if (!env.GOOGLE_API_KEY) return json({ error: "GOOGLE_API_KEY missing" }, 500, cors);
+        const base = env.GOOGLE_GENAI_BASE || "https://generativelanguage.googleapis.com/v1beta";
+        const endpoint = `${base}/models/${encodeURIComponent(model)}:streamGenerateContent?key=${encodeURIComponent(env.GOOGLE_API_KEY)}`;
+        const { systemInstruction, contents } = openAiToGemini(messages);
+        const up: any = { contents, generationConfig: { temperature } };
+        if (systemInstruction) up.systemInstruction = { parts: [{ text: systemInstruction }] };
+
+        const res = await fetch(endpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(up),
+        });
+        if (!res.ok) return relayJsonError(res, cors);
+
+        if (!stream) {
+          const text = await collectGeminiStreamToText(res);
+          return json(openAiStyleOnce(text), 200, cors);
+        }
+        return translateGeminiToOpenAISSE(res, cors);
+      }
+
+      return json({ error: `Unknown provider: ${provider}` }, 400, cors);
+    } catch (err: any) {
+      console.error("UNHANDLED /ai ERROR:", err?.stack || err);
+      return new Response("Internal Server Error", { status: 500, headers: { "Content-Type": "text/plain" } });
     }
+  }
+} satisfies ExportedHandler<Env>;
 
-    /* ===== 5) Normal asset/page fetch with SPA fallback ===== */
-    const res = await env.ASSETS.fetch(req);
+/* ---------------- static site helpers ---------------- */
 
-    if (res.status === 404 && pathname !== '/') {
-      const rootRes = await env.ASSETS.fetch(new Request(new URL('/', req.url), req));
-      const out = new Response(rootRes.body, rootRes);
-      if (isHtml(out)) out.headers.set('Cache-Control', 'no-store, must-revalidate');
-      addSecurityHeaders(out.headers);
-      return out;
+async function serveSite(req: Request, env: Env) {
+  const url = new URL(req.url);
+
+  // 1) Fix `/www` → `/`
+  if (url.pathname === "/www" || url.pathname === "/www/") {
+    url.pathname = "/";
+    return Response.redirect(url.toString(), 301);
+  }
+
+  // 2) Try as-is from assets
+  let res = await env.ASSETS.fetch(req);
+  if (res.status !== 404) return res;
+
+  // 3) If 404 and looks like a directory (no dot, no trailing slash), try with trailing slash
+  const hasDot = url.pathname.split("/").at(-1)?.includes(".") ?? false;
+  if (!hasDot && !url.pathname.endsWith("/")) {
+    const u2 = new URL(req.url);
+    u2.pathname = u2.pathname + "/";
+    res = await env.ASSETS.fetch(new Request(u2.toString(), req));
+    if (res.status !== 404) return res;
+  }
+
+  // 4) Still 404 → if it's a browser navigation (HTML), 302 → homepage; otherwise keep the 404 for assets
+  if (wantsHTML(req)) {
+    const home = new URL(req.url);
+    home.pathname = "/";
+    home.search = "";
+    return Response.redirect(home.toString(), 302);
+  }
+
+  return res; // non-HTML (assets) keep the 404
+}
+
+function wantsHTML(req: Request) {
+  if (req.method !== "GET") return false;
+  const accept = req.headers.get("Accept") || "";
+  return accept.includes("text/html");
+}
+
+/* ---------------- shared helpers ---------------- */
+
+function corsPreflight(req: Request, env: Env) {
+  const headers = corsHeaders(req, env);
+  return new Response(null, { status: 204, headers });
+}
+function corsHeaders(req: Request, env: Env) {
+  const origin = req.headers.get("Origin") || "";
+  const allow = (env.CORS_ORIGINS || "").split(",").map(s => s.trim()).filter(Boolean);
+  const allowed = allow.includes(origin) ? origin : allow[0] || "*";
+  return {
+    "Access-Control-Allow-Origin": allowed,
+    "Vary": "Origin",
+    "Access-Control-Allow-Methods": "POST,OPTIONS,GET",
+    "Access-Control-Allow-Headers": "Content-Type,Authorization",
+  };
+}
+function json(data: any, status = 200, extra: HeadersInit = {}) {
+  return new Response(JSON.stringify(data), { status, headers: { "Content-Type": "application/json", ...extra } });
+}
+function clamp(n: number, min: number, max: number) { return isFinite(n) ? Math.min(max, Math.max(min, n)) : min; }
+function defaultModelFor(provider: "perplexity" | "groq" | "google", env: Env) {
+  if (provider === "perplexity") return env.PPLX_MODEL || "sonar";
+  if (provider === "groq") return env.GROQ_MODEL || "llama-3.1-70b-versatile";
+  return env.GOOGLE_MODEL || "gemini-2.5-flash";
+}
+function openAiToGemini(messages: Array<{ role: string; content: string }>) {
+  let systemInstruction = "";
+  const contents: any[] = [];
+  for (const m of messages) {
+    if (m.role === "system") { systemInstruction += (systemInstruction ? "\n" : "") + m.content; continue; }
+    const role = m.role === "assistant" ? "model" : "user";
+    contents.push({ role, parts: [{ text: m.content }] });
+  }
+  return { systemInstruction, contents };
+}
+async function relayJsonError(res: Response, cors: HeadersInit) {
+  let payload: any = { error: `${res.status} ${res.statusText}` };
+  try { payload = await res.json(); } catch {}
+  return json(payload, res.status, cors);
+}
+function translateOpenAIStyleSSE(upstream: Response, cors: HeadersInit) {
+  const stream = new ReadableStream<Uint8Array>({
+    async start(controller) {
+      const reader = upstream.body!.getReader();
+      const decoder = new TextDecoder();
+      let buffer = "";
+      const enqueue = (obj: any) => controller.enqueue(enc.encode(`data: ${JSON.stringify(obj)}\n\n`));
+      while (true) {
+        const { value, done } = await reader.read();
+        if (done) break;
+        buffer += decoder.decode(value, { stream: true });
+        let idx;
+        while ((idx = buffer.indexOf("\n")) >= 0) {
+          const line = buffer.slice(0, idx).trim();
+          buffer = buffer.slice(idx + 1);
+          if (!line || !line.startsWith("data:")) continue;
+          const payload = line.slice(5).trim();
+          if (payload === "[DONE]") { controller.enqueue(enc.encode("data: [DONE]\n\n")); controller.close(); return; }
+          try {
+            const json = JSON.parse(payload);
+            const delta = json?.choices?.[0]?.delta?.content ?? "";
+            if (delta) enqueue({ choices: [{ delta: { content: delta } }] });
+          } catch {}
+        }
+      }
+      controller.enqueue(enc.encode("data: [DONE]\n\n"));
+      controller.close();
     }
-
-    const out = new Response(res.body, res);
-    if (isHtml(out)) out.headers.set('Cache-Control', 'no-store, must-revalidate');
-    addSecurityHeaders(out.headers);
-    return out;
-  },
-};
+  });
+  return new Response(stream, {
+    status: 200,
+    headers: { ...cors, "Content-Type": "text/event-stream; charset=utf-8", "Cache-Control": "no-cache, no-transform", "X-Accel-Buffering": "no" }
+  });
+}
+function translateGeminiToOpenAISSE(upstream: Response, cors: HeadersInit) {
+  const stream = new ReadableStream<Uint8Array>({
+    async start(controller) {
+      const reader = upstream.body!.getReader();
+      const decoder = new TextDecoder();
+      let buffer = "";
+      const enqueue = (text: string) => controller.enqueue(enc.encode(`data: ${JSON.stringify({ choices: [{ delta: { content: text } }] })}\n\n`));
+      while (true) {
+        const { value, done } = await reader.read();
+        if (done) break;
+        buffer += decoder.decode(value, { stream: true });
+        let idx;
+        while ((idx = buffer.indexOf("\n")) >= 0) {
+          const line = buffer.slice(0, idx).trim();
+          buffer = buffer.slice(idx + 1);
+          if (!line) continue;
+          let payload = line.startsWith("data:") ? line.slice(5).trim() : line;
+          if (!payload) continue;
+          if (payload === "[DONE]") { controller.enqueue(enc.encode("data: [DONE]\n\n")); controller.close(); return; }
+          try {
+            const json = JSON.parse(payload);
+            const parts = json?.candidates?.[0]?.content?.parts;
+            if (Array.isArray(parts)) {
+              let text = "";
+              for (const p of parts) if (typeof p?.text === "string") text += p.text;
+              if (text) enqueue(text);
+            }
+          } catch {}
+        }
+      }
+      controller.enqueue(enc.encode("data: [DONE]\n\n"));
+      controller.close();
+    }
+  });
+  return new Response(stream, {
+    status: 200,
+    headers: { ...cors, "Content-Type": "text/event-stream; charset=utf-8", "Cache-Control": "no-cache, no-transform", "X-Accel-Buffering": "no" }
+  });
+}
+async function collectGeminiStreamToText(upstream: Response) {
+  const reader = upstream.body!.getReader();
+  const decoder = new TextDecoder();
+  let buffer = "", out = "";
+  while (true) {
+    const { value, done } = await reader.read();
+    if (done) break;
+    buffer += decoder.decode(value, { stream: true });
+    let idx;
+    while ((idx = buffer.indexOf("\n")) >= 0) {
+      const line = buffer.slice(0, idx).trim();
+      buffer = buffer.slice(idx + 1);
+      if (!line) continue;
+      let payload = line.startsWith("data:") ? line.slice(5).trim() : line;
+      if (!payload || payload === "[DONE]") continue;
+      try {
+        const json = JSON.parse(payload);
+        const parts = json?.candidates?.[0]?.content?.parts;
+        if (Array.isArray(parts)) for (const p of parts) if (typeof p?.text === "string") out += p.text;
+      } catch {}
+    }
+  }
+  return out;
+}
+function openAiStyleOnce(text: string) {
+  return { id: "up-single", choices: [{ index: 0, message: { role: "assistant", content: text } }], usage: {} };
+}

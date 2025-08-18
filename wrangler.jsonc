@@ -9,8 +9,18 @@
   },
 
   "vars": {
+    "CORS_ORIGINS": "https://www.uptools.in,https://uptools.in,http://localhost:5173",
+    "PROVIDER_DEFAULT": "perplexity",
+    "LOG_LEVEL": "info",
+
     "PPLX_BASE": "https://api.perplexity.ai",
-    "PPLX_MODEL": "sonar"
+    "PPLX_MODEL": "sonar",
+
+    "GOOGLE_GENAI_BASE": "https://generativelanguage.googleapis.com/v1beta",
+    "GOOGLE_MODEL": "gemini-2.5-flash",
+
+    "GROQ_BASE": "https://api.groq.com/openai/v1",
+    "GROQ_MODEL": "llama-3.1-70b-versatile"
   },
 
   "build": {
@@ -19,7 +29,7 @@
       "src",
       "style.css",
       "index.html",
-      "public",
+      "ai-writer",
       "income-tax-tool",
       "canada-hst-tool",
       "canada-crs-tool",
@@ -41,7 +51,8 @@
       "unit-converter",
       "qr-generator",
       "color-picker",
-      "scripts"
+      "scripts",
+      "worker"
     ]
   },
 
