@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <!-- Google Ads (reserved space; no CLS) -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617" crossorigin="anonymous"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617"
+    crossorigin="anonymous"></script>
   <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
   <link rel="dns-prefetch" href="//pagead2.googlesyndication.com">
 
@@ -15,19 +17,22 @@
   <title>AI Resume Analyzer & Job Matcher (Free ATS Resume Checker) | UpTools</title>
 
   <!-- SEO -->
-  <meta name="description" content="Free AI Resume Analyzer — get ATS score, missing skills, and bullet improvements. Paste resume + job description for match %, or run a standalone resume ATS check. Works with Perplexity, Google Gemini 2.5, and Groq via secure proxy." />
-  <meta name="keywords" content="AI resume analyzer, ATS resume checker, free resume score, job match, resume optimization, missing skills, CV analyzer, parse resume pdf, pdf to text resume, applicant tracking system" />
+  <meta name="description"
+    content="Free AI Resume Analyzer — get ATS score, missing skills, and bullet improvements. Paste resume + job description for match %, or run a standalone resume ATS check. Works with Perplexity, Google Gemini 2.5, and Groq via secure proxy." />
+  <meta name="keywords"
+    content="AI resume analyzer, ATS resume checker, free resume score, job match, resume optimization, missing skills, CV analyzer, parse resume pdf, pdf to text resume, applicant tracking system" />
   <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:large" />
   <meta name="theme-color" content="#0b1020" />
 
   <!-- Canonical / OG -->
-  <link rel="canonical" href="https://www.uptools.in/resume-analyzer/"/>
-  <meta property="og:title" content="AI Resume Analyzer & Job Matcher — Free ATS Resume Checker"/>
-  <meta property="og:description" content="Paste your resume & (optionally) job description. Get ATS score, missing keywords, and improvement tips instantly."/>
-  <meta property="og:type" content="website"/>
-  <meta property="og:url" content="https://www.uptools.in/resume-analyzer/"/>
-  <meta property="og:image" content="https://www.uptools.in/assets/og/ai-resume.png"/>
-  <meta name="twitter:card" content="summary_large_image"/>
+  <link rel="canonical" href="https://www.uptools.in/resume-analyzer/" />
+  <meta property="og:title" content="AI Resume Analyzer & Job Matcher — Free ATS Resume Checker" />
+  <meta property="og:description"
+    content="Paste your resume & (optionally) job description. Get ATS score, missing keywords, and improvement tips instantly." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.uptools.in/resume-analyzer/" />
+  <meta property="og:image" content="https://www.uptools.in/assets/og/ai-resume.png" />
+  <meta name="twitter:card" content="summary_large_image" />
 
   <!-- Favicons -->
   <link rel="icon" sizes="50x50" type="image/svg+xml" href="/assets/logo/uptools-logo.svg">
@@ -36,11 +41,13 @@
   <!-- Common CSS -->
   <link rel="preload" href="/style.css" as="style">
   <link rel="stylesheet" href="/style.css" media="print" onload="this.media='all'">
-  <noscript><link rel="stylesheet" href="/style.css"></noscript>
+  <noscript>
+    <link rel="stylesheet" href="/style.css">
+  </noscript>
 
   <!-- Page-specific: MOBILE-SAFE, NO OVERLAP -->
   <style>
-    :root{
+    :root {
       --gap: 14px;
       --rail-w: 1060px;
       --panel-h-desktop: min(72svh, 760px);
@@ -49,95 +56,302 @@
     }
 
     /* Rail & grid */
-    main.ra{max-width:var(--rail-w);margin-inline:auto;padding:12px var(--container-px,12px)}
-    .ra-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:var(--gap);align-items:start}
+    main.ra {
+      max-width: var(--rail-w);
+      margin-inline: auto;
+      padding: 12px var(--container-px, 12px)
+    }
+
+    .ra-grid {
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap: var(--gap);
+      align-items: start
+    }
 
     /* Panels */
-    .panel{display:flex;flex-direction:column;min-height:420px}
-    .panel-head{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 12px}
-    .panel-body{
-      flex:1;min-height:0; /* allows children to size without overflow */
-      display:grid;grid-template-rows:auto 1fr auto;gap:10px;padding:10px 12px
+    .panel {
+      display: flex;
+      flex-direction: column;
+      min-height: 420px
+    }
+
+    .panel-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 10px 12px
+    }
+
+    .panel-body {
+      flex: 1;
+      min-height: 0;
+      /* allows children to size without overflow */
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 10px;
+      padding: 10px 12px
     }
 
     /* Common UI */
-    .toolbar{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
-    .row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-    .tiny{font-size:12px;opacity:.85}
-    .score{font-size:2rem;font-weight:900;color:var(--accent)}
-    .badge{display:inline-flex;align-items:center;justify-content:center;min-width:36px;height:36px;border-radius:9px;font-weight:800}
-    .hint{display:flex;gap:8px;align-items:center}
-    .cards{display:grid;grid-template-columns:repeat(4,1fr);gap:var(--gap)}
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center
+    }
+
+    .row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px
+    }
+
+    .tiny {
+      font-size: 12px;
+      opacity: .85
+    }
+
+    .score {
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--accent)
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 36px;
+      height: 36px;
+      border-radius: 9px;
+      font-weight: 800
+    }
+
+    .hint {
+      display: flex;
+      gap: 8px;
+      align-items: center
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--gap)
+    }
 
     /* Inputs / outputs */
-    textarea.input, pre.output{
-      width:100%;height:auto; /* avoid forced stretch that can cause overlap */
-      min-height:var(--field-min-h);
-      resize:vertical;
-      padding:10px 12px;line-height:1.45;border-radius:12px;
-      overflow:auto; /* scroll instead of spilling over */
+    textarea.input,
+    pre.output {
+      width: 100%;
+      height: auto;
+      /* avoid forced stretch that can cause overlap */
+      min-height: var(--field-min-h);
+      resize: vertical;
+      padding: 10px 12px;
+      line-height: 1.45;
+      border-radius: 12px;
+      overflow: auto;
+      /* scroll instead of spilling over */
     }
-    pre.output{
-      white-space:pre-wrap;word-wrap:break-word;min-height:var(--output-min-h)
+
+    pre.output {
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      min-height: var(--output-min-h)
     }
-    input.input, select.select{min-height:40px}
+
+    input.input,
+    select.select {
+      min-height: 40px
+    }
 
     /* Clear Upload UX */
-    .uploader{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-    .dz-col{display:grid;gap:8px}
-    .big-btn{display:flex;align-items:center;justify-content:center;gap:10px;min-height:48px}
-    .dropzone{
-      border:1px dashed var(--card-border,#2b3340);border-radius:12px;
-      padding:12px;display:flex;gap:10px;align-items:center;justify-content:center;min-height:68px
+    .uploader {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px
     }
-    .dropzone[data-active="1"]{outline:2px solid var(--accent);background:color-mix(in oklab,var(--accent) 12%, transparent)}
+
+    .dz-col {
+      display: grid;
+      gap: 8px
+    }
+
+    .big-btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 48px
+    }
+
+    .dropzone {
+      border: 1px dashed var(--card-border, #2b3340);
+      border-radius: 12px;
+      padding: 12px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      justify-content: center;
+      min-height: 68px
+    }
+
+    .dropzone[data-active="1"] {
+      outline: 2px solid var(--accent);
+      background: color-mix(in oklab, var(--accent) 12%, transparent)
+    }
 
     /* Ad slot (no layout shift) */
-    .ad-wrap{display:block;width:100%;height:100px;margin:10px 0}
-    .ad-empty{height:100%;border-radius:10px;background:var(--card-bg,#121821);display:flex;align-items:center;justify-content:center}
-    .ad-empty .tiny{opacity:.55}
+    .ad-wrap {
+      display: block;
+      width: 100%;
+      height: 100px;
+      margin: 10px 0
+    }
+
+    .ad-empty {
+      height: 100%;
+      border-radius: 10px;
+      background: var(--card-bg, #121821);
+      display: flex;
+      align-items: center;
+      justify-content: center
+    }
+
+    .ad-empty .tiny {
+      opacity: .55
+    }
 
     /* Video: fixed box for CLS-free embed */
-    .video-box{position:relative;width:100%;max-width:var(--rail-w);height:280px;border-radius:12px;overflow:hidden}
-    .video-box iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+    .video-box {
+      position: relative;
+      width: 100%;
+      max-width: var(--rail-w);
+      height: 280px;
+      border-radius: 12px;
+      overflow: hidden
+    }
+
+    .video-box iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0
+    }
 
     /* Help strip */
-    .help-strip{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center}
-    .help-strip .points{display:flex;flex-wrap:wrap;gap:6px}
-    .help-strip .points .pill{white-space:nowrap}
+    .help-strip {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+      align-items: center
+    }
+
+    .help-strip .points {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px
+    }
+
+    .help-strip .points .pill {
+      white-space: nowrap
+    }
 
     /* ====== MOBILE / SMALL TABLETS ====== */
-    @media (max-width:1060px){
-      .ra-grid{grid-template-columns:1fr}
+    @media (max-width:1060px) {
+      .ra-grid {
+        grid-template-columns: 1fr
+      }
+
       /* Let panels grow naturally to content to prevent overlap */
-      .panel{min-height:unset}
-      .panel-body{grid-template-rows:auto auto auto}
+      .panel {
+        min-height: unset
+      }
+
+      .panel-body {
+        grid-template-rows: auto auto auto
+      }
     }
-    @media (max-width:820px){
-      .uploader{grid-template-columns:1fr}
-      .cards{grid-template-columns:repeat(2,1fr)}
-      .video-box{height:220px}
-      .ad-wrap{height:90px}
-      .row{grid-template-columns:1fr}
-      textarea.input, pre.output{min-height:180px}
-      .toolbar .select, .toolbar label{min-width:min(100%,280px)}
+
+    @media (max-width:820px) {
+      .uploader {
+        grid-template-columns: 1fr
+      }
+
+      .cards {
+        grid-template-columns: repeat(2, 1fr)
+      }
+
+      .video-box {
+        height: 220px
+      }
+
+      .ad-wrap {
+        height: 90px
+      }
+
+      .row {
+        grid-template-columns: 1fr
+      }
+
+      textarea.input,
+      pre.output {
+        min-height: 180px
+      }
+
+      .toolbar .select,
+      .toolbar label {
+        min-width: min(100%, 280px)
+      }
     }
-    @media (max-width:480px){
+
+    @media (max-width:480px) {
+
       /* Compact controls; never overlap */
-      .panel-head{flex-wrap:wrap}
-      .toolbar{gap:6px}
-      .big-btn{min-height:44px}
-      .ad-wrap{height:80px}
-      .video-box{height:200px}
-      textarea.input, pre.output{min-height:200px}
-      .cards{grid-template-columns:1fr}
+      .panel-head {
+        flex-wrap: wrap
+      }
+
+      .toolbar {
+        gap: 6px
+      }
+
+      .big-btn {
+        min-height: 44px
+      }
+
+      .ad-wrap {
+        height: 80px
+      }
+
+      .video-box {
+        height: 200px
+      }
+
+      textarea.input,
+      pre.output {
+        min-height: 200px
+      }
+
+      .cards {
+        grid-template-columns: 1fr
+      }
     }
 
     /* ====== DESKTOP ONLY TWEAKS ====== */
-    @media (min-width:1061px){
+    @media (min-width:1061px) {
+
       /* On desktop we provide a comfortable bounded height that still scrolls if needed */
-      .panel{max-height:var(--panel-h-desktop)}
-      .panel-body{overflow:auto}
+      .panel {
+        max-height: var(--panel-h-desktop)
+      }
+
+      .panel-body {
+        overflow: auto
+      }
     }
   </style>
 
@@ -155,6 +369,7 @@
   ]}
   </script>
 </head>
+
 <body>
   <!-- Header -->
   <header class="site" role="banner">
@@ -177,7 +392,9 @@
       <div>
         <h1 id="title">AI Resume Analyzer (ATS Score) + Job Matcher</h1>
         <div class="help-strip">
-          <p class="note">Upload your <b>Resume (PDF/TXT)</b> and <i class="tiny">(optional)</i> <b>Job Description</b>. If JD is empty, we’ll run a resume-only ATS check with <b>ATS score</b>, <b>missing skills</b>, and <b>bullet fixes</b>.</p>
+          <p class="note">Upload your <b>Resume (PDF/TXT)</b> and <i class="tiny">(optional)</i> <b>Job Description</b>.
+            If JD is empty, we’ll run a resume-only ATS check with <b>ATS score</b>, <b>missing skills</b>, and
+            <b>bullet fixes</b>.</p>
           <a class="chip" href="/sitemap.xml" aria-label="Sitemap">Sitemap</a>
         </div>
         <div class="points" style="margin-top:8px">
@@ -219,7 +436,8 @@
               <input id="fileIn" type="file" accept=".txt,.md,.pdf,application/pdf" hidden>
             </div>
             <div class="dz-col">
-              <button class="btn big-btn secondary" type="button" id="uploadJDBtn" title="Upload Job Description (optional)">
+              <button class="btn big-btn secondary" type="button" id="uploadJDBtn"
+                title="Upload Job Description (optional)">
                 📌 Upload Job Description (Optional)
               </button>
               <input id="jdIn" type="file" accept=".txt,.md,.pdf,application/pdf" hidden>
@@ -324,13 +542,10 @@
     <section class="spaced" aria-labelledby="video-help">
       <h2 id="video-help" class="h5">How to tailor your resume for ATS</h2>
       <div class="video-box" role="region" aria-label="Video: resume tailoring for ATS">
-        <iframe
-          src="https://www.youtube.com/embed/Ym6w8wQX_yw"
-          title="ATS Resume Tips — How to tailor your resume"
-          loading="lazy"
-          width="560" height="315"
+        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/M5sNp-7bvx4?si=PyJ2Dp-enr9u_bJp"
+          title="YouTube video player" frameborder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          referrerpolicy="strict-origin-when-cross-origin"></iframe>
+          referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
       </div>
     </section>
 
@@ -368,8 +583,8 @@
 
     // Lazy PDF.js (only when needed)
     let pdfjsLib = null;
-    async function ensurePdfLib(){
-      if(pdfjsLib) return pdfjsLib;
+    async function ensurePdfLib() {
+      if (pdfjsLib) return pdfjsLib;
       pdfjsLib = await import('https://cdn.jsdelivr.net/npm/pdfjs-dist@4.6.82/build/pdf.mjs');
       pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdn.jsdelivr.net/npm/pdfjs-dist@4.6.82/build/pdf.worker.mjs';
       return pdfjsLib;
@@ -395,39 +610,39 @@
     // Provider + Models
     const PROVIDER_MODELS = {
       perplexity: [
-        { id:'sonar', label:'sonar' },
-        { id:'sonar-pro', label:'sonar-pro' },
-        { id:'sonar-reasoning', label:'sonar-reasoning' }
+        { id: 'sonar', label: 'sonar' },
+        { id: 'sonar-pro', label: 'sonar-pro' },
+        { id: 'sonar-reasoning', label: 'sonar-reasoning' }
       ],
       google: [
-        { id:'gemini-2.5-flash', label:'gemini-2.5-flash' },
-        { id:'gemini-2.5-pro', label:'gemini-2.5-pro' }
+        { id: 'gemini-2.5-flash', label: 'gemini-2.5-flash' },
+        { id: 'gemini-2.5-pro', label: 'gemini-2.5-pro' }
       ],
       groq: [
-        { id:'llama-3.1-8b-instant', label:'llama-3.1-8b-instant' },
-        { id:'llama-3.1-70b-versatile', label:'llama-3.1-70b-versatile' },
-        { id:'mixtral-8x7b-32768', label:'mixtral-8x7b-32768' },
-        { id:'gemma2-9b-it', label:'gemma2-9b-it' }
+        { id: 'llama-3.1-8b-instant', label: 'llama-3.1-8b-instant' },
+        { id: 'llama-3.1-70b-versatile', label: 'llama-3.1-70b-versatile' },
+        { id: 'mixtral-8x7b-32768', label: 'mixtral-8x7b-32768' },
+        { id: 'gemma2-9b-it', label: 'gemma2-9b-it' }
       ]
     };
 
     // Config (persist locally)
     const CFG_KEY = 'resume-analyzer:cfg';
-    const cfg = Object.assign({ provider:'google', model:'gemini-2.5-flash' }, read(CFG_KEY, {}));
+    const cfg = Object.assign({ provider: 'google', model: 'gemini-2.5-flash' }, read(CFG_KEY, {}));
     providerSel.value = cfg.provider;
     populateModels();
-    if(cfg.model) modelSel.value = cfg.model;
+    if (cfg.model) modelSel.value = cfg.model;
 
-    function populateModels(){
+    function populateModels() {
       const prov = providerSel.value || 'google';
       const models = PROVIDER_MODELS[prov] || [];
       modelSel.innerHTML = '';
-      for(const m of models){
+      for (const m of models) {
         const opt = document.createElement('option');
         opt.value = m.id; opt.textContent = m.label;
         modelSel.appendChild(opt);
       }
-      if(!models.some(m => m.id === cfg.model)) modelSel.value = models[0]?.id || '';
+      if (!models.some(m => m.id === cfg.model)) modelSel.value = models[0]?.id || '';
     }
     providerSel.addEventListener('change', () => { cfg.provider = providerSel.value; populateModels(); });
     saveCfg.addEventListener('click', () => {
@@ -447,11 +662,11 @@
 
     // Clipboard paste
     pasteBtn.addEventListener('click', async () => {
-      try{
+      try {
         const txt = await navigator.clipboard.readText();
-        if(!resume.value) resume.value = txt; else jd.value = txt;
+        if (!resume.value) resume.value = txt; else jd.value = txt;
         updateCount();
-      }catch{ toast('Clipboard blocked'); }
+      } catch { toast('Clipboard blocked'); }
     });
 
     clearBtn.addEventListener('click', () => {
@@ -469,17 +684,17 @@
     jdIn.addEventListener('change', (e) => handleFiles(e.target.files, 'jd'));
 
     // Drag & drop
-    ['dragenter','dragover'].forEach(ev=> drop.addEventListener(ev,(e)=>{e.preventDefault();drop.dataset.active='1'}));
-    ['dragleave','drop'].forEach(ev=> drop.addEventListener(ev,(e)=>{e.preventDefault();drop.dataset.active='0'}));
-    drop.addEventListener('drop',(e)=> handleFiles(e.dataTransfer?.files,'resume'));
+    ['dragenter', 'dragover'].forEach(ev => drop.addEventListener(ev, (e) => { e.preventDefault(); drop.dataset.active = '1' }));
+    ['dragleave', 'drop'].forEach(ev => drop.addEventListener(ev, (e) => { e.preventDefault(); drop.dataset.active = '0' }));
+    drop.addEventListener('drop', (e) => handleFiles(e.dataTransfer?.files, 'resume'));
 
-    async function handleFiles(fileList, target){
-      const f = fileList?.[0]; if(!f) return;
+    async function handleFiles(fileList, target) {
+      const f = fileList?.[0]; if (!f) return;
       const ext = (f.name.split('.').pop() || '').toLowerCase();
       const targetEl = target === 'jd' ? jd : resume;
-      if(ext === 'pdf' || f.type === 'application/pdf'){
+      if (ext === 'pdf' || f.type === 'application/pdf') {
         await importPdfIntoTextarea(f, targetEl);
-      }else{
+      } else {
         const txt = await f.text();
         targetEl.value = (targetEl.value ? (targetEl.value.trim() + '\n\n') : '') + txt.trim();
         updateCount();
@@ -489,76 +704,76 @@
     }
 
     // PDF -> text (lazy)
-    async function importPdfIntoTextarea(file, targetEl){
-      try{
+    async function importPdfIntoTextarea(file, targetEl) {
+      try {
         setText(status, `Reading ${file.name}…`);
-        progWrap.style.display='block'; setProgress(8);
+        progWrap.style.display = 'block'; setProgress(8);
         const { getDocument } = await ensurePdfLib();
         const data = await file.arrayBuffer(); setProgress(18);
         const task = getDocument({ data });
         const pdf = await task.promise; setProgress(24);
         let full = '';
-        for(let p=1; p<=pdf.numPages; p++){
+        for (let p = 1; p <= pdf.numPages; p++) {
           const page = await pdf.getPage(p);
           const content = await page.getTextContent();
           const text = content.items.map(i => i.str).join(' ');
           full += text + '\n\n';
-          setProgress(Math.min(24 + Math.floor((p/pdf.numPages)*72), 96));
-          await new Promise(r=>setTimeout(r,0));
+          setProgress(Math.min(24 + Math.floor((p / pdf.numPages) * 72), 96));
+          await new Promise(r => setTimeout(r, 0));
         }
         targetEl.value = (targetEl.value ? (targetEl.value.trim() + '\n\n') : '') + full.trim();
         updateCount();
         setProgress(100);
         setText(status, `Imported ${pdf.numPages} page(s) from PDF.`);
-      }catch(err){
+      } catch (err) {
         console.error(err);
-        setText(status,'PDF read failed. Try another file or copy-paste text.');
-      }finally{
-        setTimeout(()=>{progWrap.style.display='none'; setProgress(0);}, 500);
+        setText(status, 'PDF read failed. Try another file or copy-paste text.');
+      } finally {
+        setTimeout(() => { progWrap.style.display = 'none'; setProgress(0); }, 500);
       }
     }
-    function setProgress(pct){ progBar.style.width = (pct||0) + '%'; }
+    function setProgress(pct) { progBar.style.width = (pct || 0) + '%'; }
 
     // Streaming via /ai
     let aborter = null;
-    async function streamChat({ provider, model, messages }){
+    async function streamChat({ provider, model, messages }) {
       aborter = new AbortController();
       const res = await fetch('/ai', {
-        method:'POST',
-        signal:aborter.signal,
-        headers:{'Content-Type':'application/json'},
-        body: JSON.stringify({ provider, model, stream:true, temperature:0.35, messages })
+        method: 'POST',
+        signal: aborter.signal,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ provider, model, stream: true, temperature: 0.35, messages })
       });
-      if(!res.ok) throw new Error(`HTTP ${res.status}`);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const reader = res.body.getReader();
       const dec = new TextDecoder();
       let acc = '';
-      for(;;){
+      for (; ;) {
         const { value, done } = await reader.read();
-        if(done) break;
+        if (done) break;
         const chunk = dec.decode(value);
-        for(const line of chunk.split('\n')){
+        for (const line of chunk.split('\n')) {
           const t = line.trim();
-          if(!t || !t.startsWith('data:')) continue;
+          if (!t || !t.startsWith('data:')) continue;
           const payload = t.slice(5).trim();
-          if(payload === '[DONE]'){ aborter = null; return acc; }
-          try{
+          if (payload === '[DONE]') { aborter = null; return acc; }
+          try {
             const json = JSON.parse(payload);
             const delta = json.choices?.[0]?.delta?.content ?? '';
-            if(delta){ acc += delta; output.textContent += delta; }
-          }catch{}
+            if (delta) { acc += delta; output.textContent += delta; }
+          } catch { }
         }
       }
       aborter = null;
       return acc;
     }
 
-    stopBtn.addEventListener('click', ()=>{
-      if(aborter){ aborter.abort(); aborter = null; stopBtn.disabled = true; setText(status,'Stopped.'); }
+    stopBtn.addEventListener('click', () => {
+      if (aborter) { aborter.abort(); aborter = null; stopBtn.disabled = true; setText(status, 'Stopped.'); }
     });
 
     // Prompts (JD optional)
-    function buildPromptWithJD(r, j, targ, years){
+    function buildPromptWithJD(r, j, targ, years) {
       return `Compare the following resume with the job description and return:
 1) ATS Match % (a number followed by % on its own line)
 2) Missing/weak keywords (comma-separated)
@@ -574,7 +789,7 @@ JOB DESCRIPTION:
 ${j}
 `;
     }
-    function buildPromptResumeOnly(r, targ, years){
+    function buildPromptResumeOnly(r, targ, years) {
       return `Perform a standalone ATS-style review of this resume. Output strictly in the format below:
 1) ATS Match % (estimated vs common requirements for the target role or typical job in the field)
 2) Missing/weak keywords (comma-separated, prioritize high-signal skills, tools, certifications)
@@ -588,80 +803,80 @@ ${r}
     }
 
     // Run
-    runBtn.addEventListener('click', async ()=>{
+    runBtn.addEventListener('click', async () => {
       const r = resume.value.trim();
       const j = jd.value.trim();
-      if(!r){ toast('Please add your resume first'); return; }
+      if (!r) { toast('Please add your resume first'); return; }
 
       const provider = providerSel.value || 'google';
       const model = modelSel.value || 'gemini-2.5-flash';
-      if(!model){ toast('Pick a model'); return; }
+      if (!model) { toast('Pick a model'); return; }
 
       output.textContent = '';
       stopBtn.disabled = false; setText(status, 'Analyzing…'); setText(score, '…');
 
-      try{
+      try {
         const withJD = !!j;
         const sys = withJD
           ? 'You are an experienced ATS resume analyzer. Be precise, structured, and concise.'
           : 'You are an experienced ATS resume analyzer. When no JD is provided, infer typical expectations for the target role and provide a credible ATS-style score and advice.';
 
         const userPrompt = withJD
-          ? buildPromptWithJD(r, j, (role.value||'').trim(), (yoe.value||'').trim())
-          : buildPromptResumeOnly(r, (role.value||'').trim(), (yoe.value||'').trim());
+          ? buildPromptWithJD(r, j, (role.value || '').trim(), (yoe.value || '').trim())
+          : buildPromptResumeOnly(r, (role.value || '').trim(), (yoe.value || '').trim());
 
         const full = await streamChat({
           provider, model,
           messages: [
-            { role:'system', content: sys },
-            { role:'user', content: userPrompt }
+            { role: 'system', content: sys },
+            { role: 'user', content: userPrompt }
           ]
         });
 
         const m = full.match(/(\b\d{2,3})\s*%/);
         setText(score, (m ? m[1] : 72) + '%');
         setText(status, withJD ? 'Done (JD match).' : 'Done (resume-only ATS).');
-      }catch(e){
+      } catch (e) {
         console.error(e);
-        setText(status,'Error. Check console & settings.');
-        setText(score,'--%');
-      }finally{
+        setText(status, 'Error. Check console & settings.');
+        setText(score, '--%');
+      } finally {
         stopBtn.disabled = true;
       }
     });
 
     // Copy / Download / Permalink
-    copyBtn.addEventListener('click', async ()=>{
-      try{ await navigator.clipboard.writeText(output.textContent || ''); toast('Copied'); }
-      catch{ toast('Copy blocked'); }
+    copyBtn.addEventListener('click', async () => {
+      try { await navigator.clipboard.writeText(output.textContent || ''); toast('Copied'); }
+      catch { toast('Copy blocked'); }
     });
-    downloadBtn.addEventListener('click', ()=>{
-      const blob = new Blob([output.textContent || ''], { type:'text/plain;charset=utf-8' });
+    downloadBtn.addEventListener('click', () => {
+      const blob = new Blob([output.textContent || ''], { type: 'text/plain;charset=utf-8' });
       const a = document.createElement('a');
       a.href = URL.createObjectURL(blob); a.download = 'resume-analysis.txt'; a.click();
       URL.revokeObjectURL(a.href);
     });
-    permBtn.addEventListener('click', async ()=>{
+    permBtn.addEventListener('click', async () => {
       const o = { p: providerSel.value, m: modelSel.value };
       const url = new URL(location.href); url.hash = encodeURIComponent(btoa(JSON.stringify(o)));
-      try{ await navigator.clipboard.writeText(url.toString()); toast('Permalink copied'); }
-      catch{ history.replaceState({}, '', url); toast('Permalink ready in address bar'); }
+      try { await navigator.clipboard.writeText(url.toString()); toast('Permalink copied'); }
+      catch { history.replaceState({}, '', url); toast('Permalink ready in address bar'); }
     });
 
     // Restore settings from hash
-    (function restoreFromHash(){
-      if(!location.hash) return;
-      try{
+    (function restoreFromHash() {
+      if (!location.hash) return;
+      try {
         const o = JSON.parse(atob(decodeURIComponent(location.hash.slice(1))));
-        if(o?.p) providerSel.value = o.p;
+        if (o?.p) providerSel.value = o.p;
         populateModels();
-        if(o?.m) modelSel.value = o.m;
-      }catch{}
+        if (o?.m) modelSel.value = o.m;
+      } catch { }
     })();
 
     // Mount ad (no layout jump)
-    (function mountAd(){
-      if(!('adsbygoogle' in window)) return;
+    (function mountAd() {
+      if (!('adsbygoogle' in window)) return;
       const mount = document.getElementById('ad-mount');
       mount.innerHTML = `
         <ins class="adsbygoogle"
@@ -669,11 +884,12 @@ ${r}
              data-ad-client="ca-pub-6216304334889617"
              data-ad-slot="auto"
              data-full-width-responsive="true"></ins>`;
-      try{ (window.adsbygoogle = window.adsbygoogle || []).push({}); }catch{}
+      try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch { }
     })();
 
     // Tiny toast
-    function toast(msg){ setText(status, msg); setTimeout(()=>{ if(status.textContent===msg) setText(status,''); }, 1600); }
+    function toast(msg) { setText(status, msg); setTimeout(() => { if (status.textContent === msg) setText(status, ''); }, 1600); }
   </script>
 </body>
+
 </html>

@@ -78,7 +78,8 @@ header.site{
 }
 .header-inner{
   height:56px;
-  display:flex; align-items:center; justify-content:space-between; gap:12px;
+  display:flex; align-items:center; justify-content:space-around; gap:12px;
+  width: 100%;
   max-width:var(--content-w); margin:0 auto; padding:10px 16px;
 }
 .brand{
