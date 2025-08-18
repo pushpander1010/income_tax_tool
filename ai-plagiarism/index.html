@@ -1,151 +1,87 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Ads (optional; kept minimal to avoid CLS) -->
+  <!-- Common site styles -->
+  <link rel="stylesheet" href="/style.css?v=1.3.0" />
+
+  <!-- Ads (optional; keep to avoid CLS issues) -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617" crossorigin="anonymous"></script>
 
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>AI Plagiarism Checker — UpTools</title>
-
-  <!-- SEO -->
-  <meta name="description" content="Free AI plagiarism checker. Paste text and detect similarity with clean, mobile-perfect layout. No overlaps, responsive cards, source snippets, and copy/export." />
+  <meta name="description" content="Paste text and check similarity with mobile-perfect layout. Uses common styles across UpTools." />
   <link rel="canonical" href="https://www.uptools.in/ai-plagiarism/" />
   <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:large" />
   <meta name="theme-color" content="#0f1419" />
 
-  <!-- Favicon (adjust paths if needed) -->
-  <link rel="icon" type="image/svg+xml" href="/assets/logo/uptools-logo.svg" />
-  <link rel="apple-touch-icon" href="/assets/logo/uptools-logo.svg" />
-
+  <!-- Tiny inline CSS only for behavior that may not exist in your global sheet -->
   <style>
-    /* ---------------- Base & tokens ---------------- */
-    :root{
-      --bg:#ffffff; --ink:#0f1419; --muted:#4b5563; --line:#e5e7eb;
-      --brand:#7c3aed; --brand-ink:#5b21b6; --chip-bg:#f5f3ff;
-      --soft:#f9fafb; --card:#ffffff; --code:#fafafa;
-      --radius:16px; --radius-sm:12px; --shadow:0 1px 2px rgba(0,0,0,.04);
-      --gap:12px;
-    }
-    *,*::before,*::after{box-sizing:border-box}
-    html,body{height:100%}
-    body{margin:0; font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif; background:var(--bg); color:var(--ink);}
+    /* make grid stack on mobile, 2-cols on md if your sheet lacks a helper */
+    .plag-grid{display:grid; gap:12px}
+    @media (min-width:768px){ .plag-grid{grid-template-columns:1fr 1fr} }
 
-    /* ---------------- Page shell ---------------- */
-    .page{display:grid; grid-template-rows:auto 1fr auto; min-height:100dvh; padding:12px}
-    header,footer{position:relative}
-    header h1{margin:0; font-size:1.25rem}
-    header p{margin:.25rem 0 0; color:var(--muted); font-size:.95rem}
+    /* ensure flex/grid children can shrink; prevent overlap */
+    .min0{min-width:0; min-height:0}
 
-    main{display:grid; gap:var(--gap)}
-    .grid{display:grid; gap:var(--gap)}
-    @media (min-width:768px){
-      .grid{grid-template-columns:1fr 1fr}
-    }
+    /* safe wrapping for long URLs/snippets */
+    .wrap{overflow-wrap:anywhere; word-break:break-word}
 
-    /* ---------------- Card ---------------- */
-    .card{background:var(--card); border:1px solid var(--line); border-radius:var(--radius); padding:12px; box-shadow:var(--shadow)}
-    .card h2{margin:.25rem 0 .5rem; font-size:1.05rem}
-    .row{display:flex; align-items:center; gap:8px; flex-wrap:wrap}
-    .chips{display:flex; gap:6px; flex-wrap:wrap}
-
-    /* ---------------- Inputs ---------------- */
-    textarea, input[type="text"]{
-      width:100%; min-width:0; min-height:140px; padding:10px 12px;
-      border:1px solid #d1d5db; border-radius:var(--radius-sm); background:#fff; outline:none; resize:vertical;
-    }
-    textarea:focus, input[type="text"]:focus{border-color:var(--brand); box-shadow:0 0 0 3px rgba(124,58,237,.15)}
-    .actions{display:flex; gap:8px; flex-wrap:wrap}
-    button{
-      border:0; border-radius:999px; padding:10px 14px; background:var(--brand);
-      color:#fff; font-weight:600; cursor:pointer;
-    }
-    button.secondary{background:#1118270d; color:#111827}
-    button.ghost{background:transparent; border:1px solid var(--line); color:#111827}
-
-    /* ---------------- Results ---------------- */
-    .results{display:grid; gap:var(--gap)}
-    .result-card{display:flex; flex-direction:column; gap:8px; min-width:0}
-    .score{display:inline-flex; align-items:center; gap:6px; padding:4px 10px; border-radius:999px; background:var(--chip-bg); color:var(--brand-ink); font-weight:700; font-size:.9rem}
-    .meta{font-size:.9rem; color:var(--muted)}
-    .output{
-      overflow-wrap:anywhere; word-break:break-word;
-      background:var(--code); border:1px solid #eee; border-radius:var(--radius-sm); padding:10px; max-width:100%;
-    }
-    .src-item{padding:8px; border:1px dashed var(--line); border-radius:10px; background:#fff}
-    .src-item + .src-item{margin-top:8px}
-
-    /* ---------------- Utilities ---------------- */
-    .hidden{display:none !important}
-    .spacer{height:8px}
-    .flex{display:flex; gap:8px; align-items:center; flex-wrap:wrap}
-    .grow{flex:1 1 auto; min-width:0}
-    .right{margin-left:auto}
-    .muted{color:var(--muted)}
-    .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}
-    .small{font-size:.85rem}
-
-    /* ---------------- Loader (inline, non-overlapping) ---------------- */
+    /* simple inline loader (non-overlay, non-absolute) */
     .loader{display:inline-flex; align-items:center; gap:8px}
-    .dot{width:8px; height:8px; border-radius:50%; background:var(--brand); opacity:.3; animation:bounce 1s infinite}
+    .dot{width:8px; height:8px; border-radius:50%; background:currentColor; opacity:.3; animation:bounce 1s infinite}
     .dot:nth-child(2){animation-delay:.15s}
     .dot:nth-child(3){animation-delay:.3s}
-    @keyframes bounce{0%,80%,100%{transform:scale(0.8); opacity:.3} 40%{transform:scale(1); opacity:1}}
+    @keyframes bounce{0%,80%,100%{transform:scale(.8); opacity:.3} 40%{transform:scale(1); opacity:1}}
 
-    /* ---------------- Accessibility regions ---------------- */
-    [aria-live]{min-height:1em}
+    /* results spacing if your .stack or .gap utilities differ */
+    .results{display:grid; gap:12px}
   </style>
 </head>
 <body>
-  <div class="page">
-    <header>
-      <h1>AI Plagiarism Checker</h1>
-      <p class="small">Paste text, run check, and review sources. Layout is mobile-perfect with no overlaps.</p>
+  <div class="page container pad-12" style="min-height:100dvh; display:grid; grid-template-rows:auto 1fr auto;">
+    <header class="pad-b-8">
+      <h1 class="h3 m-0">AI Plagiarism Checker</h1>
+      <p class="text-muted small m-t-4">Uses shared components & spacing from your global stylesheet.</p>
     </header>
 
-    <main>
-      <section class="grid">
-        <!-- ---------------- Left: Input ---------------- -->
-        <article class="card">
-          <h2>Paste Text</h2>
-          <div class="spacer"></div>
+    <main class="min0">
+      <section class="plag-grid">
+        <!-- LEFT: INPUT -->
+        <article class="card radius-16 shadow-xs border min0">
+          <h2 class="h5 m-b-8">Paste Text</h2>
 
-          <label class="small muted" for="textInput">Your text</label>
-          <textarea id="textInput" placeholder="Paste or type your text here..."></textarea>
+          <label for="textInput" class="small text-muted">Your text</label>
+          <textarea id="textInput" class="input textarea m-t-6" placeholder="Paste or type your text here..." style="min-height:140px"></textarea>
 
-          <div class="spacer"></div>
-          <div class="actions">
-            <button id="checkBtn" aria-label="Check plagiarism">Check Plagiarism</button>
-            <button id="sampleBtn" class="secondary" aria-label="Insert sample text">Use Sample</button>
-            <button id="clearBtn" class="ghost" aria-label="Clear input">Clear</button>
-            <span id="status" class="small muted" aria-live="polite"></span>
+          <div class="row m-t-8" style="display:flex; flex-wrap:wrap; gap:8px; align-items:center">
+            <button id="checkBtn" class="btn btn-primary">Check Plagiarism</button>
+            <button id="sampleBtn" class="btn btn-secondary">Use Sample</button>
+            <button id="clearBtn" class="btn btn-ghost">Clear</button>
+
+            <span id="status" class="small text-muted" aria-live="polite"></span>
           </div>
 
-          <div class="spacer"></div>
-          <div class="chips">
-            <span class="score" title="Status chip" id="readyChip">Ready</span>
-            <span class="small muted">Engine:</span>
-            <select id="engineSelect" aria-label="Choose engine">
+          <div class="row m-t-8" style="display:flex; flex-wrap:wrap; gap:8px; align-items:center">
+            <span id="readyChip" class="chip">Ready</span>
+            <span class="small text-muted">Engine:</span>
+            <select id="engineSelect" class="select">
               <option value="fake" selected>Built-in Demo</option>
-              <option value="api">My Backend (POST /ai)</option>
+              <option value="api">My Backend (/ai)</option>
             </select>
           </div>
 
-          <div class="spacer"></div>
-          <details>
-            <summary class="small"><strong>How to connect your backend</strong></summary>
-            <p class="small">
-              Set Engine = “My Backend”. This file will POST to <code class="mono">/ai</code> with:
-            </p>
-            <pre class="output mono small" style="white-space:pre-wrap">
+          <details class="m-t-8">
+            <summary class="small"><strong>Backend wiring (optional)</strong></summary>
+            <pre class="code wrap m-t-6" style="padding:10px; border:1px solid var(--line,#e5e7eb); border-radius:12px; background:#fafafa; white-space:pre-wrap">
 POST /ai
 {
-  "provider": "google" | "groq" | "perplexity",
+  "provider": "google|groq|perplexity",
   "model": "your-model",
   "task": "plagiarism_check",
-  "text": "…user text…"
+  "text": "…"
 }
-Expected response shape:
+Response:
 {
   "score": 0-100,
   "verdict": "Low|Medium|High similarity",
@@ -154,29 +90,30 @@ Expected response shape:
           </details>
         </article>
 
-        <!-- ---------------- Right: Results ---------------- -->
-        <article class="card">
-          <h2>Results</h2>
+        <!-- RIGHT: RESULTS -->
+        <article class="card radius-16 shadow-xs border min0">
+          <h2 class="h5 m-b-8">Results</h2>
+
           <div id="results" class="results" aria-live="polite" aria-busy="false">
-            <div class="meta">Run a check to see similarity score and sources here.</div>
+            <div class="text-muted">Run a check to see similarity and sources here.</div>
           </div>
-          <div class="spacer"></div>
-          <div class="flex">
-            <button id="copyBtn" class="secondary">Copy Summary</button>
-            <button id="exportBtn" class="ghost">Export JSON</button>
-            <span class="right small muted" id="helperMsg" aria-live="polite"></span>
+
+          <div class="row m-t-8" style="display:flex; flex-wrap:wrap; gap:8px; align-items:center">
+            <button id="copyBtn" class="btn btn-secondary">Copy Summary</button>
+            <button id="exportBtn" class="btn btn-ghost">Export JSON</button>
+            <span id="helperMsg" class="small text-muted" style="margin-left:auto" aria-live="polite"></span>
           </div>
         </article>
       </section>
     </main>
 
-    <footer class="small muted" style="padding-top:6px">
-      Responsive by design: no fixed heights, no absolute overlays, safe wrapping for long snippets & URLs.
+    <footer class="small text-muted pad-t-8">
+      Built with shared styles. No fixed heights, no absolute overlays, safe wrapping for long URLs/snippets.
     </footer>
   </div>
 
   <script type="module">
-    // ------- Helpers -------
+    // ---------- Helpers ----------
     const $ = (s)=>document.querySelector(s);
     const el = {
       text: $('#textInput'),
@@ -193,39 +130,42 @@ Expected response shape:
     };
 
     function setBusy(b){
-      el.results.setAttribute('aria-busy', String(b));
+      el.results?.setAttribute('aria-busy', String(b));
       el.status.textContent = b ? 'Checking…' : '';
     }
 
-    function loaderNode(){
+    function loader(){
       const wrap = document.createElement('div');
-      wrap.className = 'loader';
-      wrap.innerHTML = `<span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="small muted">Analyzing…</span>`;
+      wrap.className = 'loader text-muted';
+      wrap.innerHTML = '<span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="small">Analyzing…</span>';
       return wrap;
     }
 
-    function clamp(n,min,max){return Math.max(min,Math.min(max,n));}
+    const clamp = (n,min,max)=>Math.max(min,Math.min(max,n));
 
-    // Fake local engine (works offline)
+    // Local demo engine
     function fakeCheck(text){
       const len = text.trim().length;
       const words = (text.trim().match(/\S+/g)||[]).length;
       const pct = clamp(Math.round((len % 73) + (words % 27)), 0, 100);
       const verdict = pct>70 ? 'High similarity' : pct>35 ? 'Medium similarity' : 'Low similarity';
       const snip = text.substring(0, 160).replace(/\s+/g,' ').trim();
-      const synthSources = [
-        {title:'Open Web Snippet', url:'#', match: snip ? `“…${snip}…”` : 'Matched phrase'},
-        {title:'Generic Knowledge Base', url:'#', match:'“…example paraphrase…”'}
-      ];
-      return { score: pct, verdict, sources: synthSources };
+      return {
+        score: pct,
+        verdict,
+        summary: 'Similarity analysis completed.',
+        sources: [
+          { title:'Open Web Snippet', url:'#', match: snip ? `“…${snip}…”` : 'Matched phrase' },
+          { title:'Generic Knowledge Base', url:'#', match:'“…example paraphrase…”' }
+        ]
+      };
     }
 
-    // Wire to your /ai backend (unified proxy you built for AI Writer)
+    // Backend engine (/ai — same proxy you used for AI Writer)
     async function apiCheck(text){
-      // Choose provider/model via env default on your proxy; change if you expose controls.
       const payload = {
-        provider: 'google',        // or 'groq' | 'perplexity'
-        model: 'gemini-2.5-flash', // or your default on server
+        provider: 'google',
+        model: 'gemini-2.5-flash',
         task: 'plagiarism_check',
         text
       };
@@ -243,77 +183,90 @@ Expected response shape:
 
     function renderResult(r){
       const card = document.createElement('article');
-      card.className = 'result-card card';
-      const scoreChip = `<span class="score">Similarity: ${Math.round(r.score)}%</span>`;
-      const meta = `<span class="meta">${r.verdict || ''}</span>`;
+      card.className = 'card radius-16 border shadow-xs min0';
+      const scoreChip = `<span class="chip strong">Similarity: ${Math.round(r.score)}%</span>`;
+      const verdict = `<span class="text-muted">${r.verdict || ''}</span>`;
       const sources = (Array.isArray(r.sources) ? r.sources : []).map(s => `
-        <div class="src-item">
-          <div style="font-weight:600">${s.title || 'Source'}</div>
-          <div class="small muted">${s.url ? `<a href="${s.url}" rel="nofollow noopener">${s.url}</a>` : ''}</div>
-          <div class="output" style="margin-top:6px">${(s.match||'').toString()}</div>
+        <div class="card border radius-12 m-t-8">
+          <div class="strong">${s.title || 'Source'}</div>
+          <div class="small text-muted wrap">${s.url ? `<a href="${s.url}" rel="nofollow noopener">${s.url}</a>` : ''}</div>
+          <div class="wrap code m-t-6" style="padding:10px; border:1px solid var(--line,#e5e7eb); border-radius:10px; background:#fafafa">${(s.match||'').toString()}</div>
         </div>
       `).join('');
 
       card.innerHTML = `
-        <div class="row">
+        <div class="row" style="display:flex; flex-wrap:wrap; gap:8px; align-items:center">
           ${scoreChip}
-          ${meta}
+          ${verdict}
         </div>
-        <div class="output" role="region" aria-label="Summary">
-          <div><strong>Summary:</strong> ${r.summary || 'Similarity analysis completed.'}</div>
+        <div class="wrap code m-t-8" style="padding:10px; border:1px solid var(--line,#e5e7eb); border-radius:12px; background:#fafafa">
+          <strong>Summary:</strong> ${r.summary || '—'}
         </div>
-        <div class="spacer"></div>
-        <div class="results">
-          ${sources || '<div class="meta">No sources returned.</div>'}
+        <div class="results m-t-8">
+          ${sources || '<div class="text-muted">No sources returned.</div>'}
         </div>
       `;
       return card;
     }
 
-    function summarizeForCopy(r){
-      const lines = [
-        `Similarity: ${Math.round(r.score)}%`,
-        `Verdict: ${r.verdict}`,
-        `Sources:`
-      ];
-      (r.sources||[]).forEach((s,i)=>{
-        lines.push(`  ${i+1}. ${s.title || 'Source'}${s.url?` — ${s.url}`:''}`);
-      });
-      return lines.join('\n');
+    function domToSummary(){
+      const card = el.results.querySelector('.card');
+      if(!card) return null;
+      const score = card.querySelector('.chip')?.textContent || '';
+      const verdict = card.querySelector('.row .text-muted')?.textContent || '';
+      const srcs = Array.from(card.querySelectorAll('.results .card')).map((n,i)=>{
+        const title = n.querySelector('.strong')?.textContent?.trim() || `Source ${i+1}`;
+        const url = n.querySelector('a')?.getAttribute('href') || '';
+        return `${i+1}. ${title}${url?` — ${url}`:''}`;
+      }).join('\n');
+      return `${score}\n${verdict}\nSources:\n${srcs || 'None'}`;
     }
 
-    // ------- Events -------
-    el.sample.addEventListener('click', ()=>{
+    function domToJSON(){
+      const card = el.results.querySelector('.card');
+      if(!card) return null;
+      const score = Number((card.querySelector('.chip')?.textContent.match(/\d+/)||[])[0]||0);
+      const verdict = card.querySelector('.row .text-muted')?.textContent?.trim() || '';
+      const sources = Array.from(card.querySelectorAll('.results .card')).map(n=>({
+        title: n.querySelector('.strong')?.textContent?.trim() || 'Source',
+        url: n.querySelector('a')?.getAttribute('href') || '',
+        match: n.querySelector('.wrap.code')?.textContent?.trim() || ''
+      }));
+      return { score, verdict, sources };
+    }
+
+    // ---------- Events ----------
+    $('#sampleBtn')?.addEventListener('click', ()=>{
       el.text.value =
 `Artificial intelligence is rapidly transforming industries by automating routine tasks and enabling more accurate decision-making. From healthcare to agriculture, AI-driven solutions are improving efficiency, reducing costs, and unlocking new possibilities for innovation. However, this growth raises questions about ethics and the impact on jobs.`;
       el.text.focus();
       el.helper.textContent = 'Sample inserted.';
     });
 
-    el.clear.addEventListener('click', ()=>{
+    $('#clearBtn')?.addEventListener('click', ()=>{
       el.text.value = '';
-      el.results.innerHTML = '<div class="meta">Cleared. Paste text and run a new check.</div>';
+      el.results.innerHTML = '<div class="text-muted">Cleared. Paste text and run a new check.</div>';
       el.helper.textContent = 'Input cleared.';
     });
 
-    el.check.addEventListener('click', async ()=>{
+    $('#checkBtn')?.addEventListener('click', async ()=>{
       const text = el.text.value || '';
       if(!text.trim()){ alert('Please paste some text first.'); return; }
 
       el.results.innerHTML = '';
-      el.results.appendChild(loaderNode());
+      el.results.appendChild(loader());
       el.readyChip.textContent = 'Working…';
       setBusy(true);
 
       try{
         const engine = el.engine.value;
         const data = engine === 'api' ? await apiCheck(text) : fakeCheck(text);
-        el.results.innerHTML = ''; // clear loader
+        el.results.innerHTML = '';
         el.results.appendChild(renderResult(data));
         el.helper.textContent = 'Done.';
         el.readyChip.textContent = 'Done';
       }catch(err){
-        el.results.innerHTML = `<div class="output">Error: ${(err && err.message) || err}</div>`;
+        el.results.innerHTML = `<div class="code wrap" style="padding:10px; border:1px solid var(--line,#e5e7eb); border-radius:12px; background:#fff3f3">Error: ${(err && err.message) || err}</div>`;
         el.helper.textContent = 'Failed.';
         el.readyChip.textContent = 'Error';
       }finally{
@@ -321,40 +274,16 @@ Expected response shape:
       }
     });
 
-    el.copy.addEventListener('click', async ()=>{
-      const block = el.results.querySelector('.result-card');
-      if(!block){ el.helper.textContent='Nothing to copy yet.'; return; }
-
-      // Build data from DOM (or store last result globally if you prefer)
-      const score = block.querySelector('.score')?.textContent || '';
-      const verdict = block.querySelector('.meta')?.textContent || '';
-      const sources = Array.from(block.querySelectorAll('.src-item')).map((n,i)=>{
-        const title = n.querySelector('div:first-child')?.textContent?.trim() || `Source ${i+1}`;
-        const url = n.querySelector('a')?.getAttribute('href') || '';
-        return `${i+1}. ${title}${url?` — ${url}`:''}`;
-      }).join('\n');
-
-      const text = `${score}\n${verdict}\nSources:\n${sources || 'None'}`;
-      await navigator.clipboard.writeText(text).catch(()=>{});
+    $('#copyBtn')?.addEventListener('click', async ()=>{
+      const txt = domToSummary();
+      if(!txt){ el.helper.textContent='Nothing to copy yet.'; return; }
+      await navigator.clipboard.writeText(txt).catch(()=>{});
       el.helper.textContent = 'Summary copied.';
     });
 
-    el.export.addEventListener('click', ()=>{
-      const card = el.results.querySelector('.result-card');
-      if(!card){ el.helper.textContent='Nothing to export.'; return; }
-
-      // Reconstruct JSON from DOM
-      const score = (card.querySelector('.score')?.textContent.match(/\d+/)?.[0])|0;
-      const verdict = (card.querySelector('.row .meta')?.textContent||'').trim();
-      const sources = Array.from(card.querySelectorAll('.src-item')).map(n=>{
-        return {
-          title: n.querySelector('div:first-child')?.textContent?.trim() || 'Source',
-          url: n.querySelector('a')?.getAttribute('href') || '',
-          match: n.querySelector('.output')?.textContent?.trim() || ''
-        };
-      });
-      const obj = { score, verdict, sources };
-
+    $('#exportBtn')?.addEventListener('click', ()=>{
+      const obj = domToJSON();
+      if(!obj){ el.helper.textContent='Nothing to export.'; return; }
       const blob = new Blob([JSON.stringify(obj,null,2)], {type:'application/json'});
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
@@ -364,13 +293,11 @@ Expected response shape:
       el.helper.textContent = 'Exported JSON.';
     });
 
-    // Accessibility nicety: announce input length as user types (no overlap)
-    let announceTimer;
-    el.text.addEventListener('input', ()=>{
-      clearTimeout(announceTimer);
-      announceTimer = setTimeout(()=>{
-        el.status.textContent = `Characters: ${el.text.value.length}`;
-      }, 150);
+    // a11y nicety: announce char count (non-overlay)
+    let t;
+    el.text?.addEventListener('input', ()=>{
+      clearTimeout(t);
+      t = setTimeout(()=>{ el.status.textContent = `Characters: ${el.text.value.length}`; }, 120);
     });
   </script>
 </body>
