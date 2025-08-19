@@ -80,11 +80,12 @@
   }
   </script>
 
-    <!-- Page-scoped layout styles (tiny; rely on /style.css classes) -->
+    <!-- Page-scoped layout styles (RESPONSIVE FIXES) -->
     <style>
         :root {
-            --panel-h: clamp(560px, 74dvh, 820px);
+            --panel-h: clamp(540px, 74svh, 820px);
             --gap: 14px;
+            --container-px: 16px;
         }
 
         body {
@@ -94,9 +95,10 @@
         main.tool {
             max-width: 1200px;
             margin-inline: auto;
-            padding: 12px var(--container-px, 12px);
+            padding: 12px var(--container-px);
         }
 
+        /* Two panels -> one column on smaller screens */
         .grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -110,25 +112,32 @@
             }
         }
 
+        /* Panel shell */
         .panel {
             display: flex;
             flex-direction: column;
+            min-height: 420px;
             height: var(--panel-h);
-            min-height: 520px;
         }
 
-        @media (max-width: 520px) {
+        @media (max-width: 768px) {
             .panel {
-                min-height: 480px;
+                height: auto;
+                min-height: 0;
             }
+
+            /* allow content to size naturally on small screens */
         }
 
+        /* Head + Body */
         .panel-head {
             display: flex;
             align-items: center;
             justify-content: space-between;
             gap: 10px;
             padding: 10px 12px;
+            flex-wrap: wrap;
+            /* ✅ prevents overlap */
         }
 
         .panel-body {
@@ -140,6 +149,7 @@
             padding: 10px 12px;
         }
 
+        /* Toolbars: wrap and let items grow on mobile */
         .toolbar {
             display: flex;
             flex-wrap: wrap;
@@ -147,23 +157,30 @@
             align-items: center;
         }
 
+        .toolbar .inline {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* Responsive input rows */
         .row {
             display: grid;
             gap: 8px;
             grid-template-columns: 1fr 1fr;
         }
 
-        @media (max-width: 720px) {
+        @media (max-width: 900px) {
             .row {
                 grid-template-columns: 1fr;
             }
         }
 
+        /* Inputs */
         textarea.input {
             width: 100%;
-            height: auto;
             min-height: 180px;
-            max-height: min(36dvh, 420px);
+            max-height: min(36svh, 420px);
             resize: vertical;
             padding: 10px 12px;
             line-height: 1.45;
@@ -172,8 +189,8 @@
 
         pre.output {
             width: 100%;
-            min-height: clamp(220px, 28dvh, 360px);
-            max-height: min(48dvh, 520px);
+            min-height: clamp(220px, 28svh, 360px);
+            max-height: min(48svh, 520px);
             height: auto;
             margin: 0;
             padding: 12px 14px;
@@ -193,6 +210,7 @@
             outline-offset: 2px;
         }
 
+        /* KPIs */
         .kpis {
             display: grid;
             grid-template-columns: repeat(4, minmax(120px, 1fr));
@@ -202,6 +220,12 @@
         @media (max-width: 880px) {
             .kpis {
                 grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .kpis {
+                grid-template-columns: 1fr;
             }
         }
 
@@ -223,6 +247,7 @@
             opacity: .85;
         }
 
+        /* Ad */
         .ad-wrap {
             display: none;
             margin: 10px 0;
@@ -238,6 +263,7 @@
             min-height: 120px;
         }
 
+        /* Chips */
         .chips {
             display: flex;
             flex-wrap: wrap;
@@ -245,13 +271,14 @@
             align-items: center;
         }
 
+        /* Buttons */
         .danger {
             background: transparent;
             color: #ffb4b4;
             border: 1px solid color-mix(in oklab, red 60%, #223);
         }
 
-        /* YouTube: fixed aspect to prevent layout jumps */
+        /* YouTube */
         .yt-wrap {
             width: 100%;
             max-width: 720px;
@@ -268,10 +295,44 @@
             display: block;
         }
 
+        /* Footer links wrap nicely */
         .site-footer .nav-links {
             gap: 12px;
             flex-wrap: wrap;
             justify-content: center;
+        }
+
+        /* ✅ MOBILE RESCUE OVERRIDES:
+       - Make selects/inputs full width
+       - Let small buttons auto-wrap without squeezing others
+       - Prevent nav collisions on tiny widths */
+        @media (max-width: 720px) {
+
+            .panel-head .toolbar,
+            .panel-body .toolbar {
+                width: 100%;
+            }
+
+            .select,
+            .input,
+            .toolbar .inline,
+            .toolbar select,
+            .toolbar input {
+                width: 100% !important;
+            }
+
+            .toolbar .btn.sm {
+                flex: 1 1 120px;
+            }
+
+            .toolbar .btn {
+                min-width: 120px;
+            }
+
+            header .nav-links {
+                flex-wrap: wrap;
+                row-gap: 6px;
+            }
         }
     </style>
 </head>
@@ -324,9 +385,8 @@
                         <label class="inline tiny"><span>Characters:</span> <output id="charCount">0</output></label>
                         <label class="inline tiny"><span>Words:</span> <output id="wordCount">0</output></label>
                         <button id="pasteBtn" class="btn sm" type="button" title="Paste from clipboard">Paste</button>
-                        <label class="btn sm" title="Import .txt or .md">
-                            Import <input id="fileIn" type="file" accept=".txt,.md" hidden>
-                        </label>
+                        <label class="btn sm" title="Import .txt or .md">Import <input id="fileIn" type="file"
+                                accept=".txt,.md" hidden></label>
                         <button id="clearBtn" class="btn sm secondary" type="button" title="Clear input">Clear</button>
                     </div>
                 </div>
@@ -335,7 +395,7 @@
                     <div class="row">
                         <label class="inline" style="gap:6px">
                             <span class="tiny">Task</span>
-                            <select id="task" class="select" style="width:210px">
+                            <select id="task" class="select">
                                 <option value="originality" selected>Check Originality (AI)</option>
                                 <option value="paraphrase">Paraphrase / Rewrite</option>
                                 <option value="keywords">Keyword Density</option>
@@ -355,7 +415,7 @@
 
                         <label class="inline" title="Inference provider">
                             <span class="tiny">Provider</span>
-                            <select id="provider" class="select" style="width:160px">
+                            <select id="provider" class="select">
                                 <option value="perplexity">Perplexity</option>
                                 <option value="google">Google (Gemini)</option>
                                 <option value="groq">Groq</option>
@@ -364,7 +424,7 @@
 
                         <label class="inline" title="Model">
                             <span class="tiny">Model</span>
-                            <select id="modelSel" class="select" style="width:230px"></select>
+                            <select id="modelSel" class="select"></select>
                         </label>
 
                         <button id="saveCfg" class="btn sm secondary" type="button"
@@ -431,8 +491,7 @@
                 <iframe src="https://www.youtube.com/embed/5MgBikgcWnY?rel=0"
                     title="AI Plagiarism Checker demo — UpTools" loading="lazy"
                     allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    referrerpolicy="strict-origin-when-cross-origin">
-                </iframe>
+                    referrerpolicy="strict-origin-when-cross-origin"></iframe>
             </div>
             <p class="tiny" style="margin-top:8px">Video covers originality %, risky line highlights, paraphrasing with
                 tone, and generating permalinks.</p>
@@ -467,7 +526,7 @@
         </footer>
     </main>
 
-    <!-- Page Script (ESM) — EXACT provider names and model IDs from working refs -->
+    <!-- Page Script (ESM) — EXACT provider names and model IDs from your working refs -->
     <script type="module">
         // Shared utilities (common to all tools)
         import { $, $$, debounce, persist, read } from '/scripts/utils.js';
@@ -518,7 +577,7 @@
             ]
         };
 
-        // Optional Gemini fallbacks (used ONLY if 400/404 etc.)
+        // Optional Gemini fallbacks (used ONLY if Worker returns a 4xx/5xx)
         const GOOGLE_MODEL_FALLBACKS = {
             'gemini-2.5-flash': ['gemini-2.0-flash', 'gemini-1.5-flash', 'gemini-1.5-flash-001'],
             'gemini-2.5-pro': ['gemini-2.0-pro', 'gemini-1.5-pro', 'gemini-1.5-pro-001']
@@ -605,12 +664,12 @@
             </select>
           </label>
           <label class="inline"><span class="tiny">Constraints</span>
-            <input id="optRules" class="input" placeholder="e.g. shorter, active voice, vary sentence structure" style="width:260px">
+            <input id="optRules" class="input" placeholder="e.g. shorter, active voice, vary sentence structure" style="max-width:480px">
           </label>`;
             } else if (t === 'keywords') {
                 html = `
           <label class="inline"><span class="tiny">Top N</span>
-            <input id="optTopN" type="number" class="input" value="20" min="5" max="60" style="width:90px">
+            <input id="optTopN" type="number" class="input" value="20" min="5" max="60" style="max-width:120px">
           </label>
           <label class="inline"><span class="tiny">Include phrases</span>
             <select id="optPhrases" class="select"><option>Yes</option><option>No</option></select>
@@ -759,13 +818,13 @@
                         try {
                             const json = JSON.parse(payload);
 
-                            // OpenAI / Groq / Perplexity
+                            // OpenAI / Groq / Perplexity style
                             if (json.choices?.[0]?.delta?.content != null) {
                                 append(json.choices[0].delta.content);
                                 continue;
                             }
 
-                            // Gemini variants (your Worker may emit one of these)
+                            // Gemini variants your Worker may emit
                             if (json.candidates?.length) {
                                 const cand = json.candidates[0];
                                 const deltaParts = cand.delta?.parts || [];
@@ -779,7 +838,7 @@
                             if (json.message?.content) { append(json.message.content); continue; }
 
                             if (json.error?.message) throw new Error(json.error.message);
-                        } catch { /* ignore keep-alives */ }
+                        } catch { /* keep-alives */ }
                     }
                 }
 
@@ -909,14 +968,6 @@
 
         // Init KPIs
         resetKPIs();
-
-        // Keep panels fitting 1 screen; scroll inside if needed
-        const mq = matchMedia('(max-width: 1080px)');
-        const clampPanelHeights = () => {
-            document.documentElement.style.setProperty('--panel-h', mq.matches ? '74dvh' : '74dvh');
-        };
-        mq.addEventListener?.('change', clampPanelHeights);
-        clampPanelHeights();
     </script>
 </body>
 
