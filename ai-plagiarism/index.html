@@ -1,28 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <!-- Preconnect to third‑party origins early to improve connection setup -->
-    <link rel="preconnect" href="https://www.youtube.com">
-    <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
 
+<head> <!-- Preconnect & DNS prefetch to third-party origins to improve connection setup -->
+    <link rel="preconnect" href="https://www.youtube.com" crossorigin>
+    <link rel="dns-prefetch" href="//www.youtube.com">
+    <link rel="preconnect" href="https://i.ytimg.com" crossorigin>
+    <link rel="dns-prefetch" href="//i.ytimg.com">
+    <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
+    <link rel="dns-prefetch" href="//pagead2.googlesyndication.com">
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 
     <title>Free AI Plagiarism Checker &amp; Paraphrasing Tool (Originality %) | UpTools</title>
     <!-- Primary meta tags -->
-    <meta name="description" content="Free AI Plagiarism Checker — estimate originality %, flag risky sentences, and fix with instant paraphrasing. Rewriter supports tones &amp; constraints. Works with Perplexity, Google Gemini 2.5, and Groq via secure proxy. No login." />
-    <meta name="keywords" content="free plagiarism checker, paraphrasing tool, rewriter, originality checker, check plagiarism online, remove plagiarism, ai rewriter, paraphrase sentences" />
+    <meta name="description"
+        content="Free AI Plagiarism Checker — estimate originality %, flag risky sentences, and fix with instant paraphrasing. Rewriter supports tones &amp; constraints. Works with Perplexity, Google Gemini 2.5, and Groq via secure proxy. No login." />
+    <meta name="keywords"
+        content="free plagiarism checker, paraphrasing tool, rewriter, originality checker, check plagiarism online, remove plagiarism, ai rewriter, paraphrase sentences" />
     <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:large" />
     <meta name="theme-color" content="#0b1020" />
     <link rel="canonical" href="https://www.uptools.in/plagiarism-checker/" />
 
-    <!-- Favicons -->
-    <link rel="icon" sizes="50x50" type="image/svg+xml" href="/assets/logo/uptools-logo.svg">
-    <link rel="apple-touch-icon" sizes="180x180" href="/assets/logo/uptools-logo.svg">
+    <!-- Favicons (proper types & sizes) -->
+    <link rel="icon" type="image/svg+xml" href="/assets/logo/uptools-logo.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 
     <!-- Open Graph / Twitter -->
     <meta property="og:title" content="Free AI Plagiarism Checker &amp; Paraphrasing Tool | UpTools" />
-    <meta property="og:description" content="Estimate originality %, highlight risky lines, and paraphrase instantly. Powered by Perplexity, Gemini 2.5 &amp; Groq. No sign‑ups." />
+    <meta property="og:description"
+        content="Estimate originality %, highlight risky lines, and paraphrase instantly. Powered by Perplexity, Gemini 2.5 &amp; Groq. No sign-ups." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://www.uptools.in/plagiarism-checker/" />
     <meta property="og:site_name" content="UpTools" />
@@ -32,876 +40,1019 @@
     <meta name="twitter:card" content="summary_large_image" />
 
     <!-- Common CSS: preload critical styles and load the rest asynchronously -->
-    <link rel="preload" href="/style.css" as="style">
+    <link rel="preload" href="/style.css" as="style" fetchpriority="high">
     <link rel="stylesheet" href="/style.css" media="print" onload="this.media='all'">
-    <noscript><link rel="stylesheet" href="/style.css"></noscript>
+    <noscript>
+        <link rel="stylesheet" href="/style.css">
+    </noscript>
+
+    <!-- Module preload for first-party utilities to help LCP -->
+    <link rel="modulepreload" href="/scripts/utils.js">
 
     <!-- Structured Data -->
     <script type="application/ld+json">
-    {
-      "@context":"https://schema.org",
-      "@type":"SoftwareApplication",
-      "name":"AI Plagiarism Checker &amp; Paraphraser",
-      "applicationCategory":"UtilityApplication",
-      "operatingSystem":"Web",
-      "offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},
-      "publisher":{"@type":"Organization","name":"UpTools","url":"https://www.uptools.in/"},
-      "url":"https://www.uptools.in/plagiarism-checker/",
-      "featureList":["Originality percentage","Risky sentence detection","Paraphrasing","Keyword density"]
-    }
-    </script>
+{
+  "@context":"https://schema.org",
+  "@type":"SoftwareApplication",
+  "name":"AI Plagiarism Checker &amp; Paraphraser",
+  "applicationCategory":"UtilityApplication",
+  "operatingSystem":"Web",
+  "offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},
+  "publisher":{"@type":"Organization","name":"UpTools","url":"https://www.uptools.in/"},
+  "url":"https://www.uptools.in/plagiarism-checker/",
+  "featureList":["Originality percentage","Risky sentence detection","Paraphrasing","Keyword density"]
+}
+</script>
     <script type="application/ld+json">
-    {
-      "@context":"https://schema.org",
-      "@type":"BreadcrumbList",
-      "itemListElement":[
-        {"@type":"ListItem","position":1,"name":"Home","item":"https://www.uptools.in/"},
-        {"@type":"ListItem","position":2,"name":"AI Plagiarism Checker","item":"https://www.uptools.in/plagiarism-checker/"}
-      ]
-    }
-    </script>
+{
+  "@context":"https://schema.org",
+  "@type":"BreadcrumbList",
+  "itemListElement":[
+    {"@type":"ListItem","position":1,"name":"Home","item":"https://www.uptools.in/"},
+    {"@type":"ListItem","position":2,"name":"AI Plagiarism Checker","item":"https://www.uptools.in/plagiarism-checker/"}
+  ]
+}
+</script>
     <script type="application/ld+json">
-    {
-      "@context":"https://schema.org",
-      "@type":"FAQPage",
-      "mainEntity":[
-        {"@type":"Question","name":"Do you store or share my text?","acceptedAnswer":{"@type":"Answer","text":"No. Text is sent to our Cloudflare Worker which forwards to the selected AI provider using a server‑side key. We do not store your text."}},
-        {"@type":"Question","name":"Is this equivalent to Turnitin/Copyscape?","acceptedAnswer":{"@type":"Answer","text":"This is an AI‑based originality estimator. It does not crawl or compare with proprietary academic databases. Use it for guidance, not formal academic submission checks."}},
-        {"@type":"Question","name":"Which AI models are available?","acceptedAnswer":{"@type":"Answer","text":"Perplexity Sonar (sonar, sonar‑pro, sonar‑reasoning), Google Gemini 2.5 (Flash/Pro), and Groq models (Llama/Gemma/Mixtral)."}}
-      ]
-    }
-    </script>
+{
+  "@context":"https://schema.org",
+  "@type":"FAQPage",
+  "mainEntity":[
+    {"@type":"Question","name":"Do you store or share my text?","acceptedAnswer":{"@type":"Answer","text":"No. Text is sent to our Cloudflare Worker which forwards to the selected AI provider using a server-side key. We do not store your text."}},
+    {"@type":"Question","name":"Is this equivalent to Turnitin/Copyscape?","acceptedAnswer":{"@type":"Answer","text":"This is an AI-based originality estimator. It does not crawl or compare with proprietary academic databases. Use it for guidance, not formal academic submission checks."}},
+    {"@type":"Question","name":"Which AI models are available?","acceptedAnswer":{"@type":"Answer","text":"Perplexity Sonar (sonar, sonar-pro, sonar-reasoning), Google Gemini 2.5 (Flash/Pro), and Groq models (Llama/Gemma/Mixtral)."}}
+  ]
+}
+</script>
 
-    <!-- Page‑scoped layout fixes (UI‑only, no logic changes) -->
+    <!-- Page-scoped layout fixes (UI-only, no logic changes) -->
     <style>
-      :root {
-        /* Slightly reduced default panel height for mobile friendliness */
-        --panel-h: clamp(520px, 72dvh, 820px);
-        --gap: 14px;
-      }
+        :root {
+            /* Slightly reduced default panel height for mobile friendliness */
+            --panel-h: clamp(520px, 72dvh, 820px);
+            --gap: 14px;
+        }
 
-      main.tool {
-        max-width: 1200px;
-        margin-inline: auto;
-        padding: 12px var(--container-px, 12px);
-      }
+        main.tool {
+            max-width: 1200px;
+            margin-inline: auto;
+            padding: 12px var(--container-px, 12px);
+        }
 
-      /* Two columns -> one column gracefully */
-      .grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: var(--gap);
-        align-items: stretch;
-      }
-      @media (max-width: 1024px) {
+        /* Two columns -> one column gracefully */
         .grid {
-          grid-template-columns: 1fr;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: var(--gap);
+            align-items: stretch;
         }
-      }
 
-      /* Panels: allow height to grow on small screens so content never spills over the video */
-      .panel {
-        display: flex;
-        flex-direction: column;
-        height: var(--panel-h);
-        min-height: 480px;
-        overflow: hidden;
-        /* contain inner scroll areas */
-        position: relative;
-        /* create stacking context */
-        z-index: 0;
-      }
-      @media (max-width: 780px) {
+        @media (max-width: 1024px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Panels: allow height to grow on small screens so content never spills over the video */
         .panel {
-          height: auto;
-          /* let the panel grow with its content */
-          min-height: 0;
-          overflow: visible;
+            display: flex;
+            flex-direction: column;
+            height: var(--panel-h);
+            min-height: 480px;
+            overflow: hidden;
+            /* contain inner scroll areas */
+            position: relative;
+            /* create stacking context */
+            z-index: 0;
         }
-      }
 
-      .panel-head {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 10px;
-        padding: 10px 12px;
-      }
-      .panel-body {
-        flex: 1;
-        min-height: 0;
-        display: grid;
-        grid-template-rows: auto 1fr auto;
-        gap: 10px;
-        padding: 10px 12px;
-      }
-      .toolbar {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-        align-items: center;
-      }
-      .row {
-        display: grid;
-        gap: 8px;
-        grid-template-columns: 1fr 1fr;
-      }
-      @media (max-width: 720px) {
+        @media (max-width: 780px) {
+            .panel {
+                height: auto;
+                /* let the panel grow with its content */
+                min-height: 0;
+                overflow: visible;
+            }
+        }
+
+        .panel-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            padding: 10px 12px;
+        }
+
+        .panel-body {
+            flex: 1;
+            min-height: 0;
+            display: grid;
+            grid-template-rows: auto 1fr auto;
+            gap: 10px;
+            padding: 10px 12px;
+        }
+
+        .toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-items: center;
+        }
+
         .row {
-          grid-template-columns: 1fr;
+            display: grid;
+            gap: 8px;
+            grid-template-columns: 1fr 1fr;
         }
-      }
 
-      /* Input and Output areas scroll internally; sizes reduced on very small screens */
-      textarea.input {
-        width: 100%;
-        height: auto;
-        min-height: 160px;
-        max-height: min(34dvh, 420px);
-        resize: vertical;
-        padding: 10px 12px;
-        line-height: 1.45;
-        border-radius: 12px;
-      }
-      @media (max-width: 480px) {
+        @media (max-width: 720px) {
+            .row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Input and Output areas scroll internally; sizes reduced on very small screens */
         textarea.input {
-          max-height: 28dvh;
-          min-height: 140px;
+            width: 100%;
+            height: auto;
+            min-height: 160px;
+            max-height: min(34dvh, 420px);
+            resize: vertical;
+            padding: 10px 12px;
+            line-height: 1.45;
+            border-radius: 12px;
         }
-      }
-      pre.output {
-        width: 100%;
-        min-height: clamp(200px, 26dvh, 360px);
-        max-height: min(44dvh, 520px);
-        height: auto;
-        margin: 0;
-        padding: 12px 14px;
-        overflow: auto;
-        white-space: pre-wrap;
-        word-wrap: break-word;
-        word-break: break-word;
-        border-radius: 12px;
-        background: #121826;
-        border: 1px solid #212a3a;
-        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
-        line-height: 1.55;
-      }
-      pre.output:focus {
-        outline: 2px solid #3b82f6;
-        outline-offset: 2px;
-      }
 
-      .kpis {
-        display: grid;
-        grid-template-columns: repeat(4, minmax(120px, 1fr));
-        gap: 10px;
-      }
-      @media (max-width: 880px) {
+        @media (max-width: 480px) {
+            textarea.input {
+                max-height: 28dvh;
+                min-height: 140px;
+            }
+        }
+
+        pre.output {
+            width: 100%;
+            min-height: clamp(200px, 26dvh, 360px);
+            max-height: min(44dvh, 520px);
+            height: auto;
+            margin: 0;
+            padding: 12px 14px;
+            overflow: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            word-break: break-word;
+            border-radius: 12px;
+            background: #121826;
+            border: 1px solid #212a3a;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+            line-height: 1.55;
+        }
+
+        pre.output:focus {
+            outline: 2px solid #3b82f6;
+            outline-offset: 2px;
+        }
+
         .kpis {
-          grid-template-columns: repeat(2, 1fr);
+            display: grid;
+            grid-template-columns: repeat(4, minmax(120px, 1fr));
+            gap: 10px;
         }
-      }
-      @media (max-width: 460px) {
-        .kpis {
-          grid-template-columns: 1fr;
+
+        @media (max-width: 880px) {
+            .kpis {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
-      }
-      .kpi {
-        padding: 10px;
-        border-radius: 10px;
-        background: #0a1224;
-        border: 1px solid var(--border);
-        box-shadow: var(--glow-soft);
-      }
-      .kpi b {
-        font-size: 18px;
-        display: block;
-      }
-      .tiny {
-        font-size: 12px;
-        opacity: .85;
-      }
-      .chips {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 6px;
-        align-items: center;
-      }
-      .danger {
-        background: transparent;
-        color: #ffb4b4;
-        border: 1px solid color-mix(in oklab, red 60%, #223);
-      }
 
-      /* Ad slot keeps reserved space to avoid CLS; collapses when not mounted */
-      .ad-wrap {
-        display: none;
-        margin: 10px 0;
-      }
-      .ad-wrap.ready {
-        display: block;
-      }
-      .ad-wrap ins.adsbygoogle {
-        display: block;
-        width: 100%;
-        min-height: 120px;
-      }
+        @media (max-width: 460px) {
+            .kpis {
+                grid-template-columns: 1fr;
+            }
+        }
 
-      /* --- Video section: dedicated stacking context so nothing overlaps on mobile --- */
-      .video-card {
-        position: relative;
-        z-index: 1;
-      }
-      .yt-wrap {
-        width: 100%;
-        max-width: 820px;
-        aspect-ratio: 16 / 9;
-        border-radius: 12px;
-        overflow: hidden;
-        border: 1px solid var(--border);
-        background: #080d18;
-        margin-top: 8px;
-      }
-      .yt-wrap iframe {
-        width: 100%;
-        height: 100%;
-        display: block;
-      }
+        .kpi {
+            padding: 10px;
+            border-radius: 10px;
+            background: #0a1224;
+            border: 1px solid var(--border);
+            box-shadow: var(--glow-soft);
+        }
 
-      /* Tighten “Tips / Related” layout so it doesn't get too tall on small screens */
-      .tips-related {
-        display: grid;
-        gap: 12px;
-        grid-template-columns: 1fr 1fr;
-        align-items: start;
-      }
-      .tips-related .list {
-        margin: 0;
-      }
-      @media (max-width: 720px) {
+        .kpi b {
+            font-size: 18px;
+            display: block;
+        }
+
+        .tiny {
+            font-size: 12px;
+            opacity: .85;
+        }
+
+        .chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            align-items: center;
+        }
+
+        .danger {
+            background: transparent;
+            color: #ffb4b4;
+            border: 1px solid color-mix(in oklab, red 60%, #223);
+        }
+
+        /* Ad slot keeps reserved space to avoid CLS; collapses when not mounted */
+        .ad-wrap {
+            display: none;
+            margin: 10px 0;
+        }
+
+        .ad-wrap.ready {
+            display: block;
+        }
+
+        .ad-wrap ins.adsbygoogle {
+            display: block;
+            width: 100%;
+            min-height: 120px;
+        }
+
+        /* --- Video section: dedicated stacking context so nothing overlaps on mobile --- */
+        .video-card {
+            position: relative;
+            z-index: 1;
+        }
+
+        .yt-wrap {
+            width: 100%;
+            max-width: 820px;
+            aspect-ratio: 16 / 9;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            background: #080d18;
+            margin-top: 8px;
+            position: relative;
+        }
+
+        .yt-thumb {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: cover;
+        }
+
+        .yt-play {
+            position: absolute;
+            inset: 0;
+            display: grid;
+            place-items: center;
+            cursor: pointer;
+            background: linear-gradient(0deg, rgba(0, 0, 0, .35), rgba(0, 0, 0, .35));
+        }
+
+        .yt-play span {
+            width: 68px;
+            height: 48px;
+            border-radius: 12px;
+            background: rgba(0, 0, 0, .6);
+            display: grid;
+            place-items: center;
+        }
+
+        .yt-play svg {
+            width: 28px;
+            height: 28px;
+            fill: #fff;
+        }
+
+        /* Tighten “Tips / Related” layout so it doesn't get too tall on small screens */
         .tips-related {
-          grid-template-columns: 1fr;
+            display: grid;
+            gap: 12px;
+            grid-template-columns: 1fr 1fr;
+            align-items: start;
         }
-      }
 
-      /* Ensure sections after panels never get covered if a panel had a fixed height earlier */
-      section.card,
-      section.spaced,
-      .site-footer {
-        position: relative;
-        z-index: 0;
-      }
+        .tips-related .list {
+            margin: 0;
+        }
+
+        @media (max-width: 720px) {
+            .tips-related {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Ensure sections after panels never get covered if a panel had a fixed height earlier */
+        section.card,
+        section.spaced,
+        .site-footer {
+            position: relative;
+            z-index: 0;
+        }
+
+        /* Accessibility: ensure focus styles are visible */
+        a:focus,
+        button:focus,
+        select:focus,
+        textarea:focus {
+            outline: 2px solid #3b82f6;
+            outline-offset: 2px;
+        }
     </style>
-  </head>
-  <body>
-    <!-- Header -->
+
+</head>
+
+<body> <!-- Header -->
     <header class="site" role="banner">
-      <div class="header-inner">
-        <a class="brand" href="/" aria-label="UpTools Home">
-          <img src="/assets/logo/uptools-logo.svg" alt="UpTools logo" width="28" height="28" loading="eager">
-          <b>UpTools</b>
-        </a>
-        <nav class="nav-links" aria-label="Primary">
-          <a href="/#tools">Tools</a>
-          <a href="/ai-writer/">AI Writer</a>
-          <a href="/word-counter/">Word Counter</a>
-          <a aria-current="page" href="/plagiarism-checker/">Plagiarism</a>
-        </nav>
-      </div>
+        <div class="header-inner"> <a class="brand" href="/" aria-label="UpTools Home"> <img
+                    src="/assets/logo/uptools-logo.svg" alt="UpTools logo" width="28" height="28" loading="eager"
+                    fetchpriority="high"> <b>UpTools</b> </a>
+            <nav class="nav-links" aria-label="Primary navigation"> <a href="/#tools">Tools</a> <a href="/ai-writer/">AI
+                    Writer</a> <a href="/word-counter/">Word Counter</a> <a aria-current="page"
+                    href="/plagiarism-checker/">Plagiarism</a> </nav>
+        </div>
     </header>
-
     <main class="tool container" id="top">
-      <!-- Hero -->
-      <section class="card hero" aria-labelledby="title">
-        <div>
-          <h1 id="title">🧠🔎 AI Plagiarism Checker &amp; Paraphraser</h1>
-          <p class="note" style="margin:0">
-            Check estimated originality %, highlight risky lines, and paraphrase instantly to remove plagiarism.
-            Choose Perplexity, Google Gemini 2.5, or Groq.
-          </p>
-          <div class="chips" style="margin-top:8px">
-            <span class="pill">⚡ Streams live</span>
-            <span class="pill">🔒 No browser API key</span>
-            <a class="chip" href="/sitemap.xml" rel="nofollow">Sitemap</a>
-            <a class="chip" href="/about/"><span class="card-badge">ABT</span> About</a>
-            <a class="chip" href="/contact/"><span class="card-badge">CT</span> Contact</a>
-          </div>
-        </div>
-      </section>
-
-      <!-- Ad slot (mounted via JS only if ads library exists; fixed height to avoid CLS) -->
-      <section id="adMount" class="ad-wrap" aria-label="Advertisement area"></section>
-
-      <section class="grid" aria-label="Workspace">
-        <!-- LEFT: INPUT -->
-        <article class="panel card" aria-labelledby="input-title">
-          <div class="panel-head">
-            <h2 id="input-title" class="h4">Your Text</h2>
-            <div class="toolbar">
-              <label class="inline tiny"><span>Characters:</span> <output id="charCount">0</output></label>
-              <label class="inline tiny"><span>Words:</span> <output id="wordCount">0</output></label>
-              <button id="pasteBtn" class="btn sm" type="button" title="Paste from clipboard">Paste</button>
-              <label class="btn sm" title="Import .txt or .md">
-                Import <input id="fileIn" type="file" accept=".txt,.md" hidden>
-              </label>
-              <button id="clearBtn" class="btn sm secondary" type="button" title="Clear input">Clear</button>
+        <!-- Hero -->
+        <section class="card hero" aria-labelledby="title">
+            <div>
+                <h1 id="title">🧠🔎 AI Plagiarism Checker &amp; Paraphraser</h1>
+                <p class="note" style="margin:0">
+                    Check estimated originality %, highlight risky lines, and paraphrase instantly to remove plagiarism.
+                    Choose Perplexity, Google Gemini 2.5, or Groq.
+                </p>
+                <div class="chips" style="margin-top:8px">
+                    <span class="pill">⚡ Streams live</span>
+                    <span class="pill">🔒 No browser API key</span>
+                    <a class="chip" href="/sitemap.xml" rel="nofollow">Sitemap</a>
+                    <a class="chip" href="/about/"><span class="card-badge" aria-hidden="true">ABT</span> <span
+                            class="sr-only">About page</span>About</a>
+                    <a class="chip" href="/contact/"><span class="card-badge" aria-hidden="true">CT</span> <span
+                            class="sr-only">Contact page</span>Contact</a>
+                </div>
             </div>
-          </div>
+        </section>
 
-          <div class="panel-body">
-            <div class="row">
-              <label class="inline" style="gap:6px">
-                <span class="tiny">Task</span>
-                <select id="task" class="select" style="width:210px">
-                  <option value="originality" selected>Check Originality (AI)</option>
-                  <option value="paraphrase">Paraphrase / Rewrite</option>
-                  <option value="keywords">Keyword Density</option>
-                </select>
-              </label>
-              <div class="inline" id="taskOptions" aria-live="polite"></div>
+        <!-- Ad slot (mounted via JS only if ads library exists; fixed height to avoid CLS) -->
+        <section id="adMount" class="ad-wrap" aria-label="Advertisement area"></section>
+
+        <section class="grid" aria-label="Workspace">
+            <!-- LEFT: INPUT -->
+            <article class="panel card" aria-labelledby="input-title">
+                <div class="panel-head">
+                    <h2 id="input-title" class="h4">Your Text</h2>
+                    <div class="toolbar" role="group" aria-label="Input controls">
+                        <label class="inline tiny"><span>Characters:</span> <output id="charCount">0</output></label>
+                        <label class="inline tiny"><span>Words:</span> <output id="wordCount">0</output></label>
+                        <button id="pasteBtn" class="btn sm" type="button" title="Paste from clipboard">Paste</button>
+                        <label class="btn sm" title="Import .txt or .md">
+                            Import <input id="fileIn" type="file" accept=".txt,.md" hidden
+                                aria-label="Import .txt or .md">
+                        </label>
+                        <button id="clearBtn" class="btn sm secondary" type="button" title="Clear input">Clear</button>
+                    </div>
+                </div>
+
+                <div class="panel-body">
+                    <div class="row">
+                        <label class="inline" style="gap:6px">
+                            <span class="tiny">Task</span>
+                            <select id="task" class="select" style="width:210px" aria-label="Select task">
+                                <option value="originality" selected>Check Originality (AI)</option>
+                                <option value="paraphrase">Paraphrase / Rewrite</option>
+                                <option value="keywords">Keyword Density</option>
+                            </select>
+                        </label>
+                        <div class="inline" id="taskOptions" aria-live="polite"></div>
+                    </div>
+
+                    <textarea id="input" class="input" placeholder="Paste or type your text here…" spellcheck="true"
+                        aria-label="Input text"></textarea>
+
+                    <!-- Provider & model -->
+                    <div class="toolbar" role="group" aria-label="Model selection">
+                        <button id="runBtn" class="btn" type="button">Run ▶</button>
+                        <button id="stopBtn" class="btn danger sm" type="button" disabled>Stop</button>
+
+                        <label class="inline" title="Inference provider">
+                            <span class="tiny">Provider</span>
+                            <select id="provider" class="select" style="width:160px" aria-label="Inference provider">
+                                <option value="perplexity">Perplexity</option>
+                                <option value="google">Google (Gemini)</option>
+                                <option value="groq">Groq</option>
+                            </select>
+                        </label>
+
+                        <label class="inline" title="Model">
+                            <span class="tiny">Model</span>
+                            <select id="modelSel" class="select" style="width:230px" aria-label="Model"></select>
+                        </label>
+
+                        <button id="saveCfg" class="btn sm secondary" type="button"
+                            title="Save provider &amp; model">Save</button>
+                    </div>
+                </div>
+            </article>
+
+            <!-- RIGHT: OUTPUT -->
+            <article class="panel card" aria-labelledby="output-title">
+                <div class="panel-head">
+                    <h2 id="output-title" class="h4">Results</h2>
+                    <div class="toolbar" role="group" aria-label="Output actions">
+                        <button id="copyBtn" class="btn sm" type="button">Copy</button>
+                        <button id="downloadBtn" class="btn sm" type="button">Download .txt</button>
+                        <button id="permBtn" class="btn sm secondary" type="button"
+                            title="Create a shareable link with your settings">Permalink</button>
+                    </div>
+                </div>
+
+                <div class="panel-body">
+                    <!-- KPIs (local heuristics) -->
+                    <div class="kpis" id="kpis" aria-live="polite">
+                        <div class="kpi"><span class="tiny">Estimated Originality</span><b id="kpiOriginality">—</b>
+                        </div>
+                        <div class="kpi"><span class="tiny">Sentence Variety</span><b id="kpiVariety">—</b></div>
+                        <div class="kpi"><span class="tiny">Flesch Reading Ease</span><b id="kpiFlesch">—</b></div>
+                        <div class="kpi"><span class="tiny">Repeated 4-grams</span><b id="kpiNgram">—</b></div>
+                    </div>
+                    <div class="tiny" id="status" aria-live="polite" style="margin-top:2px"></div>
+                    <pre id="output" class="output" tabindex="0" aria-label="AI output"></pre>
+
+                    <!-- Tips / Related as a compact grid to avoid tall overflow on phones -->
+                    <div class="tips-related" role="region" aria-label="Tips and related tools">
+                        <div>
+                            <h3 class="h5">Tips</h3>
+                            <ul class="list compact">
+                                <li><b>Originality:</b> We combine an AI estimate with local heuristics (n-gram
+                                    repetition, sentence variety). Use as guidance.</li>
+                                <li><b>Paraphrase:</b> Choose tone and constraints for safer rewrites.</li>
+                                <li><b>Academic use:</b> Always cite your sources. See <a
+                                        href="https://en.wikipedia.org/wiki/Plagiarism" target="_blank"
+                                        rel="nofollow noopener">what is plagiarism</a>.</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h3 class="h5">Related</h3>
+                            <ul class="list compact">
+                                <li><a href="/ai-writer/">AI Writer</a> — summarize, translate, SEO meta.</li>
+                                <li><a href="/word-counter/">Word Counter</a> — words, chars, reading time.</li>
+                                <li><a href="/resume-analyzer/">Resume Analyzer</a> — ATS score &amp; keywords.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </section>
+
+        <!-- Video (SEO): fixed aspect & lite YouTube (deferred iframe for CLS/LCP) -->
+        <section class="card spaced video-card" aria-labelledby="video-title">
+            <h2 id="video-title" class="h5">How to Use the AI Plagiarism Checker (2 min)</h2>
+            <div class="yt-wrap" role="group" aria-label="YouTube demo">
+                <!-- Thumbnail placeholder (served by ytimg); replaced with iframe when visible or on click -->
+                <picture>
+                    <img class="yt-thumb" src="https://i.ytimg.com/vi/Uk1pq8sb-eo/hqdefault.jpg"
+                        alt="Video thumbnail: How to use AI Plagiarism Checker" loading="lazy" width="1280"
+                        height="720">
+                </picture>
+                <button class="yt-play" type="button" aria-label="Play video" data-yt="Uk1pq8sb-eo">
+                    <span aria-hidden="true">
+                        <svg viewBox="0 0 68 48">
+                            <path
+                                d="M66.52 7.74a8 8 0 0 0-5.62-5.66C56.3 1 34 1 34 1s-22.3 0-26.9 1.08A8 8 0 0 0 1.48 7.74 83.3 83.3 0 0 0 0 24a83.3 83.3 0 0 0 1.48 16.26 8 8 0 0 0 5.62 5.66C11.7 47 34 47 34 47s22.3 0 26.9-1.08a8 8 0 0 0 5.62-5.66A83.3 83.3 0 0 0 68 24a83.3 83.3 0 0 0-1.48-16.26zM27 34V14l18 10z" />
+                        </svg>
+                    </span>
+                </button>
+                <noscript>
+                    <iframe width="100%" height="100%"
+                        src="https://www.youtube.com/embed/Uk1pq8sb-eo?si=sL6U-5pxYUHEjvux" title="YouTube video player"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe>
+                </noscript>
             </div>
+            <p class="tiny" style="margin-top:8px">Video covers originality %, risky line highlights, paraphrasing with
+                tone, and generating permalinks.</p>
+        </section>
 
-            <textarea id="input" class="input" placeholder="Paste or type your text here…" spellcheck="true" aria-label="Input text"></textarea>
-
-            <!-- Provider & model -->
-            <div class="toolbar">
-              <button id="runBtn" class="btn" type="button">Run ▶</button>
-              <button id="stopBtn" class="btn danger sm" type="button" disabled>Stop</button>
-
-              <label class="inline" title="Inference provider">
-                <span class="tiny">Provider</span>
-                <select id="provider" class="select" style="width:160px">
-                  <option value="perplexity">Perplexity</option>
-                  <option value="google">Google (Gemini)</option>
-                  <option value="groq">Groq</option>
-                </select>
-              </label>
-
-              <label class="inline" title="Model">
-                <span class="tiny">Model</span>
-                <select id="modelSel" class="select" style="width:230px"></select>
-              </label>
-
-              <button id="saveCfg" class="btn sm secondary" type="button" title="Save provider &amp; model">Save</button>
+        <!-- Internal backlinks (SEO) -->
+        <section class="spaced" aria-labelledby="related">
+            <h2 id="related" class="h5">More from UpTools</h2>
+            <div class="grid" style="grid-template-columns: repeat(4,1fr);">
+                <a class="card tool-link accent-indigo" href="/text-case-converter/"><span class="ico"
+                        aria-hidden="true">🔤</span><span><b>Text Case Converter</b><br><span
+                            class="note">Upper/lower/title case</span></span></a>
+                <a class="card tool-link accent-emerald" href="/json-formatter/"><span class="ico"
+                        aria-hidden="true">🧩</span><span><b>JSON Formatter</b><br><span class="note">Prettify &amp;
+                            validate</span></span></a>
+                <a class="card tool-link accent-cyan" href="/image-converter/"><span class="ico"
+                        aria-hidden="true">🖼️</span><span><b>Image Converter</b><br><span class="note">Resize &amp;
+                            format</span></span></a>
+                <a class="card tool-link accent-violet" href="/qr-generator/"><span class="ico"
+                        aria-hidden="true">🔳</span><span><b>QR Generator</b><br><span class="note">Create QR
+                            codes</span></span></a>
             </div>
-          </div>
-        </article>
+        </section>
 
-        <!-- RIGHT: OUTPUT -->
-        <article class="panel card" aria-labelledby="output-title">
-          <div class="panel-head">
-            <h2 id="output-title" class="h4">Results</h2>
-            <div class="toolbar">
-              <button id="copyBtn" class="btn sm" type="button">Copy</button>
-              <button id="downloadBtn" class="btn sm" type="button">Download .txt</button>
-              <button id="permBtn" class="btn sm secondary" type="button" title="Create a shareable link with your settings">Permalink</button>
-            </div>
-          </div>
-
-          <div class="panel-body">
-            <!-- KPIs (local heuristics) -->
-            <div class="kpis" id="kpis" aria-live="polite">
-              <div class="kpi"><span class="tiny">Estimated Originality</span><b id="kpiOriginality">—</b></div>
-              <div class="kpi"><span class="tiny">Sentence Variety</span><b id="kpiVariety">—</b></div>
-              <div class="kpi"><span class="tiny">Flesch Reading Ease</span><b id="kpiFlesch">—</b></div>
-              <div class="kpi"><span class="tiny">Repeated 4‑grams</span><b id="kpiNgram">—</b></div>
-            </div>
-            <div class="tiny" id="status" aria-live="polite" style="margin-top:2px"></div>
-            <pre id="output" class="output" tabindex="0" aria-label="AI output"></pre>
-
-            <!-- Tips / Related as a compact grid to avoid tall overflow on phones -->
-            <div class="tips-related">
-              <div>
-                <h3 class="h5">Tips</h3>
-                <ul class="list compact">
-                  <li><b>Originality:</b> We combine an AI estimate with local heuristics (n‑gram repetition, sentence variety). Use as guidance.</li>
-                  <li><b>Paraphrase:</b> Choose tone and constraints for safer rewrites.</li>
-                  <li><b>Academic use:</b> Always cite your sources. See <a href="https://en.wikipedia.org/wiki/Plagiarism" target="_blank" rel="nofollow noopener">what is plagiarism</a>.</li>
-                </ul>
-              </div>
-              <div>
-                <h3 class="h5">Related</h3>
-                <ul class="list compact">
-                  <li><a href="/ai-writer/">AI Writer</a> — summarize, translate, SEO meta.</li>
-                  <li><a href="/word-counter/">Word Counter</a> — words, chars, reading time.</li>
-                  <li><a href="/resume-analyzer/">Resume Analyzer</a> — ATS score &amp; keywords.</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </article>
-      </section>
-
-      <!-- Video (SEO): fixed aspect & lazy) -->
-      <section class="card spaced video-card" aria-labelledby="video-title">
-        <h2 id="video-title" class="h5">How to Use the AI Plagiarism Checker (2 min)</h2>
-        <div class="yt-wrap" role="group" aria-label="YouTube demo">
-          <!-- Add loading=lazy and low priority to defer heavy YouTube player until it enters the viewport -->
-          <iframe width="100%" height="100%" src="https://www.youtube.com/embed/Uk1pq8sb-eo?si=sL6U-5pxYUHEjvux" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy" fetchpriority="low"></iframe>
-        </div>
-        <p class="tiny" style="margin-top:8px">Video covers originality %, risky line highlights, paraphrasing with tone, and generating permalinks.</p>
-      </section>
-
-      <!-- Internal backlinks (SEO) -->
-      <section class="spaced" aria-labelledby="related">
-        <h2 id="related" class="h5">More from UpTools</h2>
-        <div class="grid" style="grid-template-columns: repeat(4,1fr);">
-          <a class="card tool-link accent-indigo" href="/text-case-converter/"><span class="ico">🔤</span><span><b>Text Case Converter</b><br><span class="note">Upper/lower/title case</span></span></a>
-          <a class="card tool-link accent-emerald" href="/json-formatter/"><span class="ico">🧩</span><span><b>JSON Formatter</b><br><span class="note">Prettify &amp; validate</span></span></a>
-          <a class="card tool-link accent-cyan" href="/image-converter/"><span class="ico">🖼️</span><span><b>Image Converter</b><br><span class="note">Resize &amp; format</span></span></a>
-          <a class="card tool-link accent-violet" href="/qr-generator/"><span class="ico">🔳</span><span><b>QR Generator</b><br><span class="note">Create QR codes</span></span></a>
-        </div>
-      </section>
-
-      <footer class="site-footer">
-        <nav class="nav-links" aria-label="Footer">
-          <a href="/about/"><span class="card-badge">ABT</span> About</a>
-          <a href="/contact/"><span class="card-badge">CT</span> Contact</a>
-          <a href="/privacy/"><span class="card-badge">PP</span> Privacy</a>
-        </nav>
-        <p class="tiny">© <span id="y"></span> UpTools · <a href="https://creativecommons.org/licenses/" target="_blank" rel="nofollow noopener">Creative Commons</a></p>
-      </footer>
+        <footer class="site-footer">
+            <nav class="nav-links" aria-label="Footer">
+                <a href="/about/"><span class="card-badge" aria-hidden="true">ABT</span> About</a>
+                <a href="/contact/"><span class="card-badge" aria-hidden="true">CT</span> Contact</a>
+                <a href="/privacy/"><span class="card-badge" aria-hidden="true">PP</span> Privacy</a>
+            </nav>
+            <p class="tiny">© <span id="y"></span> UpTools · <a href="https://creativecommons.org/licenses/"
+                    target="_blank" rel="nofollow noopener">Creative Commons</a></p>
+        </footer>
     </main>
 
     <!-- Page Script (ESM) — logic unchanged -->
     <script type="module">
-      import { $, $$, debounce, persist, read } from '/scripts/utils.js';
+        import { $, $$, debounce, persist, read } from '/scripts/utils.js';
 
-      // ---- DOM Refs ----
-      const byId = (id) => document.getElementById(id);
-      const input = byId('input');
-      const status = byId('status');
-      const output = byId('output');
-      const runBtn = byId('runBtn');
-      const stopBtn = byId('stopBtn');
-      const pasteBtn = byId('pasteBtn');
-      const clearBtn = byId('clearBtn');
-      const fileIn = byId('fileIn');
-      const copyBtn = byId('copyBtn');
-      const downloadBtn = byId('downloadBtn');
-      const permBtn = byId('permBtn');
-      const saveCfg = byId('saveCfg');
-      const taskSel = byId('task');
-      const taskOptions = byId('taskOptions');
-      const charCount = byId('charCount');
-      const wordCount = byId('wordCount');
-      const kpiOriginality = byId('kpiOriginality');
-      const kpiVariety = byId('kpiVariety');
-      const kpiFlesch = byId('kpiFlesch');
-      const kpiNgram = byId('kpiNgram');
-      const providerSel = byId('provider');
-      const modelSel = byId('modelSel');
+        // ---- DOM Refs ----
+        const byId = (id) => document.getElementById(id);
+        const input = byId('input');
+        const status = byId('status');
+        const output = byId('output');
+        const runBtn = byId('runBtn');
+        const stopBtn = byId('stopBtn');
+        const pasteBtn = byId('pasteBtn');
+        const clearBtn = byId('clearBtn');
+        const fileIn = byId('fileIn');
+        const copyBtn = byId('copyBtn');
+        const downloadBtn = byId('downloadBtn');
+        const permBtn = byId('permBtn');
+        const saveCfg = byId('saveCfg');
+        const taskSel = byId('task');
+        const taskOptions = byId('taskOptions');
+        const charCount = byId('charCount');
+        const wordCount = byId('wordCount');
+        const kpiOriginality = byId('kpiOriginality');
+        const kpiVariety = byId('kpiVariety');
+        const kpiFlesch = byId('kpiFlesch');
+        const kpiNgram = byId('kpiNgram');
+        const providerSel = byId('provider');
+        const modelSel = byId('modelSel');
 
-      byId('y').textContent = new Date().getFullYear();
+        byId('y').textContent = new Date().getFullYear();
 
-      // ---- Provider & Models (exact IDs) ----
-      const PROVIDER_MODELS = {
-          perplexity: [
-              { id: 'sonar', label: 'sonar' },
-              { id: 'sonar-pro', label: 'sonar-pro' },
-              { id: 'sonar-reasoning', label: 'sonar-reasoning' }
-          ],
-          google: [
-              { id: 'gemini-2.5-flash', label: 'gemini-2.5-flash' },
-              { id: 'gemini-2.5-pro', label: 'gemini-2.5-pro' }
-          ],
-          groq: [
-              { id: 'llama-3.1-8b-instant', label: 'llama-3.1-8b-instant' },
-              { id: 'llama-3.1-70b-versatile', label: 'llama-3.1-70b-versatile' },
-              { id: 'mixtral-8x7b-32768', label: 'mixtral-8x7b-32768' },
-              { id: 'gemma2-9b-it', label: 'gemma2-9b-it' }
-          ]
-      };
-      const GOOGLE_MODEL_FALLBACKS = {
-          'gemini-2.5-flash': ['gemini-2.0-flash', 'gemini-1.5-flash', 'gemini-1.5-flash-001'],
-          'gemini-2.5-pro': ['gemini-2.0-pro', 'gemini-1.5-pro', 'gemini-1.5-pro-001']
-      };
-      const CFG_KEY = 'plagiarism:cfg';
-      const cfg = Object.assign({ provider: 'perplexity', model: 'sonar' }, read(CFG_KEY, {}));
+        // ---- Provider & Models (exact IDs) ----
+        const PROVIDER_MODELS = {
+            perplexity: [
+                { id: 'sonar', label: 'sonar' },
+                { id: 'sonar-pro', label: 'sonar-pro' },
+                { id: 'sonar-reasoning', label: 'sonar-reasoning' }
+            ],
+            google: [
+                { id: 'gemini-2.5-flash', label: 'gemini-2.5-flash' },
+                { id: 'gemini-2.5-pro', label: 'gemini-2.5-pro' }
+            ],
+            groq: [
+                { id: 'llama-3.1-8b-instant', label: 'llama-3.1-8b-instant' },
+                { id: 'llama-3.1-70b-versatile', label: 'llama-3.1-70b-versatile' },
+                { id: 'mixtral-8x7b-32768', label: 'mixtral-8x7b-32768' },
+                { id: 'gemma2-9b-it', label: 'gemma2-9b-it' }
+            ]
+        };
+        const GOOGLE_MODEL_FALLBACKS = {
+            'gemini-2.5-flash': ['gemini-2.0-flash', 'gemini-1.5-flash', 'gemini-1.5-flash-001'],
+            'gemini-2.5-pro': ['gemini-2.0-pro', 'gemini-1.5-pro', 'gemini-1.5-pro-001']
+        };
+        const CFG_KEY = 'plagiarism:cfg';
+        const cfg = Object.assign({ provider: 'perplexity', model: 'sonar' }, read(CFG_KEY, {}));
 
-      function populateModels() {
-          const prov = providerSel.value || 'perplexity';
-          const models = PROVIDER_MODELS[prov] || [];
-          modelSel.innerHTML = '';
-          for (const m of models) {
-              const opt = document.createElement('option');
-              opt.value = m.id; opt.textContent = m.label;
-              modelSel.appendChild(opt);
-          }
-          const ok = models.some(m => m.id === cfg.model);
-          modelSel.value = ok ? cfg.model : (models[0]?.id || '');
-      }
-      providerSel.value = cfg.provider || 'perplexity';
-      populateModels();
-      if (cfg.model) modelSel.value = cfg.model;
+        function populateModels() {
+            const prov = providerSel.value || 'perplexity';
+            const models = PROVIDER_MODELS[prov] || [];
+            modelSel.innerHTML = '';
+            for (const m of models) {
+                const opt = document.createElement('option');
+                opt.value = m.id; opt.textContent = m.label;
+                modelSel.appendChild(opt);
+            }
+            const ok = models.some(m => m.id === cfg.model);
+            modelSel.value = ok ? cfg.model : (models[0]?.id || '');
+        }
+        providerSel.value = cfg.provider || 'perplexity';
+        populateModels();
+        if (cfg.model) modelSel.value = cfg.model;
 
-      saveCfg.addEventListener('click', () => {
-          persist(CFG_KEY, { provider: providerSel.value, model: modelSel.value });
-          toast('Settings saved');
-      });
-      providerSel.addEventListener('change', () => {
-          cfg.provider = providerSel.value;
-          populateModels();
-      });
+        saveCfg.addEventListener('click', () => {
+            persist(CFG_KEY, { provider: providerSel.value, model: modelSel.value });
+            toast('Settings saved');
+        });
+        providerSel.addEventListener('change', () => {
+            cfg.provider = providerSel.value;
+            populateModels();
+        });
 
-      // ---- Character / Word counts ----
-      function counts(text) {
-          const words = (text.trim().match(/\b[\w’'-]+\b/gu) || []).length;
-          return { chars: text.length, words };
-      }
-      function updateCounts() {
-          const { chars, words } = counts(input.value);
-          charCount.textContent = chars.toLocaleString();
-          wordCount.textContent = words.toLocaleString();
-      }
-      input.addEventListener('input', debounce(updateCounts, 80));
-      updateCounts();
+        // ---- Character / Word counts ----
+        function counts(text) {
+            const words = (text.trim().match(/\b[\w’'-]+\b/gu) || []).length;
+            return { chars: text.length, words };
+        }
+        function updateCounts() {
+            const { chars, words } = counts(input.value);
+            charCount.textContent = chars.toLocaleString();
+            wordCount.textContent = words.toLocaleString();
+        }
+        input.addEventListener('input', debounce(updateCounts, 80));
+        updateCounts();
 
-      // ---- Paste / Clear / Import ----
-      pasteBtn.addEventListener('click', async () => {
-          try { input.value = await navigator.clipboard.readText(); updateCounts(); input.focus(); }
-          catch { toast('Clipboard blocked by browser'); }
-      });
-      clearBtn.addEventListener('click', () => { input.value = ''; updateCounts(); input.focus(); resetKPIs(); output.textContent = ''; status.textContent = ''; });
-      fileIn.addEventListener('change', async (e) => {
-          const f = e.target.files?.[0]; if (!f) return;
-          const text = await f.text(); input.value = text; updateCounts();
-      });
+        // ---- Paste / Clear / Import ----
+        pasteBtn.addEventListener('click', async () => {
+            try { input.value = await navigator.clipboard.readText(); updateCounts(); input.focus(); }
+            catch { toast('Clipboard blocked by browser'); }
+        });
+        clearBtn.addEventListener('click', () => { input.value = ''; updateCounts(); input.focus(); resetKPIs(); output.textContent = ''; status.textContent = ''; });
+        fileIn.addEventListener('change', async (e) => {
+            const f = e.target.files?.[0]; if (!f) return;
+            const text = await f.text(); input.value = text; updateCounts();
+        });
 
-      // ---- Task options (inline UI) ----
-      function renderTaskOptions() {
-          const t = taskSel.value;
-          let html = '';
-          if (t === 'originality') {
-              html = `
-          <label class="inline"><span class="tiny">Depth</span>
-            <select id="optDepth" class="select">
-              <option value="fast">Fast</option>
-              <option value="balanced" selected>Balanced</option>
-              <option value="thorough">Thorough</option>
-            </select>
-          </label>
-          <label class="inline"><span class="tiny">Return</span>
-            <select id="optFormat" class="select">
-              <option value="bullets" selected>Bullets + score</option>
-              <option value="table">Table of risky lines</option>
-              <option value="json">JSON (score, notes)</option>
-            </select>
-          </label>`;
-          } else if (t === 'paraphrase') {
-              html = `
-          <label class="inline"><span class="tiny">Tone</span>
-            <select id="optTone" class="select">
-              <option>Neutral</option><option>Friendly</option><option>Formal</option>
-              <option>Academic</option><option>Simple</option><option>Sales</option>
-            </select>
-          </label>
-          <label class="inline"><span class="tiny">Constraints</span>
-            <input id="optRules" class="input" placeholder="e.g. shorter, active voice, vary sentence structure" style="width:260px">
-          </label>`;
-          } else if (t === 'keywords') {
-              html = `
-          <label class="inline"><span class="tiny">Top N</span>
-            <input id="optTopN" type="number" class="input" value="20" min="5" max="60" style="width:90px">
-          </label>
-          <label class="inline"><span class="tiny">Include phrases</span>
-            <select id="optPhrases" class="select"><option>Yes</option><option>No</option></select>
-          </label>`;
-          }
-          taskOptions.innerHTML = html;
-      }
-      taskSel.addEventListener('change', renderTaskOptions);
-      renderTaskOptions();
+        // ---- Task options (inline UI) ----
+        function renderTaskOptions() {
+            const t = taskSel.value;
+            let html = '';
+            if (t === 'originality') {
+                html = `
+      <label class="inline"><span class="tiny">Depth</span>
+        <select id="optDepth" class="select" aria-label="Originality depth">
+          <option value="fast">Fast</option>
+          <option value="balanced" selected>Balanced</option>
+          <option value="thorough">Thorough</option>
+        </select>
+      </label>
+      <label class="inline"><span class="tiny">Return</span>
+        <select id="optFormat" class="select" aria-label="Originality return format">
+          <option value="bullets" selected>Bullets + score</option>
+          <option value="table">Table of risky lines</option>
+          <option value="json">JSON (score, notes)</option>
+        </select>
+      </label>`;
+            } else if (t === 'paraphrase') {
+                html = `
+      <label class="inline"><span class="tiny">Tone</span>
+        <select id="optTone" class="select" aria-label="Paraphrase tone">
+          <option>Neutral</option><option>Friendly</option><option>Formal</option>
+          <option>Academic</option><option>Simple</option><option>Sales</option>
+        </select>
+      </label>
+      <label class="inline"><span class="tiny">Constraints</span>
+        <input id="optRules" class="input" placeholder="e.g. shorter, active voice, vary sentence structure" style="width:260px" aria-label="Paraphrase constraints">
+      </label>`;
+            } else if (t === 'keywords') {
+                html = `
+      <label class="inline"><span class="tiny">Top N</span>
+        <input id="optTopN" type="number" class="input" value="20" min="5" max="60" style="width:90px" aria-label="Top N keywords">
+      </label>
+      <label class="inline"><span class="tiny">Include phrases</span>
+        <select id="optPhrases" class="select" aria-label="Include phrases"><option>Yes</option><option>No</option></select>
+      </label>`;
+            }
+            taskOptions.innerHTML = html;
+        }
+        taskSel.addEventListener('change', renderTaskOptions);
+        renderTaskOptions();
 
-      // ---- Heuristics (local-only; instant) ----
-      function sentences(text) {
-          return (text.trim().match(/[^.!?]+[.!?]*/g) || []).map(s => s.trim()).filter(Boolean);
-      }
-      function avg(a) { return a.length ? a.reduce((x, y) => x + y, 0) / a.length : 0; }
-      function stddev(a) {
-          if (!a.length) return 0;
-          const m = avg(a); const v = avg(a.map(x => (x - m) * (x - m)));
-          return Math.sqrt(v);
-      }
-      function fleschReadingEase(text) {
-          const words = (text.match(/\b[a-zA-Z’'-]+\b/g) || []);
-          const syllables = words.reduce((sum, w) => {
-              const s = (w.toLowerCase().match(/[aeiouy]+/g) || []).length || 1;
-              return sum + s;
-          }, 0);
-          const sents = sentences(text).length || 1;
-          const W = Math.max(words.length, 1), S = Math.max(sents, 1), SYL = Math.max(syllables, 1);
-          return Math.max(0, Math.min(100, 206.835 - 1.015 * (W / S) - 84.6 * (SYL / W)));
-      }
-      function ngramRepeats(text, n = 4) {
-          const tokens = (text.toLowerCase().match(/\b[\w’'-]+\b/g) || []);
-          const grams = new Map();
-          for (let i = 0; i <= tokens.length - n; i++) {
-              const g = tokens.slice(i, i + n).join(' ');
-              grams.set(g, (grams.get(g) || 0) + 1);
-          }
-          let repeats = 0;
-          grams.forEach(c => { if (c > 1) repeats += (c - 1); });
-          return repeats;
-      }
-      function sentenceVariety(text) {
-          const lens = sentences(text).map(s => s.split(/\s+/).filter(Boolean).length);
-          return stddev(lens);
-      }
-      function heuristicOriginality(text) {
-          if (!text || text.trim().length < 60) return 100;
-          const fre = fleschReadingEase(text);
-          const rep4 = ngramRepeats(text, 4);
-          const varS = sentenceVariety(text);
-          let score = 92 - Math.min(40, rep4 * 2.5) + Math.min(6, varS * 0.6) + Math.min(6, (fre - 50) / 10);
-          return Math.max(0, Math.min(100, Math.round(score)));
-      }
-      function updateKPIs(text) {
-          kpiOriginality.textContent = heuristicOriginality(text) + '%';
-          kpiVariety.textContent = sentenceVariety(text).toFixed(1);
-          kpiFlesch.textContent = fleschReadingEase(text).toFixed(0);
-          kpiNgram.textContent = ngramRepeats(text, 4).toString();
-      }
-      function resetKPIs() {
-          kpiOriginality.textContent = '—';
-          kpiVariety.textContent = '—';
-          kpiFlesch.textContent = '—';
-          kpiNgram.textContent = '—';
-      }
-      input.addEventListener('input', debounce(() => updateKPIs(input.value), 100));
+        // ---- Heuristics (local-only; instant) ----
+        function sentences(text) {
+            return (text.trim().match(/[^.!?]+[.!?]*/g) || []).map(s => s.trim()).filter(Boolean);
+        }
+        function avg(a) { return a.length ? a.reduce((x, y) => x + y, 0) / a.length : 0; }
+        function stddev(a) {
+            if (!a.length) return 0;
+            const m = avg(a); const v = avg(a.map(x => (x - m) * (x - m)));
+            return Math.sqrt(v);
+        }
+        function fleschReadingEase(text) {
+            const words = (text.match(/\b[a-zA-Z’'-]+\b/g) || []);
+            const syllables = words.reduce((sum, w) => {
+                const s = (w.toLowerCase().match(/[aeiouy]+/g) || []).length || 1;
+                return sum + s;
+            }, 0);
+            const sents = sentences(text).length || 1;
+            const W = Math.max(words.length, 1), S = Math.max(sents, 1), SYL = Math.max(syllables, 1);
+            return Math.max(0, Math.min(100, 206.835 - 1.015 * (W / S) - 84.6 * (SYL / W)));
+        }
+        function ngramRepeats(text, n = 4) {
+            const tokens = (text.toLowerCase().match(/\b[\w’'-]+\b/g) || []);
+            const grams = new Map();
+            for (let i = 0; i <= tokens.length - n; i++) {
+                const g = tokens.slice(i, i + n).join(' ');
+                grams.set(g, (grams.get(g) || 0) + 1);
+            }
+            let repeats = 0;
+            grams.forEach(c => { if (c > 1) repeats += (c - 1); });
+            return repeats;
+        }
+        function sentenceVariety(text) {
+            const lens = sentences(text).map(s => s.split(/\s+/).filter(Boolean).length);
+            return stddev(lens);
+        }
+        function heuristicOriginality(text) {
+            if (!text || text.trim().length < 60) return 100;
+            const fre = fleschReadingEase(text);
+            const rep4 = ngramRepeats(text, 4);
+            const varS = sentenceVariety(text);
+            let score = 92 - Math.min(40, rep4 * 2.5) + Math.min(6, varS * 0.6) + Math.min(6, (fre - 50) / 10);
+            return Math.max(0, Math.min(100, Math.round(score)));
+        }
+        function updateKPIs(text) {
+            kpiOriginality.textContent = heuristicOriginality(text) + '%';
+            kpiVariety.textContent = sentenceVariety(text).toFixed(1);
+            kpiFlesch.textContent = fleschReadingEase(text).toFixed(0);
+            kpiNgram.textContent = ngramRepeats(text, 4).toString();
+        }
+        function resetKPIs() {
+            kpiOriginality.textContent = '—';
+            kpiVariety.textContent = '—';
+            kpiFlesch.textContent = '—';
+            kpiNgram.textContent = '—';
+        }
+        input.addEventListener('input', debounce(() => updateKPIs(input.value), 100));
 
-      // ---- Prompt builder ----
-      function buildPrompt(task, text) {
-          const v = id => document.getElementById(id)?.value;
-          if (task === 'originality') {
-              return [
-                  "You are an academic integrity assistant.",
-                  "Analyze the user's text for potential plagiarism risk WITHOUT using web search.",
-                  "Return: a short originality percentage estimate, and a concise list of risky lines/phrases with reasons (cliché, overused phrasing, unlikely author voice, formulaic structure, etc.).",
-                  `Depth: ${v('optDepth') || 'balanced'}. Format: ${v('optFormat') || 'bullets'}.`,
-                  "Do not invent sources or URLs. Keep it actionable.",
-                  "\n---\n", text
-              ].join('\n');
-          }
-          if (task === 'paraphrase') {
-              return [
-                  `Paraphrase the text to improve originality while preserving meaning.`,
-                  `Tone: ${v('optTone') || 'Neutral'}. Constraints: ${v('optRules') || 'vary sentence structure; avoid clichés; active voice; keep citations if present.'}`,
-                  "Return only the rewritten text.",
-                  "\n---\n", text
-              ].join('\n');
-          }
-          // keywords
-          return [
-              `Extract top ${(v('optTopN') || 20)} keywords from the text${(v('optPhrases') || 'Yes') === 'Yes' ? ' including keyphrases' : ''}.`,
-              "Return as a comma-separated list only.",
-              "\n---\n", text
-          ].join('\n');
-      }
+        // ---- Prompt builder ----
+        function buildPrompt(task, text) {
+            const v = id => document.getElementById(id)?.value;
+            if (task === 'originality') {
+                return [
+                    "You are an academic integrity assistant.",
+                    "Analyze the user's text for potential plagiarism risk WITHOUT using web search.",
+                    "Return: a short originality percentage estimate, and a concise list of risky lines/phrases with reasons (cliché, overused phrasing, unlikely author voice, formulaic structure, etc.).",
+                    `Depth: ${v('optDepth') || 'balanced'}. Format: ${v('optFormat') || 'bullets'}.`,
+                    "Do not invent sources or URLs. Keep it actionable.",
+                    "\n---\n", text
+                ].join('\n');
+            }
+            if (task === 'paraphrase') {
+                return [
+                    `Paraphrase the text to improve originality while preserving meaning.`,
+                    `Tone: ${v('optTone') || 'Neutral'}. Constraints: ${v('optRules') || 'vary sentence structure; avoid clichés; active voice; keep citations if present.'}`,
+                    "Return only the rewritten text.",
+                    "\n---\n", text
+                ].join('\n');
+            }
+            // keywords
+            return [
+                `Extract top ${(v('optTopN') || 20)} keywords from the text${(v('optPhrases') || 'Yes') === 'Yes' ? ' including keyphrases' : ''}.`,
+                "Return as a comma-separated list only.",
+                "\n---\n", text
+            ].join('\n');
+        }
 
-      // ---- Streaming via Worker proxy (/ai) with Gemini support & fallbacks (unchanged) ----
-      let aborter = null;
-      async function streamChat({ provider, model, prompt }) {
-          const attempt = async (prov, mdl) => {
-              const url = '/ai';
-              const body = {
-                  provider: prov,
-                  model: mdl,
-                  stream: true,
-                  temperature: 0.3,
-                  messages: [
-                      { role: 'system', content: 'You are a concise, careful assistant.' },
-                      { role: 'user', content: prompt }
-                  ]
-              };
+        // ---- Streaming via Worker proxy (/ai) with Gemini support & fallbacks (unchanged) ----
+        let aborter = null;
+        async function streamChat({ provider, model, prompt }) {
+            const attempt = async (prov, mdl) => {
+                const url = '/ai';
+                const body = {
+                    provider: prov,
+                    model: mdl,
+                    stream: true,
+                    temperature: 0.3,
+                    messages: [
+                        { role: 'system', content: 'You are a concise, careful assistant.' },
+                        { role: 'user', content: prompt }
+                    ]
+                };
 
-              aborter = new AbortController();
-              const res = await fetch(url, {
-                  method: 'POST',
-                  signal: aborter.signal,
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify(body)
-              });
+                aborter = new AbortController();
+                const res = await fetch(url, {
+                    method: 'POST',
+                    signal: aborter.signal,
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(body)
+                });
 
-              if (!res.ok) throw new Error(`HTTP ${res.status}`);
+                if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
-              const reader = res.body.getReader();
-              const dec = new TextDecoder();
-              let accumulated = '';
+                const reader = res.body.getReader();
+                const dec = new TextDecoder();
+                let accumulated = '';
 
-              const append = (txt) => {
-                  if (!txt) return;
-                  accumulated += txt;
-                  output.append(document.createTextNode(txt));
-                  output.scrollTop = output.scrollHeight;
-              };
+                const append = (txt) => {
+                    if (!txt) return;
+                    accumulated += txt;
+                    output.append(document.createTextNode(txt));
+                    output.scrollTop = output.scrollHeight;
+                };
 
-              for (; ;) {
-                  const { value, done } = await reader.read();
-                  if (done) break;
-                  const chunk = dec.decode(value, { stream: true });
+                for (; ;) {
+                    const { value, done } = await reader.read();
+                    if (done) break;
+                    const chunk = dec.decode(value, { stream: true });
 
-                  for (const raw of chunk.split('\n')) {
-                      const line = raw.trim();
-                      if (!line || !line.startsWith('data:')) continue;
-                      const payload = line.slice(5).trim();
-                      if (payload === '[DONE]') { aborter = null; return accumulated; }
+                    for (const raw of chunk.split('\n')) {
+                        const line = raw.trim();
+                        if (!line || !line.startsWith('data:')) continue;
+                        const payload = line.slice(5).trim();
+                        if (payload === '[DONE]') { aborter = null; return accumulated; }
 
-                      try {
-                          const json = JSON.parse(payload);
+                        try {
+                            const json = JSON.parse(payload);
 
-                          // OpenAI / Groq / Perplexity
-                          if (json.choices?.[0]?.delta?.content != null) {
-                              append(json.choices[0].delta.content);
-                              continue;
-                          }
+                            // OpenAI / Groq / Perplexity
+                            if (json.choices?.[0]?.delta?.content != null) {
+                                append(json.choices[0].delta.content);
+                                continue;
+                            }
 
-                          // Gemini variants
-                          if (json.candidates?.length) {
-                              const cand = json.candidates[0];
-                              const deltaParts = cand.delta?.parts || [];
-                              if (deltaParts.length) { append(deltaParts.map(p => p.text || '').join('')); continue; }
-                              const parts = cand.content?.parts || [];
-                              if (parts.length) { append(parts.map(p => p.text || '').join('')); continue; }
-                              if (cand.content?.text) { append(cand.content.text); continue; }
-                          }
+                            // Gemini variants
+                            if (json.candidates?.length) {
+                                const cand = json.candidates[0];
+                                const deltaParts = cand.delta?.parts || [];
+                                if (deltaParts.length) { append(deltaParts.map(p => p.text || '').join('')); continue; }
+                                const parts = cand.content?.parts || [];
+                                if (parts.length) { append(parts.map(p => p.text || '').join('')); continue; }
+                                if (cand.content?.text) { append(cand.content.text); continue; }
+                            }
 
-                          if (typeof json.text === 'string') { append(json.text); continue; }
-                          if (json.message?.content) { append(json.message.content); continue; }
+                            if (typeof json.text === 'string') { append(json.text); continue; }
+                            if (json.message?.content) { append(json.message.content); continue; }
 
-                          if (json.error?.message) throw new Error(json.error.message);
-                      } catch { /* ignore keep-alives */ }
-                  }
-              }
+                            if (json.error?.message) throw new Error(json.error.message);
+                        } catch { /* ignore keep-alives */ }
+                    }
+                }
 
-              aborter = null;
-              return accumulated;
-          };
+                aborter = null;
+                return accumulated;
+            };
 
-          // UI prep
-          output.textContent = '';
-          status.textContent = 'Running…';
-          stopBtn.disabled = false;
+            // UI prep
+            output.textContent = '';
+            status.textContent = 'Running…';
+            stopBtn.disabled = false;
 
-          try {
-              try {
-                  return await attempt(provider, model);
-              } catch (e) {
-                  if (provider === 'google') {
-                      const fallbacks = GOOGLE_MODEL_FALLBACKS[model] || [];
-                      for (const alt of fallbacks) {
-                          try {
-                              status.textContent = `Retrying with ${alt}…`;
-                              const result = await attempt('google', alt);
-                              persist(CFG_KEY, { provider: 'google', model: alt });
-                              modelSel.value = alt;
-                              return result;
-                          } catch { /* try next alt */ }
-                      }
-                  }
-                  throw e;
-              }
-          } finally {
-              stopBtn.disabled = true;
-          }
-      }
+            try {
+                try {
+                    return await attempt(provider, model);
+                } catch (e) {
+                    if (provider === 'google') {
+                        const fallbacks = GOOGLE_MODEL_FALLBACKS[model] || [];
+                        for (const alt of fallbacks) {
+                            try {
+                                status.textContent = `Retrying with ${alt}…`;
+                                const result = await attempt('google', alt);
+                                persist(CFG_KEY, { provider: 'google', model: alt });
+                                modelSel.value = alt;
+                                return result;
+                            } catch { /* try next alt */ }
+                        }
+                    }
+                    throw e;
+                }
+            } finally {
+                stopBtn.disabled = true;
+            }
+        }
 
-      byId('stopBtn').addEventListener('click', () => {
-          if (aborter) { aborter.abort(); aborter = null; stopBtn.disabled = true; status.textContent = 'Stopped.'; }
-      });
+        byId('stopBtn').addEventListener('click', () => {
+            if (aborter) { aborter.abort(); aborter = null; stopBtn.disabled = true; status.textContent = 'Stopped.'; }
+        });
 
-      byId('runBtn').addEventListener('click', async () => {
-          const text = input.value.trim();
-          if (!text) { toast('Enter some text first'); input.focus(); return; }
+        byId('runBtn').addEventListener('click', async () => {
+            const text = input.value.trim();
+            if (!text) { toast('Enter some text first'); input.focus(); return; }
 
-          updateKPIs(text);
+            updateKPIs(text);
 
-          const provider = providerSel.value || 'perplexity';
-          const model = modelSel.value || (PROVIDER_MODELS[provider]?.[0]?.id ?? '');
-          if (!model) { toast('Pick a model'); return; }
+            const provider = providerSel.value || 'perplexity';
+            const model = modelSel.value || (PROVIDER_MODELS[provider]?.[0]?.id ?? '');
+            if (!model) { toast('Pick a model'); return; }
 
-          const task = taskSel.value;
-          output.textContent = '';
-          stopBtn.disabled = false;
-          status.textContent = 'Running…';
+            const task = taskSel.value;
+            output.textContent = '';
+            stopBtn.disabled = false;
+            status.textContent = 'Running…';
 
-          try {
-              const prompt = buildPrompt(task, text);
-              await streamChat({ provider, model, prompt });
-              status.textContent = 'Done.';
-          } catch (e) {
-              console.error(e);
-              status.textContent = (e?.message || 'Error') + ' — check provider/model or quotas.';
-              toast('Request failed.');
-          } finally {
-              stopBtn.disabled = true;
-          }
-      });
+            try {
+                const prompt = buildPrompt(task, text);
+                await streamChat({ provider, model, prompt });
+                status.textContent = 'Done.';
+            } catch (e) {
+                console.error(e);
+                status.textContent = (e?.message || 'Error') + ' — check provider/model or quotas.';
+                toast('Request failed.');
+            } finally {
+                stopBtn.disabled = true;
+            }
+        });
 
-      // Copy / Download / Permalink
-      byId('copyBtn').addEventListener('click', async () => {
-          try { await navigator.clipboard.writeText(output.textContent || ''); toast('Copied'); }
-          catch { toast('Copy blocked by browser'); }
-      });
-      byId('downloadBtn').addEventListener('click', () => {
-          const blob = new Blob([output.textContent || ''], { type: 'text/plain;charset=utf-8' });
-          const a = document.createElement('a');
-          a.href = URL.createObjectURL(blob);
-          a.download = 'ai-result.txt';
-          a.click();
-          URL.revokeObjectURL(a.href);
-      });
-      byId('permBtn').addEventListener('click', async () => {
-          const o = { t: taskSel.value, p: providerSel.value, m: modelSel.value };
-          const url = new URL(location.href);
-          url.hash = encodeURIComponent(btoa(JSON.stringify(o)));
-          try {
-              await navigator.clipboard.writeText(url.toString());
-              toast('Permalink copied');
-          } catch {
-              toast('Permalink ready (check address bar)');
-              history.replaceState({}, '', url);
-          }
-      });
+        // Copy / Download / Permalink
+        byId('copyBtn').addEventListener('click', async () => {
+            try { await navigator.clipboard.writeText(output.textContent || ''); toast('Copied'); }
+            catch { toast('Copy blocked by browser'); }
+        });
+        byId('downloadBtn').addEventListener('click', () => {
+            const blob = new Blob([output.textContent || ''], { type: 'text/plain;charset=utf-8' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = 'ai-result.txt';
+            a.click();
+            URL.revokeObjectURL(a.href);
+        });
+        byId('permBtn').addEventListener('click', async () => {
+            const o = { t: taskSel.value, p: providerSel.value, m: modelSel.value };
+            const url = new URL(location.href);
+            url.hash = encodeURIComponent(btoa(JSON.stringify(o)));
+            try {
+                await navigator.clipboard.writeText(url.toString());
+                toast('Permalink copied');
+            } catch {
+                toast('Permalink ready (check address bar)');
+                history.replaceState({}, '', url);
+            }
+        });
 
-      function toast(msg) {
-          status.textContent = msg;
-          setTimeout(() => { if (status.textContent === msg) status.textContent = ''; }, 1800);
-      }
+        function toast(msg) {
+            status.textContent = msg;
+            setTimeout(() => { if (status.textContent === msg) status.textContent = ''; }, 1800);
+        }
 
-      // Restore from permalink
-      (function restoreFromHash() {
-          if (!location.hash) return;
-          try {
-              const o = JSON.parse(atob(decodeURIComponent(location.hash.slice(1))));
-              if (o?.t) taskSel.value = o.t;
-              if (o?.p) providerSel.value = o.p;
-              populateModels();
-              if (o?.m) modelSel.value = o.m;
-              renderTaskOptions();
-          } catch { }
-      })();
+        // Restore from permalink
+        (function restoreFromHash() {
+            if (!location.hash) return;
+            try {
+                const o = JSON.parse(atob(decodeURIComponent(location.hash.slice(1))));
+                if (o?.t) taskSel.value = o.t;
+                if (o?.p) providerSel.value = o.p;
+                populateModels();
+                if (o?.m) modelSel.value = o.m;
+                renderTaskOptions();
+            } catch { }
+        })();
 
-      // Mount AdSense only if available (avoid layout shifts)
-      (function mountAd() {
-          if (!('adsbygoogle' in window)) return;
-          const mount = byId('adMount');
-          const ins = document.createElement('ins');
-          ins.className = 'adsbygoogle';
-          ins.setAttribute('data-ad-client', 'ca-pub-6216304334889617');
-          ins.setAttribute('data-ad-slot', 'auto');
-          ins.setAttribute('data-ad-format', 'auto');
-          ins.setAttribute('data-full-width-responsive', 'true');
-          mount.appendChild(ins);
-          mount.classList.add('ready');
-          try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch { }
-      })();
+        // Mount AdSense only if available (avoid layout shifts)
+        (function mountAd() {
+            if (!('adsbygoogle' in window)) return;
+            const mount = byId('adMount');
+            const ins = document.createElement('ins');
+            ins.className = 'adsbygoogle';
+            ins.setAttribute('data-ad-client', 'ca-pub-6216304334889617');
+            ins.setAttribute('data-ad-slot', 'auto');
+            ins.setAttribute('data-ad-format', 'auto');
+            ins.setAttribute('data-full-width-responsive', 'true');
+            mount.appendChild(ins);
+            mount.classList.add('ready');
+            try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch { }
+        })();
 
-      // Init KPIs
-      resetKPIs();
+        // Init KPIs
+        resetKPIs();
     </script>
 
-    <!-- Load Google Ads script at the end to minimize main‑thread work during initial load -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617" crossorigin="anonymous"></script>
-  </body>
+    <!-- Lite YouTube loader (defer iframe injection for LCP/CLS) -->
+    <script>
+        (function () {
+            const btn = document.querySelector('.yt-play');
+            const wrap = document.querySelector('.yt-wrap');
+            if (!btn || !wrap) return;
+
+            const loadIframe = () => {
+                if (wrap.dataset.loaded) return;
+                const id = btn.getAttribute('data-yt');
+                const iframe = document.createElement('iframe');
+                iframe.width = '100%';
+                iframe.height = '100%';
+                iframe.src = 'https://www.youtube.com/embed/' + id + '?autoplay=1&rel=0';
+                iframe.title = 'YouTube video player';
+                iframe.loading = 'lazy';
+                iframe.fetchPriority = 'low';
+                iframe.setAttribute('frameborder', '0');
+                iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
+                iframe.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
+                iframe.setAttribute('allowfullscreen', '');
+                wrap.innerHTML = '';
+                wrap.appendChild(iframe);
+                wrap.dataset.loaded = '1';
+            };
+
+            // Click to play
+            btn.addEventListener('click', loadIframe, { passive: true });
+
+            // Also auto-load when scrolled into view
+            if ('IntersectionObserver' in window) {
+                const io = new IntersectionObserver((entries) => {
+                    entries.forEach(e => {
+                        if (e.isIntersecting) {
+                            loadIframe();
+                            io.disconnect();
+                        }
+                    });
+                }, { rootMargin: '200px' });
+                io.observe(wrap);
+            }
+        })();
+    </script>
+
+    <!-- Load Google Ads script at the end to minimize main-thread work during initial load -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617"
+        crossorigin="anonymous"></script>
+
+</body>
+
 </html>
