@@ -7,26 +7,26 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>UpTools - Free Online Calculators, Converters & Mini Games</title>
-  <meta name="description" content="Fast, privacy-first tools for everyday tasks: Income Tax, GST, EMI, SIP, Currency Converter, IFSC Finder, JSON Formatter, and mini games. No sign-ups, no bloat.">
-  <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1">
-  <meta name="theme-color" content="#0f1419">
-  <meta name="keywords" content="income tax calculator,gst calculator,emi calculator,currency converter,ifsc finder,json formatter,age calculator,indian tools,uptools">
+  <meta name="description" content="Fast, privacy-first tools for everyday tasks: Income Tax, GST, EMI, SIP, Currency Converter, IFSC Finder, JSON Formatter, and mini games. No sign-ups, no bloat." />
+  <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
+  <meta name="theme-color" content="#0f1419" />
+  <meta name="keywords" content="income tax calculator,gst calculator,emi calculator,currency converter,ifsc finder,json formatter,age calculator,indian tools,uptools" />
 
   <!-- Canonical & Icons -->
-  <link rel="canonical" href="https://www.uptools.in/">
-  <link rel="icon" sizes="50x50" type="image/svg+xml" href="/assets/logo/uptools-logo.svg">
-  <link rel="apple-touch-icon" sizes="180x180" href="/assets/logo/uptools-logo.svg">
+  <link rel="canonical" href="https://www.uptools.in/"/>
+  <link rel="icon" sizes="50x50" type="image/svg+xml" href="/assets/logo/uptools-logo.svg"/>
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/logo/uptools-logo.svg"/>
 
   <!-- Open Graph -->
-  <meta property="og:title" content="UpTools - Free Online Calculators, Converters & Mini Games">
-  <meta property="og:description" content="Fast, lightweight tools for everyday tasks. Privacy-first. No sign-ups.">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="https://www.uptools.in/">
-  <meta property="og:site_name" content="UpTools">
-  <meta property="og:image" content="https://www.uptools.in/assets/og/home.png">
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
-  <meta name="twitter:card" content="summary_large_image">
+  <meta property="og:title" content="UpTools - Free Online Calculators, Converters & Mini Games"/>
+  <meta property="og:description" content="Fast, lightweight tools for everyday tasks. Privacy-first. No sign-ups."/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:url" content="https://www.uptools.in/"/>
+  <meta property="og:site_name" content="UpTools"/>
+  <meta property="og:image" content="https://www.uptools.in/assets/og/home.png"/>
+  <meta property="og:image:width" content="1200"/>
+  <meta property="og:image:height" content="630"/>
+  <meta name="twitter:card" content="summary_large_image"/>
 
   <!-- Preconnects -->
   <link rel="preconnect" href="https://www.youtube-nocookie.com" crossorigin>
@@ -58,9 +58,13 @@
     .nav-links a{color:var(--text);opacity:.9;text-decoration:none;padding:.25rem .4rem;border-radius:.5rem}
     .nav-links a[aria-current="page"]{background:#182033;border:1px solid var(--border)}
 
-    /* Hero: reserve height (prevents big shift) */
-    .hero{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:center;min-height:112px}
+    /* MAIN: reserve intrinsic size so content hydration doesn't move layout */
+    #main{content-visibility:auto;contain-intrinsic-size:1600px}
+
+    /* Hero: explicit height to avoid heading shift */
+    .hero{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:center;min-height:128px}
     .hero-logo{width:48px;height:48px}
+    h1{margin:.1rem 0 .25rem 0;line-height:1.25}
 
     /* Grids + cards */
     .tools-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
@@ -79,7 +83,7 @@
     .reserved{min-height:var(--reserve,0)}
     .is-invisible{visibility:hidden} /* keeps space; toggled to visible later */
 
-    /* Skeletons (lightweight) */
+    /* Skeletons */
     .skeleton{position:relative;overflow:hidden;background:#0f1627;border:1px solid var(--border);border-radius:var(--radius)}
     .s1{height:20px;width:40%;margin:.3rem 0;border-radius:.35rem}
     .s2{height:14px;width:70%;margin:.25rem 0;border-radius:.35rem}
@@ -97,32 +101,7 @@
   <link rel="preload" href="/style.css?v=1.3.0" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <noscript><link rel="stylesheet" href="/style.css?v=1.3.0"></noscript>
 
-  <!-- EARLY reservation for grids (runs before paint) -->
-  <script>
-    (function(){
-      // keep in sync with TOOLS length below (or set a safe upper bound)
-      var TOOL_COUNT = 28; // update if you add tools
-      var cardH = 212;     // ~card min-height + padding + row gap
-      var gap = 12;
-      var vw = Math.max(document.documentElement.clientWidth, 360);
-      var inner = vw - 24; // wrap padding margin
-      var col = Math.max(1, Math.floor(inner / (240 + gap)));
-      var rows = Math.ceil(TOOL_COUNT / col);
-      var minHGrid = (rows * cardH) + ((rows-1)*gap);
-      // Featured is 4 items
-      var featRows = Math.ceil(4 / col);
-      var minHFeat = (featRows * cardH) + ((featRows-1)*gap);
-
-      // write style before layout
-      var css = `
-        #grid{min-height:${minHGrid}px}
-        #featuredGrid{min-height:${minHFeat}px}
-      `;
-      var s = document.createElement('style'); s.textContent = css; document.head.appendChild(s);
-    })();
-  </script>
-
-  <!-- Structured Data (unchanged) -->
+  <!-- Structured Data -->
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"WebSite","name":"UpTools","url":"https://www.uptools.in/","publisher":{"@type":"Organization","name":"UpTools","logo":{"@type":"ImageObject","url":"https://www.uptools.in/assets/logo/uptools-logo.svg","width":256,"height":256}},"potentialAction":{"@type":"SearchAction","target":"https://www.uptools.in/?q={search_term_string}","query-input":"required name=search_term_string"}}
   </script>
@@ -158,7 +137,7 @@
   </header>
 
   <main id="main" class="wrap" role="main">
-    <!-- Hero (reserved) -->
+    <!-- Hero -->
     <section class="card hero" aria-labelledby="hero-title">
       <img class="hero-logo" src="/assets/logo/uptools-logo.svg" alt="UpTools compact logo" width="48" height="48" loading="eager">
       <div>
@@ -200,7 +179,6 @@
     <section class="section reserved is-invisible" id="recentSec" style="--reserve:280px">
       <h2>⏱️ Continue</h2>
       <div class="tools-grid" id="recentGrid" role="region" aria-live="polite">
-        <!-- skeleton row -->
         <div class="skeleton" style="height:200px"></div>
         <div class="skeleton" style="height:200px"></div>
         <div class="skeleton" style="height:200px"></div>
@@ -222,33 +200,43 @@
       <h2 id="featured">🔥 Featured</h2>
       <div id="featuredGrid" class="tools-grid">
         <!-- 4 skeletons -->
-        <article class="card skeleton" style="height:200px;padding:1rem">
-          <div class="s1"></div><div class="s2"></div><div class="s3"></div>
-        </article>
-        <article class="card skeleton" style="height:200px;padding:1rem">
-          <div class="s1"></div><div class="s2"></div><div class="s3"></div>
-        </article>
-        <article class="card skeleton" style="height:200px;padding:1rem">
-          <div class="s1"></div><div class="s2"></div><div class="s3"></div>
-        </article>
-        <article class="card skeleton" style="height:200px;padding:1rem">
-          <div class="s1"></div><div class="s2"></div><div class="s3"></div>
-        </article>
+        <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
+        <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
+        <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
+        <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
       </div>
 
       <!-- All tools -->
       <section class="section" id="tools" aria-labelledby="tools-heading">
         <h2 id="tools-heading">🧰 All tools</h2>
         <div class="tools-grid" id="grid" role="region" aria-live="polite">
-          <!-- 12 skeletons -->
+          <!-- 24 skeletons (plenty to keep height stable on all viewports) -->
+          <!-- row 1 -->
           <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
           <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
           <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
           <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
+          <!-- row 2 -->
           <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
           <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
           <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
           <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
+          <!-- row 3 -->
+          <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
+          <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
+          <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
+          <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
+          <!-- row 4 -->
+          <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
+          <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
+          <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
+          <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
+          <!-- row 5 -->
+          <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
+          <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
+          <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
+          <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
+          <!-- row 6 -->
           <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
           <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
           <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
@@ -472,7 +460,7 @@
         ins.style.maxWidth='100%';
         ins.style.minHeight='120px';
         ins.setAttribute('data-ad-client','ca-pub-6216304334889617');
-        ins.setAttribute('data-ad-slot','0000000000'); // replace with real slot
+        ins.setAttribute('data-ad-slot','0000000000'); // replace with your real slot
         ins.setAttribute('data-ad-format','auto');
         ins.setAttribute('data-full-width-responsive','true');
         wrap.appendChild(ins);
@@ -483,7 +471,7 @@
       else window.addEventListener('load', mount, {once:true});
     })();
 
-    // Init main grids
+    // Init
     renderAll(TOOLS);
     renderFavs();
     renderRecent();
