@@ -34,7 +34,7 @@
 
   <!-- Critical CSS -->
   <style>
-    :root{--bg:#0f1419;--surface:#121826;--text:#e6edf3;--muted:#9aa4b2;--brand:#7aa2ff;--radius:.75rem;--card:var(--surface);--border:#212a3a;--main-min:1600px}
+    :root{--bg:#0f1419;--surface:#121826;--text:#e6edf3;--muted:#9aa4b2;--brand:#7aa2ff;--radius:.75rem;--card:var(--surface);--border:#212a3a}
     *{box-sizing:border-box}
     html{color-scheme:dark light;-webkit-text-size-adjust:100%}
     body{margin:0;font:400 16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Noto Sans",sans-serif;background:var(--bg);color:var(--text)}
@@ -57,9 +57,6 @@
     .nav-links{display:flex;flex-wrap:wrap;gap:.75rem}
     .nav-links a{color:var(--text);opacity:.9;text-decoration:none;padding:.25rem .4rem;border-radius:.5rem}
     .nav-links a[aria-current="page"]{background:#182033;border:1px solid var(--border)}
-
-    /* MAIN: hard reserve height to prevent growth jump even if other CSS sets height:auto!important */
-    #main{min-height:var(--main-min); /* fallback for any external height rules */ }
 
     /* Hero: explicit height to avoid heading shift */
     .hero{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:center;min-height:128px}
@@ -136,8 +133,7 @@
     </div>
   </header>
 
-  <!-- Inline min-height here wins over any height:auto!important elsewhere -->
-  <main id="main" class="wrap" role="main" style="min-height:1600px">
+  <main id="main" class="wrap" role="main">
     <!-- Hero -->
     <section class="card hero" aria-labelledby="hero-title">
       <img class="hero-logo" src="/assets/logo/uptools-logo.svg" alt="UpTools compact logo" width="48" height="48" loading="eager">
@@ -211,9 +207,31 @@
       <section class="section" id="tools" aria-labelledby="tools-heading">
         <h2 id="tools-heading">🧰 All tools</h2>
         <div class="tools-grid" id="grid" role="region" aria-live="polite">
-          <!-- matching skeletons to lock grid height -->
-          <!-- 24 placeholders -->
-          ${Array.from({length:24}).map(()=>'<article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>').join('')}
+          <!-- 24 placeholders to lock grid height -->
+          <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
+          <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
+          <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
+          <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
+          <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
+          <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
+          <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
+          <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
+          <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
+          <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
+          <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
+          <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
+          <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
+          <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
+          <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
+          <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
+          <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
+          <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
+          <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
+          <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
+          <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
+          <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
+          <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
+          <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
         </div>
       </section>
 
@@ -243,6 +261,9 @@
         <a href="/sitemap.xml">Sitemap</a> · <a href="/robots.txt">Robots</a>
       </footer>
     </section>
+
+    <!-- BELOW-FOLD RESERVE: holds page height through first paint, then collapses -->
+    <div id="belowFoldReserve" style="height:1800px"></div>
   </main>
 
   <script>
@@ -286,7 +307,7 @@
 
     const grid=$("#grid"), favGrid=$("#favGrid"), favSec=$("#favSec"),
           recentGrid=$("#recentGrid"), recentSec=$("#recentSec"),
-          q=$("#q"), clearBtn=$("#clearBtn");
+          q=$("#q");
     $("#y").textContent = new Date().getFullYear();
 
     const FAV_KEY="uptools-tool-favs";
@@ -332,7 +353,6 @@
     }
 
     function bindInteractions(scope){
-      // Prevent page navigations from Fav clicks (eliminates “forced reload”)
       scope.querySelectorAll("[data-fav]").forEach(btn=>{
         btn.addEventListener("click",(ev)=>{
           ev.preventDefault();
@@ -348,7 +368,6 @@
           renderFavs();
         }, {passive:true});
       });
-      // Track opens -> recents
       scope.querySelectorAll("a.btn, a.tool-title").forEach(a=>{
         a.addEventListener("click", ()=>{
           const slug=a.closest(".tool-card").querySelector("[data-fav]").getAttribute("data-fav");
@@ -368,14 +387,14 @@
       const list=TOOLS.filter(t=>favs.has(t.slug));
       const has=list.length>0;
       favSec.classList.toggle('is-invisible', !has);
-      if(has) mount(favGrid, list);
+      if(has) mount(document.getElementById("favGrid"), list);
     }
     function renderRecent(){
       const rec=getRecent().slice(0,8);
       const list=rec.map(r=>TOOLS.find(t=>t.slug===r.slug)).filter(Boolean);
       const has=list.length>0;
       recentSec.classList.toggle('is-invisible', !has);
-      if(has) mount(recentGrid, list);
+      if(has) mount(document.getElementById("recentGrid"), list);
     }
 
     // Filters
@@ -393,14 +412,11 @@
         c.style.display=(matchesText&&matchesTags)?"grid":"none";
       }
     }
-
-    // Debounced search
     const debounce=window.debounce||((fn,d=150)=>{let t;return(...a)=>{clearTimeout(t);t=setTimeout(()=>fn(...a),d)}})
     q.addEventListener("input", debounce(applyFilters, 200), {passive:true});
     document.getElementById('clearBtn').addEventListener('click', ()=>{ q.value=""; applyFilters(); q.focus(); });
 
-    // Hydrate from URL
-    (function(){
+    (function hydrateFromURL(){
       const u=new URL(location.href);
       const s=u.searchParams.get("q");
       if(s){ q.value=s; }
@@ -408,7 +424,6 @@
       if(used) pushRecent(used);
     })();
 
-    // Mount Featured (height already reserved by skeletons)
     (function mountFeatured(){
       const feat = [
         { slug:"income-tax-tool", title:"Income Tax Calculator", icon:"🧮", desc:"FY 2024-25 (AY 2025-26), New vs Old.", href:"/income-tax-tool/", tags:["tax","finance"] },
@@ -444,11 +459,17 @@
       else window.addEventListener('load', mount, {once:true});
     })();
 
-    // Init
+    // Init main content
     renderAll(TOOLS);
     renderFavs();
     renderRecent();
     applyFilters();
+
+    // BELOW-FOLD spacer collapse (does NOT affect above-the-fold CLS)
+    window.addEventListener('load', ()=> {
+      const r = document.getElementById('belowFoldReserve');
+      if (r) { r.style.height = '0px'; }
+    }, { once: true });
 
     // Keyboard helpers
     window.addEventListener('keydown', (e)=>{
