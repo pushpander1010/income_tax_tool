@@ -7,37 +7,34 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>UpTools - Free Online Calculators, Converters & Mini Games</title>
-  <meta name="description" content="Fast, privacy-first tools for everyday tasks: Income Tax, GST, EMI, SIP, Currency Converter, IFSC Finder, JSON Formatter, and mini games. No sign-ups, no bloat." />
-  <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
-  <meta name="theme-color" content="#0f1419" />
-  <meta name="keywords" content="income tax calculator,gst calculator,emi calculator,currency converter,ifsc finder,json formatter,age calculator,indian tools,uptools" />
+  <meta name="description" content="Fast, privacy-first tools for everyday tasks: Income Tax, GST, EMI, SIP, Currency Converter, IFSC Finder, JSON Formatter, and mini games. No sign-ups, no bloat.">
+  <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1">
+  <meta name="theme-color" content="#0f1419">
+  <meta name="keywords" content="income tax calculator,gst calculator,emi calculator,currency converter,ifsc finder,json formatter,age calculator,indian tools,uptools">
 
   <!-- Canonical & Icons -->
-  <link rel="canonical" href="https://www.uptools.in/"/>
-  <link rel="icon" sizes="50x50" type="image/svg+xml" href="/assets/logo/uptools-logo.svg"/>
-  <link rel="apple-touch-icon" sizes="180x180" href="/assets/logo/uptools-logo.svg"/>
+  <link rel="canonical" href="https://www.uptools.in/">
+  <link rel="icon" sizes="50x50" type="image/svg+xml" href="/assets/logo/uptools-logo.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/logo/uptools-logo.svg">
 
   <!-- Open Graph -->
-  <meta property="og:title" content="UpTools - Free Online Calculators, Converters & Mini Games"/>
-  <meta property="og:description" content="Fast, lightweight tools for everyday tasks. Privacy-first. No sign-ups."/>
-  <meta property="og:type" content="website"/>
-  <meta property="og:url" content="https://www.uptools.in/"/>
-  <meta property="og:site_name" content="UpTools"/>
-  <meta property="og:image" content="https://www.uptools.in/assets/og/home.png"/>
-  <meta property="og:image:width" content="1200"/>
-  <meta property="og:image:height" content="630"/>
-  <meta name="twitter:card" content="summary_large_image"/>
+  <meta property="og:title" content="UpTools - Free Online Calculators, Converters & Mini Games">
+  <meta property="og:description" content="Fast, lightweight tools for everyday tasks. Privacy-first. No sign-ups.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.uptools.in/">
+  <meta property="og:site_name" content="UpTools">
+  <meta property="og:image" content="https://www.uptools.in/assets/og/home.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
 
-  <!-- Hint connections early (LCP & 3rd parties) -->
+  <!-- Preconnects -->
   <link rel="preconnect" href="https://www.youtube-nocookie.com" crossorigin>
   <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
 
-  <!-- Critical CSS (kept compact) -->
+  <!-- Critical CSS -->
   <style>
-    :root{
-      --bg:#0f1419;--surface:#121826;--text:#e6edf3;--muted:#9aa4b2;--brand:#7aa2ff;--radius:.75rem;
-      --card:var(--surface);--border:#212a3a
-    }
+    :root{--bg:#0f1419;--surface:#121826;--text:#e6edf3;--muted:#9aa4b2;--brand:#7aa2ff;--radius:.75rem;--card:var(--surface);--border:#212a3a}
     *{box-sizing:border-box}
     html{color-scheme:dark light;-webkit-text-size-adjust:100%}
     body{margin:0;font:400 16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Noto Sans",sans-serif;background:var(--bg);color:var(--text)}
@@ -50,77 +47,98 @@
     .btn.secondary.sm{padding:.45rem .7rem;font-weight:700}
     .pill,.chip{display:inline-flex;align-items:center;gap:.25rem;padding:.25rem .55rem;border-radius:999px;background:#182033;border:1px solid var(--border);font-size:.85rem;color:var(--muted)}
     .badge{font-size:.75rem;background:#0d1628;color:#9fb5ff;border-color:#2a3a5a}
-    .note{color:var(--muted)}
-    .note.small{font-size:.9rem}
+    .note{color:var(--muted)} .note.small{font-size:.9rem}
     .sr-only{position:absolute;left:-9999px}
-    /* Header: reserve height to prevent jump */
+
+    /* Header (stable) */
     .site{position:sticky;top:0;z-index:20;background:linear-gradient(180deg,#0f1419,#0f1419f2 70%,transparent);backdrop-filter:saturate(140%) blur(6px);border-bottom:1px solid #0f1a2a}
     .header-inner{display:flex;align-items:center;justify-content:space-between;gap:12px;width:min(100% - 24px,1120px);margin:0 auto;min-height:56px;padding:8px 0}
     .brand{display:inline-flex;align-items:center;gap:.6rem;color:var(--text);text-decoration:none;font-weight:900}
     .nav-links{display:flex;flex-wrap:wrap;gap:.75rem}
     .nav-links a{color:var(--text);opacity:.9;text-decoration:none;padding:.25rem .4rem;border-radius:.5rem}
     .nav-links a[aria-current="page"]{background:#182033;border:1px solid var(--border)}
-    /* Hero: reserve predictable height */
-    .hero{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:center;min-height:88px}
+
+    /* Hero: reserve height (prevents big shift) */
+    .hero{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:center;min-height:112px}
     .hero-logo{width:48px;height:48px}
-    /* Grids: reserve space to avoid first-render jump before JS fills */
-    .tools-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;min-height:252px}
-    .tool-card{min-height:180px}
+
+    /* Grids + cards */
+    .tools-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+    .tool-card{min-height:200px}
     .tool-title{display:inline-block}
     .tool-desc{min-height:2.3em}
-    /* Video: use aspect-ratio so iframe doesn't shift */
-    .center{display:block}
+
+    /* Video reserved via aspect-ratio */
     .video-shell{position:relative;width:100%;aspect-ratio:16/9;border-radius:var(--radius);overflow:hidden;background:#0b1220;border:1px solid var(--border)}
     .video-shell iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
-    /* Ad wrapper: reserve height ahead of time */
+
+    /* Ad wrapper: reserve space */
     #adWrap{min-height:120px}
-    /* Controls bar stylings */
-    .search{display:flex;align-items:center;gap:.5rem;padding:.5rem .6rem;background:var(--card);border:1px solid var(--border);border-radius:.75rem}
-    .input{width:100%;border:none;background:transparent;box-shadow:none;color:var(--text);outline:none}
-    .filters{display:flex;gap:.5rem;flex-wrap:wrap;justify-content:flex-end;align-items:center}
-    /* Reduce motion to avoid subtle CLS on some browsers */
+
+    /* Visibility reservation (no layout pop) */
+    .reserved{min-height:var(--reserve,0)}
+    .is-invisible{visibility:hidden} /* keeps space; toggled to visible later */
+
+    /* Skeletons (lightweight) */
+    .skeleton{position:relative;overflow:hidden;background:#0f1627;border:1px solid var(--border);border-radius:var(--radius)}
+    .s1{height:20px;width:40%;margin:.3rem 0;border-radius:.35rem}
+    .s2{height:14px;width:70%;margin:.25rem 0;border-radius:.35rem}
+    .s3{height:14px;width:55%;margin:.25rem 0;border-radius:.35rem}
+    .skeleton::after{content:"";position:absolute;inset:0;transform:translateX(-100%);background:linear-gradient(90deg,transparent,rgba(255,255,255,.06),transparent);animation:sh .9s infinite}
+    @keyframes sh{to{transform:translateX(100%)}}
+
     @media (prefers-reduced-motion:no-preference){
       .tool-card,.card{transition:transform .12s ease, box-shadow .12s ease}
       .tool-card:hover{transform:translateY(-1px)}
     }
   </style>
 
-  <!-- Load main stylesheet without media-swap (preload+promote), avoids forced reflow -->
+  <!-- Promote CSS without media-swap -->
   <link rel="preload" href="/style.css?v=1.3.0" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <noscript><link rel="stylesheet" href="/style.css?v=1.3.0"></noscript>
 
-  <!-- Structured Data: WebSite + SearchAction -->
-  <script type="application/ld+json">
-  {
-    "@context":"https://schema.org",
-    "@type":"WebSite",
-    "name":"UpTools",
-    "url":"https://www.uptools.in/",
-    "publisher":{"@type":"Organization","name":"UpTools","logo":{"@type":"ImageObject","url":"https://www.uptools.in/assets/logo/uptools-logo.svg","width":256,"height":256}},
-    "potentialAction":{"@type":"SearchAction","target":"https://www.uptools.in/?q={search_term_string}","query-input":"required name=search_term_string"}
-  }
+  <!-- EARLY reservation for grids (runs before paint) -->
+  <script>
+    (function(){
+      // keep in sync with TOOLS length below (or set a safe upper bound)
+      var TOOL_COUNT = 28; // update if you add tools
+      var cardH = 212;     // ~card min-height + padding + row gap
+      var gap = 12;
+      var vw = Math.max(document.documentElement.clientWidth, 360);
+      var inner = vw - 24; // wrap padding margin
+      var col = Math.max(1, Math.floor(inner / (240 + gap)));
+      var rows = Math.ceil(TOOL_COUNT / col);
+      var minHGrid = (rows * cardH) + ((rows-1)*gap);
+      // Featured is 4 items
+      var featRows = Math.ceil(4 / col);
+      var minHFeat = (featRows * cardH) + ((featRows-1)*gap);
+
+      // write style before layout
+      var css = `
+        #grid{min-height:${minHGrid}px}
+        #featuredGrid{min-height:${minHFeat}px}
+      `;
+      var s = document.createElement('style'); s.textContent = css; document.head.appendChild(s);
+    })();
   </script>
 
-  <!-- Structured Data: ItemList of featured tools -->
+  <!-- Structured Data (unchanged) -->
   <script type="application/ld+json">
-  {
-    "@context":"https://schema.org",
-    "@type":"ItemList",
-    "name":"Featured Tools",
-    "itemListElement":[
-      {"@type":"ListItem","position":1,"url":"https://www.uptools.in/income-tax-tool/"},
-      {"@type":"ListItem","position":2,"url":"https://www.uptools.in/gst-calculator/"},
-      {"@type":"ListItem","position":3,"url":"https://www.uptools.in/emi-calculator/"},
-      {"@type":"ListItem","position":4,"url":"https://www.uptools.in/currency-converter/"},
-      {"@type":"ListItem","position":5,"url":"https://www.uptools.in/ifsc-finder/"}
-    ]
-  }
+  {"@context":"https://schema.org","@type":"WebSite","name":"UpTools","url":"https://www.uptools.in/","publisher":{"@type":"Organization","name":"UpTools","logo":{"@type":"ImageObject","url":"https://www.uptools.in/assets/logo/uptools-logo.svg","width":256,"height":256}},"potentialAction":{"@type":"SearchAction","target":"https://www.uptools.in/?q={search_term_string}","query-input":"required name=search_term_string"}}
+  </script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"ItemList","name":"Featured Tools","itemListElement":[
+    {"@type":"ListItem","position":1,"url":"https://www.uptools.in/income-tax-tool/"},
+    {"@type":"ListItem","position":2,"url":"https://www.uptools.in/gst-calculator/"},
+    {"@type":"ListItem","position":3,"url":"https://www.uptools.in/emi-calculator/"},
+    {"@type":"ListItem","position":4,"url":"https://www.uptools.in/currency-converter/"},
+    {"@type":"ListItem","position":5,"url":"https://www.uptools.in/ifsc-finder/"}
+  ]}
   </script>
 </head>
 <body style="--accent:#60A5FA;--bg1:#0f1419;--bg2:#182033">
   <a href="#main" class="sr-only">Skip to content</a>
 
-  <!-- Sticky header (reserved height) -->
   <header class="site" role="banner">
     <div class="header-inner">
       <a class="brand" href="/" aria-label="UpTools Home">
@@ -140,12 +158,12 @@
   </header>
 
   <main id="main" class="wrap" role="main">
-    <!-- Compact Hero (height reserved) -->
+    <!-- Hero (reserved) -->
     <section class="card hero" aria-labelledby="hero-title">
       <img class="hero-logo" src="/assets/logo/uptools-logo.svg" alt="UpTools compact logo" width="48" height="48" loading="eager">
       <div>
         <h1 id="hero-title">Your everyday toolkit.</h1>
-        <p class="note" style="margin:0">Calculators, converters, formatters & games — fast, privacy-first, no sign-ups.</p>
+        <p class="note" style="margin:0">Calculators, converters, formatters &amp; games — fast, privacy-first, no sign-ups.</p>
         <div class="chips" style="margin-top:10px">
           <span class="pill">⚡ Loads fast</span>
           <span class="pill">🕵️ Privacy-first</span>
@@ -175,66 +193,73 @@
       </div>
     </section>
 
-    <!-- Conditional ad slot (reserved height; injected only if adsbygoogle exists) -->
-    <section id="adWrap" class="section" aria-label="Advertisement" hidden></section>
+    <!-- Ad slot (keeps space; becomes visible later) -->
+    <section id="adWrap" class="section reserved is-invisible" style="--reserve:120px" aria-label="Advertisement"></section>
 
-    <!-- Recently used -->
-    <section class="section" id="recentSec" hidden>
+    <!-- Recently used (space reserved; visibility toggled) -->
+    <section class="section reserved is-invisible" id="recentSec" style="--reserve:280px">
       <h2>⏱️ Continue</h2>
-      <div class="tools-grid" id="recentGrid" role="region" aria-live="polite"></div>
+      <div class="tools-grid" id="recentGrid" role="region" aria-live="polite">
+        <!-- skeleton row -->
+        <div class="skeleton" style="height:200px"></div>
+        <div class="skeleton" style="height:200px"></div>
+        <div class="skeleton" style="height:200px"></div>
+      </div>
       <p class="note small">Tip: recent tools are saved on this device only.</p>
     </section>
 
-    <!-- Favourites -->
-    <section class="section" id="favSec" hidden>
+    <!-- Favourites (space reserved) -->
+    <section class="section reserved is-invisible" id="favSec" style="--reserve:280px">
       <h2>⭐ Your favourites</h2>
-      <div class="tools-grid" id="favGrid" role="region" aria-live="polite"></div>
+      <div class="tools-grid" id="favGrid" role="region" aria-live="polite">
+        <div class="skeleton" style="height:200px"></div>
+        <div class="skeleton" style="height:200px"></div>
+      </div>
     </section>
 
-    <!-- Featured (static) -->
+    <!-- Featured (server-side skeleton keeps height stable) -->
     <section class="section" aria-labelledby="featured">
       <h2 id="featured">🔥 Featured</h2>
-      <div class="tools-grid">
-        <a class="tool-link accent-indigo card" href="/income-tax-tool/" aria-label="Income Tax Calculator (India)">
-          <span class="ico" aria-hidden="true">🧮</span>
-          <div>
-            <div><b>Income Tax Calculator</b></div>
-            <div class="note">FY 2024-25 (AY 2025-26), New vs Old.</div>
-          </div>
-        </a>
-        <a class="tool-link accent-emerald card" href="/gst-calculator/" aria-label="GST Calculator">
-          <span class="ico" aria-hidden="true">🧾</span>
-          <div>
-            <div><b>GST Calculator</b></div>
-            <div class="note">Add/remove GST from totals.</div>
-          </div>
-        </a>
-        <a class="tool-link accent-cyan card" href="/currency-converter/" aria-label="Currency Converter">
-          <span class="ico" aria-hidden="true">💱</span>
-          <div>
-            <div><b>Currency Converter</b></div>
-            <div class="note">Live interbank FX (with fallback).</div>
-          </div>
-        </a>
-        <a class="tool-link accent-violet card" href="/emi-calculator/" aria-label="EMI Calculator">
-          <span class="ico" aria-hidden="true">💳</span>
-          <div>
-            <div><b>EMI Calculator</b></div>
-            <div class="note">Plan monthly repayments.</div>
-          </div>
-        </a>
+      <div id="featuredGrid" class="tools-grid">
+        <!-- 4 skeletons -->
+        <article class="card skeleton" style="height:200px;padding:1rem">
+          <div class="s1"></div><div class="s2"></div><div class="s3"></div>
+        </article>
+        <article class="card skeleton" style="height:200px;padding:1rem">
+          <div class="s1"></div><div class="s2"></div><div class="s3"></div>
+        </article>
+        <article class="card skeleton" style="height:200px;padding:1rem">
+          <div class="s1"></div><div class="s2"></div><div class="s3"></div>
+        </article>
+        <article class="card skeleton" style="height:200px;padding:1rem">
+          <div class="s1"></div><div class="s2"></div><div class="s3"></div>
+        </article>
       </div>
 
       <!-- All tools -->
       <section class="section" id="tools" aria-labelledby="tools-heading">
         <h2 id="tools-heading">🧰 All tools</h2>
-        <div class="tools-grid" id="grid" role="region" aria-live="polite"></div>
+        <div class="tools-grid" id="grid" role="region" aria-live="polite">
+          <!-- 12 skeletons -->
+          <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
+          <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
+          <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
+          <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
+          <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
+          <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
+          <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
+          <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
+          <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
+          <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
+          <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
+          <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
+        </div>
       </section>
 
-      <!-- Video (reserved via aspect-ratio) -->
+      <!-- Video -->
       <section class="section" aria-labelledby="video-learn">
         <h2 id="video-learn">🎥 Learn: Using calculators smartly</h2>
-        <div class="card center">
+        <div class="card">
           <div class="video-shell" aria-label="Tutorial video">
             <iframe
               src="https://www.youtube-nocookie.com/embed/WjfAsX8fQ3U"
@@ -292,9 +317,9 @@
       { slug:"ai-plagiarism", title:"AI Plagiarism Checker", icon:"📚", desc:"Check text for plagiarism instantly with AI.", href:"/ai-plagiarism/", tags:["text","dev","ai"] }
     ];
 
-    // --- Helpers ---
-    const $$ = (s, r=document)=>[...r.querySelectorAll(s)];
-    const $  = (s, r=document)=>r.querySelector(s);
+    // Helpers
+    const $$=(s,r=document)=>[...r.querySelectorAll(s)];
+    const $ =(s,r=document)=>r.querySelector(s);
     const persist=(k,v)=>localStorage.setItem(k, JSON.stringify(v));
     const read=(k,d=null)=>{ try{ return JSON.parse(localStorage.getItem(k)) ?? d }catch{ return d } };
 
@@ -346,10 +371,10 @@
     }
 
     function bindInteractions(scope){
-      // Favourites
+      // Prevent page navigations from Fav clicks (eliminates “forced reload”)
       scope.querySelectorAll("[data-fav]").forEach(btn=>{
-        btn.addEventListener("click", (ev)=>{
-          ev.preventDefault(); // avoid accidental page nav causing "forced reload"
+        btn.addEventListener("click",(ev)=>{
+          ev.preventDefault();
           const slug=btn.getAttribute("data-fav");
           const favs=getFavs();
           favs.has(slug)?favs.delete(slug):favs.add(slug);
@@ -380,14 +405,16 @@
     function renderFavs(){
       const favs=getFavs();
       const list=TOOLS.filter(t=>favs.has(t.slug));
-      favSec.hidden = list.length===0;
-      if(!favSec.hidden) mount(favGrid, list);
+      const has=list.length>0;
+      favSec.classList.toggle('is-invisible', !has);
+      if(has) mount(favGrid, list);
     }
     function renderRecent(){
       const rec=getRecent().slice(0,8);
       const list=rec.map(r=>TOOLS.find(t=>t.slug===r.slug)).filter(Boolean);
-      recentSec.hidden = list.length===0;
-      if(!recentSec.hidden) mount(recentGrid, list);
+      const has=list.length>0;
+      recentSec.classList.toggle('is-invisible', !has);
+      if(has) mount(recentGrid, list);
     }
 
     // Filters
@@ -420,7 +447,21 @@
       if(used) pushRecent(used);
     })();
 
-    // Conditional AdSense (with pre-reserved height to avoid CLS)
+    // Replace Featured skeletons with real cards (keeps height)
+    (function mountFeatured(){
+      const feat = [
+        { slug:"income-tax-tool", title:"Income Tax Calculator", icon:"🧮", desc:"FY 2024-25 (AY 2025-26), New vs Old.", href:"/income-tax-tool/", tags:["tax","finance"] },
+        { slug:"gst-calculator",    title:"GST Calculator",        icon:"🧾", desc:"Add/remove GST from totals.",      href:"/gst-calculator/",    tags:["tax","finance"] },
+        { slug:"currency-converter",title:"Currency Converter",    icon:"💱", desc:"Live interbank FX (with fallback).", href:"/currency-converter/", tags:["finance","networking"] },
+        { slug:"emi-calculator",    title:"EMI Calculator",        icon:"💳", desc:"Plan monthly repayments.",        href:"/emi-calculator/",    tags:["finance"] }
+      ];
+      const g = document.getElementById('featuredGrid');
+      const favs = new Set();
+      g.innerHTML = feat.map(t=>cardHTML(t, favs)).join('');
+      bindInteractions(g);
+    })();
+
+    // Conditional AdSense (space already reserved)
     (function maybeMountAd(){
       function mount(){
         if(!window.adsbygoogle) return;
@@ -429,27 +470,26 @@
         ins.className='adsbygoogle';
         ins.style.display='block';
         ins.style.maxWidth='100%';
-        ins.style.minHeight='120px';      // reservation
+        ins.style.minHeight='120px';
         ins.setAttribute('data-ad-client','ca-pub-6216304334889617');
-        // NOTE: replace with your real slot id to ensure stable rendering
-        ins.setAttribute('data-ad-slot','0000000000');
+        ins.setAttribute('data-ad-slot','0000000000'); // replace with real slot
         ins.setAttribute('data-ad-format','auto');
         ins.setAttribute('data-full-width-responsive','true');
         wrap.appendChild(ins);
-        wrap.hidden=false;
+        wrap.classList.remove('is-invisible');
         (adsbygoogle = window.adsbygoogle || []).push({});
       }
       if(document.readyState==="complete") mount();
       else window.addEventListener('load', mount, {once:true});
     })();
 
-    // Init
+    // Init main grids
     renderAll(TOOLS);
     renderFavs();
     renderRecent();
     applyFilters();
 
-    // Keyboard: focus search, escape blur
+    // Keyboard helpers
     window.addEventListener('keydown', (e)=>{
       if(e.key==='/' && document.activeElement!==q){ e.preventDefault(); q.focus(); }
       if(e.key==='Escape'){ q.blur(); }
