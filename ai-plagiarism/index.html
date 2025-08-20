@@ -726,7 +726,6 @@
         await streamChat({ provider, model, prompt });
         status.textContent='Done.';
       }catch(e){
-        console.error(e);
         status.textContent=(e?.message||'Error')+' — check provider/model or quotas.';
         toast('Request failed.');
       }finally{ stopBtn.disabled=true; }
