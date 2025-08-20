@@ -11,9 +11,6 @@
   <link rel="preconnect" href="https://googleads.g.doubleclick.net" crossorigin>
   <link rel="dns-prefetch" href="//googleads.g.doubleclick.net">
 
-  <!-- Fonts: preload + metric-override to minimize swap reflow -->
-  <link rel="preload" href="/fonts/inter.woff2" as="font" type="font/woff2" crossorigin="anonymous">
-
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 
@@ -95,23 +92,10 @@
   </script>
 
   <style>
-    /* --- Font metric override to reduce CLS when Inter loads --- */
-    @font-face {
-      font-family: "InterTuned";
-      src: url("/fonts/inter.woff2") format("woff2");
-      font-weight: 100 900;
-      font-style: normal;
-      font-display: swap;
-      /* Tweak these to better match system fallback metrics */
-      ascent-override: 90%;
-      descent-override: 22%;
-      line-gap-override: 0%;
-      size-adjust: 102%;
-    }
-
     html, body {
-      font-family: InterTuned, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
-      line-height: 1.5; /* unitless for stability across fonts */
+      /* System stack only (removed custom font to fix 404 + avoid FOIT/CLS) */
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      line-height: 1.5;
       text-rendering: optimizeLegibility;
     }
 
@@ -410,7 +394,8 @@
       <h2 id="video-title" class="h5">How to Use the AI Plagiarism Checker (2 min)</h2>
       <div class="yt-wrap" role="group" aria-label="YouTube demo">
         <picture>
-          <source type="image/webp" srcset="https://i.ytimg.com/vi/Uk1pq8sb-eo/hqdefault.webp">
+          <!-- Use vi_webp to avoid 404s on some videos -->
+          <source type="image/webp" srcset="https://i.ytimg.com/vi_webp/Uk1pq8sb-eo/hqdefault.webp">
           <img class="yt-thumb" src="https://i.ytimg.com/vi/Uk1pq8sb-eo/hqdefault.jpg"
                alt="Video thumbnail: How to use AI Plagiarism Checker"
                loading="lazy" decoding="async" width="1280" height="720">
@@ -510,7 +495,6 @@
       const prov = providerSel.value;
       const models = PROVIDER_MODELS[prov] || [];
       const desired = cfg.model || (models[0]?.id || 'sonar');
-      // If current options differ, rebuild (avoids flash)
       const needs = ![...modelSel.options].map(o=>o.value).every((v,i)=>models[i]?.id===v);
       if (needs) {
         modelSel.innerHTML = '';
@@ -571,14 +555,10 @@
       const text = await f.text(); input.value = text; updateCounts();
     });
 
-    // Task options (render only when switching away from default)
+    // Task options (switching away from default)
     taskSel.addEventListener('change', () => {
       const t = taskSel.value;
-      if (t === 'originality') {
-        // Already rendered by default, do nothing
-        taskOptions.innerHTML = taskOptions.innerHTML; // keep height stable
-        return;
-      }
+      if (t === 'originality') { return; }
       if (t === 'paraphrase') {
         taskOptions.innerHTML = `
           <label class="inline"><span class="tiny">Tone</span>
@@ -778,15 +758,16 @@
       const ins=document.createElement('ins');
       ins.className='adsbygoogle';
       ins.setAttribute('data-ad-client','ca-pub-6216304334889617');
-      ins.setAttribute('data-ad-slot','auto');
+      ins.setAttribute('data-ad-slot','1234567890');      // TODO: replace with your real numeric Ad Unit ID
       ins.setAttribute('data-ad-format','auto');
       ins.setAttribute('data-full-width-responsive','true');
+      ins.setAttribute('data-adtest','on');               // safe while testing/under review
       mount.appendChild(ins);
       try{ (window.adsbygoogle = window.adsbygoogle || []).push({}); }catch{}
     })();
 
     // Init KPIs and Year
-    (function init(){ byId('y').textContent=new Date().getFullYear(); resetKPIs(); })();
+    (function init(){ document.getElementById('y').textContent=new Date().getFullYear(); resetKPIs(); })();
   </script>
 
   <!-- Lazy YouTube loader (container pre-sized, so no CLS) -->
