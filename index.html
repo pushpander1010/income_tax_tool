@@ -34,7 +34,7 @@
 
   <!-- Critical CSS -->
   <style>
-    :root{--bg:#0f1419;--surface:#121826;--text:#e6edf3;--muted:#9aa4b2;--brand:#7aa2ff;--radius:.75rem;--card:var(--surface);--border:#212a3a}
+    :root{--bg:#0f1419;--surface:#121826;--text:#e6edf3;--muted:#9aa4b2;--brand:#7aa2ff;--radius:.75rem;--card:var(--surface);--border:#212a3a;--main-min:1600px}
     *{box-sizing:border-box}
     html{color-scheme:dark light;-webkit-text-size-adjust:100%}
     body{margin:0;font:400 16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Noto Sans",sans-serif;background:var(--bg);color:var(--text)}
@@ -58,8 +58,8 @@
     .nav-links a{color:var(--text);opacity:.9;text-decoration:none;padding:.25rem .4rem;border-radius:.5rem}
     .nav-links a[aria-current="page"]{background:#182033;border:1px solid var(--border)}
 
-    /* MAIN: reserve intrinsic size so content hydration doesn't move layout */
-    #main{content-visibility:auto;contain-intrinsic-size:1600px}
+    /* MAIN: hard reserve height to prevent growth jump even if other CSS sets height:auto!important */
+    #main{min-height:var(--main-min); /* fallback for any external height rules */ }
 
     /* Hero: explicit height to avoid heading shift */
     .hero{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:center;min-height:128px}
@@ -136,7 +136,8 @@
     </div>
   </header>
 
-  <main id="main" class="wrap" role="main">
+  <!-- Inline min-height here wins over any height:auto!important elsewhere -->
+  <main id="main" class="wrap" role="main" style="min-height:1600px">
     <!-- Hero -->
     <section class="card hero" aria-labelledby="hero-title">
       <img class="hero-logo" src="/assets/logo/uptools-logo.svg" alt="UpTools compact logo" width="48" height="48" loading="eager">
@@ -210,37 +211,9 @@
       <section class="section" id="tools" aria-labelledby="tools-heading">
         <h2 id="tools-heading">🧰 All tools</h2>
         <div class="tools-grid" id="grid" role="region" aria-live="polite">
-          <!-- 24 skeletons (plenty to keep height stable on all viewports) -->
-          <!-- row 1 -->
-          <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
-          <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
-          <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
-          <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
-          <!-- row 2 -->
-          <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
-          <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
-          <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
-          <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
-          <!-- row 3 -->
-          <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
-          <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
-          <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
-          <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
-          <!-- row 4 -->
-          <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
-          <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
-          <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
-          <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
-          <!-- row 5 -->
-          <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
-          <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
-          <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
-          <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
-          <!-- row 6 -->
-          <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
-          <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
-          <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
-          <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
+          <!-- matching skeletons to lock grid height -->
+          <!-- 24 placeholders -->
+          ${Array.from({length:24}).map(()=>'<article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>').join('')}
         </div>
       </section>
 
@@ -435,7 +408,7 @@
       if(used) pushRecent(used);
     })();
 
-    // Replace Featured skeletons with real cards (keeps height)
+    // Mount Featured (height already reserved by skeletons)
     (function mountFeatured(){
       const feat = [
         { slug:"income-tax-tool", title:"Income Tax Calculator", icon:"🧮", desc:"FY 2024-25 (AY 2025-26), New vs Old.", href:"/income-tax-tool/", tags:["tax","finance"] },
@@ -460,7 +433,7 @@
         ins.style.maxWidth='100%';
         ins.style.minHeight='120px';
         ins.setAttribute('data-ad-client','ca-pub-6216304334889617');
-        ins.setAttribute('data-ad-slot','0000000000'); // replace with your real slot
+        ins.setAttribute('data-ad-slot','0000000000'); // replace with real slot
         ins.setAttribute('data-ad-format','auto');
         ins.setAttribute('data-full-width-responsive','true');
         wrap.appendChild(ins);
