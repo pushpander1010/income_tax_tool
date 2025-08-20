@@ -1,113 +1,93 @@
 <!doctype html>
 <html lang="en">
-
 <head>
-  <!-- Google AdSense (we'll inject the ad slot only if this loads successfully) -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617"
-    crossorigin="anonymous"></script>
+  <!-- Google AdSense (slot injected later only if lib loads) -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617" crossorigin="anonymous"></script>
 
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>UpTools - Free Online Calculators, Converters & Mini Games</title>
-  <meta name="description"
-    content="Fast, privacy-first tools for everyday tasks: Income Tax, GST, EMI, SIP, Currency Converter, IFSC Finder, JSON Formatter, and mini games. No sign-ups, no bloat." />
+  <meta name="description" content="Fast, privacy-first tools for everyday tasks: Income Tax, GST, EMI, SIP, Currency Converter, IFSC Finder, JSON Formatter, and mini games. No sign-ups, no bloat." />
   <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
   <meta name="theme-color" content="#0f1419" />
-  <meta name="keywords"
-    content="income tax calculator,gst calculator,emi calculator,currency converter,ifsc finder,json formatter,age calculator,indian tools,uptools" />
+  <meta name="keywords" content="income tax calculator,gst calculator,emi calculator,currency converter,ifsc finder,json formatter,age calculator,indian tools,uptools" />
 
   <!-- Canonical & Icons -->
-  <link rel="canonical" href="https://www.uptools.in/" />
-  <link rel="icon" sizes="50x50" type="image/svg+xml" href="/assets/logo/uptools-logo.svg" />
-  <link rel="apple-touch-icon" sizes="180x180" href="/assets/logo/uptools-logo.svg" />
+  <link rel="canonical" href="https://www.uptools.in/"/>
+  <link rel="icon" sizes="50x50" type="image/svg+xml" href="/assets/logo/uptools-logo.svg"/>
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/logo/uptools-logo.svg"/>
 
   <!-- Open Graph -->
-  <meta property="og:title" content="UpTools - Free Online Calculators, Converters & Mini Games" />
-  <meta property="og:description" content="Fast, lightweight tools for everyday tasks. Privacy-first. No sign-ups." />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://www.uptools.in/" />
-  <meta property="og:site_name" content="UpTools" />
-  <meta property="og:image" content="https://www.uptools.in/assets/og/home.png" />
-  <meta property="og:image:width" content="1200" />
-  <meta property="og:image:height" content="630" />
-  <meta name="twitter:card" content="summary_large_image" />
+  <meta property="og:title" content="UpTools - Free Online Calculators, Converters & Mini Games"/>
+  <meta property="og:description" content="Fast, lightweight tools for everyday tasks. Privacy-first. No sign-ups."/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:url" content="https://www.uptools.in/"/>
+  <meta property="og:site_name" content="UpTools"/>
+  <meta property="og:image" content="https://www.uptools.in/assets/og/home.png"/>
+  <meta property="og:image:width" content="1200"/>
+  <meta property="og:image:height" content="630"/>
+  <meta name="twitter:card" content="summary_large_image"/>
 
-  <!-- Preload critical CSS, then load full stylesheet non-blocking -->
+  <!-- Hint connections early (LCP & 3rd parties) -->
+  <link rel="preconnect" href="https://www.youtube-nocookie.com" crossorigin>
+  <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
+
+  <!-- Critical CSS (kept compact) -->
   <style>
-    :root {
-      --bg: #0f1419;
-      --surface: #121826;
-      --text: #e6edf3;
-      --muted: #9aa4b2;
-      --brand: #7aa2ff;
-      --radius: .75rem
+    :root{
+      --bg:#0f1419;--surface:#121826;--text:#e6edf3;--muted:#9aa4b2;--brand:#7aa2ff;--radius:.75rem;
+      --card:var(--surface);--border:#212a3a
     }
-
-    * {
-      box-sizing: border-box
-    }
-
-    html {
-      color-scheme: dark light;
-      -webkit-text-size-adjust: 100%
-    }
-
-    body {
-      margin: 0;
-      font: 400 16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, "Noto Sans", sans-serif;
-      background: var(--bg);
-      color: var(--text)
-    }
-
-    img,
-    svg,
-    video {
-      max-width: 100%;
-      height: auto;
-      display: block
-    }
-
-    .wrap {
-      width: min(100% - 24px, 1120px);
-      margin: 24px auto
-    }
-
-    a {
-      color: var(--brand);
-      text-decoration-thickness: .08em;
-      text-underline-offset: .18em
-    }
-
-    .card {
-      background: var(--surface);
-      border: 1px solid #212a3a;
-      border-radius: var(--radius);
-      padding: 1rem
-    }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: .5rem;
-      padding: .6rem .9rem;
-      border-radius: var(--radius);
-      background: var(--brand);
-      color: #0b1020;
-      border: 0;
-      font-weight: 800;
-      text-decoration: none
-    }
-
-    .sr-only {
-      position: absolute;
-      left: -9999px
+    *{box-sizing:border-box}
+    html{color-scheme:dark light;-webkit-text-size-adjust:100%}
+    body{margin:0;font:400 16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Noto Sans",sans-serif;background:var(--bg);color:var(--text)}
+    img,svg,video{max-width:100%;height:auto;display:block}
+    a{color:var(--brand);text-decoration-thickness:.08em;text-underline-offset:.18em}
+    .wrap{width:min(100% - 24px,1120px);margin:24px auto}
+    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1rem}
+    .btn{display:inline-flex;align-items:center;gap:.5rem;padding:.6rem .9rem;border-radius:var(--radius);background:var(--brand);color:#0b1020;border:0;font-weight:800;text-decoration:none;cursor:pointer}
+    .btn.secondary{background:#1a2436;color:var(--text);border:1px solid var(--border)}
+    .btn.secondary.sm{padding:.45rem .7rem;font-weight:700}
+    .pill,.chip{display:inline-flex;align-items:center;gap:.25rem;padding:.25rem .55rem;border-radius:999px;background:#182033;border:1px solid var(--border);font-size:.85rem;color:var(--muted)}
+    .badge{font-size:.75rem;background:#0d1628;color:#9fb5ff;border-color:#2a3a5a}
+    .note{color:var(--muted)}
+    .note.small{font-size:.9rem}
+    .sr-only{position:absolute;left:-9999px}
+    /* Header: reserve height to prevent jump */
+    .site{position:sticky;top:0;z-index:20;background:linear-gradient(180deg,#0f1419,#0f1419f2 70%,transparent);backdrop-filter:saturate(140%) blur(6px);border-bottom:1px solid #0f1a2a}
+    .header-inner{display:flex;align-items:center;justify-content:space-between;gap:12px;width:min(100% - 24px,1120px);margin:0 auto;min-height:56px;padding:8px 0}
+    .brand{display:inline-flex;align-items:center;gap:.6rem;color:var(--text);text-decoration:none;font-weight:900}
+    .nav-links{display:flex;flex-wrap:wrap;gap:.75rem}
+    .nav-links a{color:var(--text);opacity:.9;text-decoration:none;padding:.25rem .4rem;border-radius:.5rem}
+    .nav-links a[aria-current="page"]{background:#182033;border:1px solid var(--border)}
+    /* Hero: reserve predictable height */
+    .hero{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:center;min-height:88px}
+    .hero-logo{width:48px;height:48px}
+    /* Grids: reserve space to avoid first-render jump before JS fills */
+    .tools-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;min-height:252px}
+    .tool-card{min-height:180px}
+    .tool-title{display:inline-block}
+    .tool-desc{min-height:2.3em}
+    /* Video: use aspect-ratio so iframe doesn't shift */
+    .center{display:block}
+    .video-shell{position:relative;width:100%;aspect-ratio:16/9;border-radius:var(--radius);overflow:hidden;background:#0b1220;border:1px solid var(--border)}
+    .video-shell iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+    /* Ad wrapper: reserve height ahead of time */
+    #adWrap{min-height:120px}
+    /* Controls bar stylings */
+    .search{display:flex;align-items:center;gap:.5rem;padding:.5rem .6rem;background:var(--card);border:1px solid var(--border);border-radius:.75rem}
+    .input{width:100%;border:none;background:transparent;box-shadow:none;color:var(--text);outline:none}
+    .filters{display:flex;gap:.5rem;flex-wrap:wrap;justify-content:flex-end;align-items:center}
+    /* Reduce motion to avoid subtle CLS on some browsers */
+    @media (prefers-reduced-motion:no-preference){
+      .tool-card,.card{transition:transform .12s ease, box-shadow .12s ease}
+      .tool-card:hover{transform:translateY(-1px)}
     }
   </style>
-  <link rel="preload" href="/style.css?v=1.3.0" as="style">
-  <link rel="stylesheet" href="/style.css?v=1.3.0" media="print" onload="this.media='all'">
-  <noscript>
-    <link rel="stylesheet" href="/style.css?v=1.3.0">
-  </noscript>
+
+  <!-- Load main stylesheet without media-swap (preload+promote), avoids forced reflow -->
+  <link rel="preload" href="/style.css?v=1.3.0" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="/style.css?v=1.3.0"></noscript>
 
   <!-- Structured Data: WebSite + SearchAction -->
   <script type="application/ld+json">
@@ -117,15 +97,11 @@
     "name":"UpTools",
     "url":"https://www.uptools.in/",
     "publisher":{"@type":"Organization","name":"UpTools","logo":{"@type":"ImageObject","url":"https://www.uptools.in/assets/logo/uptools-logo.svg","width":256,"height":256}},
-    "potentialAction":{
-      "@type":"SearchAction",
-      "target":"https://www.uptools.in/?q={search_term_string}",
-      "query-input":"required name=search_term_string"
-    }
+    "potentialAction":{"@type":"SearchAction","target":"https://www.uptools.in/?q={search_term_string}","query-input":"required name=search_term_string"}
   }
   </script>
 
-  <!-- Structured Data: ItemList of featured tools (internal links/backlinks help) -->
+  <!-- Structured Data: ItemList of featured tools -->
   <script type="application/ld+json">
   {
     "@context":"https://schema.org",
@@ -141,11 +117,10 @@
   }
   </script>
 </head>
-
 <body style="--accent:#60A5FA;--bg1:#0f1419;--bg2:#182033">
   <a href="#main" class="sr-only">Skip to content</a>
 
-  <!-- Sticky header (production-ready; shared classes so common CSS applies) -->
+  <!-- Sticky header (reserved height) -->
   <header class="site" role="banner">
     <div class="header-inner">
       <a class="brand" href="/" aria-label="UpTools Home">
@@ -165,14 +140,12 @@
   </header>
 
   <main id="main" class="wrap" role="main">
-    <!-- Compact Hero -->
+    <!-- Compact Hero (height reserved) -->
     <section class="card hero" aria-labelledby="hero-title">
-      <img class="hero-logo" src="/assets/logo/uptools-logo.svg" alt="UpTools compact logo" width="48" height="48"
-        loading="eager">
+      <img class="hero-logo" src="/assets/logo/uptools-logo.svg" alt="UpTools compact logo" width="48" height="48" loading="eager">
       <div>
         <h1 id="hero-title">Your everyday toolkit.</h1>
-        <p class="note" style="margin:0">Calculators, converters, formatters & games - fast, privacy-first, no sign-ups.
-        </p>
+        <p class="note" style="margin:0">Calculators, converters, formatters & games — fast, privacy-first, no sign-ups.</p>
         <div class="chips" style="margin-top:10px">
           <span class="pill">⚡ Loads fast</span>
           <span class="pill">🕵️ Privacy-first</span>
@@ -181,19 +154,14 @@
       </div>
     </section>
 
-    <!-- Search + filters (uses utils.js for debounce) -->
-    <section class="controls" aria-label="Search and filters"
-      style="display:grid;grid-template-columns:1fr;gap:.75rem;margin:16px 0 8px">
-      <div class="search" role="search"
-        style="display:flex;align-items:center;gap:.5rem;padding:.5rem .6rem;background:var(--card);border:1px solid var(--border);border-radius:.75rem">
+    <!-- Search + filters -->
+    <section class="controls" aria-label="Search and filters" style="display:grid;grid-template-columns:1fr;gap:.75rem;margin:16px 0 8px">
+      <div class="search" role="search">
         <span aria-hidden="true">🔎</span>
-        <input id="q" class="input" type="search" inputmode="search"
-          placeholder="Search tools (e.g., tax, gst, currency, json)…" aria-label="Search tools"
-          style="border:none;background:transparent;box-shadow:none;padding:0">
+        <input id="q" class="input" type="search" inputmode="search" placeholder="Search tools (e.g., tax, gst, currency, json)…" aria-label="Search tools">
         <button class="btn secondary" id="clearBtn" aria-label="Clear search" title="Clear">Clear</button>
       </div>
-      <div class="filters" aria-label="Tags"
-        style="display:flex;gap:.5rem;flex-wrap:wrap;justify-content:flex-end;align-items:center">
+      <div class="filters" aria-label="Tags">
         <label class="chip"><input type="checkbox" value="tax"> Tax</label>
         <label class="chip"><input type="checkbox" value="finance"> Finance</label>
         <label class="chip"><input type="checkbox" value="banking"> Banking</label>
@@ -207,54 +175,49 @@
       </div>
     </section>
 
-    <!-- Conditional ad slot (injected only if adsbygoogle exists) -->
-    <section id="adWrap" class="section" hidden>
-      <!-- we intentionally avoid an <ins> in HTML to prevent layout shifts;
-           JS below will add one with fixed width/height when ads are available -->
-    </section>
+    <!-- Conditional ad slot (reserved height; injected only if adsbygoogle exists) -->
+    <section id="adWrap" class="section" aria-label="Advertisement" hidden></section>
 
     <!-- Recently used -->
     <section class="section" id="recentSec" hidden>
       <h2>⏱️ Continue</h2>
-      <div class="tools-grid" id="recentGrid" role="region" aria-live="polite"
-        style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px"></div>
+      <div class="tools-grid" id="recentGrid" role="region" aria-live="polite"></div>
       <p class="note small">Tip: recent tools are saved on this device only.</p>
     </section>
 
     <!-- Favourites -->
     <section class="section" id="favSec" hidden>
       <h2>⭐ Your favourites</h2>
-      <div class="tools-grid" id="favGrid" role="region" aria-live="polite"
-        style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px"></div>
+      <div class="tools-grid" id="favGrid" role="region" aria-live="polite"></div>
     </section>
 
-    <!-- Featured (static internal links + thumbnail images for SEO) -->
+    <!-- Featured (static) -->
     <section class="section" aria-labelledby="featured">
       <h2 id="featured">🔥 Featured</h2>
-      <div class="tools-grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px">
-        <a class="tool-link accent-indigo" href="/income-tax-tool/" aria-label="Income Tax Calculator (India)">
-          <span class="ico">🧮</span>
+      <div class="tools-grid">
+        <a class="tool-link accent-indigo card" href="/income-tax-tool/" aria-label="Income Tax Calculator (India)">
+          <span class="ico" aria-hidden="true">🧮</span>
           <div>
             <div><b>Income Tax Calculator</b></div>
             <div class="note">FY 2024-25 (AY 2025-26), New vs Old.</div>
           </div>
         </a>
-        <a class="tool-link accent-emerald" href="/gst-calculator/" aria-label="GST Calculator">
-          <span class="ico">🧾</span>
+        <a class="tool-link accent-emerald card" href="/gst-calculator/" aria-label="GST Calculator">
+          <span class="ico" aria-hidden="true">🧾</span>
           <div>
             <div><b>GST Calculator</b></div>
             <div class="note">Add/remove GST from totals.</div>
           </div>
         </a>
-        <a class="tool-link accent-cyan" href="/currency-converter/" aria-label="Currency Converter">
-          <span class="ico">💱</span>
+        <a class="tool-link accent-cyan card" href="/currency-converter/" aria-label="Currency Converter">
+          <span class="ico" aria-hidden="true">💱</span>
           <div>
             <div><b>Currency Converter</b></div>
             <div class="note">Live interbank FX (with fallback).</div>
           </div>
         </a>
-        <a class="tool-link accent-violet" href="/emi-calculator/" aria-label="EMI Calculator">
-          <span class="ico">💳</span>
+        <a class="tool-link accent-violet card" href="/emi-calculator/" aria-label="EMI Calculator">
+          <span class="ico" aria-hidden="true">💳</span>
           <div>
             <div><b>EMI Calculator</b></div>
             <div class="note">Plan monthly repayments.</div>
@@ -265,157 +228,107 @@
       <!-- All tools -->
       <section class="section" id="tools" aria-labelledby="tools-heading">
         <h2 id="tools-heading">🧰 All tools</h2>
-        <div class="tools-grid" id="grid" role="region" aria-live="polite"
-          style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px"></div>
+        <div class="tools-grid" id="grid" role="region" aria-live="polite"></div>
       </section>
 
-      <!-- Video (stabilized width/height; privacy enhanced mode) -->
+      <!-- Video (reserved via aspect-ratio) -->
       <section class="section" aria-labelledby="video-learn">
         <h2 id="video-learn">🎥 Learn: Using calculators smartly</h2>
         <div class="card center">
-          <iframe width="100%" height="100%" src="https://www.youtube-nocookie.com/embed/WjfAsX8fQ3U"
-            title="12 AI Tools You Won't Believe Are FREE!" loading="lazy"
-            referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
-          </iframe>
+          <div class="video-shell" aria-label="Tutorial video">
+            <iframe
+              src="https://www.youtube-nocookie.com/embed/WjfAsX8fQ3U"
+              title="12 AI Tools You Won't Believe Are FREE!"
+              loading="lazy"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen>
+            </iframe>
+          </div>
           <p class="note small" style="margin-top:8px">
-            A curated video showcasing free web tools-great inspiration aligned with UpTools' privacy-first, no-sign-up
-            ethos.
+            A curated video showcasing free web tools — great inspiration aligned with UpTools' privacy-first, no-sign-up ethos.
           </p>
         </div>
       </section>
 
       <!-- Footer -->
       <footer class="note small site-footer" role="contentinfo">
-        © <span id="y"></span> UpTools · <a href="/about/">About</a> · <a href="/contact/">Contact</a> · <a
-          href="/sitemap.xml">Sitemap</a> · <a href="/robots.txt">Robots</a>
+        © <span id="y"></span> UpTools · <a href="/about/">About</a> · <a href="/contact/">Contact</a> ·
+        <a href="/sitemap.xml">Sitemap</a> · <a href="/robots.txt">Robots</a>
       </footer>
+    </section>
   </main>
 
   <script>
-    // --- Data (extendable) ---
+    // --- Data ---
     const TOOLS = [
-      { slug: "income-tax-tool", title: "Income Tax Calculator", icon: "🧮", desc: "Estimate income tax quickly.", href: "/income-tax-tool/", tags: ["tax", "finance"] },
-      { slug: "gst-calculator", title: "GST Calculator", icon: "🧾", desc: "Add/remove GST from amounts.", href: "/gst-calculator/", tags: ["tax", "finance"] },
-      { slug: "emi-calculator", title: "EMI Calculator", icon: "💳", desc: "Monthly loan repayment planner.", href: "/emi-calculator/", tags: ["finance"] },
-      { slug: "fd-calculator", title: "FD Calculator", icon: "🏦", desc: "Fixed deposit maturity calculator.", href: "/fd-calculator/", tags: ["finance"] },
-      { slug: "sip-calculator", title: "SIP Calculator", icon: "📈", desc: "Plan SIP returns with ease.", href: "/sip-calculator/", tags: ["finance"] },
-      { slug: "age-calculator", title: "Age Calculator", icon: "🎂", desc: "Find exact age by date.", href: "/age-calculator/", tags: ["identity"] },
-      { slug: "currency-converter", title: "Currency Converter (live)", icon: "💱", desc: "Convert FX with live rates.", href: "/currency-converter/", tags: ["finance", "networking"] },
-      { slug: "pan-validator", title: "PAN Format Validator", icon: "🪪", desc: "Check PAN format validity.", href: "/pan-validator/", tags: ["identity", "text"] },
-      { slug: "ifsc-finder", title: "IFSC Finder (live)", icon: "🏧", desc: "Search bank IFSC codes.", href: "/ifsc-finder/", tags: ["banking", "networking"] },
-      { slug: "canada-crs-tool", title: "Canada CRS Calculator", icon: "🍁", desc: "Estimate Express Entry CRS.", href: "/canada-crs-tool/", tags: ["canada", "identity"] },
-      { slug: "canada-hst-tool", title: "Canada GST/HST Calculator", icon: "🍁", desc: "Sales tax for provinces.", href: "/canada-hst-tool/", tags: ["canada", "tax"] },
-      { slug: "password-generator", title: "Password Generator", icon: "🔐", desc: "Strong, random passwords.", href: "/password-generator/", tags: ["security"] },
-      { slug: "qr-generator", title: "QR Code Generator", icon: "🔳", desc: "Create QR codes instantly.", href: "/qr-generator/", tags: ["images", "dev"] },
-      { slug: "text-case-converter", title: "Text Case Converter", icon: "🔤", desc: "Upper, lower, title case.", href: "/text-case-converter/", tags: ["text"] },
-      { slug: "word-counter", title: "Word Counter", icon: "📝", desc: "Count words & characters.", href: "/word-counter/", tags: ["text"] },
-      { slug: "json-formatter", title: "JSON Formatter", icon: "🧩", desc: "Prettify & validate JSON.", href: "/json-formatter/", tags: ["dev"] },
-      { slug: "base64-encoder", title: "Base64 Encoder/Decoder", icon: "🧪", desc: "Encode/decode Base64.", href: "/base64-encoder/", tags: ["dev"] },
-      { slug: "ip-address", title: "Your IP Address", icon: "🌐", desc: "Public IP & user agent.", href: "/ip-address/", tags: ["networking"] },
-      { slug: "uuid-generator", title: "UUID Generator", icon: "🆔", desc: "Generate V4 UUIDs.", href: "/uuid-generator/", tags: ["dev"] },
-      { slug: "color-picker", title: "Color Picker", icon: "🎨", desc: "Pick, copy, convert colors.", href: "/color-picker/", tags: ["images", "dev"] },
-      { slug: "games", title: "Free Online Games", icon: "🎮", desc: "Snake, 2048, Tic Tac Toe & more.", href: "/games/", tags: ["fun"] }
-      , {
-        slug: "image-tool",
-        title: "Image Tool",
-        icon: "🖼️",
-        desc: "Remove backgrounds, crop, resize, convert formats, and apply effects.",
-        href: "/image-tool/",
-        tags: ["images", "dev"]
-      },
-      {
-        slug: "image-converter",
-        title: "Image Converter",
-        icon: "🖼️",
-        desc: "Resize, crop, and change image formats instantly.",
-        href: "/image-converter/",
-        tags: ["images", "dev"]
-      },
-      {
-        slug: "bmi-calculator",
-        title: "BMI Calculator",
-        icon: "⚖️",
-        desc: "Check BMI with metric & US units. Shows category, healthy range, body fat %, WHtR.",
-        href: "/bmi-calculator/",
-        tags: ["health", "identity"]
-      },
-      {
-        slug: "ai-writer",
-        title: "AI Writer",
-        icon: "✍️",
-        desc: "Generate text using AI assistance.",
-        href: "/ai-writer/",
-        tags: ["text", "dev", "ai"]
-      },
-      {
-        slug: "resume-analyzer",
-        title: "AI Resume Analyzer",
-        icon: "📄",
-        desc: "Check ATS score, missing skills & job match.",
-        href: "/resume-analyzer/",
-        tags: ["text", "identity", "dev", "ai"]
-      },
-      {
-        slug: "qr-reader",
-        title: "QR Code Reader",
-        icon: "📷",
-        desc: "Scan and decode QR codes instantly using your camera.",
-        href: "/qr-reader/",
-        tags: ["images", "security", "qr"]
-      },
-      {
-        slug: "ai-plagiarism",
-        title: "AI Plagiarism Checker",
-        icon: "📚",
-        desc: "Check text for plagiarism instantly with AI.",
-        href: "/ai-plagiarism/",
-        tags: ["text", "dev", "ai"]
-      },
-
-
-
-
-
+      { slug:"income-tax-tool", title:"Income Tax Calculator", icon:"🧮", desc:"Estimate income tax quickly.", href:"/income-tax-tool/", tags:["tax","finance"] },
+      { slug:"gst-calculator", title:"GST Calculator", icon:"🧾", desc:"Add/remove GST from amounts.", href:"/gst-calculator/", tags:["tax","finance"] },
+      { slug:"emi-calculator", title:"EMI Calculator", icon:"💳", desc:"Monthly loan repayment planner.", href:"/emi-calculator/", tags:["finance"] },
+      { slug:"fd-calculator", title:"FD Calculator", icon:"🏦", desc:"Fixed deposit maturity calculator.", href:"/fd-calculator/", tags:["finance"] },
+      { slug:"sip-calculator", title:"SIP Calculator", icon:"📈", desc:"Plan SIP returns with ease.", href:"/sip-calculator/", tags:["finance"] },
+      { slug:"age-calculator", title:"Age Calculator", icon:"🎂", desc:"Find exact age by date.", href:"/age-calculator/", tags:["identity"] },
+      { slug:"currency-converter", title:"Currency Converter (live)", icon:"💱", desc:"Convert FX with live rates.", href:"/currency-converter/", tags:["finance","networking"] },
+      { slug:"pan-validator", title:"PAN Format Validator", icon:"🪪", desc:"Check PAN format validity.", href:"/pan-validator/", tags:["identity","text"] },
+      { slug:"ifsc-finder", title:"IFSC Finder (live)", icon:"🏧", desc:"Search bank IFSC codes.", href:"/ifsc-finder/", tags:["banking","networking"] },
+      { slug:"canada-crs-tool", title:"Canada CRS Calculator", icon:"🍁", desc:"Estimate Express Entry CRS.", href:"/canada-crs-tool/", tags:["canada","identity"] },
+      { slug:"canada-hst-tool", title:"Canada GST/HST Calculator", icon:"🍁", desc:"Sales tax for provinces.", href:"/canada-hst-tool/", tags:["canada","tax"] },
+      { slug:"password-generator", title:"Password Generator", icon:"🔐", desc:"Strong, random passwords.", href:"/password-generator/", tags:["security"] },
+      { slug:"qr-generator", title:"QR Code Generator", icon:"🔳", desc:"Create QR codes instantly.", href:"/qr-generator/", tags:["images","dev"] },
+      { slug:"text-case-converter", title:"Text Case Converter", icon:"🔤", desc:"Upper, lower, title case.", href:"/text-case-converter/", tags:["text"] },
+      { slug:"word-counter", title:"Word Counter", icon:"📝", desc:"Count words & characters.", href:"/word-counter/", tags:["text"] },
+      { slug:"json-formatter", title:"JSON Formatter", icon:"🧩", desc:"Prettify & validate JSON.", href:"/json-formatter/", tags:["dev"] },
+      { slug:"base64-encoder", title:"Base64 Encoder/Decoder", icon:"🧪", desc:"Encode/decode Base64.", href:"/base64-encoder/", tags:["dev"] },
+      { slug:"ip-address", title:"Your IP Address", icon:"🌐", desc:"Public IP & user agent.", href:"/ip-address/", tags:["networking"] },
+      { slug:"uuid-generator", title:"UUID Generator", icon:"🆔", desc:"Generate V4 UUIDs.", href:"/uuid-generator/", tags:["dev"] },
+      { slug:"color-picker", title:"Color Picker", icon:"🎨", desc:"Pick, copy, convert colors.", href:"/color-picker/", tags:["images","dev"] },
+      { slug:"games", title:"Free Online Games", icon:"🎮", desc:"Snake, 2048, Tic Tac Toe & more.", href:"/games/", tags:["fun"] },
+      { slug:"image-tool", title:"Image Tool", icon:"🖼️", desc:"Remove backgrounds, crop, resize, convert formats, and apply effects.", href:"/image-tool/", tags:["images","dev"] },
+      { slug:"image-converter", title:"Image Converter", icon:"🖼️", desc:"Resize, crop, and change image formats instantly.", href:"/image-converter/", tags:["images","dev"] },
+      { slug:"bmi-calculator", title:"BMI Calculator", icon:"⚖️", desc:"Check BMI with metric & US units. Shows category, healthy range, body fat %, WHtR.", href:"/bmi-calculator/", tags:["health","identity"] },
+      { slug:"ai-writer", title:"AI Writer", icon:"✍️", desc:"Generate text using AI assistance.", href:"/ai-writer/", tags:["text","dev","ai"] },
+      { slug:"resume-analyzer", title:"AI Resume Analyzer", icon:"📄", desc:"Check ATS score, missing skills & job match.", href:"/resume-analyzer/", tags:["text","identity","dev","ai"] },
+      { slug:"qr-reader", title:"QR Code Reader", icon:"📷", desc:"Scan and decode QR codes instantly using your camera.", href:"/qr-reader/", tags:["images","security","qr"] },
+      { slug:"ai-plagiarism", title:"AI Plagiarism Checker", icon:"📚", desc:"Check text for plagiarism instantly with AI.", href:"/ai-plagiarism/", tags:["text","dev","ai"] }
     ];
 
-    // --- Helpers (from utils.js if present; safe fallbacks) ---
-    const $$ = (s, r = document) => [...r.querySelectorAll(s)];
-    const $ = (s, r = document) => r.querySelector(s);
-    const persist = (k, v) => localStorage.setItem(k, JSON.stringify(v));
-    const read = (k, d = null) => { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch { return d; } };
+    // --- Helpers ---
+    const $$ = (s, r=document)=>[...r.querySelectorAll(s)];
+    const $  = (s, r=document)=>r.querySelector(s);
+    const persist=(k,v)=>localStorage.setItem(k, JSON.stringify(v));
+    const read=(k,d=null)=>{ try{ return JSON.parse(localStorage.getItem(k)) ?? d }catch{ return d } };
 
-    const grid = $("#grid"), favGrid = $("#favGrid"), favSec = $("#favSec"),
-      recentGrid = $("#recentGrid"), recentSec = $("#recentSec"),
-      q = $("#q"), clearBtn = $("#clearBtn");
+    const grid=$("#grid"), favGrid=$("#favGrid"), favSec=$("#favSec"),
+          recentGrid=$("#recentGrid"), recentSec=$("#recentSec"),
+          q=$("#q"), clearBtn=$("#clearBtn");
     $("#y").textContent = new Date().getFullYear();
 
-    const FAV_KEY = "uptools-tool-favs";
-    const RECENT_KEY = "uptools-tool-recent";
-    const getFavs = () => new Set(read(FAV_KEY, []));
-    const setFavs = (s) => persist(FAV_KEY, [...s]);
-    const getRecent = () => read(RECENT_KEY, []);
-    const pushRecent = (slug) => {
-      const now = Date.now();
-      const list = getRecent().filter(x => x.slug !== slug);
-      list.unshift({ slug, ts: now });
-      persist(RECENT_KEY, list.slice(0, 10));
+    const FAV_KEY="uptools-tool-favs";
+    const RECENT_KEY="uptools-tool-recent";
+    const getFavs=()=>new Set(read(FAV_KEY,[]));
+    const setFavs=(s)=>persist(FAV_KEY,[...s]);
+    const getRecent=()=>read(RECENT_KEY,[]);
+    const pushRecent=(slug)=>{
+      const now=Date.now();
+      const list=getRecent().filter(x=>x.slug!==slug);
+      list.unshift({slug,ts:now});
+      persist(RECENT_KEY, list.slice(0,10));
     };
 
-    function cardHTML(t, favs) {
-      const isFav = favs.has(t.slug);
-      const tags = (t.tags || []).slice(0, 4).map(x => `<span class="tag">${x}</span>`).join("");
-      const badge = t.tags?.includes("finance") ? "Finance"
-        : t.tags?.includes("tax") ? "Tax"
-          : t.tags?.includes("dev") ? "Dev"
-            : t.tags?.includes("banking") ? "Banking"
-              : t.tags?.includes("security") ? "Security"
-                : t.tags?.includes("images") ? "Images"
-                  : t.tags?.includes("text") ? "Text"
-                    : t.tags?.includes("canada") ? "Canada"
-                      : t.tags?.includes("networking") ? "Networking"
-                        : "Tool";
+    function cardHTML(t,favs){
+      const isFav=favs.has(t.slug);
+      const tags=(t.tags||[]).slice(0,4).map(x=>`<span class="tag">${x}</span>`).join("");
+      const badge=t.tags?.includes("finance")?"Finance":
+        t.tags?.includes("tax")?"Tax":
+        t.tags?.includes("dev")?"Dev":
+        t.tags?.includes("banking")?"Banking":
+        t.tags?.includes("security")?"Security":
+        t.tags?.includes("images")?"Images":
+        t.tags?.includes("text")?"Text":
+        t.tags?.includes("canada")?"Canada":
+        t.tags?.includes("networking")?"Networking":"Tool";
       return `
-      <article class="tool-card card" data-tags="${(t.tags || []).join(',')}" data-title="${t.title.toLowerCase()}" style="display:grid;grid-template-rows:auto auto 1fr auto;gap:.4rem">
+      <article class="tool-card card" data-tags="${(t.tags||[]).join(',')}" data-title="${t.title.toLowerCase()}" style="display:grid;grid-template-rows:auto auto 1fr auto;gap:.4rem">
         <div class="tool-top" style="display:flex;align-items:center;justify-content:space-between;gap:.6rem">
           <div class="tool-ico" aria-hidden="true" style="font-size:20px">${t.icon}</div>
           <span class="badge pill">${badge}</span>
@@ -425,114 +338,109 @@
         <div class="tags" style="display:flex;gap:.35rem;flex-wrap:wrap">${tags}</div>
         <div class="card-cta" style="display:flex;align-items:center;justify-content:space-between;gap:.5rem;margin-top:.35rem">
           <a class="btn" href="${t.href}">Open</a>
-          <button class="fav btn secondary sm ${isFav ? 'active' : ''}" data-fav="${t.slug}" aria-label="Favourite ${t.title}" title="Favourite">
-            ${isFav ? '★ Favourited' : '☆ Favourite'}
+          <button class="fav btn secondary sm ${isFav?'active':''}" data-fav="${t.slug}" aria-label="Favourite ${t.title}" title="Favourite">
+            ${isFav?'★ Favourited':'☆ Favourite'}
           </button>
         </div>
-      </article>
-    `;
+      </article>`;
     }
 
-    function bindInteractions(scope) {
-      // Favourite toggles
-      scope.querySelectorAll("[data-fav]").forEach(btn => {
-        btn.addEventListener("click", () => {
-          const slug = btn.getAttribute("data-fav");
-          const favs = getFavs();
-          favs.has(slug) ? favs.delete(slug) : favs.add(slug);
+    function bindInteractions(scope){
+      // Favourites
+      scope.querySelectorAll("[data-fav]").forEach(btn=>{
+        btn.addEventListener("click", (ev)=>{
+          ev.preventDefault(); // avoid accidental page nav causing "forced reload"
+          const slug=btn.getAttribute("data-fav");
+          const favs=getFavs();
+          favs.has(slug)?favs.delete(slug):favs.add(slug);
           setFavs(favs);
-          document.querySelectorAll(`[data-fav="${slug}"]`).forEach(b => {
-            const active = favs.has(slug);
+          document.querySelectorAll(`[data-fav="${slug}"]`).forEach(b=>{
+            const active=favs.has(slug);
             b.classList.toggle("active", active);
-            b.textContent = active ? "★ Favourited" : "☆ Favourite";
+            b.textContent=active?"★ Favourited":"☆ Favourite";
           });
           renderFavs();
-        });
+        }, {passive:true});
       });
-      // Track opens to recents
-      scope.querySelectorAll("a.btn, a.tool-title").forEach(a => {
-        a.addEventListener("click", () => {
-          const slug = a.closest(".tool-card").querySelector("[data-fav]").getAttribute("data-fav");
+      // Track opens -> recents
+      scope.querySelectorAll("a.btn, a.tool-title").forEach(a=>{
+        a.addEventListener("click", ()=>{
+          const slug=a.closest(".tool-card").querySelector("[data-fav]").getAttribute("data-fav");
           pushRecent(slug);
-        });
+        }, {passive:true});
       });
     }
 
-    function mount(container, list) {
-      const favs = getFavs();
-      container.innerHTML = list.map(t => cardHTML(t, favs)).join("");
+    function mount(container,list){
+      const favs=getFavs();
+      container.innerHTML=list.map(t=>cardHTML(t,favs)).join("");
       bindInteractions(container);
     }
-    function renderAll(list) { mount(grid, list) }
-    function renderFavs() {
-      const favs = getFavs();
-      const list = TOOLS.filter(t => favs.has(t.slug));
-      favSec.hidden = list.length === 0;
-      if (!favSec.hidden) mount(favGrid, list);
+    function renderAll(list){ mount(grid, list) }
+    function renderFavs(){
+      const favs=getFavs();
+      const list=TOOLS.filter(t=>favs.has(t.slug));
+      favSec.hidden = list.length===0;
+      if(!favSec.hidden) mount(favGrid, list);
     }
-    function renderRecent() {
-      const rec = getRecent().slice(0, 8);
-      const list = rec.map(r => TOOLS.find(t => t.slug === r.slug)).filter(Boolean);
-      recentSec.hidden = list.length === 0;
-      if (!recentSec.hidden) mount(recentGrid, list);
+    function renderRecent(){
+      const rec=getRecent().slice(0,8);
+      const list=rec.map(r=>TOOLS.find(t=>t.slug===r.slug)).filter(Boolean);
+      recentSec.hidden = list.length===0;
+      if(!recentSec.hidden) mount(recentGrid, list);
     }
 
-    // Search + filters
-    const filtersEl = document.querySelector('.filters');
-    function currentFilters() { return [...filtersEl.querySelectorAll('input:checked')].map(i => i.value); }
-    function applyFilters() {
-      const text = q.value.trim().toLowerCase();
-      const filters = currentFilters();
-      const cards = [...document.querySelectorAll(".tool-card")];
-      for (const c of cards) {
-        const title = c.dataset.title;
-        const tags = (c.dataset.tags || "").split(",");
-        const matchesText = !text || title.includes(text);
-        const matchesTags = filters.length === 0 || filters.every(f => tags.includes(f));
-        c.style.display = (matchesText && matchesTags) ? "grid" : "none";
+    // Filters
+    const filtersEl=document.querySelector('.filters');
+    const currentFilters=()=>[...filtersEl.querySelectorAll('input:checked')].map(i=>i.value);
+    function applyFilters(){
+      const text=q.value.trim().toLowerCase();
+      const filters=currentFilters();
+      const cards=[...document.querySelectorAll(".tool-card")];
+      for(const c of cards){
+        const title=c.dataset.title;
+        const tags=(c.dataset.tags||"").split(",");
+        const matchesText=!text||title.includes(text);
+        const matchesTags=filters.length===0||filters.every(f=>tags.includes(f));
+        c.style.display=(matchesText&&matchesTags)?"grid":"none";
       }
     }
 
-    // Debounced search (uses utils.debounce if available)
-    const debounce = window.debounce || ((fn, d = 150) => { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), d) } });
-    q.addEventListener("input", debounce(applyFilters, 200));
-    document.getElementById('clearBtn').addEventListener('click', () => { q.value = ""; applyFilters(); q.focus(); });
+    // Debounced search
+    const debounce=window.debounce||((fn,d=150)=>{let t;return(...a)=>{clearTimeout(t);t=setTimeout(()=>fn(...a),d)}})
+    q.addEventListener("input", debounce(applyFilters, 200), {passive:true});
+    document.getElementById('clearBtn').addEventListener('click', ()=>{ q.value=""; applyFilters(); q.focus(); });
 
-    // Support ?q=search-term
-    (function hydrateFromURL() {
-      const u = new URL(location.href);
-      const s = u.searchParams.get("q");
-      if (s) { q.value = s; }
+    // Hydrate from URL
+    (function(){
+      const u=new URL(location.href);
+      const s=u.searchParams.get("q");
+      if(s){ q.value=s; }
+      const used=u.searchParams.get("used");
+      if(used) pushRecent(used);
     })();
 
-    // Optional: support ?used=slug to mark recents
-    (function markUsed() {
-      const u = new URL(location.href);
-      const used = u.searchParams.get("used");
-      if (used) pushRecent(used);
-    })();
-
-    // Conditional AdSense: only mount if adsbygoogle exists
-    (function maybeMountAd() {
-      function mount() {
-        if (!window.adsbygoogle) return;
-        const wrap = document.getElementById('adWrap');
-        const ins = document.createElement('ins');
-        ins.className = 'adsbygoogle';
-        ins.style.display = 'block';
-        ins.style.maxWidth = '100%';
-        // Fix height to avoid layout shift on load
-        ins.style.minHeight = '120px';
-        ins.setAttribute('data-ad-client', 'ca-pub-6216304334889617');
-        ins.setAttribute('data-ad-slot', 'auto'); // your slot can replace 'auto'
-        ins.setAttribute('data-ad-format', 'auto');
-        ins.setAttribute('data-full-width-responsive', 'true');
+    // Conditional AdSense (with pre-reserved height to avoid CLS)
+    (function maybeMountAd(){
+      function mount(){
+        if(!window.adsbygoogle) return;
+        const wrap=document.getElementById('adWrap');
+        const ins=document.createElement('ins');
+        ins.className='adsbygoogle';
+        ins.style.display='block';
+        ins.style.maxWidth='100%';
+        ins.style.minHeight='120px';      // reservation
+        ins.setAttribute('data-ad-client','ca-pub-6216304334889617');
+        // NOTE: replace with your real slot id to ensure stable rendering
+        ins.setAttribute('data-ad-slot','0000000000');
+        ins.setAttribute('data-ad-format','auto');
+        ins.setAttribute('data-full-width-responsive','true');
         wrap.appendChild(ins);
-        wrap.hidden = false;
+        wrap.hidden=false;
         (adsbygoogle = window.adsbygoogle || []).push({});
       }
-      if (document.readyState === 'complete') mount();
-      else window.addEventListener('load', mount, { once: true });
+      if(document.readyState==="complete") mount();
+      else window.addEventListener('load', mount, {once:true});
     })();
 
     // Init
@@ -541,12 +449,11 @@
     renderRecent();
     applyFilters();
 
-    // Accessibility: / and Esc shortcuts
-    window.addEventListener('keydown', (e) => {
-      if (e.key === '/' && document.activeElement !== q) { e.preventDefault(); q.focus(); }
-      if (e.key === 'Escape') { q.blur(); }
-    });
+    // Keyboard: focus search, escape blur
+    window.addEventListener('keydown', (e)=>{
+      if(e.key==='/' && document.activeElement!==q){ e.preventDefault(); q.focus(); }
+      if(e.key==='Escape'){ q.blur(); }
+    }, {passive:false});
   </script>
 </body>
-
 </html>
