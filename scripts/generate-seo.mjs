@@ -90,5 +90,3 @@ ${entries}
 `;
 await writeFile(resolve(outDir, 'sitemap.xml'), sitemap, 'utf8');
 
-console.log(`[seo] robots.txt and sitemap.xml generated at ${outDir}`);
-

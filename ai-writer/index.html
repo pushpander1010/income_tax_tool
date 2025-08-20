@@ -514,7 +514,6 @@
         await streamChat({ provider, model, prompt });
         status.textContent = 'Done.';
       }catch(e){
-        console.error(e);
         status.textContent = 'Error. Check console & settings.';
         toast('Request failed.');
       }finally{

@@ -115,7 +115,6 @@ export default {
 
       return json({ error: `Unknown provider: ${provider}` }, 400, cors);
     } catch (err: any) {
-      console.error("UNHANDLED /ai ERROR:", err?.stack || err);
       return new Response("Internal Server Error", { status: 500, headers: { "Content-Type": "text/plain" } });
     }
   }

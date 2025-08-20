@@ -481,22 +481,6 @@
         });
       });
     }
-
-    // Tiny Web Vitals logs (no network)
-    try {
-      const po = new PerformanceObserver((list) => {
-        for (const e of list.getEntries()) {
-          if (e.name === 'largest-contentful-paint') console.log('LCP:', Math.round(e.startTime));
-          if (e.name === 'first-contentful-paint') console.log('FCP:', Math.round(e.startTime));
-        }
-      });
-      po.observe({ type: 'paint', buffered: true });
-      new PerformanceObserver(list => {
-        for (const e of list.getEntries()) {
-          if (!e.hadRecentInput) console.log('CLS delta:', e.value);
-        }
-      }).observe({ type: 'layout-shift', buffered: true });
-    } catch {}
   </script>
 </body>
 </html>

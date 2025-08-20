@@ -29,7 +29,6 @@ function findIndexFiles(dir: string, baseDir: string = __dirname): string[] {
       }
     }
   } catch (e) {
-    console.warn(`Warning: Could not read directory ${dir}:`, e)
   }
   return indexFiles
 }
@@ -42,8 +41,6 @@ const inputs: Record<string, string> = {
     allIndexFiles.map((dir) => [dir, resolve(__dirname, dir, 'index.html')])
   ),
 }
-
-console.log('Vite discovered these entry points:', Object.keys(inputs))
 
 export default defineConfig({
   // This is the key: keeps URLs absolute (/...) in the built HTML
