@@ -9,6 +9,8 @@
     <link rel="dns-prefetch" href="//pagead2.googlesyndication.com">
     <link rel="preconnect" href="https://googleads.g.doubleclick.net" crossorigin>
 
+    <link rel="preload" href="/fonts/inter.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 
@@ -34,7 +36,7 @@
     <meta property="og:image:height" content="630" />
     <meta name="twitter:card" content="summary_large_image" />
 
-    <link rel="preload" href="/style.css" as="style" fetchpriority="high">
+    <link rel="preload" href="/style.css" as="style">
     <link rel="stylesheet" href="/style.css" media="print" onload="this.media='all'">
     <noscript><link rel="stylesheet" href="/style.css"></noscript>
 
@@ -330,7 +332,7 @@
     <header class="site" role="banner">
         <div class="header-inner">
             <a class="brand" href="/" aria-label="UpTools Home">
-                <img src="/assets/logo/uptools-logo.svg" alt="UpTools logo" width="28" height="28" loading="eager" fetchpriority="high">
+                <img src="/assets/logo/uptools-logo.svg" alt="UpTools logo" width="28" height="28" fetchpriority="high">
                 <b>UpTools</b>
             </a>
             <nav class="nav-links" aria-label="Primary navigation">
@@ -523,8 +525,6 @@
         const kpiNgram = byId('kpiNgram');
         const providerSel = byId('provider');
         const modelSel = byId('modelSel');
-
-        byId('y').textContent = new Date().getFullYear();
 
         // ---- Provider & Models (exact IDs) ----
         const PROVIDER_MODELS = {
@@ -929,11 +929,14 @@
             try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch { }
         })();
 
-        // Init KPIs
-        resetKPIs();
+        // Init KPIs and Year
+        (function init() {
+            byId('y').textContent = new Date().getFullYear();
+            resetKPIs();
+        })();
     </script>
 
-    <script>
+    <script defer>
         (function () {
             const btn = document.querySelector('.yt-play');
             const wrap = document.querySelector('.yt-wrap');
@@ -948,7 +951,6 @@
                 iframe.src = 'https://www.youtube.com/embed/' + id + '?autoplay=1&rel=0';
                 iframe.title = 'YouTube video player';
                 iframe.loading = 'lazy';
-                iframe.fetchPriority = 'low';
                 iframe.setAttribute('frameborder', '0');
                 iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
                 iframe.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
