@@ -7,7 +7,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Free AI Resume ATS Analyzer (PDF/DOCX/TXT) + JD Match | UpTools</title>
-  <meta name="description" content="Upload your resume (PDF, DOCX, TXT) and get a machine readability score, missing keywords, and recruiter-ready fixes. Compare against a Job Description. Works with Perplexity, Google Gemini 2.5, and Groq via secure proxy. No login." />
+  <meta name="description" content="Upload your resume (PDF, DOCX, TXT) and get a machine readability score, ATS score, missing keywords, and recruiter-ready fixes. Compare against a Job Description. Works with Perplexity, Google Gemini 2.5, and Groq via secure proxy. No login." />
   <meta name="keywords" content="resume ats checker,resume analyzer,ats resume score,ats keywords,job description match,free resume checker,docx pdf resume analysis,readability score" />
   <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:large" />
   <meta name="theme-color" content="#0b1020" />
@@ -19,7 +19,7 @@
 
   <!-- Open Graph -->
   <meta property="og:title" content="Free AI Resume ATS Analyzer + JD Match" />
-  <meta property="og:description" content="Check machine readability, find missing keywords, and optimize instantly. Upload PDF/DOCX/TXT. Compare against a Job Description. No sign-ups." />
+  <meta property="og:description" content="Check machine readability, ATS score, find missing keywords, and optimize instantly. Upload PDF/DOCX/TXT. Compare against a Job Description. No sign-ups." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.uptools.in/resume-analyzer/" />
   <meta property="og:site_name" content="UpTools" />
@@ -48,7 +48,7 @@
         "offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},
         "publisher":{"@type":"Organization","name":"UpTools","url":"https://www.uptools.in/"},
         "url":"https://www.uptools.in/resume-analyzer/",
-        "featureList":["Machine readability score","JD match","Missing keywords","Formatting checks","Instant rewrite suggestions"]
+        "featureList":["Machine readability score","ATS score","JD match","Missing keywords","Formatting checks","Instant rewrite suggestions"]
       },
       {
         "@type":"BreadcrumbList",
@@ -82,14 +82,14 @@
     @media (max-width: 760px){ .panel{ height:auto; min-height:0; } }
 
     .panel-head { display:flex; align-items:center; justify-content:space-between; gap:8px; padding:10px 12px; }
-    .panel-body { flex:1; min-height:0; display:grid; grid-template-rows:auto 1fr auto; gap:10px; padding:10px 12px;overflow: auto; }
+    .panel-body { flex:1; min-height:0; display:grid; grid-template-rows:auto 1fr auto; gap:10px; padding:10px 12px; overflow: auto; }
 
     .row { display:grid; gap:8px; grid-template-columns: 1fr 1fr; }
     @media (max-width: 640px){ .row{ grid-template-columns:1fr; } }
 
     .scroll-area { width:100%; height:100%; overflow:auto; }
     textarea.input { width:100%; min-height:160px; max-height:min(38dvh, 420px); resize:vertical; padding:10px 12px; border-radius:12px; }
-    pre.output { width:100%; min-height:clamp(220px, 28dvh, 360px); max-height:min(46dvh, 520px); height:auto; margin:0; padding:12px 14px; overflow:auto; white-space:pre-wrap; word-wrap:break-word; word-break:break-word; border-radius:12px; background:#121826; border:1px solid #212a3a; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; line-height:1.55; }
+    pre.output { width:100%; min-height:clamp(260px, 30dvh, 380px); max-height:min(50dvh, 560px); height:auto; margin:0; padding:12px 14px; overflow:auto; white-space:pre-wrap; word-wrap:break-word; word-break:break-word; border-radius:12px; background:#121826; border:1px solid #212a3a; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; line-height:1.55; }
 
     /* Pretty file input -> “Choose File” button */
     .file-wrap { position: relative; display:inline-flex; align-items:center; gap:8px; }
@@ -98,9 +98,13 @@
     .file-name { font-size:12px; color:var(--muted); max-width:240px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
 
     .notice { font-size:12px; color:var(--muted); background:#0b1326; border:1px dashed color-mix(in oklab, var(--accent) 40%, #314); border-radius:10px; padding:8px 10px; }
-    .kpis { display:grid; grid-template-columns:repeat(4, minmax(120px,1fr)); gap:10px; }
-    @media (max-width:900px){ .kpis { grid-template-columns: repeat(2,1fr); } }
-    @media (max-width:520px){ .kpis { grid-template-columns: 1fr; } }
+
+    /* KPI grid now has 5 tiles (added ATS Score) */
+    .kpis { display:grid; grid-template-columns:repeat(5, minmax(120px,1fr)); gap:10px; }
+    @media (max-width:1200px){ .kpis { grid-template-columns: repeat(3,1fr); } }
+    @media (max-width:720px){ .kpis { grid-template-columns: repeat(2,1fr); } }
+    @media (max-width:480px){ .kpis { grid-template-columns: 1fr; } }
+
     .kpi { padding:10px; border-radius:10px; background:#0a1224; border:1px solid var(--border); box-shadow:var(--glow-soft); }
     .kpi b { font-size:18px; display:block; }
     .tiny { font-size:12px; opacity:.85; }
@@ -136,7 +140,7 @@
       <div>
         <h1 id="title">🧾🔎 Resume ATS Analyzer (PDF • DOCX • TXT)</h1>
         <p class="note" style="margin:0">
-          Get a <b>Machine Readability</b> score, missing keywords, formatting fixes, and recruiter-ready suggestions.
+          Get a <b>Machine Readability</b> score, <b>ATS Score</b>, missing keywords, formatting fixes, and recruiter-ready suggestions.
           Compare your resume against a Job Description (JD). Pick Perplexity, Google Gemini 2.5, or Groq.
         </p>
         <div class="chips" style="margin-top:8px">
@@ -240,6 +244,7 @@
         <div class="panel-body">
           <div class="kpis" id="kpis" aria-live="polite">
             <div class="kpi"><span class="tiny">Machine Readability</span><b id="kpiScore">—</b></div>
+            <div class="kpi"><span class="tiny">ATS Score</span><b id="kpiATS">—</b></div>
             <div class="kpi"><span class="tiny">JD Match</span><b id="kpiMatch">—</b></div>
             <div class="kpi"><span class="tiny">Keywords Found</span><b id="kpiKeys">—</b></div>
             <div class="kpi"><span class="tiny">Words</span><b id="kpiRead">—</b></div>
@@ -323,10 +328,11 @@
     const parseNotice = byId('parseNotice');
 
     // KPIs
-    const kpiScore = byId('kpiScore'); // now "Machine Readability"
+    const kpiScore = byId('kpiScore'); // Machine Readability (Flesch 0..100)
+    const kpiATS   = byId('kpiATS');   // New: ATS score from AI JSON
     const kpiMatch = byId('kpiMatch');
     const kpiKeys  = byId('kpiKeys');
-    const kpiRead  = byId('kpiRead');  // now "Words"
+    const kpiRead  = byId('kpiRead');
 
     // Footer year
     byId('y').textContent = new Date().getFullYear();
@@ -369,11 +375,11 @@
     providerSel.addEventListener('change', ()=>{ cfg.provider = providerSel.value; populateModels(); });
 
     // Mode switch
-    modeSel.addEventListener('change', ()=>{ jdWrap.classList.toggle('hidden', modeSel.value!=='againstJD'); });
+    modeSel.addEventListener('change', ()=>{ jdWrap.classList.toggle('hidden', modeSel.value!=='againstJD'); quickKPIs(); });
 
     // Counts
     function counts(text){
-      const words = (text.trim().match(/\b[\w’'-]+\b/gu) || []).length;
+      const words = (text.trim().match(/\b[\p{L}\p{N}’'’-]+\b/gu) || []).length;
       return { chars: text.length, words };
     }
     function updateCounts(){
@@ -382,11 +388,11 @@
       wordCount.textContent = words.toLocaleString();
       kpiRead.textContent = words.toLocaleString(); // expose word count in KPI
     }
-    resumeText.addEventListener('input', debounce(updateCounts, 80));
+    resumeText.addEventListener('input', debounce(()=>{ updateCounts(); quickKPIs(); }, 100));
     updateCounts();
 
     // Paste/Clear
-    pasteBtn.addEventListener('click', async ()=>{ try { resumeText.value = await navigator.clipboard.readText(); updateCounts(); resumeText.focus(); } catch { toast('Clipboard blocked by browser'); } });
+    pasteBtn.addEventListener('click', async ()=>{ try { resumeText.value = await navigator.clipboard.readText(); updateCounts(); quickKPIs(); resumeText.focus(); } catch { toast('Clipboard blocked by browser'); } });
     clearBtn.addEventListener('click', ()=>{ resumeText.value = ''; jdText.value=''; fileNameEl.textContent='PDF/DOCX/TXT'; updateCounts(); resetKPIs(); output.textContent=''; status.textContent=''; });
 
     // File handling (PDF/DOCX/TXT)
@@ -433,20 +439,38 @@
     });
 
     // Local heuristics (instant)
-    function sentences(t){ return (t.trim().match(/[^.!?]+[.!?]*/g) || []).map(s=>s.trim()).filter(Boolean); }
+    function sentences(t){
+      const s = (t.trim().match(/[^.!?]+[.!?]*/g) || []).map(s=>s.trim()).filter(Boolean);
+      return s.length ? s : (t.trim() ? [t.trim()] : []);
+    }
+    function syllables(word){
+      // Simple, robust heuristic; never returns 0
+      const w = (word || '').toLowerCase().normalize('NFKD').replace(/[^\p{L}]/gu,'');
+      if(!w) return 1;
+      const groups = (w.match(/[aeiouy]+/g) || []).length;
+      return Math.max(1, groups);
+    }
     function flesch(t){
-      const words=(t.match(/\b[a-zA-Z’'-]+\b/g)||[]);
-      const syl=words.reduce((s,w)=>s+((w.toLowerCase().match(/[aeiouy]+/g)||[]).length||1),0);
-      const S=sentences(t).length||1, W=Math.max(words.length,1), SYL=Math.max(syl,1);
-      const score = 206.835 - 1.015*(W/S) - 84.6*(SYL/W);
-      return Math.max(0, Math.min(100, Math.round(score)));
+      const words=(t.match(/\b[\p{L}’'’-]+\b/gu)||[]);
+      const S = Math.max(1, sentences(t).length);
+      const W = Math.max(1, words.length);
+      const SYL = words.reduce((s,w)=>s+syllables(w),0);
+      const raw = 206.835 - 1.015*(W/S) - 84.6*(SYL/W);
+      const score = Math.max(0, Math.min(100, Math.round(Number.isFinite(raw)? raw : 60)));
+      return score;
     }
     function guessKeywords(t){
       const words=(t.toLowerCase().match(/[a-z][a-z0-9\-+.#]{2,}/g)||[]).filter(w=>!/^(and|the|for|with|from|that|this|into|your|our|their|a|an|to|in|on|of|as|by|is|are|be|was|were|it|at)$/.test(w));
       const m=new Map(); words.forEach(w=>m.set(w,(m.get(w)||0)+1));
-      return [...m.entries()].sort((a,b)=>b[1]-a[1]).slice(0,15).map(x=>x[0]);
+      return [...m.entries()].sort((a,b)=>b[1]-a[1]).slice(0,20).map(x=>x[0]);
     }
-    function resetKPIs(){ kpiScore.textContent='—'; kpiMatch.textContent='—'; kpiKeys.textContent='—'; /* kpiRead updated by updateCounts() */ }
+    function resetKPIs(){
+      kpiScore.textContent='—';
+      kpiATS.textContent='—';
+      kpiMatch.textContent='—';
+      kpiKeys.textContent='—';
+      // kpiRead updated by updateCounts()
+    }
 
     function quickKPIs() {
       const t = resumeText.value.trim();
@@ -468,9 +492,10 @@
       } else {
         kpiMatch.textContent = '—';
       }
+      // ATS score comes from AI JSON later; don't overwrite here
     }
 
-    // Prompt builder — clarified with explicit output format + examples
+    // Prompt builder — strict output format + examples
     function buildPrompt({ resume, jd, mode }){
       if(mode === 'againstJD'){
         return [
@@ -578,7 +603,7 @@
       if(!text) return null;
 
       // 1) Try fenced ```json ... ```
-      const fenceJson = text.match(/```json\\s*([\\s\\S]*?)\\s*```/i);
+      const fenceJson = text.match(/```json\s*([\s\S]*?)\s*```/i);
       if(fenceJson?.[1]){
         const cleaned = fenceJson[1].trim();
         const obj = safeJson(cleaned);
@@ -586,18 +611,18 @@
       }
 
       // 2) Try generic fence ``` ... ```
-      const fenceAny = text.match(/```\\s*([\\s\\S]*?)\\s*```/);
+      const fenceAny = text.match(/```\s*([\s\S]*?)\s*```/);
       if(fenceAny?.[1]){
-        const tryClean = fenceAny[1].replace(/^json\\s*/i,'').trim(); // strips a leading "json"
+        const tryClean = fenceAny[1].replace(/^json\s*/i,'').trim(); // strips a leading "json"
         const obj = safeJson(tryClean);
         if(obj) return obj;
       }
 
-      // 3) Try a substring starting with first '{' and ending at last '}' (best-effort)
+      // 3) Fallback: first { ... last }
       const firstBrace = text.indexOf('{');
       const lastBrace = text.lastIndexOf('}');
       if(firstBrace !== -1 && lastBrace !== -1 && lastBrace > firstBrace){
-        const maybe = text.slice(firstBrace, lastBrace+1).replace(/^json\\s*/i,'').trim();
+        const maybe = text.slice(firstBrace, lastBrace+1).replace(/^json\s*/i,'').trim();
         const obj = safeJson(maybe);
         if(obj) return obj;
       }
@@ -610,11 +635,10 @@
       try {
         return JSON.parse(s);
       } catch {
-        // Remove obvious trailing commas in arrays/objects
         const noTrailing = s
-          .replace(/,\\s*([}\\]])/g, '$1')
-          .replace(/\\u201c|\\u201d|“|”/g, '"')
-          .replace(/\\u2019|’/g, "'");
+          .replace(/,\s*([}\]])/g, '$1')
+          .replace(/\u201c|\u201d|“|”/g, '"')
+          .replace(/\u2019|’/g, "'");
         try { return JSON.parse(noTrailing); } catch { return null; }
       }
     }
@@ -622,12 +646,24 @@
     // Use AI JSON (if available) to refine KPIs
     function applyAiKPIs(obj){
       if(!obj || typeof obj!=='object') return;
-      if(typeof obj.match==='number') kpiMatch.textContent = Math.round(obj.match) + '%';
-      if(Array.isArray(obj.key_keywords)) kpiKeys.textContent = obj.key_keywords.length.toString();
-      if(Array.isArray(obj.missing_keywords)) {
-        // If JD mode, missing keywords length is informative too
-        const count = parseInt(kpiKeys.textContent||'0',10);
-        if(!count) kpiKeys.textContent = (obj.key_keywords?.length ?? 0).toString();
+
+      // ATS Score
+      if(typeof obj.score === 'number' && Number.isFinite(obj.score)){
+        const s = Math.max(0, Math.min(100, Math.round(obj.score)));
+        kpiATS.textContent = s + '%';
+      }
+
+      // JD Match (only if provided by model)
+      if(typeof obj.match === 'number' && Number.isFinite(obj.match)){
+        const m = Math.max(0, Math.min(100, Math.round(obj.match)));
+        kpiMatch.textContent = m + '%';
+      }
+
+      // Keywords (prefer key_keywords length if present)
+      if(Array.isArray(obj.key_keywords)){
+        kpiKeys.textContent = String(obj.key_keywords.length);
+      } else if(Array.isArray(obj.missing_keywords)){
+        // keep current "found" count; missing_keywords is different metric
       }
     }
 
@@ -706,8 +742,8 @@
       }catch{}
     })();
 
-    // Run quick KPIs when JD text changes (for live JD match estimate)
-    jdText?.addEventListener('input', debounce(quickKPIs, 120));
+    // Live updates for JD match estimate
+    jdText?.addEventListener('input', debounce(quickKPIs, 150));
     resumeText?.addEventListener('input', debounce(quickKPIs, 150));
   </script>
 </body>
