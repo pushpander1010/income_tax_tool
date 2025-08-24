@@ -774,7 +774,6 @@
           try {
             colsole.log('payload:'+ payload);
             const json = JSON.parse(payload);
-            colsole.log('chunk'+ json);
             const delta = json?.choices?.[0]?.delta?.content ?? '';
             if (delta) { acc += delta; output.append(document.createTextNode(delta)); output.scrollTop = output.scrollHeight; }
           } catch { }
