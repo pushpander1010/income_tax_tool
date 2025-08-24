@@ -770,10 +770,10 @@
         for (const raw of chunk.split('\\n')) {
           const line = raw.trim(); if (!line || !line.startsWith('data:')) continue;
           const payload = line.slice(5).trim();
-          console.log('Payload:', payload);
           if (payload === '[DONE]') { aborter = null; return acc; }
           try {
             const json = JSON.parse(payload);
+            printf('chunk', json);
             const delta = json?.choices?.[0]?.delta?.content ?? '';
             if (delta) { acc += delta; output.append(document.createTextNode(delta)); output.scrollTop = output.scrollHeight; }
           } catch { }
