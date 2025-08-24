@@ -773,7 +773,7 @@
           if (payload === '[DONE]') { aborter = null; return acc; }
           try {
             const json = JSON.parse(payload);
-            printf('chunk', json);
+            colsole.log('chunk', json);
             const delta = json?.choices?.[0]?.delta?.content ?? '';
             if (delta) { acc += delta; output.append(document.createTextNode(delta)); output.scrollTop = output.scrollHeight; }
           } catch { }
