@@ -3,35 +3,35 @@
 
 <head>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617"
-  crossorigin="anonymous"></script>
+    crossorigin="anonymous"></script>
 
- <meta charset="UTF-8" />
- <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
- <title>Free AI Resume ATS Analyzer (PDF/DOCX/TXT) + JD Match | UpTools</title>
- <meta name="description"
-  content="Upload your resume (PDF, DOCX, TXT) and get a machine readability score, ATS score, missing keywords, and recruiter-ready fixes. Compare against a Job Description. Works with Perplexity, Google Gemini 2.5, and Groq via secure proxy. No login." />
- <meta name="keywords"
-  content="resume ats checker,resume analyzer,ats resume score,ats keywords,job description match,free resume checker,docx pdf resume analysis,readability score" />
- <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:large" />
- <meta name="theme-color" content="#0b1020" />
- <link rel="canonical" href="https://www.uptools.in/resume-analyzer/" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Free AI Resume ATS Analyzer (PDF/DOCX/TXT) + JD Match | UpTools</title>
+  <meta name="description"
+    content="Upload your resume (PDF, DOCX, TXT) and get a machine readability score, ATS score, missing keywords, and recruiter-ready fixes. Compare against a Job Description. Works with Perplexity, Google Gemini 2.5, and Groq via secure proxy. No login." />
+  <meta name="keywords"
+    content="resume ats checker,resume analyzer,ats resume score,ats keywords,job description match,free resume checker,docx pdf resume analysis,readability score" />
+  <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:large" />
+  <meta name="theme-color" content="#0b1020" />
+  <link rel="canonical" href="https://www.uptools.in/resume-analyzer/" />
 
   <link rel="icon" type="image/svg+xml" href="/assets/logo/uptools-logo.svg">
- <link rel="apple-touch-icon" sizes="180x180" href="/assets/logo/uptools-logo.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/logo/uptools-logo.svg">
 
   <meta property="og:title" content="Free AI Resume ATS Analyzer + JD Match" />
- <meta property="og:description"
-  content="Check machine readability, ATS score, find missing keywords, and optimize instantly. Upload PDF/DOCX/TXT. Compare against a Job Description. No sign-ups." />
- <meta property="og:type" content="website" />
- <meta property="og:url" content="https://www.uptools.in/resume-analyzer/" />
- <meta property="og:site_name" content="UpTools" />
- <meta property="og:image" content="https://www.uptools.in/assets/og/resume-ats-analyzer.png" />
- <meta property="og:image:width" content="1200" />
- <meta property="og:image:height" content="630" />
- <meta name="twitter:card" content="summary_large_image" />
+  <meta property="og:description"
+    content="Check machine readability, ATS score, find missing keywords, and optimize instantly. Upload PDF/DOCX/TXT. Compare against a Job Description. No sign-ups." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.uptools.in/resume-analyzer/" />
+  <meta property="og:site_name" content="UpTools" />
+  <meta property="og:image" content="https://www.uptools.in/assets/og/resume-ats-analyzer.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
 
   <link rel="preload" href="/style.css" as="style">
- <link rel="stylesheet" href="/style.css">
+  <link rel="stylesheet" href="/style.css">
 
   <link rel="modulepreload" href="/scripts/utils.js">
 
@@ -70,853 +70,882 @@
  </script>
 
   <style>
-  :root {
-   --panel-h: clamp(560px, 78dvh, 840px);
-   --gap: 14px;
-  }
+    :root {
+      --panel-h: clamp(560px, 78dvh, 840px);
+      --gap: 14px;
+    }
 
-  main.tool {
-   max-width: 1200px;
-   margin-inline: auto;
-   padding: 12px var(--container-px, 12px);
-  }
+    main.tool {
+      max-width: 1200px;
+      margin-inline: auto;
+      padding: 12px var(--container-px, 12px);
+    }
 
-  .grid {
-   display: grid;
-   grid-template-columns: 1fr 1fr;
-   gap: var(--gap);
-   align-items: stretch;
-  }
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--gap);
+      align-items: stretch;
+    }
 
-  @media (max-width: 1020px) {
-   .grid {
-    grid-template-columns: 1fr;
-   }
-  }
+    @media (max-width: 1020px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
 
-  .panel {
-   display: flex;
-   flex-direction: column;
-   height: var(--panel-h);
-   min-height: 480px;
-   overflow: hidden;
-  }
+    .panel {
+      display: flex;
+      flex-direction: column;
+      height: var(--panel-h);
+      min-height: 480px;
+      overflow: hidden;
+    }
 
-  @media (max-width: 760px) {
-   .panel {
-    height: auto;
-    min-height: 0;
-   }
-  }
+    @media (max-width: 760px) {
+      .panel {
+        height: auto;
+        min-height: 0;
+      }
+    }
 
-  .panel-head {
-   display: flex;
-   align-items: center;
-   justify-content: space-between;
-   gap: 8px;
-   padding: 10px 12px;
-  }
+    .panel-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 10px 12px;
+    }
 
-  .panel-body {
-   flex: 1;
-   min-height: 0;
-   display: grid;
-   grid-template-rows: auto 1fr auto;
-   gap: 10px;
-   padding: 10px 12px;
-   overflow: auto;
-  }
+    .panel-body {
+      flex: 1;
+      min-height: 0;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 10px;
+      padding: 10px 12px;
+      overflow: auto;
+    }
 
-  .row {
-   display: grid;
-   gap: 8px;
-   grid-template-columns: 1fr 1fr;
-  }
+    .row {
+      display: grid;
+      gap: 8px;
+      grid-template-columns: 1fr 1fr;
+    }
 
-  @media (max-width: 640px) {
-   .row {
-    grid-template-columns: 1fr;
-   }
-  }
+    @media (max-width: 640px) {
+      .row {
+        grid-template-columns: 1fr;
+      }
+    }
 
-  .scroll-area {
-   width: 100%;
-   height: 100%;
-   overflow: auto;
-  }
+    .scroll-area {
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+    }
 
-  textarea.input {
-   width: 100%;
-   min-height: 160px;
-   max-height: min(38dvh, 420px);
-   resize: vertical;
-   padding: 10px 12px;
-   border-radius: 12px;
-  }
+    textarea.input {
+      width: 100%;
+      min-height: 160px;
+      max-height: min(38dvh, 420px);
+      resize: vertical;
+      padding: 10px 12px;
+      border-radius: 12px;
+    }
 
-  pre.output {
-   width: 100%;
-   min-height: clamp(220px, 28dvh, 360px);
-   max-height: min(46dvh, 520px);
-   height: auto;
-   margin: 0;
-   padding: 12px 14px;
-   overflow: auto;
-   white-space: pre-wrap;
-   word-wrap: break-word;
-   word-break: break-word;
-   border-radius: 12px;
-   background: #121826;
-   border: 1px solid #212a3a;
-   font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
-   line-height: 1.55;
-  }
+    pre.output {
+      width: 100%;
+      min-height: clamp(220px, 28dvh, 360px);
+      max-height: min(46dvh, 520px);
+      height: auto;
+      margin: 0;
+      padding: 12px 14px;
+      overflow: auto;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      word-break: break-word;
+      border-radius: 12px;
+      background: #121826;
+      border: 1px solid #212a3a;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+      line-height: 1.55;
+    }
 
-  /* Pretty file input -> "Choose File" button */
-  .file-wrap {
-   position: relative;
-   display: inline-flex;
-   align-items: center;
-   gap: 8px;
-  }
+    /* Pretty file input -> "Choose File" button */
+    .file-wrap {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
 
-  .file-wrap input[type="file"] {
-   position: absolute;
-   inset: 0;
-   opacity: 0;
-   cursor: pointer;
-  }
+    .file-wrap input[type="file"] {
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
 
-  .file-btn {
-   display: inline-flex;
-   align-items: center;
-   gap: 8px;
-   padding: 8px 14px;
-   border-radius: 10px;
-   background: linear-gradient(135deg, var(--accent), color-mix(in oklab, var(--accent-2) 70%, white));
-   color: #071018;
-   border: 1px solid color-mix(in oklab, var(--accent) 65%, #223);
-   box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .25), var(--glow-soft);
-   font-weight: 900;
-  }
+    .file-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--accent), color-mix(in oklab, var(--accent-2) 70%, white));
+      color: #071018;
+      border: 1px solid color-mix(in oklab, var(--accent) 65%, #223);
+      box-shadow: inset 0 -1px 0 rgba(0, 0, 0, .25), var(--glow-soft);
+      font-weight: 900;
+    }
 
-  .file-name {
-   font-size: 12px;
-   color: var(--muted);
-   max-width: 240px;
-   overflow: hidden;
-   text-overflow: ellipsis;
-   white-space: nowrap;
-  }
+    .file-name {
+      font-size: 12px;
+      color: var(--muted);
+      max-width: 240px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
 
-  .notice {
-   font-size: 12px;
-   color: var(--muted);
-   background: #0b1326;
-   border: 1px dashed color-mix(in oklab, var(--accent) 40%, #314);
-   border-radius: 10px;
-   padding: 8px 10px;
-  }
+    .notice {
+      font-size: 12px;
+      color: var(--muted);
+      background: #0b1326;
+      border: 1px dashed color-mix(in oklab, var(--accent) 40%, #314);
+      border-radius: 10px;
+      padding: 8px 10px;
+    }
 
-  /* KPIs */
-  .kpis {
-   display: grid;
-   grid-template-columns: repeat(5, minmax(110px, 1fr));
-   gap: 10px;
-  }
+    /* KPIs */
+    .kpis {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(110px, 1fr));
+      gap: 10px;
+    }
 
-  @media (max-width:1000px) {
-   .kpis {
-    grid-template-columns: repeat(3, 1fr);
-   }
-  }
+    @media (max-width:1000px) {
+      .kpis {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
 
-  @media (max-width:520px) {
-   .kpis {
-    grid-template-columns: 1fr 1fr;
-   }
-  }
+    @media (max-width:520px) {
+      .kpis {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
 
-  .kpi {
-   padding: 10px;
-   border-radius: 10px;
-   background: #0a1224;
-   border: 1px solid var(--border);
-   box-shadow: var(--glow-soft);
-  }
+    .kpi {
+      padding: 10px;
+      border-radius: 10px;
+      background: #0a1224;
+      border: 1px solid var(--border);
+      box-shadow: var(--glow-soft);
+    }
 
-  .kpi b {
-   font-size: 18px;
-   display: block;
-  }
+    .kpi b {
+      font-size: 18px;
+      display: block;
+    }
 
-  .tiny {
-   font-size: 12px;
-   opacity: .85;
-  }
+    .tiny {
+      font-size: 12px;
+      opacity: .85;
+    }
 
-  /* Ad slot: reserved height prevents layout shift */
-  .ad-wrap {
-   display: block;
-   min-height: 160px;
-   margin: 10px 0;
-   position: relative;
-   overflow: hidden;
-  }
+    /* Ad slot: reserved height prevents layout shift */
+    .ad-wrap {
+      display: block;
+      min-height: 160px;
+      margin: 10px 0;
+      position: relative;
+      overflow: hidden;
+    }
 
-  @media (min-width:1024px) {
-   .ad-wrap {
-    min-height: 250px;
-   }
-  }
+    @media (min-width:1024px) {
+      .ad-wrap {
+        min-height: 250px;
+      }
+    }
 
-  .ad-wrap:empty::before {
-   content: "";
-   display: block;
-   width: 100%;
-   height: 100%;
-  }
+    .ad-wrap:empty::before {
+      content: "";
+      display: block;
+      width: 100%;
+      height: 100%;
+    }
 
-  /* Avoid overlap anywhere by ensuring sections have z-index context */
-  section.card,
-  section.spaced,
-  .site-footer {
-   position: relative;
-   z-index: 0;
-  }
- </style>
+    /* Avoid overlap anywhere by ensuring sections have z-index context */
+    section.card,
+    section.spaced,
+    .site-footer {
+      position: relative;
+      z-index: 0;
+    }
+  </style>
 </head>
 
 <body>
   <header class="site" role="banner">
-  <div class="header-inner">
-   <a class="brand" href="/" aria-label="UpTools Home">
-    <img src="/assets/logo/uptools-logo.svg" alt="UpTools logo" width="28" height="28" fetchpriority="high">
-    <b>UpTools</b>
-   </a>
-   <nav class="nav-links" aria-label="Primary navigation">
-    <a href="/#tools">Tools</a>
-    <a href="/ai-writer/">AI Writer</a>
-    <a href="/word-counter/">Word Counter</a>
-    <a aria-current="page" href="/resume-analyzer/">Resume</a>
-   </nav>
-  </div>
- </header>
-
- <main class="tool container" id="top">
-  <section class="card hero" aria-labelledby="title">
-   <div>
-    <h1 id="title">🧾🔎 Resume ATS Analyzer (PDF • DOCX • TXT)</h1>
-    <p class="note" style="margin:0">
-     Get a <b>Machine Readability</b> score, <b>ATS Score</b>, missing keywords, formatting fixes, and
-     recruiter-ready suggestions.
-     Compare your resume against a Job Description (JD). Pick Perplexity, Google Gemini 2.5, or Groq.
-    </p>
-    <div class="chips" style="margin-top:8px">
-     <span class="pill">⚡ Streams live</span>
-     <span class="pill">🔒 No browser API key</span>
-     <a class="chip" href="/sitemap.xml">Sitemap</a>
-     <a class="chip" href="/about/">About</a>
-     <a class="chip" href="/contact/">Contact</a>
+    <div class="header-inner">
+      <a class="brand" href="/" aria-label="UpTools Home">
+        <img src="/assets/logo/uptools-logo.svg" alt="UpTools logo" width="28" height="28" fetchpriority="high">
+        <b>UpTools</b>
+      </a>
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a href="/#tools">Tools</a>
+        <a href="/ai-writer/">AI Writer</a>
+        <a href="/word-counter/">Word Counter</a>
+        <a aria-current="page" href="/resume-analyzer/">Resume</a>
+      </nav>
     </div>
-   </div>
-  </section>
+  </header>
+
+  <main class="tool container" id="top">
+    <section class="card hero" aria-labelledby="title">
+      <div>
+        <h1 id="title">🧾🔎 Resume ATS Analyzer (PDF • DOCX • TXT)</h1>
+        <p class="note" style="margin:0">
+          Get a <b>Machine Readability</b> score, <b>ATS Score</b>, missing keywords, formatting fixes, and
+          recruiter-ready suggestions.
+          Compare your resume against a Job Description (JD). Pick Perplexity, Google Gemini 2.5, or Groq.
+        </p>
+        <div class="chips" style="margin-top:8px">
+          <span class="pill">⚡ Streams live</span>
+          <span class="pill">🔒 No browser API key</span>
+          <a class="chip" href="/sitemap.xml">Sitemap</a>
+          <a class="chip" href="/about/">About</a>
+          <a class="chip" href="/contact/">Contact</a>
+        </div>
+      </div>
+    </section>
 
     <section id="adMount" class="ad-wrap" aria-label="Advertisement area"></section>
 
-  <section class="grid" aria-label="Workspace">
+    <section class="grid" aria-label="Workspace">
       <article class="panel card" aria-labelledby="input-title">
-    <div class="panel-head">
-     <h2 id="input-title" class="h4">Your Resume & Options</h2>
-     <div class="toolbar" role="group" aria-label="Top controls">
-      <label class="inline tiny"><span>Characters:</span> <output id="charCount">0</output></label>
-      <label class="inline tiny"><span>Words:</span> <output id="wordCount">0</output></label>
-      <button id="pasteBtn" class="btn sm" type="button" title="Paste resume text">Paste</button>
+        <div class="panel-head">
+          <h2 id="input-title" class="h4">Your Resume & Options</h2>
+          <div class="toolbar" role="group" aria-label="Top controls">
+            <label class="inline tiny"><span>Characters:</span> <output id="charCount">0</output></label>
+            <label class="inline tiny"><span>Words:</span> <output id="wordCount">0</output></label>
+            <button id="pasteBtn" class="btn sm" type="button" title="Paste resume text">Paste</button>
 
             <span class="file-wrap" title="Upload PDF, DOCX, or TXT">
-       <button type="button" class="file-btn" aria-hidden="true">Choose File</button>
-       <input id="resumeFile" class="input" type="file" accept=".pdf,.docx,.txt,.doc"
-        aria-label="Upload resume file">
-       <span id="fileName" class="file-name" aria-live="polite">PDF/DOCX/TXT</span>
-      </span>
+              <button type="button" class="file-btn" aria-hidden="true">Choose File</button>
+              <input id="resumeFile" class="input" type="file" accept=".pdf,.docx,.txt,.doc"
+                aria-label="Upload resume file">
+              <span id="fileName" class="file-name" aria-live="polite">PDF/DOCX/TXT</span>
+            </span>
 
-      <button id="clearBtn" class="btn sm secondary" type="button" title="Clear">Clear</button>
-     </div>
-    </div>
+            <button id="clearBtn" class="btn sm secondary" type="button" title="Clear">Clear</button>
+          </div>
+        </div>
 
-    <div class="panel-body">
-     <div class="notice" role="note" aria-live="polite" id="parseNotice">
-      <b>[Notice]</b> DOC/DOCX parsing is browser‑only. Complex headers/tables may be skipped.
-      If content looks incomplete, open your file and <b>paste plain text</b> below for best ATS accuracy.
-      <br><b>[Notice]</b> PDF extraction uses PDF.js in your browser. If text looks empty or garbled, copy‑paste
-      the resume text instead.
-     </div>
+        <div class="panel-body">
+          <div class="notice" role="note" aria-live="polite" id="parseNotice">
+            <b>[Notice]</b> DOC/DOCX parsing is browser‑only. Complex headers/tables may be skipped.
+            If content looks incomplete, open your file and <b>paste plain text</b> below for best ATS accuracy.
+            <br><b>[Notice]</b> PDF extraction uses PDF.js in your browser. If text looks empty or garbled, copy‑paste
+            the resume text instead.
+          </div>
 
-     <div class="row" style="margin-top:6px">
-      <label class="inline" style="gap:6px">
-       <span class="tiny">Mode</span>
-       <select id="mode" class="select" style="width:220px">
-        <option value="general" selected>General ATS Check</option>
-        <option value="againstJD">Against a Job Description</option>
-       </select>
-      </label>
+          <div class="row" style="margin-top:6px">
+            <label class="inline" style="gap:6px">
+              <span class="tiny">Mode</span>
+              <select id="mode" class="select" style="width:220px">
+                <option value="general" selected>General ATS Check</option>
+                <option value="againstJD">Against a Job Description</option>
+              </select>
+            </label>
 
-      <div class="inline">
-       <label class="inline"><span class="tiny">Provider</span>
-        <select id="provider" class="select" style="width:160px">
-         <option value="perplexity" selected>Perplexity</option>
-         <option value="google">Google (Gemini)</option>
-         <option value="groq">Groq</option>
-        </select>
-      	</label>
-      	<label class="inline"><span class="tiny">Model</span>
-      	  <select id="modelSel" class="select" style="width:230px">
-      	          	  </select>
-      	</label>
-      	<button id="saveCfg" class="btn sm secondary" type="button" title="Save provider & model">Save</button>
-      </div>
-     </div>
+            <div class="inline">
+              <label class="inline"><span class="tiny">Provider</span>
+                <select id="provider" class="select" style="width:160px">
+                  <option value="perplexity" selected>Perplexity</option>
+                  <option value="google">Google (Gemini)</option>
+                  <option value="groq">Groq</option>
+                </select>
+              </label>
+              <label class="inline"><span class="tiny">Model</span>
+                <select id="modelSel" class="select" style="width:230px">
+                </select>
+              </label>
+              <button id="saveCfg" class="btn sm secondary" type="button" title="Save provider & model">Save</button>
+            </div>
+          </div>
 
-     <div class="row">
-     	<label class="inline" style="grid-column:1/-1">
-     	  <span class="tiny">Resume Text</span>
-     	  <textarea id="resumeText" class="input" placeholder="Paste or drop your resume text here…"
-     	    spellcheck="true" aria-label="Resume text"></textarea>
-     	</label>
-     </div>
+          <div class="row">
+            <label class="inline" style="grid-column:1/-1">
+              <span class="tiny">Resume Text</span>
+              <textarea id="resumeText" class="input" placeholder="Paste or drop your resume text here…"
+                spellcheck="true" aria-label="Resume text"></textarea>
+            </label>
+          </div>
 
-     <div id="jdWrap" class="row hidden">
-     	<label class="inline" style="grid-column:1/-1">
-     	  <span class="tiny">Job Description (for comparison)</span>
-     	  <textarea id="jdText" class="input" placeholder="Paste the target Job Description here…" spellcheck="true"
-     	    aria-label="Job Description text"></textarea>
-     	</label>
-     </div>
+          <div id="jdWrap" class="row hidden">
+            <label class="inline" style="grid-column:1/-1">
+              <span class="tiny">Job Description (for comparison)</span>
+              <textarea id="jdText" class="input" placeholder="Paste the target Job Description here…" spellcheck="true"
+                aria-label="Job Description text"></textarea>
+            </label>
+          </div>
 
-     <div class="toolbar" role="group" aria-label="Action buttons">
-     	<button id="runBtn" class="btn" type="button">Analyze ▶</button>
-     	<button id="stopBtn" class="btn danger sm" type="button" disabled>Stop</button>
-     	<button id="copyBtn" class="btn sm" type="button">Copy</button>
-     	<button id="downloadBtn" class="btn sm" type="button">Download .txt</button>
-     	<button id="permBtn" class="btn sm secondary" type="button"
-     	  title="Create a shareable link with your settings">Permalink</button>
-     </div>
-    </div>
-   </article>
+          <div class="toolbar" role="group" aria-label="Action buttons">
+            <button id="runBtn" class="btn" type="button">Analyze ▶</button>
+            <button id="stopBtn" class="btn danger sm" type="button" disabled>Stop</button>
+            <button id="copyBtn" class="btn sm" type="button">Copy</button>
+            <button id="downloadBtn" class="btn sm" type="button">Download .txt</button>
+            <button id="permBtn" class="btn sm secondary" type="button"
+              title="Create a shareable link with your settings">Permalink</button>
+          </div>
+        </div>
+      </article>
 
       <article class="panel card" aria-labelledby="output-title">
-    <div class="panel-head">
-     <h2 id="output-title" class="h4">Results</h2>
-     <div class="toolbar" role="group" aria-label="KPI stats"></div>
-    </div>
+        <div class="panel-head">
+          <h2 id="output-title" class="h4">Results</h2>
+          <div class="toolbar" role="group" aria-label="KPI stats"></div>
+        </div>
 
-    <div class="panel-body">
-     <div class="kpis" id="kpis" aria-live="polite">
-     	<div class="kpi"><span class="tiny">Machine Readability</span><b id="kpiScore">-</b></div>
-     	<div class="kpi"><span class="tiny">ATS Score</span><b id="kpiATS">-</b></div>
-     	<div class="kpi"><span class="tiny">JD Match</span><b id="kpiMatch">-</b></div>
-     	<div class="kpi"><span class="tiny">Keywords Found</span><b id="kpiKeys">-</b></div>
-     	<div class="kpi"><span class="tiny">Words</span><b id="kpiRead">-</b></div>
-     </div>
+        <div class="panel-body">
+          <div class="kpis" id="kpis" aria-live="polite">
+            <div class="kpi"><span class="tiny">Machine Readability</span><b id="kpiScore">-</b></div>
+            <div class="kpi"><span class="tiny">ATS Score</span><b id="kpiATS">-</b></div>
+            <div class="kpi"><span class="tiny">JD Match</span><b id="kpiMatch">-</b></div>
+            <div class="kpi"><span class="tiny">Keywords Found</span><b id="kpiKeys">-</b></div>
+            <div class="kpi"><span class="tiny">Words</span><b id="kpiRead">-</b></div>
+          </div>
 
-     <div class="tiny" id="status" aria-live="polite" style="margin-top:2px"></div>
-     <pre id="output" class="output scroll-area" tabindex="0" aria-label="AI output"></pre>
+          <div class="tiny" id="status" aria-live="polite" style="margin-top:2px"></div>
+          <pre id="output" class="output scroll-area" tabindex="0" aria-label="AI output"></pre>
 
-     <div class="tips-related" role="region" aria-label="Tips & links"
-     	style="display:grid;gap:12px;grid-template-columns:1fr 1fr;align-items:start">
-     	<div>
-     	  <h3 class="h5">Tips</h3>
-     	  <ul class="list compact">
-     	    <li><b>Keywords:</b> Mirror JD skills (hard + soft). Use exact terms where honest.</li>
-     	    <li><b>Formatting:</b> Simple sections, standard headings, no tables/columns for ATS.</li>
-     	    <li><b>PDF vs DOCX:</b> If parsing fails, paste plain text for the cleanest scan.</li>
-     	  </ul>
-     	</div>
-     	<div>
-     	  <h3 class="h5">Related</h3>
-     	  <ul class="list compact">
-     	    <li><a href="/ai-writer/">AI Writer</a> - rewrite experience bullets.</li>
-     	    <li><a href="/word-counter/">Word Counter</a> - ensure concise length.</li>
-     	    <li><a href="/plagiarism-checker/">Plagiarism Checker</a> - remove clichés.</li>
-     	  </ul>
-     	</div>
-     </div>
-    </div>
-   </article>
-  </section>
+          <div class="tips-related" role="region" aria-label="Tips & links"
+            style="display:grid;gap:12px;grid-template-columns:1fr 1fr;align-items:start">
+            <div>
+              <h3 class="h5">Tips</h3>
+              <ul class="list compact">
+                <li><b>Keywords:</b> Mirror JD skills (hard + soft). Use exact terms where honest.</li>
+                <li><b>Formatting:</b> Simple sections, standard headings, no tables/columns for ATS.</li>
+                <li><b>PDF vs DOCX:</b> If parsing fails, paste plain text for the cleanest scan.</li>
+              </ul>
+            </div>
+            <div>
+              <h3 class="h5">Related</h3>
+              <ul class="list compact">
+                <li><a href="/ai-writer/">AI Writer</a> - rewrite experience bullets.</li>
+                <li><a href="/word-counter/">Word Counter</a> - ensure concise length.</li>
+                <li><a href="/plagiarism-checker/">Plagiarism Checker</a> - remove clichés.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </article>
+    </section>
 
-  <section class="spaced card" aria-labelledby="faq-title">
-   <h2 id="faq-title" class="h5">FAQ</h2>
-   <ul class="list compact">
-   	<li><b>Why is my DOCX missing content?</b> Browser DOCX extraction is limited; open the file and paste the text
-   	  here to ensure nothing is missed.</li>
-   	<li><b>Why does my PDF look empty?</b> Some PDFs are image‑based or have unusual encodings. Copy‑paste the text
-   	  for best results.</li>
-   	<li><b>Do you store my data?</b> No. Analysis runs locally; AI calls go via a server‑side key and are not stored
-   	  by us.</li>
-   </ul>
-  </section>
+    <section class="spaced card" aria-labelledby="faq-title">
+      <h2 id="faq-title" class="h5">FAQ</h2>
+      <ul class="list compact">
+        <li><b>Why is my DOCX missing content?</b> Browser DOCX extraction is limited; open the file and paste the text
+          here to ensure nothing is missed.</li>
+        <li><b>Why does my PDF look empty?</b> Some PDFs are image‑based or have unusual encodings. Copy‑paste the text
+          for best results.</li>
+        <li><b>Do you store my data?</b> No. Analysis runs locally; AI calls go via a server‑side key and are not stored
+          by us.</li>
+      </ul>
+    </section>
 
-  <footer class="site-footer">
-   <nav class="nav-links" aria-label="Footer">
-   	<a href="/about/"><span class="card-badge" aria-hidden="true">ABT</span> About</a>
-   	<a href="/contact/"><span class="card-badge" aria-hidden="true">CT</span> Contact</a>
-   	<a href="/privacy/"><span class="card-badge" aria-hidden="true">PP</span> Privacy</a>
-   </nav>
-   <p class="tiny">© <span id="y"></span> UpTools · <a href="/sitemap.xml">Sitemap</a></p>
-  </footer>
- </main>
+    <footer class="site-footer">
+      <nav class="nav-links" aria-label="Footer">
+        <a href="/about/"><span class="card-badge" aria-hidden="true">ABT</span> About</a>
+        <a href="/contact/"><span class="card-badge" aria-hidden="true">CT</span> Contact</a>
+        <a href="/privacy/"><span class="card-badge" aria-hidden="true">PP</span> Privacy</a>
+      </nav>
+      <p class="tiny">© <span id="y"></span> UpTools · <a href="/sitemap.xml">Sitemap</a></p>
+    </footer>
+  </main>
 
   <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/build/pdf.min.js"></script>
- <script>pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/build/pdf.worker.min.js";</script>
+  <script>pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/build/pdf.worker.min.js";</script>
 
   <script src="https://cdn.jsdelivr.net/npm/mammoth@1.8.0/mammoth.browser.min.js"></script>
 
- <script type="module">
-  import { $, $$, debounce, persist, read } from '/scripts/utils.js';
+  <script type="module">
+    import { $, $$, debounce, persist, read } from '/scripts/utils.js';
 
-  const byId = (id) => document.getElementById(id);
-  const resumeFile = byId('resumeFile');
-  const fileNameEl = byId('fileName');
-  const resumeText = byId('resumeText');
-  const jdText = byId('jdText');
-  const modeSel = byId('mode');
-  const status = byId('status');
-  const output = byId('output');
-  const copyBtn = byId('copyBtn');
-  const downloadBtn = byId('downloadBtn');
-  const permBtn = byId('permBtn');
-  const pasteBtn = byId('pasteBtn');
-  const clearBtn = byId('clearBtn');
-  const charCount = byId('charCount');
-  const wordCount = byId('wordCount');
-  const runBtn = byId('runBtn');
-  const stopBtn = byId('stopBtn');
-  const saveCfg = byId('saveCfg');
-  const providerSel = byId('provider');
-  const modelSel = byId('modelSel');
-  const jdWrap = byId('jdWrap');
-  const parseNotice = byId('parseNotice');
+    const byId = (id) => document.getElementById(id);
+    const resumeFile = byId('resumeFile');
+    const fileNameEl = byId('fileName');
+    const resumeText = byId('resumeText');
+    const jdText = byId('jdText');
+    const modeSel = byId('mode');
+    const status = byId('status');
+    const output = byId('output');
+    const copyBtn = byId('copyBtn');
+    const downloadBtn = byId('downloadBtn');
+    const permBtn = byId('permBtn');
+    const pasteBtn = byId('pasteBtn');
+    const clearBtn = byId('clearBtn');
+    const charCount = byId('charCount');
+    const wordCount = byId('wordCount');
+    const runBtn = byId('runBtn');
+    const stopBtn = byId('stopBtn');
+    const saveCfg = byId('saveCfg');
+    const providerSel = byId('provider');
+    const modelSel = byId('modelSel');
+    const jdWrap = byId('jdWrap');
+    const parseNotice = byId('parseNotice');
 
-  // KPIs
-  const kpiScore = byId('kpiScore'); // Machine Readability
- 	const kpiATS = byId('kpiATS');  	// ATS Score (from AI ONLY)
- 	const kpiMatch = byId('kpiMatch'); // JD Match %
- 	const kpiKeys = byId('kpiKeys'); // Keywords found (heuristic)
- 	const kpiRead = byId('kpiRead'); // Words
+    // KPIs
+    const kpiScore = byId('kpiScore'); // Machine Readability
+    const kpiATS = byId('kpiATS');  	// ATS Score (from AI ONLY)
+    const kpiMatch = byId('kpiMatch'); // JD Match %
+    const kpiKeys = byId('kpiKeys'); // Keywords found (heuristic)
+    const kpiRead = byId('kpiRead'); // Words
 
- 	// Footer year
- 	byId('y').textContent = new Date().getFullYear();
+    // Footer year
+    byId('y').textContent = new Date().getFullYear();
 
- 	// Provider/Model presets
- 	const PROVIDER_MODELS = {
- 	  perplexity: [
- 	    { id: 'sonar', label: 'sonar' },
- 	    { id: 'sonar-pro', label: 'sonar-pro' },
- 	    { id: 'sonar-reasoning', label: 'sonar-reasoning' }
- 	  ],
- 	  google: [
- 	    { id: 'gemini-2.5-flash', label: 'gemini-2.5-flash' },
- 	    { id: 'gemini-2.5-pro', label: 'gemini-2.5-pro' }
- 	  ],
- 	  groq: [
- 	    { id: 'llama-3.1-8b-instant', label: 'llama-3.1-8b-instant' },
- 	    { id: 'llama-3.1-70b-versatile', label: 'llama-3.1-70b-versatile' },
- 	    { id: 'mixtral-8x7b-32768', label: 'mixtral-8x7b-32768' },
- 	    { id: 'gemma2-9b-it', label: 'gemma2-9b-it' }
- 	  ]
- 	};
- 	const CFG_KEY = 'ats:cfg';
- 	const cfg = Object.assign({ provider: 'perplexity', model: 'sonar' }, read(CFG_KEY, {}));
- 	providerSel.value = cfg.provider || 'perplexity';
- 	function populateModels() {
- 	  const prov = providerSel.value || 'perplexity';
- 	  const models = PROVIDER_MODELS[prov] || [];
- 	  modelSel.innerHTML = '';
- 	  for (const m of models) {
- 	    const opt = document.createElement('option');
- 	    opt.value = m.id; opt.textContent = m.label;
- 	    modelSel.appendChild(opt);
- 	  }
- 	  const ok = models.some(m => m.id === cfg.model);
- 	  modelSel.value = ok ? cfg.model : (models[0]?.id || '');
- 	}
- 	populateModels();
- 	saveCfg.addEventListener('click', () => { persist(CFG_KEY, { provider: providerSel.value, model: modelSel.value }); toast('Settings saved'); });
- 	providerSel.addEventListener('change', () => { cfg.provider = providerSel.value; populateModels(); });
+    // Provider/Model presets
+    const PROVIDER_MODELS = {
+      perplexity: [
+        { id: 'sonar', label: 'sonar' },
+        { id: 'sonar-pro', label: 'sonar-pro' },
+        { id: 'sonar-reasoning', label: 'sonar-reasoning' }
+      ],
+      google: [
+        { id: 'gemini-2.5-flash', label: 'gemini-2.5-flash' },
+        { id: 'gemini-2.5-pro', label: 'gemini-2.5-pro' }
+      ],
+      groq: [
+        { id: 'llama-3.1-8b-instant', label: 'llama-3.1-8b-instant' },
+        { id: 'llama-3.1-70b-versatile', label: 'llama-3.1-70b-versatile' },
+        { id: 'mixtral-8x7b-32768', label: 'mixtral-8x7b-32768' },
+        { id: 'gemma2-9b-it', label: 'gemma2-9b-it' }
+      ]
+    };
+    const CFG_KEY = 'ats:cfg';
+    const cfg = Object.assign({ provider: 'perplexity', model: 'sonar' }, read(CFG_KEY, {}));
+    providerSel.value = cfg.provider || 'perplexity';
+    function populateModels() {
+      const prov = providerSel.value || 'perplexity';
+      const models = PROVIDER_MODELS[prov] || [];
+      modelSel.innerHTML = '';
+      for (const m of models) {
+        const opt = document.createElement('option');
+        opt.value = m.id; opt.textContent = m.label;
+        modelSel.appendChild(opt);
+      }
+      const ok = models.some(m => m.id === cfg.model);
+      modelSel.value = ok ? cfg.model : (models[0]?.id || '');
+    }
+    populateModels();
+    saveCfg.addEventListener('click', () => { persist(CFG_KEY, { provider: providerSel.value, model: modelSel.value }); toast('Settings saved'); });
+    providerSel.addEventListener('change', () => { cfg.provider = providerSel.value; populateModels(); });
 
- 	// Mode switch
- 	modeSel.addEventListener('change', () => {
- 	  jdWrap.classList.toggle('hidden', modeSel.value !== 'againstJD');
- 	  quickKPIs(); // recalc immediately when mode changes
- 	});
+    // Mode switch
+    modeSel.addEventListener('change', () => {
+      jdWrap.classList.toggle('hidden', modeSel.value !== 'againstJD');
+      quickKPIs();
+    });
 
- 	// --- Robust text metrics (Unicode aware) ---
- 	const WORD_RE = /[\p{L}\p{N}][\p{L}\p{N}'''\-+.#/]*/gu;
+    // --- Robust text metrics (Unicode aware) ---
+    const WORD_RE = /[\p{L}\p{N}][\p{L}\p{N}'''\-+.#/]*/gu;
 
- 	function counts(text) {
- 	  const words = (text.match(WORD_RE) || []).length;
- 	  return { chars: text.length, words };
- 	}
- 	function updateCounts() {
- 	  const { chars, words } = counts(resumeText.value);
- 	  charCount.textContent = chars.toLocaleString();
- 	  wordCount.textContent = words.toLocaleString();
- 	  kpiRead.textContent = words.toLocaleString();
- 	}
- 	resumeText.addEventListener('input', debounce(() => { updateCounts(); quickKPIs(); }, 80));
- 	updateCounts();
+    function counts(text) {
+      const words = (text.match(WORD_RE) || []).length;
+      return { chars: text.length, words };
+    }
+    function updateCounts() {
+      const { chars, words } = counts(resumeText.value);
+      charCount.textContent = chars.toLocaleString();
+      wordCount.textContent = words.toLocaleString();
+      kpiRead.textContent = words.toLocaleString();
+    }
+    resumeText.addEventListener('input', debounce(() => { updateCounts(); quickKPIs(); }, 80));
+    updateCounts();
 
- 	// Paste/Clear
- 	pasteBtn.addEventListener('click', async () => {
- 	  try {
- 	    resumeText.value = await navigator.clipboard.readText();
- 	    updateCounts(); quickKPIs(); resumeText.focus();
- 	  } catch { toast('Clipboard blocked by browser'); }
- 	});
- 	clearBtn.addEventListener('click', () => {
- 	  resumeText.value = ''; jdText.value = ''; fileNameEl.textContent = 'PDF/DOCX/TXT';
- 	  resumeFile.value = '';
- 	  updateCounts(); resetKPIs(); output.textContent = ''; status.textContent = '';
- 	});
+    // Paste/Clear
+    pasteBtn.addEventListener('click', async () => {
+      try {
+        resumeText.value = await navigator.clipboard.readText();
+        updateCounts(); quickKPIs(); resumeText.focus();
+      } catch { toast('Clipboard blocked by browser'); }
+    });
+    clearBtn.addEventListener('click', () => {
+      resumeText.value = ''; jdText.value = ''; fileNameEl.textContent = 'PDF/DOCX/TXT';
+      resumeFile.value = '';
+      updateCounts(); resetKPIs(); output.textContent = ''; status.textContent = '';
+    });
 
- 	// File handling
- 	resumeFile.addEventListener('change', async (e) => {
- 	  const f = e.target.files?.[0]; if (!f) return;
- 	  fileNameEl.textContent = f.name;
- 	  const ext = (f.name.split('.').pop() || '').toLowerCase();
- 	  try {
- 	    if (ext === 'pdf') {
- 	      const buf = await f.arrayBuffer();
- 	      const pdf = await pdfjsLib.getDocument({ data: buf }).promise;
- 	      let text = '';
- 	      for (let p = 1; p <= pdf.numPages; p++) {
- 	        const page = await pdf.getPage(p);
- 	        const content = await page.getTextContent();
- 	        text += content.items.map(i => i.str).join(' ') + '\n';
- 	      }
- 	      resumeText.value = text.trim();
- 	    } else if (ext === 'docx') {
- 	      const buf = await f.arrayBuffer();
- 	      const res = await window.mammoth.extractRawText({ arrayBuffer: buf });
- 	      resumeText.value = (res?.value || '').trim();
- 	    } else if (ext === 'txt' || ext === 'md') {
- 	      resumeText.value = (await f.text()).trim();
- 	    } else if (ext === 'doc') {
- 	      toast('.doc files are not supported. Please save as .docx or paste text.');
- 	      e.target.value = ''; fileNameEl.textContent = 'PDF/DOCX/TXT';
- 	      return;
- 	    } else {
- 	      toast('Unsupported file type');
- 	      return;
- 	    }
- 	    updateCounts();
- 	    parseNotice.innerHTML = '<b>[Loaded]</b> File parsed in-browser. Review below; paste plain text if anything is missing.';
- 	    quickKPIs();
- 	  } catch (err) {
- 	    console.error(err);
- 	    toast('Could not read file. Try a different format or copy-paste text.');
- 	    parseNotice.innerHTML = '<b>[Notice]</b> Could not parse file. Please open your document and paste plain text here for best accuracy.';
- 	  }
- 	});
+    // File handling
+    resumeFile.addEventListener('change', async (e) => {
+      const f = e.target.files?.[0]; if (!f) return;
+      fileNameEl.textContent = f.name;
+      const ext = (f.name.split('.').pop() || '').toLowerCase();
+      try {
+        if (ext === 'pdf') {
+          const buf = await f.arrayBuffer();
+          const pdf = await pdfjsLib.getDocument({ data: buf }).promise;
+          let text = '';
+          for (let p = 1; p <= pdf.numPages; p++) {
+            const page = await pdf.getPage(p);
+            const content = await page.getTextContent();
+            text += content.items.map(i => i.str).join(' ') + '\n';
+          }
+          resumeText.value = text.trim();
+        } else if (ext === 'docx') {
+          const buf = await f.arrayBuffer();
+          const res = await window.mammoth.extractRawText({ arrayBuffer: buf });
+          resumeText.value = (res?.value || '').trim();
+        } else if (ext === 'txt' || ext === 'md') {
+          resumeText.value = (await f.text()).trim();
+        } else if (ext === 'doc') {
+          toast('.doc files are not supported. Please save as .docx or paste text.');
+          e.target.value = ''; fileNameEl.textContent = 'PDF/DOCX/TXT';
+          return;
+        } else {
+          toast('Unsupported file type');
+          return;
+        }
+        updateCounts();
+        parseNotice.innerHTML = '<b>[Loaded]</b> File parsed in-browser. Review below; paste plain text if anything is missing.';
+        quickKPIs();
+      } catch (err) {
+        console.error(err);
+        toast('Could not read file. Try a different format or copy-paste text.');
+        parseNotice.innerHTML = '<b>[Notice]</b> Could not parse file. Please open your document and paste plain text here for best accuracy.';
+      }
+    });
 
- 	// --- Heuristics (fast, local) ---
- 	function sentences(t) {
- 	  const cleaned = (t || '').replace(/\b(e\.g|i\.e|Mr|Ms|Dr|Inc|Ltd)\./gi, '$1');
- 	  return (cleaned.trim().match(/[^.!?\n]+[.!?]*/g) || []).map(s => s.trim()).filter(Boolean);
- 	}
- 	function syllablesInWord(w) {
- 	  const lw = (w || '').toLowerCase();
- 	  const m = lw.match(/[aeiouy]+/g);
- 	  return Math.max(1, m ? m.length : 1);
- 	}
- 	function flesch(t) {
- 	  const ws = (t.match(WORD_RE) || []);
- 	  const S = Math.max(1, sentences(t).length);
- 	  const W = Math.max(1, ws.length);
- 	  let SYL = 0;
- 	  for (const tok of ws) {
- 	    if (/[a-zA-Z]/.test(tok)) SYL += syllablesInWord(tok); else SYL += 1;
- 	  }
- 	  const score = 206.835 - 1.015 * (W / S) - 84.6 * (SYL / W);
- 	  const clamped = Math.max(0, Math.min(100, Math.round(score)));
- 	  if (t.trim() && (!Number.isFinite(clamped) || clamped === 0)) return 5;
- 	  return clamped;
- 	}
-
-    // NEW: Improved resume-specific machine readability score.
-    function calculateMachineReadability(text) {
-        if (!text || text.length < 100) return 20;
-
-        let score = 100;
-        const wordCount = (text.match(WORD_RE) || []).length;
-
-        // 1. Penalize for missing contact info (major issue for ATS)
-        if (!/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}/i.test(text)) score -= 15;
-        if (!/(\+\d{1,3}[- ]?)?\(?\d{3}\)?[-. ]?\d{3}[-. ]?\d{4}/.test(text)) score -= 15;
-
-        // 2. Penalize for missing standard sections
-        const sections = ["experience", "education", "skills", "summary", "objective", "projects"];
-        let sectionsFound = sections.filter(sec => new RegExp(`\\b${sec}\\b`, 'i').test(text)).length;
-        if (sectionsFound < 3) score -= (3 - sectionsFound) * 8;
-
-        // 3. Penalize for unreasonable length
-        if (wordCount < 250) score -= 10;
-        if (wordCount > 1000) score -= 10;
-
-        // 4. Penalize for unusual special characters that can break parsers
-        const specialChars = text.replace(/[\w\s.,@\-+'"/()]/g, '');
-        if ((specialChars.length / text.length) > 0.005) score -= 10;
-
-        // 5. Penalize "text walls" (long paragraphs)
-        const longParagraphs = text.split(/\n\s*\n/).filter(p => (p.match(WORD_RE) || []).length > 100).length;
-        if (longParagraphs > 0) score -= longParagraphs * 5;
-
-        // 6. Factor in prose readability (Flesch) as a minor component
-        const fleschScore = flesch(text);
-        if (fleschScore < 30) score -= 10;
-        else if (fleschScore < 50) score -= 5;
-
-        return Math.max(0, Math.min(100, Math.round(score)));
+    // --- Heuristics (fast, local) ---
+    function sentences(t) {
+      const cleaned = (t || '').replace(/\b(e\.g|i\.e|Mr|Ms|Dr|Inc|Ltd)\./gi, '$1');
+      return (cleaned.trim().match(/[^.!?\n]+[.!?]*/g) || []).map(s => s.trim()).filter(Boolean);
+    }
+    function syllablesInWord(w) {
+      const lw = (w || '').toLowerCase();
+      const m = lw.match(/[aeiouy]+/g);
+      return Math.max(1, m ? m.length : 1);
+    }
+    function flesch(t) {
+      const ws = (t.match(WORD_RE) || []);
+      const S = Math.max(1, sentences(t).length);
+      const W = Math.max(1, ws.length);
+      let SYL = 0;
+      for (const tok of ws) {
+        if (/[a-zA-Z]/.test(tok)) SYL += syllablesInWord(tok); else SYL += 1;
+      }
+      const score = 206.835 - 1.015 * (W / S) - 84.6 * (SYL / W);
+      const clamped = Math.max(0, Math.min(100, Math.round(score)));
+      if (t.trim() && (!Number.isFinite(clamped) || clamped === 0)) return 5;
+      return clamped;
     }
 
- 	function guessKeywords(t) {
- 	  const words = (t.toLowerCase().match(/[a-z][a-z0-9\-+.#/]{2,}/g) || [])
- 	    .filter(w => !/^(and|the|for|with|from|that|this|into|your|our|their|a|an|to|in|on|of|as|by|is|are|be|was|were|it|at|or|&|and\/or)$/.test(w));
- 	  const m = new Map(); words.forEach(w => m.set(w, (m.get(w) || 0) + 1));
- 	  return [...m.entries()].sort((a, b) => b[1] - a[1]).slice(0, 20).map(x => x[0]);
- 	}
- 	function tokenize(t) {
- 	  return new Set((t.toLowerCase().match(/[a-z][a-z0-9\-+.#/]{2,}/g) || []));
- 	}
- 	function resetKPIs() {
- 	  kpiScore.textContent = '-';
- 	  kpiATS.textContent = '-';
- 	  kpiMatch.textContent = '-';
- 	  kpiKeys.textContent = '-';
- 	}
+    function calculateMachineReadability(text) {
+      if (!text || text.length < 100) return 20;
+      let score = 100;
+      const wordCount = (text.match(WORD_RE) || []).length;
+      if (!/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}/i.test(text)) score -= 15;
+      if (!/(\+\d{1,3}[- ]?)?\(?\d{3}\)?[-. ]?\d{3}[-. ]?\d{4}/.test(text)) score -= 15;
+      const sections = ["experience", "education", "skills", "summary", "objective", "projects"];
+      let sectionsFound = sections.filter(sec => new RegExp(`\\b${sec}\\b`, 'i').test(text)).length;
+      if (sectionsFound < 3) score -= (3 - sectionsFound) * 8;
+      if (wordCount < 250) score -= 10;
+      if (wordCount > 1000) score -= 10;
+      const specialChars = text.replace(/[\w\s.,@\-+'"/()]/g, '');
+      if ((specialChars.length / text.length) > 0.005) score -= 10;
+      const longParagraphs = text.split(/\n\s*\n/).filter(p => (p.match(WORD_RE) || []).length > 100).length;
+      if (longParagraphs > 0) score -= longParagraphs * 5;
+      const fleschScore = flesch(text);
+      if (fleschScore < 30) score -= 10;
+      else if (fleschScore < 50) score -= 5;
+      return Math.max(0, Math.min(100, Math.round(score)));
+    }
 
-    // MODIFIED: This function now calculates the new readability score,
-    // and intentionally leaves the ATS score blank until the AI provides it.
- 	function quickKPIs() {
- 	  const t = resumeText.value.trim();
- 	  if (!t) { resetKPIs(); return; }
-
- 	  // 1. Calculate and display the new, resume-specific Machine Readability score.
- 	  kpiScore.textContent = calculateMachineReadability(t).toString();
-      
-      // 2. Explicitly reset ATS score. It will ONLY be populated by the AI.
+    function guessKeywords(t) {
+      const words = (t.toLowerCase().match(/[a-z][a-z0-9\-+.#/]{2,}/g) || [])
+        .filter(w => !/^(and|the|for|with|from|that|this|into|your|our|their|a|an|to|in|on|of|as|by|is|are|be|was|were|it|at|or|&|and\/or)$/.test(w));
+      const m = new Map(); words.forEach(w => m.set(w, (m.get(w) || 0) + 1));
+      return [...m.entries()].sort((a, b) => b[1] - a[1]).slice(0, 20).map(x => x[0]);
+    }
+    function tokenize(t) {
+      return new Set((t.toLowerCase().match(/[a-z][a-z0-9\-+.#/]{2,}/g) || []));
+    }
+    function resetKPIs() {
+      kpiScore.textContent = '-';
       kpiATS.textContent = '-';
+      kpiMatch.textContent = '-';
+      kpiKeys.textContent = '-';
+    }
 
- 	  // 3. Calculate JD Match and Keywords Found heuristics.
- 	  if (modeSel.value === 'againstJD') {
- 	    const jd = jdText.value.trim();
- 	    if (jd) {
- 	      const tkResume = tokenize(t);
- 	      const tkJD = tokenize(jd);
- 	      const overlap = [...tkResume].filter(k => tkJD.has(k));
- 	      const match = Math.min(100, Math.round((overlap.length / Math.max(1, tkJD.size)) * 100));
- 	      kpiMatch.textContent = match + '%';
- 	      kpiKeys.textContent = overlap.length.toString();
- 	    } else {
- 	      kpiMatch.textContent = '-';
- 	      kpiKeys.textContent = guessKeywords(t).length.toString();
- 	    }
- 	  } else {
- 	    kpiMatch.textContent = '-';
- 	    kpiKeys.textContent = guessKeywords(t).length.toString();
- 	  }
- 	}
+    function quickKPIs() {
+      const t = resumeText.value.trim();
+      if (!t) { resetKPIs(); return; }
+      kpiScore.textContent = calculateMachineReadability(t).toString();
+      kpiATS.textContent = '-';
+      if (modeSel.value === 'againstJD') {
+        const jd = jdText.value.trim();
+        if (jd) {
+          const tkResume = tokenize(t);
+          const tkJD = tokenize(jd);
+          const overlap = [...tkResume].filter(k => tkJD.has(k));
+          const match = Math.min(100, Math.round((overlap.length / Math.max(1, tkJD.size)) * 100));
+          kpiMatch.textContent = match + '%';
+          kpiKeys.textContent = overlap.length.toString();
+        } else {
+          kpiMatch.textContent = '-';
+          kpiKeys.textContent = guessKeywords(t).length.toString();
+        }
+      } else {
+        kpiMatch.textContent = '-';
+        kpiKeys.textContent = guessKeywords(t).length.toString();
+      }
+    }
 
- 	// Prompt builder
- 	function buildPrompt({ resume, jd, mode }) {
- 	  if (mode === 'againstJD') {
- 	    return [
- 	      "You are an ATS assistant. Compare this resume against the job description.",
- 	      "OUTPUT FORMAT (strict):",
- 	      "1) First, a single fenced JSON block with EXACT keys:",
- 	      "```json",
- 	      "{",
- 	      "  \"score\": 0-100,",
- 	      "  \"match\": 0-100,",
- 	      "  \"missing_keywords\": [\"...\"],",
- 	      "  \"strengths\": [\"...\"],",
- 	      "  \"issues\": [\"...\"],",
- 	      "  \"summary\": \"<2-3 lines>\"",
- 	      "}",
- 	      "```",
- 	      "2) Then, under a heading 'Tailored Bullets', write 3-5 bullet points tailored to the JD.",
- 	      "",
- 	      "[RESUME]\\n" + resume,
- 	      "[JD]\\n" + jd
- 	    ].join('\\n');
- 	  }
- 	  return [
- 	    "You are an ATS assistant. Analyze this resume for general ATS readiness.",
- 	    "OUTPUT FORMAT (strict):",
- 	    "1) First, a single fenced JSON block with EXACT keys:",
- 	    "```json",
- 	    "{",
- 	    "  \"score\": 0-100,",
- 	    "  \"key_keywords\": [\"...\"],",
- 	    "  \"formatting_issues\": [\"...\"],",
- 	    "  \"sections_missing\": [\"...\"],",
- 	    "  \"summary\": \"<2-3 lines>\"",
- 	    "}",
- 	    "```",
- 	    "2) Then, under 'Actionable Improvements', provide 6-10 bullets.",
- 	    "",
- 	    "[RESUME]\\n" + resume
- 	  ].join('\\n');
- 	}
+    // Prompt builder
+    function buildPrompt({ resume, jd, mode }) {
+      if (mode === 'againstJD') {
+        return [
+          "You are an ATS assistant. Compare this resume against the job description.",
+          "OUTPUT FORMAT (strict):",
+          "1) First, a single fenced JSON block with EXACT keys:",
+          "```json",
+          "{",
+          "  \"score\": 0-100,",
+          "  \"match\": 0-100,",
+          "  \"missing_keywords\": [\"...\"],",
+          "  \"strengths\": [\"...\"],",
+          "  \"issues\": [\"...\"],",
+          "  \"summary\": \"<2-3 lines>\"",
+          "}",
+          "```",
+          "2) Then, under a heading 'Tailored Bullets', write 3-5 bullet points tailored to the JD.",
+          "",
+          "[RESUME]\\n" + resume,
+          "[JD]\\n" + jd
+        ].join('\\n');
+      }
+      return [
+        "You are an ATS assistant. Analyze this resume for general ATS readiness.",
+        "OUTPUT FORMAT (strict):",
+        "1) First, a single fenced JSON block with EXACT keys:",
+        "```json",
+        "{",
+        "  \"score\": 0-100,",
+        "  \"key_keywords\": [\"...\"],",
+        "  \"formatting_issues\": [\"...\"],",
+        "  \"sections_missing\": [\"...\"],",
+        "  \"summary\": \"<2-3 lines>\"",
+        "}",
+        "```",
+        "2) Then, under 'Actionable Improvements', provide 6-10 bullets.",
+        "",
+        "[RESUME]\\n" + resume
+      ].join('\\n');
+    }
 
- 	// Streaming via proxy
- 	let aborter = null;
- 	async function streamChat({ provider, model, prompt }) {
- 	  output.textContent = ''; status.textContent = 'Running…'; stopBtn.disabled = false;
- 	  const res = await fetch('/ai', {
- 	    method: 'POST',
- 	    signal: (aborter = new AbortController()).signal,
- 	    headers: { 'Content-Type': 'application/json' },
- 	    body: JSON.stringify({
- 	      provider, model, stream: true, temperature: 0.2,
- 	      messages: [
- 	        { role: 'system', content: 'You are a concise, careful ATS assistant.' },
- 	        { role: 'user', content: prompt }
- 	      ]
- 	    })
- 	  });
- 	  if (!res.ok) throw new Error(`HTTP ${res.status}`);
- 	  const reader = res.body.getReader(); const dec = new TextDecoder(); let acc = '';
- 	  for (; ;) {
- 	    const { value, done } = await reader.read(); if (done) break;
- 	    const chunk = dec.decode(value, { stream: true });
- 	    for (const raw of chunk.split('\\n')) {
- 	      const line = raw.trim(); if (!line || !line.startsWith('data:')) continue;
- 	      const payload = line.slice(5).trim();
- 	      if (payload === '[DONE]') { aborter = null; return acc; }
- 	      try {
- 	        const json = JSON.parse(payload);
- 	        const delta = json?.choices?.[0]?.delta?.content ?? '';
- 	        if (delta) { acc += delta; output.append(document.createTextNode(delta)); output.scrollTop = output.scrollHeight; }
- 	      } catch { }
- 	    }
- 	  }
- 	  aborter = null; return acc;
- 	}
+    // Streaming via proxy
+    let aborter = null;
+    async function streamChat({ provider, model, prompt }) {
+      output.textContent = ''; status.textContent = 'Running…'; stopBtn.disabled = false;
+      const res = await fetch('/ai', {
+        method: 'POST',
+        signal: (aborter = new AbortController()).signal,
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          provider, model, stream: true, temperature: 0.2,
+          messages: [
+            { role: 'system', content: 'You are a concise, careful ATS assistant.' },
+            { role: 'user', content: prompt }
+          ]
+        })
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const reader = res.body.getReader(); const dec = new TextDecoder(); let acc = '';
+      for (; ;) {
+        const { value, done } = await reader.read(); if (done) break;
+        const chunk = dec.decode(value, { stream: true });
+        for (const raw of chunk.split('\\n')) {
+          const line = raw.trim(); if (!line || !line.startsWith('data:')) continue;
+          const payload = line.slice(5).trim();
+          if (payload === '[DONE]') { aborter = null; return acc; }
+          try {
+            const json = JSON.parse(payload);
+            const delta = json?.choices?.[0]?.delta?.content ?? '';
+            if (delta) { acc += delta; output.append(document.createTextNode(delta)); output.scrollTop = output.scrollHeight; }
+          } catch { }
+        }
+      }
+      aborter = null; return acc;
+    }
 
- 	// Extract first JSON block robustly
- 	function extractFirstJson(text) {
- 	  if (!text) return null;
- 	  const tryParse = (s) => {
- 	    try { return JSON.parse(s); } catch {
- 	      const fixed = s.replace(/,\\s*([}\]])/g, '$1')
- 	        .replace(/[\u201C\u201D\u2018\u2019]/g, '"');
- 	      try { return JSON.parse(fixed); } catch { return null; }
- 	    }
- 	  };
- 	  const fenceJson = text.match(/```json\s*([\s\S]*?)\s*```/i);
- 	  if (fenceJson?.[1]) { const obj = tryParse(fenceJson[1].trim()); if (obj) return obj; }
- 	  const fenceAny = text.match(/```\s*([\s\S]*?)\s*```/);
- 	  if (fenceAny?.[1]) { const obj = tryParse(fenceAny[1].replace(/^json\s*/i, '').trim()); if (obj) return obj; }
- 	  const firstBrace = text.indexOf('{'); const lastBrace = text.lastIndexOf('}');
- 	  if (firstBrace !== -1 && lastBrace > firstBrace) {
- 	    const obj = tryParse(text.slice(firstBrace, lastBrace + 1)); if (obj) return obj;
- 	  }
- 	  return null;
- 	}
+    // Extract first JSON block robustly
+    function extractFirstJson(text) {
+      if (!text) return null;
+      const tryParse = (s) => {
+        try { return JSON.parse(s); } catch {
+          const fixed = s.replace(/,\\s*([}\]])/g, '$1')
+            .replace(/[\u201C\u201D\u2018\u2019]/g, '"');
+          try { return JSON.parse(fixed); } catch { return null; }
+        }
+      };
+      const fenceJson = text.match(/```json\s*([\s\S]*?)\s*```/i);
+      if (fenceJson?.[1]) { const obj = tryParse(fenceJson[1].trim()); if (obj) return obj; }
+      const fenceAny = text.match(/```\s*([\s\S]*?)\s*```/);
+      if (fenceAny?.[1]) { const obj = tryParse(fenceAny[1].replace(/^json\s*/i, '').trim()); if (obj) return obj; }
+      const firstBrace = text.indexOf('{'); const lastBrace = text.lastIndexOf('}');
+      if (firstBrace !== -1 && lastBrace > firstBrace) {
+        const obj = tryParse(text.slice(firstBrace, lastBrace + 1)); if (obj) return obj;
+      }
+      return null;
+    }
 
- 	// Apply AI KPIs
- 	function applyAiKPIs(obj) {
-    console.log(obj);
- 	  if (!obj || typeof obj !== 'object') return;
- 	  if (typeof obj.score === 'number') {
- 	    kpiATS.textContent = Math.max(0, Math.min(100, Math.round(obj.score))) + '%';
- 	  }
- 	  if (typeof obj.match === 'number') {
- 	    kpiMatch.textContent = Math.max(0, Math.min(100, Math.round(obj.match))) + '%';
- 	  }
- 	  if (Array.isArray(obj.key_keywords)) {
- 	    kpiKeys.textContent = obj.key_keywords.length.toString();
- 	  }
- 	}
+    // NEW: Fallback function to find scores via regex if JSON parsing fails.
+    function fallbackParseScores(text) {
+      const scores = { score: null, match: null };
+      if (!text) return scores;
 
- 	// Small toast
- 	function toast(msg) { status.textContent = msg; setTimeout(() => { if (status.textContent === msg) status.textContent = ''; }, 1800); }
+      // Look for patterns like "ATS Score: 85", "score = 90", "score" : 88
+      const scoreRegex = /\b(ATS Score|score)\b\s*[:%=\s-]\s*(\d{1,3})/i;
+      const scoreMatch = text.match(scoreRegex);
+      if (scoreMatch && scoreMatch[2]) {
+        const num = parseInt(scoreMatch[2], 10);
+        if (num >= 0 && num <= 100) scores.score = num;
+      }
 
- 	// Actions
- 	stopBtn.addEventListener('click', () => { if (aborter) { aborter.abort(); aborter = null; stopBtn.disabled = true; status.textContent = 'Stopped.'; } });
+      // Look for patterns like "JD Match: 95%", "match: 92"
+      const matchRegex = /\b(JD Match|match)\b\s*[:%=\s-]\s*(\d{1,3})/i;
+      const matchMatch = text.match(matchRegex);
+      if (matchMatch && matchMatch[2]) {
+        const num = parseInt(matchMatch[2], 10);
+        if (num >= 0 && num <= 100) scores.match = num;
+      }
 
- 	runBtn.addEventListener('click', async () => {
- 	  const resume = resumeText.value.trim();
- 	  if (!resume) { toast('Paste/upload your resume text first'); resumeText.focus(); return; }
- 	  const mode = modeSel.value;
- 	  const jd = (mode === 'againstJD') ? jdText.value.trim() : '';
- 	  if (mode === 'againstJD' && !jd) { toast('Paste the Job Description to compare'); jdText.focus(); return; }
+      return scores;
+    }
 
- 	  quickKPIs();
+    // Apply AI KPIs
+    function applyAiKPIs(obj) {
+      if (!obj || typeof obj !== 'object') return false;
+      let applied = false;
+      if (typeof obj.score === 'number') {
+        kpiATS.textContent = Math.max(0, Math.min(100, Math.round(obj.score))) + '%';
+        applied = true;
+      }
+      if (typeof obj.match === 'number') {
+        kpiMatch.textContent = Math.max(0, Math.min(100, Math.round(obj.match))) + '%';
+        applied = true;
+      }
+      if (Array.isArray(obj.key_keywords)) {
+        kpiKeys.textContent = obj.key_keywords.length.toString();
+        applied = true;
+      }
+      return applied;
+    }
 
- 	  const provider = providerSel.value || 'perplexity';
- 	  const model = modelSel.value || (PROVIDER_MODELS[provider]?.[0]?.id ?? '');
- 	  if (!model) { toast('Pick a model'); return; }
+    // Small toast
+    function toast(msg) { status.textContent = msg; setTimeout(() => { if (status.textContent === msg) status.textContent = ''; }, 1800); }
 
- 	  try {
- 	    const prompt = buildPrompt({ resume, jd, mode });
- 	    const fullText = await streamChat({ provider, model, prompt });
- 	    status.textContent = 'Parsing…';
+    // Actions
+    stopBtn.addEventListener('click', () => { if (aborter) { aborter.abort(); aborter = null; stopBtn.disabled = true; status.textContent = 'Stopped.'; } });
 
- 	    const first = extractFirstJson(fullText);
- 	    if (first) { applyAiKPIs(first); status.textContent = 'Done (with AI KPIs).'; }
- 	    else { status.textContent = 'Done.'; }
- 	  } catch (e) {
- 	    console.error(e);
- 	    status.textContent = (e?.message || 'Error') + ' - check provider/model or quotas.';
- 	    toast('Request failed.');
- 	  } finally {
- 	    stopBtn.disabled = true;
- 	  }
- 	});
+    runBtn.addEventListener('click', async () => {
+      const resume = resumeText.value.trim();
+      if (!resume) { toast('Paste/upload your resume text first'); resumeText.focus(); return; }
+      const mode = modeSel.value;
+      const jd = (mode === 'againstJD') ? jdText.value.trim() : '';
+      if (mode === 'againstJD' && !jd) { toast('Paste the Job Description to compare'); jdText.focus(); return; }
 
- 	copyBtn.addEventListener('click', async () => { try { await navigator.clipboard.writeText(output.textContent || ''); toast('Copied'); } catch { toast('Copy blocked by browser'); } });
- 	downloadBtn.addEventListener('click', () => { const blob = new Blob([output.textContent || ''], { type: 'text/plain;charset=utf-8' }); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'resume-ats.txt'; a.click(); URL.revokeObjectURL(a.href); });
- 	permBtn.addEventListener('click', async () => { const o = { m: modeSel.value, p: providerSel.value, md: modelSel.value }; const url = new URL(location.href); url.hash = encodeURIComponent(btoa(JSON.stringify(o))); try { await navigator.clipboard.writeText(url.toString()); toast('Permalink copied'); } catch { toast('Permalink ready (check address bar)'); history.replaceState({}, '', url); } });
+      quickKPIs();
 
- 	// KPI init
- 	resetKPIs();
+      const provider = providerSel.value || 'perplexity';
+      const model = modelSel.value || (PROVIDER_MODELS[provider]?.[0]?.id ?? '');
+      if (!model) { toast('Pick a model'); return; }
 
- 	// AdSense mount (slot already reserved; no CLS)
- 	(function mountAd() {
- 	  if (!('adsbygoogle' in window)) return;
- 	  const mount = byId('adMount');
- 	  const ins = document.createElement('ins');
- 	  ins.className = 'adsbygoogle';
- 	  ins.style.display = 'block';
- 	  ins.style.minHeight = '160px';
- 	  ins.setAttribute('data-ad-client', 'ca-pub-6216304334889617');
- 	  ins.setAttribute('data-ad-slot', 'auto');
- 	  ins.setAttribute('data-ad-format', 'auto');
- 	  ins.setAttribute('data-full-width-responsive', 'true');
- 	  mount.appendChild(ins);
- 	  try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch { }
- 	})();
+      try {
+        const prompt = buildPrompt({ resume, jd, mode });
+        const fullText = await streamChat({ provider, model, prompt });
+        status.textContent = 'Parsing…';
 
- 	// Restore settings from hash
- 	(function restoreFromHash() {
- 	  if (!location.hash) return;
- 	  try {
- 	    const o = JSON.parse(atob(decodeURIComponent(location.hash.slice(1))));
- 	    if (o?.m) modeSel.value = o.m;
- 	    if (o?.p) providerSel.value = o.p;
- 	    populateModels();
- 	    if (o?.md) modelSel.value = o.md;
- 	    jdWrap.classList.toggle('hidden', modeSel.value !== 'againstJD');
- 	    quickKPIs();
- 	  } catch { }
- 	})();
+        const first = extractFirstJson(fullText);
+        let aiKpisApplied = false;
+        if (first) {
+          aiKpisApplied = applyAiKPIs(first);
+        }
 
- 	// Live re-calculation when JD changes
- 	jdText?.addEventListener('input', debounce(quickKPIs, 120));
- </script>
+        // If primary JSON parsing failed to get scores, try the fallback.
+        const atsIsMissing = kpiATS.textContent === '-';
+        const matchIsMissing = (mode === 'againstJD') && (kpiMatch.textContent === '-');
+        if (atsIsMissing || matchIsMissing) {
+          const fallbackScores = fallbackParseScores(fullText);
+          if (atsIsMissing && fallbackScores.score !== null) {
+            kpiATS.textContent = fallbackScores.score + '%';
+            aiKpisApplied = true;
+          }
+          if (matchIsMissing && fallbackScores.match !== null) {
+            kpiMatch.textContent = fallbackScores.match + '%';
+            aiKpisApplied = true;
+          }
+        }
+
+        if (aiKpisApplied) {
+          status.textContent = 'Done (with AI KPIs).';
+        } else {
+          status.textContent = 'Done (AI KPIs not found in response).';
+        }
+
+      } catch (e) {
+        console.error(e);
+        status.textContent = (e?.message || 'Error') + ' - check provider/model or quotas.';
+        toast('Request failed.');
+      } finally {
+        stopBtn.disabled = true;
+      }
+    });
+
+    copyBtn.addEventListener('click', async () => { try { await navigator.clipboard.writeText(output.textContent || ''); toast('Copied'); } catch { toast('Copy blocked by browser'); } });
+    downloadBtn.addEventListener('click', () => { const blob = new Blob([output.textContent || ''], { type: 'text/plain;charset=utf-8' }); const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'resume-ats.txt'; a.click(); URL.revokeObjectURL(a.href); });
+    permBtn.addEventListener('click', async () => { const o = { m: modeSel.value, p: providerSel.value, md: modelSel.value }; const url = new URL(location.href); url.hash = encodeURIComponent(btoa(JSON.stringify(o))); try { await navigator.clipboard.writeText(url.toString()); toast('Permalink copied'); } catch { toast('Permalink ready (check address bar)'); history.replaceState({}, '', url); } });
+
+    // KPI init
+    resetKPIs();
+
+    // AdSense mount
+    (function mountAd() {
+      if (!('adsbygoogle' in window)) return;
+      const mount = byId('adMount');
+      const ins = document.createElement('ins');
+      ins.className = 'adsbygoogle';
+      ins.style.display = 'block';
+      ins.style.minHeight = '160px';
+      ins.setAttribute('data-ad-client', 'ca-pub-6216304334889617');
+      ins.setAttribute('data-ad-slot', 'auto');
+      ins.setAttribute('data-ad-format', 'auto');
+      ins.setAttribute('data-full-width-responsive', 'true');
+      mount.appendChild(ins);
+      try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch { }
+    })();
+
+    // Restore settings from hash
+    (function restoreFromHash() {
+      if (!location.hash) return;
+      try {
+        const o = JSON.parse(atob(decodeURIComponent(location.hash.slice(1))));
+        if (o?.m) modeSel.value = o.m;
+        if (o?.p) providerSel.value = o.p;
+        populateModels();
+        if (o?.md) modelSel.value = o.md;
+        jdWrap.classList.toggle('hidden', modeSel.value !== 'againstJD');
+        quickKPIs();
+      } catch { }
+    })();
+
+    // Live re-calculation when JD changes
+    jdText?.addEventListener('input', debounce(quickKPIs, 120));
+  </script>
 </body>
 
 </html>
