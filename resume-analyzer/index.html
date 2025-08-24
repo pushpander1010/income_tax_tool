@@ -1,265 +1,297 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Adsense loads if available; ad slot below is pre-reserved to avoid CLS -->
-  <script async src="https://pagead2.googleadservices.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617" crossorigin="anonymous"></script>
+  <!-- Ads load conditionally; slot space is reserved below to avoid CLS -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617" crossorigin="anonymous"></script>
 
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Free Resume ATS Checker & JD Match (AI) — Perplexity / Gemini / Groq | UpTools</title>
 
-  <title>Free Resume ATS Checker (PDF/DOCX/TXT) + JD Match & AI Review | UpTools</title>
-  <meta name="description" content="Free Resume ATS Analyzer. Upload PDF/DOCX/TXT to get ATS-friendliness score, section health, keyword coverage, and JD match. Optional AI deep review with Perplexity, Google Gemini 2.5, or Groq. No sign-ups." />
-  <meta name="keywords" content="resume ats checker, resume analyzer, ats resume score, free resume checker, job description match, ats keywords, docx pdf resume" />
-  <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:large" />
-  <meta name="theme-color" content="#0b1020" />
-  <link rel="canonical" href="https://www.uptools.in/resume-analyzer/" />
-
-  <!-- Icons -->
-  <link rel="icon" type="image/svg+xml" href="/assets/logo/uptools-logo.svg">
+  <!-- Canonical + Icons -->
+  <link rel="canonical" href="https://www.uptools.in/resume-analyzer/">
+  <link rel="icon" sizes="50x50" type="image/svg+xml" href="/assets/logo/uptools-logo.svg">
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/logo/uptools-logo.svg">
 
+  <!-- SEO -->
+  <meta name="description" content="Free AI Resume ATS Checker: upload resume (PDF/DOCX/TXT) and optionally paste a job description for keyword match. Reports ATS score, missing skills, and tailoring tips. Choose Perplexity, Google Gemini 2.5, or Groq.">
+  <meta name="keywords" content="resume ats checker, resume checker, ats resume, job description match, resume keywords, free ats checker, resume parser, cv checker">
+  <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:large">
+  <meta name="theme-color" content="#0b1020">
+
   <!-- Open Graph -->
-  <meta property="og:title" content="Free Resume ATS Checker + JD Match | UpTools" />
-  <meta property="og:description" content="Upload PDF/DOCX/TXT, get ATS score, keyword gaps, and JD match. Optional AI deep review." />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://www.uptools.in/resume-analyzer/" />
-  <meta property="og:site_name" content="UpTools" />
-  <meta property="og:image" content="https://www.uptools.in/assets/og/resume-ats-checker.png" />
-  <meta property="og:image:width" content="1200" />
-  <meta property="og:image:height" content="630" />
-  <meta name="twitter:card" content="summary_large_image" />
+  <meta property="og:title" content="Free Resume ATS Checker & JD Match (AI) | UpTools">
+  <meta property="og:description" content="Upload resume and match with any JD. See ATS score, missing keywords, and instant improvement tips. Perplexity • Gemini 2.5 • Groq.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.uptools.in/resume-analyzer/">
+  <meta property="og:site_name" content="UpTools">
+  <meta property="og:image" content="https://www.uptools.in/assets/og/resume-ats-checker.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
 
   <!-- CSS -->
   <link rel="preload" href="/style.css" as="style">
   <link rel="stylesheet" href="/style.css">
-
-  <!-- Utils -->
   <link rel="modulepreload" href="/scripts/utils.js">
 
   <!-- Structured Data -->
   <script type="application/ld+json">
   {
     "@context":"https://schema.org",
-    "@graph":[
-      {
-        "@type":"SoftwareApplication",
-        "name":"Resume ATS Analyzer",
-        "applicationCategory":"BusinessApplication",
-        "operatingSystem":"Web",
-        "offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},
-        "publisher":{"@type":"Organization","name":"UpTools","url":"https://www.uptools.in/"},
-        "url":"https://www.uptools.in/resume-analyzer/",
-        "featureList":[
-          "ATS friendliness score",
-          "JD keyword match",
-          "Section health",
-          "Action verbs & readability",
-          "AI deep review (optional)"
-        ]
-      },
-      {
-        "@type":"BreadcrumbList",
-        "itemListElement":[
-          {"@type":"ListItem","position":1,"name":"Home","item":"https://www.uptools.in/"},
-          {"@type":"ListItem","position":2,"name":"Resume ATS Analyzer","item":"https://www.uptools.in/resume-analyzer/"}
-        ]
-      },
-      {
-        "@type":"FAQPage",
-        "mainEntity":[
-          {"@type":"Question","name":"Which file types are supported?",
-            "acceptedAnswer":{"@type":"Answer","text":"PDF, DOCX, and TXT are fully supported in-browser. Legacy DOC files are best saved as DOCX and re-uploaded."}},
-          {"@type":"Question","name":"Do you store my resume?",
-            "acceptedAnswer":{"@type":"Answer","text":"No. Parsing happens locally in your browser. The optional AI review routes via a server-side proxy; we do not store your text."}},
-          {"@type":"Question","name":"What do ATS scores mean?",
-            "acceptedAnswer":{"@type":"Answer","text":"Scores estimate machine readability and keyword alignment. Use them as guidance, not as a guarantee for a specific ATS vendor."}}
-        ]
-      }
-    ]
+    "@type":"SoftwareApplication",
+    "name":"Resume ATS Checker & JD Match",
+    "applicationCategory":"BusinessApplication",
+    "operatingSystem":"Web",
+    "offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},
+    "publisher":{"@type":"Organization","name":"UpTools","url":"https://www.uptools.in/"},
+    "url":"https://www.uptools.in/resume-analyzer/",
+    "featureList":["ATS score","JD keyword match","Missing skills","Tailoring suggestions","Downloadable report"]
   }
   </script>
 
-  <!-- Lightweight extra styles specific to this page -->
   <style>
-    :root { --panel-h: clamp(520px, 76dvh, 820px); --gap: 14px; }
+    /* Page-level tokens (reuse common theme but allow subtle overrides) */
+    :root{
+      --panel-h: clamp(560px, 82dvh, 820px);
+      --gap: 14px;
+    }
+
     main.tool { max-width: 1200px; margin-inline: auto; padding: 12px var(--container-px, 12px); }
 
-    .grid { display:grid; grid-template-columns: 1fr 1fr; gap: var(--gap); align-items: stretch; }
-    @media (max-width: 1024px) { .grid{ grid-template-columns: 1fr; } }
-
-    .panel { display:flex; flex-direction:column; height:var(--panel-h); min-height:460px; }
-    .panel-head{ display:flex; align-items:center; justify-content:space-between; gap:10px; padding:10px 12px; }
-    .panel-body{ flex:1; min-height:0; display:grid; grid-template-rows:auto 1fr auto; gap:10px; padding:10px 12px; }
-
-    textarea.textarea { min-height:120px; }
-
-    /* Custom "Choose File" control, matches theme */
-    .file-picker{
-      position:relative; display:inline-flex; align-items:center; gap:10px;
-      border:1px solid var(--border); border-radius:10px; padding:8px 10px; background:#0a1224; box-shadow: var(--glow-soft);
+    /* 2 columns on desktop → 1 column on tablet/mobile */
+    .grid{
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--gap);
+      align-items: stretch;
     }
-    .file-picker input[type="file"]{ position:absolute; inset:0; width:100%; height:100%; opacity:0; cursor:pointer; }
-    .file-picker .btn-like{
-      display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border-radius:8px; font-weight:900; cursor:pointer;
-      background: linear-gradient(135deg, var(--accent), color-mix(in oklab, var(--accent-2) 70%, white));
-      color:#071018; border:1px solid color-mix(in oklab, var(--accent) 65%, #223); box-shadow: inset 0 -1px 0 rgba(0,0,0,.25), var(--glow-soft);
-    }
-    .file-name{ color:var(--muted); font-size:12px; max-width:40ch; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    @media (max-width: 1024px){ .grid{ grid-template-columns: 1fr; } }
 
-    .kpis{ display:grid; grid-template-columns: repeat(4, minmax(120px,1fr)); gap:10px; }
-    @media (max-width:880px){ .kpis{ grid-template-columns: repeat(2, 1fr); } }
-    @media (max-width:520px){ .kpis{ grid-template-columns: 1fr; } }
-    .kpi{ padding:10px; border-radius:10px; background:#0a1224; border:1px solid var(--border); box-shadow: var(--glow-soft); }
+    /* Panels: make content scroll within, not overflow page (fixes overlap) */
+    .panel{
+      display: flex; flex-direction: column;
+      min-height: 420px; height: var(--panel-h);
+      overflow: hidden; border-radius: var(--radius);
+      contain: layout paint;
+    }
+    @media (max-width: 800px){
+      .panel{ height: auto; min-height: 0; overflow: visible; }
+    }
+    .panel-head{
+      display:flex; align-items:center; justify-content:space-between;
+      gap:10px; padding:10px 12px; flex-wrap:wrap;
+    }
+    .panel-body{
+      flex:1; min-height:0; /* crucial to let inner scroll areas size properly */
+      display:grid; grid-template-rows:auto 1fr auto; gap:10px; padding:10px 12px;
+    }
+
+    /* Toolbars wrap on small screens — no more overlap */
+    .toolbar{ display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
+    .inline{ display:inline-flex; align-items:center; gap:6px; flex-wrap:wrap; }
+
+    /* Text areas and output are scrollable blocks (no fixed heights) */
+    .area{ display:grid; grid-template-columns:1fr; gap:8px; }
+    textarea.input{
+      width:100%; resize:vertical; min-height:140px; max-height:min(40dvh,520px);
+      padding:10px 12px; line-height:1.45; border-radius:12px;
+    }
+    pre.output{
+      width:100%; margin:0; padding:12px 14px; border-radius:12px;
+      background:#121826; border:1px solid var(--border);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+      line-height:1.55; white-space:pre-wrap; word-break:break-word; overflow:auto;
+      min-height:clamp(220px, 28dvh, 360px); max-height:min(46dvh, 560px);
+    }
+    @media (max-width: 800px){
+      textarea.input{ max-height:unset; }
+      pre.output{ max-height:unset; }
+    }
+
+    /* KPI tiles (wrap safely) */
+    .kpis{ display:flex; flex-wrap:wrap; gap:10px; }
+    .kpi{ flex:1 1 180px; padding:10px; border-radius:10px; background:#0a1224; border:1px solid var(--border); box-shadow:var(--glow-soft); }
     .kpi b{ font-size:18px; display:block; }
-    .pill.warn{ background:transparent; color:#ffb4b4; border:1px solid color-mix(in oklab, red 60%, #223); }
 
-    /* Reserve ad space to avoid CLS */
+    .tiny{ font-size:12px; opacity:.85; }
+
+    /* Ad slot: reserved height to prevent CLS */
     .ad-wrap{ display:block; min-height:160px; margin:10px 0; position:relative; overflow:hidden; }
-    @media (min-width:1024px){ .ad-wrap{ min-height:250px; } }
+    @media (min-width: 1024px){ .ad-wrap{ min-height: 250px; } }
     .ad-wrap:empty::before{ content:""; display:block; width:100%; height:100%; }
-  </style>
 
-  <!-- Client-side parsers (small & cached by CDN) -->
-  <!-- DOCX -> text via Mammoth (works in browser) -->
-  <script defer src="https://cdn.jsdelivr.net/npm/mammoth@1.7.1/mammoth.browser.min.js"></script>
-  <!-- PDF -> text via pdfjs-dist -->
-  <script defer src="https://cdn.jsdelivr.net/npm/pdfjs-dist@4.6.82/build/pdf.min.js"></script>
+    /* Styled “Choose File” control (uses a hidden input) */
+    .file-chooser{
+      position:relative; display:inline-flex; align-items:center; gap:10px;
+      padding:8px 12px; border-radius:10px; cursor:pointer; user-select:none;
+      background: linear-gradient(135deg, var(--accent), color-mix(in oklab, var(--accent-2) 70%, white));
+      color:#071018; border:1px solid color-mix(in oklab, var(--accent) 65%, #223);
+      box-shadow: inset 0 -1px 0 rgba(0,0,0,.25), var(--glow-soft);
+      font-weight:900; letter-spacing:.2px;
+    }
+    .file-chooser:hover{ transform: translateY(-1px); filter: saturate(1.06); box-shadow: var(--glow); }
+    .file-chooser input{ position:absolute; inset:0; opacity:0; cursor:pointer; }
+    .file-meta{ font-size:12px; color:var(--muted); }
+
+    /* Helper grid for inputs so controls never collide */
+    .row{ display:grid; gap:8px; grid-template-columns: 1fr 1fr; align-items:end; }
+    @media (max-width: 900px){ .row{ grid-template-columns: 1fr; } }
+
+    /* Danger/secondary buttons tiny variants */
+    .btn.sm{ padding:5px 10px; min-height:30px; font-size:12px; }
+    .btn.danger{ background: transparent; color:#ffb4b4; border:1px solid color-mix(in oklab, red 60%, #223); }
+
+    /* Links list area */
+    .tips-related{ display:grid; gap:12px; grid-template-columns:1fr 1fr; align-items:start; }
+    @media (max-width: 800px){ .tips-related{ grid-template-columns:1fr; } }
+  </style>
 </head>
 
 <body>
+  <!-- Header -->
   <header class="site" role="banner">
     <div class="header-inner">
       <a class="brand" href="/" aria-label="UpTools Home">
-        <img src="/assets/logo/uptools-logo.svg" alt="UpTools logo" width="28" height="28" fetchpriority="high">
+        <img src="/assets/logo/uptools-logo.svg" alt="UpTools logo" width="28" height="28" loading="eager">
         <b>UpTools</b>
       </a>
       <nav class="nav-links" aria-label="Primary">
         <a href="/#tools">Tools</a>
         <a href="/ai-writer/">AI Writer</a>
         <a href="/word-counter/">Word Counter</a>
-        <a aria-current="page" href="/resume-analyzer/">Resume</a>
+        <a aria-current="page" href="/resume-analyzer/">Resume ATS</a>
       </nav>
     </div>
   </header>
 
   <main class="tool container" id="top">
+    <!-- Hero -->
     <section class="card hero" aria-labelledby="title">
       <div>
-        <h1 id="title">🧾🔍 Resume ATS Analyzer (PDF/DOCX/TXT) + JD Match</h1>
-        <p class="note" style="margin:0">
-          Get an ATS-friendliness score, section health, and keyword coverage. Paste a Job Description to see match % and gaps.
-          Optional: AI deep review with Perplexity, Google Gemini 2.5, or Groq.
-        </p>
+        <h1 id="title">🧾🔍 Resume ATS Checker & JD Match (AI)</h1>
+        <p class="note" style="margin:0">Upload your resume (PDF/DOCX/TXT) and optionally paste a Job Description. Get ATS score, missing keywords, and tailored rewrite tips. Choose Perplexity, Google Gemini 2.5, or Groq.</p>
         <div class="chips" style="margin-top:8px">
-          <span class="pill">⚡ Local parsing</span>
-          <span class="pill">🔒 No sign-ups</span>
+          <span class="pill">⚡ Streams live</span>
+          <span class="pill">🔒 Proxy — no browser API key</span>
           <a class="chip" href="/sitemap.xml">Sitemap</a>
-          <a class="chip" href="/about/">About</a>
-          <a class="chip" href="/contact/">Contact</a>
+          <a class="chip" href="/about/"><span class="card-badge" aria-hidden="true">ABT</span> About</a>
+          <a class="chip" href="/contact/"><span class="card-badge" aria-hidden="true">CT</span> Contact</a>
         </div>
       </div>
     </section>
 
-    <!-- Reserved ad slot -->
-    <section id="adMount" class="ad-wrap" aria-label="Advertisement"></section>
+    <!-- Reserved ad slot (prevents CLS) -->
+    <section id="adMount" class="ad-wrap" aria-label="Advertisement area"></section>
 
+    <!-- Workspace -->
     <section class="grid" aria-label="Workspace">
-      <!-- INPUT -->
+      <!-- LEFT: INPUT -->
       <article class="panel card" aria-labelledby="input-title">
         <div class="panel-head">
           <h2 id="input-title" class="h4">Your Resume & JD</h2>
-          <div class="toolbar" role="group" aria-label="Quick actions">
-            <button id="clearBtn" class="btn sm secondary" type="button">Clear</button>
+          <div class="toolbar">
             <span class="tiny">Chars: <output id="charCount">0</output></span>
+            <button id="pasteResume" class="btn sm" type="button">Paste Resume</button>
+            <button id="clearAll" class="btn sm secondary" type="button">Clear</button>
           </div>
         </div>
 
         <div class="panel-body">
-          <div class="row" style="gap:8px; align-items:center;">
-            <!-- Styled file input -->
-            <label class="file-picker" title="Upload PDF, DOCX, DOC, or TXT">
-              <span class="btn-like">Choose File</span>
-              <span id="fileName" class="file-name">PDF, DOCX, DOC, or TXT</span>
-              <input id="resumeFile" type="file" accept=".pdf,.doc,.docx,.txt" aria-label="Upload resume">
+          <div class="row">
+            <!-- File chooser styled -->
+            <label class="inline" style="gap:10px">
+              <span class="file-chooser" title="Upload resume (PDF/DOC/DOCX/TXT)">
+                <span>📄 Choose File</span>
+                <input id="resumeFile" type="file" accept=".pdf,.docx,.txt,.doc" aria-label="Upload resume">
+              </span>
+              <span id="fileMeta" class="file-meta">Accepted: PDF, DOCX, DOC, TXT (light client-side parsing)</span>
             </label>
 
-            <button id="parseBtn" class="btn sm" type="button" title="Extract text from the uploaded file">Extract ▶</button>
-
-            <label class="inline">
-              <span class="tiny">Or paste resume text</span>
-            </label>
+            <!-- Provider + model -->
+            <div class="inline" role="group" aria-label="AI settings">
+              <label class="inline"><span class="tiny">Provider</span>
+                <select id="provider" class="select" style="width:170px">
+                  <option value="perplexity" selected>Perplexity</option>
+                  <option value="google">Google (Gemini)</option>
+                  <option value="groq">Groq</option>
+                </select>
+              </label>
+              <label class="inline"><span class="tiny">Model</span>
+                <select id="modelSel" class="select" style="width:230px"></select>
+              </label>
+              <button id="saveCfg" class="btn sm secondary" type="button" title="Save provider & model">Save</button>
+            </div>
           </div>
 
-          <textarea id="resumeTxt" class="textarea" placeholder="Paste your resume text here (or upload a file)…"></textarea>
-
-          <div class="row" style="gap:8px;">
-            <label class="inline" style="flex:1">
-              <span class="tiny">Job Description (optional)</span>
-              <textarea id="jdTxt" class="textarea" placeholder="Paste the JD here for a match analysis…"></textarea>
-            </label>
+          <div class="area">
+            <label class="label" for="resumeText">Resume Text</label>
+            <textarea id="resumeText" class="input" placeholder="Paste your resume text or upload a file above…" spellcheck="false"></textarea>
           </div>
 
-          <div class="toolbar" role="group" aria-label="Run + AI">
-            <button id="analyzeBtn" class="btn" type="button">Run ATS Check ▶</button>
+          <div class="area">
+            <div class="inline" style="justify-content:space-between; width:100%">
+              <label class="label" for="jdText" style="margin:0">Job Description (optional for match analysis)</label>
+              <div class="toolbar">
+                <button id="pasteJD" class="btn sm secondary" type="button">Paste JD</button>
+                <button id="swapBtn" class="btn sm ghost" type="button" title="Swap Resume ↔ JD">Swap</button>
+              </div>
+            </div>
+            <textarea id="jdText" class="input" placeholder="Paste a job description to check keyword match…" spellcheck="false"></textarea>
+          </div>
 
-            <span class="tiny" style="opacity:.9">AI Deep Review (optional)</span>
-            <label class="inline" title="Provider">
-              <span class="tiny">Provider</span>
-              <select id="provider" class="select" style="width:160px">
-                <option value="perplexity" selected>Perplexity</option>
-                <option value="google">Google (Gemini)</option>
-                <option value="groq">Groq</option>
+          <!-- Actions -->
+          <div class="toolbar">
+            <label class="inline"><span class="tiny">Mode</span>
+              <select id="mode" class="select" style="width:220px">
+                <option value="ats" selected>ATS Score (general)</option>
+                <option value="match">ATS + JD Match</option>
+                <option value="rewrite">Rewrite Resume for JD</option>
               </select>
             </label>
-            <label class="inline" title="Model">
-              <span class="tiny">Model</span>
-              <select id="modelSel" class="select" style="width:230px">
-                <!-- populated by JS -->
-              </select>
-            </label>
-            <button id="aiReviewBtn" class="btn sm secondary" type="button">AI Review</button>
+
+            <button id="runBtn" class="btn" type="button">Analyze ▶</button>
             <button id="stopBtn" class="btn sm danger" type="button" disabled>Stop</button>
           </div>
         </div>
       </article>
 
-      <!-- OUTPUT -->
+      <!-- RIGHT: OUTPUT -->
       <article class="panel card" aria-labelledby="output-title">
         <div class="panel-head">
           <h2 id="output-title" class="h4">Results</h2>
-          <div class="toolbar" role="group" aria-label="Result actions">
+          <div class="toolbar">
             <button id="copyBtn" class="btn sm" type="button">Copy</button>
             <button id="downloadBtn" class="btn sm" type="button">Download .txt</button>
+            <button id="permBtn" class="btn sm secondary" type="button" title="Create a shareable link with your settings">Permalink</button>
           </div>
         </div>
 
         <div class="panel-body">
           <div class="kpis" id="kpis" aria-live="polite">
-            <div class="kpi"><span class="tiny">ATS Friendliness</span><b id="kpiATS">—</b></div>
+            <div class="kpi"><span class="tiny">ATS Score</span><b id="kpiATS">—</b></div>
             <div class="kpi"><span class="tiny">JD Match</span><b id="kpiMatch">—</b></div>
-            <div class="kpi"><span class="tiny">Readability (FRE)</span><b id="kpiFRE">—</b></div>
-            <div class="kpi"><span class="tiny">Action Verbs</span><b id="kpiVerbs">—</b></div>
+            <div class="kpi"><span class="tiny">Missing Keywords</span><b id="kpiMissing">—</b></div>
+            <div class="kpi"><span class="tiny">Readability</span><b id="kpiRead">—</b></div>
           </div>
+          <div class="tiny" id="status" aria-live="polite" style="min-height:1.2em"></div>
+          <pre id="output" class="output" tabindex="0" aria-label="AI output"></pre>
 
-          <div class="tiny" id="status" aria-live="polite" style="margin-top:2px"></div>
-
-          <div class="result" id="report" aria-label="ATS report" style="white-space:pre-wrap"></div>
-
-          <div class="tips-related" style="display:grid; gap:12px; grid-template-columns:1fr 1fr; align-items:start;">
+          <div class="tips-related">
             <div>
               <h3 class="h5">Tips</h3>
               <ul class="list compact">
-                <li>Use standard headings: <b>Summary</b>, <b>Experience</b>, <b>Education</b>, <b>Skills</b>.</li>
-                <li>Avoid tables, text boxes, headers/footers—some ATS can’t read those well.</li>
-                <li>Mirror key phrases from the JD where relevant and truthful.</li>
+                <li>Keep section headers simple: <i>Experience</i>, <i>Education</i>, <i>Skills</i>.</li>
+                <li>Mirror exact JD keywords where truthful (tools, frameworks, certifications).</li>
+                <li>Use simple tables only; avoid multi-column PDFs for ATS.</li>
               </ul>
             </div>
             <div>
               <h3 class="h5">Related</h3>
               <ul class="list compact">
-                <li><a href="/ai-writer/">AI Writer</a> — summaries, rewrites, SEO meta.</li>
-                <li><a href="/word-counter/">Word Counter</a> — words, chars, reading time.</li>
-                <li><a href="/plagiarism-checker/">Plagiarism Checker</a> — originality & paraphrasing.</li>
+                <li><a href="/ai-writer/">AI Writer</a> — rewrite bullets by impact.</li>
+                <li><a href="/word-counter/">Word Counter</a> — length & reading time.</li>
+                <li><a href="/plagiarism-checker/">Plagiarism Checker</a> — originality estimate.</li>
               </ul>
             </div>
           </div>
@@ -267,13 +299,14 @@
       </article>
     </section>
 
-    <section class="spaced" aria-labelledby="more">
-      <h2 id="more" class="h5">More from UpTools</h2>
+    <!-- Footer links -->
+    <section class="spaced" aria-labelledby="related">
+      <h2 id="related" class="h5">More from UpTools</h2>
       <div class="grid" style="grid-template-columns: repeat(4,1fr);">
-        <a class="card tool-link accent-indigo" href="/json-formatter/"><span class="ico">🧩</span><span><b>JSON Formatter</b><br><span class="note">Prettify &amp; validate</span></span></a>
-        <a class="card tool-link accent-emerald" href="/qr-generator/"><span class="ico">🔳</span><span><b>QR Generator</b><br><span class="note">Create QR codes</span></span></a>
-        <a class="card tool-link accent-cyan" href="/image-converter/"><span class="ico">🖼️</span><span><b>Image Converter</b><br><span class="note">Resize &amp; format</span></span></a>
-        <a class="card tool-link accent-violet" href="/bmi-calculator/"><span class="ico">⚖️</span><span><b>BMI Calculator</b><br><span class="note">Quick health check</span></span></a>
+        <a class="card tool-link accent-indigo" href="/json-formatter/"><span class="ico" aria-hidden="true">🧩</span><span><b>JSON Formatter</b><br><span class="note">Prettify & validate</span></span></a>
+        <a class="card tool-link accent-emerald" href="/qr-generator/"><span class="ico" aria-hidden="true">🔳</span><span><b>QR Generator</b><br><span class="note">Create QR codes</span></span></a>
+        <a class="card tool-link accent-cyan" href="/image-converter/"><span class="ico" aria-hidden="true">🖼️</span><span><b>Image Converter</b><br><span class="note">Resize & format</span></span></a>
+        <a class="card tool-link accent-violet" href="/ai-writer/"><span class="ico" aria-hidden="true">✍️</span><span><b>AI Writer</b><br><span class="note">Summarize & rewrite</span></span></a>
       </div>
     </section>
 
@@ -283,7 +316,7 @@
         <a href="/contact/"><span class="card-badge" aria-hidden="true">CT</span> Contact</a>
         <a href="/privacy/"><span class="card-badge" aria-hidden="true">PP</span> Privacy</a>
       </nav>
-      <p class="tiny">© <span id="y"></span> UpTools · <a href="https://creativecommons.org/licenses/" target="_blank" rel="nofollow noopener">Creative Commons</a></p>
+      <p class="tiny">© <span id="y"></span> UpTools · Privacy-first utilities</p>
     </footer>
   </main>
 
@@ -292,31 +325,38 @@
 
     // Refs
     const byId = (id)=>document.getElementById(id);
-    const fileIn = byId('resumeFile');
-    const fileName = byId('fileName');
-    const parseBtn = byId('parseBtn');
-    const resumeTxt = byId('resumeTxt');
-    const jdTxt = byId('jdTxt');
-    const analyzeBtn = byId('analyzeBtn');
-    const aiReviewBtn = byId('aiReviewBtn');
+    const resumeFile = byId('resumeFile');
+    const fileMeta = byId('fileMeta');
+    const resumeText = byId('resumeText');
+    const jdText = byId('jdText');
+    const pasteResume = byId('pasteResume');
+    const pasteJD = byId('pasteJD');
+    const clearAll = byId('clearAll');
+    const charCount = byId('charCount');
+
+    const runBtn = byId('runBtn');
     const stopBtn = byId('stopBtn');
     const status = byId('status');
-    const kpiATS = byId('kpiATS');
-    const kpiMatch = byId('kpiMatch');
-    const kpiFRE = byId('kpiFRE');
-    const kpiVerbs = byId('kpiVerbs');
-    const report = byId('report');
+    const output = byId('output');
     const copyBtn = byId('copyBtn');
     const downloadBtn = byId('downloadBtn');
-    const clearBtn = byId('clearBtn');
-    const charCount = byId('charCount');
+    const permBtn = byId('permBtn');
+
     const providerSel = byId('provider');
     const modelSel = byId('modelSel');
+    const saveCfg = byId('saveCfg');
+    const modeSel = byId('mode');
+
+    // KPIs
+    const kpiATS = byId('kpiATS');
+    const kpiMatch = byId('kpiMatch');
+    const kpiMissing = byId('kpiMissing');
+    const kpiRead = byId('kpiRead');
 
     // Footer year
     byId('y').textContent = new Date().getFullYear();
 
-    // Provider + Models (like your AI Writer)
+    // Provider & Models
     const PROVIDER_MODELS = {
       perplexity: [
         { id: 'sonar', label: 'sonar' },
@@ -334,259 +374,261 @@
         { id: 'gemma2-9b-it', label: 'gemma2-9b-it' }
       ]
     };
+
     const CFG_KEY = 'resume:cfg';
-    const cfg = Object.assign({ provider:'perplexity', model:'sonar' }, read(CFG_KEY, {}));
+    const cfg = Object.assign({ provider: 'perplexity', model: 'sonar' }, read(CFG_KEY, {}));
 
     function populateModels(){
       const prov = providerSel.value || 'perplexity';
+      const models = PROVIDER_MODELS[prov] || [];
       modelSel.innerHTML = '';
-      for (const m of (PROVIDER_MODELS[prov] || [])) {
-        const o = document.createElement('option');
-        o.value = m.id; o.textContent = m.label; modelSel.appendChild(o);
+      for(const m of models){
+        const opt=document.createElement('option');
+        opt.value=m.id; opt.textContent=m.label;
+        modelSel.appendChild(opt);
       }
-      const ok = (PROVIDER_MODELS[prov]||[]).some(m=>m.id===cfg.model);
-      modelSel.value = ok ? cfg.model : (PROVIDER_MODELS[prov]?.[0]?.id || '');
+      const ok = models.some(m => m.id === cfg.model);
+      modelSel.value = ok ? cfg.model : (models[0]?.id || '');
     }
-    providerSel.value = cfg.provider; populateModels(); if (cfg.model) modelSel.value = cfg.model;
-    providerSel.addEventListener('change', ()=>{ cfg.provider = providerSel.value; populateModels(); persist(CFG_KEY, { provider:providerSel.value, model:modelSel.value }); });
-    modelSel.addEventListener('change', ()=>persist(CFG_KEY, { provider:providerSel.value, model:modelSel.value }));
 
-    // Character count
-    const updateCounts = ()=>{ charCount.textContent = (resumeTxt.value.length || 0).toLocaleString(); };
-    resumeTxt.addEventListener('input', debounce(updateCounts, 80)); updateCounts();
+    providerSel.value = cfg.provider || 'perplexity';
+    populateModels();
+    if (cfg.model) modelSel.value = cfg.model;
 
-    // Clear
-    clearBtn.addEventListener('click', ()=>{
-      resumeTxt.value = ''; jdTxt.value = ''; report.textContent = ''; status.textContent = '';
-      kpiATS.textContent = '—'; kpiMatch.textContent = '—'; kpiFRE.textContent = '—'; kpiVerbs.textContent = '—';
-      charCount.textContent = '0'; fileIn.value = ''; fileName.textContent = 'PDF, DOCX, DOC, or TXT';
+    saveCfg.addEventListener('click', ()=>{
+      persist(CFG_KEY, { provider: providerSel.value, model: modelSel.value });
+      toast('Settings saved');
+    });
+    providerSel.addEventListener('change', ()=>{
+      cfg.provider = providerSel.value; populateModels();
     });
 
-    // File UI updates
-    fileIn.addEventListener('change', (e)=>{
-      const f = e.target.files?.[0];
-      fileName.textContent = f ? `${f.name} (${Math.round((f.size||0)/1024)} KB)` : 'PDF, DOCX, DOC, or TXT';
+    // Counts
+    function updateCount(){
+      const t = (resumeText.value || '') + (jdText.value || '');
+      charCount.textContent = (t.length).toLocaleString();
+    }
+    resumeText.addEventListener('input', debounce(updateCount, 60));
+    jdText.addEventListener('input', debounce(updateCount, 60));
+    updateCount();
+
+    // Paste/Clear
+    pasteResume.addEventListener('click', async ()=>{
+      try{ resumeText.value = await navigator.clipboard.readText(); updateCount(); }
+      catch{ toast('Clipboard blocked by browser'); }
+    });
+    pasteJD.addEventListener('click', async ()=>{
+      try{ jdText.value = await navigator.clipboard.readText(); updateCount(); }
+      catch{ toast('Clipboard blocked by browser'); }
+    });
+    clearAll.addEventListener('click', ()=>{
+      resumeText.value=''; jdText.value=''; output.textContent=''; status.textContent='';
+      resetKPIs(); updateCount(); resumeText.focus();
     });
 
-    // ----------- Parsing (local) -----------
-    async function readAsText(file){
-      const ext = (file.name.split('.').pop()||'').toLowerCase();
-      if (ext === 'txt') return await file.text();
-      if (ext === 'docx') return await parseDocx(file);
-      if (ext === 'pdf')  return await parsePdf(file);
-      if (ext === 'doc')  return 'Legacy .doc detected. Please re-save as DOCX (Word > Save As > .docx) for accurate parsing.';
-      return await file.text(); // fallback
-    }
+    // File parsing (lightweight: TXT natively; PDF/DOCX best-effort notice)
+    resumeFile.addEventListener('change', async (e)=>{
+      const f = e.target.files?.[0]; if(!f) return;
+      fileMeta.textContent = `${f.name} • ${(f.size/1024/1024).toFixed(2)} MB`;
+      const ext = (f.name.split('.').pop() || '').toLowerCase();
 
-    async function parseDocx(file){
-      if (!window.mammoth) throw new Error('DOCX parser not loaded');
-      const arrayBuffer = await file.arrayBuffer();
-      const { value } = await window.mammoth.extractRawText({ arrayBuffer });
-      return (value || '').trim();
-    }
-
-    async function parsePdf(file){
-      if (!window.pdfjsLib) throw new Error('PDF parser not loaded');
-      const data = new Uint8Array(await file.arrayBuffer());
-      const pdf = await window.pdfjsLib.getDocument({ data }).promise;
-      const maxPages = Math.min(pdf.numPages, 12); // keep it light
-      let text = '';
-      for (let i=1;i<=maxPages;i++){
-        const page = await pdf.getPage(i);
-        const content = await page.getTextContent();
-        const strings = content.items.map(it => (it.str||''));
-        text += strings.join(' ') + '\n';
-      }
-      return text.replace(/\s+\n/g,'\n').trim();
-    }
-
-    parseBtn.addEventListener('click', async ()=>{
-      const f = fileIn.files?.[0];
-      if (!f) { toast('Pick a file first'); return; }
-      status.textContent = 'Reading…';
       try{
-        const text = await readAsText(f);
-        if (!text || text.length < 30){
-          toast('Could not read resume. Try DOCX/TXT or copy-paste text.');
+        if(ext === 'txt'){
+          resumeText.value = await f.text();
+        }else if(ext === 'pdf'){
+          // Minimal “safe” fallback: show guidance if no PDF.js is wired.
+          resumeText.value = (resumeText.value ? resumeText.value + '\n\n' : '') +
+            '[Notice] PDF text extraction requires PDF.js on this page. If text below looks empty, open your PDF and copy-paste the text here for best results.';
+        }else if(ext === 'doc' || ext === 'docx'){
+          // Minimal fallback note (avoid heavy zip libs)
+          resumeText.value = (resumeText.value ? resumeText.value + '\n\n' : '') +
+            '[Notice] DOC/DOCX parsing is limited in-browser. If content is missing, please open the document and paste plain text here for best ATS accuracy.';
+        }else{
+          toast('Unsupported file type');
         }
-        resumeTxt.value = text || '';
-        updateCounts();
-        status.textContent = 'File extracted.';
+        updateCount();
       }catch(e){
-        status.textContent = 'Parse error. See console.';
-        console.error(e);
-        toast('Could not read resume. Try DOCX/TXT or copy-paste text.');
+        toast('Could not read file. Try TXT or paste.');
       }
     });
 
-    // ----------- ATS Heuristics -----------
-    const ACTION_VERBS = ['led','managed','built','created','delivered','owned','shipped','implemented','designed','architected','migrated','optimized','improved','increased','reduced','launched','scaled','automated','mentored','collaborated','analyzed','developed','deployed','debugged','refactored','integrated','tested','documented'];
-
-    function sentences(t){ return (t.trim().match(/[^.!?]+[.!?]*/g) || []).map(s=>s.trim()).filter(Boolean); }
-    function words(t){ return (t.toLowerCase().match(/\b[\w’'-]+\b/gu) || []); }
-    function uniq(a){ return [...new Set(a)]; }
-    function syllables(w){ return ((w.toLowerCase().match(/[aeiouy]+/g) || []).length)||1; }
-    function fleschReadingEase(text){
-      const W = words(text);
-      const S = sentences(text).length || 1;
-      const SYL = W.reduce((s,w)=>s+syllables(w),0);
-      const score = 206.835 - 1.015*(W.length/Math.max(1,S)) - 84.6*(SYL/Math.max(1,W.length));
-      return Math.max(0, Math.min(100, Math.round(score)));
+    // Heuristics for KPIs (client-side quick estimates)
+    function sentences(text){ return (text.trim().match(/[^.!?]+[.!?]*/g) || []).map(s=>s.trim()).filter(Boolean); }
+    function flesch(text){
+      const words=(text.match(/\b[a-zA-Z’'-]+\b/g)||[]);
+      const syl=words.reduce((s,w)=>s+((w.toLowerCase().match(/[aeiouy]+/g)||[]).length||1),0);
+      const S=sentences(text).length||1, W=Math.max(words.length,1);
+      return Math.max(0, Math.min(100, 206.835 - 1.015*(W/S) - 84.6*(syl/W)));
     }
-
-    function sectionHealth(text){
-      const headers = ['summary','experience','work experience','professional experience','projects','skills','education','certifications','achievements','awards','publications'];
-      const found = headers.filter(h => new RegExp(`\\b${h}\\b`, 'i').test(text));
-      return { found, coverage: Math.round((found.length / 6) * 100) }; // out of a core 6
+    function uniqKeywords(text){
+      return new Set((text.toLowerCase().match(/\b[a-z][a-z0-9+\-.#]+\b/g) || []).filter(w=>w.length>2));
     }
-
-    function keywordMatch(resume, jd){
-      if(!jd) return { match: '—', covered: [], missing: [] };
-      const rws = words(resume);
-      const jws = words(jd).filter(w => w.length > 3);
-      const top = uniq(jws).slice(0, 120);
-      const covered = top.filter(k => rws.includes(k));
-      const missing = top.filter(k => !rws.includes(k));
-      const pct = Math.round((covered.length / Math.max(1, top.length)) * 100);
-      return { match: `${pct}%`, covered: covered.slice(0, 40), missing: missing.slice(0, 40) };
+    function quickATS(text){
+      // lightweight proxy: length + structure + skills diversity
+      const len = (text.match(/\b[a-zA-Z]/g)||[]).length;
+      const secs = (text.match(/\b(experience|education|skills|projects|summary|certifications|work|achievements)\b/i)||[]).length;
+      const kw = uniqKeywords(text).size;
+      let score = 40;
+      score += Math.min(25, Math.floor(len/1500)*5);
+      score += Math.min(15, secs*5);
+      score += Math.min(20, Math.floor(kw/100)*4);
+      return Math.max(0, Math.min(100, score));
     }
-
-    function actionVerbCount(text){
-      const w = words(text);
-      return w.filter(x => ACTION_VERBS.includes(x)).length;
+    function matchRate(resume, jd){
+      if(!jd.trim()) return 0;
+      const rset = uniqKeywords(resume); const jset = uniqKeywords(jd);
+      if(jset.size===0) return 0;
+      let hit=0; jset.forEach(k=>{ if(rset.has(k)) hit++; });
+      return Math.round((hit / jset.size) * 100);
     }
-
-    function atsScore(text){
-      // Simple blend: structure (sections), readability, bullet/action signals, length range
-      const { coverage } = sectionHealth(text);
-      const fre = fleschReadingEase(text);
-      const acts = Math.min(15, actionVerbCount(text)) / 15; // cap
-      const len = words(text).length;
-      let lenScore = 0;
-      if (len >= 250 && len <= 1100) lenScore = 1;
-      else if (len >= 160 && len < 250) lenScore = 0.8;
-      else if (len > 1100 && len <= 1600) lenScore = 0.8;
-      else lenScore = 0.5;
-
-      // weights
-      const score = 0.4*(coverage/100) + 0.25*(fre/100) + 0.2*(acts) + 0.15*(lenScore);
-      return Math.round(score * 100);
+    function missingKeywords(resume, jd){
+      const rset = uniqKeywords(resume); const jset = [...uniqKeywords(jd)];
+      return jset.filter(k=>!rset.has(k)).slice(0, 50); // show top 50 max
     }
+    function updateKPIs(){
+      const r = resumeText.value || '';
+      const j = jdText.value || '';
+      kpiATS.textContent = (r.trim()? (quickATS(r))+'%' : '—');
+      kpiMatch.textContent = (r.trim() && j.trim()? (matchRate(r,j))+'%' : (j.trim()? '0%' : '—'));
+      kpiMissing.textContent = (r.trim() && j.trim()? missingKeywords(r,j).length : '—');
+      kpiRead.textContent = (r.trim()? Math.round(flesch(r)) : '—');
+    }
+    function resetKPIs(){ kpiATS.textContent='—'; kpiMatch.textContent='—'; kpiMissing.textContent='—'; kpiRead.textContent='—'; }
+    resumeText.addEventListener('input', debounce(updateKPIs, 120));
+    jdText.addEventListener('input', debounce(updateKPIs, 120));
 
-    analyzeBtn.addEventListener('click', ()=>{
-      const resume = (resumeTxt.value||'').trim();
-      const jd = (jdTxt.value||'').trim();
-      if (!resume || resume.length < 30){ toast('Add resume text or extract from file first.'); return; }
-
-      status.textContent = 'Analyzing…';
-      const fre = fleschReadingEase(resume);
-      const sect = sectionHealth(resume);
-      const verbs = actionVerbCount(resume);
-      const ats = atsScore(resume);
-      const km = keywordMatch(resume, jd);
-
-      kpiATS.textContent = ats + '%';
-      kpiFRE.textContent = fre.toString();
-      kpiVerbs.textContent = verbs.toString();
-      kpiMatch.textContent = km.match;
-
-      const lines = [];
-      lines.push(`ATS Friendliness: ${ats}%`);
-      lines.push(`Readability (Flesch): ${fre}`);
-      lines.push(`Sections found (${sect.found.length}): ${sect.found.join(', ') || '—'}`);
-      if (jd){
-        lines.push(`JD Match: ${km.match}`);
-        lines.push(`Top Covered Keywords (${km.covered.length}): ${km.covered.join(', ')}`);
-        lines.push(`Missing Keywords (${km.missing.length}): ${km.missing.join(', ')}`);
-      }
-      lines.push('');
-      lines.push('Suggestions:');
-      if (sect.coverage < 70) lines.push('- Add/standardize headings like Summary, Experience, Skills, Education.');
-      if (fre < 45) lines.push('- Shorten sentences and prefer plain language to improve readability.');
-      if (verbs < 6) lines.push('- Start bullets with strong action verbs (e.g., Led, Built, Delivered).');
-      if (jd && km.match !== '—' && parseInt(km.match) < 65) lines.push('- Mirror key phrases from the JD where relevant and accurate.');
-      lines.push('- Avoid tables, images, and headers/footers; export clean PDF or DOCX.');
-
-      report.textContent = lines.join('\n');
-      status.textContent = 'Done.';
+    // Swap fields
+    byId('swapBtn').addEventListener('click', ()=>{
+      const a = resumeText.value; resumeText.value = jdText.value; jdText.value = a;
+      updateCount(); updateKPIs();
     });
 
-    // ----------- Optional: AI Deep Review (stream via /ai) -----------
+    // Build model prompt
+    function buildPrompt(mode, resume, jd){
+      if(mode==='ats'){
+        return [
+          "You are an ATS optimization assistant.",
+          "Analyze the resume for ATS readiness. Return:",
+          "1) ATS score (0-100). 2) Strengths. 3) Gaps/risks. 4) Missing keywords (if obvious).",
+          "5) Actionable rewrites: 3-6 bullet points.",
+          "\n--- RESUME ---\n", resume
+        ].join('\n');
+      }
+      if(mode==='match'){
+        return [
+          "You are an ATS optimization assistant.",
+          "Compare resume vs JD. Return:",
+          "1) ATS score (0-100). 2) JD match % (0-100). 3) Missing/weak keywords.",
+          "4) Tailored rewrite suggestions (bullet points), using the JD language where truthful.",
+          "\n--- RESUME ---\n", resume,
+          "\n--- JOB DESCRIPTION ---\n", jd
+        ].join('\n');
+      }
+      // rewrite
+      return [
+        "Rewrite this resume to better match the JD while preserving truthfulness.",
+        "Keep original structure, measurable impact, and clear bullet points. Avoid jargon inflation.",
+        "Return ONLY the revised resume text.",
+        "\n--- RESUME ---\n", resume,
+        "\n--- JOB DESCRIPTION ---\n", jd
+      ].join('\n');
+    }
+
+    // Stream via /ai proxy
     let aborter = null;
-    async function streamAI({ provider, model, prompt }){
+    async function streamChat({ provider, model, prompt }){
+      output.textContent = '';
+      status.textContent = 'Running…';
+      stopBtn.disabled = false;
+
       const res = await fetch('/ai', {
         method:'POST',
-        signal: (aborter=new AbortController()).signal,
-        headers:{'Content-Type':'application/json'},
+        signal: (aborter = new AbortController()).signal,
+        headers:{ 'Content-Type':'application/json' },
         body: JSON.stringify({
-          provider, model, stream:true, temperature:0.3,
-          messages: [
-            { role:'system', content:'You are a precise resume reviewer. Be concise and actionable.' },
+          provider, model, stream:true, temperature:0.2,
+          messages:[
+            { role:'system', content:'You are a concise, careful assistant.' },
             { role:'user', content: prompt }
           ]
         })
       });
-      if(!res.ok) throw new Error(`HTTP ${res.status}`);
-      const reader = res.body.getReader(); const dec = new TextDecoder();
-      report.textContent = '';
+      if(!res.ok){ throw new Error(`HTTP ${res.status}`); }
+      const reader = res.body.getReader(); const dec=new TextDecoder(); let acc='';
       for(;;){
         const {value, done} = await reader.read(); if(done) break;
-        const chunk = dec.decode(value);
-        for (const raw of chunk.split('\n')){
+        const chunk = dec.decode(value, {stream:true});
+        for(const raw of chunk.split('\n')){
           const line = raw.trim(); if(!line || !line.startsWith('data:')) continue;
-          const payload = line.slice(5).trim(); if (payload==='[DONE]'){ aborter=null; return; }
+          const payload = line.slice(5).trim(); if(payload==='[DONE]'){ aborter=null; return acc; }
           try{
             const json = JSON.parse(payload);
             const delta = json.choices?.[0]?.delta?.content ?? '';
-            if (delta) { report.append(document.createTextNode(delta)); report.scrollTop = report.scrollHeight; }
+            if(delta){ acc += delta; output.append(document.createTextNode(delta)); output.scrollTop = output.scrollHeight; }
           }catch{}
         }
       }
-      aborter=null;
+      aborter=null; return acc;
     }
 
-    aiReviewBtn.addEventListener('click', async ()=>{
-      const resume = (resumeTxt.value||'').trim();
-      if (!resume || resume.length < 30){ toast('Add resume text first.'); return; }
-      const jd = (jdTxt.value||'').trim();
-      const prompt = [
-        'Review this resume for ATS clarity and JD alignment.',
-        'Return: 1) brief verdict (score /10), 2) top 6 fixes (bullets), 3) keyword gaps (if JD present), 4) a polished 3-line summary.',
-        jd ? '\nJob Description:\n' + jd : '',
-        '\n--- Resume ---\n',
-        resume
-      ].join('\n');
+    stopBtn.addEventListener('click', ()=>{
+      if(aborter){ aborter.abort(); aborter=null; stopBtn.disabled=true; status.textContent='Stopped.'; }
+    });
 
-      stopBtn.disabled = false;
-      status.textContent = 'AI reviewing…';
+    runBtn.addEventListener('click', async ()=>{
+      const resume = (resumeText.value||'').trim();
+      const jd = (jdText.value||'').trim();
+      if(!resume){ toast('Add resume text or upload a file.'); resumeText.focus(); return; }
+
+      // quick KPIs first (no overlap/scroll glitches)
+      updateKPIs();
+
+      const provider = providerSel.value || 'perplexity';
+      const model = modelSel.value || (PROVIDER_MODELS[provider]?.[0]?.id ?? '');
+      if(!model){ toast('Pick a model'); return; }
+
+      const mode = modeSel.value;
+      const prompt = buildPrompt(mode, resume, jd);
+
       try{
-        await streamAI({ provider: providerSel.value, model: modelSel.value, prompt });
-        status.textContent = 'AI review complete.';
+        await streamChat({ provider, model, prompt });
+        status.textContent = 'Done.';
       }catch(e){
-        console.error(e);
-        status.textContent = 'AI review failed.';
-        toast('AI request failed. Check provider/model or quotas.');
+        status.textContent = (e?.message||'Error') + ' — check provider/model or quotas.';
+        toast('Request failed.');
       }finally{
         stopBtn.disabled = true;
       }
     });
 
-    stopBtn.addEventListener('click', ()=>{
-      if (aborter){ aborter.abort(); aborter=null; stopBtn.disabled=true; status.textContent='Stopped.'; }
-    });
-
-    // Copy / Download
+    // Copy/Download/Permalink
     copyBtn.addEventListener('click', async ()=>{
-      try{ await navigator.clipboard.writeText(report.textContent||''); toast('Copied'); }
+      try{ await navigator.clipboard.writeText(output.textContent||''); toast('Copied'); }
       catch{ toast('Copy blocked by browser'); }
     });
     downloadBtn.addEventListener('click', ()=>{
-      const blob = new Blob([report.textContent||''], {type:'text/plain;charset=utf-8'});
-      const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='ats-report.txt'; a.click();
+      const blob=new Blob([output.textContent||''],{type:'text/plain;charset=utf-8'});
+      const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='resume-ats-result.txt'; a.click();
       URL.revokeObjectURL(a.href);
     });
+    permBtn.addEventListener('click', async ()=>{
+      const o={ p: providerSel.value, m: modelSel.value, mode: modeSel.value };
+      const url=new URL(location.href); url.hash=encodeURIComponent(btoa(JSON.stringify(o)));
+      try{ await navigator.clipboard.writeText(url.toString()); toast('Permalink copied'); }
+      catch{ toast('Permalink ready (check address bar)'); history.replaceState({},'',url); }
+    });
 
-    function toast(msg){ status.textContent = msg; setTimeout(()=>{ if(status.textContent===msg) status.textContent=''; }, 1800); }
+    // Restore from hash
+    (function restoreFromHash(){
+      if(!location.hash) return;
+      try{
+        const o = JSON.parse(atob(decodeURIComponent(location.hash.slice(1))));
+        if(o?.p) providerSel.value = o.p;
+        populateModels();
+        if(o?.m) modelSel.value = o.m;
+        if(o?.mode) modeSel.value = o.mode;
+      }catch{}
+    })();
 
     // Mount AdSense without CLS (slot already reserved)
     (function mountAd(){
@@ -598,10 +640,13 @@
       ins.setAttribute('data-ad-slot','auto');
       ins.setAttribute('data-ad-format','auto');
       ins.setAttribute('data-full-width-responsive','true');
-      ins.style.display='block'; ins.style.minHeight='160px';
+      ins.style.display='block';
+      ins.style.minHeight='160px';
       mount.appendChild(ins);
       try{ (window.adsbygoogle = window.adsbygoogle || []).push({}); }catch{}
     })();
+
+    function toast(msg){ status.textContent=msg; setTimeout(()=>{ if(status.textContent===msg) status.textContent=''; }, 1800); }
   </script>
 </body>
 </html>
