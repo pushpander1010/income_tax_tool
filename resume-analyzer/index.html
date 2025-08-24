@@ -828,6 +828,7 @@
 
  	// Apply AI KPIs
  	function applyAiKPIs(obj) {
+    console.log(obj);
  	  if (!obj || typeof obj !== 'object') return;
  	  if (typeof obj.score === 'number') {
  	    kpiATS.textContent = Math.max(0, Math.min(100, Math.round(obj.score))) + '%';
