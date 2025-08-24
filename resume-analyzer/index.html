@@ -84,8 +84,6 @@
     .panel-head { display:flex; align-items:center; justify-content:space-between; gap:8px; padding:10px 12px; }
     .panel-body { flex:1; min-height:0; display:grid; grid-template-rows:auto 1fr auto; gap:10px; padding:10px 12px; overflow:auto; }
 
-    .toolbar { display:flex; flex-wrap: wrap; align-items:center; gap:8px; }
-    .inline { display:inline-flex; align-items:center; gap:6px; }
     .row { display:grid; gap:8px; grid-template-columns: 1fr 1fr; }
     @media (max-width: 640px){ .row{ grid-template-columns:1fr; } }
 
@@ -112,14 +110,6 @@
     @media (min-width:1024px){ .ad-wrap{ min-height:250px; } }
     .ad-wrap:empty::before{ content:""; display:block; width:100%; height:100%; }
 
-    /* Insights grid (new) */
-    .insights { display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-top:10px; }
-    @media (max-width:900px){ .insights { grid-template-columns: 1fr; } }
-    .pill-list { display:flex; flex-wrap:wrap; gap:6px; }
-    .pill-btn { display:inline-flex; align-items:center; gap:6px; padding:6px 10px; border-radius:999px; font-size:12px; background:#0b1326; border:1px solid var(--border); box-shadow:var(--glow-soft); }
-    .copybar { display:flex; justify-content:flex-end; gap:8px; margin-top:6px; }
-    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; }
-
     /* Avoid overlap anywhere by ensuring sections have z-index context */
     section.card, section.spaced, .site-footer { position:relative; z-index:0; }
   </style>
@@ -141,7 +131,7 @@
     </div>
   </header>
 
-  <main class="tool container" id="top">
+  <main class="tool container" id="top" role="main">
     <section class="card hero" aria-labelledby="title">
       <div>
         <h1 id="title">🧾🔎 Resume ATS Analyzer (PDF • DOCX • TXT)</h1>
@@ -256,36 +246,7 @@
           </div>
 
           <div class="tiny" id="status" aria-live="polite" style="margin-top:2px"></div>
-          <pre id="output" class="output scroll-area mono" tabindex="0" aria-label="AI output"></pre>
-
-          <!-- NEW: Structured insights populated from the AI JSON (and local heuristics fallback) -->
-          <div id="insights" class="insights" aria-live="polite" style="display:none">
-            <section class="card" id="missingBox" aria-labelledby="missingTitle">
-              <h3 id="missingTitle" class="h5">Missing Keywords</h3>
-              <div id="missingKeys" class="pill-list"></div>
-              <div class="copybar">
-                <button id="copyMissing" class="btn sm secondary" type="button">Copy Missing</button>
-              </div>
-            </section>
-
-            <section class="card" id="strengthsBox" aria-labelledby="strengthsTitle">
-              <h3 id="strengthsTitle" class="h5">Strengths</h3>
-              <ul id="strengthsList" class="list compact"></ul>
-            </section>
-
-            <section class="card" id="issuesBox" aria-labelledby="issuesTitle">
-              <h3 id="issuesTitle" class="h5">Issues & Fixes</h3>
-              <ul id="issuesList" class="list compact"></ul>
-            </section>
-
-            <section class="card" id="bulletsBox" aria-labelledby="bulletsTitle">
-              <h3 id="bulletsTitle" class="h5">Tailored Bullet Rewrites</h3>
-              <ul id="bulletsList" class="list compact"></ul>
-              <div class="copybar">
-                <button id="copyBullets" class="btn sm secondary" type="button">Copy Bullets</button>
-              </div>
-            </section>
-          </div>
+          <pre id="output" class="output scroll-area" tabindex="0" aria-label="AI output"></pre>
 
           <div class="tips-related" role="region" aria-label="Tips & links" style="display:grid;gap:12px;grid-template-columns:1fr 1fr;align-items:start">
             <div>
@@ -361,15 +322,6 @@
     const jdWrap = byId('jdWrap');
     const parseNotice = byId('parseNotice');
 
-    // Insights
-    const insightsEl = byId('insights');
-    const missingKeysEl = byId('missingKeys');
-    const strengthsList = byId('strengthsList');
-    const issuesList = byId('issuesList');
-    const bulletsList = byId('bulletsList');
-    const copyMissingBtn = byId('copyMissing');
-    const copyBulletsBtn = byId('copyBullets');
-
     // KPIs
     const kpiScore = byId('kpiScore');
     const kpiMatch = byId('kpiMatch');
@@ -417,7 +369,7 @@
     providerSel.addEventListener('change', ()=>{ cfg.provider = providerSel.value; populateModels(); });
 
     // Mode switch
-    modeSel.addEventListener('change', ()=>{ jdWrap.classList.toggle('hidden', modeSel.value!=='againstJD'); });
+    modeSel.addEventListener('change', ()=>{ jdWrap.classList.toggle('hidden', modeSel.value !== 'againstJD'); });
 
     // Counts
     function counts(text){
@@ -439,8 +391,7 @@
     });
     clearBtn.addEventListener('click', ()=>{
       resumeText.value = ''; jdText.value=''; fileNameEl.textContent='PDF/DOCX/TXT';
-      updateCounts(); resetKPIs(); output.textContent=''; status.textContent=''; insightsEl.style.display='none';
-      clearInsights();
+      updateCounts(); resetKPIs(); output.textContent=''; status.textContent='';
     });
 
     // File handling (PDF/DOCX/TXT)
@@ -484,7 +435,7 @@
       }
     });
 
-    // ---------- Local heuristics for instant KPIs (improved) ----------
+    // Local heuristics for quick KPIs
     function sentences(t){ return (t.trim().match(/[^.!?]+[.!?]*/g) || []).map(s=>s.trim()).filter(Boolean); }
     function flesch(t){
       const words=(t.match(/\b[a-zA-Z’'-]+\b/g)||[]);
@@ -494,118 +445,26 @@
       return Math.max(0, Math.min(100, Math.round(score)));
     }
     function guessKeywords(t){
-      const words=(t.toLowerCase().match(/[a-z][a-z0-9\-+.#]{2,}/g)||[]).filter(w=>!/^(and|the|for|with|from|that|this|into|your|our|their|a|an|to|in|on|of|as|by|is|are|be|was|were|it|at|or|but|not|no|yes)$/.test(w));
+      const words=(t.toLowerCase().match(/[a-z][a-z0-9\-+.#]{2,}/g)||[]).filter(w=>!/^(and|the|for|with|from|that|this|into|your|our|their|a|an|to|in|on|of|as|by|is|are|be|was|were|it|at)$/.test(w));
       const m=new Map(); words.forEach(w=>m.set(w,(m.get(w)||0)+1));
-      return [...m.entries()].sort((a,b)=>b[1]-a[1]).slice(0,20).map(x=>x[0]);
-    }
-    function has(str, re){ return re.test(str); }
-    function scoreLength(words){
-      // Peak around 450-900 words (1–2 pages)
-      const w = words;
-      if(w<=150) return 10;
-      if(w>=1400) return 30;
-      // Triangle peak = 30 at 700; falls to 10 at extremes
-      const peak=700, max=30, min=10;
-      const d = Math.abs(w-peak);
-      const span = 700-150; // 550
-      return Math.round(Math.max(min, max - (d/span)*(max-min)));
-    }
-    function scoreSections(text){
-      const sec = ['summary','experience','work','education','projects','skills','certifications','achievements'];
-      let c=0; for(const s of sec){ if(new RegExp(`\\b${s}\\b`, 'i').test(text)) c++; }
-      return Math.min(20, c*3); // up to 20
-    }
-    function scoreContact(text){
-      let s=0;
-      if(/[\w.-]+@[\w.-]+\.\w{2,}/.test(text)) s+=6;
-      if(/\b(?:\+?\d[\d\s\-()]{7,})\b/.test(text)) s+=5;
-      if(/\blinked(in)?\.com\/?/i.test(text)) s+=3;
-      if(/\bgithub\.com\/?/i.test(text)) s+=3;
-      return Math.min(15,s);
-    }
-    function scoreBullets(text){
-      const lines = text.split(/\r?\n/);
-      const bullets = lines.filter(l=>/^\s*(?:[-•●▪■*]|\d+\.)\s+/.test(l)).length;
-      const ratio = bullets/Math.max(lines.length,1);
-      if(ratio===0) return 4;
-      if(ratio>0.6) return 10; // too many bullets also not great
-      return Math.round(4 + ratio*11); // up to ~15
-    }
-    function scoreReadability(text){
-      const r = flesch(text); // 0-100; best ~60-80
-      if(r>=80) return 18;
-      if(r>=60) return 20;
-      if(r>=40) return 16;
-      if(r>=20) return 10;
-      return 6;
-    }
-    function scoreSkills(text){
-      const buckets = [
-        /python|java|c\+\+|node|react|angular|vue|typescript|sql|nosql|spark|pandas|numpy|aws|gcp|azure|docker|kubernetes|ml|nlp|hugging\s*face|langchain|llm/i,
-        /salesforce|sap|tableau|power\s*bi|excel|vba|jira|confluence|git|linux|bash/i,
-        /communication|leadership|stakeholder|ment(or|oring)|presentation|collaboration/i
-      ];
-      let uniq=0; for(const b of buckets){ if(b.test(text)) uniq++; }
-      return uniq*4 + Math.min(8, (text.match(/(?:python|sql|aws|docker|react|java|excel|tableau|power\s*bi)/ig)||[]).length);
-    }
-    function jaccard(a,b){
-      const A=new Set(a), B=new Set(b);
-      const inter=[...A].filter(x=>B.has(x)).length;
-      const uni=[...new Set([...A,...B])].length || 1;
-      return inter/uni;
-    }
-    function baselineScores(resume, jd){
-      const {words} = counts(resume);
-      const lenS = scoreLength(words);               // 10..30
-      const secS = scoreSections(resume);            // 0..20
-      const conS = scoreContact(resume);             // 0..15
-      const bulS = scoreBullets(resume);             // 4..15
-      const reaS = scoreReadability(resume);         // 6..20
-      const sklS = scoreSkills(resume);              // 0..(~16)
-      const ats = Math.max(0, Math.min(100, lenS + secS + conS + bulS + reaS + sklS));
-      const keys = guessKeywords(resume);
-      let match = '—';
-      if(jd){
-        const jdKeys = guessKeywords(jd);
-        const sim = jaccard(keys.slice(0,15), jdKeys.slice(0,20));
-        match = Math.round(sim*100);
-      }
-      return { ats, match, keys, read: flesch(resume) };
+      return [...m.entries()].sort((a,b)=>b[1]-a[1]).slice(0,15).map(x=>x[0]);
     }
     function resetKPIs(){ kpiScore.textContent='—'; kpiMatch.textContent='—'; kpiKeys.textContent='—'; kpiRead.textContent='—'; }
 
-    // ---------- Prompt builder (tight format + example) ----------
+    // Prompt builder
     function buildPrompt({ resume, jd, mode }){
       if(mode === 'againstJD'){
         return [
-          "You are an ATS assistant. Compare this RESUME to the JD and strictly follow the output format.",
-          "RESPONSE FORMAT:",
-          "1) Start with a JSON block wrapped in ```json ... ``` containing EXACTLY these keys:",
-          '{ "score": 0-100, "match": 0-100, "missing_keywords": [string], "strengths": [string], "issues": [string], "bullets": [string], "summary": string }',
-          "2) Then output a short markdown section titled '### Analysis & Actions' with concise bullets.",
-          "SCORING RUBRIC (guidance): coverage of JD keywords (40%), structure/sections (20%), clarity & grammar (15%), measurable impact/metrics (15%), formatting/ATS-friendliness (10%).",
-          "EXAMPLE:",
-          "```json",
-          '{"score": 76, "match": 68, "missing_keywords": ["Airflow","A/B testing"], "strengths": ["Strong SQL","Clear bullet structure"], "issues": ["No metrics in achievements"], "bullets": ["Increased pipeline reliability by 23% by...", "Optimized SQL queries cutting cost by 18%"], "summary": "Good baseline match; add metrics and JD-specific tools."}',
-          "```",
-          "",
-          "Do NOT include the resume or JD in your response. Be concise.",
+          "You are an ATS assistant. Compare this resume against the job description.",
+          "Return JSON with: score (0-100), match (0-100), missing_keywords[], strengths[], issues[], and a brief summary.",
+          "Then provide an actionable bullet list rewrite of 3-5 experience bullets tailored to the JD.",
           "\n[RESUME]\n", resume, "\n[JD]\n", jd
         ].join('\n');
       }
       return [
-        "You are an ATS assistant. Analyze the RESUME (no JD) and strictly follow the output format.",
-        "RESPONSE FORMAT:",
-        "1) Start with a JSON block wrapped in ```json ... ``` containing EXACTLY these keys:",
-        '{ "score": 0-100, "key_keywords": [string], "formatting_issues": [string], "sections_missing": [string], "bullets": [string], "summary": string }',
-        "2) Then output a short markdown section titled '### Analysis & Actions' with concise bullets.",
-        "SCORING RUBRIC (guidance): sections & structure (30%), clarity/readability (20%), impact/metrics (20%), skills coverage (20%), formatting/ATS-friendliness (10%).",
-        "EXAMPLE:",
-        "```json",
-        '{"score": 72, "key_keywords": ["Python","SQL","ETL","Docker"], "formatting_issues": ["Overuse of first person","Inconsistent dates"], "sections_missing": ["Summary"], "bullets": ["Reduced ETL runtime by 38% via...", "Containerized services with Docker to..." ], "summary": "Well-structured; add metrics and a concise summary."}',
-        "```",
-        "",
-        "Do NOT include the resume in your response. Be concise.",
+        "You are an ATS assistant. Analyze this resume for general ATS readiness.",
+        "Return JSON with: score (0-100), key_keywords[], formatting_issues[], sections_missing[], and a brief summary.",
+        "Then provide an actionable bullet list with improvements.",
         "\n[RESUME]\n", resume
       ].join('\n');
     }
@@ -631,3 +490,112 @@
       for(;;){
         const { value, done } = await reader.read(); if(done) break;
         const chunk = dec.decode(value, { stream:true });
+        for(const raw of chunk.split('\n')){
+          const line = raw.trim(); if(!line || !line.startsWith('data:')) continue;
+          const payload = line.slice(5).trim();
+          if(payload === '[DONE]'){ aborter=null; return acc; }
+          try{
+            const json = JSON.parse(payload);
+            const delta = json?.choices?.[0]?.delta?.content ?? '';
+            if(delta){ acc += delta; output.append(document.createTextNode(delta)); output.scrollTop = output.scrollHeight; }
+          }catch{}
+        }
+      }
+      aborter=null; return acc;
+    }
+
+    // Actions
+    stopBtn.addEventListener('click', ()=>{ if(aborter){ aborter.abort(); aborter=null; stopBtn.disabled=true; status.textContent='Stopped.'; } });
+
+    runBtn.addEventListener('click', async ()=>{
+      const resume = resumeText.value.trim();
+      if(!resume){ toast('Paste/upload your resume text first'); resumeText.focus(); return; }
+      const mode = modeSel.value;
+      const jd = (mode==='againstJD') ? jdText.value.trim() : '';
+      if(mode==='againstJD' && !jd){ toast('Paste the Job Description to compare'); jdText.focus(); return; }
+
+      // Local KPIs (instant)
+      try{
+        const read = flesch(resume);
+        const keys = guessKeywords(resume);
+        kpiRead.textContent = read.toString();
+        kpiKeys.textContent = keys.length.toString();
+        // rough baseline (tweak to avoid constant values)
+        const baseline = 45 + Math.round((read - 50) * 0.6);
+        kpiScore.textContent = `${Math.max(10, Math.min(90, baseline))}%`;
+        kpiMatch.textContent = (mode==='againstJD'
+          ? `${Math.min(100, Math.round( (keys.filter(k=> (jd||'').toLowerCase().includes(k)).length/Math.max(1,keys.length))*100 ))}%`
+          : '—');
+      }catch{}
+
+      // AI pass
+      const provider = providerSel.value || 'perplexity';
+      const model = modelSel.value || (PROVIDER_MODELS[provider]?.[0]?.id ?? '');
+      if(!model){ toast('Pick a model'); return; }
+
+      try{
+        const prompt = buildPrompt({ resume, jd, mode });
+        await streamChat({ provider, model, prompt });
+        status.textContent='Done.';
+      }catch(e){
+        console.error(e);
+        status.textContent=(e?.message||'Error')+' — check provider/model or quotas.';
+        toast('Request failed.');
+      }finally{
+        stopBtn.disabled = true;
+      }
+    });
+
+    copyBtn.addEventListener('click', async ()=>{
+      try{ await navigator.clipboard.writeText(output.textContent||''); toast('Copied'); }
+      catch{ toast('Copy blocked by browser'); }
+    });
+    downloadBtn.addEventListener('click', ()=>{
+      const blob=new Blob([output.textContent||''],{type:'text/plain;charset=utf-8'});
+      const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='resume-ats.txt'; a.click();
+      URL.revokeObjectURL(a.href);
+    });
+    permBtn.addEventListener('click', async ()=>{
+      const o={ m: modeSel.value, p: providerSel.value, md: modelSel.value };
+      const url=new URL(location.href); url.hash=encodeURIComponent(btoa(JSON.stringify(o)));
+      try{ await navigator.clipboard.writeText(url.toString()); toast('Permalink copied'); }
+      catch{ toast('Permalink ready (check address bar)'); history.replaceState({},'',url); }
+    });
+
+    // Helpers
+    function toast(msg){ status.textContent=msg; setTimeout(()=>{ if(status.textContent===msg) status.textContent=''; }, 1800); }
+
+    // KPI init
+    resetKPIs();
+
+    // AdSense mount (slot already reserved; no CLS)
+    (function mountAd(){
+      if(!('adsbygoogle' in window)) return;
+      const mount=byId('adMount');
+      const ins=document.createElement('ins');
+      ins.className='adsbygoogle';
+      ins.style.display='block';
+      ins.style.minHeight='160px';
+      ins.setAttribute('data-ad-client','ca-pub-6216304334889617');
+      ins.setAttribute('data-ad-slot','auto');
+      ins.setAttribute('data-ad-format','auto');
+      ins.setAttribute('data-full-width-responsive','true');
+      mount.appendChild(ins);
+      try{ (window.adsbygoogle = window.adsbygoogle || []).push({}); }catch{}
+    })();
+
+    // Restore settings from hash
+    (function restoreFromHash(){
+      if(!location.hash) return;
+      try{
+        const o = JSON.parse(atob(decodeURIComponent(location.hash.slice(1))));
+        if(o?.m) modeSel.value = o.m;
+        if(o?.p) providerSel.value = o.p;
+        populateModels();
+        if(o?.md) modelSel.value = o.md;
+        jdWrap.classList.toggle('hidden', modeSel.value!=='againstJD');
+      }catch{}
+    })();
+  </script>
+</body>
+</html>
