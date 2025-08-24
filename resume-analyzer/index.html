@@ -744,6 +744,7 @@
         "```",
         "2) Then, under 'Actionable Improvements', provide 6-10 bullets."
       ].join('\\n');
+      console.log(resume, jd, mode);
     }
 
     // Streaming via proxy
@@ -867,6 +868,7 @@
       try {
         const prompt = buildPrompt({ resume, jd, mode });
         const fullText = await streamChat({ provider, model, prompt });
+        console.log(fullText);
         status.textContent = 'Parsing…';
 
         const first = extractFirstJson(fullText);
