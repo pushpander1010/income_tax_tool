@@ -7,8 +7,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Free AI Resume ATS Analyzer (PDF/DOCX/TXT) + JD Match | UpTools</title>
-  <meta name="description" content="Upload your resume (PDF, DOCX, TXT) and get an ATS score, missing keywords, and recruiter-ready fixes. Compare against a Job Description. Works with Perplexity, Google Gemini 2.5, and Groq via secure proxy. No login." />
-  <meta name="keywords" content="resume ats checker,resume analyzer,ats resume score,ats keywords,job description match,free resume checker,docx pdf resume analysis" />
+  <meta name="description" content="Upload your resume (PDF, DOCX, TXT) and get a machine readability score, missing keywords, and recruiter-ready fixes. Compare against a Job Description. Works with Perplexity, Google Gemini 2.5, and Groq via secure proxy. No login." />
+  <meta name="keywords" content="resume ats checker,resume analyzer,ats resume score,ats keywords,job description match,free resume checker,docx pdf resume analysis,readability score" />
   <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:large" />
   <meta name="theme-color" content="#0b1020" />
   <link rel="canonical" href="https://www.uptools.in/resume-analyzer/" />
@@ -19,7 +19,7 @@
 
   <!-- Open Graph -->
   <meta property="og:title" content="Free AI Resume ATS Analyzer + JD Match" />
-  <meta property="og:description" content="Check ATS score, find missing keywords, and optimize instantly. Upload PDF/DOCX/TXT. Compare against a Job Description. No sign-ups." />
+  <meta property="og:description" content="Check machine readability, find missing keywords, and optimize instantly. Upload PDF/DOCX/TXT. Compare against a Job Description. No sign-ups." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.uptools.in/resume-analyzer/" />
   <meta property="og:site_name" content="UpTools" />
@@ -48,7 +48,7 @@
         "offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},
         "publisher":{"@type":"Organization","name":"UpTools","url":"https://www.uptools.in/"},
         "url":"https://www.uptools.in/resume-analyzer/",
-        "featureList":["ATS score","JD match","Missing keywords","Formatting checks","Instant rewrite suggestions"]
+        "featureList":["Machine readability score","JD match","Missing keywords","Formatting checks","Instant rewrite suggestions"]
       },
       {
         "@type":"BreadcrumbList",
@@ -82,7 +82,7 @@
     @media (max-width: 760px){ .panel{ height:auto; min-height:0; } }
 
     .panel-head { display:flex; align-items:center; justify-content:space-between; gap:8px; padding:10px 12px; }
-    .panel-body { flex:1; min-height:0; display:grid; grid-template-rows:auto 1fr auto; gap:10px; padding:10px 12px; overflow:auto; }
+    .panel-body { flex:1; min-height:0; display:grid; grid-template-rows:auto 1fr auto; gap:10px; padding:10px 12px;overflow: auto; }
 
     .row { display:grid; gap:8px; grid-template-columns: 1fr 1fr; }
     @media (max-width: 640px){ .row{ grid-template-columns:1fr; } }
@@ -131,12 +131,12 @@
     </div>
   </header>
 
-  <main class="tool container" id="top" role="main">
+  <main class="tool container" id="top">
     <section class="card hero" aria-labelledby="title">
       <div>
         <h1 id="title">🧾🔎 Resume ATS Analyzer (PDF • DOCX • TXT)</h1>
         <p class="note" style="margin:0">
-          Get an ATS score, missing keywords, formatting fixes, and recruiter-ready suggestions.
+          Get a <b>Machine Readability</b> score, missing keywords, formatting fixes, and recruiter-ready suggestions.
           Compare your resume against a Job Description (JD). Pick Perplexity, Google Gemini 2.5, or Groq.
         </p>
         <div class="chips" style="margin-top:8px">
@@ -239,10 +239,10 @@
 
         <div class="panel-body">
           <div class="kpis" id="kpis" aria-live="polite">
-            <div class="kpi"><span class="tiny">ATS Score</span><b id="kpiScore">—</b></div>
+            <div class="kpi"><span class="tiny">Machine Readability</span><b id="kpiScore">—</b></div>
             <div class="kpi"><span class="tiny">JD Match</span><b id="kpiMatch">—</b></div>
             <div class="kpi"><span class="tiny">Keywords Found</span><b id="kpiKeys">—</b></div>
-            <div class="kpi"><span class="tiny">Readability</span><b id="kpiRead">—</b></div>
+            <div class="kpi"><span class="tiny">Words</span><b id="kpiRead">—</b></div>
           </div>
 
           <div class="tiny" id="status" aria-live="polite" style="margin-top:2px"></div>
@@ -323,10 +323,10 @@
     const parseNotice = byId('parseNotice');
 
     // KPIs
-    const kpiScore = byId('kpiScore');
+    const kpiScore = byId('kpiScore'); // now "Machine Readability"
     const kpiMatch = byId('kpiMatch');
     const kpiKeys  = byId('kpiKeys');
-    const kpiRead  = byId('kpiRead');
+    const kpiRead  = byId('kpiRead');  // now "Words"
 
     // Footer year
     byId('y').textContent = new Date().getFullYear();
@@ -369,7 +369,7 @@
     providerSel.addEventListener('change', ()=>{ cfg.provider = providerSel.value; populateModels(); });
 
     // Mode switch
-    modeSel.addEventListener('change', ()=>{ jdWrap.classList.toggle('hidden', modeSel.value !== 'againstJD'); });
+    modeSel.addEventListener('change', ()=>{ jdWrap.classList.toggle('hidden', modeSel.value!=='againstJD'); });
 
     // Counts
     function counts(text){
@@ -380,19 +380,14 @@
       const { chars, words } = counts(resumeText.value);
       charCount.textContent = chars.toLocaleString();
       wordCount.textContent = words.toLocaleString();
+      kpiRead.textContent = words.toLocaleString(); // expose word count in KPI
     }
     resumeText.addEventListener('input', debounce(updateCounts, 80));
     updateCounts();
 
     // Paste/Clear
-    pasteBtn.addEventListener('click', async ()=>{
-      try { resumeText.value = await navigator.clipboard.readText(); updateCounts(); resumeText.focus(); }
-      catch { toast('Clipboard blocked by browser'); }
-    });
-    clearBtn.addEventListener('click', ()=>{
-      resumeText.value = ''; jdText.value=''; fileNameEl.textContent='PDF/DOCX/TXT';
-      updateCounts(); resetKPIs(); output.textContent=''; status.textContent='';
-    });
+    pasteBtn.addEventListener('click', async ()=>{ try { resumeText.value = await navigator.clipboard.readText(); updateCounts(); resumeText.focus(); } catch { toast('Clipboard blocked by browser'); } });
+    clearBtn.addEventListener('click', ()=>{ resumeText.value = ''; jdText.value=''; fileNameEl.textContent='PDF/DOCX/TXT'; updateCounts(); resetKPIs(); output.textContent=''; status.textContent=''; });
 
     // File handling (PDF/DOCX/TXT)
     resumeFile.addEventListener('change', async (e)=>{
@@ -428,6 +423,8 @@
         }
         updateCounts();
         parseNotice.innerHTML = '<b>[Loaded]</b> File parsed in-browser. Review below; paste plain text if anything is missing.';
+        // Kick quick KPIs on load
+        quickKPIs();
       }catch(err){
         console.error(err);
         toast('Could not read resume. Try DOCX/TXT or copy-paste text.');
@@ -435,7 +432,7 @@
       }
     });
 
-    // Local heuristics for quick KPIs
+    // Local heuristics (instant)
     function sentences(t){ return (t.trim().match(/[^.!?]+[.!?]*/g) || []).map(s=>s.trim()).filter(Boolean); }
     function flesch(t){
       const words=(t.match(/\b[a-zA-Z’'-]+\b/g)||[]);
@@ -449,24 +446,96 @@
       const m=new Map(); words.forEach(w=>m.set(w,(m.get(w)||0)+1));
       return [...m.entries()].sort((a,b)=>b[1]-a[1]).slice(0,15).map(x=>x[0]);
     }
-    function resetKPIs(){ kpiScore.textContent='—'; kpiMatch.textContent='—'; kpiKeys.textContent='—'; kpiRead.textContent='—'; }
+    function resetKPIs(){ kpiScore.textContent='—'; kpiMatch.textContent='—'; kpiKeys.textContent='—'; /* kpiRead updated by updateCounts() */ }
 
-    // Prompt builder
+    function quickKPIs() {
+      const t = resumeText.value.trim();
+      if(!t){ resetKPIs(); return; }
+      // Machine Readability = Flesch 0..100 (higher is easier to parse)
+      const mr = flesch(t);
+      kpiScore.textContent = mr.toString();
+
+      // Keyword guess count
+      const keys = guessKeywords(t);
+      kpiKeys.textContent = keys.length.toString();
+
+      // JD Match rough (if JD present)
+      if(modeSel.value==='againstJD'){
+        const jd = jdText.value.trim().toLowerCase();
+        const overlap = keys.filter(k=> jd.includes(k));
+        const match = Math.min(100, Math.round((overlap.length/Math.max(1, keys.length))*100));
+        kpiMatch.textContent = match + '%';
+      } else {
+        kpiMatch.textContent = '—';
+      }
+    }
+
+    // Prompt builder — clarified with explicit output format + examples
     function buildPrompt({ resume, jd, mode }){
       if(mode === 'againstJD'){
         return [
           "You are an ATS assistant. Compare this resume against the job description.",
-          "Return JSON with: score (0-100), match (0-100), missing_keywords[], strengths[], issues[], and a brief summary.",
-          "Then provide an actionable bullet list rewrite of 3-5 experience bullets tailored to the JD.",
-          "\n[RESUME]\n", resume, "\n[JD]\n", jd
-        ].join('\n');
+          "OUTPUT FORMAT (strict):",
+          "1) First, a single fenced JSON block with EXACT keys:",
+          "```json",
+          "{",
+          "  \"score\": 0-100,                       // overall ATS alignment",
+          "  \"match\": 0-100,                       // JD match %",
+          "  \"missing_keywords\": [\"...\"],        // terms in JD not present in resume",
+          "  \"strengths\": [\"...\"],               // what’s good",
+          "  \"issues\": [\"...\"],                  // what hurts ATS parsing/clarity",
+          "  \"summary\": \"<2-3 lines>\"",
+          "}",
+          "```",
+          "2) Then, under a heading 'Tailored Bullets', write 3-5 bullet points crafted from the resume but tailored to the JD (no JSON).",
+          "",
+          "EXAMPLE:",
+          "```json",
+          "{",
+          "  \"score\": 78,",
+          "  \"match\": 72,",
+          "  \"missing_keywords\": [\"Apache Kafka\",\"Looker\"],",
+          "  \"strengths\": [\"Strong Python\",\"Clear metrics\"],",
+          "  \"issues\": [\"Table-based layout\",\"Too many acronyms\"],",
+          "  \"summary\": \"Good data engineering background with measurable impact; add JD terms and simplify formatting.\"",
+          "}",
+          "```",
+          "Tailored Bullets:",
+          "- Quantify pipeline throughput…",
+          "- Map skills to JD keywords…",
+          "",
+          "[RESUME]\\n" + resume,
+          "[JD]\\n" + jd
+        ].join('\\n');
       }
       return [
         "You are an ATS assistant. Analyze this resume for general ATS readiness.",
-        "Return JSON with: score (0-100), key_keywords[], formatting_issues[], sections_missing[], and a brief summary.",
-        "Then provide an actionable bullet list with improvements.",
-        "\n[RESUME]\n", resume
-      ].join('\n');
+        "OUTPUT FORMAT (strict):",
+        "1) First, a single fenced JSON block with EXACT keys:",
+        "```json",
+        "{",
+        "  \"score\": 0-100,                       // overall ATS readiness (heuristic)",
+        "  \"key_keywords\": [\"...\"],            // top skills/terms detected",
+        "  \"formatting_issues\": [\"...\"],       // e.g., tables, columns, images",
+        "  \"sections_missing\": [\"...\"],        // e.g., Summary, Skills, Experience",
+        "  \"summary\": \"<2-3 lines>\"",
+        "}",
+        "```",
+        "2) Then, under a heading 'Actionable Improvements', provide 6-10 bullets that are direct, specific and resume-ready.",
+        "",
+        "EXAMPLE:",
+        "```json",
+        "{",
+        "  \"score\": 69,",
+        "  \"key_keywords\": [\"React\",\"TypeScript\",\"Node.js\"],",
+        "  \"formatting_issues\": [\"Two-column layout\",\"Graphics in header\"],",
+        "  \"sections_missing\": [\"Projects\"],",
+        "  \"summary\": \"Solid front-end profile; simplify layout, add metrics, emphasize JD-aligned skills.\"",
+        "}",
+        "```",
+        "",
+        "[RESUME]\\n" + resume
+      ].join('\\n');
     }
 
     // Streaming via proxy
@@ -490,7 +559,7 @@
       for(;;){
         const { value, done } = await reader.read(); if(done) break;
         const chunk = dec.decode(value, { stream:true });
-        for(const raw of chunk.split('\n')){
+        for(const raw of chunk.split('\\n')){
           const line = raw.trim(); if(!line || !line.startsWith('data:')) continue;
           const payload = line.slice(5).trim();
           if(payload === '[DONE]'){ aborter=null; return acc; }
@@ -504,6 +573,67 @@
       aborter=null; return acc;
     }
 
+    // Clean & parse the first JSON block in AI output (handles ```json … ```, ``` … ```, and stray "json{")
+    function extractFirstJson(text){
+      if(!text) return null;
+
+      // 1) Try fenced ```json ... ```
+      const fenceJson = text.match(/```json\\s*([\\s\\S]*?)\\s*```/i);
+      if(fenceJson?.[1]){
+        const cleaned = fenceJson[1].trim();
+        const obj = safeJson(cleaned);
+        if(obj) return obj;
+      }
+
+      // 2) Try generic fence ``` ... ```
+      const fenceAny = text.match(/```\\s*([\\s\\S]*?)\\s*```/);
+      if(fenceAny?.[1]){
+        const tryClean = fenceAny[1].replace(/^json\\s*/i,'').trim(); // strips a leading "json"
+        const obj = safeJson(tryClean);
+        if(obj) return obj;
+      }
+
+      // 3) Try a substring starting with first '{' and ending at last '}' (best-effort)
+      const firstBrace = text.indexOf('{');
+      const lastBrace = text.lastIndexOf('}');
+      if(firstBrace !== -1 && lastBrace !== -1 && lastBrace > firstBrace){
+        const maybe = text.slice(firstBrace, lastBrace+1).replace(/^json\\s*/i,'').trim();
+        const obj = safeJson(maybe);
+        if(obj) return obj;
+      }
+
+      return null;
+    }
+
+    // Safer JSON.parse: removes trailing commas and normalizes quotes if trivial
+    function safeJson(s){
+      try {
+        return JSON.parse(s);
+      } catch {
+        // Remove obvious trailing commas in arrays/objects
+        const noTrailing = s
+          .replace(/,\\s*([}\\]])/g, '$1')
+          .replace(/\\u201c|\\u201d|“|”/g, '"')
+          .replace(/\\u2019|’/g, "'");
+        try { return JSON.parse(noTrailing); } catch { return null; }
+      }
+    }
+
+    // Use AI JSON (if available) to refine KPIs
+    function applyAiKPIs(obj){
+      if(!obj || typeof obj!=='object') return;
+      if(typeof obj.match==='number') kpiMatch.textContent = Math.round(obj.match) + '%';
+      if(Array.isArray(obj.key_keywords)) kpiKeys.textContent = obj.key_keywords.length.toString();
+      if(Array.isArray(obj.missing_keywords)) {
+        // If JD mode, missing keywords length is informative too
+        const count = parseInt(kpiKeys.textContent||'0',10);
+        if(!count) kpiKeys.textContent = (obj.key_keywords?.length ?? 0).toString();
+      }
+    }
+
+    // Small toast
+    function toast(msg){ status.textContent=msg; setTimeout(()=>{ if(status.textContent===msg) status.textContent=''; }, 1800); }
+
     // Actions
     stopBtn.addEventListener('click', ()=>{ if(aborter){ aborter.abort(); aborter=null; stopBtn.disabled=true; status.textContent='Stopped.'; } });
 
@@ -514,19 +644,8 @@
       const jd = (mode==='againstJD') ? jdText.value.trim() : '';
       if(mode==='againstJD' && !jd){ toast('Paste the Job Description to compare'); jdText.focus(); return; }
 
-      // Local KPIs (instant)
-      try{
-        const read = flesch(resume);
-        const keys = guessKeywords(resume);
-        kpiRead.textContent = read.toString();
-        kpiKeys.textContent = keys.length.toString();
-        // rough baseline (tweak to avoid constant values)
-        const baseline = 45 + Math.round((read - 50) * 0.6);
-        kpiScore.textContent = `${Math.max(10, Math.min(90, baseline))}%`;
-        kpiMatch.textContent = (mode==='againstJD'
-          ? `${Math.min(100, Math.round( (keys.filter(k=> (jd||'').toLowerCase().includes(k)).length/Math.max(1,keys.length))*100 ))}%`
-          : '—');
-      }catch{}
+      // Instant local KPIs (no network)
+      quickKPIs();
 
       // AI pass
       const provider = providerSel.value || 'perplexity';
@@ -535,8 +654,13 @@
 
       try{
         const prompt = buildPrompt({ resume, jd, mode });
-        await streamChat({ provider, model, prompt });
-        status.textContent='Done.';
+        const fullText = await streamChat({ provider, model, prompt });
+        status.textContent='Parsing…';
+
+        // Try to parse JSON and refine KPIs if possible
+        const first = extractFirstJson(fullText);
+        if(first){ applyAiKPIs(first); status.textContent='Done (with AI KPIs).'; }
+        else { status.textContent='Done.'; }
       }catch(e){
         console.error(e);
         status.textContent=(e?.message||'Error')+' — check provider/model or quotas.';
@@ -546,24 +670,9 @@
       }
     });
 
-    copyBtn.addEventListener('click', async ()=>{
-      try{ await navigator.clipboard.writeText(output.textContent||''); toast('Copied'); }
-      catch{ toast('Copy blocked by browser'); }
-    });
-    downloadBtn.addEventListener('click', ()=>{
-      const blob=new Blob([output.textContent||''],{type:'text/plain;charset=utf-8'});
-      const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='resume-ats.txt'; a.click();
-      URL.revokeObjectURL(a.href);
-    });
-    permBtn.addEventListener('click', async ()=>{
-      const o={ m: modeSel.value, p: providerSel.value, md: modelSel.value };
-      const url=new URL(location.href); url.hash=encodeURIComponent(btoa(JSON.stringify(o)));
-      try{ await navigator.clipboard.writeText(url.toString()); toast('Permalink copied'); }
-      catch{ toast('Permalink ready (check address bar)'); history.replaceState({},'',url); }
-    });
-
-    // Helpers
-    function toast(msg){ status.textContent=msg; setTimeout(()=>{ if(status.textContent===msg) status.textContent=''; }, 1800); }
+    copyBtn.addEventListener('click', async ()=>{ try{ await navigator.clipboard.writeText(output.textContent||''); toast('Copied'); } catch{ toast('Copy blocked by browser'); } });
+    downloadBtn.addEventListener('click', ()=>{ const blob=new Blob([output.textContent||''],{type:'text/plain;charset=utf-8'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='resume-ats.txt'; a.click(); URL.revokeObjectURL(a.href); });
+    permBtn.addEventListener('click', async ()=>{ const o={ m: modeSel.value, p: providerSel.value, md: modelSel.value }; const url=new URL(location.href); url.hash=encodeURIComponent(btoa(JSON.stringify(o))); try{ await navigator.clipboard.writeText(url.toString()); toast('Permalink copied'); } catch{ toast('Permalink ready (check address bar)'); history.replaceState({},'',url); } });
 
     // KPI init
     resetKPIs();
@@ -596,6 +705,10 @@
         jdWrap.classList.toggle('hidden', modeSel.value!=='againstJD');
       }catch{}
     })();
+
+    // Run quick KPIs when JD text changes (for live JD match estimate)
+    jdText?.addEventListener('input', debounce(quickKPIs, 120));
+    resumeText?.addEventListener('input', debounce(quickKPIs, 150));
   </script>
 </body>
 </html>
