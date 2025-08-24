@@ -772,6 +772,7 @@
           const payload = line.slice(5).trim();
           if (payload === '[DONE]') { aborter = null; return acc; }
           try {
+            colsole.log('payload:'+ payload);
             const json = JSON.parse(payload);
             colsole.log('chunk'+ json);
             const delta = json?.choices?.[0]?.delta?.content ?? '';
