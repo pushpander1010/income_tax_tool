@@ -2,97 +2,90 @@
 <html lang="en">
 
 <head>
-  <!-- Google Ads (only mounts an <ins> if available, to avoid layout shift) -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617"
-    crossorigin="anonymous"></script>
+  <!-- Connection hints -->
+  <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
+  <link rel="dns-prefetch" href="//pagead2.googlesyndication.com">
+  <link rel="preconnect" href="https://googleads.g.doubleclick.net" crossorigin>
+  <link rel="dns-prefetch" href="//googleads.g.doubleclick.net">
 
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>ATS Resume Checker — PDF, DOCX & TXT | Match Against Job Description | UpTools</title>
 
-  <!-- Canonical & Icons -->
-  <link rel="canonical" href="https://www.uptools.in/resume-ats-checker/" />
-  <link rel="icon" sizes="50x50" type="image/svg+xml" href="/assets/logo/uptools-logo.svg" />
-  <link rel="apple-touch-icon" sizes="180x180" href="/assets/logo/uptools-logo.svg" />
-
-  <!-- SEO -->
+  <title>ATS Resume Checker — PDF/DOCX/TXT + JD Match (AI Suggestions) | UpTools</title>
   <meta name="description"
-    content="Free ATS Resume Checker that works with PDF, DOCX, and TXT. Analyze resume sections, keywords, formatting, and match your resume against a job description to improve your interview chances." />
+    content="Upload PDF, DOCX, or TXT to check ATS readiness: sections, contact info, keyword density, and formatting. Paste or upload a Job Description to get match %, missing keywords, and optional AI suggestions (Perplexity, Google Gemini 2.5, Groq).">
   <meta name="keywords"
-    content="ATS resume checker, resume ATS scan, resume vs job description, resume keyword match, resume parser, resume analyzer, docx pdf txt" />
+    content="ATS resume checker, resume analyzer, resume vs job description, resume keyword match, PDF DOCX TXT resume check, free ats resume scan">
   <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:large" />
   <meta name="theme-color" content="#0b1020" />
+  <link rel="canonical" href="https://www.uptools.in/resume-ats-checker/" />
 
-  <!-- Open Graph / Twitter -->
-  <meta property="og:title" content="ATS Resume Checker — PDF, DOCX & TXT" />
+  <!-- Icons -->
+  <link rel="icon" type="image/svg+xml" href="/assets/logo/uptools-logo.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+
+  <!-- Social -->
+  <meta property="og:title" content="ATS Resume Checker — PDF/DOCX/TXT + JD Match (AI Suggestions) | UpTools" />
   <meta property="og:description"
-    content="Upload your resume and optionally a job description. Get ATS checks, keyword coverage, and actionable fixes." />
+    content="Analyze your resume for ATS and match it to a Job Description. Optional AI suggestions via Perplexity, Gemini 2.5, or Groq. No sign-ups." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.uptools.in/resume-ats-checker/" />
+  <meta property="og:site_name" content="UpTools" />
   <meta property="og:image" content="https://www.uptools.in/assets/og/ats-resume-checker.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
   <meta name="twitter:card" content="summary_large_image" />
 
-  <!-- CSS (shared, non-blocking) -->
+  <!-- Styles: use common stylesheet, normal load to avoid FOUC/CLS -->
   <link rel="preload" href="/style.css" as="style">
-  <link rel="stylesheet" href="/style.css" media="print" onload="this.media='all'">
-  <noscript>
-    <link rel="stylesheet" href="/style.css">
-  </noscript>
+  <link rel="stylesheet" href="/style.css">
+
+  <!-- Utils -->
+  <link rel="modulepreload" href="/scripts/utils.js">
 
   <!-- Structured Data -->
   <script type="application/ld+json">
   {
     "@context":"https://schema.org",
-    "@type":"SoftwareApplication",
-    "name":"ATS Resume Checker",
-    "applicationCategory":"BusinessApplication",
-    "operatingSystem":"Web",
-    "offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},
-    "publisher":{"@type":"Organization","name":"UpTools","url":"https://www.uptools.in/"},
-    "featureList":[
-      "PDF, DOCX & TXT support",
-      "General ATS compliance scan",
-      "Resume vs Job Description match",
-      "Keyword coverage & gaps",
-      "Section completeness & contact checks"
-    ]
-  }
-  </script>
-  <script type="application/ld+json">
-  {
-    "@context":"https://schema.org",
-    "@type":"BreadcrumbList",
-    "itemListElement":[
-      {"@type":"ListItem","position":1,"name":"Home","item":"https://www.uptools.in/"},
-      {"@type":"ListItem","position":2,"name":"ATS Resume Checker","item":"https://www.uptools.in/resume-ats-checker/"}
-    ]
-  }
-  </script>
-  <script type="application/ld+json">
-  {
-    "@context":"https://schema.org",
-    "@type":"FAQPage",
-    "mainEntity":[
-      {"@type":"Question","name":"Which file types are supported?",
-       "acceptedAnswer":{"@type":"Answer","text":"PDF, DOCX (Word), and TXT for both resume and job description. Legacy .doc is not fully supported—please convert to PDF/DOCX."}},
-      {"@type":"Question","name":"Do you store my documents?",
-       "acceptedAnswer":{"@type":"Answer","text":"No. All parsing and analysis runs in your browser only."}},
-      {"@type":"Question","name":"What does the ATS check include?",
-       "acceptedAnswer":{"@type":"Answer","text":"Section completeness, contact info, formatting flags, keyword coverage, and optional JD match score with missing & suggested keywords."}}
+    "@graph":[
+      {
+        "@type":"SoftwareApplication",
+        "name":"ATS Resume Checker",
+        "applicationCategory":"BusinessApplication",
+        "operatingSystem":"Web",
+        "offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},
+        "publisher":{"@type":"Organization","name":"UpTools","url":"https://www.uptools.in/"},
+        "url":"https://www.uptools.in/resume-ats-checker/",
+        "featureList":["PDF/DOCX/TXT support","General ATS scan","Resume vs Job Description match","Keyword coverage & gaps","Optional AI suggestions"]
+      },
+      {
+        "@type":"BreadcrumbList",
+        "itemListElement":[
+          {"@type":"ListItem","position":1,"name":"Home","item":"https://www.uptools.in/"},
+          {"@type":"ListItem","position":2,"name":"ATS Resume Checker","item":"https://www.uptools.in/resume-ats-checker/"}
+        ]
+      },
+      {
+        "@type":"FAQPage",
+        "mainEntity":[
+          {"@type":"Question","name":"Which file types are supported?","acceptedAnswer":{"@type":"Answer","text":"PDF, DOCX (Word), and TXT for both resume and job description."}},
+          {"@type":"Question","name":"Do you store my files?","acceptedAnswer":{"@type":"Answer","text":"No. Parsing and analysis run in your browser only. If you use AI suggestions, text is proxied server-side to the provider you pick."}},
+          {"@type":"Question","name":"Does this guarantee ATS selection?","acceptedAnswer":{"@type":"Answer","text":"No tool can guarantee selection. We provide heuristic checks and suggestions to improve parsing and relevance."}}
+        ]
+      }
     ]
   }
   </script>
 
+  <!-- Minimal page-specific styles (keep light) -->
   <style>
     :root {
-      --panel-h: clamp(560px, 84dvh, 860px);
+      --panel-h: clamp(560px, 78dvh, 860px);
       --gap: 14px;
     }
 
     main.tool {
-      max-width: 1080px;
+      max-width: 1200px;
       margin-inline: auto;
       padding: 12px var(--container-px, 12px);
     }
@@ -104,7 +97,7 @@
       align-items: stretch;
     }
 
-    @media (max-width: 980px) {
+    @media (max-width: 1024px) {
       .grid-2 {
         grid-template-columns: 1fr;
       }
@@ -117,11 +110,67 @@
       min-height: 420px;
     }
 
-    .panel .head {
+    .panel-head {
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 8px;
+      padding: 10px 12px;
+    }
+
+    .panel-body {
+      display: grid;
       gap: 10px;
+      padding: 10px 12px;
+      grid-template-rows: auto auto 1fr auto;
+      min-height: 0;
+    }
+
+    .kgrid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 10px;
+    }
+
+    .meter-wrap {
+      background: #0b1326;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 10px;
+    }
+
+    .meter {
+      height: 10px;
+      border-radius: 8px;
+      background: #0a1122;
+      overflow: hidden;
+    }
+
+    .bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      transition: width .35s ease;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 8px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      font-size: 12px;
+    }
+
+    .row {
+      display: grid;
+      gap: 8px;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    @media (max-width:720px) {
+      .row {
+        grid-template-columns: 1fr;
+      }
     }
 
     .drop {
@@ -134,66 +183,80 @@
       outline: 3px solid color-mix(in oklab, var(--accent) 55%, white);
     }
 
-    .mono {
-      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", monospace;
-    }
-
-    .kgrid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    .fileline {
+      display: flex;
+      align-items: center;
       gap: 10px;
+      flex-wrap: wrap;
     }
 
-    .meter-wrap {
-      background: #0b1326;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 8px;
+    .filename {
+      font-size: 12px;
+      opacity: .85;
     }
 
-    .meter {
-      height: 10px;
-      border-radius: 8px;
-      background: #0a1224;
+    .ad-wrap {
+      display: block;
+      min-height: 160px;
+      margin: 10px 0;
+      position: relative;
       overflow: hidden;
     }
 
-    .bar {
+    @media (min-width:1024px) {
+      .ad-wrap {
+        min-height: 250px;
+      }
+    }
+
+    .ad-wrap:empty::before {
+      content: "";
+      display: block;
+      width: 100%;
       height: 100%;
-      width: 0%;
-      background: linear-gradient(90deg, var(--accent), var(--accent-2));
-      transition: width .4s ease;
     }
 
-    .badge {
-      display: inline-block;
-      padding: 4px 8px;
-      border: 1px solid var(--border);
-      border-radius: 999px;
-      font-size: 12px;
+    .ad-wrap ins.adsbygoogle {
+      display: block !important;
+      width: 100% !important;
+      min-height: 160px !important;
     }
 
-    .ad-slot {
-      display: none;
+    @media (min-width:1024px) {
+      .ad-wrap ins.adsbygoogle {
+        min-height: 250px !important;
+      }
     }
 
-    /* mounted only if adsbygoogle exists */
+    /* Styled file inputs via label (theme "Choose File") */
+    .file-input {
+      position: relative;
+      display: inline-flex;
+    }
+
+    .file-input input[type=file] {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      cursor: pointer;
+    }
   </style>
 </head>
 
 <body>
-  <!-- Header -->
   <header class="site" role="banner">
     <div class="header-inner">
       <a class="brand" href="/" aria-label="UpTools Home">
-        <img src="/assets/logo/uptools-logo.svg" alt="UpTools logo" width="28" height="28" loading="eager">
+        <img src="/assets/logo/uptools-logo.svg" alt="UpTools logo" width="28" height="28" fetchpriority="high">
         <b>UpTools</b>
       </a>
       <nav class="nav-links" aria-label="Primary">
         <a href="/#tools">Tools</a>
         <a href="/ai-writer/">AI Writer</a>
         <a href="/word-counter/">Word Counter</a>
-        <a href="/text-case-converter/">Text Case</a>
+        <a aria-current="page" href="/resume-ats-checker/">Resume ATS</a>
       </nav>
     </div>
   </header>
@@ -201,70 +264,111 @@
   <main class="tool container" id="top">
     <!-- Hero -->
     <section class="card hero" aria-labelledby="title">
-      <div style="display:flex;align-items:center;gap:12px">
-        <div class="tool-icon" aria-hidden="true">📄</div>
-        <div>
-          <h1 id="title">ATS Resume Checker (PDF • DOCX • TXT)</h1>
-          <p class="note">Analyze resume sections, contact info, formatting, and keyword coverage. Optionally upload a
-            Job Description to get a match score & gaps.</p>
-          <div class="chips" style="margin-top:8px">
-            <span class="pill">🔒 Browser‑only parsing</span>
-            <span class="pill">🧠 Smart keyword suggestions</span>
-            <a class="chip" href="/sitemap.xml">Sitemap</a>
-          </div>
+      <div>
+        <h1 id="title">📄🔎 ATS Resume Checker (PDF • DOCX • TXT)</h1>
+        <p class="note" style="margin:0">
+          Check ATS readiness (sections, contacts, formatting, keywords). Paste or upload a Job Description to get match
+          %, missing keywords, and <b>optional AI suggestions</b> (Perplexity, Google Gemini 2.5, Groq).
+        </p>
+        <div class="chips" style="margin-top:8px">
+          <span class="pill">🔒 Browser‑only parsing</span>
+          <span class="pill">⚡ No sign‑ups</span>
+          <a class="chip" href="/sitemap.xml">Sitemap</a>
+          <a class="chip" href="/about/">About</a>
+          <a class="chip" href="/contact/">Contact</a>
         </div>
       </div>
     </section>
 
-    <!-- (Conditional) Ad space – inserted only if adsbygoogle is present -->
-    <div id="ad-mount"></div>
+    <!-- Reserved Ad slot (prevents CLS) -->
+    <section id="adMount" class="ad-wrap" aria-label="Advertisement"></section>
 
-    <!-- Workspace -->
-    <section class="grid-2" aria-label="ATS workspace">
+    <section class="grid-2" aria-label="Workspace">
       <!-- LEFT: Inputs -->
-      <article class="card panel">
-        <div class="head">
-          <h2 class="h4">Upload Resume & (Optional) Job Description</h2>
+      <article class="panel card" aria-labelledby="input-title">
+        <div class="panel-head">
+          <h2 id="input-title" class="h4">Resume &amp; Job Description</h2>
           <div class="tiny-note">Supported: <b>PDF</b>, <b>DOCX</b>, <b>TXT</b></div>
         </div>
 
-        <div class="drop" id="dropZone" aria-label="Drop files">
-          <div class="row" style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-            <div>
-              <label class="label">Resume file</label>
-              <input id="resumeFile" class="input" type="file" accept=".pdf,.docx,.txt,.doc" />
-              <div class="tiny-note">Tip: Prefer DOCX/TXT for best parsing. Legacy .doc may not parse fully.</div>
+        <div class="panel-body">
+          <!-- Upload rows -->
+          <div class="drop" id="dropZone" aria-label="Drag & drop files">
+            <div class="row">
+              <div>
+                <label class="label">Resume file</label>
+                <div class="fileline">
+                  <label class="btn secondary sm file-input" title="Upload resume file">
+                    📄 Choose File
+                    <input id="resumeFile" type="file" accept=".pdf,.docx,.txt,.doc" aria-label="Upload resume file">
+                  </label>
+                  <span id="resumeFileName" class="filename">No file chosen</span>
+                </div>
+              </div>
+              <div>
+                <label class="label">Job Description file (optional)</label>
+                <div class="fileline">
+                  <label class="btn secondary sm file-input" title="Upload JD file">
+                    📄 Choose File
+                    <input id="jdFile" type="file" accept=".pdf,.docx,.txt,.doc"
+                      aria-label="Upload job description file">
+                  </label>
+                  <span id="jdFileName" class="filename">No file chosen</span>
+                </div>
+              </div>
             </div>
-            <div>
-              <label class="label">Job Description (optional)</label>
-              <input id="jdFile" class="input" type="file" accept=".pdf,.docx,.txt,.doc" />
-              <div class="tiny-note">Or paste JD text below.</div>
+
+            <div class="row" style="grid-template-columns:1fr;">
+              <div>
+                <label class="label">Job Description (paste text, optional)</label>
+                <textarea id="jdText" class="input" placeholder="Paste JD here for matching…"
+                  spellcheck="false"></textarea>
+              </div>
             </div>
           </div>
 
-          <div class="row" style="display:grid;grid-template-columns:1fr;gap:10px;margin-top:8px">
-            <div>
-              <label class="label">Job Description (paste text, optional)</label>
-              <textarea id="jdText" class="textarea"
-                placeholder="Paste JD here to check match score & missing keywords…"></textarea>
-            </div>
+          <!-- Provider / Model -->
+          <div class="toolbar" role="group" aria-label="AI settings"
+            style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
+            <label class="inline">
+              <span class="tiny">Provider</span>
+              <select id="provider" class="select" style="width:170px" aria-label="AI provider">
+                <option value="perplexity" selected>Perplexity</option>
+                <option value="google">Google (Gemini)</option>
+                <option value="groq">Groq</option>
+              </select>
+            </label>
+            <label class="inline">
+              <span class="tiny">Model</span>
+              <select id="modelSel" class="select" style="width:230px" aria-label="AI model">
+                <option value="sonar" selected>sonar</option>
+                <option value="sonar-pro">sonar-pro</option>
+                <option value="sonar-reasoning">sonar-reasoning</option>
+              </select>
+            </label>
+            <button id="saveCfg" class="btn sm secondary" type="button" title="Save provider & model">Save</button>
           </div>
-        </div>
 
-        <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:flex-end">
-          <button id="analyzeBtn" class="btn" type="button">Analyze ▶</button>
-          <button id="clearBtn" class="btn secondary" type="button">Clear</button>
+          <!-- Controls -->
+          <div class="toolbar" role="group" aria-label="Run actions"
+            style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:flex-end">
+            <button id="analyzeBtn" class="btn" type="button">Analyze ▶</button>
+            <button id="aiBtn" class="btn secondary" type="button"
+              title="Get AI Suggestions aligned to your resume/JD">Get AI Suggestions</button>
+            <button id="clearBtn" class="btn sm secondary" type="button">Clear</button>
+          </div>
         </div>
       </article>
 
       <!-- RIGHT: Results -->
-      <article class="card panel" aria-labelledby="result-title">
-        <div class="head">
-          <h2 id="result-title" class="h4">Results</h2>
-          <div class="tiny-note" id="status" aria-live="polite"></div>
+      <article class="panel card" aria-labelledby="output-title">
+        <div class="panel-head">
+          <h2 id="output-title" class="h4">Results</h2>
+          <div class="tiny" id="status" aria-live="polite"></div>
         </div>
 
-        <div style="display:grid;gap:10px;overflow:auto">
+        <div class="panel-body" style="grid-template-rows:auto auto 1fr auto;">
+          <!-- Meters -->
           <div class="meter-wrap">
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px">
               <div><b>ATS Readability</b> <span class="note">(sections & formatting)</span></div>
@@ -285,39 +389,42 @@
             </div>
           </div>
 
+          <!-- Findings -->
           <div class="result">
             <h3 class="h5">Findings</h3>
             <div class="kgrid">
               <div><b>Sections found:</b>
-                <div id="sectionsFound" class="note"></div>
+                <div id="sectionsFound" class="note">—</div>
               </div>
               <div><b>Contact info:</b>
-                <div id="contactFound" class="note"></div>
+                <div id="contactFound" class="note">—</div>
               </div>
               <div><b>Words / Pages:</b>
-                <div id="lengthFound" class="note"></div>
+                <div id="lengthFound" class="note">—</div>
               </div>
               <div><b>Formatting flags:</b>
-                <div id="formatFlags" class="note"></div>
+                <div id="formatFlags" class="note">—</div>
               </div>
             </div>
           </div>
 
+          <!-- Keywords -->
           <div class="result">
             <h3 class="h5">Keywords</h3>
             <div class="kgrid">
               <div><b>Resume keywords</b>
-                <div id="resumeTop" class="note"></div>
+                <div id="resumeTop" class="note">—</div>
               </div>
               <div id="jdCol" hidden><b>JD keywords</b>
-                <div id="jdTop" class="note"></div>
+                <div id="jdTop" class="note">—</div>
               </div>
               <div id="missingCol" hidden><b>Missing (from JD)</b>
-                <div id="missingKeys" class="note"></div>
+                <div id="missingKeys" class="note">—</div>
               </div>
             </div>
           </div>
 
+          <!-- Suggestions -->
           <div class="result">
             <h3 class="h5">Actionable Suggestions</h3>
             <ul id="suggestions" class="list compact"></ul>
@@ -325,182 +432,176 @@
 
           <details class="result">
             <summary><b>Preview Extracted Text (debug)</b></summary>
-            <pre id="debugText" class="mono" style="white-space:pre-wrap"></pre>
+            <pre id="debugText" class="mono" style="white-space:pre-wrap; max-height:240px; overflow:auto"></pre>
           </details>
-        </div>
 
-        <div style="display:flex;gap:8px;justify-content:flex-end">
-          <button id="copyBtn" class="btn secondary" type="button">Copy Suggestions</button>
-          <button id="dlBtn" class="btn secondary" type="button">Download Report (.txt)</button>
+          <div style="display:flex;gap:8px;justify-content:flex-end">
+            <button id="copyBtn" class="btn sm secondary" type="button">Copy Suggestions</button>
+            <button id="dlBtn" class="btn sm secondary" type="button">Download Report (.txt)</button>
+          </div>
         </div>
       </article>
     </section>
 
-    <!-- Related tools / backlinks -->
+    <!-- Backlinks -->
     <section class="spaced" aria-labelledby="related">
       <h2 id="related" class="h5">More from UpTools</h2>
-      <div class="cards">
-        <a class="card card-link" href="/ai-writer/" aria-label="AI Writer"><span>AI Writer</span><span
-            class="card-badge">AI</span></a>
-        <a class="card card-link" href="/word-counter/" aria-label="Word Counter"><span>Word Counter</span><span
-            class="card-badge">WC</span></a>
-        <a class="card card-link" href="/text-case-converter/" aria-label="Text Case Converter"><span>Text
-            Case</span><span class="card-badge">TC</span></a>
-        <a class="card card-link" href="/json-formatter/" aria-label="JSON Formatter"><span>JSON Formatter</span><span
-            class="card-badge">JS</span></a>
-        <a class="card card-link" href="/image-converter/" aria-label="Image Converter"><span>Image
-            Converter</span><span class="card-badge">IC</span></a>
-        <a class="card card-link" href="/qr-generator/" aria-label="QR Code Generator"><span>QR Generator</span><span
-            class="card-badge">QR</span></a>
+      <div class="grid-2" style="grid-template-columns:repeat(4,1fr);">
+        <a class="card tool-link accent-indigo" href="/ai-writer/"><span class="ico"
+            aria-hidden="true">✍️</span><span><b>AI Writer</b><br><span class="note">Summarize &
+              rewrite</span></span></a>
+        <a class="card tool-link accent-emerald" href="/word-counter/"><span class="ico"
+            aria-hidden="true">📝</span><span><b>Word Counter</b><br><span class="note">Words &
+              characters</span></span></a>
+        <a class="card tool-link accent-cyan" href="/json-formatter/"><span class="ico"
+            aria-hidden="true">🧩</span><span><b>JSON Formatter</b><br><span class="note">Prettify &
+              validate</span></span></a>
+        <a class="card tool-link accent-violet" href="/qr-generator/"><span class="ico"
+            aria-hidden="true">🔳</span><span><b>QR Generator</b><br><span class="note">Create QR
+              codes</span></span></a>
       </div>
     </section>
 
     <footer class="site-footer">
       <nav class="nav-links" aria-label="Footer">
-        <a href="/about/" aria-label="About UpTools"><span class="card-badge">ABT</span> About</a>
-        <a href="/contact/" aria-label="Contact UpTools"><span class="card-badge">CT</span> Contact</a>
-        <a href="/privacy/" aria-label="Privacy Policy"><span class="card-badge">PP</span> Privacy</a>
+        <a href="/about/"><span class="card-badge" aria-hidden="true">ABT</span> About</a>
+        <a href="/contact/"><span class="card-badge" aria-hidden="true">CT</span> Contact</a>
+        <a href="/privacy/"><span class="card-badge" aria-hidden="true">PP</span> Privacy</a>
       </nav>
-      <p class="tiny-note">© <span id="y"></span> UpTools. Privacy-first utilities & games.</p>
+      <p class="tiny">© <span id="y"></span> UpTools · <a href="https://creativecommons.org/licenses/" target="_blank"
+          rel="nofollow noopener">Creative Commons</a></p>
     </footer>
   </main>
 
-  <!-- Page script (module) -->
+  <!-- Page Script -->
   <script type="module">
-    // Shared utils (ES import, per your guideline)
-    let U = {};
-    try { const mod = await import('/scripts/utils.js'); U = mod?.default || mod || {}; } catch { U = window || {}; }
-    const $ = (s, r = document) => r.querySelector(s);
-    const $$ = (s, r = document) => [...r.querySelectorAll(s)];
-    const setText = (el, v) => { if (el) el.textContent = v; };
+    import { $, $$, debounce, persist, read } from '/scripts/utils.js';
 
-    // DOM refs
+    // Year + Ad
+    document.getElementById('y').textContent = new Date().getFullYear();
+    (function mountAd() {
+      if (!('adsbygoogle' in window)) return;
+      const mount = document.getElementById('adMount');
+      const ins = document.createElement('ins');
+      ins.className = 'adsbygoogle';
+      ins.setAttribute('data-ad-client', 'ca-pub-6216304334889617');
+      ins.setAttribute('data-ad-slot', '1234567890'); // replace with real unit
+      ins.setAttribute('data-ad-format', 'auto');
+      ins.setAttribute('data-full-width-responsive', 'true');
+      ins.setAttribute('data-adtest', 'on'); // safe during review
+      mount.appendChild(ins);
+      try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch { }
+    })();
+
+    // DOM
     const resumeFile = $('#resumeFile');
     const jdFile = $('#jdFile');
+    const resumeFileName = $('#resumeFileName');
+    const jdFileName = $('#jdFileName');
     const jdText = $('#jdText');
+
     const analyzeBtn = $('#analyzeBtn');
+    const aiBtn = $('#aiBtn');
     const clearBtn = $('#clearBtn');
-    const status = $('#status');
 
-    const atsBar = $('#atsBar');
-    const atsLbl = $('#atsScoreLbl');
-    const matchBar = $('#matchBar');
-    const matchLbl = $('#matchLbl');
+    const atsBar = $('#atsBar'), atsLbl = $('#atsScoreLbl');
+    const matchBar = $('#matchBar'), matchLbl = $('#matchLbl');
     const jdWrap = $('#jdWrap');
-
     const sectionsFound = $('#sectionsFound');
     const contactFound = $('#contactFound');
     const lengthFound = $('#lengthFound');
     const formatFlags = $('#formatFlags');
-
     const resumeTop = $('#resumeTop');
     const jdTop = $('#jdTop');
     const missingKeys = $('#missingKeys');
     const jdCol = $('#jdCol');
     const missingCol = $('#missingCol');
-
     const suggestions = $('#suggestions');
     const debugText = $('#debugText');
+    const status = $('#status');
     const copyBtn = $('#copyBtn');
     const dlBtn = $('#dlBtn');
 
-    // Footer year
-    $('#y').textContent = new Date().getFullYear();
-
-    // Ad mount (ONLY if available; fixed area avoids CLS)
-    (function mountAd() {
-      if (!('adsbygoogle' in window)) return;
-      const mount = document.getElementById('ad-mount');
-      const wrap = document.createElement('div');
-      wrap.className = 'ad-slot';
-      wrap.style.display = 'block';
-      wrap.style.margin = '10px 0';
-      wrap.innerHTML = `
-        <ins class="adsbygoogle"
-             style="display:block; width:100%; min-height:120px;"
-             data-ad-client="ca-pub-6216304334889617"
-             data-ad-slot="auto"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>`;
-      mount.appendChild(wrap);
-      try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch { }
+    // Provider & Models (like your plagiarism tool)
+    const providerSel = $('#provider');
+    const modelSel = $('#modelSel');
+    const saveCfg = $('#saveCfg');
+    const PROVIDER_MODELS = {
+      perplexity: [
+        { id: 'sonar', label: 'sonar' },
+        { id: 'sonar-pro', label: 'sonar-pro' },
+        { id: 'sonar-reasoning', label: 'sonar-reasoning' }
+      ],
+      google: [
+        { id: 'gemini-2.5-flash', label: 'gemini-2.5-flash' },
+        { id: 'gemini-2.5-pro', label: 'gemini-2.5-pro' }
+      ],
+      groq: [
+        { id: 'llama-3.1-8b-instant', label: 'llama-3.1-8b-instant' },
+        { id: 'llama-3.1-70b-versatile', label: 'llama-3.1-70b-versatile' },
+        { id: 'mixtral-8x7b-32768', label: 'mixtral-8x7b-32768' },
+        { id: 'gemma2-9b-it', label: 'gemma2-9b-it' }
+      ]
+    };
+    const GOOGLE_MODEL_FALLBACKS = {
+      'gemini-2.5-flash': ['gemini-2.0-flash', 'gemini-1.5-flash'],
+      'gemini-2.5-pro': ['gemini-2.0-pro', 'gemini-1.5-pro']
+    };
+    const CFG_KEY = 'resume-ats:cfg';
+    const cfg = Object.assign({ provider: 'perplexity', model: 'sonar' }, read(CFG_KEY, {}));
+    providerSel.value = cfg.provider;
+    (function populateModelsInitial() {
+      const prov = providerSel.value;
+      const models = PROVIDER_MODELS[prov] || [];
+      const desired = cfg.model || (models[0]?.id || '');
+      modelSel.innerHTML = '';
+      for (const m of models) {
+        const opt = document.createElement('option');
+        opt.value = m.id; opt.textContent = m.label; modelSel.appendChild(opt);
+      }
+      modelSel.value = desired || models[0]?.id || '';
     })();
-
-    // ---------- File Parsing (lazy-load parsers to keep page light) ----------
-    async function parseFileToText(file) {
-      if (!file) return '';
-      const ext = (file.name.split('.').pop() || '').toLowerCase();
-
-      // TXT (simple & fast)
-      if (ext === 'txt') return await file.text();
-
-      // DOCX (use ESM mammoth via CDN; loaded only when needed)
-      if (ext === 'docx') {
-        try {
-          const mammoth = await import('https://cdn.skypack.dev/mammoth'); // ESM build
-          const arrayBuffer = await file.arrayBuffer();
-          const { value } = await mammoth.extractRawText({ arrayBuffer });
-          return value || '';
-        } catch (e) {
-          console.warn('DOCX parse failed', e);
-          return '';
-        }
+    function populateModels() {
+      const prov = providerSel.value;
+      const models = PROVIDER_MODELS[prov] || [];
+      modelSel.innerHTML = '';
+      for (const m of models) {
+        const opt = document.createElement('option');
+        opt.value = m.id; opt.textContent = m.label; modelSel.appendChild(opt);
       }
-
-      // Legacy .doc — best-effort (not reliably supported in-browser)
-      if (ext === 'doc') {
-        // We can't reliably parse binary .doc in-browser without heavy libs.
-        // Encourage user to convert to DOCX/PDF/TXT for best results.
-        return '';
-      }
-
-      // PDF (use pdfjs-dist ESM; loaded only when needed)
-      if (ext === 'pdf') {
-        try {
-          const pdfjs = await import('https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.min.mjs');
-          // worker
-          pdfjs.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.worker.min.js';
-          const data = new Uint8Array(await file.arrayBuffer());
-          const doc = await pdfjs.getDocument({ data }).promise;
-          let text = '';
-          for (let p = 1; p <= doc.numPages; p++) {
-            const page = await doc.getPage(p);
-            const content = await page.getTextContent();
-            const strings = content.items.map(i => i.str);
-            text += strings.join(' ') + '\n';
-          }
-          return text;
-        } catch (e) {
-          console.warn('PDF parse failed', e);
-          return '';
-        }
-      }
-
-      // Fallback
-      return '';
+      const ok = models.some(m => m.id === cfg.model);
+      modelSel.value = ok ? cfg.model : (models[0]?.id || '');
     }
+    providerSel.addEventListener('change', () => { cfg.provider = providerSel.value; populateModels(); });
+    saveCfg.addEventListener('click', () => { persist(CFG_KEY, { provider: providerSel.value, model: modelSel.value }); toast('Settings saved'); });
 
-    // ---------- Analysis ----------
+    // File UI
+    resumeFile.addEventListener('change', (e) => { resumeFileName.textContent = e.target.files?.[0]?.name || 'No file chosen'; });
+    jdFile.addEventListener('change', (e) => { jdFileName.textContent = e.target.files?.[0]?.name || 'No file chosen'; });
+
+    // Drag-drop
+    const dropZone = $('#dropZone');
+    ['dragenter', 'dragover'].forEach(ev => dropZone.addEventListener(ev, e => { e.preventDefault(); dropZone.classList.add('over'); }));
+    ;['dragleave', 'drop'].forEach(ev => dropZone.addEventListener(ev, e => { e.preventDefault(); dropZone.classList.remove('over'); }));
+    dropZone.addEventListener('drop', (e) => {
+      const files = [...e.dataTransfer.files];
+      if (files[0]) { const dt1 = new DataTransfer(); dt1.items.add(files[0]); resumeFile.files = dt1.files; resumeFile.dispatchEvent(new Event('change')); }
+      if (files[1]) { const dt2 = new DataTransfer(); dt2.items.add(files[1]); jdFile.files = dt2.files; jdFile.dispatchEvent(new Event('change')); }
+    });
+
+    // Helpers
     const STOP = new Set('a,an,and,are,as,at,be,by,for,from,has,have,in,is,it,its,of,on,or,that,the,this,to,with,your,our,was,were,will,shall,can,may,not,than,then,if,into,via,over,under,per,using,used,us,them,they,he,she,him,her,who,whom,which,what,when,where,why,how,am,i,me,my,we,ours,ourself,their,themself,there,here'.split(','));
-    function clean(text) {
-      return (text || '')
-        .replace(/\u0000/g, ' ')
-        .replace(/\s+/g, ' ')
-        .trim();
-    }
-    function toWords(text) {
-      return clean(text).toLowerCase().match(/[a-z][a-z\-\+\.#0-9]{1,}/g) || [];
-    }
+    const clean = (t) => (t || '').replace(/\u0000/g, ' ').replace(/\s+/g, ' ').trim();
+    const toWords = (t) => clean(t).toLowerCase().match(/[a-z][a-z\-\+\.#0-9]{1,}/g) || [];
     function topKeywords(text, n = 25) {
       const words = toWords(text).filter(w => w.length > 2 && !STOP.has(w));
       const freq = new Map();
       for (const w of words) { freq.set(w, (freq.get(w) || 0) + 1); }
-      const arr = [...freq.entries()].sort((a, b) => b[1] - a[1]).slice(0, n).map(([k, v]) => k);
-      return arr;
+      return [...freq.entries()].sort((a, b) => b[1] - a[1]).slice(0, n).map(([k]) => k);
     }
-    function has(text, pattern) { return new RegExp(pattern, 'i').test(text || ''); }
-    function sectionPresence(text) {
-      const s = (k) => has(text, `\\b${k}\\b`);
+    const has = (t, p) => new RegExp(p, 'i').test(t || '');
+    function sectionPresence(t) {
+      const s = (k) => has(t, `\\b${k}\\b`);
       return {
         summary: s('summary|profile|objective'),
         experience: s('experience|work history|employment'),
@@ -508,32 +609,32 @@
         skills: s('skills|technologies|tooling|competencies'),
         projects: s('projects|portfolio|case studies'),
         certifications: s('certification|certifications|licenses'),
-        achievements: s('achievements|awards|recognition'),
+        achievements: s('achievements|awards|recognition')
       };
     }
-    function contactChecks(text) {
-      const email = /\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b/i.test(text);
-      const phone = /(\+?\d[\d\-\s()]{7,}\d)/.test(text);
-      const links = /(linkedin\.com\/in\/|github\.com\/|portfolio|behance\.net|dribbble\.com)/i.test(text);
-      const address = /(india|usa|uk|canada|australia|address:|location)/i.test(text);
+    function contactChecks(t) {
+      const email = /\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b/i.test(t);
+      const phone = /(\+?\d[\d\-\s()]{7,}\d)/.test(t);
+      const links = /(linkedin\.com\/in\/|github\.com\/|portfolio|behance\.net|dribbble\.com)/i.test(t);
+      const address = /(india|usa|uk|canada|australia|address:|location)/i.test(t);
       return { email, phone, links, address };
     }
-    function formattingFlags(text) {
+    function formattingFlags(t) {
       const flags = [];
-      if ((text.match(/[•▪■\-\*]\s/g) || []).length > 200) flags.push('Excessive bullet density');
-      if (/table|column/i.test(text) && /│|┆|┊|┋|┇|┃|┏|┓|┗|┛/.test(text)) flags.push('Possible tables/columns (can confuse parsers)');
-      if (/[^\x09\x0A\x0D\x20-\x7E\u00A0-\u024F]/.test(text)) flags.push('Non-ASCII/unicode artifacts');
-      if (text.length > 18000) flags.push('Document very long (>18k chars)');
+      if ((t.match(/[•▪■\-\*]\s/g) || []).length > 200) flags.push('Excessive bullet density');
+      if (/table|column/i.test(t) && /│|┆|┊|┋|┇|┃|┏|┓|┗|┛/.test(t)) flags.push('Possible tables/columns (can confuse parsers)');
+      if (/[^\x09\x0A\x0D\x20-\x7E\u00A0-\u024F]/.test(t)) flags.push('Non-ASCII/unicode artifacts');
+      if (t.length > 18000) flags.push('Document very long (>18k chars)');
       return flags.length ? flags : ['None'];
     }
-    function scoreATS(text) {
-      const sec = sectionPresence(text);
-      const contact = contactChecks(text);
+    function scoreATS(t) {
+      const sec = sectionPresence(t);
+      const contact = contactChecks(t);
       const base = 40;
       const secScore = Object.values(sec).filter(Boolean).length / 7 * 40;
       const contactScore = (contact.email ? 1 : 0) + (contact.phone ? 1 : 0) + (contact.links ? 0.5 : 0) + (contact.address ? 0.3 : 0);
-      const cappedContact = Math.min(contactScore / 2.8 * 20, 20);
-      return Math.round(Math.min(100, base + secScore + cappedContact));
+      const capped = Math.min(contactScore / 2.8 * 20, 20);
+      return Math.round(Math.min(100, base + secScore + capped));
     }
     function matchScore(resume, jd) {
       const R = new Set(topKeywords(resume, 80));
@@ -543,135 +644,184 @@
       const score = Math.round((covered.length / Math.max(1, J.length)) * 100);
       return { score, covered, missing, rTop: [...R].slice(0, 30), jTop: J.slice(0, 30) };
     }
-
-    function setMeter(bar, lbl, v) {
-      bar.style.width = Math.max(0, Math.min(100, v)) + '%';
-      setText(lbl, v + '%');
-    }
-
-    function addSuggestion(txt) {
-      const li = document.createElement('li');
-      li.textContent = txt;
-      suggestions.appendChild(li);
-    }
-
+    function setMeter(bar, lbl, v) { bar.style.width = Math.max(0, Math.min(100, v)) + '%'; lbl.textContent = v + '%'; }
+    function toast(msg) { status.textContent = msg; setTimeout(() => { if (status.textContent === msg) status.textContent = ''; }, 1800); }
     function resetUI() {
-      suggestions.innerHTML = '';
-      setMeter(atsBar, atsLbl, 0);
-      setMeter(matchBar, matchLbl, 0);
-      jdWrap.hidden = true;
-      jdCol.hidden = true;
-      missingCol.hidden = true;
-      setText(sectionsFound, '');
-      setText(contactFound, '');
-      setText(lengthFound, '');
-      setText(formatFlags, '');
-      setText(resumeTop, '');
-      setText(jdTop, '');
-      setText(missingKeys, '');
-      setText(debugText, '');
-      status.textContent = '';
+      suggestions.innerHTML = ''; setMeter(atsBar, atsLbl, 0); setMeter(matchBar, matchLbl, 0);
+      jdWrap.hidden = true; jdCol.hidden = true; missingCol.hidden = true;
+      sectionsFound.textContent = contactFound.textContent = lengthFound.textContent = formatFlags.textContent = '—';
+      resumeTop.textContent = jdTop.textContent = missingKeys.textContent = '—';
+      debugText.textContent = ''; status.textContent = '';
     }
 
-    // Drag & Drop helper
-    const dropZone = $('#dropZone');
-    ['dragenter', 'dragover'].forEach(ev => dropZone.addEventListener(ev, e => { e.preventDefault(); dropZone.classList.add('over'); }));
-    ;['dragleave', 'drop'].forEach(ev => dropZone.addEventListener(ev, e => { e.preventDefault(); dropZone.classList.remove('over'); }));
-    dropZone.addEventListener('drop', (e) => {
-      const files = [...e.dataTransfer.files];
-      const first = files[0], second = files[1];
-      if (first) resumeFile.files = new DataTransfer().files; // reset
-      if (first) {
-        const dt1 = new DataTransfer(); dt1.items.add(first); resumeFile.files = dt1.files;
+    // Parsers (lazy-loaded)
+    async function parseFileToText(file) {
+      if (!file) return '';
+      const ext = (file.name.split('.').pop() || '').toLowerCase();
+      if (ext === 'txt') return await file.text();
+      if (ext === 'docx') {
+        try {
+          const mammoth = await import('https://cdn.skypack.dev/mammoth');
+          const ab = await file.arrayBuffer();
+          const { value } = await mammoth.extractRawText({ arrayBuffer: ab });
+          return value || '';
+        } catch (e) { console.warn('DOCX parse failed', e); return ''; }
       }
-      if (second) {
-        const dt2 = new DataTransfer(); dt2.items.add(second); jdFile.files = dt2.files;
+      if (ext === 'doc') { return ''; } // Not reliable in-browser; suggest convert
+      if (ext === 'pdf') {
+        try {
+          const pdfjs = await import('https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.min.mjs');
+          pdfjs.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.worker.min.js';
+          const data = new Uint8Array(await file.arrayBuffer());
+          const doc = await pdfjs.getDocument({ data }).promise;
+          let text = ''; for (let p = 1; p <= doc.numPages; p++) { const page = await doc.getPage(p); const content = await page.getTextContent(); text += content.items.map(i => i.str).join(' ') + '\n'; }
+          return text;
+        } catch (e) { console.warn('PDF parse failed', e); return ''; }
       }
-    });
+      return '';
+    }
 
+    // Analyze
     clearBtn.addEventListener('click', () => {
-      resumeFile.value = ''; jdFile.value = ''; jdText.value = '';
-      resetUI();
+      resumeFile.value = ''; resumeFileName.textContent = 'No file chosen';
+      jdFile.value = ''; jdFileName.textContent = 'No file chosen';
+      jdText.value = ''; resetUI();
     });
 
     analyzeBtn.addEventListener('click', async () => {
-      resetUI();
-      status.textContent = 'Parsing files…';
-
+      resetUI(); status.textContent = 'Parsing files…';
       const resumeTxt = await parseFileToText(resumeFile.files?.[0]);
       const jdTxtFile = await parseFileToText(jdFile.files?.[0]);
       const jdAll = (jdTxtFile || jdText.value || '').trim();
       const resumeAll = (resumeTxt || '').trim();
 
-      if (!resumeAll) {
-        status.textContent = 'Could not read resume. Try a DOCX/TXT or different PDF, or copy-paste text.';
-        return;
-      }
-
-      // Show debug (collapsed)
+      if (!resumeAll) { status.textContent = 'Could not read resume. Try DOCX/TXT or copy-paste text.'; return; }
       debugText.textContent = resumeAll.slice(0, 120000);
 
-      // Compute basics
+      // Basics
       const words = toWords(resumeAll).length;
-      const pagesGuess = Math.max(1, Math.round(resumeAll.length / 3500)); // heuristic
+      const pagesGuess = Math.max(1, Math.round(resumeAll.length / 3500));
       const secs = sectionPresence(resumeAll);
       const contacts = contactChecks(resumeAll);
       const flags = formattingFlags(resumeAll);
       const ats = scoreATS(resumeAll);
 
       setMeter(atsBar, atsLbl, ats);
-      setText(sectionsFound,
-        Object.entries(secs).filter(([k, v]) => v).map(([k]) => k).join(', ') || '—');
-      setText(contactFound,
-        ['email', 'phone', 'links', 'address'].map(k => (contacts[k] ? k + ' ✓' : k + ' ✗')).join(', '));
-      setText(lengthFound, `${words.toLocaleString()} words • ~${pagesGuess} page(s)`);
-      setText(formatFlags, flags.join('; '));
+      sectionsFound.textContent = Object.entries(secs).filter(([, v]) => v).map(([k]) => k).join(', ') || '—';
+      contactFound.textContent = ['email', 'phone', 'links', 'address'].map(k => contacts[k] ? k + ' ✓' : k + ' ✗').join(', ');
+      lengthFound.textContent = `${words.toLocaleString()} words • ~${pagesGuess} page(s)`;
+      formatFlags.textContent = flags.join('; ');
 
-      // Resume top keywords
-      const rTop = topKeywords(resumeAll, 25);
-      setText(resumeTop, rTop.join(', ') || '—');
+      const rTop = topKeywords(resumeAll, 25); resumeTop.textContent = rTop.join(', ') || '—';
 
-      // JD matching
       if (jdAll.length > 10) {
-        const { score, covered, missing, rTop: rt, jTop: jt } = matchScore(resumeAll, jdAll);
+        const { score, missing, jTop: jt } = matchScore(resumeAll, jdAll);
         jdWrap.hidden = false; jdCol.hidden = false; missingCol.hidden = false;
         setMeter(matchBar, matchLbl, score);
-        setText(jdTop, jt.join(', ') || '—');
-        setText(missingKeys, missing.slice(0, 30).join(', ') || '—');
+        jdTop.textContent = jt.join(', ') || '—';
+        missingKeys.textContent = missing.slice(0, 30).join(', ') || '—';
       }
 
       // Suggestions
       const fname = resumeFile.files?.[0]?.name || '';
       if (/\s/.test(fname)) addSuggestion('Rename file to avoid spaces (e.g., firstname_lastname_resume.pdf).');
-      if (!secs.summary) addSuggestion('Add a concise “Summary/Profile” at the top with 3–4 impact lines.');
-      if (!secs.skills) addSuggestion('Include a dedicated “Skills” section with grouped hard skills and tools.');
+      if (!secs.summary) addSuggestion('Add a concise “Summary” at the top (2–3 impact lines).');
+      if (!secs.skills) addSuggestion('Include a dedicated “Skills” section grouped by category.');
       if (!contacts.email || !contacts.phone) addSuggestion('Ensure both email and phone are present in the header.');
-      if (words < 250) addSuggestion('Resume is very short — add measurable achievements and context.');
-      if (words > 1200) addSuggestion('Resume seems long — trim fluff, keep to 1–2 pages for most roles.');
-      if (flags[0] !== 'None') addSuggestion('Reduce complex formatting (tables/columns/unicode) to improve ATS parsing.');
-      if (jdAll.length > 10) addSuggestion('Incorporate missing JD keywords naturally in experience bullets (avoid keyword stuffing).');
-      addSuggestion('Start bullets with strong verbs; quantify outcomes (e.g., “Improved conversion by 18%…”).');
+      if (words < 250) addSuggestion('Resume is short — add measurable achievements & context.');
+      if (words > 1200) addSuggestion('Resume seems long — trim to 1–2 pages for most roles.');
+      if (flags[0] !== 'None') addSuggestion('Reduce complex formatting (tables/columns/unicode) for better ATS parsing.');
+      if (jdAll.length > 10) addSuggestion('Incorporate missing JD keywords naturally in Experience bullets.');
+      addSuggestion('Start bullets with strong verbs; quantify outcomes (%, ₹, time saved, users, latency).');
 
       status.textContent = 'Done.';
     });
 
+    function addSuggestion(t) { const li = document.createElement('li'); li.textContent = t; suggestions.appendChild(li); }
     copyBtn.addEventListener('click', async () => {
       const list = [...$$('#suggestions li')].map(li => '• ' + li.textContent).join('\n');
-      try { await navigator.clipboard.writeText(list || ''); status.textContent = 'Suggestions copied.'; }
-      catch { status.textContent = 'Copy blocked by browser.'; }
-      setTimeout(() => { if (status.textContent.includes('copied')) status.textContent = ''; }, 1500);
+      try { await navigator.clipboard.writeText(list || ''); toast('Suggestions copied'); } catch { toast('Copy blocked by browser'); }
     });
-
     dlBtn.addEventListener('click', () => {
       const list = [...$$('#suggestions li')].map(li => '- ' + li.textContent).join('\n');
       const blob = new Blob([list || ''], { type: 'text/plain;charset=utf-8' });
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = 'ats-resume-report.txt';
-      a.click();
+      const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'ats-resume-report.txt'; a.click();
       URL.revokeObjectURL(a.href);
     });
+
+    // Optional AI Suggestions (resume + optional JD)
+    async function aiSuggest(resumeAll, jdAll) {
+      let provider = providerSel.value || 'perplexity';
+      let model = modelSel.value || (PROVIDER_MODELS[provider]?.[0]?.id ?? '');
+      const body = {
+        provider, model, stream: true, temperature: 0.35,
+        messages: [
+          { role: 'system', content: 'You are an expert ATS resume coach. Be specific, bulleted, and concise.' },
+          {
+            role: 'user', content:
+              `Analyze the resume for ATS readiness and tailor it to the JD (if provided).
+Return:
+- Estimated match % (1 line)
+- Top 15 missing or weak keywords (grouped by Skills / Tools / Responsibilities / Domain)
+- 6 rewritten impact bullets aligned to the JD (quantified)
+- A 2–3 line professional summary tailored to the role
+${jdAll ? '\nJOB DESCRIPTION:\n"""' + jdAll + '"""' : '(No JD provided)'}
+\nRESUME:\n"""${resumeAll}"""`
+          }
+        ]
+      };
+
+      const out = document.createElement('pre');
+      out.className = 'output';
+      out.style.whiteSpace = 'pre-wrap';
+      out.style.maxHeight = '40vh';
+      out.style.overflow = 'auto';
+      const holder = document.createElement('div');
+      holder.className = 'card';
+      holder.style.padding = '8px 10px';
+      holder.style.marginTop = '8px';
+      holder.appendChild(out);
+      suggestions.parentElement.appendChild(holder);
+
+      status.textContent = 'Contacting AI…';
+      try {
+        const res = await fetch('/ai', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+        if (!res.ok) throw new Error('AI HTTP ' + res.status);
+        const reader = res.body.getReader(); const dec = new TextDecoder(); let acc = '';
+        for (; ;) {
+          const { value, done } = await reader.read(); if (done) break;
+          const chunk = dec.decode(value);
+          for (const raw of chunk.split('\n')) {
+            const line = raw.trim(); if (!line || !line.startsWith('data:')) continue;
+            const payload = line.slice(5).trim();
+            if (payload === '[DONE]') { status.textContent = 'AI suggestions ready.'; return; }
+            try {
+              const json = JSON.parse(payload);
+              const delta = json.choices?.[0]?.delta?.content ?? '';
+              if (delta) { acc += delta; out.append(document.createTextNode(delta)); out.scrollTop = out.scrollHeight; }
+            } catch { }
+          }
+        }
+      } catch (e) {
+        status.textContent = 'AI not available; try later.'; out.textContent = '\n(AI helper is not available right now.)';
+      }
+    }
+
+    aiBtn.addEventListener('click', async () => {
+      status.textContent = '';
+      const resumeTxt = await parseFileToText(resumeFile.files?.[0]);
+      const jdTxtFile = await parseFileToText(jdFile.files?.[0]);
+      const jdAll = (jdTxtFile || jdText.value || '').trim();
+      const resumeAll = (resumeTxt || '').trim();
+      if (!resumeAll) { toast('Upload a resume file first'); return; }
+      await aiSuggest(resumeAll, jdAll);
+    });
+
   </script>
+
+  <!-- Lazy AdSense loader (script at end keeps TBT low) -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617"
+    crossorigin="anonymous"></script>
 </body>
 
 </html>
