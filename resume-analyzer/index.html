@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <!-- Connection hints -->
+  <!-- Connection hints (ads only) -->
   <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
   <link rel="dns-prefetch" href="//pagead2.googlesyndication.com">
   <link rel="preconnect" href="https://googleads.g.doubleclick.net" crossorigin>
@@ -13,7 +13,7 @@
 
   <title>ATS Resume Checker — PDF/DOCX/TXT + JD Match (AI Suggestions) | UpTools</title>
   <meta name="description"
-    content="Upload PDF, DOCX, or TXT to check ATS readiness: sections, contact info, keyword density, and formatting. Paste or upload a Job Description to get match %, missing keywords, and optional AI suggestions (Perplexity, Google Gemini 2.5, Groq).">
+    content="Upload PDF, DOCX, or TXT to check ATS readiness: sections, contact info, formatting, and keywords. Paste or upload a Job Description to get match %, missing keywords, and optional AI suggestions (Perplexity, Google Gemini 2.5, Groq).">
   <meta name="keywords"
     content="ATS resume checker, resume analyzer, resume vs job description, resume keyword match, PDF DOCX TXT resume check, free ats resume scan">
   <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:large" />
@@ -24,7 +24,7 @@
   <link rel="icon" type="image/svg+xml" href="/assets/logo/uptools-logo.svg">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 
-  <!-- Social -->
+  <!-- Open Graph / Twitter -->
   <meta property="og:title" content="ATS Resume Checker — PDF/DOCX/TXT + JD Match (AI Suggestions) | UpTools" />
   <meta property="og:description"
     content="Analyze your resume for ATS and match it to a Job Description. Optional AI suggestions via Perplexity, Gemini 2.5, or Groq. No sign-ups." />
@@ -36,14 +36,14 @@
   <meta property="og:image:height" content="630" />
   <meta name="twitter:card" content="summary_large_image" />
 
-  <!-- Styles: use common stylesheet, normal load to avoid FOUC/CLS -->
+  <!-- Shared CSS (load normally to avoid CLS) -->
   <link rel="preload" href="/style.css" as="style">
   <link rel="stylesheet" href="/style.css">
 
   <!-- Utils -->
   <link rel="modulepreload" href="/scripts/utils.js">
 
-  <!-- Structured Data -->
+  <!-- Schema -->
   <script type="application/ld+json">
   {
     "@context":"https://schema.org",
@@ -69,7 +69,7 @@
         "@type":"FAQPage",
         "mainEntity":[
           {"@type":"Question","name":"Which file types are supported?","acceptedAnswer":{"@type":"Answer","text":"PDF, DOCX (Word), and TXT for both resume and job description."}},
-          {"@type":"Question","name":"Do you store my files?","acceptedAnswer":{"@type":"Answer","text":"No. Parsing and analysis run in your browser only. If you use AI suggestions, text is proxied server-side to the provider you pick."}},
+          {"@type":"Question","name":"Do you store my files?","acceptedAnswer":{"@type":"Answer","text":"No. Parsing and analysis run in your browser. If you use AI suggestions, text is proxied server-side to your chosen provider."}},
           {"@type":"Question","name":"Does this guarantee ATS selection?","acceptedAnswer":{"@type":"Answer","text":"No tool can guarantee selection. We provide heuristic checks and suggestions to improve parsing and relevance."}}
         ]
       }
@@ -77,7 +77,7 @@
   }
   </script>
 
-  <!-- Minimal page-specific styles (keep light) -->
+  <!-- Page styles (small, layout-only) -->
   <style>
     :root {
       --panel-h: clamp(560px, 78dvh, 860px);
@@ -228,7 +228,7 @@
       }
     }
 
-    /* Styled file inputs via label (theme "Choose File") */
+    /* Themed file button (uses your .btn styles) */
     .file-input {
       position: relative;
       display: inline-flex;
@@ -241,6 +241,10 @@
       height: 100%;
       opacity: 0;
       cursor: pointer;
+    }
+
+    .muted {
+      opacity: .85
     }
   </style>
 </head>
@@ -304,7 +308,13 @@
                   </label>
                   <span id="resumeFileName" class="filename">No file chosen</span>
                 </div>
+                <details class="muted" style="margin-top:6px">
+                  <summary class="tiny">Or paste resume text</summary>
+                  <textarea id="resumeText" class="input"
+                    placeholder="Paste resume text here (useful for scanned PDFs or .doc files)"></textarea>
+                </details>
               </div>
+
               <div>
                 <label class="label">Job Description file (optional)</label>
                 <div class="fileline">
@@ -485,7 +495,7 @@
       const ins = document.createElement('ins');
       ins.className = 'adsbygoogle';
       ins.setAttribute('data-ad-client', 'ca-pub-6216304334889617');
-      ins.setAttribute('data-ad-slot', '1234567890'); // replace with real unit
+      ins.setAttribute('data-ad-slot', '1234567890'); // replace with your real unit
       ins.setAttribute('data-ad-format', 'auto');
       ins.setAttribute('data-full-width-responsive', 'true');
       ins.setAttribute('data-adtest', 'on'); // safe during review
@@ -498,6 +508,7 @@
     const jdFile = $('#jdFile');
     const resumeFileName = $('#resumeFileName');
     const jdFileName = $('#jdFileName');
+    const resumeText = $('#resumeText');
     const jdText = $('#jdText');
 
     const analyzeBtn = $('#analyzeBtn');
@@ -522,7 +533,7 @@
     const copyBtn = $('#copyBtn');
     const dlBtn = $('#dlBtn');
 
-    // Provider & Models (like your plagiarism tool)
+    // Provider & Models (like plagiarism tool)
     const providerSel = $('#provider');
     const modelSel = $('#modelSel');
     const saveCfg = $('#saveCfg');
@@ -645,7 +656,7 @@
       return { score, covered, missing, rTop: [...R].slice(0, 30), jTop: J.slice(0, 30) };
     }
     function setMeter(bar, lbl, v) { bar.style.width = Math.max(0, Math.min(100, v)) + '%'; lbl.textContent = v + '%'; }
-    function toast(msg) { status.textContent = msg; setTimeout(() => { if (status.textContent === msg) status.textContent = ''; }, 1800); }
+    function toast(msg) { status.textContent = msg; setTimeout(() => { if (status.textContent === msg) status.textContent = ''; }, 2000); }
     function resetUI() {
       suggestions.innerHTML = ''; setMeter(atsBar, atsLbl, 0); setMeter(matchBar, matchLbl, 0);
       jdWrap.hidden = true; jdCol.hidden = true; missingCol.hidden = true;
@@ -654,48 +665,94 @@
       debugText.textContent = ''; status.textContent = '';
     }
 
-    // Parsers (lazy-loaded)
+    // Robust parsers (lazy-load)
     async function parseFileToText(file) {
       if (!file) return '';
       const ext = (file.name.split('.').pop() || '').toLowerCase();
+
+      // Plain text
       if (ext === 'txt') return await file.text();
+
+      // DOCX (browser build)
       if (ext === 'docx') {
         try {
-          const mammoth = await import('https://cdn.skypack.dev/mammoth');
+          const mammoth = await import('https://cdn.jsdelivr.net/npm/mammoth/mammoth.browser.min.js');
           const ab = await file.arrayBuffer();
           const { value } = await mammoth.extractRawText({ arrayBuffer: ab });
           return value || '';
-        } catch (e) { console.warn('DOCX parse failed', e); return ''; }
+        } catch (e) {
+          console.warn('DOCX parse failed', e);
+          return '';
+        }
       }
-      if (ext === 'doc') { return ''; } // Not reliable in-browser; suggest convert
+
+      // Legacy .doc — not reliable in-browser
+      if (ext === 'doc') {
+        return ''; // we'll show guidance below
+      }
+
+      // PDF
       if (ext === 'pdf') {
         try {
           const pdfjs = await import('https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.min.mjs');
           pdfjs.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.worker.min.js';
           const data = new Uint8Array(await file.arrayBuffer());
           const doc = await pdfjs.getDocument({ data }).promise;
-          let text = ''; for (let p = 1; p <= doc.numPages; p++) { const page = await doc.getPage(p); const content = await page.getTextContent(); text += content.items.map(i => i.str).join(' ') + '\n'; }
+          let text = ''; let chars = 0;
+          for (let p = 1; p <= doc.numPages; p++) {
+            const page = await doc.getPage(p);
+            const content = await page.getTextContent();
+            const pageText = content.items.map(i => i.str).join(' ');
+            text += pageText + '\n';
+            chars += pageText.replace(/\s+/g, '').length;
+          }
+          // If it's likely a scanned PDF (no selectable text)
+          if (chars < 30) return '';
           return text;
-        } catch (e) { console.warn('PDF parse failed', e); return ''; }
+        } catch (e) {
+          console.warn('PDF parse failed', e);
+          return '';
+        }
       }
+
       return '';
     }
 
-    // Analyze
+    function addSuggestion(t) { const li = document.createElement('li'); li.textContent = t; suggestions.appendChild(li); }
+
     clearBtn.addEventListener('click', () => {
       resumeFile.value = ''; resumeFileName.textContent = 'No file chosen';
       jdFile.value = ''; jdFileName.textContent = 'No file chosen';
-      jdText.value = ''; resetUI();
+      resumeText.value = ''; jdText.value = '';
+      resetUI();
     });
 
     analyzeBtn.addEventListener('click', async () => {
       resetUI(); status.textContent = 'Parsing files…';
-      const resumeTxt = await parseFileToText(resumeFile.files?.[0]);
-      const jdTxtFile = await parseFileToText(jdFile.files?.[0]);
-      const jdAll = (jdTxtFile || jdText.value || '').trim();
-      const resumeAll = (resumeTxt || '').trim();
 
-      if (!resumeAll) { status.textContent = 'Could not read resume. Try DOCX/TXT or copy-paste text.'; return; }
+      const pastedResume = resumeText.value.trim();
+      const parsedResume = await parseFileToText(resumeFile.files?.[0]);
+      const resumeAll = clean((pastedResume || parsedResume || ''));
+
+      const jdTxtFile = await parseFileToText(jdFile.files?.[0]);
+      const jdAll = clean((jdTxtFile || jdText.value || ''));
+
+      if (!resumeAll) {
+        const name = resumeFile.files?.[0]?.name || '';
+        const ext = (name.split('.').pop() || '').toLowerCase();
+        let hint = 'Could not read resume. ';
+        if (ext === 'pdf') {
+          hint += 'This looks like a scanned PDF (no selectable text). Please use a text-based PDF, DOCX/TXT, or paste the text.';
+        } else if (ext === 'doc') {
+          hint += 'Legacy .doc is not supported in-browser. Please convert to .docx, .pdf (text-based), or paste the text.';
+        } else {
+          hint += 'Try DOCX/TXT, a different PDF, or paste the text below.';
+        }
+        status.textContent = hint;
+        return;
+      }
+
+      // Show debug
       debugText.textContent = resumeAll.slice(0, 120000);
 
       // Basics
@@ -737,7 +794,6 @@
       status.textContent = 'Done.';
     });
 
-    function addSuggestion(t) { const li = document.createElement('li'); li.textContent = t; suggestions.appendChild(li); }
     copyBtn.addEventListener('click', async () => {
       const list = [...$$('#suggestions li')].map(li => '• ' + li.textContent).join('\n');
       try { await navigator.clipboard.writeText(list || ''); toast('Suggestions copied'); } catch { toast('Copy blocked by browser'); }
@@ -771,6 +827,7 @@ ${jdAll ? '\nJOB DESCRIPTION:\n"""' + jdAll + '"""' : '(No JD provided)'}
         ]
       };
 
+      // Output holder
       const out = document.createElement('pre');
       out.className = 'output';
       out.style.whiteSpace = 'pre-wrap';
@@ -799,27 +856,34 @@ ${jdAll ? '\nJOB DESCRIPTION:\n"""' + jdAll + '"""' : '(No JD provided)'}
               const json = JSON.parse(payload);
               const delta = json.choices?.[0]?.delta?.content ?? '';
               if (delta) { acc += delta; out.append(document.createTextNode(delta)); out.scrollTop = out.scrollHeight; }
+              // Gemini streaming (fallback)
+              const parts = json.candidates?.[0]?.delta?.parts || json.candidates?.[0]?.content?.parts || [];
+              if (parts.length) { const txt = parts.map(p => p.text || '').join(''); if (txt) { acc += txt; out.append(document.createTextNode(txt)); out.scrollTop = out.scrollHeight; } }
             } catch { }
           }
         }
       } catch (e) {
-        status.textContent = 'AI not available; try later.'; out.textContent = '\n(AI helper is not available right now.)';
+        status.textContent = 'AI not available; please try again.';
+        out.textContent = '\n(AI helper is not available right now.)';
       }
     }
 
     aiBtn.addEventListener('click', async () => {
       status.textContent = '';
-      const resumeTxt = await parseFileToText(resumeFile.files?.[0]);
+      // Prefer pasted text if provided
+      const pastedResume = resumeText.value.trim();
+      const parsedResume = await parseFileToText(resumeFile.files?.[0]);
+      const resumeAll = clean((pastedResume || parsedResume || ''));
+      if (!resumeAll) { toast('Upload or paste your resume first'); return; }
+
       const jdTxtFile = await parseFileToText(jdFile.files?.[0]);
-      const jdAll = (jdTxtFile || jdText.value || '').trim();
-      const resumeAll = (resumeTxt || '').trim();
-      if (!resumeAll) { toast('Upload a resume file first'); return; }
+      const jdAll = clean((jdTxtFile || jdText.value || ''));
       await aiSuggest(resumeAll, jdAll);
     });
 
   </script>
 
-  <!-- Lazy AdSense loader (script at end keeps TBT low) -->
+  <!-- AdSense (async, end of body keeps TBT low) -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617"
     crossorigin="anonymous"></script>
 </body>
