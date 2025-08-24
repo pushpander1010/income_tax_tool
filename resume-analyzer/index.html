@@ -32,8 +32,8 @@
   <link rel="preload" href="/style.css" as="style">
   <link rel="stylesheet" href="/style.css">
 
-  <!-- Utils -->
-  <link rel="modulepreload" href="/scripts/utils.js">
+  <!-- Utils (correct common path) -->
+  <link rel="modulepreload" href="/utils.js">
 
   <!-- Structured Data -->
   <script type="application/ld+json">
@@ -70,7 +70,7 @@
   }
   </script>
 
-  <!-- Page-specific styles (kept tiny; relies on /style.css) -->
+  <!-- Page-specific styles (small; rely on /style.css) -->
   <style>
     :root { --panel-h: clamp(560px, 78dvh, 840px); --gap: 14px; }
     main.tool { max-width: 1200px; margin-inline: auto; padding: 12px var(--container-px, 12px); }
@@ -91,7 +91,7 @@
     textarea.input { width:100%; min-height:160px; max-height:min(38dvh, 420px); resize:vertical; padding:10px 12px; border-radius:12px; }
     pre.output { width:100%; min-height:clamp(260px, 30dvh, 380px); max-height:min(50dvh, 560px); height:auto; margin:0; padding:12px 14px; overflow:auto; white-space:pre-wrap; word-wrap:break-word; word-break:break-word; border-radius:12px; background:#121826; border:1px solid #212a3a; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace; line-height:1.55; }
 
-    /* Pretty file input -> “Choose File” button */
+    /* Pretty file input */
     .file-wrap { position: relative; display:inline-flex; align-items:center; gap:8px; }
     .file-wrap input[type="file"] { position:absolute; inset:0; opacity:0; cursor:pointer; }
     .file-btn { display:inline-flex; align-items:center; gap:8px; padding:8px 14px; border-radius:10px; background: linear-gradient(135deg, var(--accent), color-mix(in oklab, var(--accent-2) 70%, white)); color:#071018; border:1px solid color-mix(in oklab, var(--accent) 65%, #223); box-shadow: inset 0 -1px 0 rgba(0,0,0,.25), var(--glow-soft); font-weight:900; }
@@ -99,7 +99,7 @@
 
     .notice { font-size:12px; color:var(--muted); background:#0b1326; border:1px dashed color-mix(in oklab, var(--accent) 40%, #314); border-radius:10px; padding:8px 10px; }
 
-    /* KPI grid now has 5 tiles (added ATS Score) */
+    /* 5 KPI tiles (ATS + Readability + JD Match + Keywords + Words) */
     .kpis { display:grid; grid-template-columns:repeat(5, minmax(120px,1fr)); gap:10px; }
     @media (max-width:1200px){ .kpis { grid-template-columns: repeat(3,1fr); } }
     @media (max-width:720px){ .kpis { grid-template-columns: repeat(2,1fr); } }
@@ -114,7 +114,6 @@
     @media (min-width:1024px){ .ad-wrap{ min-height:250px; } }
     .ad-wrap:empty::before{ content:""; display:block; width:100%; height:100%; }
 
-    /* Avoid overlap anywhere by ensuring sections have z-index context */
     section.card, section.spaced, .site-footer { position:relative; z-index:0; }
   </style>
 </head>
@@ -243,11 +242,11 @@
 
         <div class="panel-body">
           <div class="kpis" id="kpis" aria-live="polite">
-            <div class="kpi"><span class="tiny">Machine Readability</span><b id="kpiScore">—</b></div>
+            <div class="kpi"><span class="tiny">Machine Readability</span><b id="kpiReadability">—</b></div>
             <div class="kpi"><span class="tiny">ATS Score</span><b id="kpiATS">—</b></div>
             <div class="kpi"><span class="tiny">JD Match</span><b id="kpiMatch">—</b></div>
             <div class="kpi"><span class="tiny">Keywords Found</span><b id="kpiKeys">—</b></div>
-            <div class="kpi"><span class="tiny">Words</span><b id="kpiRead">—</b></div>
+            <div class="kpi"><span class="tiny">Words</span><b id="kpiWords">—</b></div>
           </div>
 
           <div class="tiny" id="status" aria-live="polite" style="margin-top:2px"></div>
@@ -302,7 +301,7 @@
   <script src="https://cdn.jsdelivr.net/npm/mammoth@1.8.0/mammoth.browser.min.js"></script>
 
   <script type="module">
-    import { $, $$, debounce, persist, read } from '/scripts/utils.js';
+    import { $, $$, debounce, persist, read } from '/utils.js';
 
     const byId = (id) => document.getElementById(id);
     const resumeFile = byId('resumeFile');
@@ -328,11 +327,11 @@
     const parseNotice = byId('parseNotice');
 
     // KPIs
-    const kpiScore = byId('kpiScore'); // Machine Readability (Flesch 0..100)
-    const kpiATS   = byId('kpiATS');   // New: ATS score from AI JSON
-    const kpiMatch = byId('kpiMatch');
+    const kpiReadability = byId('kpiReadability'); // Flesch (0..100)
+    const kpiATS   = byId('kpiATS');   // From AI JSON or local heuristic
+    const kpiMatch = byId('kpiMatch'); // Local + AI
     const kpiKeys  = byId('kpiKeys');
-    const kpiRead  = byId('kpiRead');
+    const kpiWords = byId('kpiWords');
 
     // Footer year
     byId('y').textContent = new Date().getFullYear();
@@ -377,16 +376,29 @@
     // Mode switch
     modeSel.addEventListener('change', ()=>{ jdWrap.classList.toggle('hidden', modeSel.value!=='againstJD'); quickKPIs(); });
 
+    // --- Tokenization helpers (robust, with Unicode fallback) ---
+    const WORD_RE_UNICODE = /\b[\p{L}\p{N}’'’-]+\b/gu;
+    const WORD_RE_ASCII   = /\b[A-Za-z0-9’'’-]+\b/g;
+
+    function tokenizeWords(text){
+      try {
+        // If the engine supports \p{} properly, this returns something reasonable
+        const arr = text.match(WORD_RE_UNICODE);
+        if (arr && arr.length) return arr;
+      } catch { /* fall back */ }
+      return text.match(WORD_RE_ASCII) || [];
+    }
+
     // Counts
     function counts(text){
-      const words = (text.trim().match(/\b[\p{L}\p{N}’'’-]+\b/gu) || []).length;
-      return { chars: text.length, words };
+      const words = tokenizeWords(text);
+      return { chars: text.length, words: words.length };
     }
     function updateCounts(){
       const { chars, words } = counts(resumeText.value);
       charCount.textContent = chars.toLocaleString();
       wordCount.textContent = words.toLocaleString();
-      kpiRead.textContent = words.toLocaleString(); // expose word count in KPI
+      kpiWords.textContent  = words.toLocaleString();
     }
     resumeText.addEventListener('input', debounce(()=>{ updateCounts(); quickKPIs(); }, 100));
     updateCounts();
@@ -429,7 +441,6 @@
         }
         updateCounts();
         parseNotice.innerHTML = '<b>[Loaded]</b> File parsed in-browser. Review below; paste plain text if anything is missing.';
-        // Kick quick KPIs on load
         quickKPIs();
       }catch(err){
         console.error(err);
@@ -444,40 +455,62 @@
       return s.length ? s : (t.trim() ? [t.trim()] : []);
     }
     function syllables(word){
-      // Simple, robust heuristic; never returns 0
       const w = (word || '').toLowerCase().normalize('NFKD').replace(/[^\p{L}]/gu,'');
-      if(!w) return 1;
       const groups = (w.match(/[aeiouy]+/g) || []).length;
-      return Math.max(1, groups);
+      return Math.max(1, groups || 1);
     }
     function flesch(t){
-      const words=(t.match(/\b[\p{L}’'’-]+\b/gu)||[]);
+      const words = tokenizeWords(t).filter(Boolean);
       const S = Math.max(1, sentences(t).length);
       const W = Math.max(1, words.length);
-      const SYL = words.reduce((s,w)=>s+syllables(w),0);
+      const SYL = words.reduce((s,w)=>s+syllables(w),0) || W; // at least 1 per word
       const raw = 206.835 - 1.015*(W/S) - 84.6*(SYL/W);
       const score = Math.max(0, Math.min(100, Math.round(Number.isFinite(raw)? raw : 60)));
       return score;
     }
     function guessKeywords(t){
-      const words=(t.toLowerCase().match(/[a-z][a-z0-9\-+.#]{2,}/g)||[]).filter(w=>!/^(and|the|for|with|from|that|this|into|your|our|their|a|an|to|in|on|of|as|by|is|are|be|was|were|it|at)$/.test(w));
-      const m=new Map(); words.forEach(w=>m.set(w,(m.get(w)||0)+1));
-      return [...m.entries()].sort((a,b)=>b[1]-a[1]).slice(0,20).map(x=>x[0]);
+      const tokens = (t.toLowerCase().match(/[a-z][a-z0-9\-+.#]{2,}/g)||[]).filter(w=>!/^(and|the|for|with|from|that|this|into|your|our|their|a|an|to|in|on|of|as|by|is|are|be|was|were|it|at)$/.test(w));
+      const m=new Map(); tokens.forEach(w=>m.set(w,(m.get(w)||0)+1));
+      return [...m.entries()].sort((a,b)=>b[1]-a[1]).slice(0,25).map(x=>x[0]);
     }
+
     function resetKPIs(){
-      kpiScore.textContent='—';
+      kpiReadability.textContent='—';
       kpiATS.textContent='—';
       kpiMatch.textContent='—';
       kpiKeys.textContent='—';
-      // kpiRead updated by updateCounts()
+      // kpiWords updated by updateCounts()
+    }
+
+    // Local ATS heuristic (fallback if AI JSON missing)
+    function heuristicATS(text){
+      const w = tokenizeWords(text).length;
+      const hasSections = /experience|education|projects|skills|summary|profile|work history/i.test(text);
+      const hasContact  = /@|linkedin\.com|github\.com|phone|mobile|\+\d{1,3}|[0-9]{10}/i.test(text);
+      const hasBullets  = /(^|\n)\s*[-•●\*]/m.test(text);
+      const noTables    = !/(<table|<\/table|│|┆|┃|┃|┇|┋)/i.test(text); // crude table detection
+      const readScore   = flesch(text); // 0..100
+      // weightings
+      let score = 40*(readScore/100) +
+                  15*(hasSections?1:0) +
+                  15*(hasContact?1:0) +
+                  15*(hasBullets?1:0) +
+                  15*(noTables?1:0);
+      // length bonus (sweet spot 300–1200 words)
+      if (w >= 300 && w <= 1200) score += 5;
+      return Math.max(0, Math.min(100, Math.round(score)));
     }
 
     function quickKPIs() {
       const t = resumeText.value.trim();
       if(!t){ resetKPIs(); return; }
-      // Machine Readability = Flesch 0..100 (higher is easier to parse)
+
+      // Machine Readability = Flesch 0..100
       const mr = flesch(t);
-      kpiScore.textContent = mr.toString();
+      kpiReadability.textContent = mr.toString();
+
+      // Local ATS fallback (will be overridden by AI JSON if present)
+      kpiATS.textContent = heuristicATS(t) + '%';
 
       // Keyword guess count
       const keys = guessKeywords(t);
@@ -492,7 +525,6 @@
       } else {
         kpiMatch.textContent = '—';
       }
-      // ATS score comes from AI JSON later; don't overwrite here
     }
 
     // Prompt builder — strict output format + examples
@@ -504,30 +536,15 @@
           "1) First, a single fenced JSON block with EXACT keys:",
           "```json",
           "{",
-          "  \"score\": 0-100,                       // overall ATS alignment",
-          "  \"match\": 0-100,                       // JD match %",
-          "  \"missing_keywords\": [\"...\"],        // terms in JD not present in resume",
-          "  \"strengths\": [\"...\"],               // what’s good",
-          "  \"issues\": [\"...\"],                  // what hurts ATS parsing/clarity",
+          "  \"score\": 0-100,",
+          "  \"match\": 0-100,",
+          "  \"missing_keywords\": [\"...\"],",
+          "  \"strengths\": [\"...\"],",
+          "  \"issues\": [\"...\"],",
           "  \"summary\": \"<2-3 lines>\"",
           "}",
           "```",
-          "2) Then, under a heading 'Tailored Bullets', write 3-5 bullet points crafted from the resume but tailored to the JD (no JSON).",
-          "",
-          "EXAMPLE:",
-          "```json",
-          "{",
-          "  \"score\": 78,",
-          "  \"match\": 72,",
-          "  \"missing_keywords\": [\"Apache Kafka\",\"Looker\"],",
-          "  \"strengths\": [\"Strong Python\",\"Clear metrics\"],",
-          "  \"issues\": [\"Table-based layout\",\"Too many acronyms\"],",
-          "  \"summary\": \"Good data engineering background with measurable impact; add JD terms and simplify formatting.\"",
-          "}",
-          "```",
-          "Tailored Bullets:",
-          "- Quantify pipeline throughput…",
-          "- Map skills to JD keywords…",
+          "2) Then, under a heading 'Tailored Bullets', write 3-5 bullet points tailored to the JD (no JSON).",
           "",
           "[RESUME]\\n" + resume,
           "[JD]\\n" + jd
@@ -539,25 +556,14 @@
         "1) First, a single fenced JSON block with EXACT keys:",
         "```json",
         "{",
-        "  \"score\": 0-100,                       // overall ATS readiness (heuristic)",
-        "  \"key_keywords\": [\"...\"],            // top skills/terms detected",
-        "  \"formatting_issues\": [\"...\"],       // e.g., tables, columns, images",
-        "  \"sections_missing\": [\"...\"],        // e.g., Summary, Skills, Experience",
+        "  \"score\": 0-100,",
+        "  \"key_keywords\": [\"...\"],",
+        "  \"formatting_issues\": [\"...\"],",
+        "  \"sections_missing\": [\"...\"],",
         "  \"summary\": \"<2-3 lines>\"",
         "}",
         "```",
-        "2) Then, under a heading 'Actionable Improvements', provide 6-10 bullets that are direct, specific and resume-ready.",
-        "",
-        "EXAMPLE:",
-        "```json",
-        "{",
-        "  \"score\": 69,",
-        "  \"key_keywords\": [\"React\",\"TypeScript\",\"Node.js\"],",
-        "  \"formatting_issues\": [\"Two-column layout\",\"Graphics in header\"],",
-        "  \"sections_missing\": [\"Projects\"],",
-        "  \"summary\": \"Solid front-end profile; simplify layout, add metrics, emphasize JD-aligned skills.\"",
-        "}",
-        "```",
+        "2) Then, under a heading 'Actionable Improvements', provide 6-10 bullets that are direct and resume-ready.",
         "",
         "[RESUME]\\n" + resume
       ].join('\\n');
@@ -584,7 +590,7 @@
       for(;;){
         const { value, done } = await reader.read(); if(done) break;
         const chunk = dec.decode(value, { stream:true });
-        for(const raw of chunk.split('\\n')){
+        for(const raw of chunk.split('\n')){
           const line = raw.trim(); if(!line || !line.startsWith('data:')) continue;
           const payload = line.slice(5).trim();
           if(payload === '[DONE]'){ aborter=null; return acc; }
@@ -602,7 +608,7 @@
     function extractFirstJson(text){
       if(!text) return null;
 
-      // 1) Try fenced ```json ... ```
+      // 1) Fenced ```json ... ```
       const fenceJson = text.match(/```json\s*([\s\S]*?)\s*```/i);
       if(fenceJson?.[1]){
         const cleaned = fenceJson[1].trim();
@@ -610,10 +616,10 @@
         if(obj) return obj;
       }
 
-      // 2) Try generic fence ``` ... ```
+      // 2) Generic fence ``` ... ```
       const fenceAny = text.match(/```\s*([\s\S]*?)\s*```/);
       if(fenceAny?.[1]){
-        const tryClean = fenceAny[1].replace(/^json\s*/i,'').trim(); // strips a leading "json"
+        const tryClean = fenceAny[1].replace(/^json\s*/i,'').trim();
         const obj = safeJson(tryClean);
         if(obj) return obj;
       }
@@ -630,11 +636,10 @@
       return null;
     }
 
-    // Safer JSON.parse: removes trailing commas and normalizes quotes if trivial
+    // Safer JSON.parse
     function safeJson(s){
-      try {
-        return JSON.parse(s);
-      } catch {
+      try { return JSON.parse(s); }
+      catch {
         const noTrailing = s
           .replace(/,\s*([}\]])/g, '$1')
           .replace(/\u201c|\u201d|“|”/g, '"')
@@ -643,27 +648,20 @@
       }
     }
 
-    // Use AI JSON (if available) to refine KPIs
+    // Apply AI JSON to KPIs
     function applyAiKPIs(obj){
       if(!obj || typeof obj!=='object') return;
 
-      // ATS Score
       if(typeof obj.score === 'number' && Number.isFinite(obj.score)){
         const s = Math.max(0, Math.min(100, Math.round(obj.score)));
         kpiATS.textContent = s + '%';
       }
-
-      // JD Match (only if provided by model)
       if(typeof obj.match === 'number' && Number.isFinite(obj.match)){
         const m = Math.max(0, Math.min(100, Math.round(obj.match)));
         kpiMatch.textContent = m + '%';
       }
-
-      // Keywords (prefer key_keywords length if present)
       if(Array.isArray(obj.key_keywords)){
         kpiKeys.textContent = String(obj.key_keywords.length);
-      } else if(Array.isArray(obj.missing_keywords)){
-        // keep current "found" count; missing_keywords is different metric
       }
     }
 
@@ -692,11 +690,9 @@
         const prompt = buildPrompt({ resume, jd, mode });
         const fullText = await streamChat({ provider, model, prompt });
         status.textContent='Parsing…';
-
-        // Try to parse JSON and refine KPIs if possible
         const first = extractFirstJson(fullText);
         if(first){ applyAiKPIs(first); status.textContent='Done (with AI KPIs).'; }
-        else { status.textContent='Done.'; }
+        else { status.textContent='Done (heuristics only).'; }
       }catch(e){
         console.error(e);
         status.textContent=(e?.message||'Error')+' — check provider/model or quotas.';
@@ -711,7 +707,7 @@
     permBtn.addEventListener('click', async ()=>{ const o={ m: modeSel.value, p: providerSel.value, md: modelSel.value }; const url=new URL(location.href); url.hash=encodeURIComponent(btoa(JSON.stringify(o))); try{ await navigator.clipboard.writeText(url.toString()); toast('Permalink copied'); } catch{ toast('Permalink ready (check address bar)'); history.replaceState({},'',url); } });
 
     // KPI init
-    resetKPIs();
+    resetKPIs(); quickKPIs(); // ensure tiles are populated immediately if text exists
 
     // AdSense mount (slot already reserved; no CLS)
     (function mountAd(){
