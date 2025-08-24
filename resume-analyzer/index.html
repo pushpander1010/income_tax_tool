@@ -854,6 +854,7 @@
 
     runBtn.addEventListener('click', async () => {
       const resume = resumeText.value.trim();
+      console.log('Resume:', resume);
       if (!resume) { toast('Paste/upload your resume text first'); resumeText.focus(); return; }
       const mode = modeSel.value;
       const jd = (mode === 'againstJD') ? jdText.value.trim() : '';
