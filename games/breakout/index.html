@@ -10,7 +10,7 @@
 
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>Breakout — Free Online Game (Fast, Mobile-Perfect) | UpTools</title>
+  <title>Breakout - Free Online Game (Fast, Mobile-Perfect) | UpTools</title>
 
   <!-- SEO -->
   <meta name="description" content="Play Breakout online (mobile + desktop). Super responsive canvas, fixed compact HUD, power-ups (Shield, Sticky, Laser, x2, AutoPilot), auto-save, challenge links. Tap to play/pause!" />
@@ -19,7 +19,7 @@
   <meta name="theme-color" content="#0f1419" />
 
   <!-- OpenGraph / Twitter -->
-  <meta property="og:title" content="Play Breakout — Free Online Game | UpTools" />
+  <meta property="og:title" content="Play Breakout - Free Online Game | UpTools" />
   <meta property="og:description" content="Mobile-perfect Breakout with power-ups, levels, and auto-save. Tap to play/pause." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.uptools.in/games/breakout/" />
@@ -208,7 +208,7 @@
           <div class="kpi"><div class="value" id="bestLevel">1</div><div class="label">Best Level</div></div>
           <div class="kpi"><div class="value" id="lastScore">0</div><div class="label">Last Score</div></div>
           <div class="kpi"><div class="value" id="lastLevel">1</div><div class="label">Last Level</div></div>
-          <div class="kpi"><div class="value" id="lastDate">—</div><div class="label">Last Played</div></div>
+          <div class="kpi"><div class="value" id="lastDate">-</div><div class="label">Last Played</div></div>
         </div>
 
         <div class="row">
@@ -501,7 +501,7 @@
       $("#lastScore").textContent = localStorage.getItem(LS.LAST) || "0";
       $("#lastLevel").textContent = localStorage.getItem(LS.LASTLV) || "1";
       const ts = Number(localStorage.getItem(LS.LASTAT) || 0);
-      $("#lastDate").textContent = ts ? new Date(ts).toLocaleString() : "—";
+      $("#lastDate").textContent = ts ? new Date(ts).toLocaleString() : "-";
     }
 
     function setInert(el, val) { if (val) { el.setAttribute("inert", ""); el.inert = true; } else { el.removeAttribute("inert"); el.inert = false; } }

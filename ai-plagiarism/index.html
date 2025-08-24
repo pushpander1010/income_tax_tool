@@ -15,7 +15,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 
   <title>Free AI Plagiarism Checker &amp; Paraphrasing Tool (Originality %) | UpTools</title>
-  <meta name="description" content="Free AI Plagiarism Checker — estimate originality %, flag risky sentences, and fix with instant paraphrasing. Rewriter supports tones &amp; constraints. Works with Perplexity, Google Gemini 2.5, and Groq via secure proxy. No login." />
+  <meta name="description" content="Free AI Plagiarism Checker - estimate originality %, flag risky sentences, and fix with instant paraphrasing. Rewriter supports tones &amp; constraints. Works with Perplexity, Google Gemini 2.5, and Groq via secure proxy. No login." />
   <meta name="keywords" content="free plagiarism checker, paraphrasing tool, rewriter, originality checker, check plagiarism online, remove plagiarism, ai rewriter, paraphrase sentences" />
   <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:large" />
   <meta name="theme-color" content="#0b1020" />
@@ -360,10 +360,10 @@
 
         <div class="panel-body">
           <div class="kpis" id="kpis" aria-live="polite">
-            <div class="kpi"><span class="tiny">Estimated Originality</span><b id="kpiOriginality">—</b></div>
-            <div class="kpi"><span class="tiny">Sentence Variety</span><b id="kpiVariety">—</b></div>
-            <div class="kpi"><span class="tiny">Flesch Reading Ease</span><b id="kpiFlesch">—</b></div>
-            <div class="kpi"><span class="tiny">Repeated 4-grams</span><b id="kpiNgram">—</b></div>
+            <div class="kpi"><span class="tiny">Estimated Originality</span><b id="kpiOriginality">-</b></div>
+            <div class="kpi"><span class="tiny">Sentence Variety</span><b id="kpiVariety">-</b></div>
+            <div class="kpi"><span class="tiny">Flesch Reading Ease</span><b id="kpiFlesch">-</b></div>
+            <div class="kpi"><span class="tiny">Repeated 4-grams</span><b id="kpiNgram">-</b></div>
           </div>
           <div class="tiny" id="status" aria-live="polite" style="margin-top:2px"></div>
           <pre id="output" class="output" tabindex="0" aria-label="AI output"></pre>
@@ -380,9 +380,9 @@
             <div>
               <h3 class="h5">Related</h3>
               <ul class="list compact">
-                <li><a href="/ai-writer/">AI Writer</a> — summarize, translate, SEO meta.</li>
-                <li><a href="/word-counter/">Word Counter</a> — words, chars, reading time.</li>
-                <li><a href="/resume-analyzer/">Resume Analyzer</a> — ATS score &amp; keywords.</li>
+                <li><a href="/ai-writer/">AI Writer</a> - summarize, translate, SEO meta.</li>
+                <li><a href="/word-counter/">Word Counter</a> - words, chars, reading time.</li>
+                <li><a href="/resume-analyzer/">Resume Analyzer</a> - ATS score &amp; keywords.</li>
               </ul>
             </div>
           </div>
@@ -531,7 +531,7 @@
 
     // Counts
     function counts(text){
-      const words = (text.trim().match(/\b[\w’'-]+\b/gu) || []).length;
+      const words = (text.trim().match(/\b[\w''-]+\b/gu) || []).length;
       return { chars: text.length, words };
     }
     function updateCounts(){
@@ -586,14 +586,14 @@
     function avg(a){ return a.length ? a.reduce((x,y)=>x+y,0)/a.length : 0; }
     function stddev(a){ if(!a.length) return 0; const m=avg(a); return Math.sqrt(avg(a.map(x=>(x-m)*(x-m)))); }
     function fleschReadingEase(text){
-      const words=(text.match(/\b[a-zA-Z’'-]+\b/g)||[]);
+      const words=(text.match(/\b[a-zA-Z''-]+\b/g)||[]);
       const syllables=words.reduce((s,w)=>s+((w.toLowerCase().match(/[aeiouy]+/g)||[]).length||1),0);
       const sents=sentences(text).length||1;
       const W=Math.max(words.length,1), S=Math.max(sents,1), SYL=Math.max(syllables,1);
       return Math.max(0, Math.min(100, 206.835 - 1.015*(W/S) - 84.6*(SYL/W)));
     }
     function ngramRepeats(text, n=4){
-      const tokens=(text.toLowerCase().match(/\b[\w’'-]+\b/g)||[]);
+      const tokens=(text.toLowerCase().match(/\b[\w''-]+\b/g)||[]);
       const grams=new Map(); let repeats=0;
       for(let i=0;i<=tokens.length-n;i++){ const g=tokens.slice(i,i+n).join(' '); grams.set(g,(grams.get(g)||0)+1); }
       grams.forEach(c=>{ if(c>1) repeats += (c-1); });
@@ -612,7 +612,7 @@
       kpiFlesch.textContent = fleschReadingEase(text).toFixed(0);
       kpiNgram.textContent = ngramRepeats(text,4).toString();
     }
-    function resetKPIs(){ kpiOriginality.textContent='—'; kpiVariety.textContent='—'; kpiFlesch.textContent='—'; kpiNgram.textContent='—'; }
+    function resetKPIs(){ kpiOriginality.textContent='-'; kpiVariety.textContent='-'; kpiFlesch.textContent='-'; kpiNgram.textContent='-'; }
     input.addEventListener('input', debounce(()=>updateKPIs(input.value), 100));
 
     // Prompt builder
@@ -726,7 +726,7 @@
         await streamChat({ provider, model, prompt });
         status.textContent='Done.';
       }catch(e){
-        status.textContent=(e?.message||'Error')+' — check provider/model or quotas.';
+        status.textContent=(e?.message||'Error')+' - check provider/model or quotas.';
         toast('Request failed.');
       }finally{ stopBtn.disabled=true; }
     });

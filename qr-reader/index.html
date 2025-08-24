@@ -12,10 +12,10 @@
 
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>QR Reader — Scan QR Codes Online (Camera & Image) | UpTools</title>
+  <title>QR Reader - Scan QR Codes Online (Camera & Image) | UpTools</title>
 
   <!-- SEO -->
-  <meta name="description" content="Free QR code scanner in your browser. Tap Enable Camera to trigger the permission prompt, then scan via camera or upload an image. Multiple codes, Wi-Fi & vCard parsing, copy/share/open, torch, camera switch, local history. Privacy-first — no uploads." />
+  <meta name="description" content="Free QR code scanner in your browser. Tap Enable Camera to trigger the permission prompt, then scan via camera or upload an image. Multiple codes, Wi-Fi & vCard parsing, copy/share/open, torch, camera switch, local history. Privacy-first - no uploads." />
   <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:large" />
   <link rel="canonical" href="https://www.uptools.in/qr-reader/" />
   <meta name="theme-color" content="#0b1020" />
@@ -25,13 +25,13 @@
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/logo/uptools-logo.svg">
 
   <!-- Open Graph / Twitter -->
-  <meta property="og:title" content="QR Reader — Scan QR Codes Online" />
-  <meta property="og:description" content="Enable camera permission with one tap and scan QR codes instantly. Works on-device — no uploads." />
+  <meta property="og:title" content="QR Reader - Scan QR Codes Online" />
+  <meta property="og:description" content="Enable camera permission with one tap and scan QR codes instantly. Works on-device - no uploads." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.uptools.in/qr-reader/" />
   <meta property="og:image" content="/assets/og/qr-reader.png" />
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="QR Reader — Scan QR Codes Online" />
+  <meta name="twitter:title" content="QR Reader - Scan QR Codes Online" />
   <meta name="twitter:description" content="Grant camera permission and scan QR codes. Copy/share/open results, Wi-Fi/vCard parsing, history, torch & camera switch." />
   <meta name="twitter:image" content="/assets/og/qr-reader.png" />
 
@@ -46,7 +46,7 @@
   </script>
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
-    {"@type":"Question","name":"How do I get the camera permission prompt?","acceptedAnswer":{"@type":"Answer","text":"Tap Enable Camera or the video area. We request getUserMedia() directly from your tap, which shows the browser’s permission prompt. Use HTTPS or localhost."}},
+    {"@type":"Question","name":"How do I get the camera permission prompt?","acceptedAnswer":{"@type":"Answer","text":"Tap Enable Camera or the video area. We request getUserMedia() directly from your tap, which shows the browser's permission prompt. Use HTTPS or localhost."}},
     {"@type":"Question","name":"Does this upload my video or images?","acceptedAnswer":{"@type":"Answer","text":"No. All scanning happens locally in your browser. Nothing is uploaded."}},
     {"@type":"Question","name":"Can I scan from a photo or screenshot?","acceptedAnswer":{"@type":"Answer","text":"Yes. Use Upload Image or drag & drop an image onto the video area."}}
   ]}
@@ -117,10 +117,10 @@
       <!-- Camera + Controls -->
       <section class="qr-panel qr-media" aria-label="QR camera scanner">
         <div class="perm-strip" id="permStrip" role="status" aria-live="polite">
-          <p class="note" id="permText">Tap <b>Enable Camera</b> (or the video area). We’ll auto-start scanning and stop after the first code.</p>
+          <p class="note" id="permText">Tap <b>Enable Camera</b> (or the video area). We'll auto-start scanning and stop after the first code.</p>
           <div style="display:flex;gap:8px">
             <button id="btnEnable" class="btn">Enable Camera</button>
-            <button id="btnHelp" class="btn secondary" title="If you don’t see a prompt">Help</button>
+            <button id="btnHelp" class="btn secondary" title="If you don't see a prompt">Help</button>
           </div>
         </div>
 
@@ -194,7 +194,7 @@
           <summary><b>How it works & permission tips</b></summary>
           <ul class="note" style="margin:.5rem 0 0; padding-left:1rem;">
             <li><b>HTTPS required</b> (or <code>localhost</code>) for camera access.</li>
-            <li>If this page is inside an <b>iframe</b>, the parent must set <code>allow="camera;microphone"</code> and your server’s <code>Permissions-Policy</code> must allow <code>camera</code>.</li>
+            <li>If this page is inside an <b>iframe</b>, the parent must set <code>allow="camera;microphone"</code> and your server's <code>Permissions-Policy</code> must allow <code>camera</code>.</li>
             <li><b>We auto-start</b> once permission is granted and <b>auto-stop</b> after first detection.</li>
             <li><b>Browser support</b>: auto-fallback if <code>BarcodeDetector</code> is unavailable.</li>
           </ul>
@@ -222,18 +222,18 @@
         <a class="chip" href="/ifsc-finder/"><span class="text-logo" aria-hidden="true">IF</span> IFSC Finder</a>
         <a class="chip" href="/sitemap.xml"><span class="text-logo" aria-hidden="true">SM</span> Sitemap</a>
       </div>
-      <small class="note">© <span id="year"></span> UpTools — Privacy-first utilities.</small>
+      <small class="note">© <span id="year"></span> UpTools - Privacy-first utilities.</small>
     </footer>
   </div>
 
-  <!-- “Help” modal -->
+  <!-- "Help" modal -->
   <div id="permModal" class="cta" aria-hidden="true">
     <div class="cta-card" role="dialog" aria-modal="true" aria-labelledby="permTitle" aria-describedby="permDesc">
-      <h2 id="permTitle">Didn’t see a camera prompt?</h2>
+      <h2 id="permTitle">Didn't see a camera prompt?</h2>
       <div id="permDesc" class="note" style="text-align:left">
-        <p><b>1) Check HTTPS</b> — open this page at <code>https://</code> or on <code>localhost</code>.</p>
-        <p><b>2) If embedded</b> — parent iframe must include <code>allow="camera;microphone"</code> and headers must allow <code>camera</code> in <code>Permissions-Policy</code>.</p>
-        <p><b>3) Reset site permission</b> — padlock icon → Site settings → Camera → Ask/Allow.</p>
+        <p><b>1) Check HTTPS</b> - open this page at <code>https://</code> or on <code>localhost</code>.</p>
+        <p><b>2) If embedded</b> - parent iframe must include <code>allow="camera;microphone"</code> and headers must allow <code>camera</code> in <code>Permissions-Policy</code>.</p>
+        <p><b>3) Reset site permission</b> - padlock icon → Site settings → Camera → Ask/Allow.</p>
       </div>
       <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:10px">
         <button id="modalClose" class="btn">Got it</button>
