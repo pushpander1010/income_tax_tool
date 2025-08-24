@@ -762,7 +762,6 @@
           ]
         })
       });
-      console.log(res);
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const reader = res.body.getReader(); const dec = new TextDecoder(); let acc = '';
       for (; ;) {
@@ -771,6 +770,7 @@
         for (const raw of chunk.split('\\n')) {
           const line = raw.trim(); if (!line || !line.startsWith('data:')) continue;
           const payload = line.slice(5).trim();
+          console.log('Payload:', payload);
           if (payload === '[DONE]') { aborter = null; return acc; }
           try {
             const json = JSON.parse(payload);
@@ -867,7 +867,6 @@
 
       try {
         const prompt = buildPrompt({ resume, jd, mode });
-        console.log('Prompt:', prompt);
         const fullText = await streamChat({ provider, model, prompt });
         console.log(fullText);
         status.textContent = 'Parsing…';
