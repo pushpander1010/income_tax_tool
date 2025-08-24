@@ -709,7 +709,9 @@
     function buildPrompt({ resume, jd, mode }) {
       if (mode === 'againstJD') {
         return [
-          "You are an ATS assistant. Compare this resume against the job description.",
+          "You are an ATS assistant. Given this resume:\n"+resume+" and the job description:\n"+jd+".",
+          "Compare the given reume against the job description and provide: ATS Score (0-100), Match % (0-100), list of missing keywords, strengths, issues, and a brief summary.",
+          "Return the results in the following format.",
           "OUTPUT FORMAT (strict):",
           "1) First, a single fenced JSON block with EXACT keys:",
           "```json",
@@ -723,13 +725,12 @@
           "}",
           "```",
           "2) Then, under a heading 'Tailored Bullets', write 3-5 bullet points tailored to the JD.",
-          "",
-          "[RESUME]\\n" + resume,
-          "[JD]\\n" + jd
         ].join('\\n');
       }
       return [
-        "You are an ATS assistant. Analyze this resume for general ATS readiness.",
+        "You are an ATS assistant. Given the resume:\n"+resume+".",
+        "Provide: ATS Score (0-100), Match % (0-100), list of missing keywords, strengths, issues, and a brief summary.",
+        "Return the results in the following format.",
         "OUTPUT FORMAT (strict):",
         "1) First, a single fenced JSON block with EXACT keys:",
         "```json",
@@ -741,9 +742,7 @@
         "  \"summary\": \"<2-3 lines>\"",
         "}",
         "```",
-        "2) Then, under 'Actionable Improvements', provide 6-10 bullets.",
-        "",
-        "[RESUME]\\n" + resume
+        "2) Then, under 'Actionable Improvements', provide 6-10 bullets."
       ].join('\\n');
     }
 
