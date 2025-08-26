@@ -1,124 +1,427 @@
 <!doctype html>
+
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>UpTools - Free Online Calculators, Converters & Mini Games</title>
-  <meta name="description" content="Fast, privacy-first tools for everyday tasks: Income Tax, GST, EMI, SIP, Currency Converter, IFSC Finder, JSON Formatter, and mini games. No sign-ups, no bloat." />
+  <meta name="description"
+    content="Fast, privacy-first tools for everyday tasks: Income Tax, GST, EMI, SIP, Currency Converter, IFSC Finder, JSON Formatter, BMI, and mini games. No sign-ups, no bloat." />
   <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
   <meta name="theme-color" content="#0f1419" />
-  <meta name="keywords" content="income tax calculator,gst calculator,emi calculator,currency converter,ifsc finder,json formatter,age calculator,indian tools,uptools" />
+  <meta name="keywords"
+    content="income tax calculator,gst calculator,emi calculator,currency converter,ifsc finder,json formatter,age calculator,ai tools,india tools,uptools" />
 
   <!-- Canonical & Icons -->
-  <link rel="canonical" href="https://www.uptools.in/"/>
-  <link rel="icon" sizes="50x50" type="image/svg+xml" href="/assets/logo/uptools-logo.svg"/>
-  <link rel="apple-touch-icon" sizes="180x180" href="/assets/logo/uptools-logo.svg"/>
+
+  <link rel="canonical" href="https://www.uptools.in/" />
+  <link rel="icon" sizes="50x50" type="image/svg+xml" href="/assets/logo/uptools-logo.svg" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/logo/uptools-logo.svg" />
 
   <!-- Open Graph -->
-  <meta property="og:title" content="UpTools - Free Online Calculators, Converters & Mini Games"/>
-  <meta property="og:description" content="Fast, lightweight tools for everyday tasks. Privacy-first. No sign-ups."/>
-  <meta property="og:type" content="website"/>
-  <meta property="og:url" content="https://www.uptools.in/"/>
-  <meta property="og:site_name" content="UpTools"/>
-  <meta property="og:image" content="https://www.uptools.in/assets/og/home.png"/>
-  <meta property="og:image:width" content="1200"/>
-  <meta property="og:image:height" content="630"/>
-  <meta name="twitter:card" content="summary_large_image"/>
+
+  <meta property="og:title" content="UpTools - Free Online Calculators, Converters & Mini Games" />
+  <meta property="og:description" content="Fast, lightweight tools for everyday tasks. Privacy-first. No sign-ups." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.uptools.in/" />
+  <meta property="og:site_name" content="UpTools" />
+  <meta property="og:image" content="https://www.uptools.in/assets/og/home.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
 
   <!-- Preconnects -->
+
   <link rel="preconnect" href="https://www.youtube-nocookie.com" crossorigin>
   <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
 
-  <!-- Critical CSS -->
+  <!-- Critical CSS (page-scoped only; global is in /style.css) -->
+
   <style>
-    :root{--bg:#0f1419;--surface:#121826;--text:#e6edf3;--muted:#9aa4b2;--brand:#7aa2ff;--radius:.75rem;--card:var(--surface);--border:#212a3a}
-    *{box-sizing:border-box}
-    html{color-scheme:dark light;-webkit-text-size-adjust:100%}
-    body{margin:0;font:400 16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Noto Sans",sans-serif;background:var(--bg);color:var(--text)}
-    img,svg,video{max-width:100%;height:auto;display:block}
-    a{color:var(--brand);text-decoration-thickness:.08em;text-underline-offset:.18em}
-    .wrap{width:min(100% - 24px,1120px);margin:24px auto}
-    .card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:1rem}
-    .btn{display:inline-flex;align-items:center;gap:.5rem;padding:.6rem .9rem;border-radius:var(--radius);background:var(--brand);color:#0b1020;border:0;font-weight:800;text-decoration:none;cursor:pointer}
-    .btn.secondary{background:#1a2436;color:var(--text);border:1px solid var(--border)}
-    .btn.secondary.sm{padding:.45rem .7rem;font-weight:700}
-    .pill,.chip{display:inline-flex;align-items:center;gap:.25rem;padding:.25rem .55rem;border-radius:999px;background:#182033;border:1px solid var(--border);font-size:.85rem;color:var(--muted)}
-    .badge{font-size:.75rem;background:#0d1628;color:#9fb5ff;border-color:#2a3a5a}
-    .note{color:var(--muted)} .note.small{font-size:.9rem}
-    .sr-only{position:absolute;left:-9999px}
+    :root {
+      --bg: #0f1419;
+      --surface: #121826;
+      --text: #e6edf3;
+      --muted: #9aa4b2;
+      --brand: #7aa2ff;
+      --radius: .75rem;
+      --border: #212a3a
+    }
 
-    /* Header (stable) */
-    .site{position:sticky;top:0;z-index:20;background:linear-gradient(180deg,#0f1419,#0f1419f2 70%,transparent);backdrop-filter:saturate(140%) blur(6px);border-bottom:1px solid #0f1a2a}
-    .header-inner{display:flex;align-items:center;justify-content:space-between;gap:12px;width:min(100% - 24px,1120px);margin:0 auto;min-height:56px;padding:8px 0}
-    .brand{display:inline-flex;align-items:center;gap:.6rem;color:var(--text);text-decoration:none;font-weight:900}
-    .nav-links{display:flex;flex-wrap:wrap;gap:.75rem}
-    .nav-links a{color:var(--text);opacity:.9;text-decoration:none;padding:.25rem .4rem;border-radius:.5rem}
-    .nav-links a[aria-current="page"]{background:#182033;border:1px solid var(--border)}
+    * {
+      box-sizing: border-box
+    }
 
-    /* Hero: explicit height to avoid heading shift */
-    .hero{display:grid;grid-template-columns:auto 1fr;gap:12px;align-items:center;min-height:128px}
-    .hero-logo{width:48px;height:48px}
-    h1{margin:.1rem 0 .25rem 0;line-height:1.25}
+    html {
+      color-scheme: dark light;
+      -webkit-text-size-adjust: 100%
+    }
 
-    /* Grids + cards */
-    .tools-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
-    .tool-card{min-height:200px}
-    .tool-title{display:inline-block}
-    .tool-desc{min-height:2.3em}
+    body {
+      margin: 0;
+      font: 400 16px/1.6 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, "Noto Sans", sans-serif;
+      background: var(--bg);
+      color: var(--text)
+    }
 
-    /* Video reserved via aspect-ratio */
-    .video-shell{position:relative;width:100%;aspect-ratio:16/9;border-radius:var(--radius);overflow:hidden;background:#0b1220;border:1px solid var(--border)}
-    .video-shell iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+    img,
+    svg,
+    video {
+      max-width: 100%;
+      height: auto;
+      display: block
+    }
 
-    /* Hide empty sections fully to remove gaps */
-    .reserved{min-height:var(--reserve,0)}  /* keeps height only when visible */
-    .is-invisible{display:none !important}
+    a {
+      color: var(--brand);
+      text-decoration-thickness: .08em;
+      text-underline-offset: .18em
+    }
+
+    .wrap {
+      width: min(100% - 24px, 1120px);
+      margin: 24px auto
+    }
+
+    .card {
+      background: #121826;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1rem
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      padding: .6rem .9rem;
+      border-radius: var(--radius);
+      background: var(--brand);
+      color: #0b1020;
+      border: 0;
+      font-weight: 800;
+      text-decoration: none;
+      cursor: pointer
+    }
+
+    .btn.secondary {
+      background: #1a2436;
+      color: var(--text);
+      border: 1px solid var(--border)
+    }
+
+    .btn.secondary.sm {
+      padding: .45rem .7rem;
+      font-weight: 700
+    }
+
+    .pill,
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: .35rem;
+      padding: .25rem .6rem;
+      border-radius: 999px;
+      background: #182033;
+      border: 1px solid var(--border);
+      font-size: .85rem;
+      color: var(--muted)
+    }
+
+    .badge {
+      font-size: .75rem;
+      background: #0d1628;
+      color: #9fb5ff;
+      border-color: #2a3a5a
+    }
+
+    .note {
+      color: var(--muted)
+    }
+
+    .note.small {
+      font-size: .9rem
+    }
+
+    .sr-only {
+      position: absolute;
+      left: -9999px
+    }
+
+    /* Header */
+    .site {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: linear-gradient(180deg, #0f1419, #0f1419f2 70%, transparent);
+      backdrop-filter: saturate(140%) blur(6px);
+      border-bottom: 1px solid #0f1a2a
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      width: min(100% - 24px, 1120px);
+      margin: 0 auto;
+      min-height: 56px;
+      padding: 8px 0
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: .6rem;
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 900
+    }
+
+    .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .75rem
+    }
+
+    .nav-links a {
+      color: var(--text);
+      opacity: .9;
+      text-decoration: none;
+      padding: .25rem .4rem;
+      border-radius: .5rem
+    }
+
+    .nav-links a[aria-current="page"] {
+      background: #182033;
+      border: 1px solid var(--border)
+    }
+
+    /* Hero */
+    .hero {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 12px;
+      align-items: center;
+      min-height: 128px
+    }
+
+    .hero-logo {
+      width: 48px;
+      height: 48px
+    }
+
+    h1 {
+      margin: .1rem 0 .25rem 0;
+      line-height: 1.25
+    }
+
+    /* Controls */
+    .controls {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: .75rem;
+      margin: 16px 0 8px
+    }
+
+    .controls .search {
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+      background: #0e1628;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: .4rem .6rem
+    }
+
+    .controls .search span {
+      opacity: .8
+    }
+
+    .controls .search .input {
+      flex: 1;
+      min-width: 0;
+      background: transparent;
+      border: 0;
+      outline: 0;
+      color: var(--text);
+      font-size: 1rem
+    }
+
+    .filters {
+      display: flex;
+      gap: .5rem;
+      flex-wrap: wrap
+    }
+
+    /* Category bar */
+    .catbar {
+      display: flex;
+      gap: .5rem;
+      overflow: auto;
+      padding: .5rem;
+      border: 1px solid var(--border);
+      border-radius: .75rem;
+      background: #0d1626;
+      scrollbar-width: thin
+    }
+
+    .cat-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: .45rem;
+      padding: .45rem .7rem;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: #121a2c;
+      color: var(--text);
+      white-space: nowrap;
+      font-weight: 700;
+      cursor: pointer
+    }
+
+    .cat-pill[aria-current="true"] {
+      outline: 2px solid #3b82f6
+    }
+
+    /* Grid + cards */
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 12px
+    }
+
+    .tool-card {
+      min-height: 200px
+    }
+
+    .tool-title {
+      display: inline-block
+    }
+
+    .tool-desc {
+      min-height: 2.3em
+    }
+
+    .tags {
+      display: flex;
+      gap: .35rem;
+      flex-wrap: wrap
+    }
+
+    /* Video */
+    .video-shell {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16/9;
+      border-radius: .75rem;
+      overflow: hidden;
+      background: #0b1220;
+      border: 1px solid var(--border)
+    }
+
+    .video-shell iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0
+    }
+
+    /* Hide empty sections fully */
+    .reserved {
+      min-height: var(--reserve, 0)
+    }
+
+    .is-invisible {
+      display: none !important
+    }
 
     /* Skeletons */
-    .skeleton{position:relative;overflow:hidden;background:#0f1627;border:1px solid var(--border);border-radius:var(--radius)}
-    .s1{height:20px;width:40%;margin:.3rem 0;border-radius:.35rem}
-    .s2{height:14px;width:70%;margin:.25rem 0;border-radius:.35rem}
-    .s3{height:14px;width:55%;margin:.25rem 0;border-radius:.35rem}
-    .skeleton::after{content:"";position:absolute;inset:0;transform:translateX(-100%);background:linear-gradient(90deg,transparent,rgba(255,255,255,.06),transparent);animation:sh .9s infinite}
-    @keyframes sh{to{transform:translateX(100%)}}
+    .skeleton {
+      position: relative;
+      overflow: hidden;
+      background: #0f1627;
+      border: 1px solid var(--border);
+      border-radius: .75rem
+    }
 
-    @media (prefers-reduced-motion:no-preference){
-      .tool-card,.card{transition:transform .12s ease, box-shadow .12s ease}
-      .tool-card:hover{transform:translateY(-1px)}
+    .s1 {
+      height: 20px;
+      width: 40%;
+      margin: .3rem 0;
+      border-radius: .35rem
+    }
+
+    .s2 {
+      height: 14px;
+      width: 70%;
+      margin: .25rem 0;
+      border-radius: .35rem
+    }
+
+    .s3 {
+      height: 14px;
+      width: 55%;
+      margin: .25rem 0;
+      border-radius: .35rem
+    }
+
+    .skeleton::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      transform: translateX(-100%);
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, .06), transparent);
+      animation: sh .9s infinite
+    }
+
+    @keyframes sh {
+      to {
+        transform: translateX(100%)
+      }
     }
   </style>
 
-  <!-- Promote CSS without media-swap -->
+  <!-- Global CSS & (attempt) shared utils -->
+
   <link rel="preload" href="/style.css?v=1.3.0" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <noscript><link rel="stylesheet" href="/style.css?v=1.3.0"></noscript>
+  <noscript>
+    <link rel="stylesheet" href="/style.css?v=1.3.0">
+  </noscript>
+  <script src="/scripts/utils.js?v=1.3.0" defer></script>
 
   <!-- Structured Data -->
+
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"WebSite","name":"UpTools","url":"https://www.uptools.in/","publisher":{"@type":"Organization","name":"UpTools","logo":{"@type":"ImageObject","url":"https://www.uptools.in/assets/logo/uptools-logo.svg","width":256,"height":256}},"potentialAction":{"@type":"SearchAction","target":"https://www.uptools.in/?q={search_term_string}","query-input":"required name=search_term_string"}}
   </script>
+
   <script type="application/ld+json">
-  {"@context":"https://schema.org","@type":"ItemList","name":"Featured Tools","itemListElement":[
-    {"@type":"ListItem","position":1,"url":"https://www.uptools.in/income-tax-tool/"},
-    {"@type":"ListItem","position":2,"url":"https://www.uptools.in/gst-calculator/"},
-    {"@type":"ListItem","position":3,"url":"https://www.uptools.in/emi-calculator/"},
-    {"@type":"ListItem","position":4,"url":"https://www.uptools.in/currency-converter/"},
-    {"@type":"ListItem","position":5,"url":"https://www.uptools.in/ifsc-finder/"}
+  {"@context":"https://schema.org","@type":"CollectionPage","name":"UpTools - Tool Categories","url":"https://www.uptools.in/","about":[
+    {"@type":"Thing","name":"Finance"},{"@type":"Thing","name":"Tax"},{"@type":"Thing","name":"Banking"},
+    {"@type":"Thing","name":"Images"},{"@type":"Thing","name":"Text"},{"@type":"Thing","name":"Developer"},
+    {"@type":"Thing","name":"Security"},{"@type":"Thing","name":"Networking"},{"@type":"Thing","name":"Fun"},
+    {"@type":"Thing","name":"Health"},{"@type":"Thing","name":"Canada"},{"@type":"Thing","name":"Romantic"}
   ]}
   </script>
+
 </head>
-<body style="--accent:#60A5FA;--bg1:#0f1419;--bg2:#182033">
-   <!-- Ad slot (visible by default; collapses if no fill) -->
-    <section id="adWrap" class="section" aria-label="Advertisement">
-      <!-- horizontal_ad -->
-      <ins class="adsbygoogle"
-           style="display:block"
-           data-ad-client="ca-pub-6216304334889617"
-           data-ad-slot="9651757525"
-           data-ad-format="auto"
-           data-full-width-responsive="true"></ins>
-      <script>try{(adsbygoogle=window.adsbygoogle||[]).push({});}catch(e){}</script>
-    </section>
+
+<body>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617"
+    crossorigin="anonymous"></script>
+  <!-- horizontal_fixed -->
+  <ins class="adsbygoogle" style="display:inline-block;width:728px;height:90px" data-ad-client="ca-pub-6216304334889617"
+    data-ad-slot="3354760728"></ins>
+  <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+
   <a href="#main" class="sr-only">Skip to content</a>
+
+  <!-- Header -->
 
   <header class="site" role="banner">
     <div class="header-inner">
@@ -141,10 +444,12 @@
   <main id="main" class="wrap" role="main">
     <!-- Hero -->
     <section class="card hero" aria-labelledby="hero-title">
-      <img class="hero-logo" src="/assets/logo/uptools-logo.svg" alt="UpTools compact logo" width="48" height="48" loading="eager">
+      <img class="hero-logo" src="/assets/logo/uptools-logo.svg" alt="UpTools compact logo" width="48" height="48"
+        loading="eager">
       <div>
         <h1 id="hero-title">Your everyday toolkit.</h1>
-        <p class="note" style="margin:0">Calculators, converters, formatters &amp; games - fast, privacy-first, no sign-ups.</p>
+        <p class="note" style="margin:0">Calculators, converters, formatters &amp; games — fast, privacy-first, no
+          sign-ups.</p>
         <div class="chips" style="margin-top:10px">
           <span class="pill">⚡ Loads fast</span>
           <span class="pill">🕵️ Privacy-first</span>
@@ -152,12 +457,12 @@
         </div>
       </div>
     </section>
-
-    <!-- Search + filters -->
-    <section class="controls" aria-label="Search and filters" style="display:grid;grid-template-columns:1fr;gap:.75rem;margin:16px 0 8px">
+    <!-- Search + tags -->
+    <section class="controls" aria-label="Search and filters">
       <div class="search" role="search">
         <span aria-hidden="true">🔎</span>
-        <input id="q" class="input" type="search" inputmode="search" placeholder="Search tools (e.g., tax, gst, currency, json)…" aria-label="Search tools">
+        <input id="q" class="input" type="search" inputmode="search"
+          placeholder="Search tools (e.g., tax, gst, currency, json)…" aria-label="Search tools">
         <button class="btn secondary" id="clearBtn" aria-label="Clear search" title="Clear">Clear</button>
       </div>
       <div class="filters" aria-label="Tags">
@@ -171,11 +476,16 @@
         <label class="chip"><input type="checkbox" value="identity"> Identity</label>
         <label class="chip"><input type="checkbox" value="canada"> Canada</label>
         <label class="chip"><input type="checkbox" value="networking"> Networking</label>
+        <label class="chip"><input type="checkbox" value="fun"> Fun</label>
       </div>
     </section>
 
+    <!-- Category bar -->
+    <section class="card" aria-label="Browse by category">
+      <div id="catBar" class="catbar" role="tablist" aria-label="Categories"></div>
+    </section>
 
-    <!-- Recently used (start hidden; collapses when empty) -->
+    <!-- Recently used -->
     <section class="section reserved is-invisible" id="recentSec" style="--reserve:280px">
       <h2>⏱️ Continue</h2>
       <div class="tools-grid" id="recentGrid" role="region" aria-live="polite">
@@ -186,7 +496,7 @@
       <p class="note small">Tip: recent tools are saved on this device only.</p>
     </section>
 
-    <!-- Favourites (start hidden; collapses when empty) -->
+    <!-- Favourites -->
     <section class="section reserved is-invisible" id="favSec" style="--reserve:280px">
       <h2>⭐ Your favourites</h2>
       <div class="tools-grid" id="favGrid" role="region" aria-live="polite">
@@ -199,22 +509,52 @@
     <section class="section" aria-labelledby="featured">
       <h2 id="featured">🔥 Featured</h2>
       <div id="featuredGrid" class="tools-grid">
-        <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
-        <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
-        <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
-        <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
+        <article class="card skeleton" style="height:200px;padding:1rem">
+          <div class="s1"></div>
+          <div class="s2"></div>
+          <div class="s3"></div>
+        </article>
+        <article class="card skeleton" style="height:200px;padding:1rem">
+          <div class="s1"></div>
+          <div class="s2"></div>
+          <div class="s3"></div>
+        </article>
+        <article class="card skeleton" style="height:200px;padding:1rem">
+          <div class="s1"></div>
+          <div class="s2"></div>
+          <div class="s3"></div>
+        </article>
+        <article class="card skeleton" style="height:200px;padding:1rem">
+          <div class="s1"></div>
+          <div class="s2"></div>
+          <div class="s3"></div>
+        </article>
       </div>
 
       <!-- All tools -->
       <section class="section" id="tools" aria-labelledby="tools-heading">
         <h2 id="tools-heading">🧰 All tools</h2>
         <div class="tools-grid" id="grid" role="region" aria-live="polite">
-          <!-- 24 placeholders to lock grid height -->
-          <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
-          <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
-          <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
-          <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
-          <!-- ...keep the rest of your placeholders... -->
+          <article class="card skeleton" style="height:200px;padding:1rem">
+            <div class="s1"></div>
+            <div class="s2"></div>
+            <div class="s3"></div>
+          </article>
+          <article class="card skeleton" style="height:200px;padding:1rem">
+            <div class="s1"></div>
+            <div class="s2"></div>
+            <div class="s3"></div>
+          </article>
+          <article class="card skeleton" style="height:200px;padding:1rem">
+            <div class="s1"></div>
+            <div class="s2"></div>
+            <div class="s3"></div>
+          </article>
+          <article class="card skeleton" style="height:200px;padding:1rem">
+            <div class="s1"></div>
+            <div class="s2"></div>
+            <div class="s3"></div>
+          </article>
         </div>
       </section>
 
@@ -223,17 +563,15 @@
         <h2 id="video-learn">🎥 Learn: Using calculators smartly</h2>
         <div class="card">
           <div class="video-shell" aria-label="Tutorial video">
-            <iframe
-              src="https://www.youtube-nocookie.com/embed/WjfAsX8fQ3U"
-              title="12 AI Tools You Won't Believe Are FREE!"
-              loading="lazy"
+            <iframe src="https://www.youtube-nocookie.com/embed/WjfAsX8fQ3U"
+              title="12 AI Tools You Won't Believe Are FREE!" loading="lazy"
               referrerpolicy="strict-origin-when-cross-origin"
               allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowfullscreen>
             </iframe>
           </div>
           <p class="note small" style="margin-top:8px">
-            A curated video showcasing free web tools - great inspiration aligned with UpTools' privacy-first, no-sign-up ethos.
+            A curated video showcasing free web tools — aligned with UpTools' privacy-first, no-sign-up ethos.
           </p>
         </div>
       </section>
@@ -241,206 +579,296 @@
       <!-- Footer -->
       <footer class="note small site-footer" role="contentinfo">
         © <span id="y"></span> UpTools · <a href="/about/">About</a> · <a href="/contact/">Contact</a> ·
-        <a href="/sitemap.xml">Sitemap</a> · <a href="/robots.txt">Robots</a>
+        <a href="/sitemap.xml">Sitemap</a> · <a href="/robots.txt">Robots</a> ·
+        <a href="/privacy-policy/">Privacy Policy</a>
       </footer>
     </section>
 
-    <!-- BELOW-FOLD RESERVE: holds page height through first paint, then collapses -->
-    <div id="belowFoldReserve" style="height:1800px"></div>
+    <!-- BELOW-FOLD reserve (collapsed after load for CLS control) -->
+    <div id="belowFoldReserve" style="height:1600px"></div>
+
   </main>
 
-  <script>
-    // --- Data ---
-    const TOOLS = [
-      { slug:"income-tax-tool", title:"Income Tax Calculator", icon:"🧮", desc:"Estimate income tax quickly.", href:"/income-tax-tool/", tags:["tax","finance"] },
-      { slug:"gst-calculator", title:"GST Calculator", icon:"🧾", desc:"Add/remove GST from amounts.", href:"/gst-calculator/", tags:["tax","finance"] },
-      { slug:"emi-calculator", title:"EMI Calculator", icon:"💳", desc:"Monthly loan repayment planner.", href:"/emi-calculator/", tags:["finance"] },
-      { slug:"fd-calculator", title:"FD Calculator", icon:"🏦", desc:"Fixed deposit maturity calculator.", href:"/fd-calculator/", tags:["finance"] },
-      { slug:"sip-calculator", title:"SIP Calculator", icon:"📈", desc:"Plan SIP returns with ease.", href:"/sip-calculator/", tags:["finance"] },
-      { slug:"age-calculator", title:"Age Calculator", icon:"🎂", desc:"Find exact age by date.", href:"/age-calculator/", tags:["identity"] },
-      { slug:"currency-converter", title:"Currency Converter (live)", icon:"💱", desc:"Convert FX with live rates.", href:"/currency-converter/", tags:["finance","networking"] },
-      { slug:"pan-validator", title:"PAN Format Validator", icon:"🪪", desc:"Check PAN format validity.", href:"/pan-validator/", tags:["identity","text"] },
-      { slug:"ifsc-finder", title:"IFSC Finder (live)", icon:"🏧", desc:"Search bank IFSC codes.", href:"/ifsc-finder/", tags:["banking","networking"] },
-      { slug:"canada-crs-tool", title:"Canada CRS Calculator", icon:"🍁", desc:"Estimate Express Entry CRS.", href:"/canada-crs-tool/", tags:["canada","identity"] },
-      { slug:"canada-hst-tool", title:"Canada GST/HST Calculator", icon:"🍁", desc:"Sales tax for provinces.", href:"/canada-hst-tool/", tags:["canada","tax"] },
-      { slug:"password-generator", title:"Password Generator", icon:"🔐", desc:"Strong, random passwords.", href:"/password-generator/", tags:["security"] },
-      { slug:"qr-generator", title:"QR Code Generator", icon:"🔳", desc:"Create QR codes instantly.", href:"/qr-generator/", tags:["images","dev"] },
-      { slug:"text-case-converter", title:"Text Case Converter", icon:"🔤", desc:"Upper, lower, title case.", href:"/text-case-converter/", tags:["text"] },
-      { slug:"word-counter", title:"Word Counter", icon:"📝", desc:"Count words & characters.", href:"/word-counter/", tags:["text"] },
-      { slug:"json-formatter", title:"JSON Formatter", icon:"🧩", desc:"Prettify & validate JSON.", href:"/json-formatter/", tags:["dev"] },
-      { slug:"base64-encoder", title:"Base64 Encoder/Decoder", icon:"🧪", desc:"Encode/decode Base64.", href:"/base64-encoder/", tags:["dev"] },
-      { slug:"ip-address", title:"Your IP Address", icon:"🌐", desc:"Public IP & user agent.", href:"/ip-address/", tags:["networking"] },
-      { slug:"uuid-generator", title:"UUID Generator", icon:"🆔", desc:"Generate V4 UUIDs.", href:"/uuid-generator/", tags:["dev"] },
-      { slug:"color-picker", title:"Color Picker", icon:"🎨", desc:"Pick, copy, convert colors.", href:"/color-picker/", tags:["images","dev"] },
-      { slug:"games", title:"Free Online Games", icon:"🎮", desc:"Snake, 2048, Tic Tac Toe & more.", href:"/games/", tags:["fun"] },
-      { slug:"image-tool", title:"Image Tool", icon:"🖼️", desc:"Remove backgrounds, crop, resize, convert formats, and apply effects.", href:"/image-tool/", tags:["images","dev"] },
-      { slug:"image-converter", title:"Image Converter", icon:"🖼️", desc:"Resize, crop, and change image formats instantly.", href:"/image-converter/", tags:["images","dev"] },
-      { slug:"bmi-calculator", title:"BMI Calculator", icon:"⚖️", desc:"Check BMI with metric & US units. Shows category, healthy range, body fat %, WHtR.", href:"/bmi-calculator/", tags:["health","identity"] },
-      { slug:"ai-writer", title:"AI Writer", icon:"✍️", desc:"Generate text using AI assistance.", href:"/ai-writer/", tags:["text","dev","ai"] },
-      { slug:"resume-analyzer", title:"AI Resume Analyzer", icon:"📄", desc:"Check ATS score, missing skills & job match.", href:"/resume-analyzer/", tags:["text","identity","dev","ai"] },
-      { slug:"qr-reader", title:"QR Code Reader", icon:"📷", desc:"Scan and decode QR codes instantly using your camera.", href:"/qr-reader/", tags:["images","security","qr"] },
-      { slug:"ai-plagiarism", title:"AI Plagiarism Checker", icon:"📚", desc:"Check text for plagiarism instantly with AI.", href:"/ai-plagiarism/", tags:["text","dev","ai"] }
-    ];
+  <!-- App script (DEFERRED). Includes SAFE FALLBACKS so content renders even if /scripts/utils.js fails. -->
 
-    // Helpers
-    const $$=(s,r=document)=>[...r.querySelectorAll(s)];
-    const $ =(s,r=document)=>r.querySelector(s);
-    const persist=(k,v)=>{ try{ localStorage.setItem(k, JSON.stringify(v)); }catch{} };
-    const read=(k,d=null)=>{ try{ return JSON.parse(localStorage.getItem(k)) ?? d }catch{ return d } };
+  <script defer>
+    (function () {
+      // ---- Safe fallbacks if shared utils not loaded ----
+      const $ = window.$ || ((s, r = document) => r.querySelector(s));
+      const $$ = window.$$ || ((s, r = document) => Array.from(r.querySelectorAll(s)));
+      const debounce = window.debounce || ((fn, d = 150) => { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), d); }; });
+      const persist = window.persist || ((k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch { } });
+      const read = window.read || ((k, d = null) => { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch { return d } });
 
-    const grid=$("#grid"), favSec=$("#favSec"), recentSec=$("#recentSec"),
-          q=$("#q");
-    $("#y").textContent = new Date().getFullYear();
+      // ---- Categories ----
+      const CATEGORIES = {
+        all: { label: "All", icon: "🗂️", desc: "Every tool on UpTools" },
+        finance: { label: "Finance", icon: "💰", desc: "Money, loans & returns" },
+        tax: { label: "Tax", icon: "🧮", desc: "GST, Income Tax & HST" },
+        banking: { label: "Banking", icon: "🏦", desc: "IFSC & bank utilities" },
+        images: { label: "Images", icon: "🖼️", desc: "Convert, edit, generate" },
+        text: { label: "Text", icon: "🔤", desc: "Formatters & counters" },
+        dev: { label: "Developer", icon: "🧩", desc: "JSON, UUID, Base64, QR" },
+        security: { label: "Security", icon: "🔐", desc: "Passwords & QR reader" },
+        networking: { label: "Networking", icon: "🌐", desc: "IP & network helpers" },
+        fun: { label: "Fun", icon: "🎮", desc: "Mini games" },
+        health: { label: "Health", icon: "⚖️", desc: "BMI & wellness" },
+        canada: { label: "Canada", icon: "🍁", desc: "CRS & HST tools" },
+        romantic: { label: "Romantic", icon: "💞", desc: "Couple & love utilities" }
+      };
 
-    const FAV_KEY="uptools-tool-favs";
-    const RECENT_KEY="uptools-tool-recent";
-    const getFavs=()=>new Set(read(FAV_KEY,[]));
-    const setFavs=(s)=>persist(FAV_KEY,[...s]);
-    const getRecent=()=>read(RECENT_KEY,[]);
-    const pushRecent=(slug)=>{
-      const now=Date.now();
-      const list=getRecent().filter(x=>x.slug!==slug);
-      list.unshift({slug,ts:now});
-      persist(RECENT_KEY, list.slice(0,10));
-    };
+      // ---- Tools (assign categories with `cats`) ----
+      const TOOLS = [
+        { slug: "income-tax-tool", title: "Income Tax Calculator", icon: "🧮", desc: "Estimate income tax quickly.", href: "/income-tax-tool/", tags: ["tax", "finance"], cats: ["tax", "finance"] },
+        { slug: "gst-calculator", title: "GST Calculator", icon: "🧾", desc: "Add/remove GST from amounts.", href: "/gst-calculator/", tags: ["tax", "finance"], cats: ["tax", "finance"] },
+        { slug: "emi-calculator", title: "EMI Calculator", icon: "💳", desc: "Monthly loan repayment planner.", href: "/emi-calculator/", tags: ["finance"], cats: ["finance"] },
+        { slug: "fd-calculator", title: "FD Calculator", icon: "🏦", desc: "Fixed deposit maturity calculator.", href: "/fd-calculator/", tags: ["finance"], cats: ["finance", "banking"] },
+        { slug: "sip-calculator", title: "SIP Calculator", icon: "📈", desc: "Plan SIP returns with ease.", href: "/sip-calculator/", tags: ["finance"], cats: ["finance"] },
+        { slug: "age-calculator", title: "Age Calculator", icon: "🎂", desc: "Find exact age by date.", href: "/age-calculator/", tags: ["identity"], cats: ["text"] },
+        { slug: "currency-converter", title: "Currency Converter (live)", icon: "💱", desc: "Convert FX with live rates.", href: "/currency-converter/", tags: ["finance", "networking"], cats: ["finance", "networking"] },
+        { slug: "pan-validator", title: "PAN Format Validator", icon: "🪪", desc: "Check PAN format validity.", href: "/pan-validator/", tags: ["identity", "text"], cats: ["text"] },
+        { slug: "ifsc-finder", title: "IFSC Finder (live)", icon: "🏧", desc: "Search bank IFSC codes.", href: "/ifsc-finder/", tags: ["banking", "networking"], cats: ["banking"] },
+        { slug: "canada-crs-tool", title: "Canada CRS Calculator", icon: "🍁", desc: "Estimate Express Entry CRS.", href: "/canada-crs-tool/", tags: ["canada", "identity"], cats: ["canada"] },
+        { slug: "canada-hst-tool", title: "Canada GST/HST Calculator", icon: "🍁", desc: "Sales tax for provinces.", href: "/canada-hst-tool/", tags: ["canada", "tax"], cats: ["canada", "tax"] },
+        { slug: "password-generator", title: "Password Generator", icon: "🔐", desc: "Strong, random passwords.", href: "/password-generator/", tags: ["security"], cats: ["security", "dev"] },
+        { slug: "qr-generator", title: "QR Code Generator", icon: "🔳", desc: "Create QR codes instantly.", href: "/qr-generator/", tags: ["images", "dev"], cats: ["images", "dev"] },
+        { slug: "text-case-converter", title: "Text Case Converter", icon: "🔤", desc: "Upper, lower, title case.", href: "/text-case-converter/", tags: ["text"], cats: ["text"] },
+        { slug: "word-counter", title: "Word Counter", icon: "📝", desc: "Count words & characters.", href: "/word-counter/", tags: ["text"], cats: ["text"] },
+        { slug: "json-formatter", title: "JSON Formatter", icon: "🧩", desc: "Prettify & validate JSON.", href: "/json-formatter/", tags: ["dev"], cats: ["dev"] },
+        { slug: "base64-encoder", title: "Base64 Encoder/Decoder", icon: "🧪", desc: "Encode/decode Base64.", href: "/base64-encoder/", tags: ["dev"], cats: ["dev"] },
+        { slug: "ip-address", title: "Your IP Address", icon: "🌐", desc: "Public IP & user agent.", href: "/ip-address/", tags: ["networking"], cats: ["networking", "security"] },
+        { slug: "uuid-generator", title: "UUID Generator", icon: "🆔", desc: "Generate V4 UUIDs.", href: "/uuid-generator/", tags: ["dev"], cats: ["dev"] },
+        { slug: "color-picker", title: "Color Picker", icon: "🎨", desc: "Pick, copy, convert colors.", href: "/color-picker/", tags: ["images", "dev"], cats: ["images", "dev"] },
+        { slug: "games", title: "Free Online Games", icon: "🎮", desc: "Snake, 2048, Tic Tac Toe & more.", href: "/games/", tags: ["fun"], cats: ["fun"] },
+        { slug: "image-tool", title: "Image Tool", icon: "🖼️", desc: "Remove backgrounds, crop, resize, convert formats, and apply effects.", href: "/image-tool/", tags: ["images", "dev"], cats: ["images"] },
+        { slug: "image-converter", title: "Image Converter", icon: "🖼️", desc: "Resize, crop, and change image formats instantly.", href: "/image-converter/", tags: ["images", "dev"], cats: ["images"] },
+        { slug: "bmi-calculator", title: "BMI Calculator", icon: "⚖️", desc: "BMI with metric & US units. Shows category, healthy range, body fat %, WHtR.", href: "/bmi-calculator/", tags: ["health", "identity"], cats: ["health"] },
+        { slug: "ai-writer", title: "AI Writer", icon: "✍️", desc: "Generate text using AI assistance.", href: "/ai-writer/", tags: ["text", "dev", "ai"], cats: ["text", "dev"] },
+        { slug: "resume-analyzer", title: "AI Resume Analyzer", icon: "📄", desc: "Check ATS score, missing skills & job match.", href: "/resume-analyzer/", tags: ["text", "identity", "dev", "ai"], cats: ["text", "dev"] },
+        { slug: "qr-reader", title: "QR Code Reader", icon: "📷", desc: "Scan and decode QR codes with your camera.", href: "/qr-reader/", tags: ["images", "security", "qr"], cats: ["security", "images"] },
+        { slug: "ai-plagiarism", title: "AI Plagiarism Checker", icon: "📚", desc: "Check text for plagiarism instantly with AI.", href: "/ai-plagiarism/", tags: ["text", "dev", "ai"], cats: ["text", "dev"] }
+        // Future romantic example:
+        // { slug:"couple-compatibility", title:"Couple Compatibility", icon:"💞", desc:"Love score & date-night ideas.", href:"/couple-compatibility/", tags:["fun","identity"], cats:["romantic","fun"] },
+      ];
 
-    function cardHTML(t,favs){
-      const isFav=favs.has(t.slug);
-      const tags=(t.tags||[]).slice(0,4).map(x=>`<span class="tag">${x}</span>`).join("");
-      const badge=t.tags?.includes("finance")?"Finance":
-        t.tags?.includes("tax")?"Tax":
-        t.tags?.includes("dev")?"Dev":
-        t.tags?.includes("banking")?"Banking":
-        t.tags?.includes("security")?"Security":
-        t.tags?.includes("images")?"Images":
-        t.tags?.includes("text")?"Text":
-        t.tags?.includes("canada")?"Canada":
-        t.tags?.includes("networking")?"Networking":"Tool";
-      return `
-      <article class="tool-card card" data-tags="${(t.tags||[]).join(',')}" data-title="${t.title.toLowerCase()}" style="display:grid;grid-template-rows:auto auto 1fr auto;gap:.4rem">
-        <div class="tool-top" style="display:flex;align-items:center;justify-content:space-between;gap:.6rem">
-          <div class="tool-ico" aria-hidden="true" style="font-size:20px">${t.icon}</div>
-          <span class="badge pill">${badge}</span>
+      // ---- Elements ----
+      const grid = $("#grid");
+      const favSec = $("#favSec");
+      const recentSec = $("#recentSec");
+      const q = $("#q");
+      const catBar = $("#catBar");
+      $("#y").textContent = new Date().getFullYear();
+
+      let ACTIVE_CAT = "all";
+      const FAV_KEY = "uptools-tool-favs";
+      const RECENT_KEY = "uptools-tool-recent";
+
+      const getFavs = () => new Set(read(FAV_KEY, []));
+      const setFavs = (s) => persist(FAV_KEY, [...s]);
+      const getRecent = () => read(RECENT_KEY, []);
+      const pushRecent = (slug) => {
+        const now = Date.now();
+        const list = getRecent().filter(x => x.slug !== slug);
+        list.unshift({ slug, ts: now });
+        persist(RECENT_KEY, list.slice(0, 10));
+      };
+
+      // ---- Rendering helpers ----
+      function badgeFor(t) {
+        const c = (t.cats || [])[0] || "all";
+        return CATEGORIES[c]?.label || "Tool";
+      }
+      function tagBadges(t) {
+        return (t.tags || []).slice(0, 4).map(x => `<span class="pill">${x}</span>`).join("");
+      }
+      function cardHTML(t, favs) {
+        const isFav = favs.has(t.slug);
+        return `
+      <article class="tool-card card" data-tags="${(t.tags || []).join(',')}" data-title="${t.title.toLowerCase()}" data-cats="${(t.cats || []).join(',')}">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:.6rem">
+          <div aria-hidden="true" style="font-size:20px">${t.icon}</div>
+          <span class="badge pill">${badgeFor(t)}</span>
         </div>
-        <a class="tool-title" href="${t.href}" aria-label="${t.title}" style="font-size:1.05rem;font-weight:800;text-decoration:none;color:var(--text)">${t.title}</a>
+        <a class="tool-title" href="${t.href}" aria-label="${t.title}" style="font-size:1.05rem;font-weight:800;text-decoration:none;color:inherit">${t.title}</a>
         <p class="tool-desc note">${t.desc}</p>
-        <div class="tags" style="display:flex;gap:.35rem;flex-wrap:wrap">${tags}</div>
-        <div class="card-cta" style="display:flex;align-items:center;justify-content:space-between;gap:.5rem;margin-top:.35rem">
+        <div class="tags">${tagBadges(t)}</div>
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:.5rem;margin-top:.35rem">
           <a class="btn" href="${t.href}">Open</a>
-          <button class="fav btn secondary sm ${isFav?'active':''}" data-fav="${t.slug}" aria-label="Favourite ${t.title}" title="Favourite">
-            ${isFav?'★ Favourited':'☆ Favourite'}
+          <button class="fav btn secondary sm ${isFav ? 'active' : ''}" data-fav="${t.slug}" aria-label="Favourite ${t.title}" title="Favourite">
+            ${isFav ? '★ Favourited' : '☆ Favourite'}
           </button>
         </div>
       </article>`;
-    }
-
-    function bindInteractions(scope){
-      scope.querySelectorAll("[data-fav]").forEach(btn=>{
-        btn.addEventListener("click",(ev)=>{
-          ev.preventDefault();
-          const slug=btn.getAttribute("data-fav");
-          const favs=getFavs();
-          favs.has(slug)?favs.delete(slug):favs.add(slug);
-          setFavs(favs);
-          document.querySelectorAll(`[data-fav="${slug}"]`).forEach(b=>{
-            const active=favs.has(slug);
-            b.classList.toggle("active", active);
-            b.textContent=active?"★ Favourited":"☆ Favourite";
-          });
-          renderFavs();
-        }, {passive:true});
-      });
-      scope.querySelectorAll("a.btn, a.tool-title").forEach(a=>{
-        a.addEventListener("click", ()=>{
-          const slug=a.closest(".tool-card").querySelector("[data-fav]").getAttribute("data-fav");
-          pushRecent(slug);
-        }, {passive:true});
-      });
-    }
-
-    function mount(container,list){
-      const favs=getFavs();
-      container.innerHTML=list.map(t=>cardHTML(t,favs)).join("");
-      bindInteractions(container);
-    }
-    function renderAll(list){ mount(grid, list) }
-    function renderFavs(){
-      const favs=getFavs();
-      const list=TOOLS.filter(t=>favs.has(t.slug));
-      const has=list.length>0;
-      favSec.classList.toggle('is-invisible', !has);
-      if(has) mount(document.getElementById("favGrid"), list);
-    }
-    function renderRecent(){
-      const rec=getRecent().slice(0,8);
-      const list=rec.map(r=>TOOLS.find(t=>t.slug===r.slug)).filter(Boolean);
-      const has=list.length>0;
-      recentSec.classList.toggle('is-invisible', !has);
-      if(has) mount(document.getElementById("recentGrid"), list);
-    }
-
-    // Filters
-    const filtersEl=document.querySelector('.filters');
-    const currentFilters=()=>[...filtersEl.querySelectorAll('input:checked')].map(i=>i.value);
-    function applyFilters(){
-      const text=q.value.trim().toLowerCase();
-      const filters=currentFilters();
-      const cards=[...document.querySelectorAll(".tool-card")];
-      for(const c of cards){
-        const title=c.dataset.title;
-        const tags=(c.dataset.tags||"").split(",");
-        const matchesText=!text||title.includes(text);
-        const matchesTags=filters.length===0||filters.every(f=>tags.includes(f));
-        c.style.display=(matchesText&&matchesTags)?"grid":"none";
       }
-    }
-    const debounce=(fn,d=150)=>{let t;return(...a)=>{clearTimeout(t);t=setTimeout(()=>fn(...a),d)}}
-    q.addEventListener("input", debounce(applyFilters, 200), {passive:true});
-    document.getElementById('clearBtn').addEventListener('click', ()=>{ q.value=""; applyFilters(); q.focus(); });
+      function mount(container, list) {
+        const favs = getFavs();
+        container.innerHTML = list.map(t => cardHTML(t, favs)).join("");
+        bindInteractions(container);
+      }
+      function renderAll(list) { mount(grid, list); }
 
-    // URL hydration (supports ?q= and ?used=slug to seed recents)
-    (function hydrateFromURL(){
-      const u=new URL(location.href);
-      const s=u.searchParams.get("q");
-      if(s){ q.value=s; }
-      const used=u.searchParams.get("used");
-      if(used) pushRecent(used);
+      function renderFavs() {
+        const favs = getFavs();
+        const list = TOOLS.filter(t => favs.has(t.slug));
+        const has = list.length > 0;
+        favSec.classList.toggle("is-invisible", !has);
+        if (has) mount($("#favGrid"), list);
+      }
+      function renderRecent() {
+        const rec = getRecent().slice(0, 8);
+        const list = rec.map(r => TOOLS.find(t => t.slug === r.slug)).filter(Boolean);
+        const has = list.length > 0;
+        recentSec.classList.toggle("is-invisible", !has);
+        if (has) mount($("#recentGrid"), list);
+      }
+
+      // ---- Category bar ----
+      function countByCat() {
+        const counts = {};
+        for (const t of TOOLS) {
+          const cs = t.cats?.length ? t.cats : ["all"];
+          for (const c of cs) {
+            counts[c] = (counts[c] ?? 0) + 1;
+          }
+        }
+        counts.all = TOOLS.length;
+        return counts;
+      }
+      function buildCatBar() {
+        const counts = countByCat();
+        const order = ["all", ...Object.keys(CATEGORIES).filter(c => c !== "all")];
+        catBar.innerHTML = order
+          .filter(c => CATEGORIES[c])
+          .map(c => {
+            const { label, icon } = CATEGORIES[c];
+            const count = counts[c] ?? 0;
+            return `<button class="cat-pill" role="tab" aria-current="${c === ACTIVE_CAT}" data-cat="${c}" title="${label} — ${CATEGORIES[c].desc}">
+            <span aria-hidden="true">${icon}</span> ${label} <span class="count">(${count})</span>
+          </button>`;
+          }).join("");
+        $$(".cat-pill", catBar).forEach(btn => {
+          btn.addEventListener("click", () => {
+            ACTIVE_CAT = btn.getAttribute("data-cat");
+            $$(".cat-pill", catBar).forEach(b => b.setAttribute("aria-current", String(b === btn)));
+            applyFilters();
+            history.replaceState({}, "", ACTIVE_CAT === "all" ? location.pathname : `#cat=${ACTIVE_CAT}`);
+          }, { passive: true });
+        });
+      }
+
+      // ---- Filters (search + tags + category) ----
+      const filtersEl = $(".filters");
+      const currentTagFilters = () => [...filtersEl.querySelectorAll("input:checked")].map(i => i.value);
+
+      function matchesCategory(card) {
+        if (ACTIVE_CAT === "all") return true;
+        const cats = (card.dataset.cats || "").split(",").filter(Boolean);
+        return cats.includes(ACTIVE_CAT);
+      }
+      function matchesText(card, text) {
+        if (!text) return true;
+        const title = card.dataset.title || "";
+        return title.includes(text);
+      }
+      function matchesTags(card, filters) {
+        if (filters.length === 0) return true;
+        const tags = (card.dataset.tags || "").split(",").filter(Boolean);
+        return filters.every(f => tags.includes(f));
+      }
+      function applyFilters() {
+        const text = q.value.trim().toLowerCase();
+        const filters = currentTagFilters();
+        const cards = $$(".tool-card");
+        for (const c of cards) {
+          const show = matchesCategory(c) && matchesText(c, text) && matchesTags(c, filters);
+          c.style.display = show ? "grid" : "none";
+        }
+      }
+
+      // ---- Interactions ----
+      function bindInteractions(scope) {
+        scope.querySelectorAll("[data-fav]").forEach(btn => {
+          btn.addEventListener("click", (ev) => {
+            ev.preventDefault();
+            const slug = btn.getAttribute("data-fav");
+            const favs = getFavs();
+            favs.has(slug) ? favs.delete(slug) : favs.add(slug);
+            setFavs(favs);
+            document.querySelectorAll(`[data-fav="${slug}"]`).forEach(b => {
+              const active = favs.has(slug);
+              b.classList.toggle("active", active);
+              b.textContent = active ? "★ Favourited" : "☆ Favourite";
+            });
+            renderFavs();
+          }, { passive: true });
+        });
+        scope.querySelectorAll("a.btn, a.tool-title").forEach(a => {
+          a.addEventListener("click", () => {
+            const slug = a.closest(".tool-card").querySelector("[data-fav]").getAttribute("data-fav");
+            pushRecent(slug);
+          }, { passive: true });
+        });
+      }
+
+      // ---- URL hydration (supports ?q=, ?used=, and #cat=) ----
+      (function hydrateFromURL() {
+        const u = new URL(location.href);
+        const s = u.searchParams.get("q");
+        if (s) { q.value = s; }
+        const used = u.searchParams.get("used");
+        if (used) pushRecent(used);
+        const hash = new URLSearchParams(location.hash.replace(/^#/, ""));
+        const cat = hash.get("cat");
+        if (cat && CATEGORIES[cat]) ACTIVE_CAT = cat;
+      })();
+
+      // ---- Featured mount ----
+      (function mountFeatured() {
+        const feat = [
+          { slug: "income-tax-tool", title: "Income Tax Calculator", icon: "🧮", desc: "FY 2024-25 (AY 2025-26), New vs Old.", href: "/income-tax-tool/", tags: ["tax", "finance"], cats: ["tax", "finance"] },
+          { slug: "gst-calculator", title: "GST Calculator", icon: "🧾", desc: "Add/remove GST from totals.", href: "/gst-calculator/", tags: ["tax", "finance"], cats: ["tax", "finance"] },
+          { slug: "currency-converter", title: "Currency Converter", icon: "💱", desc: "Live interbank FX (with fallback).", href: "/currency-converter/", tags: ["finance", "networking"], cats: ["finance", "networking"] },
+          { slug: "emi-calculator", title: "EMI Calculator", icon: "💳", desc: "Plan monthly repayments.", href: "/emi-calculator/", tags: ["finance"], cats: ["finance"] }
+        ];
+        const g = $("#featuredGrid");
+        const favs = new Set();
+        g.innerHTML = feat.map(t => cardHTML(t, favs)).join("");
+        bindInteractions(g);
+      })();
+
+      // ---- Init ----
+      function init() {
+        buildCatBar();
+        renderAll(TOOLS);
+        renderFavs();
+        renderRecent();
+        applyFilters();
+      }
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", init, { once: true });
+      } else {
+        init();
+      }
+
+      // Re-hydrate on pageshow (bfcache restore)
+      window.addEventListener("pageshow", () => { renderFavs(); renderRecent(); }, { passive: true });
+
+      // Collapse spacer after load for CLS control
+      window.addEventListener("load", () => {
+        const r = $("#belowFoldReserve");
+        if (r) r.style.height = "0px";
+      }, { once: true });
+
+      // Keyboard + search
+      q.addEventListener("input", debounce(applyFilters, 200), { passive: true });
+      $("#clearBtn").addEventListener("click", () => { q.value = ""; applyFilters(); q.focus(); });
+      window.addEventListener("keydown", (e) => {
+        if (e.key === '/' && document.activeElement !== q) { e.preventDefault(); q.focus(); }
+        if (e.key === 'Escape') { q.blur(); }
+      }, { passive: false });
     })();
-
-    // Featured section mount
-    (function mountFeatured(){
-      const feat = [
-        { slug:"income-tax-tool", title:"Income Tax Calculator", icon:"🧮", desc:"FY 2024-25 (AY 2025-26), New vs Old.", href:"/income-tax-tool/", tags:["tax","finance"] },
-        { slug:"gst-calculator",    title:"GST Calculator",        icon:"🧾", desc:"Add/remove GST from totals.",      href:"/gst-calculator/",    tags:["tax","finance"] },
-        { slug:"currency-converter",title:"Currency Converter",    icon:"💱", desc:"Live interbank FX (with fallback).", href:"/currency-converter/", tags:["finance","networking"] },
-        { slug:"emi-calculator",    title:"EMI Calculator",        icon:"💳", desc:"Plan monthly repayments.",        href:"/emi-calculator/",    tags:["finance"] }
-      ];
-      const g = document.getElementById('featuredGrid');
-      const favs = new Set();
-      g.innerHTML = feat.map(t=>cardHTML(t, favs)).join('');
-      bindInteractions(g);
-    })();
-
-    // Init main content
-    renderAll(TOOLS);
-    renderFavs();
-    renderRecent();
-    applyFilters();
-
-    // Re-hydrate on pageshow (bfcache restore)
-    window.addEventListener('pageshow', ()=>{ renderFavs(); renderRecent(); }, {passive:true});
-
-    // BELOW-FOLD spacer collapse
-    window.addEventListener('load', ()=> {
-      const r = document.getElementById('belowFoldReserve');
-      if (r) { r.style.height = '0px'; }
-    }, { once: true });
-
-    // Keyboard helpers
-    window.addEventListener('keydown', (e)=>{
-      if(e.key==='/' && document.activeElement!==q){ e.preventDefault(); q.focus(); }
-      if(e.key==='Escape'){ q.blur(); }
-    }, {passive:false});
   </script>
+
 </body>
+
 </html>
