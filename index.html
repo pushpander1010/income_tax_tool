@@ -1,9 +1,6 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <!-- Google AdSense (load once, globally) -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617" crossorigin="anonymous"></script>
-
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>UpTools - Free Online Calculators, Converters & Mini Games</title>
@@ -73,10 +70,6 @@
     .video-shell{position:relative;width:100%;aspect-ratio:16/9;border-radius:var(--radius);overflow:hidden;background:#0b1220;border:1px solid var(--border)}
     .video-shell iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
 
-    /* Ad wrapper */
-    #adWrap{margin:12px 0}
-    #adWrap > .adsbygoogle{display:block}
-
     /* Hide empty sections fully to remove gaps */
     .reserved{min-height:var(--reserve,0)}  /* keeps height only when visible */
     .is-invisible{display:none !important}
@@ -114,6 +107,17 @@
   </script>
 </head>
 <body style="--accent:#60A5FA;--bg1:#0f1419;--bg2:#182033">
+   <!-- Ad slot (visible by default; collapses if no fill) -->
+    <section id="adWrap" class="section" aria-label="Advertisement">
+      <!-- horizontal_ad -->
+      <ins class="adsbygoogle"
+           style="display:block"
+           data-ad-client="ca-pub-6216304334889617"
+           data-ad-slot="9651757525"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+      <script>try{(adsbygoogle=window.adsbygoogle||[]).push({});}catch(e){}</script>
+    </section>
   <a href="#main" class="sr-only">Skip to content</a>
 
   <header class="site" role="banner">
@@ -170,17 +174,6 @@
       </div>
     </section>
 
-    <!-- Ad slot (visible by default; collapses if no fill) -->
-    <section id="adWrap" class="section" aria-label="Advertisement">
-      <!-- horizontal_ad -->
-      <ins class="adsbygoogle"
-           style="display:block"
-           data-ad-client="ca-pub-6216304334889617"
-           data-ad-slot="9651757525"
-           data-ad-format="auto"
-           data-full-width-responsive="true"></ins>
-      <script>try{(adsbygoogle=window.adsbygoogle||[]).push({});}catch(e){}</script>
-    </section>
 
     <!-- Recently used (start hidden; collapses when empty) -->
     <section class="section reserved is-invisible" id="recentSec" style="--reserve:280px">
@@ -433,25 +426,6 @@
     renderFavs();
     renderRecent();
     applyFilters();
-
-    // Collapse the ad slot if no fill (prevents empty gap)
-    (function collapseAdIfNoFill(){
-      const wrap=document.getElementById('adWrap');
-      const ins=wrap?.querySelector('.adsbygoogle');
-      if(!wrap || !ins) return;
-      let served=false;
-
-      // If AdSense injects content (iframe), consider it served.
-      const mo = new MutationObserver(()=>{ served=true; wrap.style.display='block'; });
-      mo.observe(ins, {childList:true,subtree:true});
-
-      // Fallback timer: if not served, hide to remove gap
-      setTimeout(()=>{
-        const h = ins.offsetHeight || 0;
-        if(!served && h < 40){ wrap.style.display='none'; }
-        mo.disconnect();
-      }, 2200);
-    })();
 
     // Re-hydrate on pageshow (bfcache restore)
     window.addEventListener('pageshow', ()=>{ renderFavs(); renderRecent(); }, {passive:true});
