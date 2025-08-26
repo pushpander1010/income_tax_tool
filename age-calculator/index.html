@@ -78,7 +78,7 @@
       border: 1px solid #212a3a;
       border-radius: var(--radius);
       padding: 1rem;
-      overflow : auto;
+      overflow: auto;
     }
 
     .btn {
@@ -193,13 +193,17 @@
     "embedUrl":"https://www.youtube.com/embed/2S0eD6CkI0Q"
   }
   </script>
-
-  <!-- Ads (async only; slots have fixed height to avoid CLS) -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617"
-    crossorigin="anonymous"></script>
 </head>
 
 <body>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617"
+    crossorigin="anonymous"></script>
+  <!-- horizontal_fixed -->
+  <ins class="adsbygoogle" style="display:inline-block;width:728px;height:90px" data-ad-client="ca-pub-6216304334889617"
+    data-ad-slot="3354760728"></ins>
+  <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
   <!-- Header -->
   <header class="site" role="banner">
     <div class="header-inner container">
@@ -238,12 +242,6 @@
       <!-- SEO supporting artwork (fixed size for CLS) -->
       <img src="/assets/ui/age-illustration.png" alt="Illustration: calendar and birthday reminder" width="96"
         height="96" loading="lazy" style="margin-left:auto;border-radius:12px;border:1px solid var(--border)">
-    </section>
-
-    <!-- Top ad (CLS-safe) -->
-    <section class="ad-wrap card" aria-label="Sponsored" style="min-height:140px">
-      <ins class="adsbygoogle" style="display:block;min-height:140px" data-ad-client="ca-pub-6216304334889617"
-        data-ad-slot="9651757525" data-ad-format="auto" data-full-width-responsive="true"></ins>
     </section>
 
     <!-- Inputs -->
@@ -329,12 +327,6 @@
           ages</a>.</p>
     </section>
 
-    <!-- Bottom ad (CLS-safe) -->
-    <section class="ad-wrap card" aria-label="Sponsored" style="min-height:140px">
-      <ins class="adsbygoogle" style="display:block;min-height:140px" data-ad-client="ca-pub-6216304334889617"
-        data-ad-slot="9651757525" data-ad-format="auto" data-full-width-responsive="true"></ins>
-    </section>
-
     <!-- Related tools / Internal links (with textual subpage logos) -->
     <section class="card">
       <h2 style="margin-top:0">Related at UpTools</h2>
@@ -364,8 +356,6 @@
     // Footer year + nav
     setText($('#y'), new Date().getFullYear());
     $('#toTop').addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
-    try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch { }
-    try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch { }
 
     // ---------- Utilities ----------
     const pad = n => String(n).padStart(2, '0');
