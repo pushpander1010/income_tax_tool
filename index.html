@@ -15,7 +15,7 @@
   <!-- Canonical & Icons -->
   <link rel="canonical" href="https://www.uptools.in/"/>
   <link rel="icon" sizes="50x50" type="image/svg+xml" href="/assets/logo/uptools-logo.svg"/>
-  <link rel="apple-touch-icon" sizes="180x180" href="/assets/logo/usionsoft-logo.svg"/>
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/logo/uptools-logo.svg"/>
 
   <!-- Open Graph -->
   <meta property="og:title" content="UpTools - Free Online Calculators, Converters & Mini Games"/>
@@ -76,6 +76,10 @@
     /* Ad wrapper: reserve space to avoid CLS; keep visible */
     #adWrap{min-height:120px}
     #adWrap > .adsbygoogle{display:block;min-height:120px}
+
+    /* Show/Hide reserved sections without popping layout */
+    .reserved{min-height:var(--reserve,0)}
+    .is-invisible{visibility:hidden}
 
     /* Skeletons */
     .skeleton{position:relative;overflow:hidden;background:#0f1627;border:1px solid var(--border);border-radius:var(--radius)}
@@ -175,14 +179,11 @@
            data-ad-slot="9651757525"
            data-ad-format="auto"
            data-full-width-responsive="true"></ins>
-      <script>
-        // Queue render even if the library hasn't finished loading yet.
-        try { (adsbygoogle = window.adsbygoogle || []).push({}); } catch(e) {}
-      </script>
+      <script>try{(adsbygoogle=window.adsbygoogle||[]).push({});}catch(e){}</script>
     </section>
 
-    <!-- Recently used -->
-    <section class="section reserved" id="recentSec" style="--reserve:280px">
+    <!-- Recently used (start hidden; unhide when we have items) -->
+    <section class="section reserved is-invisible" id="recentSec" style="--reserve:280px">
       <h2>⏱️ Continue</h2>
       <div class="tools-grid" id="recentGrid" role="region" aria-live="polite">
         <div class="skeleton" style="height:200px"></div>
@@ -192,8 +193,8 @@
       <p class="note small">Tip: recent tools are saved on this device only.</p>
     </section>
 
-    <!-- Favourites -->
-    <section class="section reserved" id="favSec" style="--reserve:280px">
+    <!-- Favourites (start hidden; unhide when we have items) -->
+    <section class="section reserved is-invisible" id="favSec" style="--reserve:280px">
       <h2>⭐ Your favourites</h2>
       <div class="tools-grid" id="favGrid" role="region" aria-live="polite">
         <div class="skeleton" style="height:200px"></div>
@@ -215,21 +216,12 @@
       <section class="section" id="tools" aria-labelledby="tools-heading">
         <h2 id="tools-heading">🧰 All tools</h2>
         <div class="tools-grid" id="grid" role="region" aria-live="polite">
-          <!-- placeholders to lock grid height -->
-          <!-- (unchanged) -->
+          <!-- placeholders to lock grid height; keep as-is -->
           <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
           <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
           <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
           <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
-          <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
-          <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
-          <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
-          <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
-          <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
-          <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
-          <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
-          <article class="card skeleton" style="height:200px;padding:1rem"><div class="s1"></div><div class="s2"></div><div class="s3"></div></article>
-          <!-- ... keep the rest of your placeholders ... -->
+          <!-- ...you can keep the rest of your placeholders... -->
         </div>
       </section>
 
@@ -297,27 +289,31 @@
       { slug:"ai-plagiarism", title:"AI Plagiarism Checker", icon:"📚", desc:"Check text for plagiarism instantly with AI.", href:"/ai-plagiarism/", tags:["text","dev","ai"] }
     ];
 
-    // Helpers
-    const $$=(s,r=document)=>[...r.querySelectorAll(s)];
-    const $ =(s,r=document)=>r.querySelector(s);
-    const persist=(k,v)=>localStorage.setItem(k, JSON.stringify(v));
-    const read=(k,d=null)=>{ try{ return JSON.parse(localStorage.getItem(k)) ?? d }catch{ return d } };
+    // Robust helpers around localStorage (never throw)
+    const $  = (s,r=document)=>r.querySelector(s);
+    const $$ = (s,r=document)=>[...r.querySelectorAll(s)];
+    const safeGet = (k, d=null) => {
+      try {
+        const v = localStorage.getItem(k);
+        return v ? JSON.parse(v) : d;
+      } catch { return d; }
+    };
+    const safeSet = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} };
 
-    const grid=$("#grid"), favGrid=$("#favGrid"), favSec=$("#favSec"),
-          recentGrid=$("#recentGrid"), recentSec=$("#recentSec"),
-          q=$("#q");
+    const grid=$("#grid"), favSec=$("#favSec"), recentSec=$("#recentSec"), q=$("#q");
     $("#y").textContent = new Date().getFullYear();
 
     const FAV_KEY="uptools-tool-favs";
     const RECENT_KEY="uptools-tool-recent";
-    const getFavs=()=>new Set(read(FAV_KEY,[]));
-    const setFavs=(s)=>persist(FAV_KEY,[...s]);
-    const getRecent=()=>read(RECENT_KEY,[]);
-    const pushRecent=(slug)=>{
-      const now=Date.now();
-      const list=getRecent().filter(x=>x.slug!==slug);
-      list.unshift({slug,ts:now});
-      persist(RECENT_KEY, list.slice(0,10));
+
+    const getFavs = () => new Set(safeGet(FAV_KEY, []));
+    const setFavs = (set) => safeSet(FAV_KEY, [...set]);
+    const getRecent = () => safeGet(RECENT_KEY, []);
+    const pushRecent = (slug) => {
+      const now = Date.now();
+      const list = getRecent().filter(x => x.slug !== slug);
+      list.unshift({ slug, ts: now });
+      safeSet(RECENT_KEY, list.slice(0, 10));
     };
 
     function cardHTML(t,favs){
@@ -358,6 +354,7 @@
           const favs=getFavs();
           favs.has(slug)?favs.delete(slug):favs.add(slug);
           setFavs(favs);
+          // reflect across all cards
           document.querySelectorAll(`[data-fav="${slug}"]`).forEach(b=>{
             const active=favs.has(slug);
             b.classList.toggle("active", active);
@@ -366,6 +363,8 @@
           renderFavs();
         }, {passive:true});
       });
+
+      // Track recents on open (synchronous before navigation)
       scope.querySelectorAll("a.btn, a.tool-title").forEach(a=>{
         a.addEventListener("click", ()=>{
           const slug=a.closest(".tool-card").querySelector("[data-fav]").getAttribute("data-fav");
@@ -379,14 +378,17 @@
       container.innerHTML=list.map(t=>cardHTML(t,favs)).join("");
       bindInteractions(container);
     }
+
     function renderAll(list){ mount(grid, list) }
+
     function renderFavs(){
       const favs=getFavs();
       const list=TOOLS.filter(t=>favs.has(t.slug));
       const has=list.length>0;
-      favSec.classList.toggle('is-invisible', !has); // class unused now but safe
+      favSec.classList.toggle('is-invisible', !has);
       if(has) mount(document.getElementById("favGrid"), list);
     }
+
     function renderRecent(){
       const rec=getRecent().slice(0,8);
       const list=rec.map(r=>TOOLS.find(t=>t.slug===r.slug)).filter(Boolean);
@@ -410,10 +412,11 @@
         c.style.display=(matchesText&&matchesTags)?"grid":"none";
       }
     }
-    const debounce=window.debounce||((fn,d=150)=>{let t;return(...a)=>{clearTimeout(t);t=setTimeout(()=>fn(...a),d)}})
+    const debounce=(fn,d=150)=>{let t;return(...a)=>{clearTimeout(t);t=setTimeout(()=>fn(...a),d)}}
     q.addEventListener("input", debounce(applyFilters, 200), {passive:true});
     document.getElementById('clearBtn').addEventListener('click', ()=>{ q.value=""; applyFilters(); q.focus(); });
 
+    // URL hydration (supports ?q= and ?used=slug to seed recents)
     (function hydrateFromURL(){
       const u=new URL(location.href);
       const s=u.searchParams.get("q");
@@ -422,6 +425,7 @@
       if(used) pushRecent(used);
     })();
 
+    // Featured section mount
     (function mountFeatured(){
       const feat = [
         { slug:"income-tax-tool", title:"Income Tax Calculator", icon:"🧮", desc:"FY 2024-25 (AY 2025-26), New vs Old.", href:"/income-tax-tool/", tags:["tax","finance"] },
@@ -430,16 +434,20 @@
         { slug:"emi-calculator",    title:"EMI Calculator",        icon:"💳", desc:"Plan monthly repayments.",        href:"/emi-calculator/",    tags:["finance"] }
       ];
       const g = document.getElementById('featuredGrid');
+      g.innerHTML = ''; // clear skeletons
       const favs = new Set();
       g.innerHTML = feat.map(t=>cardHTML(t, favs)).join('');
       bindInteractions(g);
     })();
 
-    // Init main content
+    // Initial render
     renderAll(TOOLS);
     renderFavs();
     renderRecent();
     applyFilters();
+
+    // Re-hydrate on pageshow (bfcache restore) so sections update after returning from a tool
+    window.addEventListener('pageshow', ()=>{ renderFavs(); renderRecent(); }, {passive:true});
 
     // BELOW-FOLD spacer collapse
     window.addEventListener('load', ()=> {
