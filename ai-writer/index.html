@@ -1,9 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <!-- Google Ads: only used if window.adsbygoogle exists (conditionally mounted) -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617" crossorigin="anonymous"></script>
 
+<head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>AI Writing Assistant - Perplexity, Gemini 2.5 & Groq | UpTools</title>
@@ -13,14 +11,16 @@
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/logo/uptools-logo.svg">
 
   <!-- SEO -->
-  <meta name="description" content="AI Writing Assistant powered by Perplexity Sonar, Google Gemini 2.5 (Flash/Pro), and Groq. Summarize, rewrite, translate, extract keywords, and generate SEO metadata - privacy-first via a server-side proxy." />
+  <meta name="description"
+    content="AI Writing Assistant powered by Perplexity Sonar, Google Gemini 2.5 (Flash/Pro), and Groq. Summarize, rewrite, translate, extract keywords, and generate SEO metadata - privacy-first via a server-side proxy." />
   <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:large" />
   <link rel="canonical" href="https://www.uptools.in/ai-writer/" />
   <meta name="theme-color" content="#0b1020" />
 
   <!-- Open Graph / Twitter -->
   <meta property="og:title" content="AI Writing Assistant - Perplexity, Gemini 2.5 & Groq" />
-  <meta property="og:description" content="Summarize, rewrite, translate, outline, and SEO metadata with Perplexity Sonar, Google Gemini 2.5, or Groq - free and mobile-first." />
+  <meta property="og:description"
+    content="Summarize, rewrite, translate, outline, and SEO metadata with Perplexity Sonar, Google Gemini 2.5, or Groq - free and mobile-first." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.uptools.in/ai-writer/" />
   <meta property="og:image" content="https://www.uptools.in/assets/og/ai-writing-assistant.png" />
@@ -28,13 +28,16 @@
   <meta property="og:image:height" content="630" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="AI Writing Assistant - Perplexity, Gemini 2.5 & Groq" />
-  <meta name="twitter:description" content="Summarize, rewrite, translate, outline, and SEO metadata with Perplexity Sonar, Google Gemini 2.5, or Groq." />
+  <meta name="twitter:description"
+    content="Summarize, rewrite, translate, outline, and SEO metadata with Perplexity Sonar, Google Gemini 2.5, or Groq." />
   <meta name="twitter:image" content="https://www.uptools.in/assets/og/ai-writing-assistant.png" />
 
   <!-- CSS (no version query to keep Vite quiet) -->
   <link rel="preload" href="/style.css" as="style">
   <link rel="stylesheet" href="/style.css" media="print" onload="this.media='all'">
-  <noscript><link rel="stylesheet" href="/style.css"></noscript>
+  <noscript>
+    <link rel="stylesheet" href="/style.css">
+  </noscript>
 
   <!-- Structured Data -->
   <script type="application/ld+json">
@@ -72,38 +75,174 @@
   </script>
 
   <style>
-    :root { --panel-h: clamp(520px, 82dvh, 760px); --gap: 14px; }
-    main.ai { max-width: 1200px; margin-inline: auto; padding: 12px var(--container-px, 12px); }
-    .ai-grid { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap); align-items: stretch; }
-    @media (max-width: 950px) { .ai-grid { grid-template-columns: 1fr; } :root { --panel-h: clamp(560px, 84dvh, 820px); } }
+    :root {
+      --panel-h: clamp(520px, 82dvh, 760px);
+      --gap: 14px;
+    }
 
-    .panel { display: flex; flex-direction: column; height: var(--panel-h); min-height: 420px; }
-    .panel .panel-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 10px 12px; }
-    .panel .panel-body { flex: 1; min-height: 0; display: grid; grid-template-rows: auto 1fr auto; gap: 10px; padding: 10px 12px; }
+    main.ai {
+      max-width: 1200px;
+      margin-inline: auto;
+      padding: 12px var(--container-px, 12px);
+    }
 
-    .toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
-    .toolbar .inline { display: inline-flex; align-items: center; gap: 6px; }
-    .row { display: grid; gap: 8px; grid-template-columns: 1fr 1fr; }
-    @media (max-width: 600px) { .row { grid-template-columns: 1fr; } }
+    .ai-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--gap);
+      align-items: stretch;
+    }
 
-    textarea.input, pre.output { width: 100%; height: 100%; resize: none; padding: 10px 12px; line-height: 1.4; border-radius: 12px; }
-    pre.output { overflow: auto; white-space: pre-wrap; word-wrap: break-word; }
-    .tiny-note { font-size: 12px; opacity: .8; }
+    @media (max-width: 950px) {
+      .ai-grid {
+        grid-template-columns: 1fr;
+      }
 
-    .video-wrap { position: relative; width: 100%; height: 240px; border-radius: 12px; overflow: hidden; }
-    .video-wrap iframe { width: 100%; height: 100%; display: block; border: 0; }
+      :root {
+        --panel-h: clamp(560px, 84dvh, 820px);
+      }
+    }
 
-    .cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--gap); }
-    @media (max-width: 900px){ .cards{ grid-template-columns: repeat(2, 1fr);} }
-    @media (max-width: 520px){ .cards{ grid-template-columns: 1fr; } }
-    .card-link{ display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 12px 14px; border-radius: 14px; text-decoration: none; }
-    .card-badge { display: inline-flex; align-items:center; justify-content:center; width: 36px; height: 36px; border-radius: 9px; font-weight: 700; font-variant: all-small-caps; letter-spacing: .5px; }
+    .panel {
+      display: flex;
+      flex-direction: column;
+      height: var(--panel-h);
+      min-height: 420px;
+    }
 
-    .ad-slot { display: none; }
+    .panel .panel-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 10px 12px;
+    }
+
+    .panel .panel-body {
+      flex: 1;
+      min-height: 0;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 10px;
+      padding: 10px 12px;
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .toolbar .inline {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .row {
+      display: grid;
+      gap: 8px;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    @media (max-width: 600px) {
+      .row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    textarea.input,
+    pre.output {
+      width: 100%;
+      height: 100%;
+      resize: none;
+      padding: 10px 12px;
+      line-height: 1.4;
+      border-radius: 12px;
+    }
+
+    pre.output {
+      overflow: auto;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+    }
+
+    .tiny-note {
+      font-size: 12px;
+      opacity: .8;
+    }
+
+    .video-wrap {
+      position: relative;
+      width: 100%;
+      height: 240px;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .video-wrap iframe {
+      width: 100%;
+      height: 100%;
+      display: block;
+      border: 0;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--gap);
+    }
+
+    @media (max-width: 900px) {
+      .cards {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 520px) {
+      .cards {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .card-link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      text-decoration: none;
+    }
+
+    .card-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 9px;
+      font-weight: 700;
+      font-variant: all-small-caps;
+      letter-spacing: .5px;
+    }
+
+    .ad-slot {
+      display: none;
+    }
   </style>
 </head>
 
 <body>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617"
+    crossorigin="anonymous"></script>
+  <!-- small fixed -->
+  <ins class="adsbygoogle" style="display:inline-block;width:500px;height:50px" data-ad-client="ca-pub-6216304334889617"
+    data-ad-slot="9810172647"></ins>
+  <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
   <!-- Header -->
   <header class="site" role="banner">
     <div class="header-inner">
@@ -124,7 +263,9 @@
     <section class="card hero" aria-labelledby="title">
       <div>
         <h1 id="title">AI Writing Assistant (Perplexity • Gemini 2.5 • Groq)</h1>
-        <p class="note">Summarize, rewrite tone, translate, extract keywords, make SEO title & meta, or build a blog outline - pick your provider: <b>Perplexity Sonar</b>, <b>Google Gemini 2.5</b>, or <b>Groq</b>. All via a secure server-side proxy.</p>
+        <p class="note">Summarize, rewrite tone, translate, extract keywords, make SEO title & meta, or build a blog
+          outline - pick your provider: <b>Perplexity Sonar</b>, <b>Google Gemini 2.5</b>, or <b>Groq</b>. All via a
+          secure server-side proxy.</p>
         <div class="chips" style="margin-top:8px">
           <span class="pill">⚡ Streams live</span>
           <span class="pill">🔒 No browser API key</span>
@@ -132,9 +273,6 @@
         </div>
       </div>
     </section>
-
-    <!-- (Conditional) Ad space – inserted only if adsbygoogle is present -->
-    <div id="ad-mount"></div>
 
     <section class="ai-grid" aria-label="AI workspace">
       <!-- LEFT: INPUT -->
@@ -171,7 +309,8 @@
             <div class="inline" id="taskOptions" aria-live="polite"></div>
           </div>
 
-          <textarea id="input" class="input" placeholder="Paste or type your text here…" spellcheck="true" aria-label="Input text"></textarea>
+          <textarea id="input" class="input" placeholder="Paste or type your text here…" spellcheck="true"
+            aria-label="Input text"></textarea>
 
           <div class="toolbar">
             <button id="runBtn" class="btn primary" type="button">Run ▶</button>
@@ -204,7 +343,8 @@
           <div class="toolbar">
             <button id="copyBtn" class="btn small" type="button">Copy</button>
             <button id="downloadBtn" class="btn small" type="button">Download .txt</button>
-            <button id="permBtn" class="btn small subtle" type="button" title="Create a shareable link with your settings">Permalink</button>
+            <button id="permBtn" class="btn small subtle" type="button"
+              title="Create a shareable link with your settings">Permalink</button>
             <button id="stopBtn" class="btn small danger" type="button" disabled>Stop</button>
           </div>
         </div>
@@ -223,10 +363,8 @@
               </ul>
             </div>
             <div class="video-wrap" aria-label="YouTube guide">
-              <iframe
-                src="https://www.youtube.com/embed/MBRqu0YOH14"
-                title="How to Write Better with AI - Practical Guide"
-                loading="lazy"
+              <iframe src="https://www.youtube.com/embed/MBRqu0YOH14"
+                title="How to Write Better with AI - Practical Guide" loading="lazy"
                 referrerpolicy="strict-origin-when-cross-origin"
                 allow="accelerometer; clipboard-write; encrypted-media; picture-in-picture; web-share">
               </iframe>
@@ -239,14 +377,22 @@
     <section class="spaced" aria-labelledby="related">
       <h2 id="related" class="h5">More from UpTools</h2>
       <div class="cards">
-        <a class="card card-link" href="/qr-generator/" aria-label="QR Code Generator"><span>QR Code Generator</span><span class="card-badge">QR</span></a>
-        <a class="card card-link" href="/image-converter/" aria-label="Image Converter"><span>Image Converter</span><span class="card-badge">IC</span></a>
-        <a class="card card-link" href="/bmi-calculator/" aria-label="BMI Calculator"><span>BMI Calculator</span><span class="card-badge">BMI</span></a>
-        <a class="card card-link" href="/ifsc-finder/" aria-label="IFSC Finder"><span>IFSC Finder</span><span class="card-badge">IF</span></a>
-        <a class="card card-link" href="/income-tax-tool/" aria-label="Income Tax Tool"><span>Income Tax Tool</span><span class="card-badge">IT</span></a>
-        <a class="card card-link" href="/emi-calculator/" aria-label="EMI Calculator"><span>EMI Calculator</span><span class="card-badge">EMI</span></a>
-        <a class="card card-link" href="/gst-calculator/" aria-label="GST Calculator"><span>GST Calculator</span><span class="card-badge">GST</span></a>
-        <a class="card card-link" href="/games/2048/" aria-label="2048 Game"><span>2048 Game</span><span class="card-badge">2048</span></a>
+        <a class="card card-link" href="/qr-generator/" aria-label="QR Code Generator"><span>QR Code
+            Generator</span><span class="card-badge">QR</span></a>
+        <a class="card card-link" href="/image-converter/" aria-label="Image Converter"><span>Image
+            Converter</span><span class="card-badge">IC</span></a>
+        <a class="card card-link" href="/bmi-calculator/" aria-label="BMI Calculator"><span>BMI Calculator</span><span
+            class="card-badge">BMI</span></a>
+        <a class="card card-link" href="/ifsc-finder/" aria-label="IFSC Finder"><span>IFSC Finder</span><span
+            class="card-badge">IF</span></a>
+        <a class="card card-link" href="/income-tax-tool/" aria-label="Income Tax Tool"><span>Income Tax
+            Tool</span><span class="card-badge">IT</span></a>
+        <a class="card card-link" href="/emi-calculator/" aria-label="EMI Calculator"><span>EMI Calculator</span><span
+            class="card-badge">EMI</span></a>
+        <a class="card card-link" href="/gst-calculator/" aria-label="GST Calculator"><span>GST Calculator</span><span
+            class="card-badge">GST</span></a>
+        <a class="card card-link" href="/games/2048/" aria-label="2048 Game"><span>2048 Game</span><span
+            class="card-badge">2048</span></a>
       </div>
     </section>
 
@@ -269,28 +415,28 @@
       Utils = mod?.default || mod || {};
     } catch { Utils = window.Utils || {}; }
 
-    const $ = (s, r=document)=>r.querySelector(s);
-    const byId = id=>document.getElementById(id);
+    const $ = (s, r = document) => r.querySelector(s);
+    const byId = id => document.getElementById(id);
     const store = {
-      get:(k,d=null)=>{ try{return JSON.parse(localStorage.getItem(k))??d;}catch{return d;}},
-      set:(k,v)=>{ try{localStorage.setItem(k,JSON.stringify(v));}catch{}}
+      get: (k, d = null) => { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch { return d; } },
+      set: (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch { } }
     };
 
     // DOM refs
-    const input   = byId('input');
-    const status  = byId('status');
-    const output  = byId('output');
-    const runBtn  = byId('runBtn');
+    const input = byId('input');
+    const status = byId('status');
+    const output = byId('output');
+    const runBtn = byId('runBtn');
     const stopBtn = byId('stopBtn');
     const charCount = byId('charCount');
     const pasteBtn = byId('pasteBtn');
     const clearBtn = byId('clearBtn');
     const fileIn = byId('fileIn');
-    const saveCfg= byId('saveCfg');
-    const permBtn= byId('permBtn');
-    const copyBtn= byId('copyBtn');
-    const downloadBtn= byId('downloadBtn');
-    const taskSel= byId('task');
+    const saveCfg = byId('saveCfg');
+    const permBtn = byId('permBtn');
+    const copyBtn = byId('copyBtn');
+    const downloadBtn = byId('downloadBtn');
+    const taskSel = byId('task');
     const taskOptions = byId('taskOptions');
 
     // NEW: Provider + model
@@ -301,26 +447,26 @@
     byId('y').textContent = new Date().getFullYear();
 
     // Character counter
-    const updateCount = ()=>{ charCount.textContent = input.value.length.toLocaleString(); };
+    const updateCount = () => { charCount.textContent = input.value.length.toLocaleString(); };
     input.addEventListener('input', updateCount); updateCount();
 
     // Paste / Clear / Import
-    pasteBtn.addEventListener('click', async ()=>{
+    pasteBtn.addEventListener('click', async () => {
       try { input.value = await navigator.clipboard.readText(); updateCount(); }
-      catch{ toast('Clipboard blocked by browser'); }
+      catch { toast('Clipboard blocked by browser'); }
     });
-    clearBtn.addEventListener('click', ()=>{ input.value=''; updateCount(); input.focus(); });
-    fileIn.addEventListener('change', async (e)=>{
-      const f = e.target.files?.[0]; if(!f) return;
+    clearBtn.addEventListener('click', () => { input.value = ''; updateCount(); input.focus(); });
+    fileIn.addEventListener('change', async (e) => {
+      const f = e.target.files?.[0]; if (!f) return;
       const text = await f.text();
       input.value = text; updateCount();
     });
 
     // Task option controls
-    function renderTaskOptions(){
+    function renderTaskOptions() {
       const t = taskSel.value;
       let html = '';
-      if(t==='summarize'){
+      if (t === 'summarize') {
         html = `
           <label class="inline"><span class="tiny-note">Style</span>
             <select id="optStyle" class="select">
@@ -332,7 +478,7 @@
           <label class="inline"><span class="tiny-note">Max words</span>
             <input id="optLen" type="number" class="input small" value="180" min="50" max="1000" style="width:100px">
           </label>`;
-      } else if(t==='rewrite'){
+      } else if (t === 'rewrite') {
         html = `
           <label class="inline"><span class="tiny-note">Tone</span>
             <select id="optTone" class="select">
@@ -343,12 +489,12 @@
           <label class="inline"><span class="tiny-note">Constraints</span>
             <input id="optRules" class="input small" placeholder="e.g. shorter, active voice, no jargon" style="width:240px">
           </label>`;
-      } else if(t==='translate'){
+      } else if (t === 'translate') {
         html = `
           <label class="inline"><span class="tiny-note">Language</span>
             <input id="optLang" class="input small" value="Hindi" style="width:160px">
           </label>`;
-      } else if(t==='keywords'){
+      } else if (t === 'keywords') {
         html = `
           <label class="inline"><span class="tiny-note">Top N</span>
             <input id="optTopN" type="number" class="input small" value="15" min="5" max="50" style="width:90px">
@@ -356,12 +502,12 @@
           <label class="inline"><span class="tiny-note">Include phrases</span>
             <select id="optPhrases" class="select"><option>Yes</option><option>No</option></select>
           </label>`;
-      } else if(t==='outline'){
+      } else if (t === 'outline') {
         html = `
           <label class="inline"><span class="tiny-note">Depth</span>
             <select id="optDepth" class="select"><option value="2">H2 + H3</option><option value="3">H2 + H3 + H4</option></select>
           </label>`;
-      } else if(t==='seometa'){
+      } else if (t === 'seometa') {
         html = `
           <label class="inline"><span class="tiny-note">Site/Brand</span>
             <input id="optBrand" class="input small" value="UpTools" style="width:160px">
@@ -372,25 +518,25 @@
     taskSel.addEventListener('change', renderTaskOptions); renderTaskOptions();
 
     // Prompt builder
-    function buildPrompt(task, text){
+    function buildPrompt(task, text) {
       const v = id => document.getElementById(id)?.value;
-      if(task==='summarize'){
-        return `You are a precise summarizer. Style: ${v('optStyle')}. Max words: ${v('optLen')||180}. Use clear language.\n\n---\n${text}`;
+      if (task === 'summarize') {
+        return `You are a precise summarizer. Style: ${v('optStyle')}. Max words: ${v('optLen') || 180}. Use clear language.\n\n---\n${text}`;
       }
-      if(task==='rewrite'){
-        return `Rewrite the text in a ${v('optTone')||'Neutral'} tone. Constraints: ${(v('optRules')||'keep meaning, increase clarity')}. Return only the rewritten text.\n\n---\n${text}`;
+      if (task === 'rewrite') {
+        return `Rewrite the text in a ${v('optTone') || 'Neutral'} tone. Constraints: ${(v('optRules') || 'keep meaning, increase clarity')}. Return only the rewritten text.\n\n---\n${text}`;
       }
-      if(task==='translate'){
-        return `Translate the text into ${v('optLang')||'Hindi'}. Maintain meaning and proper nouns. Return only the translation.\n\n---\n${text}`;
+      if (task === 'translate') {
+        return `Translate the text into ${v('optLang') || 'Hindi'}. Maintain meaning and proper nouns. Return only the translation.\n\n---\n${text}`;
       }
-      if(task==='keywords'){
-        return `Extract top ${(v('optTopN')||15)} keywords from the text${(v('optPhrases')||'Yes')==='Yes'?' including keyphrases':''}. Return a comma-separated list.\n\n---\n${text}`;
+      if (task === 'keywords') {
+        return `Extract top ${(v('optTopN') || 15)} keywords from the text${(v('optPhrases') || 'Yes') === 'Yes' ? ' including keyphrases' : ''}. Return a comma-separated list.\n\n---\n${text}`;
       }
-      if(task==='outline'){
-        return `Create a blog outline with depth level ${v('optDepth')||2}. Use markdown headings. Include a short intro and conclusion.\n\n---\n${text}`;
+      if (task === 'outline') {
+        return `Create a blog outline with depth level ${v('optDepth') || 2}. Use markdown headings. Include a short intro and conclusion.\n\n---\n${text}`;
       }
-      if(task==='seometa'){
-        return `From the text, generate:\n- SEO Title (<= 60 chars)\n- Meta Description (<= 155 chars)\n- 10 Keywords\nBrand: ${v('optBrand')||'UpTools'}\nReturn as:\nTitle: ...\nDescription: ...\nKeywords: ...\n\n---\n${text}`;
+      if (task === 'seometa') {
+        return `From the text, generate:\n- SEO Title (<= 60 chars)\n- Meta Description (<= 155 chars)\n- 10 Keywords\nBrand: ${v('optBrand') || 'UpTools'}\nReturn as:\nTitle: ...\nDescription: ...\nKeywords: ...\n\n---\n${text}`;
       }
       return text;
     }
@@ -414,11 +560,11 @@
       ]
     };
 
-    function populateModels(){
+    function populateModels() {
       const prov = providerSel.value || 'perplexity';
       const models = PROVIDER_MODELS[prov] || [];
       modelSel.innerHTML = '';
-      for(const m of models){
+      for (const m of models) {
         const opt = document.createElement('option');
         opt.value = m.id;
         opt.textContent = m.label;
@@ -433,101 +579,101 @@
 
     // Config (provider + model; endpoint fixed to /ai)
     const CFG_KEY = 'ai-writer:cfg';
-    const cfg = Object.assign({ provider:'perplexity', model:'sonar' }, store.get(CFG_KEY, {}));
+    const cfg = Object.assign({ provider: 'perplexity', model: 'sonar' }, store.get(CFG_KEY, {}));
 
     providerSel.value = cfg.provider || 'perplexity';
     populateModels();
     if (cfg.model) modelSel.value = cfg.model;
 
-    saveCfg.addEventListener('click', ()=>{
+    saveCfg.addEventListener('click', () => {
       const next = { provider: providerSel.value, model: modelSel.value };
       store.set(CFG_KEY, next);
       toast('Settings saved locally');
     });
 
-    providerSel.addEventListener('change', ()=>{
+    providerSel.addEventListener('change', () => {
       cfg.provider = providerSel.value;
       populateModels();
     });
 
     // Streaming via Worker proxy (/ai). We pass provider + model.
     let aborter = null;
-    async function streamChat({ provider, model, prompt }){
+    async function streamChat({ provider, model, prompt }) {
       const url = '/ai';
       const body = {
         provider, model, stream: true, temperature: 0.4,
         messages: [
-          {role:'system', content:'You are a helpful, concise writing assistant.'},
-          {role:'user', content: prompt}
+          { role: 'system', content: 'You are a helpful, concise writing assistant.' },
+          { role: 'user', content: prompt }
         ]
       };
       aborter = new AbortController();
       const res = await fetch(url, {
-        method:'POST',
+        method: 'POST',
         signal: aborter.signal,
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body)
       });
-      if(!res.ok) throw new Error(`HTTP ${res.status}`);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const reader = res.body.getReader();
       const dec = new TextDecoder();
       let accumulated = '';
-      for(;;){
-        const {value, done} = await reader.read();
-        if(done) break;
+      for (; ;) {
+        const { value, done } = await reader.read();
+        if (done) break;
         const chunk = dec.decode(value);
-        for(const line of chunk.split('\n')){
+        for (const line of chunk.split('\n')) {
           const trimmed = line.trim();
-          if(!trimmed || !trimmed.startsWith('data:')) continue;
+          if (!trimmed || !trimmed.startsWith('data:')) continue;
           const payload = trimmed.slice(5).trim();
-          if(payload === '[DONE]') { aborter = null; return accumulated; }
+          if (payload === '[DONE]') { aborter = null; return accumulated; }
           try {
             const json = JSON.parse(payload);
             const delta = json.choices?.[0]?.delta?.content ?? '';
-            if(delta){ accumulated += delta; output.textContent += delta; }
-          } catch {}
+            if (delta) { accumulated += delta; output.textContent += delta; }
+          } catch { }
         }
       }
       aborter = null;
       return accumulated;
     }
 
-    byId('stopBtn').addEventListener('click', ()=>{
-      if(aborter){ aborter.abort(); aborter = null; stopBtn.disabled = true; status.textContent = 'Stopped.'; }
+    byId('stopBtn').addEventListener('click', () => {
+      if (aborter) { aborter.abort(); aborter = null; stopBtn.disabled = true; status.textContent = 'Stopped.'; }
     });
 
-    byId('runBtn').addEventListener('click', async ()=>{
+    byId('runBtn').addEventListener('click', async () => {
       const provider = providerSel.value || 'perplexity';
       const model = modelSel.value || (PROVIDER_MODELS[provider]?.[0]?.id ?? '');
       const text = input.value.trim();
       const task = taskSel.value;
 
-      if(!text){ toast('Enter some text first'); input.focus(); return; }
-      if(!model){ toast('Pick a model'); return; }
+      if (!text) { toast('Enter some text first'); input.focus(); return; }
+      if (!model) { toast('Pick a model'); return; }
 
       output.textContent = '';
       stopBtn.disabled = false;
       status.textContent = 'Running…';
 
-      try{
+      try {
         const prompt = buildPrompt(task, text);
         await streamChat({ provider, model, prompt });
         status.textContent = 'Done.';
-      }catch(e){
+      } catch (e) {
         status.textContent = 'Error. Check console & settings.';
         toast('Request failed.');
-      }finally{
+      } finally {
         stopBtn.disabled = true;
       }
     });
 
     // Copy / Download / Permalink
-    copyBtn.addEventListener('click', async ()=>{
+    copyBtn.addEventListener('click', async () => {
       try { await navigator.clipboard.writeText(output.textContent || ''); toast('Copied'); }
       catch { toast('Copy blocked by browser'); }
     });
-    downloadBtn.addEventListener('click', ()=>{
-      const blob = new Blob([output.textContent||''], {type:'text/plain;charset=utf-8'});
+    downloadBtn.addEventListener('click', () => {
+      const blob = new Blob([output.textContent || ''], { type: 'text/plain;charset=utf-8' });
       const a = document.createElement('a');
       a.href = URL.createObjectURL(blob);
       a.download = 'ai-output.txt';
@@ -536,56 +682,40 @@
     });
 
     // Permalink now includes task (t), provider (p), and model (m)
-    permBtn.addEventListener('click', async ()=>{
+    permBtn.addEventListener('click', async () => {
       const o = { t: taskSel.value, p: providerSel.value, m: modelSel.value };
       const url = new URL(location.href);
       url.hash = encodeURIComponent(btoa(JSON.stringify(o)));
-      try{
+      try {
         await navigator.clipboard.writeText(url.toString());
         toast('Permalink copied');
-      }catch{
+      } catch {
         toast('Permalink ready (open address bar)');
         history.replaceState({}, '', url);
       }
     });
 
-    // Ad mount (ONLY if available)
-    (function mountAd(){
-      if(!('adsbygoogle' in window)) return;
-      const mount = document.getElementById('ad-mount');
-      const wrap = document.createElement('div');
-      wrap.className = 'ad-slot';
-      wrap.style.display = 'block';
-      wrap.style.margin = '10px 0';
-      wrap.innerHTML = `
-        <ins class="adsbygoogle"
-             style="display:block; width:100%; height:100px;"
-             data-ad-client="ca-pub-6216304334889617"
-             data-ad-slot="9651757525"
-             data-full-width-responsive="true"></ins>`;
-      mount.appendChild(wrap);
-      try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch {}
-    })();
 
     // Small toast using your utils (or a basic fallback)
-    function toast(msg){
+    function toast(msg) {
       if (typeof Utils?.toast === 'function') return Utils.toast(msg);
       status.textContent = msg;
-      setTimeout(()=>{ if(status.textContent===msg) status.textContent=''; }, 1800);
+      setTimeout(() => { if (status.textContent === msg) status.textContent = ''; }, 1800);
     }
 
     // Restore permalink settings if present
-    (function restoreFromHash(){
-      if(!location.hash) return;
-      try{
+    (function restoreFromHash() {
+      if (!location.hash) return;
+      try {
         const o = JSON.parse(atob(decodeURIComponent(location.hash.slice(1))));
-        if(o?.t) taskSel.value = o.t;
-        if(o?.p) providerSel.value = o.p;
+        if (o?.t) taskSel.value = o.t;
+        if (o?.p) providerSel.value = o.p;
         populateModels();
-        if(o?.m) modelSel.value = o.m;
+        if (o?.m) modelSel.value = o.m;
         renderTaskOptions();
-      }catch{}
+      } catch { }
     })();
   </script>
 </body>
+
 </html>

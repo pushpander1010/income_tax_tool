@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <!-- Connection hints -->
   <link rel="preconnect" href="https://www.youtube.com" crossorigin>
@@ -15,8 +16,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
 
   <title>Free AI Plagiarism Checker &amp; Paraphrasing Tool (Originality %) | UpTools</title>
-  <meta name="description" content="Free AI Plagiarism Checker - estimate originality %, flag risky sentences, and fix with instant paraphrasing. Rewriter supports tones &amp; constraints. Works with Perplexity, Google Gemini 2.5, and Groq via secure proxy. No login." />
-  <meta name="keywords" content="free plagiarism checker, paraphrasing tool, rewriter, originality checker, check plagiarism online, remove plagiarism, ai rewriter, paraphrase sentences" />
+  <meta name="description"
+    content="Free AI Plagiarism Checker - estimate originality %, flag risky sentences, and fix with instant paraphrasing. Rewriter supports tones &amp; constraints. Works with Perplexity, Google Gemini 2.5, and Groq via secure proxy. No login." />
+  <meta name="keywords"
+    content="free plagiarism checker, paraphrasing tool, rewriter, originality checker, check plagiarism online, remove plagiarism, ai rewriter, paraphrase sentences" />
   <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:large" />
   <meta name="theme-color" content="#0b1020" />
   <link rel="canonical" href="https://www.uptools.in/plagiarism-checker/" />
@@ -29,7 +32,8 @@
 
   <!-- Social -->
   <meta property="og:title" content="Free AI Plagiarism Checker &amp; Paraphrasing Tool | UpTools" />
-  <meta property="og:description" content="Estimate originality %, highlight risky lines, and paraphrase instantly. Powered by Perplexity, Gemini 2.5 &amp; Groq. No sign-ups." />
+  <meta property="og:description"
+    content="Estimate originality %, highlight risky lines, and paraphrase instantly. Powered by Perplexity, Gemini 2.5 &amp; Groq. No sign-ups." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.uptools.in/plagiarism-checker/" />
   <meta property="og:site_name" content="UpTools" />
@@ -92,7 +96,8 @@
   </script>
 
   <style>
-    html, body {
+    html,
+    body {
       /* System stack only (removed custom font to fix 404 + avoid FOIT/CLS) */
       font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
       line-height: 1.5;
@@ -100,7 +105,9 @@
     }
 
     /* Keep header height stable */
-    header.site .header-inner { min-height: 56px; }
+    header.site .header-inner {
+      min-height: 56px;
+    }
 
     main.tool {
       max-width: 1200px;
@@ -120,8 +127,11 @@
       gap: var(--gap);
       align-items: stretch;
     }
+
     @media (max-width: 1024px) {
-      .grid { grid-template-columns: 1fr; }
+      .grid {
+        grid-template-columns: 1fr;
+      }
     }
 
     /* Panels: isolate layout so inner changes don't shift outer */
@@ -133,110 +143,253 @@
       overflow: hidden;
       position: relative;
       z-index: 0;
-      contain: layout paint; /* key for CLS */
+      contain: layout paint;
+      /* key for CLS */
     }
+
     @media (max-width: 780px) {
-      .panel { height: auto; min-height: 0; overflow: visible; }
+      .panel {
+        height: auto;
+        min-height: 0;
+        overflow: visible;
+      }
     }
 
     .panel-head {
-      display: flex; align-items: center; justify-content: space-between;
-      gap: 10px; padding: 10px 12px;
-    }
-    .panel-body {
-      flex: 1; min-height: 0;
-      display: grid; grid-template-rows: auto 1fr auto;
-      gap: 10px; padding: 10px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 10px 12px;
     }
 
-    .toolbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
-    .row { display: grid; gap: 8px; grid-template-columns: 1fr 1fr; }
-    @media (max-width: 720px) { .row { grid-template-columns: 1fr; } }
+    .panel-body {
+      flex: 1;
+      min-height: 0;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 10px;
+      padding: 10px 12px;
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .row {
+      display: grid;
+      gap: 8px;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    @media (max-width: 720px) {
+      .row {
+        grid-template-columns: 1fr;
+      }
+    }
 
     /* Reserve space for taskOptions to avoid first-paint shift */
-    #taskOptions { min-height: 44px; display: grid; align-items: center; }
+    #taskOptions {
+      min-height: 44px;
+      display: grid;
+      align-items: center;
+    }
 
     /* Input / Output areas */
-    textarea.input{
-      width:100%; height:auto; min-height:160px; max-height:min(34dvh,420px);
-      resize:vertical; padding:10px 12px; line-height:1.45; border-radius:12px;
+    textarea.input {
+      width: 100%;
+      height: auto;
+      min-height: 160px;
+      max-height: min(34dvh, 420px);
+      resize: vertical;
+      padding: 10px 12px;
+      line-height: 1.45;
+      border-radius: 12px;
     }
-    @media (max-width:480px){ textarea.input{ max-height:28dvh; min-height:140px; } }
 
-    pre.output{
-      width:100%; min-height:clamp(220px,26dvh,360px);
-      max-height:min(44dvh,520px); height:auto; margin:0; padding:12px 14px;
-      overflow:auto; white-space:pre-wrap; word-wrap:break-word; word-break:break-word;
-      border-radius:12px; background:#121826; border:1px solid #212a3a;
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
-      line-height:1.55;
+    @media (max-width:480px) {
+      textarea.input {
+        max-height: 28dvh;
+        min-height: 140px;
+      }
     }
-    pre.output:focus{ outline:2px solid #3b82f6; outline-offset:2px; }
+
+    pre.output {
+      width: 100%;
+      min-height: clamp(220px, 26dvh, 360px);
+      max-height: min(44dvh, 520px);
+      height: auto;
+      margin: 0;
+      padding: 12px 14px;
+      overflow: auto;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      word-break: break-word;
+      border-radius: 12px;
+      background: #121826;
+      border: 1px solid #212a3a;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+      line-height: 1.55;
+    }
+
+    pre.output:focus {
+      outline: 2px solid #3b82f6;
+      outline-offset: 2px;
+    }
 
     /* Status gets a fixed line box so showing text doesn't move layout */
-    #status.tiny { min-height: 1.2em; }
+    #status.tiny {
+      min-height: 1.2em;
+    }
 
-    .kpis{
-      display:grid; grid-template-columns:repeat(4,minmax(120px,1fr)); gap:10px;
+    .kpis {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(120px, 1fr));
+      gap: 10px;
     }
-    @media (max-width:880px){ .kpis{ grid-template-columns:repeat(2,1fr);} }
-    @media (max-width:460px){ .kpis{ grid-template-columns:1fr;} }
-    .kpi{ padding:10px; border-radius:10px; background:#0a1224; border:1px solid var(--border); box-shadow:var(--glow-soft); }
-    .kpi b{ font-size:18px; display:block; }
-    .tiny{ font-size:12px; opacity:.85; }
-    .chips{ display:flex; flex-wrap:wrap; gap:6px; align-items:center; }
-    .danger{ background:transparent; color:#ffb4b4; border:1px solid color-mix(in oklab, red 60%, #223); }
 
-    /* Ad slot: ALWAYS reserved. Slightly taller on desktop to match common fills */
-    .ad-wrap{
-      display:block;
-      min-height:160px;
-      margin:10px 0;
-      position:relative;
-      overflow:hidden;
+    @media (max-width:880px) {
+      .kpis {
+        grid-template-columns: repeat(2, 1fr);
+      }
     }
-    @media (min-width: 1024px){
-      .ad-wrap{ min-height: 250px; }
+
+    @media (max-width:460px) {
+      .kpis {
+        grid-template-columns: 1fr;
+      }
     }
-    .ad-wrap:empty::before{
-      content:""; display:block; width:100%; height:100%;
+
+    .kpi {
+      padding: 10px;
+      border-radius: 10px;
+      background: #0a1224;
+      border: 1px solid var(--border);
+      box-shadow: var(--glow-soft);
     }
-    .ad-wrap ins.adsbygoogle{
-      display:block !important; width:100% !important; min-height:160px !important;
+
+    .kpi b {
+      font-size: 18px;
+      display: block;
     }
-    @media (min-width:1024px){
-      .ad-wrap ins.adsbygoogle{ min-height:250px !important; }
+
+    .tiny {
+      font-size: 12px;
+      opacity: .85;
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+    }
+
+    .danger {
+      background: transparent;
+      color: #ffb4b4;
+      border: 1px solid color-mix(in oklab, red 60%, #223);
     }
 
     /* Video section */
-    .video-card{ position:relative; z-index:1; }
-    .yt-wrap{
-      width:100%; max-width:820px; aspect-ratio:16/9;
-      border-radius:12px; overflow:hidden; border:1px solid var(--border);
-      background:#080d18; margin-top:8px; position:relative; contain:layout paint;
+    .video-card {
+      position: relative;
+      z-index: 1;
     }
-    .yt-thumb{ width:100%; height:100%; display:block; object-fit:cover; }
-    .yt-play{
-      position:absolute; inset:0; display:grid; place-items:center; cursor:pointer;
-      background:linear-gradient(0deg, rgba(0,0,0,.35), rgba(0,0,0,.35));
+
+    .yt-wrap {
+      width: 100%;
+      max-width: 820px;
+      aspect-ratio: 16/9;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: #080d18;
+      margin-top: 8px;
+      position: relative;
+      contain: layout paint;
     }
-    .yt-play span{ width:68px; height:48px; border-radius:12px; background:rgba(0,0,0,.6); display:grid; place-items:center; }
-    .yt-play svg{ width:28px; height:28px; fill:#fff; }
+
+    .yt-thumb {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+    }
+
+    .yt-play {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      background: linear-gradient(0deg, rgba(0, 0, 0, .35), rgba(0, 0, 0, .35));
+    }
+
+    .yt-play span {
+      width: 68px;
+      height: 48px;
+      border-radius: 12px;
+      background: rgba(0, 0, 0, .6);
+      display: grid;
+      place-items: center;
+    }
+
+    .yt-play svg {
+      width: 28px;
+      height: 28px;
+      fill: #fff;
+    }
 
     /* Tips / Related */
-    .tips-related{ display:grid; gap:12px; grid-template-columns:1fr 1fr; align-items:start; }
-    .tips-related .list{ margin:0; }
-    @media (max-width:720px){ .tips-related{ grid-template-columns:1fr; } }
+    .tips-related {
+      display: grid;
+      gap: 12px;
+      grid-template-columns: 1fr 1fr;
+      align-items: start;
+    }
+
+    .tips-related .list {
+      margin: 0;
+    }
+
+    @media (max-width:720px) {
+      .tips-related {
+        grid-template-columns: 1fr;
+      }
+    }
 
     /* Ensure later sections never get covered */
-    section.card, section.spaced, .site-footer{ position:relative; z-index:0; }
+    section.card,
+    section.spaced,
+    .site-footer {
+      position: relative;
+      z-index: 0;
+    }
 
     /* Focus styles */
-    a:focus, button:focus, select:focus, textarea:focus{ outline:2px solid #3b82f6; outline-offset:2px; }
+    a:focus,
+    button:focus,
+    select:focus,
+    textarea:focus {
+      outline: 2px solid #3b82f6;
+      outline-offset: 2px;
+    }
   </style>
 </head>
 
 <body>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617"
+    crossorigin="anonymous"></script>
+  <!-- small fixed -->
+  <ins class="adsbygoogle" style="display:inline-block;width:500px;height:50px" data-ad-client="ca-pub-6216304334889617"
+    data-ad-slot="9810172647"></ins>
+  <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
   <header class="site" role="banner">
     <div class="header-inner">
       <a class="brand" href="/" aria-label="UpTools Home">
@@ -264,14 +417,13 @@
           <span class="pill">⚡ Streams live</span>
           <span class="pill">🔒 No browser API key</span>
           <a class="chip" href="/sitemap.xml">Sitemap</a>
-          <a class="chip" href="/about/"><span class="card-badge" aria-hidden="true">ABT</span> <span class="sr-only">About page</span>About</a>
-          <a class="chip" href="/contact/"><span class="card-badge" aria-hidden="true">CT</span> <span class="sr-only">Contact page</span>Contact</a>
+          <a class="chip" href="/about/"><span class="card-badge" aria-hidden="true">ABT</span> <span
+              class="sr-only">About page</span>About</a>
+          <a class="chip" href="/contact/"><span class="card-badge" aria-hidden="true">CT</span> <span
+              class="sr-only">Contact page</span>Contact</a>
         </div>
       </div>
     </section>
-
-    <!-- Reserved ad slot (prevents CLS) -->
-    <section id="adMount" class="ad-wrap" aria-label="Advertisement area"></section>
 
     <section class="grid" aria-label="Workspace">
       <article class="panel card" aria-labelledby="input-title">
@@ -318,7 +470,8 @@
             </div>
           </div>
 
-          <textarea id="input" class="input" placeholder="Paste or type your text here…" spellcheck="true" aria-label="Input text"></textarea>
+          <textarea id="input" class="input" placeholder="Paste or type your text here…" spellcheck="true"
+            aria-label="Input text"></textarea>
 
           <div class="toolbar" role="group" aria-label="Model selection">
             <button id="runBtn" class="btn" type="button">Run ▶</button>
@@ -354,7 +507,8 @@
           <div class="toolbar" role="group" aria-label="Output actions">
             <button id="copyBtn" class="btn sm" type="button">Copy</button>
             <button id="downloadBtn" class="btn sm" type="button">Download .txt</button>
-            <button id="permBtn" class="btn sm secondary" type="button" title="Create a shareable link with your settings">Permalink</button>
+            <button id="permBtn" class="btn sm secondary" type="button"
+              title="Create a shareable link with your settings">Permalink</button>
           </div>
         </div>
 
@@ -372,9 +526,12 @@
             <div>
               <h3 class="h5">Tips</h3>
               <ul class="list compact">
-                <li><b>Originality:</b> We combine an AI estimate with local heuristics (n-gram repetition, sentence variety). Use as guidance.</li>
+                <li><b>Originality:</b> We combine an AI estimate with local heuristics (n-gram repetition, sentence
+                  variety). Use as guidance.</li>
                 <li><b>Paraphrase:</b> Choose tone and constraints for safer rewrites.</li>
-                <li><b>Academic use:</b> Always cite your sources. See <a href="https://en.wikipedia.org/wiki/Plagiarism" target="_blank" rel="nofollow noopener">what is plagiarism</a>.</li>
+                <li><b>Academic use:</b> Always cite your sources. See <a
+                    href="https://en.wikipedia.org/wiki/Plagiarism" target="_blank" rel="nofollow noopener">what is
+                    plagiarism</a>.</li>
               </ul>
             </div>
             <div>
@@ -397,13 +554,14 @@
           <!-- Use vi_webp to avoid 404s on some videos -->
           <source type="image/webp" srcset="https://i.ytimg.com/vi_webp/Uk1pq8sb-eo/hqdefault.webp">
           <img class="yt-thumb" src="https://i.ytimg.com/vi/Uk1pq8sb-eo/hqdefault.jpg"
-               alt="Video thumbnail: How to use AI Plagiarism Checker"
-               loading="lazy" decoding="async" width="1280" height="720">
+            alt="Video thumbnail: How to use AI Plagiarism Checker" loading="lazy" decoding="async" width="1280"
+            height="720">
         </picture>
         <button class="yt-play" type="button" aria-label="Play video" data-yt="Uk1pq8sb-eo">
           <span aria-hidden="true">
             <svg viewBox="0 0 68 48" width="68" height="48" aria-hidden="true">
-              <path d="M66.52 7.74a8 8 0 0 0-5.62-5.66C56.3 1 34 1 34 1s-22.3 0-26.9 1.08A8 8 0 0 0 1.48 7.74 83.3 83.3 0 0 0 0 24a83.3 83.3 0 0 0 1.48 16.26 8 8 0 0 0 5.62 5.66C11.7 47 34 47 34 47s22.3 0 26.9-1.08a8 8 0 0 0 5.62-5.66A83.3 83.3 0 0 0 68 24a83.3 83.3 0 0 0-1.48-16.26zM27 34V14l18 10z"/>
+              <path
+                d="M66.52 7.74a8 8 0 0 0-5.62-5.66C56.3 1 34 1 34 1s-22.3 0-26.9 1.08A8 8 0 0 0 1.48 7.74 83.3 83.3 0 0 0 0 24a83.3 83.3 0 0 0 1.48 16.26 8 8 0 0 0 5.62 5.66C11.7 47 34 47 34 47s22.3 0 26.9-1.08a8 8 0 0 0 5.62-5.66A83.3 83.3 0 0 0 68 24a83.3 83.3 0 0 0-1.48-16.26zM27 34V14l18 10z" />
             </svg>
           </span>
         </button>
@@ -414,16 +572,25 @@
             referrerpolicy="strict-origin-when-cross-origin" allowfullscreen loading="lazy"></iframe>
         </noscript>
       </div>
-      <p class="tiny" style="margin-top:8px">Video covers originality %, risky line highlights, paraphrasing with tone, and generating permalinks.</p>
+      <p class="tiny" style="margin-top:8px">Video covers originality %, risky line highlights, paraphrasing with tone,
+        and generating permalinks.</p>
     </section>
 
     <section class="spaced" aria-labelledby="related">
       <h2 id="related" class="h5">More from UpTools</h2>
       <div class="grid" style="grid-template-columns: repeat(4,1fr);">
-        <a class="card tool-link accent-indigo" href="/text-case-converter/"><span class="ico" aria-hidden="true">🔤</span><span><b>Text Case Converter</b><br><span class="note">Upper/lower/title case</span></span></a>
-        <a class="card tool-link accent-emerald" href="/json-formatter/"><span class="ico" aria-hidden="true">🧩</span><span><b>JSON Formatter</b><br><span class="note">Prettify &amp; validate</span></span></a>
-        <a class="card tool-link accent-cyan" href="/image-converter/"><span class="ico" aria-hidden="true">🖼️</span><span><b>Image Converter</b><br><span class="note">Resize &amp; format</span></span></a>
-        <a class="card tool-link accent-violet" href="/qr-generator/"><span class="ico" aria-hidden="true">🔳</span><span><b>QR Generator</b><br><span class="note">Create QR codes</span></span></a>
+        <a class="card tool-link accent-indigo" href="/text-case-converter/"><span class="ico"
+            aria-hidden="true">🔤</span><span><b>Text Case Converter</b><br><span class="note">Upper/lower/title
+              case</span></span></a>
+        <a class="card tool-link accent-emerald" href="/json-formatter/"><span class="ico"
+            aria-hidden="true">🧩</span><span><b>JSON Formatter</b><br><span class="note">Prettify &amp;
+              validate</span></span></a>
+        <a class="card tool-link accent-cyan" href="/image-converter/"><span class="ico"
+            aria-hidden="true">🖼️</span><span><b>Image Converter</b><br><span class="note">Resize &amp;
+              format</span></span></a>
+        <a class="card tool-link accent-violet" href="/qr-generator/"><span class="ico"
+            aria-hidden="true">🔳</span><span><b>QR Generator</b><br><span class="note">Create QR
+              codes</span></span></a>
       </div>
     </section>
 
@@ -433,7 +600,8 @@
         <a href="/contact/"><span class="card-badge" aria-hidden="true">CT</span> Contact</a>
         <a href="/privacy/"><span class="card-badge" aria-hidden="true">PP</span> Privacy</a>
       </nav>
-      <p class="tiny">© <span id="y"></span> UpTools · <a href="https://creativecommons.org/licenses/" target="_blank" rel="nofollow noopener">Creative Commons</a></p>
+      <p class="tiny">© <span id="y"></span> UpTools · <a href="https://creativecommons.org/licenses/" target="_blank"
+          rel="nofollow noopener">Creative Commons</a></p>
     </footer>
   </main>
 
@@ -491,11 +659,11 @@
 
     // Initialize provider / model without causing layout changes
     providerSel.value = cfg.provider || 'perplexity';
-    (function populateModelsInitial(){
+    (function populateModelsInitial() {
       const prov = providerSel.value;
       const models = PROVIDER_MODELS[prov] || [];
       const desired = cfg.model || (models[0]?.id || 'sonar');
-      const needs = ![...modelSel.options].map(o=>o.value).every((v,i)=>models[i]?.id===v);
+      const needs = ![...modelSel.options].map(o => o.value).every((v, i) => models[i]?.id === v);
       if (needs) {
         modelSel.innerHTML = '';
         for (const m of models) {
@@ -507,7 +675,7 @@
       modelSel.value = desired;
     })();
 
-    function populateModels(){
+    function populateModels() {
       const prov = providerSel.value || 'perplexity';
       const models = PROVIDER_MODELS[prov] || [];
       modelSel.innerHTML = '';
@@ -530,11 +698,11 @@
     });
 
     // Counts
-    function counts(text){
+    function counts(text) {
       const words = (text.trim().match(/\b[\w''-]+\b/gu) || []).length;
       return { chars: text.length, words };
     }
-    function updateCounts(){
+    function updateCounts() {
       const { chars, words } = counts(input.value);
       charCount.textContent = chars.toLocaleString();
       wordCount.textContent = words.toLocaleString();
@@ -582,43 +750,43 @@
     });
 
     // Heuristics (local)
-    function sentences(text){ return (text.trim().match(/[^.!?]+[.!?]*/g) || []).map(s=>s.trim()).filter(Boolean); }
-    function avg(a){ return a.length ? a.reduce((x,y)=>x+y,0)/a.length : 0; }
-    function stddev(a){ if(!a.length) return 0; const m=avg(a); return Math.sqrt(avg(a.map(x=>(x-m)*(x-m)))); }
-    function fleschReadingEase(text){
-      const words=(text.match(/\b[a-zA-Z''-]+\b/g)||[]);
-      const syllables=words.reduce((s,w)=>s+((w.toLowerCase().match(/[aeiouy]+/g)||[]).length||1),0);
-      const sents=sentences(text).length||1;
-      const W=Math.max(words.length,1), S=Math.max(sents,1), SYL=Math.max(syllables,1);
-      return Math.max(0, Math.min(100, 206.835 - 1.015*(W/S) - 84.6*(SYL/W)));
+    function sentences(text) { return (text.trim().match(/[^.!?]+[.!?]*/g) || []).map(s => s.trim()).filter(Boolean); }
+    function avg(a) { return a.length ? a.reduce((x, y) => x + y, 0) / a.length : 0; }
+    function stddev(a) { if (!a.length) return 0; const m = avg(a); return Math.sqrt(avg(a.map(x => (x - m) * (x - m)))); }
+    function fleschReadingEase(text) {
+      const words = (text.match(/\b[a-zA-Z''-]+\b/g) || []);
+      const syllables = words.reduce((s, w) => s + ((w.toLowerCase().match(/[aeiouy]+/g) || []).length || 1), 0);
+      const sents = sentences(text).length || 1;
+      const W = Math.max(words.length, 1), S = Math.max(sents, 1), SYL = Math.max(syllables, 1);
+      return Math.max(0, Math.min(100, 206.835 - 1.015 * (W / S) - 84.6 * (SYL / W)));
     }
-    function ngramRepeats(text, n=4){
-      const tokens=(text.toLowerCase().match(/\b[\w''-]+\b/g)||[]);
-      const grams=new Map(); let repeats=0;
-      for(let i=0;i<=tokens.length-n;i++){ const g=tokens.slice(i,i+n).join(' '); grams.set(g,(grams.get(g)||0)+1); }
-      grams.forEach(c=>{ if(c>1) repeats += (c-1); });
+    function ngramRepeats(text, n = 4) {
+      const tokens = (text.toLowerCase().match(/\b[\w''-]+\b/g) || []);
+      const grams = new Map(); let repeats = 0;
+      for (let i = 0; i <= tokens.length - n; i++) { const g = tokens.slice(i, i + n).join(' '); grams.set(g, (grams.get(g) || 0) + 1); }
+      grams.forEach(c => { if (c > 1) repeats += (c - 1); });
       return repeats;
     }
-    function sentenceVariety(text){ const lens=sentences(text).map(s=>s.split(/\s+/).filter(Boolean).length); return stddev(lens); }
-    function heuristicOriginality(text){
-      if(!text || text.trim().length<60) return 100;
-      const fre=fleschReadingEase(text); const rep4=ngramRepeats(text,4); const varS=sentenceVariety(text);
-      let score=92 - Math.min(40, rep4*2.5) + Math.min(6, varS*0.6) + Math.min(6, (fre-50)/10);
+    function sentenceVariety(text) { const lens = sentences(text).map(s => s.split(/\s+/).filter(Boolean).length); return stddev(lens); }
+    function heuristicOriginality(text) {
+      if (!text || text.trim().length < 60) return 100;
+      const fre = fleschReadingEase(text); const rep4 = ngramRepeats(text, 4); const varS = sentenceVariety(text);
+      let score = 92 - Math.min(40, rep4 * 2.5) + Math.min(6, varS * 0.6) + Math.min(6, (fre - 50) / 10);
       return Math.max(0, Math.min(100, Math.round(score)));
     }
-    function updateKPIs(text){
+    function updateKPIs(text) {
       kpiOriginality.textContent = heuristicOriginality(text) + '%';
       kpiVariety.textContent = sentenceVariety(text).toFixed(1);
       kpiFlesch.textContent = fleschReadingEase(text).toFixed(0);
-      kpiNgram.textContent = ngramRepeats(text,4).toString();
+      kpiNgram.textContent = ngramRepeats(text, 4).toString();
     }
-    function resetKPIs(){ kpiOriginality.textContent='-'; kpiVariety.textContent='-'; kpiFlesch.textContent='-'; kpiNgram.textContent='-'; }
-    input.addEventListener('input', debounce(()=>updateKPIs(input.value), 100));
+    function resetKPIs() { kpiOriginality.textContent = '-'; kpiVariety.textContent = '-'; kpiFlesch.textContent = '-'; kpiNgram.textContent = '-'; }
+    input.addEventListener('input', debounce(() => updateKPIs(input.value), 100));
 
     // Prompt builder
-    function buildPrompt(task, text){
+    function buildPrompt(task, text) {
       const v = id => document.getElementById(id)?.value;
-      if(task==='originality'){
+      if (task === 'originality') {
         return [
           "You are an academic integrity assistant.",
           "Analyze the user's text for potential plagiarism risk WITHOUT using web search.",
@@ -628,7 +796,7 @@
           "\n---\n", text
         ].join('\n');
       }
-      if(task==='paraphrase'){
+      if (task === 'paraphrase') {
         return [
           `Paraphrase the text to improve originality while preserving meaning.`,
           `Tone: ${v('optTone') || 'Neutral'}. Constraints: ${v('optRules') || 'vary sentence structure; avoid clichés; active voice; keep citations if present.'}`,
@@ -643,13 +811,13 @@
     }
 
     // Streaming via Worker proxy (/ai)
-    let aborter=null;
-    async function streamChat({ provider, model, prompt }){
-      const attempt = async (prov, mdl)=>{
+    let aborter = null;
+    async function streamChat({ provider, model, prompt }) {
+      const attempt = async (prov, mdl) => {
         const res = await fetch('/ai', {
-          method:'POST',
-          signal: (aborter=new AbortController()).signal,
-          headers:{'Content-Type':'application/json'},
+          method: 'POST',
+          signal: (aborter = new AbortController()).signal,
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             provider: prov, model: mdl, stream: true, temperature: 0.3,
             messages: [
@@ -658,146 +826,129 @@
             ]
           })
         });
-        if(!res.ok) throw new Error(`HTTP ${res.status}`);
-        const reader=res.body.getReader(); const dec=new TextDecoder(); let acc='';
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const reader = res.body.getReader(); const dec = new TextDecoder(); let acc = '';
 
-        const append = (txt)=>{ if(!txt) return; acc+=txt; output.append(document.createTextNode(txt)); output.scrollTop=output.scrollHeight; };
+        const append = (txt) => { if (!txt) return; acc += txt; output.append(document.createTextNode(txt)); output.scrollTop = output.scrollHeight; };
 
-        for(;;){
-          const {value,done}=await reader.read(); if(done) break;
-          const chunk = dec.decode(value,{stream:true});
-          for(const raw of chunk.split('\n')){
-            const line=raw.trim(); if(!line || !line.startsWith('data:')) continue;
-            const payload=line.slice(5).trim(); if(payload==='[DONE]'){ aborter=null; return acc; }
-            try{
-              const json=JSON.parse(payload);
-              if(json.choices?.[0]?.delta?.content!=null){ append(json.choices[0].delta.content); continue; }
-              if(json.candidates?.length){
-                const c=json.candidates[0], d=c.delta?.parts||[], p=c.content?.parts||[];
-                if(d.length){ append(d.map(x=>x.text||'').join('')); continue; }
-                if(p.length){ append(p.map(x=>x.text||'').join('')); continue; }
-                if(c.content?.text){ append(c.content.text); continue; }
+        for (; ;) {
+          const { value, done } = await reader.read(); if (done) break;
+          const chunk = dec.decode(value, { stream: true });
+          for (const raw of chunk.split('\n')) {
+            const line = raw.trim(); if (!line || !line.startsWith('data:')) continue;
+            const payload = line.slice(5).trim(); if (payload === '[DONE]') { aborter = null; return acc; }
+            try {
+              const json = JSON.parse(payload);
+              if (json.choices?.[0]?.delta?.content != null) { append(json.choices[0].delta.content); continue; }
+              if (json.candidates?.length) {
+                const c = json.candidates[0], d = c.delta?.parts || [], p = c.content?.parts || [];
+                if (d.length) { append(d.map(x => x.text || '').join('')); continue; }
+                if (p.length) { append(p.map(x => x.text || '').join('')); continue; }
+                if (c.content?.text) { append(c.content.text); continue; }
               }
-              if(typeof json.text==='string'){ append(json.text); continue; }
-              if(json.message?.content){ append(json.message.content); continue; }
-              if(json.error?.message) throw new Error(json.error.message);
-            }catch{ /* keep-alives */ }
+              if (typeof json.text === 'string') { append(json.text); continue; }
+              if (json.message?.content) { append(json.message.content); continue; }
+              if (json.error?.message) throw new Error(json.error.message);
+            } catch { /* keep-alives */ }
           }
         }
-        aborter=null; return acc;
+        aborter = null; return acc;
       };
 
-      output.textContent=''; status.textContent='Running…'; stopBtn.disabled=false;
+      output.textContent = ''; status.textContent = 'Running…'; stopBtn.disabled = false;
 
-      try{
+      try {
         try { return await attempt(provider, model); }
-        catch(e){
-          if(provider==='google'){
-            for(const alt of (GOOGLE_MODEL_FALLBACKS[model]||[])){
-              try{
-                status.textContent=`Retrying with ${alt}…`;
-                const result=await attempt('google', alt);
-                persist(CFG_KEY,{provider:'google', model:alt}); modelSel.value=alt;
+        catch (e) {
+          if (provider === 'google') {
+            for (const alt of (GOOGLE_MODEL_FALLBACKS[model] || [])) {
+              try {
+                status.textContent = `Retrying with ${alt}…`;
+                const result = await attempt('google', alt);
+                persist(CFG_KEY, { provider: 'google', model: alt }); modelSel.value = alt;
                 return result;
-              }catch{}
+              } catch { }
             }
           }
           throw e;
         }
-      } finally { stopBtn.disabled=true; }
+      } finally { stopBtn.disabled = true; }
     }
 
     byId('stopBtn').addEventListener('click', () => {
-      if (aborter){ aborter.abort(); aborter=null; stopBtn.disabled=true; status.textContent='Stopped.'; }
+      if (aborter) { aborter.abort(); aborter = null; stopBtn.disabled = true; status.textContent = 'Stopped.'; }
     });
 
     byId('runBtn').addEventListener('click', async () => {
-      const text=input.value.trim();
-      if(!text){ toast('Enter some text first'); input.focus(); return; }
+      const text = input.value.trim();
+      if (!text) { toast('Enter some text first'); input.focus(); return; }
       updateKPIs(text);
 
-      const provider=providerSel.value||'perplexity';
-      const model=modelSel.value || (PROVIDER_MODELS[provider]?.[0]?.id ?? '');
-      if(!model){ toast('Pick a model'); return; }
+      const provider = providerSel.value || 'perplexity';
+      const model = modelSel.value || (PROVIDER_MODELS[provider]?.[0]?.id ?? '');
+      if (!model) { toast('Pick a model'); return; }
 
-      const task=taskSel.value; output.textContent=''; stopBtn.disabled=false; status.textContent='Running…';
-      try{
-        const prompt=buildPrompt(task, text);
+      const task = taskSel.value; output.textContent = ''; stopBtn.disabled = false; status.textContent = 'Running…';
+      try {
+        const prompt = buildPrompt(task, text);
         await streamChat({ provider, model, prompt });
-        status.textContent='Done.';
-      }catch(e){
-        status.textContent=(e?.message||'Error')+' - check provider/model or quotas.';
+        status.textContent = 'Done.';
+      } catch (e) {
+        status.textContent = (e?.message || 'Error') + ' - check provider/model or quotas.';
         toast('Request failed.');
-      }finally{ stopBtn.disabled=true; }
+      } finally { stopBtn.disabled = true; }
     });
 
     // Copy / Download / Permalink
-    byId('copyBtn').addEventListener('click', async ()=>{
-      try{ await navigator.clipboard.writeText(output.textContent||''); toast('Copied'); }
-      catch{ toast('Copy blocked by browser'); }
+    byId('copyBtn').addEventListener('click', async () => {
+      try { await navigator.clipboard.writeText(output.textContent || ''); toast('Copied'); }
+      catch { toast('Copy blocked by browser'); }
     });
-    byId('downloadBtn').addEventListener('click', ()=>{
-      const blob=new Blob([output.textContent||''],{type:'text/plain;charset=utf-8'});
-      const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='ai-result.txt'; a.click();
+    byId('downloadBtn').addEventListener('click', () => {
+      const blob = new Blob([output.textContent || ''], { type: 'text/plain;charset=utf-8' });
+      const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'ai-result.txt'; a.click();
       URL.revokeObjectURL(a.href);
     });
-    byId('permBtn').addEventListener('click', async ()=>{
-      const o={ t: taskSel.value, p: providerSel.value, m: modelSel.value };
-      const url=new URL(location.href); url.hash=encodeURIComponent(btoa(JSON.stringify(o)));
-      try{ await navigator.clipboard.writeText(url.toString()); toast('Permalink copied'); }
-      catch{ toast('Permalink ready (check address bar)'); history.replaceState({},'',url); }
+    byId('permBtn').addEventListener('click', async () => {
+      const o = { t: taskSel.value, p: providerSel.value, m: modelSel.value };
+      const url = new URL(location.href); url.hash = encodeURIComponent(btoa(JSON.stringify(o)));
+      try { await navigator.clipboard.writeText(url.toString()); toast('Permalink copied'); }
+      catch { toast('Permalink ready (check address bar)'); history.replaceState({}, '', url); }
     });
 
-    function toast(msg){ status.textContent=msg; setTimeout(()=>{ if(status.textContent===msg) status.textContent=''; }, 1800); }
-
-    // Mount AdSense without toggling display (slot already reserved)
-    (function mountAd(){
-      if(!('adsbygoogle' in window)) return;
-      const mount=byId('adMount');
-      const ins=document.createElement('ins');
-      ins.className='adsbygoogle';
-      ins.setAttribute('data-ad-client','ca-pub-6216304334889617');
-      ins.setAttribute('data-ad-slot','9651757525');      // TODO: replace with your real numeric Ad Unit ID
-      ins.setAttribute('data-ad-format','auto');
-      ins.setAttribute('data-full-width-responsive','true');
-      ins.setAttribute('data-adtest','on');               // safe while testing/under review
-      mount.appendChild(ins);
-      try{ (window.adsbygoogle = window.adsbygoogle || []).push({}); }catch{}
-    })();
+    function toast(msg) { status.textContent = msg; setTimeout(() => { if (status.textContent === msg) status.textContent = ''; }, 1800); }
 
     // Init KPIs and Year
-    (function init(){ document.getElementById('y').textContent=new Date().getFullYear(); resetKPIs(); })();
+    (function init() { document.getElementById('y').textContent = new Date().getFullYear(); resetKPIs(); })();
   </script>
 
   <!-- Lazy YouTube loader (container pre-sized, so no CLS) -->
   <script defer>
     (function () {
-      const btn=document.querySelector('.yt-play'); const wrap=document.querySelector('.yt-wrap');
-      if(!btn || !wrap) return;
-      const loadIframe=()=>{
-        if(wrap.dataset.loaded) return;
-        const id=btn.getAttribute('data-yt');
-        const iframe=document.createElement('iframe');
-        iframe.width='100%'; iframe.height='100%';
-        iframe.src='https://www.youtube.com/embed/'+id+'?autoplay=1&rel=0';
-        iframe.title='YouTube video player'; iframe.loading='lazy';
-        iframe.setAttribute('frameborder','0');
-        iframe.setAttribute('allow','accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
-        iframe.setAttribute('referrerpolicy','strict-origin-when-cross-origin');
-        iframe.setAttribute('allowfullscreen','');
-        wrap.innerHTML=''; wrap.appendChild(iframe); wrap.dataset.loaded='1';
+      const btn = document.querySelector('.yt-play'); const wrap = document.querySelector('.yt-wrap');
+      if (!btn || !wrap) return;
+      const loadIframe = () => {
+        if (wrap.dataset.loaded) return;
+        const id = btn.getAttribute('data-yt');
+        const iframe = document.createElement('iframe');
+        iframe.width = '100%'; iframe.height = '100%';
+        iframe.src = 'https://www.youtube.com/embed/' + id + '?autoplay=1&rel=0';
+        iframe.title = 'YouTube video player'; iframe.loading = 'lazy';
+        iframe.setAttribute('frameborder', '0');
+        iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
+        iframe.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
+        iframe.setAttribute('allowfullscreen', '');
+        wrap.innerHTML = ''; wrap.appendChild(iframe); wrap.dataset.loaded = '1';
       };
-      btn.addEventListener('click', loadIframe, { passive:true });
-      if('IntersectionObserver' in window){
-        const io=new IntersectionObserver((entries)=>{
-          entries.forEach(e=>{ if(e.isIntersecting){ loadIframe(); io.disconnect(); } });
-        },{ rootMargin:'200px' });
+      btn.addEventListener('click', loadIframe, { passive: true });
+      if ('IntersectionObserver' in window) {
+        const io = new IntersectionObserver((entries) => {
+          entries.forEach(e => { if (e.isIntersecting) { loadIframe(); io.disconnect(); } });
+        }, { rootMargin: '200px' });
         io.observe(wrap);
       }
     })();
   </script>
-
-  <!-- AdSense -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617" crossorigin="anonymous"></script>
 </body>
+
 </html>
