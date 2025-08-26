@@ -2,16 +2,13 @@
 <html lang="en">
 
 <head>
-  <!-- Google Ads (async, single loader only) -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617"
-    crossorigin="anonymous"></script>
 
   <!-- Perf / basics -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta http-equiv="x-ua-compatible" content="IE=edge" />
   <meta name="color-scheme" content="dark light" />
-    <!-- Favicon -->
+  <!-- Favicon -->
   <link rel="icon" sizes="50x50" type="image/svg+xml" href="/assets/logo/uptools-logo.svg">
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/logo/uptools-logo.svg">
 
@@ -148,6 +145,14 @@
 </head>
 
 <body>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617"
+    crossorigin="anonymous"></script>
+  <!-- small fixed -->
+  <ins class="adsbygoogle" style="display:inline-block;width:500px;height:50px" data-ad-client="ca-pub-6216304334889617"
+    data-ad-slot="9810172647"></ins>
+  <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
   <a class="sr-only" href="#main">Skip to content</a>
 
   <!-- Header (uses common classes & main logo) -->
@@ -184,12 +189,6 @@
       <!-- CLS-safe art (optional, fixed size) -->
       <img src="/assets/ui/base64-illustration.png" alt="Illustration: Base64 blocks" width="96" height="96"
         loading="lazy" style="margin-left:auto;border-radius:12px;border:1px solid var(--border)">
-    </section>
-
-    <!-- Top ad (fixed height to avoid CLS) -->
-    <section class="card ad-wrap" aria-label="Sponsored" style="min-height:120px">
-      <ins class="adsbygoogle" style="display:block;min-height:120px" data-ad-client="ca-pub-6216304334889617"
-        data-ad-slot="9651757525" data-ad-format="auto" data-full-width-responsive="true"></ins>
     </section>
 
     <section class="layout" style="display:grid;gap:12px;grid-template-columns:1fr 360px">
@@ -349,12 +348,6 @@
       </aside>
     </section>
 
-    <!-- Bottom ad -->
-    <section class="card ad-wrap" aria-label="Sponsored" style="min-height:120px;margin-top:12px">
-      <ins class="adsbygoogle" style="display:block;min-height:120px" data-ad-client="ca-pub-6216304334889617"
-        data-ad-slot="9651757525" data-ad-format="auto" data-full-width-responsive="true"></ins>
-    </section>
-
     <footer class="note small site-footer" role="contentinfo">
       © <span id="y"></span> UpTools · <a href="/about/">About</a> · <a href="/contact/">Contact</a> · <a
         href="/sitemap.xml">Sitemap</a> · <a href="/robots.txt">Robots</a>
@@ -365,10 +358,7 @@
   <script type="module">
     import { $, $$, debounce, setText, persist, read } from '/scripts/utils.js';
 
-    // Footer, ads
     setText($('#y'), new Date().getFullYear());
-    try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch { }
-    try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch { }
 
     // UTF-8 helpers
     const enc = new TextEncoder();

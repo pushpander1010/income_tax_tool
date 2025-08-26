@@ -2,9 +2,7 @@
 <html lang="en">
 
 <head>
-  <!-- Google Ads (single/async). We reserve space to avoid CLS and show a fallback card if blocked. -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617"
-    crossorigin="anonymous"></script>
+
   <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
   <link rel="dns-prefetch" href="//pagead2.googlesyndication.com">
 
@@ -393,17 +391,6 @@
       transform: translateX(-50%)
     }
 
-    .ads-box {
-      display: block;
-      min-height: 280px;
-      width: 100%;
-      overflow: hidden
-    }
-
-    .ad-fallback {
-      display: none
-    }
-
     .hidden {
       display: none !important
     }
@@ -559,6 +546,14 @@
 </head>
 
 <body>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617"
+    crossorigin="anonymous"></script>
+  <!-- small fixed -->
+  <ins class="adsbygoogle" style="display:inline-block;width:500px;height:50px" data-ad-client="ca-pub-6216304334889617"
+    data-ad-slot="9810172647"></ins>
+  <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
   <a class="sr-only" href="#main">Skip to content</a>
 
   <!-- Header -->
@@ -591,20 +586,6 @@
             <span class="pill">🔥 BMR & TDEE</span>
           </div>
         </div>
-      </section>
-
-      <!-- In-article ad (fixed slot; fallback shows internal promo if blocked) -->
-      <section id="ad-article-1" class="card" style="padding:.5rem">
-        <ins class="adsbygoogle ads-box" style="display:block;width:100%;overflow:hidden"
-          data-ad-client="ca-pub-6216304334889617" data-ad-slot="9651757525" data-ad-format="auto"
-          data-full-width-responsive="true" aria-label="Sponsored"></ins>
-        <div class="ad-fallback">
-          <a class="tool-link" href="/age-calculator/">
-            <span class="tlogo" aria-hidden="true">AC</span>
-            <span><b>Try our Age Calculator</b> - exact age, next birthday, working days.</span>
-          </a>
-        </div>
-        <script>(window.adsbygoogle = window.adsbygoogle || []).push({});</script>
       </section>
 
       <!-- Content column only; results open in overlay -->
@@ -1167,14 +1148,6 @@
 
     renderScale();
     calculate();
-
-    // Ads fallback (keep slot stable)
-    setTimeout(() => {
-      const ins = document.querySelector('#ad-article-1 ins.adsbygoogle');
-      const fb = document.querySelector('#ad-article-1 .ad-fallback');
-      const filled = ins && ins.querySelector('iframe');
-      if (!filled && fb) { fb.style.display = 'block'; }
-    }, 1200);
 
     // ---- Universal results sheet controls
     const openSheet = () => { E.sheet.classList.add('open'); E.sheet.setAttribute('aria-hidden', 'false'); E.sheetToggle.setAttribute('aria-expanded', 'true'); }
