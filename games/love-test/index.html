@@ -1,0 +1,1057 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+
+    <title>Couple Compatibility Quiz ❤️ Romantic Love Test (2-Player + Challenge Link) | UpTools</title>
+    <meta name="description"
+        content="Play a romantic couple compatibility quiz with a cute pink heart vibe. Two-player on the same device or send a challenge link. Full-screen gameplay, responsive on mobile & desktop, saves best score and last played." />
+    <meta name="keywords"
+        content="couple game,couple quiz,love test,romantic game,relationship quiz,date night game,compatibility test,play with partner" />
+    <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:large" />
+    <meta name="theme-color" content="#ff5fa2" />
+
+    <!-- Canonical + Icons -->
+    <link rel="canonical" href="https://www.uptools.in/games/couple-quiz/" />
+    <link rel="icon" type="image/svg+xml" href="/assets/logo/uptools-logo.svg" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/logo/uptools-logo.svg" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Couple Compatibility Quiz — Romantic Love Test | UpTools" />
+    <meta property="og:description"
+        content="Answer sweet prompts, compare with your partner, and get a love score. Two-player on one device or share a link." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.uptools.in/games/couple-quiz/" />
+    <meta property="og:site_name" content="UpTools" />
+    <meta property="og:image" content="https://www.uptools.in/assets/og/couple-quiz.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Structured data -->
+    <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"WebApplication","name":"Couple Compatibility Quiz","applicationCategory":"Game","operatingSystem":"Any","url":"https://www.uptools.in/games/couple-quiz/","publisher":{"@type":"Organization","name":"UpTools"},"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
+  </script>
+
+    <!-- Common CSS (shared site styles) -->
+    <link rel="preload" href="/style.css?v=1.2.7" as="style">
+    <link rel="stylesheet" href="/style.css?v=1.2.7" media="print" onload="this.media='all'">
+    <noscript>
+        <link rel="stylesheet" href="/style.css?v=1.2.7">
+    </noscript>
+
+    <!-- Page-specific, pink romantic theme + ultra-light CSS hearts background -->
+    <style>
+        :root {
+            --accent: #ff5fa2;
+            /* hot pink */
+            --accent-2: #ff8ad4;
+            /* soft pink */
+            --bg: #120915;
+            --bg1: #120915;
+            /* gradient start */
+            --bg2: #1a0f1a;
+            /* gradient end   */
+            --card: #1c1020;
+            --muted: #ffd4e7;
+            --cardBorder: color-mix(in oklab, var(--accent) 35%, #2a1830);
+        }
+
+        body {
+            background:
+                radial-gradient(1200px 700px at 10% -10%, #1f0f25 0%, transparent 45%),
+                radial-gradient(1000px 600px at 110% 10%, #1a0d20 0%, transparent 45%),
+                linear-gradient(135deg, var(--bg1), var(--bg2)) fixed;
+            min-height: 100svh;
+        }
+
+        /* Floating hearts overlay — tiny inline SVG pattern (no images, very light) */
+        body::after {
+            content: "";
+            position: fixed;
+            inset: -40px 0 0 0;
+            z-index: 0;
+            pointer-events: none;
+            opacity: .18;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="36" viewBox="0 0 40 36"><path fill="%23ff8db7" fill-opacity="0.55" d="M20 33l-2.4-2.2C7.2 21.4 0 15.1 0 7.6 0 3.4 3.3 0 7.4 0c2.5 0 4.8 1.1 6.4 2.9C15.8 1.1 18 0 20.6 0 24.7 0 28 3.4 28 7.6c0 7.5-7.2 13.8-17.6 23.2L20 33z"/></svg>');
+            background-size: 44px 40px;
+            background-repeat: repeat;
+            animation: heartsDrift 50s linear infinite;
+            filter: blur(.3px) saturate(110%);
+        }
+
+        @keyframes heartsDrift {
+            0% {
+                background-position: 0 0;
+            }
+
+            100% {
+                background-position: 0 600px;
+            }
+        }
+
+        /* Keep content above hearts overlay */
+        header.site,
+        main,
+        footer,
+        #playScreen {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Home: compact header + HUD */
+        .tool-header {
+            text-align: center;
+            margin: 1rem 0 .25rem
+        }
+
+        .tool-header h1 {
+            display: flex;
+            gap: .5rem;
+            align-items: center;
+            justify-content: center
+        }
+
+        .game-wrap {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 1rem
+        }
+
+        .panel {
+            background: color-mix(in oklab, var(--card) 95%, transparent);
+            border: 1px solid var(--cardBorder);
+            border-radius: .9rem;
+            box-shadow: var(--shadow, 0 10px 30px rgba(0, 0, 0, .32));
+            padding: 1rem;
+        }
+
+        .hud {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: .75rem;
+            align-items: center;
+            margin-bottom: .75rem
+        }
+
+        .kpi {
+            text-align: center;
+            padding: .6rem .75rem;
+            border: 1px solid var(--cardBorder);
+            border-radius: .75rem;
+            background: rgba(255, 255, 255, .03)
+        }
+
+        .kpi .value {
+            font-weight: 900;
+            font-size: 1.15rem;
+            color: var(--accent)
+        }
+
+        .kpi .label {
+            font-size: .78rem;
+            color: var(--muted)
+        }
+
+        .bar,
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: .5rem;
+            justify-content: center;
+            margin-top: .5rem
+        }
+
+        .chip,
+        .difficulty-btn {
+            background: #1a0d20;
+            border: 1px solid var(--cardBorder)
+        }
+
+        .difficulty-btn {
+            padding: .55rem .9rem;
+            border-radius: .6rem;
+            color: #ffe6f1;
+            font-weight: 800;
+            cursor: pointer;
+            transition: transform .12s ease, border-color .12s ease, background .12s ease;
+        }
+
+        .difficulty-btn.active {
+            background: linear-gradient(135deg, var(--accent), var(--accent-2));
+            color: #160914;
+            border-color: var(--accent)
+        }
+
+        .btn {
+            padding: .66rem 1.05rem;
+            border: none;
+            border-radius: .75rem;
+            font-weight: 900;
+            cursor: pointer;
+        }
+
+        .btn.primary {
+            background: linear-gradient(135deg, var(--accent), var(--accent-2));
+            color: #160914
+        }
+
+        .btn.secondary {
+            background: transparent;
+            color: #ffe6f1;
+            border: 1px solid var(--cardBorder)
+        }
+
+        .btn.danger {
+            background: #ff6b9a;
+            color: #160914
+        }
+
+        .note {
+            color: #ffd1e5
+        }
+
+        /* FULL-SCREEN play window — fixed, non-moving play area */
+        #playScreen {
+            position: fixed;
+            inset: 0;
+            display: none;
+            z-index: 50;
+            background: linear-gradient(180deg, rgba(16, 8, 20, .96), rgba(18, 10, 22, .985));
+            padding: max(8px, env(safe-area-inset-top)) clamp(8px, 2vw, 18px) max(10px, env(safe-area-inset-bottom));
+        }
+
+        #playScreen.open {
+            display: grid;
+            grid-template-rows: auto 1fr auto;
+            gap: .6rem;
+        }
+
+        .ps-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: .5rem;
+            background: rgba(255, 255, 255, .04);
+            border: 1px solid var(--cardBorder);
+            border-radius: .75rem;
+            padding: .5rem .65rem;
+        }
+
+        .ps-title {
+            font-weight: 900
+        }
+
+        .ps-btn {
+            padding: .5rem .8rem;
+            border-radius: .6rem;
+            border: 1px solid var(--cardBorder);
+            background: #180b20;
+            color: #ffe6f1;
+            font-weight: 800;
+            cursor: pointer
+        }
+
+        .ps-btn.primary {
+            background: linear-gradient(135deg, var(--accent), var(--accent-2));
+            color: #160914;
+            border-color: var(--accent)
+        }
+
+        .ps-progress {
+            font-weight: 900;
+            font-variant-numeric: tabular-nums;
+            padding: .28rem .55rem;
+            border: 1px solid var(--cardBorder);
+            border-radius: .5rem;
+            background: #180b20
+        }
+
+        .ps-stage {
+            min-height: 0;
+            display: grid;
+            align-items: center;
+            justify-items: center
+        }
+
+        .board {
+            width: min(1100px, 100%);
+            height: 100%;
+            background: color-mix(in oklab, var(--card) 96%, transparent);
+            border: 1px solid var(--cardBorder);
+            border-radius: .9rem;
+            padding: clamp(.6rem, 2vw, 1rem);
+            display: grid;
+            grid-template-rows: 1fr auto;
+            gap: .6rem;
+            overflow: hidden;
+        }
+
+        .qs {
+            overflow: auto;
+            overscroll-behavior: contain;
+            padding-right: .3rem
+        }
+
+        .qcard {
+            display: grid;
+            gap: .75rem;
+            padding: clamp(.6rem, 2.2vw, 1rem);
+            border: 1px solid var(--cardBorder);
+            border-radius: .8rem;
+            background: #150a1a;
+            box-shadow: 0 10px 24px rgba(0, 0, 0, .26);
+        }
+
+        .qtitle {
+            font-size: 1.1rem;
+            font-weight: 900
+        }
+
+        .opt {
+            display: flex;
+            align-items: center;
+            gap: .55rem;
+            padding: .5rem .6rem;
+            border: 1px solid var(--cardBorder);
+            border-radius: .65rem;
+            background: #120915;
+            cursor: pointer
+        }
+
+        .opt input {
+            accent-color: var(--accent);
+        }
+
+        .qnav {
+            display: flex;
+            gap: .5rem;
+            justify-content: center;
+            flex-wrap: wrap
+        }
+
+        .result {
+            text-align: center;
+            padding: .8rem;
+            border: 1px solid var(--cardBorder);
+            border-radius: .75rem;
+            background: rgba(255, 255, 255, .04)
+        }
+
+        .ps-bottom {
+            display: flex;
+            gap: .5rem;
+            justify-content: center;
+            flex-wrap: wrap
+        }
+
+        .tiny {
+            font-size: .82rem;
+            color: #ffd1e5;
+            text-align: center
+        }
+
+        @media (max-width: 720px) {
+            .hud {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .ps-top {
+                align-items: start;
+                flex-wrap: wrap;
+                gap: .5rem
+            }
+        }
+
+        [hidden] {
+            display: none !important;
+        }
+    </style>
+</head>
+
+<body style="--accent:#ff5fa2;--accent-2:#ff8ad4;--bg1:#120915;--bg2:#1a0f1a;">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617"
+        crossorigin="anonymous"></script>
+    <!-- small fixed -->
+    <ins class="adsbygoogle" style="display:inline-block;width:500px;height:50px"
+        data-ad-client="ca-pub-6216304334889617" data-ad-slot="9810172647"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+    <a class="sr-only" href="#main">Skip to content</a>
+
+    <!-- Header (shared styles from /style.css) -->
+    <header class="site" role="banner">
+        <div class="header-inner">
+            <a class="brand" href="/" aria-label="UpTools Home">
+                <img src="/assets/logo/uptools-logo.svg" alt="UpTools" width="28" height="28" loading="eager">
+                <b>UpTools</b>
+            </a>
+            <nav class="nav-links" aria-label="Primary">
+                <a href="/#tools">Tools</a>
+                <a aria-current="page" href="/games/">Games</a>
+                <a href="/about/">About</a>
+                <a href="/contact/">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- HOME / LANDING -->
+    <main id="main" class="wrap" role="main">
+        <div class="tool-header">
+            <h1>❤️ Couple Compatibility Quiz</h1>
+            <p class="note">Two-player romantic quiz with a soft pink theme & floating hearts. Start a full-screen
+                session, then <b>share a challenge link</b> or play together.</p>
+        </div>
+
+        <section class="game-wrap">
+            <div class="panel">
+                <!-- HUD -->
+                <div class="hud" aria-live="polite">
+                    <div class="kpi">
+                        <div class="value" id="bestScore">--%</div>
+                        <div class="label">Best Love Score</div>
+                    </div>
+                    <div class="kpi">
+                        <div class="value" id="lastPair">—</div>
+                        <div class="label">Last Played</div>
+                    </div>
+                    <div class="kpi">
+                        <div class="value" id="lastWhen">—</div>
+                        <div class="label">Last Time</div>
+                    </div>
+                    <div class="kpi">
+                        <div class="value" id="plays">0</div>
+                        <div class="label">Total Plays (This Device)</div>
+                    </div>
+                </div>
+
+                <!-- Options -->
+                <div class="bar" role="toolbar" aria-label="Quiz options">
+                    <button class="difficulty-btn active" data-len="10">Short (10)</button>
+                    <button class="difficulty-btn" data-len="15">Standard (15)</button>
+                    <button class="difficulty-btn" data-len="20">Long (20)</button>
+                </div>
+                <div class="controls" role="toolbar" aria-label="Theme & toggles">
+                    <button id="startBtn" class="btn primary">💖 Start Quiz</button>
+                    <button id="joinBtn" class="btn secondary" hidden>🔗 Join Partner’s Link</button>
+                    <button id="copyInvite" class="btn secondary">🔗 Invite Link</button>
+                    <button id="toggleSound" class="btn secondary" aria-pressed="true">🔊 Sound On</button>
+                    <button id="toggleHaptics" class="btn secondary" aria-pressed="true">📳 Haptics On</button>
+                    <button id="resetStats" class="btn danger">Reset Stats</button>
+                </div>
+
+                <p id="homeStatus" class="note" style="text-align:center;margin:.5rem 0 0">Best scores & last played are
+                    stored on this device only.</p>
+            </div>
+
+            <!-- Helpful links (SEO + backlinks) -->
+            <div class="grid" style="margin-top:.85rem">
+                <article class="card">
+                    <h3 style="margin-bottom:.25rem">You might also like</h3>
+                    <ul>
+                        <li><a class="tool-link accent-pink" href="/games/memory-match/"><span
+                                    class="ico">🧠</span><span><b>Memory Match</b> — sweet icon pack & best
+                                    times</span></a></li>
+                        <li><a class="tool-link accent-red" href="/games/tic-tac-toe/"><span
+                                    class="ico">❌</span><span><b>Tic Tac Toe</b> — hearts vs. roses</span></a></li>
+                        <li><a class="tool-link accent-violet" href="/games/snake/"><span
+                                    class="ico">🐍</span><span><b>Snake</b> — classic with neon glow</span></a></li>
+                    </ul>
+                </article>
+                <article class="card">
+                    <h3 style="margin-bottom:.25rem">Relationship resources</h3>
+                    <ul>
+                        <li><a class="tool-link accent-fuchsia" href="https://www.5lovelanguages.com/" target="_blank"
+                                rel="noopener"><span class="ico">💬</span><span>Five Love Languages
+                                    (external)</span></a></li>
+                        <li><a class="tool-link accent-purple" href="https://www.gottman.com/blog/" target="_blank"
+                                rel="noopener"><span class="ico">🧪</span><span>Gottman Institute Blog
+                                    (external)</span></a></li>
+                    </ul>
+                </article>
+            </div>
+
+            <!-- Video (privacy-enhanced) -->
+            <section class="section" aria-labelledby="video-learn" style="margin-top:12px">
+                <h2 id="video-learn">🎥 Cute Couple Challenge Ideas</h2>
+                <div class="card center">
+                    <iframe width="auto" height="auto"
+                        src="https://www.youtube.com/embed/IltsOcCj1Ak?si=h7ibZOR6-Kk32qcq" title="YouTube video player"
+                        frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                    <p class="note small" style="margin-top:8px">Watch for playful date prompts to try after your quiz.
+                    </p>
+                </div>
+            </section>
+
+            <footer class="site-foot small" style="text-align:center;margin:1rem 0 2rem">
+                <nav class="nav-links small">
+                    <a href="/">UpTools</a> · <a href="/sitemap.xml">Sitemap</a> · <a href="/games/">Games</a> · <a
+                        href="/about/">About</a> · <a href="/contact/">Contact</a>
+                </nav>
+                <div class="note">Privacy-first · Works offline once loaded</div>
+            </footer>
+        </section>
+    </main>
+
+    <!-- FULL-SCREEN PLAY WINDOW -->
+    <section id="playScreen" role="dialog" aria-modal="true" inert>
+        <div class="ps-top">
+            <div class="left" style="display:flex; gap:.5rem; align-items:center">
+                <button id="psBack" class="ps-btn" type="button" aria-label="Stop and go back">⟵ Back</button>
+                <span class="ps-title">Couple Compatibility Quiz</span>
+            </div>
+            <div class="mid" style="display:flex; gap:.5rem; align-items:center">
+                <span class="ps-progress" id="psProg">Q 1/10</span>
+            </div>
+            <div class="right" style="display:flex; gap:.5rem; align-items:center">
+                <button id="psShare" class="ps-btn" title="Copy a challenge link">🔗 Share</button>
+            </div>
+        </div>
+
+        <div class="ps-stage">
+            <div class="board">
+                <div class="qs" id="qs" role="region" aria-live="polite">
+                    <!-- dynamic question / name form renders here -->
+                </div>
+                <div class="qnav">
+                    <button id="prevBtn" class="ps-btn" disabled>◀ Prev</button>
+                    <button id="nextBtn" class="ps-btn primary">Next ▶</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="ps-bottom">
+            <div class="tiny">Tip: Tap options or use ↑/↓ to move, Space/Enter to select. Back leaves & stops the
+                session.</div>
+        </div>
+    </section>
+
+    <!-- App (ESM). Uses shared utils where possible. -->
+    <script type="module">
+        import * as U from "/scripts/utils.js";
+        const $ = U.$ ?? ((s, r = document) => r.querySelector(s));
+        const $$ = U.$$ ?? ((s, r = document) => [...r.querySelectorAll(s)]);
+        const persist = U.persist ?? ((k, v) => localStorage.setItem(k, JSON.stringify(v)));
+        const read = U.read ?? ((k, d = null) => { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch { return d; } });
+
+        // ---------------------------
+        // Tiny helpers
+        // ---------------------------
+        const pad2 = n => String(n).padStart(2, '0');
+        const nowStr = () => {
+            const d = new Date();
+            return `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())} ${pad2(d.getHours())}:${pad2(d.getMinutes())}`;
+        };
+        const beep = (() => { // ultra-light WebAudio bleep
+            let ctx = null;
+            return (freq = 620, ms = 60, gain = 0.02) => {
+                if (!state.soundOn) return;
+                try {
+                    ctx = ctx || new (window.AudioContext || window.webkitAudioContext)();
+                    const o = ctx.createOscillator(), g = ctx.createGain();
+                    o.type = 'triangle'; o.frequency.value = freq; g.gain.value = gain;
+                    o.connect(g); g.connect(ctx.destination); o.start();
+                    setTimeout(() => { o.stop(); o.disconnect(); g.disconnect(); }, ms);
+                } catch { }
+            };
+        })();
+        const buzz = (ms = 15) => { if (state.hapticsOn && navigator.vibrate) navigator.vibrate(ms); };
+
+        // Base64URL helpers for compact share links
+        const b64u = {
+            enc: s => btoa(unescape(encodeURIComponent(s))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, ''),
+            dec: s => decodeURIComponent(escape(atob((s.replace(/-/g, '+').replace(/_/g, '/')) + '==='.slice((s.length + 3) % 4))))
+        };
+
+        const mulberry32 = (seed) => { let t = seed >>> 0; return () => { t += 0x6D2B79F5; let r = Math.imul(t ^ t >>> 15, 1 | t); r ^= r + Math.imul(r ^ r >>> 7, 61 | r); return ((r ^ r >>> 14) >>> 0) / 4294967296; }; };
+        const strHash = (s) => { let h = 2166136261 >>> 0; for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; };
+
+        // ---------------------------
+        // Question bank (romance / habits / future)
+        // 4-point scale keeps it decisive (no neutrals)
+        // ---------------------------
+        const BANK = [
+            { id: 1, t: "I love spontaneous date nights.", a: ["Strongly agree", "Agree", "Disagree", "Strongly disagree"] },
+            { id: 2, t: "Quality time matters more to me than gifts.", a: ["Strongly agree", "Agree", "Disagree", "Strongly disagree"] },
+            { id: 3, t: "I enjoy public displays of affection.", a: ["Strongly agree", "Agree", "Disagree", "Strongly disagree"] },
+            { id: 4, t: "I’d rather text all day than call.", a: ["Strongly agree", "Agree", "Disagree", "Strongly disagree"] },
+            { id: 5, t: "I’m a planner; I like scheduling our dates.", a: ["Strongly agree", "Agree", "Disagree", "Strongly disagree"] },
+            { id: 6, t: "I prefer cozy nights in over going out.", a: ["Strongly agree", "Agree", "Disagree", "Strongly disagree"] },
+            { id: 7, t: "Surprises make me happy.", a: ["Strongly agree", "Agree", "Disagree", "Strongly disagree"] },
+            { id: 8, t: "I want us to travel together often.", a: ["Strongly agree", "Agree", "Disagree", "Strongly disagree"] },
+            { id: 9, t: "I’m comfortable resolving conflicts quickly.", a: ["Strongly agree", "Agree", "Disagree", "Strongly disagree"] },
+            { id: 10, t: "I like posting our photos on social media.", a: ["Strongly agree", "Agree", "Disagree", "Strongly disagree"] },
+            { id: 11, t: "I’m an early riser; morning dates are fine.", a: ["Strongly agree", "Agree", "Disagree", "Strongly disagree"] },
+            { id: 12, t: "I’d adopt a pet together someday.", a: ["Strongly agree", "Agree", "Disagree", "Strongly disagree"] },
+            { id: 13, t: "I enjoy cooking together.", a: ["Strongly agree", "Agree", "Disagree", "Strongly disagree"] },
+            { id: 14, t: "I love handwritten notes or letters.", a: ["Strongly agree", "Agree", "Disagree", "Strongly disagree"] },
+            { id: 15, t: "We should plan an annual trip.", a: ["Strongly agree", "Agree", "Disagree", "Strongly disagree"] },
+            { id: 16, t: "I’m okay with long drives with just music & chats.", a: ["Strongly agree", "Agree", "Disagree", "Strongly disagree"] },
+            { id: 17, t: "I prefer simple dates over fancy ones.", a: ["Strongly agree", "Agree", "Disagree", "Strongly disagree"] },
+            { id: 18, t: "I’d like to learn a hobby together.", a: ["Strongly agree", "Agree", "Disagree", "Strongly disagree"] },
+            { id: 19, t: "I’d move cities for love if needed.", a: ["Strongly agree", "Agree", "Disagree", "Strongly disagree"] },
+            { id: 20, t: "I’m excited to plan our future home together.", a: ["Strongly agree", "Agree", "Disagree", "Strongly disagree"] },
+            { id: 21, t: "Weekly movie night is a must.", a: ["Strongly agree", "Agree", "Disagree", "Strongly disagree"] },
+            { id: 22, t: "I need frequent check-ins during the day.", a: ["Strongly agree", "Agree", "Disagree", "Strongly disagree"] },
+            { id: 23, t: "I appreciate small acts of service.", a: ["Strongly agree", "Agree", "Disagree", "Strongly disagree"] },
+            { id: 24, t: "I’d love dancing together, even at home.", a: ["Strongly agree", "Agree", "Disagree", "Strongly disagree"] },
+            { id: 25, t: "I’m comfortable meeting each other’s families.", a: ["Strongly agree", "Agree", "Disagree", "Strongly disagree"] },
+            { id: 26, t: "I like celebrating little milestones.", a: ["Strongly agree", "Agree", "Disagree", "Strongly disagree"] },
+            { id: 27, t: "I’m okay with sharing passwords someday.", a: ["Strongly agree", "Agree", "Disagree", "Strongly disagree"] },
+            { id: 28, t: "I prefer voice notes over long texts.", a: ["Strongly agree", "Agree", "Disagree", "Strongly disagree"] },
+            { id: 29, t: "We should have monthly budget dates (money talk!).", a: ["Strongly agree", "Agree", "Disagree", "Strongly disagree"] },
+            { id: 30, t: "I’d love a stargazing picnic together.", a: ["Strongly agree", "Agree", "Disagree", "Strongly disagree"] },
+        ];
+
+        // ---------------------------
+        // State
+        // ---------------------------
+        const F_BEST = "cq-best";
+        const F_LAST = "cq-last";
+        const F_PLAYS = "cq-plays";
+        const F_SOUND = "cq-sound";
+        const F_HAPT = "cq-hapt";
+
+        const state = {
+            step: "names",     // names -> a -> handoff -> b -> result
+            length: +(localStorage.getItem("cq-length") || 10),
+            seed: "",          // for consistent question selection
+            qIdx: [],          // chosen question ids (indexes into BANK)
+            cur: 0,
+            a: [],             // answers [1..4]
+            b: [],
+            nameA: "",
+            nameB: "",
+            remoteMode: false, // true when joining partner link
+            soundOn: JSON.parse(localStorage.getItem(F_SOUND) ?? "true"),
+            hapticsOn: JSON.parse(localStorage.getItem(F_HAPT) ?? "true"),
+        };
+
+        // ---------------------------
+        // DOM
+        // ---------------------------
+        const bestScore = $("#bestScore"), lastPair = $("#lastPair"), lastWhen = $("#lastWhen"), playsEl = $("#plays");
+        const startBtn = $("#startBtn"), joinBtn = $("#joinBtn"), copyInvite = $("#copyInvite");
+        const toggleSound = $("#toggleSound"), toggleHaptics = $("#toggleHaptics"), resetStats = $("#resetStats");
+        const statusHome = $("#homeStatus");
+        const playScreen = $("#playScreen"), home = document.querySelector("main");
+        const qs = $("#qs"), prevBtn = $("#prevBtn"), nextBtn = $("#nextBtn"), prog = $("#psProg"), psBack = $("#psBack"), psShare = $("#psShare");
+
+        // ---------------------------
+        // Init HUD
+        // ---------------------------
+        function renderHUD() {
+            const best = read(F_BEST, null);
+            bestScore.textContent = best ? (best.score.toFixed(1) + "%") : "--%";
+            lastPair.textContent = best?.pair ?? "—";
+            lastWhen.textContent = best?.when ?? "—";
+            playsEl.textContent = String(read(F_PLAYS, 0));
+            setLenButtons();
+        }
+        renderHUD();
+
+        // Length buttons
+        function setLenButtons() {
+            $$(".difficulty-btn").forEach(b => {
+                const active = +b.dataset.len === state.length;
+                b.classList.toggle("active", active);
+            });
+        }
+        $$(".difficulty-btn").forEach(b => {
+            b.addEventListener("click", () => {
+                state.length = +b.dataset.len;
+                localStorage.setItem("cq-length", state.length);
+                setLenButtons();
+                beep(860, 70, .03); buzz(12);
+            });
+        });
+
+        // Toggles
+        const setToggle = (btn, on, onTxt, offTxt) => { btn?.setAttribute("aria-pressed", String(on)); btn.textContent = on ? onTxt : offTxt; };
+        setToggle(toggleSound, state.soundOn, "🔊 Sound On", "🔇 Sound Off");
+        setToggle(toggleHaptics, state.hapticsOn, "📳 Haptics On", "📴 Haptics Off");
+        toggleSound.addEventListener("click", () => { state.soundOn = !state.soundOn; localStorage.setItem(F_SOUND, JSON.stringify(state.soundOn)); setToggle(toggleSound, state.soundOn, "🔊 Sound On", "🔇 Sound Off"); });
+        toggleHaptics.addEventListener("click", () => { state.hapticsOn = !state.hapticsOn; localStorage.setItem(F_HAPT, JSON.stringify(state.hapticsOn)); setToggle(toggleHaptics, state.hapticsOn, "📳 Haptics On", "📴 Haptics Off"); });
+
+        // Reset stats
+        resetStats.addEventListener("click", () => {
+            localStorage.removeItem(F_BEST);
+            localStorage.removeItem(F_LAST);
+            persist(F_PLAYS, 0);
+            renderHUD();
+            statusHome.textContent = "Stats reset.";
+            beep(420, 120, .03); buzz(15);
+        });
+
+        // ---------------------------
+        // Share / Invite links
+        // ---------------------------
+        function baseURL() {
+            // Keep path stable for Vite/Cloudflare
+            return location.origin + "/games/couple-quiz/";
+        }
+        copyInvite.addEventListener("click", () => {
+            const seed = Date.now().toString(36);
+            const url = new URL(baseURL());
+            url.searchParams.set("seed", seed);
+            url.searchParams.set("len", String(state.length));
+            navigator.clipboard?.writeText(url.toString());
+            statusHome.textContent = "Invite link copied. Share it with your partner!";
+            beep(880, 70, .03); buzz(12);
+        });
+
+        // Detect partner link with answers (remote mode)
+        (function detectRemote() {
+            const u = new URL(location.href);
+            const hasAnswers = u.searchParams.get("a");
+            const hasSeed = u.searchParams.get("seed");
+            if (hasAnswers || hasSeed) {
+                joinBtn.hidden = false;
+            }
+        })();
+
+        joinBtn.addEventListener("click", () => {
+            openPlay();
+        });
+
+        // ---------------------------
+        // Game flow
+        // ---------------------------
+        startBtn.addEventListener("click", () => openPlay());
+
+        function openPlay() {
+            // Lock body scroll, open full-screen
+            setInert(home, true);
+            setInert(playScreen, false);
+            playScreen.classList.add("open");
+            document.body.classList.add("lock-scroll");
+            window.addEventListener("keydown", keyNav);
+
+            // Hydrate from URL (join mode or plain)
+            const u = new URL(location.href);
+            const len = +(u.searchParams.get("len") || state.length);
+            state.length = [10, 15, 20].includes(len) ? len : state.length;
+            setLenButtons();
+
+            state.seed = u.searchParams.get("seed") || Date.now().toString(36);
+            state.qIdx = selectQuestions(state.seed, state.length);
+            state.cur = 0;
+            state.a = [];
+            state.b = [];
+            state.remoteMode = Boolean(u.searchParams.get("a")); // joining partner answers
+            if (state.remoteMode) {
+                try {
+                    const raw = b64u.dec(u.searchParams.get("a"));
+                    state.a = raw.split("").map(x => +x);
+                    const names = u.searchParams.get("n") ? b64u.dec(u.searchParams.get("n")) : "";
+                    [state.nameA, state.nameB] = names.includes("|") ? names.split("|") : ["Partner A", "Partner B"];
+                    // Force same questions/length when joining
+                    if (u.searchParams.get("q")) {
+                        const idx = b64u.dec(u.searchParams.get("q")).split(",").map(x => +x);
+                        if (idx.length) state.qIdx = idx;
+                    }
+                    state.length = state.a.length;
+                    renderStepBIntro(true);
+                } catch {
+                    state.remoteMode = false;
+                    renderNames();
+                }
+            } else {
+                renderNames();
+            }
+            updateProg();
+            prevBtn.disabled = true;
+        }
+
+        function closePlay() {
+            window.removeEventListener("keydown", keyNav);
+            playScreen.classList.remove("open");
+            document.body.classList.remove("lock-scroll");
+            setInert(playScreen, true);
+            setInert(home, false);
+            // Clean URL (no reload)
+            const url = new URL(location.href);
+            ["a", "n", "seed", "len", "q"].forEach(k => url.searchParams.delete(k));
+            history.replaceState(null, "", url.toString());
+            renderHUD();
+        }
+
+        // Inert util
+        function setInert(el, val) { if (val) { el.setAttribute("inert", ""); el.inert = true; } else { el.removeAttribute("inert"); el.inert = false; } }
+
+        // Keyboard support
+        function keyNav(e) {
+            if (e.key === "Escape") { e.preventDefault(); closePlay(); }
+            if (["ArrowRight"].includes(e.key) && !nextBtn.disabled) { nextBtn.click(); }
+            if (["ArrowLeft"].includes(e.key) && !prevBtn.disabled) { prevBtn.click(); }
+            if (["ArrowUp", "ArrowDown"].includes(e.key)) {
+                const radios = $$(".opt input", qs);
+                const cur = radios.findIndex(r => r.checked);
+                const dir = e.key === "ArrowDown" ? 1 : -1;
+                const next = Math.max(0, Math.min(radios.length - 1, cur + dir));
+                radios[next]?.focus();
+            }
+            if ([" ", "Enter"].includes(e.key)) {
+                const focused = document.activeElement;
+                if (focused && focused.matches('.opt input')) {
+                    focused.checked = true;
+                    focused.dispatchEvent(new Event('change', { bubbles: true }));
+                }
+            }
+        }
+
+        psBack.addEventListener("click", () => closePlay());
+
+        // Progress display
+        function updateProg() {
+            const total = state.step === "a" || state.step === "handoff" ? state.length
+                : state.step === "b" ? state.length
+                    : state.step === "result" ? state.length
+                        : 0;
+            const cur = (state.step === "a" || state.step === "b") ? (state.cur + 1) : (state.remoteMode && state.step === "handoff" ? state.length : 0);
+            prog.textContent = total ? `Q ${cur}/${total}` : "Ready";
+        }
+
+        // Question selection by seed
+        function selectQuestions(seed, n) {
+            const rng = mulberry32(strHash(seed));
+            const ids = BANK.map((_, i) => i);
+            // Fisher–Yates
+            for (let i = ids.length - 1; i > 0; i--) { const j = Math.floor(rng() * (i + 1));[ids[i], ids[j]] = [ids[j], ids[i]]; }
+            return ids.slice(0, n);
+        }
+
+        // ---------------------------
+        // Steps
+        // ---------------------------
+        function renderNames() {
+            state.step = "names";
+            qs.innerHTML = `
+        <form id="namesForm" class="qcard" autocomplete="off">
+          <div class="qtitle">🥰 Your names</div>
+          <label class="label" for="nameA">Your name</label>
+          <input id="nameA" class="input" required placeholder="e.g., Aisha" maxlength="24"/>
+          <label class="label" for="nameB">Partner name</label>
+          <input id="nameB" class="input" required placeholder="e.g., Arjun" maxlength="24"/>
+          <p class="note tiny" style="margin:0">We only use names locally for results & sharing.</p>
+        </form>`;
+            prevBtn.disabled = true;
+            nextBtn.textContent = "Start ▶";
+            nextBtn.onclick = () => {
+                const a = $("#nameA").value.trim() || "You";
+                const b = $("#nameB").value.trim() || "Partner";
+                state.nameA = a; state.nameB = b;
+                state.step = "a";
+                state.cur = 0; state.a = new Array(state.length).fill(0);
+                renderQuestion();
+                updateProg();
+                beep(760, 70, .03); buzz(10);
+            };
+            setTimeout(() => $("#nameA")?.focus({ preventScroll: true }), 0);
+        }
+
+        function renderQuestion() {
+            const idx = state.qIdx[state.cur];
+            const q = BANK[idx];
+            state.step = state.step || "a";
+            const playerName = state.step === "a" ? state.nameA : state.nameB;
+            const answersArr = state.step === "a" ? state.a : state.b;
+            const chosen = answersArr[state.cur];
+
+            qs.innerHTML = `
+        <div class="qcard">
+          <div class="qtitle">${playerName}, ${q.t}</div>
+          ${q.a.map((txt, i) => `
+            <label class="opt">
+              <input type="radio" name="opt" value="${i + 1}" ${chosen === (i + 1) ? 'checked' : ''}/>
+              <span>${txt}</span>
+            </label>
+          `).join("")}
+        </div>
+      `;
+
+            const radios = $$(".opt input", qs);
+            radios.forEach(r => r.addEventListener("change", e => {
+                const val = +e.target.value;
+                answersArr[state.cur] = val;
+                beep(900 - (val * 40), 60, .02); buzz(8);
+                // Auto-advance after selection (snappy on mobile)
+                setTimeout(() => { nextBtn.click(); }, 120);
+            }));
+
+            prevBtn.disabled = state.cur === 0;
+            nextBtn.textContent = state.cur === state.length - 1
+                ? (state.step === "a" ? "Done — Hand to Partner ▶" : "Show Results ▶")
+                : "Next ▶";
+
+            nextBtn.onclick = () => {
+                if (!answersArr[state.cur]) { // require an answer
+                    buzz(20); return;
+                }
+                if (state.cur < state.length - 1) {
+                    state.cur++;
+                    renderQuestion();
+                    updateProg();
+                } else {
+                    if (state.step === "a") {
+                        renderHandoff();
+                    } else {
+                        renderResult();
+                    }
+                }
+            };
+            prevBtn.onclick = () => {
+                if (state.cur > 0) { state.cur--; renderQuestion(); updateProg(); }
+            };
+
+            // focus first radio for accessibility
+            radios[0]?.focus({ preventScroll: true });
+        }
+
+        function renderHandoff() {
+            state.step = "handoff";
+            qs.innerHTML = `
+        <div class="qcard">
+          <div class="qtitle">💞 Great, ${state.nameA}!</div>
+          <p class="note">Pass the device to <b>${state.nameB}</b>. Their answers will be compared to yours.</p>
+          <div class="result">Want to play remotely? Tap <b>Share</b> to copy a link that includes ${state.nameA}'s answers.</div>
+        </div>
+      `;
+            prevBtn.disabled = true;
+            nextBtn.textContent = `Start ${state.nameB} ▶`;
+            nextBtn.onclick = () => {
+                state.step = "b";
+                state.cur = 0;
+                state.b = new Array(state.length).fill(0);
+                renderQuestion();
+                updateProg();
+            };
+            psShare.onclick = () => copyChallengeLink();
+        }
+
+        function renderStepBIntro(fromRemote = false) {
+            state.step = "b";
+            state.cur = 0;
+            // When joining remotely, ask only for your own name (B)
+            qs.innerHTML = `
+        <form id="namesForm" class="qcard">
+          <div class="qtitle">${fromRemote ? "You're joining your partner's quiz!" : "Partner turn"}</div>
+          ${fromRemote ? `
+            <p class="note">You'll answer the same ${state.length} questions. We'll compare you with <b>${state.nameA}</b>.</p>
+          ` : ""}
+          <label class="label" for="nameB2">${fromRemote ? "Your name" : `Confirm ${state.nameB}'s name`}</label>
+          <input id="nameB2" class="input" required placeholder="${state.nameB || 'Your name'}" maxlength="24" value="${state.nameB || ''}"/>
+        </form>
+      `;
+            prevBtn.disabled = true;
+            nextBtn.textContent = "Start ▶";
+            nextBtn.onclick = () => {
+                const b = $("#nameB2").value.trim() || (state.nameB || "Partner");
+                state.nameB = b;
+                state.b = new Array(state.length).fill(0);
+                renderQuestion();
+                updateProg();
+            };
+            setTimeout(() => $("#nameB2")?.focus({ preventScroll: true }), 0);
+        }
+
+        function renderResult() {
+            state.step = "result";
+            // Score (lower absolute difference is better)
+            let sum = 0;
+            for (let i = 0; i < state.length; i++) {
+                const d = Math.abs((state.a[i] || 0) - (state.b[i] || 0)); // 0..3
+                sum += (1 - d / 3);
+            }
+            const score = Math.max(0, (sum / state.length) * 100);
+            const msg = score >= 90 ? "Soulmates ✨"
+                : score >= 75 ? "Perfect Match 💘"
+                    : score >= 60 ? "Cute Pair 💞"
+                        : score >= 45 ? "Opposites Attract 💫"
+                            : "Work-in-Progress — communicate & grow 🌱";
+
+            qs.innerHTML = `
+        <div class="qcard">
+          <div class="qtitle">Result for ${state.nameA} & ${state.nameB}</div>
+          <div class="result">
+            <div style="font-size:2rem;font-weight:900;color:var(--accent)">${score.toFixed(1)}%</div>
+            <div class="note" style="margin-top:.2rem">${msg}</div>
+          </div>
+          <div class="bar" style="justify-content:center">
+            <button id="copyRes" class="btn secondary">Copy Result</button>
+            <button id="shareWA" class="btn secondary">WhatsApp</button>
+            <button id="playAgain" class="btn primary">Play Again</button>
+          </div>
+          <p class="tiny">This is a fun ice-breaker, not a diagnosis. Talk, laugh, and plan a cute date! 💗</p>
+        </div>
+      `;
+
+            // Save stats
+            const plays = (read(F_PLAYS, 0) || 0) + 1; persist(F_PLAYS, plays);
+            const best = read(F_BEST, null);
+            const cur = { score, pair: `${state.nameA} & ${state.nameB}`, when: nowStr() };
+            persist(F_LAST, cur);
+            if (!best || score > best.score) { persist(F_BEST, cur); }
+            renderHUD();
+
+            // Share buttons
+            $("#copyRes").onclick = () => {
+                const text = `Our love score on UpTools was ${score.toFixed(1)}% — ${msg} 💖\nPlay it: ${baseURL()}`;
+                navigator.clipboard?.writeText(text);
+                beep(880, 70, .03); buzz(10);
+            };
+            $("#shareWA").onclick = () => {
+                const text = encodeURIComponent(`Our love score on UpTools was ${score.toFixed(1)}% — ${msg} 💖\nPlay it: ${baseURL()}`);
+                const url = `https://wa.me/?text=${text}`;
+                window.open(url, "_blank", "noopener");
+            };
+            $("#playAgain").onclick = () => {
+                // Restart fresh with same length but new seed
+                const url = new URL(location.href);
+                ["a", "n", "seed", "len", "q"].forEach(k => url.searchParams.delete(k));
+                history.replaceState(null, "", url.toString());
+                openPlay(); // re-open
+            };
+
+            prevBtn.disabled = true;
+            nextBtn.textContent = "Close";
+            nextBtn.onclick = () => closePlay();
+            psShare.onclick = () => copyChallengeLink(); // allow sharing your A answers for friends to try later
+            updateProg();
+            beep(820, 140, .03); setTimeout(() => beep(980, 140, .03), 120);
+            buzz(18);
+        }
+
+        // Copy challenge link (after A step, or from results to share A’s baseline)
+        function copyChallengeLink() {
+            // If A not filled yet, we generate a seed-only invite instead
+            const url = new URL(baseURL());
+            if (state.a?.length && state.a.every(x => x > 0)) {
+                url.searchParams.set("seed", state.seed);
+                url.searchParams.set("len", String(state.length));
+                url.searchParams.set("q", b64u.enc(state.qIdx.join(",")));
+                url.searchParams.set("a", b64u.enc(state.a.join("")));
+                url.searchParams.set("n", b64u.enc(`${state.nameA}|${state.nameB}`));
+            } else {
+                url.searchParams.set("seed", state.seed);
+                url.searchParams.set("len", String(state.length));
+            }
+            navigator.clipboard?.writeText(url.toString());
+            beep(880, 70, .03); buzz(10);
+        }
+
+        psShare.addEventListener("click", () => copyChallengeLink());
+
+        // ---------------------------
+        // Wire play navigation buttons when not in a step using them
+        // ---------------------------
+        prevBtn.disabled = true;
+
+    </script>
+</body>
+
+</html>
