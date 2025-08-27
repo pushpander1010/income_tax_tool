@@ -1,5 +1,4 @@
 <!doctype html>
-
 <html lang="en">
 
 <head>
@@ -14,13 +13,11 @@
     content="income tax calculator,gst calculator,emi calculator,currency converter,ifsc finder,json formatter,age calculator,ai tools,india tools,uptools" />
 
   <!-- Canonical & Icons -->
-
   <link rel="canonical" href="https://www.uptools.in/" />
   <link rel="icon" sizes="50x50" type="image/svg+xml" href="/assets/logo/uptools-logo.svg" />
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/logo/uptools-logo.svg" />
 
   <!-- Open Graph -->
-
   <meta property="og:title" content="UpTools - Free Online Calculators, Converters & Mini Games" />
   <meta property="og:description" content="Fast, lightweight tools for everyday tasks. Privacy-first. No sign-ups." />
   <meta property="og:type" content="website" />
@@ -32,12 +29,10 @@
   <meta name="twitter:card" content="summary_large_image" />
 
   <!-- Preconnects -->
-
   <link rel="preconnect" href="https://www.youtube-nocookie.com" crossorigin>
   <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
 
   <!-- Critical CSS (page-scoped only; global is in /style.css) -->
-
   <style>
     :root {
       --bg: #0f1419;
@@ -385,7 +380,6 @@
   </style>
 
   <!-- Global CSS & (attempt) shared utils -->
-
   <link rel="preload" href="/style.css?v=1.3.0" as="style" onload="this.onload=null;this.rel='stylesheet'">
   <noscript>
     <link rel="stylesheet" href="/style.css?v=1.3.0">
@@ -393,7 +387,6 @@
   <script src="/scripts/utils.js?v=1.3.0" defer></script>
 
   <!-- Structured Data -->
-
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"WebSite","name":"UpTools","url":"https://www.uptools.in/","publisher":{"@type":"Organization","name":"UpTools","logo":{"@type":"ImageObject","url":"https://www.uptools.in/assets/logo/uptools-logo.svg","width":256,"height":256}},"potentialAction":{"@type":"SearchAction","target":"https://www.uptools.in/?q={search_term_string}","query-input":"required name=search_term_string"}}
   </script>
@@ -407,24 +400,68 @@
   ]}
   </script>
 
+  <!-- 🔥 Neon BG Boosters (CSS only layer) -->
+  <style>
+    /* Big neon blobs for a stronger, but still lightweight, look */
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      inset: -20vmax;
+      z-index: -3;
+      pointer-events: none;
+      filter: blur(60px) saturate(1.2);
+      opacity: .36;
+      mix-blend-mode: screen;
+      background:
+        radial-gradient(35vmax 35vmax at 15% 10%, rgba(124, 77, 255, .8), transparent 60%),
+        radial-gradient(28vmax 28vmax at 85% 20%, rgba(0, 229, 255, .8), transparent 60%),
+        radial-gradient(26vmax 26vmax at 50% 90%, rgba(0, 255, 163, .75), transparent 60%);
+      animation: neonFloat 18s ease-in-out infinite alternate;
+      will-change: transform, opacity, filter;
+    }
+
+    body::after {
+      opacity: .22;
+      filter: blur(90px) saturate(1.4) brightness(1.1);
+      animation-duration: 26s;
+      animation-name: neonFloat2;
+    }
+
+    @keyframes neonFloat {
+      0% { transform: translate3d(0, 0, 0) rotate(0.001deg) }
+      50% { transform: translate3d(-2vmax, -1vmax, 0) scale(1.02) }
+      100% { transform: translate3d(2vmax, 2vmax, 0) scale(1.06) }
+    }
+
+    @keyframes neonFloat2 {
+      0% { transform: translate3d(0, 0, 0) rotate(0.001deg) }
+      50% { transform: translate3d(3vmax, -2vmax, 0) scale(1.05) }
+      100% { transform: translate3d(-3vmax, 3vmax, 0) scale(1.1) }
+    }
+
+    /* Respect user motion preference */
+    @media (prefers-reduced-motion: reduce) {
+      body::before, body::after { animation: none; opacity: .14 }
+    }
+  </style>
 </head>
 
 <body>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617"
      crossorigin="anonymous"></script>
-<!-- small fixed -->
-<ins class="adsbygoogle"
-     style="display:inline-block;width:500px;height:50px"
-     data-ad-client="ca-pub-6216304334889617"
-     data-ad-slot="9810172647"></ins>
-<script>
-     (adsbygoogle = window.adsbygoogle || []).push({});
-</script>
+  <!-- small fixed -->
+  <ins class="adsbygoogle"
+       style="display:inline-block;width:500px;height:50px"
+       data-ad-client="ca-pub-6216304334889617"
+       data-ad-slot="9810172647"></ins>
+  <script>
+       (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
 
   <a href="#main" class="sr-only">Skip to content</a>
 
   <!-- Header -->
-
   <header class="site" role="banner">
     <div class="header-inner">
       <a class="brand" href="/" aria-label="UpTools Home">
@@ -459,6 +496,7 @@
         </div>
       </div>
     </section>
+
     <!-- Search + tags -->
     <section class="controls" aria-label="Search and filters">
       <div class="search" role="search">
@@ -592,7 +630,6 @@
   </main>
 
   <!-- App script (DEFERRED). Includes SAFE FALLBACKS so content renders even if /scripts/utils.js fails. -->
-
   <script defer>
     (function () {
       // ---- Safe fallbacks if shared utils not loaded ----
@@ -649,8 +686,6 @@
         { slug: "resume-analyzer", title: "AI Resume Analyzer", icon: "📄", desc: "Check ATS score, missing skills & job match.", href: "/resume-analyzer/", tags: ["text", "identity", "dev", "ai"], cats: ["text", "dev"] },
         { slug: "qr-reader", title: "QR Code Reader", icon: "📷", desc: "Scan and decode QR codes with your camera.", href: "/qr-reader/", tags: ["images", "security", "qr"], cats: ["security", "images"] },
         { slug: "ai-plagiarism", title: "AI Plagiarism Checker", icon: "📚", desc: "Check text for plagiarism instantly with AI.", href: "/ai-plagiarism/", tags: ["text", "dev", "ai"], cats: ["text", "dev"] }
-        // Future romantic example:
-        // { slug:"couple-compatibility", title:"Couple Compatibility", icon:"💞", desc:"Love score & date-night ideas.", href:"/couple-compatibility/", tags:["fun","identity"], cats:["romantic","fun"] },
       ];
 
       // ---- Elements ----
@@ -871,6 +906,119 @@
     })();
   </script>
 
-</body>
+  <!-- ⚡ Neon Particle Canvas (powerful but lightweight) -->
+  <script>
+    (function () {
+      const preferReduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (preferReduce) return;
 
+      // Avoid duplicate mount
+      if (document.getElementById('bg-anim')) return;
+
+      const c = document.createElement('canvas');
+      c.id = 'bg-anim';
+      Object.assign(c.style, {
+        position: 'fixed',
+        inset: '0',
+        width: '100%',
+        height: '100%',
+        zIndex: '-2',
+        pointerEvents: 'none'
+      });
+      document.body.prepend(c);
+      const ctx = c.getContext('2d', { alpha: true, desynchronized: true });
+
+      let w, h, dpr, orbs = [], running = true, lastT = 0, boostUntil = 0;
+
+      function resize() {
+        dpr = Math.min(window.devicePixelRatio || 1, 2);
+        w = c.clientWidth;
+        h = c.clientHeight;
+        c.width = Math.floor(w * dpr);
+        c.height = Math.floor(h * dpr);
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        // Regenerate orbs based on area
+        const target = Math.min(64, Math.max(28, Math.floor((w * h) / 42000)));
+        if (orbs.length === 0) {
+          orbs = Array.from({ length: target }, () => makeOrb());
+        } else if (orbs.length < target) {
+          orbs.push(...Array.from({ length: target - orbs.length }, () => makeOrb()));
+        } else if (orbs.length > target) {
+          orbs.length = target;
+        }
+      }
+
+      const palette = [
+        [0, 229, 255],   // cyan
+        [124, 77, 255],  // violet
+        [0, 255, 163]    // mint
+      ];
+
+      function rnd(min, max) { return Math.random() * (max - min) + min; }
+      function pick(arr) { return arr[(Math.random() * arr.length) | 0]; }
+
+      function makeOrb() {
+        const speed = rnd(0.06, 0.22);
+        const size = rnd(30, 90);
+        const [r, g, b] = pick(palette);
+        const angle = rnd(0, Math.PI * 2);
+        const radius = rnd(Math.min(w, h) * 0.15, Math.max(w, h) * 0.55);
+        const cx = w * rnd(0.15, 0.85);
+        const cy = h * rnd(0.1, 0.9);
+        return { r, g, b, size, speed, t: rnd(0, 1000), angle, radius, cx, cy };
+      }
+
+      function drawOrb(o, dt, boost) {
+        o.t += o.speed * (boost ? 2.2 : 1.0) * dt;
+        const x = o.cx + Math.cos(o.t + o.angle) * o.radius * 0.12;
+        const y = o.cy + Math.sin(o.t * 0.9 + o.angle) * o.radius * 0.1;
+
+        const pulse = 0.65 + Math.sin(o.t * 1.5) * 0.35;
+        const rad = o.size * (boost ? 1.15 : 1) * (0.7 + pulse * 0.6);
+
+        const grd = ctx.createRadialGradient(x, y, 0, x, y, rad);
+        const alpha = (boost ? 0.08 : 0.04);
+        grd.addColorStop(0, `rgba(${o.r},${o.g},${o.b},${alpha})`);
+        grd.addColorStop(0.55, `rgba(${o.r},${o.g},${o.b},${alpha * 0.2})`);
+        grd.addColorStop(1, 'rgba(0,0,0,0)');
+
+        ctx.globalCompositeOperation = 'lighter';
+        ctx.fillStyle = grd;
+        ctx.beginPath();
+        ctx.arc(x, y, rad, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      function tick(t) {
+        if (!running) return;
+        const dt = Math.min(33, t - (lastT || t)) / 16.67; // normalize to ~60fps
+        lastT = t;
+
+        // Trail fade
+        ctx.globalCompositeOperation = 'source-over';
+        ctx.fillStyle = 'rgba(4, 8, 18, 0.08)';
+        ctx.fillRect(0, 0, w, h);
+
+        const boost = t < boostUntil;
+        for (let i = 0; i < orbs.length; i++) drawOrb(orbs[i], dt, boost);
+
+        requestAnimationFrame(tick);
+      }
+
+      // Interactions to momentarily "power up" the glow
+      function boostNow() { boostUntil = performance.now() + 1400; }
+      window.addEventListener('pointermove', boostNow, { passive: true });
+      window.addEventListener('scroll', boostNow, { passive: true });
+
+      // Lifecycle
+      resize();
+      requestAnimationFrame(tick);
+      window.addEventListener('resize', resize, { passive: true });
+      document.addEventListener('visibilitychange', () => {
+        running = document.visibilityState === 'visible';
+        if (running) { lastT = 0; requestAnimationFrame(tick); }
+      });
+    })();
+  </script>
+</body>
 </html>
