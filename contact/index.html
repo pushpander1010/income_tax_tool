@@ -2,9 +2,6 @@
 <html lang="en">
 
 <head>
-  <!-- Google Ads (kept async and conditional; ad slot injected only if available) -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617"
-    crossorigin="anonymous"></script>
 
   <!-- Basics -->
   <meta charset="UTF-8" />
@@ -149,7 +146,14 @@
 </head>
 
 <body>
-
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617"
+    crossorigin="anonymous"></script>
+  <!-- small fixed -->
+  <ins class="adsbygoogle" style="display:inline-block;width:500px;height:50px" data-ad-client="ca-pub-6216304334889617"
+    data-ad-slot="9810172647"></ins>
+  <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
   <!-- Header (same as site-wide) -->
   <header class="site" role="banner">
     <div class="header-inner">
@@ -302,9 +306,6 @@
       </div>
     </section>
 
-    <!-- (Conditional) Ad slot - inserted only when adsbygoogle is present -->
-    <section id="ad-mount"></section>
-
     <!-- More ways to connect / internal SEO links -->
     <section class="card neon" aria-labelledby="more-links">
       <h2 id="more-links" style="margin-top:0">Explore UpTools</h2>
@@ -419,29 +420,6 @@
       // Send via default client
       location.href = `mailto:support@uptools.in?subject=${subject}&body=${body}`;
     });
-
-    // Conditional ad slot insertion (ONLY if ads library is present)
-    function mountAd() {
-      if (!("adsbygoogle" in window)) return;
-      const mount = $("#ad-mount");
-      if (!mount) return;
-      const wrap = document.createElement("div");
-      wrap.className = "card neon";
-      wrap.setAttribute("aria-label", "Sponsored");
-      // Reserve height to avoid CLS; will be reused by AdSense
-      wrap.style.minHeight = "120px";
-      wrap.innerHTML = `
-        <ins class="adsbygoogle"
-             style="display:block; min-height:120px"
-             data-ad-client="ca-pub-6216304334889617"
-             data-ad-slot="9651757525"
-             data-full-width-responsive="true"></ins>`;
-      mount.appendChild(wrap);
-      try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch { }
-    }
-    // Try now and also once page is fully loaded
-    if ("adsbygoogle" in window) mountAd();
-    window.addEventListener("load", mountAd);
 
     // Small UX niceties
     // Prefill tool field if user came from a tool page with ?from=/tool-path

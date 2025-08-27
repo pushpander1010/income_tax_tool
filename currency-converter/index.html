@@ -2,10 +2,6 @@
 <html lang="en">
 
 <head>
-  <!-- Ads (async + minimal). Ad slot is CLS-safe & only mounted if available -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617"
-    crossorigin="anonymous"></script>
-
   <!-- Core meta -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -137,11 +133,6 @@
       display: block
     }
 
-    /* Reserve ad height to avoid CLS */
-    #ad-slot {
-      min-height: 120px
-    }
-
     /* Textual logos for sub-links */
     .ico {
       display: inline-grid;
@@ -182,6 +173,14 @@
 </head>
 
 <body>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617"
+    crossorigin="anonymous"></script>
+  <!-- small fixed -->
+  <ins class="adsbygoogle" style="display:inline-block;width:500px;height:50px" data-ad-client="ca-pub-6216304334889617"
+    data-ad-slot="9810172647"></ins>
+  <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
   <!-- Global header -->
   <header class="site" role="banner">
     <div class="header-inner">
@@ -271,12 +270,6 @@
       </aside>
     </section>
 
-    <!-- (Conditional) Ad - reserved height to prevent layout shift -->
-    <section id="ad-slot" class="card neon" aria-label="Sponsored" style="margin-top:12px">
-      <ins class="adsbygoogle" style="display:block; min-height:120px" data-ad-client="ca-pub-6216304334889617"
-        data-ad-slot="9651757525" data-full-width-responsive="true"></ins>
-    </section>
-
     <!-- Helpful explainer + internal links for SEO -->
     <section class="card neon" aria-labelledby="how-to">
       <h2 id="how-to" style="margin-top:0">How to use</h2>
@@ -310,9 +303,6 @@
 
     // Footer year
     $("#y").textContent = new Date().getFullYear();
-
-    // Ad mount (safe even if blocked)
-    try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch { }
 
     // Currencies (major + INR focus)
     const CODES = [
