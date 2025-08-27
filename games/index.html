@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617" crossorigin="anonymous"></script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Free Online Games (No Sign-up) - Snake, 2048, Tic Tac Toe & More | UpTools</title>
-  <meta name="description" content="Play free online games instantly: Snake, 2048, Tic Tac Toe, Memory Match, Breakout and more. No downloads, no sign-ups. Mobile-friendly, ad-light, and blazing fast. Search and filter by genre or difficulty." />
+  <meta name="description"
+    content="Play free online games instantly: Snake, 2048, Tic Tac Toe, Memory Match, Breakout and more. No downloads, no sign-ups. Mobile-friendly, ad-light, and blazing fast. Search and filter by genre or difficulty." />
   <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
   <meta name="theme-color" content="#0f1419" />
 
-  <!-- Open Graph / Twitter -->
+
   <meta property="og:title" content="Free Online Games - UpTools" />
-  <meta property="og:description" content="Play Snake, 2048, Tic Tac Toe, Memory Match & more. Fast, free, no sign-ups." />
+  <meta property="og:description"
+    content="Play Snake, 2048, Tic Tac Toe, Memory Match & more. Fast, free, no sign-ups." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.uptools.in/games/" />
   <meta property="og:site_name" content="UpTools" />
@@ -19,7 +21,7 @@
   <meta name="twitter:card" content="summary_large_image" />
   <link rel="canonical" href="https://www.uptools.in/games/" />
 
-  <!-- Favicon -->
+  
   <link rel="icon" sizes="50x50" type="image/svg+xml" href="/assets/logo/uptools-logo.svg">
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/logo/uptools-logo.svg">
 
@@ -27,115 +29,230 @@
 
   <style>
     /* ---------- Page accent (keeps global CSS intact) ---------- */
-    body{
-      --accent:#ff6b6b; /* neon shade (single-color theme) */
+    body {
+      --accent: #ff6b6b;
+      /* neon shade (single-color theme) */
       background:
         radial-gradient(1200px 600px at 10% -10%, #182033 0%, var(--bg) 45%) fixed;
     }
-    .wrap { padding-top: 0 }
+
+    .wrap {
+      padding-top: 0
+    }
 
     /* ---------- Neon Background FX (lightweight, pure CSS + a tiny JS seeder) ---------- */
-    .neon-canvas{ position:fixed; inset:0; z-index:-1; pointer-events:none; overflow:hidden }
-    /* soft aurora glow layer */
-    body::after{
-      content:"";
-      position:fixed; inset:-12vh -12vw;
-      background:
-        radial-gradient(40% 40% at 15% 15%, color-mix(in oklab, var(--accent), transparent 88%) 0 60%, transparent 70%) ,
-        radial-gradient(35% 35% at 80% 80%, color-mix(in oklab, var(--accent), white 12%) 0 50%, transparent 65%);
-      filter: blur(80px) saturate(120%);
-      opacity:.35;
-      animation: aurora 22s ease-in-out infinite alternate;
-      z-index:-2;
-    }
-    @keyframes aurora{
-      0% { transform: translate3d(0,0,0) scale(1) rotate(0deg) }
-      100%{ transform: translate3d(1.5%, -1.5%, 0) scale(1.03) rotate(2deg) }
+    .neon-canvas {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      overflow: hidden
     }
 
-    .n-shape{
-      position:absolute;
-      left:var(--x); top:var(--y);
+    /* soft aurora glow layer */
+    body::after {
+      content: "";
+      position: fixed;
+      inset: -12vh -12vw;
+      background:
+        radial-gradient(40% 40% at 15% 15%, color-mix(in oklab, var(--accent), transparent 88%) 0 60%, transparent 70%),
+        radial-gradient(35% 35% at 80% 80%, color-mix(in oklab, var(--accent), white 12%) 0 50%, transparent 65%);
+      filter: blur(80px) saturate(120%);
+      opacity: .35;
+      animation: aurora 22s ease-in-out infinite alternate;
+      z-index: -2;
+    }
+
+    @keyframes aurora {
+      0% {
+        transform: translate3d(0, 0, 0) scale(1) rotate(0deg)
+      }
+
+      100% {
+        transform: translate3d(1.5%, -1.5%, 0) scale(1.03) rotate(2deg)
+      }
+    }
+
+    .n-shape {
+      position: absolute;
+      left: var(--x);
+      top: var(--y);
       font-size: clamp(12px, 1.8vw, 24px);
-      color: transparent; /* we use neon glow via text-shadow */
-      -webkit-text-stroke: 1px rgba(255,255,255,.07);
+      color: transparent;
+      /* we use neon glow via text-shadow */
+      -webkit-text-stroke: 1px rgba(255, 255, 255, .07);
       text-shadow:
         0 0 6px var(--accent),
         0 0 16px var(--accent),
         0 0 38px var(--accent);
-      opacity:.22; filter: blur(.15px);
+      opacity: .22;
+      filter: blur(.15px);
       animation:
-        floatUp var(--d,12s) linear infinite,
+        floatUp var(--d, 12s) linear infinite,
         shimmer 6s ease-in-out infinite;
       will-change: transform, filter;
     }
-    @keyframes floatUp{
-      from{ transform: translate3d(0,0,0) rotate(0deg) }
-      to  { transform: translate3d(0,-120vh,0) rotate(360deg) }
-    }
-    @keyframes shimmer{ 50%{ text-shadow:
-        0 0 10px var(--accent),
-        0 0 26px var(--accent),
-        0 0 56px var(--accent) } }
 
-    @media (prefers-reduced-motion: reduce){
-      .n-shape, body::after, .game-card::before{ animation: none !important }
+    @keyframes floatUp {
+      from {
+        transform: translate3d(0, 0, 0) rotate(0deg)
+      }
+
+      to {
+        transform: translate3d(0, -120vh, 0) rotate(360deg)
+      }
+    }
+
+    @keyframes shimmer {
+      50% {
+        text-shadow:
+          0 0 10px var(--accent),
+          0 0 26px var(--accent),
+          0 0 56px var(--accent)
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+
+      .n-shape,
+      body::after,
+      .game-card::before {
+        animation: none !important
+      }
     }
 
     /* ---------- Header hero ---------- */
-    .games-hero{ margin:.75rem auto 1rem; text-align:center }
-    .games-hero h1{ display:flex; gap:.5rem; align-items:center; justify-content:center }
-    .sub{ color:var(--muted); margin:.25rem 0 0 }
+    .games-hero {
+      margin: .75rem auto 1rem;
+      text-align: center
+    }
+
+    .games-hero h1 {
+      display: flex;
+      gap: .5rem;
+      align-items: center;
+      justify-content: center
+    }
+
+    .sub {
+      color: var(--muted);
+      margin: .25rem 0 0
+    }
 
     /* ---------- Controls bar ---------- */
-    .controls-bar{ display:grid; gap:.75rem; grid-template-columns: 1fr; margin:1rem 0 }
-    @media(min-width:900px){ .controls-bar{ grid-template-columns: 1fr 360px } }
-    .search{
-      display:flex; gap:.5rem; align-items:center; padding:.5rem .6rem;
-      background:var(--card); border:1px solid var(--cardBorder); border-radius:.75rem
+    .controls-bar {
+      display: grid;
+      gap: .75rem;
+      grid-template-columns: 1fr;
+      margin: 1rem 0
     }
-    .search input{ flex:1; background:transparent; color:var(--text); border:none; outline:none; font:inherit }
-    .filters{ display:flex; gap:.5rem; flex-wrap:wrap; align-items:center; justify-content:flex-end }
-    .chip{
-      display:inline-flex; align-items:center; gap:.4rem;
-      padding:.45rem .6rem; font-weight:600; border-radius:999px;
-      background:rgba(255,255,255,.03); border:1px solid var(--cardBorder);
-      cursor:pointer; user-select:none
+
+    @media(min-width:900px) {
+      .controls-bar {
+        grid-template-columns: 1fr 360px
+      }
     }
-    .chip input{ accent-color:var(--accent) }
+
+    .search {
+      display: flex;
+      gap: .5rem;
+      align-items: center;
+      padding: .5rem .6rem;
+      background: var(--card);
+      border: 1px solid var(--cardBorder);
+      border-radius: .75rem
+    }
+
+    .search input {
+      flex: 1;
+      background: transparent;
+      color: var(--text);
+      border: none;
+      outline: none;
+      font: inherit
+    }
+
+    .filters {
+      display: flex;
+      gap: .5rem;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: flex-end
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: .4rem;
+      padding: .45rem .6rem;
+      font-weight: 600;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .03);
+      border: 1px solid var(--cardBorder);
+      cursor: pointer;
+      user-select: none
+    }
+
+    .chip input {
+      accent-color: var(--accent)
+    }
 
     /* ---------- Sections ---------- */
-    .section{ margin: 1.25rem 0 }
-    .section h2{ margin:0 0 .5rem; display:flex; align-items:center; gap:.5rem }
-    .section p.small{ color:var(--muted); margin:.25rem 0 0 }
+    .section {
+      margin: 1.25rem 0
+    }
+
+    .section h2 {
+      margin: 0 0 .5rem;
+      display: flex;
+      align-items: center;
+      gap: .5rem
+    }
+
+    .section p.small {
+      color: var(--muted);
+      margin: .25rem 0 0
+    }
 
     /* ---------- Grids ---------- */
-    .games-grid{
-      display:grid; grid-template-columns:repeat(auto-fit, minmax(240px,1fr));
-      gap:1rem;
+    .games-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1rem;
     }
 
     /* ---------- Neon Card Borders (single-color neon, animated) ---------- */
     /* animate an angle custom prop for smooth conic rotation */
-    @property --neon-angle{ syntax:"<angle>"; inherits:false; initial-value:0deg }
-
-    .game-card{
-      position:relative;
-      display:grid; gap:.5rem;
-      background:var(--card);
-      border:1px solid rgba(255,255,255,.10); /* subtle fallback */
-      border-radius:var(--radius);
-      padding:1rem;
-      transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease;
-      overflow: hidden; /* contain the glow */
-      isolation:isolate; /* ensure pseudo stays below content */
+    @property --neon-angle {
+      syntax: "<angle>";
+      inherits: false;
+      initial-value: 0deg
     }
+
+    .game-card {
+      position: relative;
+      display: grid;
+      gap: .5rem;
+      background: var(--card);
+      border: 1px solid rgba(255, 255, 255, .10);
+      /* subtle fallback */
+      border-radius: var(--radius);
+      padding: 1rem;
+      transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease;
+      overflow: hidden;
+      /* contain the glow */
+      isolation: isolate;
+      /* ensure pseudo stays below content */
+    }
+
     /* animated conic neon ring as a border using mask */
-    .game-card::before{
-      content:"";
-      position:absolute; inset:0;
-      padding:2px; /* border thickness */
-      border-radius:inherit;
+    .game-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      padding: 2px;
+      /* border thickness */
+      border-radius: inherit;
       background:
         conic-gradient(from var(--neon-angle),
           transparent 0 120deg,
@@ -143,43 +260,119 @@
           transparent 200deg 360deg);
       -webkit-mask:
         linear-gradient(#000 0 0) content-box,
-        linear-gradient(#000 0 0);             /* punch hole */
+        linear-gradient(#000 0 0);
+      /* punch hole */
       -webkit-mask-composite: xor;
-              mask-composite: exclude;
+      mask-composite: exclude;
       filter: drop-shadow(0 0 10px var(--accent)) saturate(140%);
       animation: neon-spin 10s linear infinite;
-      z-index:0; pointer-events:none;
+      z-index: 0;
+      pointer-events: none;
     }
-    @keyframes neon-spin{ to{ --neon-angle: 360deg } }
 
-    .game-card:hover{
+    @keyframes neon-spin {
+      to {
+        --neon-angle: 360deg
+      }
+    }
+
+    .game-card:hover {
       transform: translateY(-2px);
       box-shadow: 0 0 22px rgba(255, 107, 107, .25);
       border-color: color-mix(in oklab, var(--accent), white 20%);
     }
-    .row{ display:flex; justify-content:space-between; align-items:center; gap:.5rem }
-    .badge{ font-size:.75rem; padding:.15rem .45rem; border:1px solid var(--cardBorder); border-radius:999px; color:var(--muted) }
-    .game-icon{ font-size:2rem }
-    .game-title{ font-size:1.1rem; font-weight:800 }
-    .game-desc{ color:var(--muted); font-size:.9rem }
-    .tags{ display:flex; gap:.35rem; flex-wrap:wrap; margin-top:.15rem }
-    .tag{ font-size:.75rem; padding:.15rem .4rem; border-radius:999px; background:rgba(255,255,255,.04); border:1px solid var(--cardBorder) }
-    .cta{ margin-top:.35rem; display:flex; gap:.5rem; align-items:center; justify-content:space-between }
-    .btn{
-      padding:.5rem .8rem; border:none; border-radius:.6rem; background:var(--accent);
-      color:#fff; font-weight:700; cursor:pointer; transition: transform .1s ease;
+
+    .row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: .5rem
+    }
+
+    .badge {
+      font-size: .75rem;
+      padding: .15rem .45rem;
+      border: 1px solid var(--cardBorder);
+      border-radius: 999px;
+      color: var(--muted)
+    }
+
+    .game-icon {
+      font-size: 2rem
+    }
+
+    .game-title {
+      font-size: 1.1rem;
+      font-weight: 800
+    }
+
+    .game-desc {
+      color: var(--muted);
+      font-size: .9rem
+    }
+
+    .tags {
+      display: flex;
+      gap: .35rem;
+      flex-wrap: wrap;
+      margin-top: .15rem
+    }
+
+    .tag {
+      font-size: .75rem;
+      padding: .15rem .4rem;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, .04);
+      border: 1px solid var(--cardBorder)
+    }
+
+    .cta {
+      margin-top: .35rem;
+      display: flex;
+      gap: .5rem;
+      align-items: center;
+      justify-content: space-between
+    }
+
+    .btn {
+      padding: .5rem .8rem;
+      border: none;
+      border-radius: .6rem;
+      background: var(--accent);
+      color: #fff;
+      font-weight: 700;
+      cursor: pointer;
+      transition: transform .1s ease;
       box-shadow: 0 0 12px rgba(255, 107, 107, .35);
     }
-    .btn:active{ transform: scale(.98) }
-    .btn.alt{ background:transparent; color:var(--text); border:1px solid var(--cardBorder); box-shadow:none }
 
-    .fav{ border:none; background:transparent; color:var(--muted); cursor:pointer }
-    .fav.active{ color:var(--accent) }
+    .btn:active {
+      transform: scale(.98)
+    }
 
-    .site-footer{ margin-top:2rem }
+    .btn.alt {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--cardBorder);
+      box-shadow: none
+    }
+
+    .fav {
+      border: none;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer
+    }
+
+    .fav.active {
+      color: var(--accent)
+    }
+
+    .site-footer {
+      margin-top: 2rem
+    }
   </style>
 
-  <!-- Structured data: Game collection with individual items -->
   <script type="application/ld+json">
   {
     "@context":"https://schema.org",
@@ -202,15 +395,25 @@
   </script>
 
 </head>
+
 <body>
-  <!-- Neon animated background layer (decorative) -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617"
+    crossorigin="anonymous"></script>
+
+  <ins class="adsbygoogle" style="display:inline-block;width:500px;height:50px" data-ad-client="ca-pub-6216304334889617"
+    data-ad-slot="9810172647"></ins>
+  <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+
   <div class="neon-canvas" aria-hidden="true" id="neonCanvas"></div>
 
-  <!-- Site Header -->
+
   <header class="site" role="banner">
     <div class="header-inner">
       <a class="brand" href="/" aria-label="UpTools Home">
-        <img src="/assets/logo/uptools-logo.svg" alt="UpTools logo" width="28" height="28" decoding="async" loading="eager">
+        <img src="/assets/logo/uptools-logo.svg" alt="UpTools logo" width="28" height="28" decoding="async"
+          loading="eager">
         <b>UpTools</b>
       </a>
       <nav class="nav-links" aria-label="Primary">
@@ -223,17 +426,18 @@
   </header>
 
   <main class="wrap">
-    <!-- Hero -->
+
     <section class="games-hero">
       <h1>🎮 Free Online Games</h1>
       <p class="sub">Instant play. No sign-ups. Mobile-friendly. Ad-light.</p>
     </section>
 
-    <!-- Controls -->
+
     <section class="controls-bar" aria-label="Search and filters">
       <div class="search" role="search">
         <span aria-hidden="true">🔎</span>
-        <input id="q" type="search" inputmode="search" placeholder="Search games (e.g., snake, puzzle, word)…" aria-label="Search games">
+        <input id="q" type="search" inputmode="search" placeholder="Search games (e.g., snake, puzzle, word)…"
+          aria-label="Search games">
         <button class="btn alt" id="clearBtn" aria-label="Clear search" title="Clear">Clear</button>
       </div>
       <div class="filters" aria-label="Filters">
@@ -247,20 +451,20 @@
       </div>
     </section>
 
-    <!-- Recently played -->
+
     <section class="section" id="recentSec" hidden>
       <h2>⏱️ Continue Playing</h2>
       <div class="games-grid" id="recentGrid" role="region" aria-live="polite"></div>
       <p class="small">Tip: Your last played games are saved on this device only.</p>
     </section>
 
-    <!-- Favourites -->
+
     <section class="section" id="favSec" hidden>
       <h2>⭐ Your Favourites</h2>
       <div class="games-grid" id="favGrid" role="region" aria-live="polite"></div>
     </section>
 
-    <!-- All games -->
+
     <section class="section">
       <h2>🕹️ All Games</h2>
       <div class="games-grid" id="grid" role="region" aria-live="polite"></div>
@@ -276,16 +480,16 @@
     (() => {
       const canvas = document.getElementById('neonCanvas');
       if (!canvas) return;
-      const SHAPES = ["🎮","★","❤","✦","◆","▲","✪","♥"];
-      const COUNT = Math.min(28, Math.max(16, Math.floor(window.innerWidth/60))); // scale lightly by screen
-      for (let i=0; i<COUNT; i++){
+      const SHAPES = ["🎮", "★", "❤", "✦", "◆", "▲", "✪", "♥"];
+      const COUNT = Math.min(28, Math.max(16, Math.floor(window.innerWidth / 60))); // scale lightly by screen
+      for (let i = 0; i < COUNT; i++) {
         const s = document.createElement('span');
         s.className = 'n-shape';
-        s.textContent = SHAPES[(Math.random()*SHAPES.length)|0];
-        s.style.setProperty('--x', (Math.random()*100)+'vw');
-        s.style.setProperty('--y', (Math.random()*100)+'vh');
-        s.style.setProperty('--d', (8 + Math.random()*12).toFixed(2)+'s');
-        s.style.animationDelay = (Math.random()*-12).toFixed(2)+'s';
+        s.textContent = SHAPES[(Math.random() * SHAPES.length) | 0];
+        s.style.setProperty('--x', (Math.random() * 100) + 'vw');
+        s.style.setProperty('--y', (Math.random() * 100) + 'vh');
+        s.style.setProperty('--d', (8 + Math.random() * 12).toFixed(2) + 's');
+        s.style.animationDelay = (Math.random() * -12).toFixed(2) + 's';
         canvas.appendChild(s);
       }
       // pause animations when tab is hidden (battery-friendly)
@@ -301,81 +505,81 @@
     // ---------- Data (extend easily)
     const GAMES = [
       {
-        slug:"tic-tac-toe",
-        title:"Tic Tac Toe",
-        icon:"⭕",
-        desc:"Play against AI or a friend in this classic game.",
-        tags:["classic","board","quick","brain"],
-        href:"/games/tic-tac-toe/"
+        slug: "tic-tac-toe",
+        title: "Tic Tac Toe",
+        icon: "⭕",
+        desc: "Play against AI or a friend in this classic game.",
+        tags: ["classic", "board", "quick", "brain"],
+        href: "/games/tic-tac-toe/"
       },
       {
-        slug:"memory-match",
-        title:"Memory Match",
-        icon:"🧠",
-        desc:"Flip cards and match pairs to test your memory.",
-        tags:["puzzle","brain"],
-        href:"/games/memory-match/"
+        slug: "memory-match",
+        title: "Memory Match",
+        icon: "🧠",
+        desc: "Flip cards and match pairs to test your memory.",
+        tags: ["puzzle", "brain"],
+        href: "/games/memory-match/"
       },
       {
-        slug:"snake",
-        title:"Snake",
-        icon:"🐍",
-        desc:"Eat food, grow your snake, avoid hitting yourself.",
-        tags:["arcade","classic","reflex","quick"],
-        href:"/games/snake/"
+        slug: "snake",
+        title: "Snake",
+        icon: "🐍",
+        desc: "Eat food, grow your snake, avoid hitting yourself.",
+        tags: ["arcade", "classic", "reflex", "quick"],
+        href: "/games/snake/"
       },
       {
-        slug:"number-guessing",
-        title:"Number Guessing",
-        icon:"🎲",
-        desc:"Guess the hidden number in the fewest tries.",
-        tags:["quick","brain","logic"],
-        href:"/games/number-guessing/"
+        slug: "number-guessing",
+        title: "Number Guessing",
+        icon: "🎲",
+        desc: "Guess the hidden number in the fewest tries.",
+        tags: ["quick", "brain", "logic"],
+        href: "/games/number-guessing/"
       },
       {
-        slug:"color-rush",
-        title:"Color Rush",
-        icon:"🌈",
-        desc:"Spot the odd color before time runs out.",
-        tags:["reflex","quick","puzzle"],
-        href:"/games/color-rush/"
+        slug: "color-rush",
+        title: "Color Rush",
+        icon: "🌈",
+        desc: "Spot the odd color before time runs out.",
+        tags: ["reflex", "quick", "puzzle"],
+        href: "/games/color-rush/"
       },
       {
-        slug:"word-scramble",
-        title:"Word Scramble",
-        icon:"📝",
-        desc:"Unscramble letters to form the correct word.",
-        tags:["word","brain","puzzle"],
-        href:"/games/word-scramble/"
+        slug: "word-scramble",
+        title: "Word Scramble",
+        icon: "📝",
+        desc: "Unscramble letters to form the correct word.",
+        tags: ["word", "brain", "puzzle"],
+        href: "/games/word-scramble/"
       },
       {
-        slug:"2048",
-        title:"2048",
-        icon:"🔢",
-        desc:"Slide and merge number tiles to reach 2048.",
-        tags:["puzzle","number","brain"],
-        href:"/games/2048/"
+        slug: "2048",
+        title: "2048",
+        icon: "🔢",
+        desc: "Slide and merge number tiles to reach 2048.",
+        tags: ["puzzle", "number", "brain"],
+        href: "/games/2048/"
       },
       {
-        slug:"breakout",
-        title:"Breakout",
-        icon:"🏓",
-        desc:"Break all bricks with your paddle and ball.",
-        tags:["arcade","reflex","classic"],
-        href:"/games/breakout/"
+        slug: "breakout",
+        title: "Breakout",
+        icon: "🏓",
+        desc: "Break all bricks with your paddle and ball.",
+        tags: ["arcade", "reflex", "classic"],
+        href: "/games/breakout/"
       },
       {
-        slug:"Love Test",
-        title:"Love Test",
-        icon:"❤️",
-        desc:"Test your love compatibility with fun quizzes.",
-        tags:["romance","quiz","compatibility"],
-        href:"/games/love-test/"
+        slug: "Love Test",
+        title: "Love Test",
+        icon: "❤️",
+        desc: "Test your love compatibility with fun quizzes.",
+        tags: ["romance", "quiz", "compatibility"],
+        href: "/games/love-test/"
       }
     ];
 
     // ---------- Helpers
-    const $ = (s, el=document) => el.querySelector(s);
+    const $ = (s, el = document) => el.querySelector(s);
     const elGrid = $("#grid");
     const elFavGrid = $("#favGrid");
     const elRecentGrid = $("#recentGrid");
@@ -407,14 +611,14 @@
     })();
 
     // ---------- Render
-    function cardHTML(g, favs){
+    function cardHTML(g, favs) {
       const isFav = favs.has(g.slug);
-      const tags = (g.tags||[]).slice(0,4).map(t=>`<span class="tag">${t}</span>`).join("");
+      const tags = (g.tags || []).slice(0, 4).map(t => `<span class="tag">${t}</span>`).join("");
       const badge = g.tags.includes("quick") ? "Quick Play" :
-                    g.tags.includes("brain") ? "Brain" :
-                    g.tags.includes("reflex") ? "Reflex" : "Classic";
+        g.tags.includes("brain") ? "Brain" :
+          g.tags.includes("reflex") ? "Reflex" : "Classic";
       return `
-        <article class="game-card" data-tags="${(g.tags||[]).join(',')}" data-title="${g.title.toLowerCase()}">
+        <article class="game-card" data-tags="${(g.tags || []).join(',')}" data-title="${g.title.toLowerCase()}">
           <div class="row">
             <div class="game-icon" aria-hidden="true">${g.icon}</div>
             <span class="badge">${badge}</span>
@@ -424,7 +628,7 @@
           <div class="tags">${tags}</div>
           <div class="cta">
             <a class="btn" href="${g.href}">Play</a>
-            <button class="fav ${isFav ? 'active':''}" data-fav="${g.slug}" aria-label="Favourite ${g.title}" title="Favourite">
+            <button class="fav ${isFav ? 'active' : ''}" data-fav="${g.slug}" aria-label="Favourite ${g.title}" title="Favourite">
               ${isFav ? '★ Favourited' : '☆ Favourite'}
             </button>
           </div>
@@ -432,27 +636,27 @@
       `;
     }
 
-    function renderAll(list){
+    function renderAll(list) {
       const favs = getFavs();
       elGrid.innerHTML = list.map(g => cardHTML(g, favs)).join("");
       bindFavButtons(elGrid);
     }
 
-    function renderSection(container, games){
+    function renderSection(container, games) {
       const favs = getFavs();
       container.innerHTML = games.map(g => cardHTML(g, favs)).join("");
       bindFavButtons(container);
     }
 
-    function bindFavButtons(scope){
-      scope.querySelectorAll("[data-fav]").forEach(btn=>{
-        btn.addEventListener("click", (e)=>{
+    function bindFavButtons(scope) {
+      scope.querySelectorAll("[data-fav]").forEach(btn => {
+        btn.addEventListener("click", (e) => {
           const slug = btn.getAttribute("data-fav");
           const favs = getFavs();
           if (favs.has(slug)) favs.delete(slug); else favs.add(slug);
           setFavs(favs);
           // Update buttons in all grids
-          document.querySelectorAll(`[data-fav="${slug}"]`).forEach(b=>{
+          document.querySelectorAll(`[data-fav="${slug}"]`).forEach(b => {
             const active = favs.has(slug);
             b.classList.toggle("active", active);
             b.textContent = active ? "★ Favourited" : "☆ Favourite";
@@ -461,39 +665,39 @@
         });
       });
       // Track clicks to add to recent
-      scope.querySelectorAll("a.btn, a.game-title").forEach(a=>{
-        a.addEventListener("click", ()=> {
+      scope.querySelectorAll("a.btn, a.game-title").forEach(a => {
+        a.addEventListener("click", () => {
           const slug = a.closest(".game-card").querySelector("[data-fav]").getAttribute("data-fav");
           pushRecent(slug);
         });
       });
     }
 
-    function renderFavs(){
+    function renderFavs() {
       const favs = getFavs();
       const favList = GAMES.filter(g => favs.has(g.slug));
       elFavSec.hidden = favList.length === 0;
       if (!elFavSec.hidden) renderSection(elFavGrid, favList);
     }
 
-    function renderRecent(){
-      const rec = getRecent().slice(0,6);
-      const games = rec.map(r => GAMES.find(g=>g.slug===r.slug)).filter(Boolean);
+    function renderRecent() {
+      const rec = getRecent().slice(0, 6);
+      const games = rec.map(r => GAMES.find(g => g.slug === r.slug)).filter(Boolean);
       elRecentSec.hidden = games.length === 0;
       if (!elRecentSec.hidden) renderSection(elRecentGrid, games);
     }
 
     // ---------- Search + Filters
-    function currentFilters(){
-      return [...document.querySelectorAll('.filters input:checked')].map(i=>i.value);
+    function currentFilters() {
+      return [...document.querySelectorAll('.filters input:checked')].map(i => i.value);
     }
 
-    function applyFilters(){
+    function applyFilters() {
       const text = q.value.trim().toLowerCase();
       const filters = currentFilters();
       const cards = [...document.querySelectorAll(".game-card")];
       let shown = 0;
-      for (const c of cards){
+      for (const c of cards) {
         const title = c.dataset.title;
         const tags = (c.dataset.tags || "").split(",");
         const matchesText = !text || title.includes(text);
@@ -506,7 +710,7 @@
     }
 
     q.addEventListener("input", applyFilters);
-    clearBtn.addEventListener("click", ()=>{ q.value=""; applyFilters(); q.focus() });
+    clearBtn.addEventListener("click", () => { q.value = ""; applyFilters(); q.focus() });
     document.querySelectorAll('.filters input').forEach(i => i.addEventListener("change", applyFilters));
 
     // ---------- Init
@@ -516,4 +720,5 @@
     applyFilters();
   </script>
 </body>
+
 </html>
