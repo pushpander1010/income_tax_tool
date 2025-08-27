@@ -18,49 +18,84 @@
   <meta property="og:image" content="https://www.uptools.in/assets/logo/uptools-logo.svg" />
   <meta name="twitter:card" content="summary_large_image" />
   <link rel="canonical" href="https://www.uptools.in/games/" />
-    <!-- Favicon -->
+
+  <!-- Favicon -->
   <link rel="icon" sizes="50x50" type="image/svg+xml" href="/assets/logo/uptools-logo.svg">
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/logo/uptools-logo.svg">
 
   <link rel="stylesheet" href="/style.css?v=1.2.0" />
 
   <style>
-    /* Page accent only (keeps global CSS) */
+    /* ---------- Page accent (keeps global CSS intact) ---------- */
     body{
-      --accent:#ff6b6b;
-      background: radial-gradient(1200px 600px at 10% -10%, #182033 0%, var(--bg) 45%) fixed;
+      --accent:#ff6b6b; /* neon shade (single-color theme) */
+      background:
+        radial-gradient(1200px 600px at 10% -10%, #182033 0%, var(--bg) 45%) fixed;
     }
-
     .wrap { padding-top: 0 }
 
-    /* Header hero */
-    .games-hero{
-      margin: .75rem auto 1rem;
-      text-align:center;
+    /* ---------- Neon Background FX (lightweight, pure CSS + a tiny JS seeder) ---------- */
+    .neon-canvas{ position:fixed; inset:0; z-index:-1; pointer-events:none; overflow:hidden }
+    /* soft aurora glow layer */
+    body::after{
+      content:"";
+      position:fixed; inset:-12vh -12vw;
+      background:
+        radial-gradient(40% 40% at 15% 15%, color-mix(in oklab, var(--accent), transparent 88%) 0 60%, transparent 70%) ,
+        radial-gradient(35% 35% at 80% 80%, color-mix(in oklab, var(--accent), white 12%) 0 50%, transparent 65%);
+      filter: blur(80px) saturate(120%);
+      opacity:.35;
+      animation: aurora 22s ease-in-out infinite alternate;
+      z-index:-2;
     }
+    @keyframes aurora{
+      0% { transform: translate3d(0,0,0) scale(1) rotate(0deg) }
+      100%{ transform: translate3d(1.5%, -1.5%, 0) scale(1.03) rotate(2deg) }
+    }
+
+    .n-shape{
+      position:absolute;
+      left:var(--x); top:var(--y);
+      font-size: clamp(12px, 1.8vw, 24px);
+      color: transparent; /* we use neon glow via text-shadow */
+      -webkit-text-stroke: 1px rgba(255,255,255,.07);
+      text-shadow:
+        0 0 6px var(--accent),
+        0 0 16px var(--accent),
+        0 0 38px var(--accent);
+      opacity:.22; filter: blur(.15px);
+      animation:
+        floatUp var(--d,12s) linear infinite,
+        shimmer 6s ease-in-out infinite;
+      will-change: transform, filter;
+    }
+    @keyframes floatUp{
+      from{ transform: translate3d(0,0,0) rotate(0deg) }
+      to  { transform: translate3d(0,-120vh,0) rotate(360deg) }
+    }
+    @keyframes shimmer{ 50%{ text-shadow:
+        0 0 10px var(--accent),
+        0 0 26px var(--accent),
+        0 0 56px var(--accent) } }
+
+    @media (prefers-reduced-motion: reduce){
+      .n-shape, body::after, .game-card::before{ animation: none !important }
+    }
+
+    /* ---------- Header hero ---------- */
+    .games-hero{ margin:.75rem auto 1rem; text-align:center }
     .games-hero h1{ display:flex; gap:.5rem; align-items:center; justify-content:center }
     .sub{ color:var(--muted); margin:.25rem 0 0 }
 
-    /* Controls bar */
-    .controls-bar{
-      display:grid; gap:.75rem; grid-template-columns: 1fr;
-      margin: 1rem 0;
-    }
-    @media(min-width:900px){
-      .controls-bar{ grid-template-columns: 1fr 360px }
-    }
-
+    /* ---------- Controls bar ---------- */
+    .controls-bar{ display:grid; gap:.75rem; grid-template-columns: 1fr; margin:1rem 0 }
+    @media(min-width:900px){ .controls-bar{ grid-template-columns: 1fr 360px } }
     .search{
       display:flex; gap:.5rem; align-items:center; padding:.5rem .6rem;
-      background:var(--card); border:1px solid var(--cardBorder); border-radius:.75rem;
+      background:var(--card); border:1px solid var(--cardBorder); border-radius:.75rem
     }
-    .search input{
-      flex:1; background:transparent; color:var(--text); border:none; outline:none;
-      font:inherit;
-    }
-    .filters{
-      display:flex; gap:.5rem; flex-wrap:wrap; align-items:center; justify-content:flex-end;
-    }
+    .search input{ flex:1; background:transparent; color:var(--text); border:none; outline:none; font:inherit }
+    .filters{ display:flex; gap:.5rem; flex-wrap:wrap; align-items:center; justify-content:flex-end }
     .chip{
       display:inline-flex; align-items:center; gap:.4rem;
       padding:.45rem .6rem; font-weight:600; border-radius:999px;
@@ -69,30 +104,58 @@
     }
     .chip input{ accent-color:var(--accent) }
 
-    /* Sections */
+    /* ---------- Sections ---------- */
     .section{ margin: 1.25rem 0 }
     .section h2{ margin:0 0 .5rem; display:flex; align-items:center; gap:.5rem }
     .section p.small{ color:var(--muted); margin:.25rem 0 0 }
 
-    /* Grids */
+    /* ---------- Grids ---------- */
     .games-grid{
       display:grid; grid-template-columns:repeat(auto-fit, minmax(240px,1fr));
       gap:1rem;
     }
 
-    /* Card */
+    /* ---------- Neon Card Borders (single-color neon, animated) ---------- */
+    /* animate an angle custom prop for smooth conic rotation */
+    @property --neon-angle{ syntax:"<angle>"; inherits:false; initial-value:0deg }
+
     .game-card{
+      position:relative;
       display:grid; gap:.5rem;
       background:var(--card);
-      border:1px solid var(--cardBorder);
+      border:1px solid rgba(255,255,255,.10); /* subtle fallback */
       border-radius:var(--radius);
       padding:1rem;
-      transition:transform .12s ease, box-shadow .12s ease, border-color .12s ease;
+      transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease;
+      overflow: hidden; /* contain the glow */
+      isolation:isolate; /* ensure pseudo stays below content */
     }
+    /* animated conic neon ring as a border using mask */
+    .game-card::before{
+      content:"";
+      position:absolute; inset:0;
+      padding:2px; /* border thickness */
+      border-radius:inherit;
+      background:
+        conic-gradient(from var(--neon-angle),
+          transparent 0 120deg,
+          color-mix(in oklab, var(--accent), white 10%) 140deg 180deg,
+          transparent 200deg 360deg);
+      -webkit-mask:
+        linear-gradient(#000 0 0) content-box,
+        linear-gradient(#000 0 0);             /* punch hole */
+      -webkit-mask-composite: xor;
+              mask-composite: exclude;
+      filter: drop-shadow(0 0 10px var(--accent)) saturate(140%);
+      animation: neon-spin 10s linear infinite;
+      z-index:0; pointer-events:none;
+    }
+    @keyframes neon-spin{ to{ --neon-angle: 360deg } }
+
     .game-card:hover{
       transform: translateY(-2px);
-      box-shadow: var(--shadow-hover);
-      border-color: var(--accent);
+      box-shadow: 0 0 22px rgba(255, 107, 107, .25);
+      border-color: color-mix(in oklab, var(--accent), white 20%);
     }
     .row{ display:flex; justify-content:space-between; align-items:center; gap:.5rem }
     .badge{ font-size:.75rem; padding:.15rem .45rem; border:1px solid var(--cardBorder); border-radius:999px; color:var(--muted) }
@@ -101,16 +164,14 @@
     .game-desc{ color:var(--muted); font-size:.9rem }
     .tags{ display:flex; gap:.35rem; flex-wrap:wrap; margin-top:.15rem }
     .tag{ font-size:.75rem; padding:.15rem .4rem; border-radius:999px; background:rgba(255,255,255,.04); border:1px solid var(--cardBorder) }
-    .cta{
-      margin-top:.35rem; display:flex; gap:.5rem; align-items:center; justify-content:space-between
-    }
+    .cta{ margin-top:.35rem; display:flex; gap:.5rem; align-items:center; justify-content:space-between }
     .btn{
       padding:.5rem .8rem; border:none; border-radius:.6rem; background:var(--accent);
-      color:#fff; font-weight:700; cursor:pointer;
-      transition: transform .1s ease;
+      color:#fff; font-weight:700; cursor:pointer; transition: transform .1s ease;
+      box-shadow: 0 0 12px rgba(255, 107, 107, .35);
     }
     .btn:active{ transform: scale(.98) }
-    .btn.alt{ background:transparent; color:var(--text); border:1px solid var(--cardBorder) }
+    .btn.alt{ background:transparent; color:var(--text); border:1px solid var(--cardBorder); box-shadow:none }
 
     .fav{ border:none; background:transparent; color:var(--muted); cursor:pointer }
     .fav.active{ color:var(--accent) }
@@ -142,6 +203,9 @@
 
 </head>
 <body>
+  <!-- Neon animated background layer (decorative) -->
+  <div class="neon-canvas" aria-hidden="true" id="neonCanvas"></div>
+
   <!-- Site Header -->
   <header class="site" role="banner">
     <div class="header-inner">
@@ -206,6 +270,32 @@
       © <span id="y"></span> UpTools · <a href="/about/">About</a> · <a href="/contact/">Contact</a>
     </footer>
   </main>
+
+  <script>
+    /* ------------------- Neon background seeding (tiny JS, no layout impact) ------------------- */
+    (() => {
+      const canvas = document.getElementById('neonCanvas');
+      if (!canvas) return;
+      const SHAPES = ["🎮","★","❤","✦","◆","▲","✪","♥"];
+      const COUNT = Math.min(28, Math.max(16, Math.floor(window.innerWidth/60))); // scale lightly by screen
+      for (let i=0; i<COUNT; i++){
+        const s = document.createElement('span');
+        s.className = 'n-shape';
+        s.textContent = SHAPES[(Math.random()*SHAPES.length)|0];
+        s.style.setProperty('--x', (Math.random()*100)+'vw');
+        s.style.setProperty('--y', (Math.random()*100)+'vh');
+        s.style.setProperty('--d', (8 + Math.random()*12).toFixed(2)+'s');
+        s.style.animationDelay = (Math.random()*-12).toFixed(2)+'s';
+        canvas.appendChild(s);
+      }
+      // pause animations when tab is hidden (battery-friendly)
+      const setState = (st) => {
+        canvas.style.animationPlayState = st;
+        canvas.querySelectorAll('.n-shape').forEach(n => n.style.animationPlayState = st);
+      };
+      document.addEventListener('visibilitychange', () => setState(document.hidden ? 'paused' : 'running'));
+    })();
+  </script>
 
   <script>
     // ---------- Data (extend easily)
