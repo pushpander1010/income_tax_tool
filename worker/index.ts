@@ -1,3 +1,5 @@
+// UpTools Worker: Static site + /ai (LLM proxy) + /proxy (finance CORS bridge)
+
 export interface Env {
   ASSETS: Fetcher;
 
@@ -18,15 +20,23 @@ export interface Env {
   GROQ_MODEL?: string;
   GOOGLE_GENAI_BASE?: string;
   GOOGLE_MODEL?: string;
+
+  // Optional: allow-list extra finance hosts for /proxy (comma-separated)
+  FINANCE_HOSTS?: string;
 }
 
 const enc = new TextEncoder();
 
 export default {
-  async fetch(req: Request, env: Env) {
+  async fetch(req: Request, env: Env, _ctx: ExecutionContext): Promise<Response> {
     const url = new URL(req.url);
 
-    // --- serve your site (everything except /ai) ---
+    // --- Finance CORS proxy (/proxy?u=<encoded target>) ---
+    if (url.pathname === "/proxy") {
+      return handleFinanceProxy(req, env);
+    }
+
+    // --- Serve your site (everything except /ai) ---
     if (url.pathname !== "/ai") {
       return serveSite(req, env);
     }
@@ -114,15 +124,170 @@ export default {
       }
 
       return json({ error: `Unknown provider: ${provider}` }, 400, cors);
-    } catch (err: any) {
+    } catch {
       return new Response("Internal Server Error", { status: 500, headers: { "Content-Type": "text/plain" } });
     }
   }
 } satisfies ExportedHandler<Env>;
 
+/* ---------------- Finance proxy ---------------- */
+
+const DEFAULT_FINANCE_HOSTS = [
+  "finance.yahoo.com",
+  "query1.finance.yahoo.com",
+  "query2.finance.yahoo.com",
+  "mfapi.in",
+  "api.mfapi.in",
+];
+
+function allowlistFromEnv(env: Env): string[] {
+  const extra = (env.FINANCE_HOSTS || "")
+    .split(",")
+    .map(s => s.trim())
+    .filter(Boolean);
+  const set = new Set<string>([...extra, ...DEFAULT_FINANCE_HOSTS]);
+  return Array.from(set);
+}
+function isAllowedHost(hostname: string, env: Env): boolean {
+  return allowlistFromEnv(env).some(suffix => hostname === suffix || hostname.endsWith("." + suffix));
+}
+function financeCorsHeaders(req: Request, env: Env): Record<string, string> {
+  const base = corsHeaders(req, env); // Record<string,string>
+  return {
+    ...base,
+    "Access-Control-Allow-Methods": "GET,HEAD,OPTIONS",
+    "Access-Control-Allow-Headers": "*",
+    "Access-Control-Expose-Headers": "Content-Type,Cache-Control,X-Proxy-Cache,X-Proxy-Host",
+  };
+}
+
+async function handleFinanceProxy(req: Request, env: Env): Promise<Response> {
+  const url = new URL(req.url);
+  const cors = financeCorsHeaders(req, env);
+
+  // Health check
+  if (url.searchParams.get("health") === "1") {
+    const payload = {
+      ok: true,
+      allow: allowlistFromEnv(env),
+      cors_origin: cors["Access-Control-Allow-Origin"] ?? "*",
+    };
+    return new Response(JSON.stringify(payload), {
+      status: 200,
+      headers: { ...cors, "Content-Type": "application/json", "X-Robots-Tag": "noindex, nofollow" }
+    });
+  }
+
+  // Preflight
+  if (req.method === "OPTIONS") {
+    return new Response(null, { status: 204, headers: cors });
+  }
+  if (!["GET", "HEAD"].includes(req.method)) {
+    return new Response(JSON.stringify({ error: "Use GET/HEAD with ?u=<target>" }), {
+      status: 405,
+      headers: { ...cors, "Content-Type": "application/json" }
+    });
+  }
+
+  const targetRaw = url.searchParams.get("u") || url.searchParams.get("url");
+  if (!targetRaw) {
+    return new Response(JSON.stringify({ error: "Missing ?u=<encoded target url>" }), {
+      status: 400, headers: { ...cors, "Content-Type": "application/json" }
+    });
+  }
+
+  let target: URL;
+  try { target = new URL(targetRaw); }
+  catch {
+    return new Response(JSON.stringify({ error: "Invalid target URL" }), {
+      status: 400, headers: { ...cors, "Content-Type": "application/json" }
+    });
+  }
+
+  if (!["http:", "https:"].includes(target.protocol)) {
+    return new Response(JSON.stringify({ error: "Invalid protocol" }), {
+      status: 400, headers: { ...cors, "Content-Type": "application/json" }
+    });
+  }
+  if (!isAllowedHost(target.hostname, env)) {
+    return new Response(JSON.stringify({ error: `Host not allowed: ${target.hostname}` }), {
+      status: 403, headers: { ...cors, "Content-Type": "application/json" }
+    });
+  }
+
+  // Optional nocache
+  const noCache = url.searchParams.get("nocache") === "1";
+
+  // Safe edge cache guard
+  const edgeCache: Cache | undefined = (globalThis as any)?.caches?.default;
+
+  // Build upstream request
+  const upstreamReq = new Request(target.toString(), {
+    method: "GET",
+    headers: {
+      "User-Agent": "Mozilla/5.0 (compatible; UpToolsProxy/1.0; +https://www.uptools.in/)",
+      "Accept": "application/json,text/plain,*/*",
+      "Accept-Language": "en-IN,en;q=0.9",
+      "Cache-Control": "no-cache",
+    }
+  });
+
+  // Cache key
+  const cacheKey = new Request(url.toString(), upstreamReq);
+
+  let resp: Response | undefined;
+  let cacheStatus: "HIT" | "MISS" = "MISS";
+
+  if (edgeCache && !noCache) {
+    try { resp = await edgeCache.match(cacheKey) as Response | undefined; } catch {}
+    if (resp) cacheStatus = "HIT";
+  }
+
+  if (!resp) {
+    const upstream = await fetch(upstreamReq, {
+      cf: { cacheTtl: 300, cacheEverything: true, cacheTtlByStatus: { "200-299": 300, "404": 60, "500-599": 0 } }
+    });
+
+    const headers = new Headers(upstream.headers);
+    Object.entries(cors).forEach(([k, v]) => headers.set(k, v as string));
+    headers.delete("content-security-policy");
+    headers.delete("content-security-policy-report-only");
+    headers.delete("clear-site-data");
+    headers.delete("set-cookie");
+    headers.delete("set-cookie2");
+    headers.set("X-Proxy-Host", target.hostname);
+    headers.set("X-Proxy-Cache", cacheStatus);
+    headers.set("X-Robots-Tag", "noindex, nofollow");
+
+    resp = new Response(upstream.body, {
+      status: upstream.status,
+      statusText: upstream.statusText,
+      headers
+    });
+
+    if (edgeCache && upstream.ok && !noCache) {
+      try { await edgeCache.put(cacheKey, resp.clone()); } catch {}
+    }
+  } else {
+    // Ensure CORS/meta headers on cached hits
+    const hdrs = new Headers(resp.headers);
+    Object.entries(cors).forEach(([k, v]) => hdrs.set(k, v as string));
+    hdrs.set("X-Proxy-Host", target.hostname);
+    hdrs.set("X-Proxy-Cache", cacheStatus);
+    hdrs.set("X-Robots-Tag", "noindex, nofollow");
+    resp = new Response(resp.body, { status: resp.status, statusText: resp.statusText, headers: hdrs });
+  }
+
+  // HEAD should not return a body
+  if (req.method === "HEAD") {
+    return new Response(null, { status: resp.status, statusText: resp.statusText, headers: resp.headers });
+  }
+  return resp;
+}
+
 /* ---------------- static site helpers ---------------- */
 
-async function serveSite(req: Request, env: Env) {
+async function serveSite(req: Request, env: Env): Promise<Response> {
   const url = new URL(req.url);
 
   // 1) Fix `/www` → `/`
@@ -155,7 +320,7 @@ async function serveSite(req: Request, env: Env) {
   return res; // non-HTML (assets) keep the 404
 }
 
-function wantsHTML(req: Request) {
+function wantsHTML(req: Request): boolean {
   if (req.method !== "GET") return false;
   const accept = req.headers.get("Accept") || "";
   return accept.includes("text/html");
@@ -163,11 +328,11 @@ function wantsHTML(req: Request) {
 
 /* ---------------- shared helpers ---------------- */
 
-function corsPreflight(req: Request, env: Env) {
+function corsPreflight(req: Request, env: Env): Response {
   const headers = corsHeaders(req, env);
   return new Response(null, { status: 204, headers });
 }
-function corsHeaders(req: Request, env: Env) {
+function corsHeaders(req: Request, env: Env): Record<string, string> {
   const origin = req.headers.get("Origin") || "";
   const allow = (env.CORS_ORIGINS || "").split(",").map(s => s.trim()).filter(Boolean);
   const allowed = allow.includes(origin) ? origin : allow[0] || "*";
@@ -178,7 +343,7 @@ function corsHeaders(req: Request, env: Env) {
     "Access-Control-Allow-Headers": "Content-Type,Authorization",
   };
 }
-function json(data: any, status = 200, extra: HeadersInit = {}) {
+function json(data: any, status = 200, extra: HeadersInit = {}): Response {
   return new Response(JSON.stringify(data), { status, headers: { "Content-Type": "application/json", ...extra } });
 }
 function clamp(n: number, min: number, max: number) { return isFinite(n) ? Math.min(max, Math.max(min, n)) : min; }
@@ -197,12 +362,12 @@ function openAiToGemini(messages: Array<{ role: string; content: string }>) {
   }
   return { systemInstruction, contents };
 }
-async function relayJsonError(res: Response, cors: HeadersInit) {
+async function relayJsonError(res: Response, cors: HeadersInit): Promise<Response> {
   let payload: any = { error: `${res.status} ${res.statusText}` };
   try { payload = await res.json(); } catch {}
   return json(payload, res.status, cors);
 }
-function translateOpenAIStyleSSE(upstream: Response, cors: HeadersInit) {
+function translateOpenAIStyleSSE(upstream: Response, cors: HeadersInit): Response {
   const stream = new ReadableStream<Uint8Array>({
     async start(controller) {
       const reader = upstream.body!.getReader();
@@ -236,13 +401,14 @@ function translateOpenAIStyleSSE(upstream: Response, cors: HeadersInit) {
     headers: { ...cors, "Content-Type": "text/event-stream; charset=utf-8", "Cache-Control": "no-cache, no-transform", "X-Accel-Buffering": "no" }
   });
 }
-function translateGeminiToOpenAISSE(upstream: Response, cors: HeadersInit) {
+function translateGeminiToOpenAISSE(upstream: Response, cors: HeadersInit): Response {
   const stream = new ReadableStream<Uint8Array>({
     async start(controller) {
       const reader = upstream.body!.getReader();
       const decoder = new TextDecoder();
       let buffer = "";
-      const enqueue = (text: string) => controller.enqueue(enc.encode(`data: ${JSON.stringify({ choices: [{ delta: { content: text } }] })}\n\n`));
+      const enqueue = (text: string) =>
+        controller.enqueue(enc.encode(`data: ${JSON.stringify({ choices: [{ delta: { content: text } }] })}\n\n`));
       while (true) {
         const { value, done } = await reader.read();
         if (done) break;
@@ -254,7 +420,11 @@ function translateGeminiToOpenAISSE(upstream: Response, cors: HeadersInit) {
           if (!line) continue;
           let payload = line.startsWith("data:") ? line.slice(5).trim() : line;
           if (!payload) continue;
-          if (payload === "[DONE]") { controller.enqueue(enc.encode("data: [DONE]\n\n")); controller.close(); return; }
+          if (payload === "[DONE]") {
+            controller.enqueue(enc.encode("data: [DONE]\n\n"));
+            controller.close();
+            return;
+          }
           try {
             const json = JSON.parse(payload);
             const parts = json?.candidates?.[0]?.content?.parts;
@@ -275,7 +445,7 @@ function translateGeminiToOpenAISSE(upstream: Response, cors: HeadersInit) {
     headers: { ...cors, "Content-Type": "text/event-stream; charset=utf-8", "Cache-Control": "no-cache, no-transform", "X-Accel-Buffering": "no" }
   });
 }
-async function collectGeminiStreamToText(upstream: Response) {
+async function collectGeminiStreamToText(upstream: Response): Promise<string> {
   const reader = upstream.body!.getReader();
   const decoder = new TextDecoder();
   let buffer = "", out = "";

@@ -1,65 +1,595 @@
 <!doctype html>
 <html lang="en">
-
 <head>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617"
-    crossorigin="anonymous"></script>
+  <!-- Ads (kept stable to avoid layout shift; only inserted if ad-slot meta is set) -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617" crossorigin="anonymous"></script>
+
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>SIP Calculator - UpTools</title>
-  <meta name="description" content="SIP Calculator to estimate mutual fund returns." />
-  <meta name="robots" content="index,follow" />
+  <title>SIP Calculator (Index & MF Live Rates) – Free Online | UpTools</title>
+  <meta name="description" content="Free SIP Calculator by UpTools. Estimate future value of your monthly investments. Pull historical CAGR from Nifty indices or Indian mutual funds (MFAPI) to auto-fill expected return. Fast, responsive & privacy-first." />
+  <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
   <meta name="theme-color" content="#0b1020" />
-    <!-- Favicon -->
+  <meta name="keywords" content="SIP calculator, step up SIP, mutual fund calculator, nifty 50 CAGR, nifty bank CAGR, index sip, mfapi, indian mutual fund nav" />
+
+  <!-- Favicon / App Icons -->
   <link rel="icon" sizes="50x50" type="image/svg+xml" href="/assets/logo/uptools-logo.svg">
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/logo/uptools-logo.svg">
+
+  <!-- Canonical -->
   <link rel="canonical" href="https://www.uptools.in/sip-calculator/" />
-  <meta property="og:title" content="SIP Calculator - UpTools" />
-  <meta property="og:description" content="Estimate SIP future value." />
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:title" content="SIP Calculator (Index & MF Live Rates) – UpTools" />
+  <meta property="og:description" content="Estimate SIP future value with optional step-up & inflation. Auto-fill expected return from Nifty indices or mutual funds." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.uptools.in/sip-calculator/" />
   <meta property="og:site_name" content="UpTools" />
-  <meta name="twitter:card" content="summary" />
+  <meta property="og:image" content="/assets/og/sip-calculator.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- Common CSS -->
   <link rel="preload" href="/style.css?v=1.0.1" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link rel="stylesheet" href="/style.css?v=1.0.1"></noscript>
+  <noscript><link rel="stylesheet" href="/style.css?v=1.0.1"></noscript>
 
+  <!-- Optional ad-slot (leave empty to disable) -->
+  <meta name="ad-slot" content="">
 
+  <!-- OPTIONAL: If your Cloudflare Worker runs on a different host, put it here -->
+  <!-- Example: https://your-subdomain.workers.dev  -->
+  <meta name="proxy" content="">
 
+  <!-- Page-specific compact CSS + background animation -->
+  <style>
+    :root { --bg1:#0b1020; --bg2:#0b132a; --accent:#6ce0ff; --accent-2:#8ea2ff; }
+    html, body { height: 100%; }
+    body {
+      background:
+        radial-gradient(1200px 800px at 10% 10%, rgba(110, 180, 255, .12), transparent 55%),
+        radial-gradient(900px 600px at 88% 8%, rgba(140, 100, 255, .10), transparent 55%),
+        linear-gradient(180deg, rgba(11,16,32,1), rgba(8,11,20,1));
+      overflow-x: hidden;
+    }
+    .bg-canvas { position: fixed; inset: 0; z-index: -2; pointer-events: none; filter: saturate(1) brightness(.95); }
+    .bg-accents::before, .bg-accents::after {
+      content:""; position: fixed; inset: -25vmax; pointer-events:none; z-index: -3;
+      background:
+        radial-gradient(40vmax 40vmax at 15% 25%, rgba(108,224,255,.07), transparent 55%),
+        radial-gradient(35vmax 35vmax at 85% 15%, rgba(152, 84, 255, .06), transparent 60%),
+        radial-gradient(38vmax 38vmax at 70% 80%, rgba(52, 199, 89, .04), transparent 60%);
+      animation: pan 42s linear infinite;
+    }
+    .bg-accents::after { animation-direction: reverse; animation-duration: 55s; opacity: .9; }
+    @keyframes pan { to { transform: translate3d(1.5%, 0, 0) rotate(0.001deg); } }
+    @media (prefers-reduced-motion: reduce) { .bg-accents::before, .bg-accents::after{ animation:none; } }
+
+    /* Page layout */
+    .wrap { max-width: 1100px; margin: 0 auto; padding: 24px 16px 32px; display: grid; gap: 16px; }
+    .grid { display:grid; grid-template-columns: 1.1fr .9fr; gap:16px; align-items:start; }
+    @media (max-width: 900px){ .grid{ grid-template-columns:1fr; } }
+
+    .tool-icon { width:36px; height:36px; border-radius:10px; display:grid; place-items:center; font-weight:800; color:#0b1020;
+      background: linear-gradient(135deg,#79f,#6cf); box-shadow: 0 8px 30px rgba(108,204,255,.25); }
+
+    .inputs { display:grid; gap:10px; grid-template-columns: repeat(2, minmax(0,1fr)); }
+    @media (max-width: 540px){ .inputs{ grid-template-columns:1fr; } }
+    .rowx { display:flex; gap:10px; flex-wrap:wrap; }
+
+    .pill-sel { display:flex; flex-wrap:wrap; gap:8px; }
+    .pill-sel .pill { padding:6px 10px; border-radius:999px; border:1px solid rgba(255,255,255,.08); background:#0b1326; cursor:pointer; }
+    .pill[aria-pressed="true"]{ border-color: rgba(108,204,255,.5); box-shadow: 0 0 0 2px rgba(108,204,255,.15); color:#e7f6ff; }
+
+    .result .row { display:flex; align-items:center; justify-content:space-between; padding:10px 12px; border:1px solid rgba(255,255,255,.08); border-radius:10px; background: rgba(255,255,255,.03); }
+    .amount { font-variant-numeric:tabular-nums; font-weight:700; }
+    .tag-ok { color:#24d17e; }
+    .muted { opacity:.85; }
+
+    .chart-wrap { border:1px solid rgba(255,255,255,.08); border-radius:12px; padding:10px; background: rgba(255,255,255,.03); }
+    canvas#chart { width:100%; height:180px; display:block; }
+    .help { display:grid; gap:10px; }
+    .rel-links { display:grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap:10px; }
+    @media (max-width: 900px){ .rel-links{ grid-template-columns:1fr; } }
+    .rel-links a { display:flex; align-items:center; justify-content:center; min-height:56px; border:1px solid rgba(255,255,255,.08); border-radius:12px; text-decoration:none; color:#cdd6f4; background: rgba(255,255,255,.03); }
+    .video-thumb { display:block; border:1px solid rgba(255,255,255,.08); border-radius:12px; overflow:hidden; aspect-ratio:16/9; background:#0b1020; }
+    .video-thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+    .note.em { border-left:3px solid #6ce0ff; padding-left:8px; }
+  </style>
+
+  <!-- Structured data: Breadcrumb + FAQ -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@graph":[
+      {"@type":"BreadcrumbList","itemListElement":[
+        {"@type":"ListItem","position":1,"item":{"@id":"https://www.uptools.in/","name":"UpTools"}},
+        {"@type":"ListItem","position":2,"item":{"@id":"https://www.uptools.in/sip-calculator/","name":"SIP Calculator"}}
+      ]},
+      {"@type":"FAQPage","mainEntity":[
+        {"@type":"Question","name":"Can I use real market returns in this SIP calculator?","acceptedAnswer":{"@type":"Answer","text":"Yes. Choose Index or Mutual Fund under Rate Source to auto-fill the expected return with a historical CAGR computed from Yahoo Finance (indices) or MFAPI.in (mutual fund NAV history)."}},
+        {"@type":"Question","name":"Are these returns guaranteed?","acceptedAnswer":{"@type":"Answer","text":"No. The rate pulled is historical CAGR for the selected period and asset. Markets are volatile and future returns can differ."}}
+      ]}
+    ]
+  }
+  </script>
 </head>
 
-<body>
+<body class="bg-accents">
+  <canvas id="bg-canvas" class="bg-canvas" aria-hidden="true"></canvas>
+
+  <!-- Header -->
+  <header class="site" role="banner">
+    <div class="header-inner">
+      <a class="brand" href="/" aria-label="UpTools Home">
+        <img src="/assets/logo/uptools-logo.svg" alt="UpTools logo" width="28" height="28" loading="eager">
+        <b>UpTools</b>
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="/#tools">Tools</a>
+        <a href="/income-tax-tool/">Income Tax</a>
+        <a href="/emi-calculator/">EMI</a>
+        <a href="/gst-calculator/">GST</a>
+        <a aria-current="page" href="/sip-calculator/">SIP</a>
+      </nav>
+    </div>
+  </header>
+
   <main class="wrap">
     <div class="tool-header">
-      <div class="tool-icon">SIP</div>
+      <div class="tool-icon" aria-hidden="true">SIP</div>
       <h1 style="margin:0">SIP Calculator</h1>
     </div>
-    <div class="card">
-      <label class="label" for="amt">Monthly Investment (₹)</label>
-      <input id="amt" class="input" type="number" min="0" step="100" placeholder="e.g., 5000" />
-      <label class="label" for="rate">Expected Return (% p.a.)</label>
-      <input id="rate" class="input" type="number" min="0" step="0.1" placeholder="e.g., 12" />
-      <label class="label" for="yrs">Years</label>
-      <input id="yrs" class="input" type="number" min="1" step="1" placeholder="e.g., 10" />
-      <button id="calc" class="btn">Calculate</button>
-      <div id="out" class="result"></div>
-    </div>
-    <footer class="note small"><a href="/">UpTools</a></footer>
+
+    <section class="grid" id="tool">
+      <!-- LEFT: INPUTS -->
+      <div class="card" id="inputCard">
+        <div class="inputs">
+          <div class="row">
+            <label class="label" for="amt">Monthly Investment (₹)</label>
+            <input id="amt" class="input" type="number" min="0" step="100" inputmode="numeric" placeholder="e.g., 5000" autocomplete="off">
+          </div>
+          <div class="row">
+            <label class="label" for="rate">Expected Return (% p.a.)</label>
+            <input id="rate" class="input" type="number" min="0" step="0.1" inputmode="decimal" placeholder="e.g., 12" autocomplete="off">
+          </div>
+          <div class="row">
+            <label class="label" for="yrs">Years</label>
+            <input id="yrs" class="input" type="number" min="1" step="1" inputmode="numeric" placeholder="e.g., 10" autocomplete="off">
+          </div>
+          <div class="row">
+            <label class="label" for="stepup">Step-up SIP (% per year, optional)</label>
+            <input id="stepup" class="input" type="number" min="0" step="1" inputmode="numeric" placeholder="e.g., 10">
+          </div>
+          <div class="row">
+            <label class="label" for="infl">Inflation (% p.a., optional)</label>
+            <input id="infl" class="input" type="number" min="0" step="0.1" inputmode="decimal" placeholder="e.g., 6">
+          </div>
+          <div class="row">
+            <label class="label" for="day">Contribution Day (1–28)</label>
+            <input id="day" class="input" type="number" min="1" max="28" step="1" inputmode="numeric" placeholder="15">
+          </div>
+        </div>
+
+        <!-- Rate Source -->
+        <div class="card" style="margin-top:12px">
+          <strong>Rate Source</strong>
+          <div class="rowx" style="margin-top:8px">
+            <select id="rateSource" class="input" style="max-width:260px">
+              <option value="manual" selected>Manual (enter above)</option>
+              <option value="index">Index (Yahoo Finance)</option>
+              <option value="mf">Mutual Fund (MFAPI.in)</option>
+            </select>
+
+            <select id="period" class="input" style="max-width:180px">
+              <option value="1">1Y CAGR</option>
+              <option value="3">3Y CAGR</option>
+              <option value="5" selected>5Y CAGR</option>
+              <option value="10">10Y CAGR</option>
+            </select>
+
+            <button id="fetchRate" class="btn secondary" type="button" title="Fetch CAGR from selected source">Fetch rate</button>
+          </div>
+
+          <!-- Index chooser -->
+          <div id="indexBox" class="note em" style="margin-top:10px; display:none">
+            <div class="pill-sel" role="group" aria-label="Select index">
+              <button type="button" class="pill" data-symbol="^NSEI" aria-pressed="true" title="Nifty 50 (^NSEI)">Nifty 50</button>
+              <button type="button" class="pill" data-symbol="^CNX100" aria-pressed="false" title="Nifty 100 (^CNX100)">Nifty 100</button>
+              <button type="button" class="pill" data-symbol="^NSEBANK" aria-pressed="false" title="Nifty Bank (^NSEBANK)">Nifty Bank</button>
+              <button type="button" class="pill" data-symbol="^BSESN" aria-pressed="false" title="SENSEX (^BSESN)">SENSEX</button>
+            </div>
+            <p class="small" style="margin:8px 0 0">Tip: We compute historical CAGR from the selected index’s price series for the chosen period.</p>
+          </div>
+
+          <!-- Mutual fund search -->
+          <div id="mfBox" class="note em" style="margin-top:10px; display:none">
+            <label class="label" for="mfSearch">Search Mutual Fund (Direct-Growth recommended)</label>
+            <input id="mfSearch" class="input" type="search" placeholder="e.g., SBI Nifty 50 Index Fund Direct Growth">
+            <div id="mfSuggest" class="small" style="margin-top:6px"></div>
+            <p class="small" style="margin:8px 0 0">Source: <a href="https://www.mfapi.in/" target="_blank" rel="noopener nofollow">MFAPI.in</a> (official AMFI data mirror). We compute NAV-based CAGR for the selected period.</p>
+          </div>
+
+          <div id="srcInfo" class="small muted" style="margin-top:8px"></div>
+        </div>
+
+        <div class="rowx" style="margin-top:12px">
+          <button id="calc" class="btn" type="button">Calculate</button>
+          <button id="reset" class="btn secondary" type="button">Reset</button>
+          <button id="share" class="btn secondary" type="button">Share</button>
+          <button id="csv" class="btn secondary" type="button">Download CSV</button>
+        </div>
+
+        <p class="note small" style="margin-top:8px">Disclaimer: Auto rates are historical CAGR for the selected asset and period. Markets are volatile; past returns don’t guarantee future results.</p>
+      </div>
+
+      <!-- RIGHT: OUTPUT -->
+      <div class="card">
+        <div class="result" id="out" aria-live="polite">
+          <div class="muted">Enter values and hit <b>Calculate</b> or pick a Rate Source to auto-fill return.</div>
+        </div>
+
+        <div class="chart-wrap" style="margin-top:12px">
+          <canvas id="chart" width="640" height="180" aria-label="Invested vs Value chart"></canvas>
+        </div>
+
+        <!-- Optional ad (only if a valid ad-slot meta is present) -->
+        <div id="ad-holder" style="margin-top:12px"></div>
+
+        <div class="help" style="margin-top:12px">
+          <div class="rel-links" aria-label="Related tools">
+            <a href="/goal-sip-calculator/" title="Goal-based SIP (Text logo: G-SIP)">G-SIP</a>
+            <a href="/lumpsum-calculator/" title="Lumpsum Calculator (Text logo: LUMP)">LUMP</a>
+            <a href="/emi-calculator/" title="EMI Calculator (Text logo: EMI)">EMI</a>
+          </div>
+          <a class="video-thumb" href="https://www.youtube.com/results?search_query=SIP+calculator+how+it+works" target="_blank" rel="noopener nofollow" aria-label="Watch SIP explainer on YouTube">
+            <img src="/assets/og/sip-calculator.png" width="1280" height="720" alt="SIP explainer video thumbnail (YouTube)" loading="lazy">
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <footer class="note small" style="margin-top:6px">
+      <span>© <span id="yr"></span> <a href="/" title="UpTools Home">UpTools</a> · Finance utilities that respect your privacy</span>
+      <span><a href="/#tools">All Tools</a> · <a href="/about/">ABT</a> · <a href="/contact/">CT</a></span>
+    </footer>
   </main>
+
+  <!-- Common utilities (applies sitewide) -->
+  <script type="module" src="/scripts/utils.js" defer></script>
+
+  <!-- Page Logic -->
   <script type="module">
-    const A = document.getElementById('amt'), R = document.getElementById('rate'), Y = document.getElementById('yrs'), O = document.getElementById('out');
+    // === Shortcuts ===
+    const $ = (id) => document.getElementById(id);
+    const A = $('amt'), R = $('rate'), Y = $('yrs'), O = $('out');
+    const STEP = $('stepup'), INF = $('infl'), DAY = $('day');
+    const CH = $('chart');
+    const SRC = $('rateSource'), PERIOD = $('period'), FETCH = $('fetchRate');
+    const INDEX_BOX = $('indexBox'), MF_BOX = $('mfBox'), MF_SEARCH = $('mfSearch'), MF_SUGGEST = $('mfSuggest'), SRC_INFO = $('srcInfo');
     const fmt = new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 });
-    function calc() {
-      const a = Number(A.value || 0), r = (Number(R.value || 0) / 100) / 12, n = Number(Y.value || 0) * 12;
-      if (!(a > 0 && r >= 0 && n > 0)) { O.textContent = 'Enter valid values'; return; }
-      const fv = a * ((Math.pow(1 + r, n) - 1) / r) * (1 + r);
-      const invested = a * n; const gains = fv - invested;
-      O.innerHTML = `<div class='row'><span>Future Value</span><span class='amount'>${fmt.format(Math.round(fv))}</span></div>
-        <div class='row'><span>Total Invested</span><span class='amount'>${fmt.format(Math.round(invested))}</span></div>
-        <div class='row'><span>Estimated Gains</span><span class='amount'>${fmt.format(Math.round(gains))}</span></div>`;
+
+    // === Header year ===
+    $('yr').textContent = new Date().getFullYear();
+
+    // === Background dots animation (lightweight) ===
+    (function dots(){
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      const c = $('bg-canvas'), ctx = c.getContext('2d', { alpha:true });
+      let w,h,dpr = devicePixelRatio || 1; const N=42, dots=[];
+      const rnd=(a,b)=>a+Math.random()*(b-a);
+      const resize=()=>{ w=c.clientWidth; h=c.clientHeight; c.width=Math.round(w*dpr); c.height=Math.round(h*dpr); ctx.setTransform(dpr,0,0,dpr,0,0); };
+      const reset=i=>{ dots[i]={ x:rnd(-.05*w,1.05*w), y:rnd(-.05*h,1.05*h), r:rnd(.6,2.2), a:rnd(0,Math.PI*2), s:rnd(.06,.22), o:rnd(.08,.25) }; };
+      const init=()=>{ resize(); dots.length=0; for(let i=0;i<N;i++) reset(i); };
+      let last=0;
+      const frame=(t)=>{ if (document.hidden) return requestAnimationFrame(frame);
+        const dt = Math.min(50, t-last); last=t; ctx.clearRect(0,0,w,h);
+        ctx.globalCompositeOperation='lighter';
+        for(let i=0;i<dots.length;i++){ const p=dots[i];
+          p.x += Math.cos(p.a)*p.s*dt*0.04; p.y += Math.sin(p.a)*p.s*dt*0.04; p.a += 0.0007*dt;
+          if (p.x<-20||p.x>w+20||p.y<-20||p.y>h+20) reset(i);
+          ctx.beginPath(); ctx.globalAlpha=p.o; ctx.fillStyle='#6ce0ff'; ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fill();
+        }
+        ctx.globalAlpha=1; requestAnimationFrame(frame);
+      };
+      addEventListener('resize', resize); init(); requestAnimationFrame(frame);
+    })();
+
+    // === Core SIP calc (supports annual step-up + inflation PV) ===
+    function calcSIP({ amt, rateAnnual, years, stepUpPct=0, inflAnnual=0 }) {
+      const n = Math.max(0, Math.floor(years*12));
+      const r_m = (Math.pow(1 + rateAnnual/100, 1/12) - 1);
+      let monthly = amt, fv = 0, invested=0;
+      const series=[]; let yearInvested=0, yearValue=0;
+
+      for (let m=1;m<=n;m++){
+        fv = (fv + monthly) * (1 + r_m);
+        invested += monthly; yearInvested += monthly; yearValue = fv;
+        if (m % 12 === 0 || m === n){
+          series.push({ invested:(series.at(-1)?.invested||0)+yearInvested, value:yearValue });
+          yearInvested=0; yearValue=fv;
+          monthly = monthly * (1 + stepUpPct/100); // step once a year
+        }
+      }
+      const real = inflAnnual>0 ? fv / Math.pow(1 + inflAnnual/100, years) : fv;
+      return { fv, invested, real, series };
     }
-    document.getElementById('calc').addEventListener('click', calc);
-    [A, R, Y].forEach(el => el.addEventListener('keydown', e => { if (e.key === 'Enter') calc(); }));
+
+    function drawChart(canvas, series){
+      const ctx = canvas.getContext('2d'); const dpr = devicePixelRatio || 1;
+      const cssW = canvas.clientWidth, cssH = canvas.clientHeight;
+      canvas.width = Math.round(cssW*dpr); canvas.height = Math.round(cssH*dpr); ctx.scale(dpr,dpr);
+      ctx.clearRect(0,0,cssW,cssH); if (!series?.length) return;
+      const pad=12, W=cssW-pad*2, H=cssH-pad*2;
+      const maxY = Math.max(...series.map(s=>Math.max(s.value,s.invested))) * 1.05;
+      const X = i => pad + (i/(series.length-1||1))*W;
+      const Yv = v => pad + (1 - v/maxY)*H;
+      // grid
+      ctx.globalAlpha=.25; ctx.strokeStyle="#ffffff"; ctx.lineWidth=1;
+      for(let i=0;i<=4;i++){ const y=pad+(i/4)*H; ctx.beginPath(); ctx.moveTo(pad,y); ctx.lineTo(pad+W,y); ctx.stroke(); }
+      ctx.globalAlpha=1;
+      // invested
+      ctx.beginPath(); series.forEach((p,i)=>{ const x=X(i), y=Yv(p.invested); i?ctx.lineTo(x,y):ctx.moveTo(x,y); });
+      ctx.lineWidth=2; ctx.strokeStyle="#9aa7ff"; ctx.stroke();
+      // value
+      ctx.beginPath(); series.forEach((p,i)=>{ const x=X(i), y=Yv(p.value); i?ctx.lineTo(x,y):ctx.moveTo(x,y); });
+      ctx.lineWidth=2; ctx.strokeStyle="#6ce0ff"; ctx.stroke();
+    }
+
+    function uiResult({ fv, invested, real }){
+      const gains = fv - invested;
+      O.innerHTML = `
+        <div class='row'><span>Future Value</span><span class='amount'>${fmt.format(Math.round(fv))}</span></div>
+        <div class='row'><span>Total Invested</span><span class='amount'>${fmt.format(Math.round(invested))}</span></div>
+        <div class='row'><span>Estimated Gains</span><span class='amount tag-ok'>${fmt.format(Math.round(gains))}</span></div>
+        ${INF.value ? `<div class='row'><span>In Today's Money (inflation-adjusted)</span><span class='amount'>${fmt.format(Math.round(real))}</span></div>` : ""}
+        <div class='muted'>Assumes monthly compounding. Actual returns may vary.</div>
+      `;
+    }
+
+    function onCalc(){
+      const a=+A.value||0, r=+R.value||0, y=+Y.value||0, step=+STEP.value||0, infl=+INF.value||0;
+      if (!(a>0 && r>=0 && y>0)){ O.innerHTML = `<div class='row'><span>Message</span><span class='amount'>Enter valid values</span></div>`; drawChart(CH,[]); return; }
+      const res = calcSIP({ amt:a, rateAnnual:r, years:y, stepUpPct:step, inflAnnual:infl });
+      uiResult(res); drawChart(CH, res.series);
+      // persist + share URL
+      localStorage?.setItem('sip_v2', JSON.stringify({ amt:A.value, rate:R.value, yrs:Y.value, stepup:STEP.value, infl:INF.value, day:DAY.value }));
+      writeQuery();
+    }
+
+    // === URL state ===
+    function writeQuery(){
+      try{
+        const params = new URLSearchParams({
+          amt:A.value||'', rate:R.value||'', yrs:Y.value||'',
+          step:STEP.value||'', infl:INF.value||'', day:DAY.value||'',
+          src:SRC.value, per:PERIOD.value
+        });
+        const url = `${location.origin}${location.pathname}?${params.toString()}`;
+        history.replaceState(null,'',url);
+      }catch{}
+    }
+    function readQuery(){
+      const q = new URLSearchParams(location.search);
+      [['amt',A],['rate',R],['yrs',Y],['step',STEP],['infl',INF],['day',DAY]].forEach(([k,el])=>{ const v=q.get(k); if (v!==null) el.value=v; });
+      if (q.has('src')) SRC.value = q.get('src');
+      if (q.has('per')) PERIOD.value = q.get('per');
+      onRateSourceChange();
+    }
+
+    // === Proxy helpers: try same-origin /proxy first, then optional remote worker, then direct (last resort) ===
+    function getProxyBase(){
+      const ls = (localStorage.getItem('sip_cf_proxy') || '').trim();
+      const meta = (document.querySelector('meta[name="proxy"]')?.content || '').trim();
+      return ls || meta || '';
+    }
+    function buildProxyCandidates(target){
+      const sameOrigin = `${location.origin.replace(/\/$/,'')}/proxy?u=${encodeURIComponent(target)}`;
+      const base = getProxyBase().replace(/\/+$/,'');
+      const remote = base ? (base.endsWith('/proxy') ? `${base}?u=${encodeURIComponent(target)}`
+                                                    : `${base}/proxy?u=${encodeURIComponent(target)}`) : null;
+      return remote ? [sameOrigin, remote, target] : [sameOrigin, target];
+    }
+    async function fetchJSONPreferProxy(target){
+      const chain = buildProxyCandidates(target);
+      let lastErr;
+      for (const u of chain){
+        try{
+          const res = await fetch(u, { credentials:'omit' });
+          if (!res.ok) { lastErr = new Error('HTTP '+res.status); continue; }
+          const txt = await res.text();
+          try { return JSON.parse(txt); } catch { return JSON.parse(txt.trim()); }
+        }catch(e){ lastErr = e; }
+      }
+      throw lastErr || new Error('Fetch failed');
+    }
+
+    // === Index & MF: fetch CAGR ===
+    function humanPct(x){ return (x*100).toFixed(2) + '%'; }
+
+    function computeCAGR(series, fromTs, toTs){
+      // series: array of {t: epochSeconds, c: close}
+      const to = series[series.length-1];
+      const startIdx = series.findIndex(p => p.t >= fromTs);
+      if (startIdx === -1) return null;
+      const start = series[startIdx];
+      const years = (toTs - fromTs) / (365.25*24*3600);
+      if (!start?.c || !to?.c || years <= 0) return null;
+      return Math.pow(to.c / start.c, 1/years) - 1;
+    }
+
+    async function yahooSeries(symbol, years){
+      const ranges = {1:'2y',3:'6y',5:'10y',10:'max'};
+      const range = ranges[years] || '10y';
+      const url = `https://query1.finance.yahoo.com/v8/finance/chart/${encodeURIComponent(symbol)}?range=${range}&interval=1d`;
+      const j = await fetchJSONPreferProxy(url);
+      const r = j?.chart?.result?.[0];
+      const ts = r?.timestamp || [];
+      const cl = r?.indicators?.quote?.[0]?.close || [];
+      const series = ts.map((t,i)=>({ t, c: cl[i] })).filter(p => Number.isFinite(p.c));
+      if (!series.length) throw new Error('No data for ' + symbol);
+      return series;
+    }
+
+    async function fetchIndexCAGR(activeSymbol, years){
+      const now = Math.floor(Date.now()/1000);
+      const from = now - Math.round(years*365.25*24*3600);
+      const series = await yahooSeries(activeSymbol, years);
+      const cagr = computeCAGR(series, from, now);
+      if (cagr==null) throw new Error('Insufficient data window.');
+      return { cagr, last: new Date(series.at(-1).t*1000) };
+    }
+
+    // Mutual Fund via MFAPI.in
+    async function mfSearchApi(){
+      if (!mfSearchApi._all){
+        const j = await fetchJSONPreferProxy('https://api.mfapi.in/mf');
+        mfSearchApi._all = j; // [{schemeCode, schemeName}, ...]
+      }
+      return mfSearchApi._all;
+    }
+    async function mfSearch(query){
+      const all = await mfSearchApi();
+      const q = query.trim().toLowerCase();
+      return all.filter(x => x.schemeName.toLowerCase().includes(q)).slice(0, 8);
+    }
+    async function mfSeries(schemeCode){
+      const j = await fetchJSONPreferProxy(`https://api.mfapi.in/mf/${encodeURIComponent(schemeCode)}`);
+      const data = (j?.data||[]).map(d => {
+        const [dd,mm,yy] = d.date.split('-'); // DD-MM-YYYY
+        const t = new Date(+yy, +mm-1, +dd).getTime()/1000;
+        return { t, c: parseFloat(d.nav) };
+      }).filter(p => Number.isFinite(p.c)).sort((a,b)=>a.t-b.t);
+      if (!data.length) throw new Error('No NAV history');
+      return data;
+    }
+    async function fetchMFCAGR(schemeCode, years){
+      const now = Math.floor(Date.now()/1000);
+      const from = now - Math.round(years*365.25*24*3600);
+      const series = await mfSeries(schemeCode);
+      const cagr = computeCAGR(series, from, now);
+      if (cagr==null) throw new Error('Insufficient NAV window.');
+      return { cagr, last: new Date(series.at(-1).t*1000) };
+    }
+
+    // UI: toggle rate source sections
+    function onRateSourceChange(){
+      const src = SRC.value;
+      INDEX_BOX.style.display = (src==='index') ? '' : 'none';
+      MF_BOX.style.display = (src==='mf') ? '' : 'none';
+      SRC_INFO.textContent = '';
+    }
+    SRC.addEventListener('change', onRateSourceChange);
+
+    // Index pill selection
+    INDEX_BOX?.addEventListener('click', (e)=>{
+      const btn = e.target.closest('.pill'); if (!btn) return;
+      INDEX_BOX.querySelectorAll('.pill').forEach(p => p.setAttribute('aria-pressed','false'));
+      btn.setAttribute('aria-pressed','true');
+    });
+
+    // MF live search (debounced)
+    let mfChosen = null;
+    MF_SEARCH?.addEventListener('input', window.utils?.debounce?.(async ()=>{
+      const q = MF_SEARCH.value;
+      mfChosen = null;
+      if (!q || q.length < 3){ MF_SUGGEST.innerHTML = ''; return; }
+      try{
+        MF_SUGGEST.textContent = 'Searching…';
+        const list = await mfSearch(q);
+        if (!list.length){ MF_SUGGEST.textContent = 'No matches.'; return; }
+        MF_SUGGEST.innerHTML = list.map(x => `<button type="button" class="pill" data-code="${x.schemeCode}" title="${x.schemeName}">${x.schemeName}</button>`).join(' ');
+      }catch(err){
+        MF_SUGGEST.textContent = 'Search failed. Please try again.';
+      }
+    }, 250));
+
+    MF_SUGGEST?.addEventListener('click', (e)=>{
+      const b = e.target.closest('button.pill'); if (!b) return;
+      mfChosen = { code: b.dataset.code, name: b.title || b.textContent.trim() };
+      MF_SEARCH.value = mfChosen.name;
+      MF_SUGGEST.innerHTML = `<span class="small">Selected: ${mfChosen.name} (Code ${mfChosen.code})</span>`;
+    });
+
+    // Fetch button
+    FETCH.addEventListener('click', async ()=>{
+      const src = SRC.value, years = +PERIOD.value || 5;
+      SRC_INFO.textContent = 'Fetching…';
+      try{
+        if (src === 'index'){
+          const active = INDEX_BOX.querySelector('.pill[aria-pressed="true"]')?.dataset?.symbol || '^NSEI';
+          const { cagr, last } = await fetchIndexCAGR(active, years);
+          R.value = (cagr*100).toFixed(2);
+          SRC_INFO.textContent = `Index ${active}: ${humanPct(cagr)} (CAGR, ${years}Y). Last price: ${last.toDateString()}.`;
+          onCalc();
+        } else if (src === 'mf'){
+          if (!mfChosen?.code) throw new Error('Pick a mutual fund from suggestions.');
+          const { cagr, last } = await fetchMFCAGR(mfChosen.code, years);
+          R.value = (cagr*100).toFixed(2);
+          SRC_INFO.textContent = `${mfChosen.name}: ${humanPct(cagr)} (CAGR, ${years}Y). Last NAV: ${last.toDateString()}.`;
+          onCalc();
+        } else {
+          SRC_INFO.textContent = 'Manual mode: enter rate above.';
+        }
+      }catch(err){
+        console.error(err);
+        const hint = document.querySelector('meta[name="proxy"]')?.content ? '' :
+          ' Tip: set a Cloudflare Worker URL in <meta name="proxy" content="https://<your-worker>.workers.dev"> for CORS-safe fetching.';
+        SRC_INFO.textContent = 'Could not fetch rate automatically (CORS/network/data range). Please enter a rate manually.' + hint;
+      }
+    });
+
+    // Actions
+    $('calc').addEventListener('click', onCalc);
+    $('reset').addEventListener('click', ()=>{
+      [A,R,Y,STEP,INF,DAY].forEach(el => el.value = "");
+      SRC.value='manual'; PERIOD.value='5'; onRateSourceChange();
+      O.innerHTML = `<div class='muted'>Cleared. Enter values and hit <b>Calculate</b>.</div>`;
+      drawChart(CH,[]); writeQuery(); localStorage?.removeItem('sip_v2');
+    });
+    $('share').addEventListener('click', ()=>{
+      writeQuery();
+      if (navigator.share){ try{ navigator.share({ title: document.title, url: location.href }); }catch{} }
+      else { navigator.clipboard?.writeText(location.href); alert('Link copied:\n'+location.href); }
+    });
+    $('csv').addEventListener('click', ()=>{
+      const a=+A.value||0, r=+R.value||0, y=+Y.value||0, step=+STEP.value||0, infl=+INF.value||0;
+      if (!(a>0 && r>=0 && y>0)) return;
+      const res = calcSIP({ amt:a, rateAnnual:r, years:y, stepUpPct:step, inflAnnual:infl });
+      let csv="Year,Total Invested (₹),Value (₹)\n";
+      res.series.forEach((p,i)=>csv+=`${i+1},${Math.round(p.invested)},${Math.round(p.value)}\n`);
+      const blob = new Blob([csv],{type:"text/csv;charset=utf-8"}); const url=URL.createObjectURL(blob);
+      const aTag=document.createElement('a'); aTag.href=url; aTag.download='sip_schedule.csv'; aTag.click(); URL.revokeObjectURL(url);
+    });
+    ;[A,R,Y,STEP,INF,DAY].forEach(el => el.addEventListener('keydown', e => { if (e.key === 'Enter') onCalc(); }));
+
+    // Common utils hooks (if available)
+    try { window.utils?.enhanceInputs?.(); window.utils?.observeOutbound?.(); } catch {}
+
+    // Load saved/URL state and maybe autocalc
+    (function prime(){
+      const saved = JSON.parse(localStorage.getItem('sip_v2') || '{}');
+      for (const [k,v] of Object.entries(saved)){ const el=$(k); if (el) el.value=v; }
+      readQuery();
+      if (location.search || localStorage?.getItem('sip_v2')) onCalc();
+      // focus
+      (A.value ? (R.value ? (Y.value ? A : Y) : R) : A).focus({ preventScroll:true });
+    })();
+
+    // Optional ads
+    (function ads(){
+      const slot = (document.querySelector('meta[name="ad-slot"]')?.content || '').trim();
+      if (!slot || !window.adsbygoogle) return;
+      const holder = document.getElementById('ad-holder');
+      const ins = document.createElement('ins');
+      ins.className = "adsbygoogle"; ins.style.display="block"; ins.style.minHeight="90px";
+      ins.setAttribute('data-ad-client','ca-pub-6216304334889617');
+      ins.setAttribute('data-ad-slot', slot);
+      ins.setAttribute('data-ad-format','auto');
+      ins.setAttribute('data-full-width-responsive','true');
+      holder.appendChild(ins);
+      try { (adsbygoogle = window.adsbygoogle || []).push({}); } catch {}
+    })();
   </script>
 </body>
-
 </html>
