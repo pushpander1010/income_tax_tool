@@ -1,10 +1,8 @@
 <!doctype html>
 <html lang="en">
-
 <head>
   <!-- Single async ad -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617" crossorigin="anonymous"></script>
-
   <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
   <link rel="dns-prefetch" href="//pagead2.googlesyndication.com">
 
@@ -13,15 +11,15 @@
   <title>Sudoku – Free Online Game (Neon Dark, Mobile-Perfect) | UpTools</title>
 
   <!-- SEO -->
-  <meta name="description" content="Play Sudoku online in a neon-dark theme. Mobile-perfect controls, notes (pencil marks), improved timer, mistake limit, auto-save & challenge links. Fast and responsive." />
-  <meta name="keywords" content="sudoku online, sudoku game, free sudoku, sudoku dark mode, sudoku neon, pencil marks, sudoku mobile, brain puzzle" />
+  <meta name="description" content="Play Sudoku in a neon-dark theme. Fully responsive full-screen board, visible background animation, correct mistakes logic with counter, timer, notes & autosave." />
+  <meta name="keywords" content="sudoku, play sudoku, sudoku online, neon sudoku, dark sudoku, mobile sudoku, notes, timer" />
   <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:large" />
   <meta name="theme-color" content="#0b1020" />
   <link rel="canonical" href="https://www.uptools.in/games/sudoku/" />
 
   <!-- OpenGraph / Twitter -->
   <meta property="og:title" content="Play Sudoku – Free Online (Neon Dark) | UpTools" />
-  <meta property="og:description" content="Beautiful neon-dark Sudoku with notes, improved timer, and autosave. Mobile-perfect and fast." />
+  <meta property="og:description" content="Responsive, full-screen Sudoku with notes, mistake counter, and autosave. Challenge friends!" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.uptools.in/games/sudoku/" />
   <meta property="og:image" content="https://www.uptools.in/assets/social/sudoku-card.png" />
@@ -36,7 +34,6 @@
   <link rel="stylesheet" href="/style.css?v=1.3.0" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="/style.css?v=1.3.0"></noscript>
 
-  <!-- Game styles -->
   <style>
     :root{
       --accent:#63e5ff;      /* neon cyan */
@@ -118,30 +115,43 @@
       background:radial-gradient(100% 140% at 15% 10%, #0d1630 0%, #0b1226 55%, #08101e 100%);
       border:1px solid var(--cardBorder);
       border-radius:.85rem; padding: clamp(8px, 1.6vw, 16px);
-      display:grid; grid-template-rows: 1fr auto; gap: clamp(8px,1.4vw,14px);
-      position:relative;
-      min-height:0;
+      display:grid; grid-template-rows: auto 1fr auto; gap: clamp(8px,1.4vw,14px);
+      position:relative; min-height:0;
     }
 
-    /* Sudoku grid – now fills available stage (true full screen square) */
+    /* floating chips over the grid */
+    .board-chips{
+      display:flex; justify-content:center; gap:.5rem; align-items:center;
+      pointer-events:none; /* don't block taps */
+    }
+    .chip{
+      pointer-events:auto;
+      display:inline-flex; align-items:center; justify-content:center;
+      padding:.28rem .6rem; border-radius:.6rem; border:1px solid rgba(99,229,255,.45);
+      background: radial-gradient(100% 100% at 50% 0%, rgba(99,229,255,.14), rgba(176,108,255,.10));
+      font-weight:900; font-size:.85rem;
+      box-shadow: 0 4px 14px rgba(0,0,0,.25), inset 0 0 14px rgba(99,229,255,.12);
+    }
+
+    /* Grid wrapper row uses all remaining space – square enforced via JS */
+    .grid-wrap{
+      display:grid; place-items:center; min-height:0; min-width:0;
+    }
+
     .sudoku-wrap{
-      place-self:stretch;
-      inline-size: 100%;
-      block-size: 100%;
-      max-inline-size: 100%;
-      max-block-size: 100%;
-      aspect-ratio: 1 / 1;
+      place-self:center;
+      inline-size: 100px;   /* JS will set real size */
+      block-size: 100px;    /* JS will set real size */
       display:grid; grid-template-columns: repeat(9, 1fr); grid-auto-rows: 1fr;
       background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.02));
       border-radius:.75rem; padding: clamp(6px, 1vw, 10px);
       box-shadow: 0 0 0 1px rgba(99,229,255,.22), inset 0 0 30px rgba(176,108,255,.08);
-      position:relative;
-      min-height:0; min-width:0;
+      position:relative; min-height:0; min-width:0;
     }
     .cell{
       position:relative; display:grid; place-items:center; user-select:none; cursor:pointer;
       border:1px solid rgba(255,255,255,.06);
-      font-weight:900; font-size: clamp(14px, 3.3vw, 28px);
+      font-weight:900; font-size: clamp(14px, 2.8vmin, 28px);
       color:#e6edf3; text-shadow: 0 0 6px rgba(99,229,255,.4);
       transition: background .12s ease, box-shadow .12s ease, transform .06s ease;
       background:rgba(8,14,26,.5);
@@ -157,11 +167,11 @@
 
     .note{
       position:absolute; inset:0; display:grid; grid-template-columns: repeat(3,1fr); grid-auto-rows:1fr;
-      font-weight:700; font-size: clamp(8px, 1.8vw, 14px); color:#9fb1c6; opacity:.9; pointer-events:none;
+      font-weight:700; font-size: clamp(8px, 1.6vmin, 14px); color:#9fb1c6; opacity:.95; pointer-events:none;
     }
     .note span{ display:grid; place-items:center; }
 
-    /* keypad stays compact, board never shifts */
+    /* Keypad (fixed height on small screens for predictability) */
     .keypad{
       display:grid; grid-template-columns:repeat(10, 1fr); gap: clamp(6px,1.2vw,12px);
     }
@@ -189,7 +199,7 @@
     .overlay.show{ display:grid; }
     .overlay h3{ margin:.2rem 0 .6rem; }
 
-    /* Background number animation canvas (more visible, still lightweight) */
+    /* Visible, lightweight background animation */
     .bg-canvas{
       position:fixed; inset:0; z-index:-1; pointer-events:none;
       background: radial-gradient(1100px 700px at 10% -10%, #101a34 0%, var(--bg) 45%) fixed;
@@ -198,21 +208,9 @@
 
   <!-- Structured Data -->
   <script type="application/ld+json">
-  {
-    "@context":"https://schema.org",
-    "@type":"VideoGame",
-    "name":"Sudoku",
-    "url":"https://www.uptools.in/games/sudoku/",
-    "applicationCategory":"Game",
-    "genre":"Puzzle",
-    "operatingSystem":"Browser",
-    "inLanguage":"en",
-    "publisher":{"@type":"Organization","name":"UpTools","url":"https://www.uptools.in/"},
-    "offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}
-  }
+  {"@context":"https://schema.org","@type":"VideoGame","name":"Sudoku","url":"https://www.uptools.in/games/sudoku/","applicationCategory":"Game","genre":"Puzzle","operatingSystem":"Browser","inLanguage":"en","publisher":{"@type":"Organization","name":"UpTools","url":"https://www.uptools.in/"},"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
   </script>
 </head>
-
 <body>
   <!-- Background animation -->
   <canvas id="bgCanvas" class="bg-canvas" aria-hidden="true"></canvas>
@@ -224,7 +222,7 @@
         <img src="/assets/logo/uptools-logo.svg" alt="UpTools logo" width="28" height="28" loading="eager">
         <b>UpTools</b>
       </a>
-    <nav class="nav-links" aria-label="Primary">
+      <nav class="nav-links" aria-label="Primary">
         <a href="/#tools">Tools</a>
         <a aria-current="page" href="/games/">Games</a>
         <a href="/about/">About</a>
@@ -237,7 +235,7 @@
   <main class="wrap" id="homeScreen">
     <div class="tool-header" style="text-align:center;margin:1rem 0 .25rem">
       <h1>🧩 Sudoku (Neon Dark)</h1>
-      <p>Tap <b>New Game</b> to open a full-screen window. Notes, improved timer, mistakes, and auto-save are built-in.</p>
+      <p>Tap <b>New Game</b> for a full-screen board. Notes, mistake limit & autosave are built-in.</p>
     </div>
 
     <div class="game-wrap">
@@ -273,17 +271,14 @@
           <button id="resetBest" class="btn danger">Reset Best</button>
         </div>
 
-        <p class="status" id="homeStatus">Tip: tap a cell then use keypad or number keys (1–9). Toggle <b>Notes</b> with ✎ or press N. Backspace clears.</p>
+        <p class="status" id="homeStatus">Tip: tap a cell then use keypad or number keys (1–9). Toggle <b>Notes</b> with ✎ or N. Backspace clears.</p>
 
         <div class="grid" style="display:grid;grid-template-columns:1fr;gap:.75rem;margin-top:1rem">
           <div class="card" style="background:#0b1326;border:1px solid #233351;border-radius:.75rem;padding:.75rem">
             <b>How to play Sudoku</b>
             <p class="status" style="margin:0">Fill the grid so every row, column, and 3×3 box has digits 1–9 with no repeats.</p>
             <div style="aspect-ratio:16/9;border-radius:12px;border:1px solid #233351;background:#0f151f;margin-top:.6rem">
-              <iframe width="100%" height="100%" src="https://www.youtube.com/embed/1povwe8Z3gI"
-                title="Sudoku tutorial" frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+              <iframe width="100%" height="100%" src="https://www.youtube.com/embed/1povwe8Z3gI" title="Sudoku tutorial" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
             </div>
             <p class="status" style="margin-top:.6rem">
               Also try <a href="/games/2048/" rel="internal">2048</a> · <a href="/games/tic-tac-toe/" rel="internal">Tic Tac Toe</a> · learn more on
@@ -314,10 +309,10 @@
         <span class="ps-title">Sudoku</span>
       </div>
       <div class="mid" aria-live="polite">
-        <span class="ps-chip" id="psTime"><span class="chip-full">Time:</span><span class="chip-short">T:</span>&nbsp;<span id="timeVal">00:00</span></span>
-        <span class="ps-chip" id="psMist"><span class="chip-full">Mistakes:</span><span class="chip-short">M:</span>&nbsp;<span id="mistVal">0</span></span>
-        <span class="ps-chip" id="psDiff"><span class="chip-full">Diff:</span><span class="chip-short">D:</span>&nbsp;<span id="diffVal">Normal</span></span>
-        <span class="ps-chip" id="psBest"><span class="chip-full">Best:</span><span class="chip-short">B:</span>&nbsp;<span id="bestVal">–</span></span>
+        <span class="ps-chip"><span class="chip-full">Time:</span><span class="chip-short">T:</span>&nbsp;<span id="timeVal">00:00</span></span>
+        <span class="ps-chip"><span class="chip-full">Mistakes:</span><span class="chip-short">M:</span>&nbsp;<span id="mistVal">0</span></span>
+        <span class="ps-chip"><span class="chip-full">Diff:</span><span class="chip-short">D:</span>&nbsp;<span id="diffVal">Normal</span></span>
+        <span class="ps-chip"><span class="chip-full">Best:</span><span class="chip-short">B:</span>&nbsp;<span id="bestVal">–</span></span>
       </div>
       <div class="right" aria-label="Actions">
         <button id="psNotes" class="ps-btn" title="Toggle Notes">✎</button>
@@ -328,7 +323,15 @@
 
     <div class="ps-stage">
       <div class="board" id="board">
-        <div id="grid" class="sudoku-wrap" role="grid" aria-label="Sudoku grid"></div>
+        <!-- chips row (includes Errors Left) -->
+        <div class="board-chips">
+          <span id="errorsLeft" class="chip" title="Remaining mistakes before game over">Errors Left: ∞</span>
+        </div>
+
+        <!-- center grid -->
+        <div class="grid-wrap">
+          <div id="grid" class="sudoku-wrap" role="grid" aria-label="Sudoku grid"></div>
+        </div>
 
         <!-- Keypad -->
         <div class="keypad" role="group" aria-label="Keypad">
@@ -353,33 +356,20 @@
     </div>
   </section>
 
-  <!-- Base utils (optional) -->
   <script defer src="/utils.js?v=1.3.0"></script>
-
-  <!-- App -->
   <script>
-    // ---------- tiny helpers ----------
+    /* ---------- tiny helpers ---------- */
     const $ = (s, el=document) => el.querySelector(s);
     const $$ = (s, el=document) => [...el.querySelectorAll(s)];
     const clamp = (x, a, b) => Math.min(b, Math.max(a, x));
     const haptic = (ms)=>{ try{ if(navigator.vibrate) navigator.vibrate(ms||8);}catch{} };
 
-    // safe cookies (regex-free to avoid Vite parse quirks)
     function setCookie(name, value, days=365){
       const d = new Date(Date.now() + days*864e5);
       document.cookie = encodeURIComponent(name) + "=" + encodeURIComponent(value) + "; path=/; expires=" + d.toUTCString();
     }
-    function getCookie(name){
-      const parts = document.cookie.split(";").map(s=>s.trim());
-      for(const p of parts){
-        if(p.startsWith(encodeURIComponent(name) + "=")){
-          return decodeURIComponent(p.split("=").slice(1).join("="));
-        }
-      }
-      return "";
-    }
 
-    // ---------- background numbers (MORE VISIBLE, still very light) ----------
+    /* ---------- visible lightweight background animation ---------- */
     (function bgNumbers(){
       const canvas = document.getElementById('bgCanvas');
       const ctx = canvas.getContext('2d');
@@ -394,11 +384,11 @@
       }
       addEventListener('resize', resize, {passive:true}); resize();
       const palette = ["#63e5ff","#b06cff","#8bffb0"];
-      for(let i=0;i<40;i++){
+      for(let i=0;i<44;i++){
         digits.push({
           d: 1 + (i%9),
           x: Math.random()*W, y: Math.random()*H,
-          vx: (Math.random()*0.5-0.25), vy: (Math.random()*0.4-0.2),
+          vx: (Math.random()*0.6-0.3), vy: (Math.random()*0.5-0.25),
           s: 18 + Math.random()*36,
           c: palette[i%palette.length],
           a: 0.26 + Math.random()*0.18
@@ -425,14 +415,8 @@
       requestAnimationFrame(tick);
     })();
 
-    // ---------- Sudoku Engine ----------
-    const LS = {
-      STATE: "ut_sudoku_state_v1",
-      BEST: "ut_sudoku_best",
-      LAST: "ut_sudoku_last",
-    };
-
-    // Seeded RNG (mulberry32)
+    /* ---------- Sudoku ---------- */
+    const LS = { STATE: "ut_sudoku_state_v2", BEST: "ut_sudoku_best", LAST: "ut_sudoku_last" };
     function mulberry32(seed){ let t = seed>>>0; return ()=>{ t+=0x6D2B79F5; let r=Math.imul(t^t>>>15,1|t); r^=r+Math.imul(r^r>>>7,61|r); return ((r^r>>>14)>>>0)/4294967296; }; }
     function strHash(s){ let h=2166136261>>>0; for(let i=0;i<s.length;i++){ h^=s.charCodeAt(i); h=Math.imul(h,16777619);} return h>>>0; }
 
@@ -443,25 +427,19 @@
       difficulty: $("#difficulty"), mistLimit: $("#mistLimit"),
       homeBest: $("#bestTime"), homeBestMist: $("#bestMist"),
       homeLast: $("#lastTime"), homeLastMist: $("#lastMist"), homeLastDate: $("#lastDate"),
-      status: $("#homeStatus"),
-      grid: $("#grid"),
+      grid: $("#grid"), board: $("#board"), keypad: $(".keypad"),
       overlay: $("#overlay"), ovTitle: $("#ovTitle"), ovDesc: $("#ovDesc"),
       ovResume: $("#ovResume"), ovRestart: $("#ovRestart"),
-      psBack: $("#psBack"), psRestart: $("#psRestart"), psShare: $("#psShare"),
-      psNotes: $("#psNotes"),
+      psBack: $("#psBack"), psRestart: $("#psRestart"), psShare: $("#psShare"), psNotes: $("#psNotes"),
       timeVal: $("#timeVal"), mistVal: $("#mistVal"), diffVal: $("#diffVal"), bestVal: $("#bestVal"),
-      keypad: $(".keypad"), board: $("#board")
+      errorsLeft: $("#errorsLeft")
     };
 
     const S = {
-      paused:false,
-      difficulty:"normal",
-      mistLimit:5,
-      mistakes:0,
-      notesMode:false,
+      paused:false, notesMode:false,
+      difficulty:"normal", mistLimit:5, mistakes:0,
+      seed:"", rnd: Math.random,
       startAt:0, elapsed:0, timerId:null,
-      seed:"",
-      rnd: Math.random,
       puzzle: Array.from({length:9},()=>Array(9).fill(0)),
       solution: Array.from({length:9},()=>Array(9).fill(0)),
       given: Array.from({length:9},()=>Array(9).fill(false)),
@@ -469,27 +447,10 @@
       selected: {r:-1,c:-1}
     };
 
-    // Time helpers (improved: stable 1s tick, pauses correctly)
-    const fmtTime = (sec)=> {
-      sec = Math.max(0, Math.floor(sec));
-      const h = Math.floor(sec/3600);
-      const m = Math.floor(sec%3600/60);
-      const s = sec%60;
-      return (h? String(h).padStart(2,'0')+':':'') + String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
-    };
-    function startTimer(){
-      S.startAt = Date.now() - (S.elapsed*1000);
-      stopTimer();
-      S.timerId = setInterval(()=>{
-        if(!S.paused){
-          S.elapsed = (Date.now()-S.startAt)/1000;
-          els.timeVal.textContent = fmtTime(S.elapsed|0);
-        }
-      }, 1000);
-    }
+    const fmtTime = (sec)=>{ sec=Math.max(0,sec|0); const h=sec/3600|0, m=(sec%3600)/60|0, s=sec%60; return (h?String(h).padStart(2,'0')+':':'')+String(m).padStart(2,'0')+':'+String(s).padStart(2,'0'); };
+    function startTimer(){ S.startAt=Date.now()-S.elapsed*1000; stopTimer(); S.timerId=setInterval(()=>{ if(!S.paused){ S.elapsed=(Date.now()-S.startAt)/1000; els.timeVal.textContent=fmtTime(S.elapsed|0); } },1000); }
     function stopTimer(){ if(S.timerId){ clearInterval(S.timerId); S.timerId=null; } }
 
-    // Sudoku logic
     function canPlace(grid, r,c,v){
       for(let i=0;i<9;i++){ if(grid[r][i]===v || grid[i][c]===v) return false; }
       const br = Math.floor(r/3)*3, bc = Math.floor(c/3)*3;
@@ -505,128 +466,88 @@
       return best[0]===-1 ? null : [best[0], best[1]];
     }
     function solve(grid, rnd){
-      const g = grid;
-      const spot = findEmpty(g);
-      if(!spot) return true;
-      const [r,c] = spot;
-      const nums = [1,2,3,4,5,6,7,8,9];
-      if(rnd){ for(let i=nums.length-1;i>0;i--){ const j=(rnd()* (i+1))|0; [nums[i],nums[j]]=[nums[j],nums[i]]; } }
-      for(const v of nums){
-        if(canPlace(g,r,c,v)){
-          g[r][c]=v;
-          if(solve(g, rnd)) return true;
-          g[r][c]=0;
-        }
-      }
+      const spot = findEmpty(grid); if(!spot) return true;
+      const [r,c] = spot; const nums=[1,2,3,4,5,6,7,8,9];
+      if(rnd){ for(let i=nums.length-1;i>0;i--){ const j=(rnd()*(i+1))|0; [nums[i],nums[j]]=[nums[j],nums[i]]; } }
+      for(const v of nums){ if(canPlace(grid,r,c,v)){ grid[r][c]=v; if(solve(grid, rnd)) return true; grid[r][c]=0; } }
       return false;
     }
     function countSolutions(grid, lim=2){
-      const g = grid.map(row=>row.slice());
-      let count = 0;
-      function dfs(){
-        const spot = findEmpty(g);
-        if(!spot){ count++; return count>=lim; }
+      const g = grid.map(r=>r.slice()); let count=0;
+      (function dfs(){
+        const spot=findEmpty(g); if(!spot){ count++; return; }
         const [r,c]=spot;
-        for(let v=1; v<=9; v++){
-          if(canPlace(g,r,c,v)){
-            g[r][c]=v;
-            if(dfs()) return true;
-            g[r][c]=0;
-          }
-        }
-        return false;
-      }
-      dfs();
+        for(let v=1;v<=9;v++){ if(canPlace(g,r,c,v)){ g[r][c]=v; if(count<lim) dfs(); g[r][c]=0; if(count>=lim) return; } }
+      })();
       return count;
     }
 
     function generate(seed, diff){
-      // seed & RNG
-      S.seed = seed || ""; S.rnd = S.seed ? mulberry32(strHash(S.seed)) : Math.random;
-
-      // 1) full solution
-      const grid = Array.from({length:9},()=>Array(9).fill(0));
+      S.seed = seed||""; S.rnd = S.seed ? mulberry32(strHash(S.seed)) : Math.random;
+      const grid=Array.from({length:9},()=>Array(9).fill(0));
       const nums=[1,2,3,4,5,6,7,8,9];
       for(let box=0; box<3; box++){
-        const arr = nums.slice();
-        for(let i=arr.length-1;i>0;i--){ const j=(S.rnd()*(i+1))|0; [arr[i],arr[j]]=[arr[j],arr[i]]; }
+        const arr=nums.slice(); for(let i=arr.length-1;i>0;i--){ const j=(S.rnd()*(i+1))|0; [arr[i],arr[j]]=[arr[j],arr[i]]; }
         let k=0; for(let r=0;r<3;r++) for(let c=0;c<3;c++){ grid[box*3+r][box*3+c]=arr[k++]; }
       }
       solve(grid, S.rnd);
       const solution = grid.map(r=>r.slice());
 
-      // 2) carve by difficulty, keep unique
-      const removals = ({easy:40, normal:50, hard:56, expert:60})[diff] || 50;
-      const puzzle = solution.map(r=>r.slice());
-      const cells = [];
-      for(let r=0;r<9;r++) for(let c=0;c<9;c++) cells.push([r,c]);
+      const removals=({easy:40,normal:50,hard:56,expert:60}[diff]) ?? 50;
+      const puzzle=solution.map(r=>r.slice());
+      const cells=[]; for(let r=0;r<9;r++) for(let c=0;c<9;c++) cells.push([r,c]);
       for(let i=cells.length-1;i>0;i--){ const j=(S.rnd()*(i+1))|0; [cells[i],cells[j]]=[cells[j],cells[i]]; }
-
       let removed=0;
       for(const [r,c] of cells){
         if(removed>=removals) break;
-        const backup = puzzle[r][c];
-        puzzle[r][c]=0;
-        if(countSolutions(puzzle, 2)!==1){ puzzle[r][c]=backup; } else { removed++; }
+        const b=puzzle[r][c]; puzzle[r][c]=0;
+        if(countSolutions(puzzle,2)!==1) puzzle[r][c]=b; else removed++;
       }
 
-      S.puzzle = puzzle;
-      S.solution = solution;
-      S.given = puzzle.map(row=>row.map(v=>v!==0));
-      S.notes = Array.from({length:9},()=>Array.from({length:9},()=>new Set()));
-      S.mistakes = 0; S.elapsed = 0;
+      S.puzzle=puzzle; S.solution=solution; S.given=puzzle.map(row=>row.map(v=>v!==0));
+      S.notes=Array.from({length:9},()=>Array.from({length:9},()=>new Set()));
+      S.mistakes=0; S.elapsed=0;
     }
 
-    // ---------- Rendering ----------
     function buildGrid(){
-      const g = els.grid;
-      g.innerHTML = "";
-      for(let r=0;r<9;r++){
-        for(let c=0;c<9;c++){
-          const d = document.createElement("div");
-          d.className = "cell";
-          d.dataset.r = String(r);
-          d.dataset.c = String(c);
-          const val = S.puzzle[r][c];
-          if(val){ d.textContent = String(val); d.classList.add("prefilled"); }
-          const notes = document.createElement("div");
-          notes.className="note";
-          for(let k=1;k<=9;k++){ const s=document.createElement("span"); s.textContent=""; notes.appendChild(s); }
-          d.appendChild(notes);
-          d.addEventListener("click", ()=>selectCell(r,c));
-          g.appendChild(d);
-        }
+      els.grid.innerHTML="";
+      for(let r=0;r<9;r++) for(let c=0;c<9;c++){
+        const d=document.createElement("div");
+        d.className="cell"; d.dataset.r=String(r); d.dataset.c=String(c);
+        const val=S.puzzle[r][c];
+        if(val){ d.textContent=String(val); d.classList.add("prefilled"); }
+        const notes=document.createElement("div"); notes.className="note";
+        for(let k=1;k<=9;k++){ const s=document.createElement("span"); s.textContent=""; notes.appendChild(s); }
+        d.appendChild(notes);
+        d.addEventListener("click",()=>selectCell(r,c));
+        els.grid.appendChild(d);
       }
-      refreshSelection();
-      refreshNotesAll();
-      refreshErrorsAll();
-      fitGridSquare(); // ensure full-screen square on build
+      refreshSelection(); refreshNotesAll(); refreshErrorsAll();
+      fitGridSquare(); setTimeout(fitGridSquare, 0); // ensure layout pass complete
     }
 
-    // keep the grid a perfect square that fills all available stage height without shifting the keypad
     function fitGridSquare(){
-      const board = els.board;
-      const keypad = els.keypad;
-      const boardStyles = getComputedStyle(board);
-      const padY = parseFloat(boardStyles.paddingTop)+parseFloat(boardStyles.paddingBottom);
-      const padX = parseFloat(boardStyles.paddingLeft)+parseFloat(boardStyles.paddingRight);
+      // Make the grid fill the available stage (minus keypad) as a perfect square
+      const board = els.board; const keypad = els.keypad;
+      const cs=getComputedStyle(board);
+      const padY = parseFloat(cs.paddingTop)+parseFloat(cs.paddingBottom);
+      const padX = parseFloat(cs.paddingLeft)+parseFloat(cs.paddingRight);
       const availW = board.clientWidth - padX;
-      const availH = board.clientHeight - padY - keypad.offsetHeight - 8; // 8px gap buffer
-      const size = Math.max(240, Math.min(availW, availH));
-      els.grid.style.inlineSize = size + "px";
-      els.grid.style.blockSize = size + "px";
+      const availH = board.clientHeight - padY - keypad.offsetHeight - 10; // gap
+      const size = Math.max(260, Math.min(availW, availH));
+      els.grid.style.inlineSize = size+"px";
+      els.grid.style.blockSize  = size+"px";
     }
-    new ResizeObserver(fitGridSquare).observe($("#board"));
+    new ResizeObserver(fitGridSquare).observe(els.board);
+    new ResizeObserver(fitGridSquare).observe(els.keypad);
     if(window.visualViewport){ visualViewport.addEventListener("resize", fitGridSquare); }
     addEventListener("orientationchange", fitGridSquare, {passive:true});
     addEventListener("resize", fitGridSquare, {passive:true});
 
     function refreshSelection(){
       $$(".cell", els.grid).forEach(el=>el.classList.remove("selected","peer","same"));
-      const {r,c} = S.selected;
-      if(r<0 || c<0) return;
-      const curEl = $(`.cell[data-r="${r}"][data-c="${c}"]`, els.grid);
-      if(curEl) curEl.classList.add("selected");
+      const {r,c}=S.selected; if(r<0||c<0) return;
+      const cur=$(`.cell[data-r="${r}"][data-c="${c}"]`, els.grid); cur?.classList.add("selected");
       for(let i=0;i<9;i++){
         $(`.cell[data-r="${r}"][data-c="${i}"]`, els.grid)?.classList.add("peer");
         $(`.cell[data-r="${i}"][data-c="${c}"]`, els.grid)?.classList.add("peer");
@@ -635,201 +556,175 @@
       for(let i=0;i<3;i++) for(let j=0;j<3;j++){
         $(`.cell[data-r="${br+i}"][data-c="${bc+j}"]`, els.grid)?.classList.add("peer");
       }
-      const v = S.puzzle[r][c];
-      if(v){
-        $$(".cell", els.grid).forEach(node=>{
-          const rr=+node.dataset.r, cc=+node.dataset.c;
-          if(S.puzzle[rr][cc]===v) node.classList.add("same");
-        });
-      }
+      const v=S.puzzle[r][c];
+      if(v){ $$(".cell", els.grid).forEach(node=>{ const rr=+node.dataset.r, cc=+node.dataset.c; if(S.puzzle[rr][cc]===v) node.classList.add("same"); }); }
     }
 
     function refreshErrorsAll(){
-      for(let r=0;r<9;r++){
-        for(let c=0;c<9;c++){
-          const el = $(`.cell[data-r="${r}"][data-c="${c}"]`, els.grid);
-          el?.classList.remove("error");
-          const v = S.puzzle[r][c];
-          if(v===0) continue;
-          for(let i=0;i<9;i++){
-            if(i!==c && S.puzzle[r][i]===v){ el?.classList.add("error"); break; }
-            if(i!==r && S.puzzle[i][c]===v){ el?.classList.add("error"); break; }
-          }
-          const br=Math.floor(r/3)*3, bc=Math.floor(c/3)*3;
-          for(let i=0;i<3;i++) for(let j=0;j<3;j++){
-            const rr=br+i, cc=bc+j;
-            if((rr!==r || cc!==c) && S.puzzle[rr][cc]===v){ el?.classList.add("error"); i=3; j=3; }
-          }
+      // purely visual duplicate highlight (won't affect mistakes logic)
+      for(let r=0;r<9;r++) for(let c=0;c<9;c++){
+        const el=$(`.cell[data-r="${r}"][data-c="${c}"]`, els.grid); el?.classList.remove("error");
+        const v=S.puzzle[r][c]; if(v===0) continue;
+        for(let i=0;i<9;i++){
+          if(i!==c && S.puzzle[r][i]===v){ el?.classList.add("error"); break; }
+          if(i!==r && S.puzzle[i][c]===v){ el?.classList.add("error"); break; }
+        }
+        const br=Math.floor(r/3)*3, bc=Math.floor(c/3)*3;
+        for(let i=0;i<3;i++) for(let j=0;j<3;j++){
+          const rr=br+i, cc=bc+j;
+          if((rr!==r||cc!==c) && S.puzzle[rr][cc]===v){ el?.classList.add("error"); i=3; j=3; }
         }
       }
     }
 
     function refreshNotesCell(r,c){
-      const n = $(`.cell[data-r="${r}"][data-c="${c}"] .note`, els.grid);
-      if(!n) return;
-      const set = S.notes[r][c];
-      [...n.children].forEach((span, idx)=>{ const k = idx+1; span.textContent = set.has(k) ? String(k) : ""; });
+      const n=$(`.cell[data-r="${r}"][data-c="${c}"] .note`, els.grid); if(!n) return;
+      const set=S.notes[r][c]; [...n.children].forEach((span,idx)=>{ const k=idx+1; span.textContent=set.has(k)?String(k):""; });
     }
     function refreshNotesAll(){ for(let r=0;r<9;r++) for(let c=0;c<9;c++) refreshNotesCell(r,c); }
 
-    // ---------- Gameflow ----------
+    function updateErrorsLeft(){
+      const left = S.mistLimit===0 ? "∞" : Math.max(0, S.mistLimit - S.mistakes);
+      els.errorsLeft.textContent = `Errors Left: ${left}`;
+    }
+
+    /* ---------- Gameflow ---------- */
     function openPlay(seedFromURL, diffFromURL){
       setInert(els.home, true); setInert(els.play, false);
       els.play.classList.add("open");
       S.difficulty = diffFromURL || els.difficulty.value;
       S.mistLimit = Number(els.mistLimit.value);
-      $("#diffVal").textContent = (S.difficulty[0].toUpperCase()+S.difficulty.slice(1));
-      // (Re)generate a puzzle
-      generate(seedFromURL || "", S.difficulty);
+      $("#diffVal").textContent = S.difficulty[0].toUpperCase()+S.difficulty.slice(1);
+      generate(seedFromURL||"", S.difficulty);
       buildGrid();
-      S.selected = {r:-1,c:-1};
-      S.paused = false;
+      S.selected={r:-1,c:-1};
+      S.paused=false; S.mistakes=0; S.elapsed=0;
+      els.mistVal.textContent = "0";
+      updateErrorsLeft();
       startTimer();
       updateHUD();
       $("#psBack").focus({preventScroll:true});
       updateHomeStats();
-      fitGridSquare(); // ensure full-screen usage at open
     }
     function closePlay(){
       stopTimer();
       els.play.classList.remove("open");
-      setInert(els.play, true); setInert(els.home, false);
+      setInert(els.play,true); setInert(els.home,false);
       $("#newGame").focus({preventScroll:true});
-      saveLocal();
-      updateHomeStats();
+      saveLocal(); updateHomeStats();
     }
+    function setInert(el,val){ if(val){ el.setAttribute("inert",""); el.inert=true; } else { el.removeAttribute("inert"); el.inert=false; } }
 
     function selectCell(r,c){ S.selected={r,c}; refreshSelection(); }
 
-    // STRICTER mistake handling so game doesn't end "too quickly":
-    // If wrong number, DO NOT place it. Just count a mistake & animate the cell.
+    // ✅ Correct mistakes logic:
+    // - Wrong number does NOT get placed.
+    // - We increment mistakes once per wrong attempt and update "Errors Left".
+    // - Game ends only when limit reached (unless Unlimited).
     function placeNumber(k){
-      const {r,c}=S.selected;
-      if(r<0||c<0) return;
+      const {r,c}=S.selected; if(r<0||c<0) return;
       if(S.given[r][c]) return;
 
       if(S.notesMode){
         if(S.puzzle[r][c]!==0) return;
-        const set = S.notes[r][c];
-        if(k===0){ set.clear(); } else { set.has(k) ? set.delete(k) : set.add(k); }
+        const set=S.notes[r][c];
+        if(k===0) set.clear(); else (set.has(k)?set.delete(k):set.add(k));
         refreshNotesCell(r,c); haptic(8); saveLocal(); return;
       }
 
-      if(k===0){
-        S.puzzle[r][c]=0; refreshCell(r,c); refreshErrorsAll(); haptic(10); saveLocal(); return;
-      }
+      if(k===0){ S.puzzle[r][c]=0; refreshCell(r,c); refreshErrorsAll(); haptic(10); saveLocal(); return; }
 
-      const correct = S.solution[r][c]===k;
-      if(correct){
+      if(S.solution[r][c]===k){
         S.puzzle[r][c]=k; S.notes[r][c].clear();
         refreshCell(r,c); refreshErrorsAll(); haptic(8);
-        if(checkWin()){ onWin(); }
+        if(checkWin()) onWin();
       }else{
-        // bump mistake, visual feedback, but don't place wrong value
-        S.mistakes++; els.mistVal.textContent = S.mistakes;
-        const el = $(`.cell[data-r="${r}"][data-c="${c}"]`, els.grid);
-        el?.classList.add("error"); el?.animate([{transform:'scale(1.0)'},{transform:'scale(0.96)'},{transform:'scale(1.0)'}],{duration:180});
+        // wrong try: animate + count, but don't change grid
+        S.mistakes++; els.mistVal.textContent=String(S.mistakes);
+        updateErrorsLeft();
+        const el=$(`.cell[data-r="${r}"][data-c="${c}"]`, els.grid);
+        el?.animate([{transform:'scale(1)'},{transform:'scale(0.96)'},{transform:'scale(1)'}],{duration:180});
         haptic(30);
-        if(S.mistLimit>0 && S.mistakes>=S.mistLimit){ onGameOver(); }
+        if(S.mistLimit>0 && S.mistakes>=S.mistLimit) onGameOver();
       }
       saveLocal();
     }
 
     function refreshCell(r,c){
-      const el = $(`.cell[data-r="${r}"][data-c="${c}"]`, els.grid);
-      if(!el) return;
-      const v = S.puzzle[r][c];
-      el.textContent = v ? String(v) : "";
+      const el=$(`.cell[data-r="${r}"][data-c="${c}"]`, els.grid); if(!el) return;
+      const v=S.puzzle[r][c]; el.textContent = v?String(v):"";
       if(!v){
-        const notes = document.createElement("div"); notes.className="note";
-        for(let k=1;k<=9;k++){ const s=document.createElement("span"); s.textContent = S.notes[r][c].has(k)?String(k):""; notes.appendChild(s); }
+        const notes=document.createElement("div"); notes.className="note";
+        for(let k=1;k<=9;k++){ const s=document.createElement("span"); s.textContent=S.notes[r][c].has(k)?String(k):""; notes.appendChild(s); }
         el.appendChild(notes);
-      }else{
-        if(!S.given[r][c]) el.classList.remove("prefilled");
-      }
+      }else{ if(!S.given[r][c]) el.classList.remove("prefilled"); }
       refreshSelection();
     }
 
     function checkWin(){ for(let r=0;r<9;r++) for(let c=0;c<9;c++){ if(S.puzzle[r][c]!==S.solution[r][c]) return false; } return true; }
 
     function updateHUD(){
-      els.mistVal.textContent = S.mistakes;
+      els.mistVal.textContent = String(S.mistakes);
       els.timeVal.textContent = fmtTime(S.elapsed|0);
       const best = loadBestFor(S.difficulty);
       els.bestVal.textContent = best ? `${fmtTime(best.time)} / ${best.mist}❌` : "–";
     }
 
     function showOverlay(title,desc){
-      els.ovTitle.textContent = title; els.ovDesc.textContent = desc;
-      els.overlay.classList.add("show"); els.overlay.setAttribute("aria-hidden","false");
-      S.paused = true;
+      $("#ovTitle").textContent=title; $("#ovDesc").textContent=desc;
+      els.overlay.classList.add("show"); els.overlay.setAttribute("aria-hidden","false"); S.paused=true;
     }
-    function hideOverlay(){
-      els.overlay.classList.remove("show"); els.overlay.setAttribute("aria-hidden","true");
-      S.paused = false;
-    }
+    function hideOverlay(){ els.overlay.classList.remove("show"); els.overlay.setAttribute("aria-hidden","true"); S.paused=false; }
 
     function onWin(){
       stopTimer();
-      const time = Math.floor(S.elapsed);
+      const time=S.elapsed|0;
       saveLast({time, mistakes:S.mistakes, diff:S.difficulty});
-      maybeSaveBest(time, S.mistakes, S.difficulty);
+      maybeSaveBest(time,S.mistakes,S.difficulty);
       updateHomeStats(); updateHUD();
       showOverlay("You Win! 🎉", `Time: ${fmtTime(time)} · Mistakes: ${S.mistakes}`);
     }
     function onGameOver(){
       stopTimer();
-      const time = Math.floor(S.elapsed);
+      const time=S.elapsed|0;
       saveLast({time, mistakes:S.mistakes, diff:S.difficulty});
       updateHomeStats();
       showOverlay("Game Over", `Mistake limit reached. Time: ${fmtTime(time)}`);
     }
 
-    // ---------- Storage ----------
+    /* ---------- Storage ---------- */
     function saveLocal(){
-      const obj = {
-        difficulty:S.difficulty, seed:S.seed, mistLimit:S.mistLimit,
+      const obj={ difficulty:S.difficulty, seed:S.seed, mistLimit:S.mistLimit,
         puzzle:S.puzzle, solution:S.solution, given:S.given,
-        notes:[...Array(9)].map((_,r)=>[...Array(9)].map((_,c)=>Array.from(S.notes[r][c]))),
-        mistakes:S.mistakes, elapsed:S.elapsed
-      };
+        notes:S.notes.map(row=>row.map(set=>Array.from(set))),
+        mistakes:S.mistakes, elapsed:S.elapsed };
       localStorage.setItem(LS.STATE, JSON.stringify(obj));
-      localStorage.setItem(LS.LAST, JSON.stringify({time:Math.floor(S.elapsed), mistakes:S.mistakes, diff:S.difficulty, at:Date.now()}));
+      localStorage.setItem(LS.LAST, JSON.stringify({time:S.elapsed|0, mistakes:S.mistakes, diff:S.difficulty, at:Date.now()}));
     }
     function loadLocal(){ try{ return JSON.parse(localStorage.getItem(LS.STATE)||"null"); }catch{return null;} }
     function saveLast(data){ localStorage.setItem(LS.LAST, JSON.stringify({...data, at: Date.now()})); }
-    function loadBestFor(diff){ try{ const all = JSON.parse(localStorage.getItem(LS.BEST)||"{}"); return all[diff] || null; }catch{ return null; } }
+    function loadBestFor(diff){ try{ const all=JSON.parse(localStorage.getItem(LS.BEST)||"{}"); return all[diff]||null; }catch{ return null; } }
     function maybeSaveBest(time, mistakes, diff){
-      let all = {}; try{ all = JSON.parse(localStorage.getItem(LS.BEST)||"{}"); }catch{}
-      const cur = all[diff];
+      let all={}; try{ all=JSON.parse(localStorage.getItem(LS.BEST)||"{}"); }catch{}
+      const cur=all[diff];
       if(!cur || time<cur.time || (time===cur.time && mistakes<cur.mist)){
-        all[diff] = {time, mist:mistakes};
-        localStorage.setItem(LS.BEST, JSON.stringify(all));
-        setCookie(LS.BEST, JSON.stringify(all));
+        all[diff]={time, mist:mistakes}; localStorage.setItem(LS.BEST, JSON.stringify(all)); setCookie(LS.BEST, JSON.stringify(all));
       }
     }
     function updateHomeStats(){
-      const b = loadBestFor(els.difficulty.value);
-      els.homeBest.textContent = b ? fmtTime(b.time) : "–";
-      els.homeBestMist.textContent = b ? (b.mist+"❌") : "–";
+      const b=loadBestFor(els.difficulty.value);
+      $("#bestTime").textContent=b?fmtTime(b.time):"–";
+      $("#bestMist").textContent=b?(b.mist+"❌"):"–";
       try{
-        const last = JSON.parse(localStorage.getItem(LS.LAST)||"null");
-        if(last){
-          els.homeLast.textContent = fmtTime(last.time);
-          els.homeLastMist.textContent = last.mistakes+"❌";
-          els.homeLastDate.textContent = new Date(last.at).toLocaleString();
-        } else {
-          els.homeLast.textContent = els.homeLastMist.textContent = els.homeLastDate.textContent = "–";
-        }
-      }catch{
-        els.homeLast.textContent = els.homeLastMist.textContent = els.homeLastDate.textContent = "–";
-      }
+        const last=JSON.parse(localStorage.getItem(LS.LAST)||"null");
+        $("#lastTime").textContent=last?fmtTime(last.time):"–";
+        $("#lastMist").textContent=last?(last.mistakes+"❌"):"–";
+        $("#lastDate").textContent=last?new Date(last.at).toLocaleString():"–";
+      }catch{ $("#lastTime").textContent=$("#lastMist").textContent=$("#lastDate").textContent="–"; }
     }
 
-    // ---------- Inputs ----------
-    $(".keypad").addEventListener("click", (e)=>{
-      const k = e.target?.dataset?.k; if(!k) return; placeNumber(Number(k));
-    });
+    /* ---------- Inputs ---------- */
+    $(".keypad").addEventListener("click", (e)=>{ const k=e.target?.dataset?.k; if(!k) return; placeNumber(Number(k)); });
     document.addEventListener("keydown", (e)=>{
       if(els.play.hasAttribute("inert")) return;
       if(e.key>="1" && e.key<="9"){ placeNumber(Number(e.key)); e.preventDefault(); }
@@ -841,103 +736,57 @@
       if(e.key==="n" || e.key==="N"){ toggleNotes(); }
       if(e.key==="p" || e.key==="P"){ if(S.paused) hideOverlay(); else showOverlay("Paused","Tap anywhere or press P"); }
     }, {passive:false});
-
-    function moveSel(dr,dc){
-      let {r,c} = S.selected;
-      if(r<0||c<0){ r=0; c=0; }
-      r = clamp(r+dr,0,8); c = clamp(c+dc,0,8);
-      selectCell(r,c);
-    }
+    function moveSel(dr,dc){ let {r,c}=S.selected; if(r<0||c<0){ r=0; c=0; } r=clamp(r+dr,0,8); c=clamp(c+dc,0,8); selectCell(r,c); }
 
     function toggleNotes(force){
-      S.notesMode = (force===undefined) ? !S.notesMode : !!force;
+      S.notesMode = (force===undefined)? !S.notesMode : !!force;
       els.psNotes.classList.toggle("primary", S.notesMode);
       els.psNotes.setAttribute("aria-pressed", S.notesMode? "true":"false");
     }
 
-    // ---------- Buttons ----------
-    $("#newGame").addEventListener("click", ()=>{
-      openPlay("", els.difficulty.value);
-      S.mistLimit = Number(els.mistLimit.value);
-    });
-
+    /* ---------- Buttons ---------- */
+    $("#newGame").addEventListener("click", ()=>{ openPlay("", els.difficulty.value); S.mistLimit=Number(els.mistLimit.value); updateErrorsLeft(); });
     $("#continueBtn").addEventListener("click", ()=>{
-      const saved = loadLocal();
+      const saved=loadLocal();
       if(!saved){ $("#continueBtn").disabled=true; $("#continueBtn").style.opacity=.7; return; }
-      setInert(els.home,true); setInert(els.play,false);
-      els.play.classList.add("open");
-      Object.assign(S, {
-        difficulty: saved.difficulty||"normal",
-        mistLimit: Number(saved.mistLimit||5),
-        seed: saved.seed||"",
-        puzzle: saved.puzzle,
-        solution: saved.solution,
-        given: saved.given,
-        mistakes: saved.mistakes||0,
-        elapsed: saved.elapsed||0,
-        notes: saved.notes.map(row=>row.map(arr=>new Set(arr)))
-      });
-      buildGrid();
-      updateHUD();
-      S.paused = false;
-      startTimer();
-      $("#psBack").focus({preventScroll:true});
+      setInert(els.home,true); setInert(els.play,false); els.play.classList.add("open");
+      Object.assign(S,{ difficulty:saved.difficulty||"normal", mistLimit:Number(saved.mistLimit||5), seed:saved.seed||"",
+        puzzle:saved.puzzle, solution:saved.solution, given:saved.given,
+        mistakes:saved.mistakes||0, elapsed:saved.elapsed||0,
+        notes:saved.notes.map(row=>row.map(arr=>new Set(arr))) });
+      buildGrid(); updateHUD(); updateErrorsLeft(); S.paused=false; startTimer(); $("#psBack").focus({preventScroll:true});
     });
-
-    $("#resetBest").addEventListener("click", ()=>{
-      localStorage.removeItem(LS.BEST);
-      setCookie(LS.BEST,"{}");
-      updateHomeStats();
-      els.status.textContent = "Bests cleared.";
-    });
-
+    $("#resetBest").addEventListener("click", ()=>{ localStorage.removeItem(LS.BEST); setCookie(LS.BEST,"{}"); updateHomeStats(); });
     $("#shareBtn").addEventListener("click", ()=>{
-      const seed = Date.now().toString(36);
-      const u = new window.URL(location.href);
-      u.searchParams.set("seed", seed);
-      u.searchParams.set("d", els.difficulty.value);
-      navigator.clipboard?.writeText(u.toString());
-      els.status.textContent = "🔗 Link copied. Challenge a friend!";
+      const seed=Date.now().toString(36);
+      const u=new URL(location.href); u.searchParams.set("seed",seed); u.searchParams.set("d", els.difficulty.value);
+      navigator.clipboard?.writeText(u.toString()); $("#homeStatus").textContent="🔗 Link copied. Challenge a friend!";
     });
 
     $("#psBack").addEventListener("click", closePlay);
     $("#psRestart").addEventListener("click", ()=>{
-      generate(S.seed, S.difficulty);
-      buildGrid();
-      S.elapsed=0; S.mistakes=0; S.paused=false; startTimer(); updateHUD(); hideOverlay();
+      generate(S.seed, S.difficulty); buildGrid();
+      S.elapsed=0; S.mistakes=0; S.paused=false; startTimer(); updateHUD(); updateErrorsLeft(); hideOverlay();
     });
     $("#psShare").addEventListener("click", ()=>{
-      const seed = S.seed || Date.now().toString(36); S.seed = seed;
-      const u = new window.URL(location.href);
-      u.searchParams.set("seed", seed);
-      u.searchParams.set("d", S.difficulty);
-      navigator.clipboard?.writeText(u.toString());
-      showOverlay("Link copied", "Share this puzzle with friends!");
+      const seed=S.seed||Date.now().toString(36); S.seed=seed;
+      const u=new URL(location.href); u.searchParams.set("seed",seed); u.searchParams.set("d",S.difficulty);
+      navigator.clipboard?.writeText(u.toString()); showOverlay("Link copied","Share this puzzle with friends!");
     });
     $("#psNotes").addEventListener("click", ()=>toggleNotes());
     $("#ovResume").addEventListener("click", ()=>hideOverlay());
     $("#ovRestart").addEventListener("click", ()=>{
-      hideOverlay();
-      generate(S.seed, S.difficulty);
-      buildGrid();
-      S.elapsed=0; S.mistakes=0; S.paused=false; startTimer(); updateHUD();
+      hideOverlay(); generate(S.seed,S.difficulty); buildGrid();
+      S.elapsed=0; S.mistakes=0; S.paused=false; startTimer(); updateHUD(); updateErrorsLeft();
     });
-
     window.addEventListener("blur", ()=>{ if(!els.play.hasAttribute("inert")) showOverlay("Paused","Window unfocused"); });
 
-    // ---------- Init ----------
     (function initHome(){
       updateHomeStats();
-      const saved = loadLocal();
-      if(!saved){ $("#continueBtn").disabled=true; $("#continueBtn").style.opacity=.7; }
-      const u = new window.URL(location.href);
-      const qSeed = u.searchParams.get("seed");
-      const qDiff = u.searchParams.get("d");
-      if(qSeed){
-        openPlay(qSeed, qDiff||els.difficulty.value);
-        u.searchParams.delete("seed"); u.searchParams.delete("d");
-        history.replaceState(null,"",u.toString());
-      }
+      const saved=loadLocal(); if(!saved){ $("#continueBtn").disabled=true; $("#continueBtn").style.opacity=.7; }
+      const u=new URL(location.href);
+      const qSeed=u.searchParams.get("seed"), qDiff=u.searchParams.get("d");
+      if(qSeed){ openPlay(qSeed, qDiff||els.difficulty.value); u.searchParams.delete("seed"); u.searchParams.delete("d"); history.replaceState(null,"",u.toString()); }
     })();
   </script>
 </body>
