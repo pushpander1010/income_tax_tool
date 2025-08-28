@@ -4,18 +4,15 @@
 
 <head>
   <!-- Ads (kept stable to avoid layout shift; only inserted if ad-slot meta is set) -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617"
-    crossorigin="anonymous"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617" crossorigin="anonymous"></script>
 
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>SIP Calculator (Index & MF Live Rates) – Free Online | UpTools</title>
-  <meta name="description"
-    content="Free SIP Calculator by UpTools. Estimate future value of your monthly investments. Pull historical CAGR from Nifty indices or Indian mutual funds (MFAPI) to auto-fill expected return. Fast, responsive & privacy-first." />
+  <meta name="description" content="Free SIP Calculator by UpTools. Estimate future value of your monthly investments. Pull historical CAGR from Nifty indices or Indian mutual funds (MFAPI) to auto-fill expected return. Fast, responsive & privacy-first." />
   <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
-  <meta name="theme-color" content="#0b1020" />
-  <meta name="keywords"
-    content="SIP calculator, step up SIP, mutual fund calculator, nifty 50 CAGR, nifty bank CAGR, index sip, mfapi, indian mutual fund nav" />
+  <meta name="theme-color" content="#0a0b0f" />
+  <meta name="keywords" content="SIP calculator, step up SIP, mutual fund calculator, nifty 50 CAGR, nifty bank CAGR, index sip, mfapi, indian mutual fund nav" />
 
   <!-- Favicon / App Icons -->
 
@@ -29,8 +26,7 @@
   <!-- Open Graph / Twitter -->
 
   <meta property="og:title" content="SIP Calculator (Index & MF Live Rates) – UpTools" />
-  <meta property="og:description"
-    content="Estimate SIP future value with optional step-up & inflation. Auto-fill expected return from Nifty indices or mutual funds." />
+  <meta property="og:description" content="Estimate SIP future value with optional step-up & inflation. Auto-fill expected return from Nifty indices or mutual funds." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.uptools.in/sip-calculator/" />
   <meta property="og:site_name" content="UpTools" />
@@ -42,9 +38,7 @@
   <!-- Common CSS -->
 
   <link rel="preload" href="/style.css?v=1.0.1" as="style" onload="this.onload=null;this.rel='stylesheet'">
-  <noscript>
-    <link rel="stylesheet" href="/style.css?v=1.0.1">
-  </noscript>
+  <noscript><link rel="stylesheet" href="/style.css?v=1.0.1"></noscript>
 
   <!-- Optional ad-slot (leave empty to disable) -->
 
@@ -56,239 +50,126 @@
 
   <meta name="proxy" content="">
 
-  <!-- Page-specific compact CSS + background animation -->
+  <!-- Page-specific CSS: Dark Neon Gold “Money” Theme -->
 
   <style>
-    :root {
-      --bg1: #0b1020;
-      --bg2: #0b132a;
-      --accent: #6ce0ff;
-      --accent-2: #8ea2ff;
+    :root{
+      /* Neon gold on deep charcoal */
+      --bg1:#0a0b0f;
+      --bg2:#0b0f1a;
+      --ink:#e9ecf5;
+      --muted:#a6adbb;
+      --gold:#FFD76A;
+      --gold-2:#ffb84d;
+      --gold-3:#f8a100;
+      --teal:#00e0b8;
+      --line:rgba(255,255,255,.10);
+      --card:rgba(255,255,255,.04);
+      --shadow:0 10px 35px rgba(255,215,106,.15), inset 0 0 0 1px rgba(255, 215, 106, .04);
     }
 
-    html,
-    body {
-      height: 100%;
-    }
-
-    body {
+    html,body{height:100%}
+    body{
+      color:var(--ink);
       background:
-        radial-gradient(1200px 800px at 10% 10%, rgba(110, 180, 255, .12), transparent 55%),
-        radial-gradient(900px 600px at 88% 8%, rgba(140, 100, 255, .10), transparent 55%),
-        linear-gradient(180deg, rgba(11, 16, 32, 1), rgba(8, 11, 20, 1));
-      overflow-x: hidden;
+        radial-gradient(1200px 800px at 10% 5%, rgba(255,215,106,.08), transparent 55%),
+        radial-gradient(900px 600px at 88% 10%, rgba(0,224,184,.08), transparent 55%),
+        linear-gradient(180deg, var(--bg1), var(--bg2));
+      overflow-x:hidden;
     }
 
-    .bg-canvas {
-      position: fixed;
-      inset: 0;
-      z-index: -2;
-      pointer-events: none;
-      filter: saturate(1) brightness(.95);
-    }
+    /* Enhanced money-themed background layer */
+    .bg-canvas{ position:fixed; inset:0; z-index:-2; pointer-events:none; filter:saturate(1.1) brightness(.95); }
 
-    .bg-accents::before,
-    .bg-accents::after {
-      content: "";
-      position: fixed;
-      inset: -25vmax;
-      pointer-events: none;
-      z-index: -3;
+    .bg-accents::before,.bg-accents::after{
+      content:""; position:fixed; inset:-20vmax; pointer-events:none; z-index:-3;
       background:
-        radial-gradient(40vmax 40vmax at 15% 25%, rgba(108, 224, 255, .07), transparent 55%),
-        radial-gradient(35vmax 35vmax at 85% 15%, rgba(152, 84, 255, .06), transparent 60%),
-        radial-gradient(38vmax 38vmax at 70% 80%, rgba(52, 199, 89, .04), transparent 60%);
-      animation: pan 42s linear infinite;
+        radial-gradient(42vmax 42vmax at 18% 30%, rgba(255,215,106,.09), transparent 60%),
+        radial-gradient(38vmax 38vmax at 82% 18%, rgba(0,224,184,.07), transparent 60%),
+        radial-gradient(36vmax 36vmax at 70% 78%, rgba(248,161,0,.05), transparent 60%);
+      animation:pan 45s linear infinite;
+      mix-blend-mode:screen;
+    }
+    .bg-accents::after{ animation-direction:reverse; animation-duration:60s; opacity:.85; }
+
+    @keyframes pan { to { transform: translate3d(1.5%, 0, 0) rotate(.001deg); } }
+    @media (prefers-reduced-motion:reduce){ .bg-accents::before,.bg-accents::after{ animation:none; } }
+
+    /* Layout */
+    .wrap{ max-width:1100px; margin:0 auto; padding:24px 16px 32px; display:grid; gap:16px; }
+    .grid{ display:grid; grid-template-columns:1.1fr .9fr; gap:16px; align-items:start; }
+    @media (max-width:900px){ .grid{ grid-template-columns:1fr; } }
+
+    /* Cards override to gold theme */
+    .card{ border:1px solid var(--line); border-radius:14px; background:var(--card); box-shadow:var(--shadow); backdrop-filter:saturate(120%) blur(2px); }
+
+    .tool-icon{
+      width:40px;height:40px;border-radius:12px;display:grid;place-items:center;font-weight:800;color:#1b1400;
+      background: radial-gradient(120% 120% at 30% 20%, var(--gold), var(--gold-2) 60%, var(--gold-3) 100%);
+      box-shadow:0 12px 40px rgba(248,161,0,.35), 0 0 0 2px rgba(255,215,106,.35);
+      text-shadow:0 1px 0 rgba(255,255,255,.6);
     }
 
-    .bg-accents::after {
-      animation-direction: reverse;
-      animation-duration: 55s;
-      opacity: .9;
+    .inputs{ display:grid; gap:10px; grid-template-columns:repeat(2, minmax(0,1fr)); }
+    @media (max-width:540px){ .inputs{ grid-template-columns:1fr; } }
+
+    .rowx{ display:flex; gap:10px; flex-wrap:wrap; align-items:end; }
+
+    /* Pills / selectors */
+    .pill-sel{ display:flex; flex-wrap:wrap; gap:8px; }
+    .pill-sel .pill{
+      padding:6px 10px; border-radius:999px; border:1px solid var(--line); background:#131622; cursor:pointer; color:var(--ink);
+      box-shadow:inset 0 0 0 1px rgba(255,215,106,.05);
+      transition:transform .08s ease, box-shadow .2s ease, border-color .2s ease;
+    }
+    .pill:hover{ transform:translateY(-1px); border-color:rgba(255,215,106,.45); }
+    .pill[aria-pressed="true"]{
+      border-color:rgba(255,215,106,.7);
+      box-shadow:0 0 0 2px rgba(255,215,106,.18), inset 0 0 0 1px rgba(255,215,106,.35);
+      color:#fff9e8;
+      background:linear-gradient(135deg, rgba(255,215,106,.22), rgba(248,161,0,.18));
     }
 
-    @keyframes pan {
-      to {
-        transform: translate3d(1.5%, 0, 0) rotate(.001deg);
-      }
+    /* Result rows */
+    .result .row{ display:flex; align-items:center; justify-content:space-between; padding:10px 12px; border:1px solid var(--line); border-radius:12px; background:var(--card); }
+    .amount{ font-variant-numeric:tabular-nums; font-weight:800; text-shadow:0 0 6px rgba(255,215,106,.35); }
+    .tag-ok{ color:var(--teal); }
+
+    .muted{ opacity:.85; color:var(--muted); }
+
+    .chart-wrap{ border:1px solid var(--line); border-radius:12px; padding:10px; background:var(--card); }
+
+    canvas#chart{ width:100%; height:180px; display:block; }
+
+    .help{ display:grid; gap:10px; }
+    .rel-links{ display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:10px; }
+    @media (max-width:900px){ .rel-links{ grid-template-columns:1fr; } }
+    .rel-links a{
+      display:flex; align-items:center; justify-content:center; min-height:56px; border:1px solid var(--line); border-radius:12px;
+      text-decoration:none; color:#fff3d2; background:linear-gradient(180deg, rgba(255,215,106,.12), rgba(255,215,106,.04));
+      box-shadow:var(--shadow);
     }
 
-    @media (prefers-reduced-motion:reduce) {
+    .note.em{ border-left:3px solid var(--gold); padding-left:8px; }
 
-      .bg-accents::before,
-      .bg-accents::after {
-        animation: none;
-      }
-    }
+    /* Neon headline */
+    h1{ letter-spacing:.2px; text-shadow:0 0 6px rgba(255,215,106,.45), 0 0 18px rgba(248,161,0,.25); }
 
-    /* Page layout */
-    .wrap {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 24px 16px 32px;
-      display: grid;
-      gap: 16px;
-    }
+    /* Buttons: subtle neon gold */
+    .btn{ position:relative; }
+    .btn, .btn.secondary{
+      border-radius:10px; border:1px solid rgba(255,215,106,.35)!important; background:linear-gradient(180deg, rgba(255,215,106,.18), rgba(248,161,0,.12))!important;
+      color:#fff8e7!important; box-shadow:0 6px 24px rgba(255,215,106,.18), inset 0 0 0 1px rgba(255,215,106,.15); }
+    .btn.secondary{ opacity:.95; }
+    .btn:hover{ filter:brightness(1.08); transform:translateY(-1px); }
+    .btn:active{ transform:translateY(0); }
 
-    .grid {
-      display: grid;
-      grid-template-columns: 1.1fr .9fr;
-      gap: 16px;
-      align-items: start;
-    }
+    /* YouTube wrapper */
+    .yt-wrap{ position:relative; width:100%; aspect-ratio:16/9; border:1px solid var(--line); border-radius:12px; overflow:hidden; background:#080a10; box-shadow:var(--shadow); }
+    .yt-wrap iframe{ position:absolute; inset:0; width:100%; height:100%; }
 
-    @media (max-width:900px) {
-      .grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    .tool-icon {
-      width: 36px;
-      height: 36px;
-      border-radius: 10px;
-      display: grid;
-      place-items: center;
-      font-weight: 800;
-      color: #0b1020;
-      background: linear-gradient(135deg, #79f, #6cf);
-      box-shadow: 0 8px 30px rgba(108, 204, 255, .25);
-    }
-
-    .inputs {
-      display: grid;
-      gap: 10px;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    @media (max-width:540px) {
-      .inputs {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    .rowx {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      align-items: end;
-    }
-
-    .pill-sel {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-    }
-
-    .pill-sel .pill {
-      padding: 6px 10px;
-      border-radius: 999px;
-      border: 1px solid rgba(255, 255, 255, .08);
-      background: #0b1326;
-      cursor: pointer;
-    }
-
-    .pill[aria-pressed="true"] {
-      border-color: rgba(108, 204, 255, .5);
-      box-shadow: 0 0 0 2px rgba(108, 204, 255, .15);
-      color: #e7f6ff;
-    }
-
-    .result .row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 10px 12px;
-      border: 1px solid rgba(255, 255, 255, .08);
-      border-radius: 10px;
-      background: rgba(255, 255, 255, .03);
-    }
-
-    .amount {
-      font-variant-numeric: tabular-nums;
-      font-weight: 700;
-    }
-
-    .tag-ok {
-      color: #24d17e;
-    }
-
-    .muted {
-      opacity: .85;
-    }
-
-    .chart-wrap {
-      border: 1px solid rgba(255, 255, 255, .08);
-      border-radius: 12px;
-      padding: 10px;
-      background: rgba(255, 255, 255, .03);
-    }
-
-    canvas#chart {
-      width: 100%;
-      height: 180px;
-      display: block;
-    }
-
-    .help {
-      display: grid;
-      gap: 10px;
-    }
-
-    .rel-links {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 10px;
-    }
-
-    @media (max-width:900px) {
-      .rel-links {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    .rel-links a {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 56px;
-      border: 1px solid rgba(255, 255, 255, .08);
-      border-radius: 12px;
-      text-decoration: none;
-      color: #cdd6f4;
-      background: rgba(255, 255, 255, .03);
-    }
-
-    .note.em {
-      border-left: 3px solid #6ce0ff;
-      padding-left: 8px;
-    }
-
-    .yt-wrap {
-      position: relative;
-      width: 100%;
-      aspect-ratio: 16/9;
-      border: 1px solid rgba(255, 255, 255, .08);
-      border-radius: 12px;
-      overflow: hidden;
-      background: #0b1020;
-    }
-
-    .yt-wrap iframe {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-    }
-
-    .assistive {
-      position: absolute;
-      left: -9999px;
-      top: auto;
-      width: 1px;
-      height: 1px;
-      overflow: hidden;
-    }
+    /* Accessibility utility */
+    .assistive{ position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden; }
   </style>
 
   <!-- Structured data: Breadcrumb + FAQ -->
@@ -312,6 +193,7 @@
 </head>
 
 <body class="bg-accents">
+  <!-- Money sparkle canvas -->
   <canvas id="bg-canvas" class="bg-canvas" aria-hidden="true"></canvas>
 
   <!-- Header -->
@@ -334,161 +216,152 @@
 
   <main class="wrap">
     <div class="tool-header">
-      <div class="tool-icon" aria-hidden="true">SIP</div>
+      <div class="tool-icon" aria-hidden="true">₹</div>
       <h1 style="margin:0">SIP Calculator</h1>
     </div>
-    <section class="grid" id="tool">
-      <!-- LEFT: INPUTS -->
-      <div class="card" id="inputCard">
-        <div class="inputs">
-          <div class="row">
-            <label class="label" for="amt">Monthly Investment (₹)</label>
-            <input id="amt" class="input" type="number" min="0" step="100" inputmode="numeric" placeholder="e.g., 5000"
-              autocomplete="off">
-          </div>
-          <div class="row">
-            <label class="label" for="rate">Expected Return (% p.a.)</label>
-            <input id="rate" class="input" type="number" min="0" step="0.1" inputmode="decimal" placeholder="e.g., 12"
-              autocomplete="off">
-          </div>
-          <div class="row">
-            <label class="label" for="yrs">Years</label>
-            <input id="yrs" class="input" type="number" min="1" step="1" inputmode="numeric" placeholder="e.g., 10"
-              autocomplete="off">
-          </div>
-          <div class="row">
-            <label class="label" for="stepup">Step-up SIP (% per year, optional)</label>
-            <input id="stepup" class="input" type="number" min="0" step="1" inputmode="numeric" placeholder="e.g., 10">
-          </div>
 
-          <!-- Inflation with real-time fetch -->
-          <div class="row">
-            <label class="label" for="infl">Inflation (% p.a., optional)</label>
-            <input id="infl" class="input" type="number" min="0" step="0.1" inputmode="decimal"
-              placeholder="Auto or enter e.g., 6">
-          </div>
-          <div class="rowx">
-            <div class="row" style="flex:1; min-width:240px">
-              <label class="label" for="inflCountry">Inflation Country</label>
-              <select id="inflCountry" class="input">
-                <option value="IND" selected>India (CPI, World Bank)</option>
-                <option value="USA">United States</option>
-                <option value="GBR">United Kingdom</option>
-                <option value="CAN">Canada</option>
-                <option value="AUS">Australia</option>
-                <option value="SGP">Singapore</option>
-              </select>
-            </div>
-            <button id="fetchInfl" class="btn secondary" type="button" title="Fetch latest CPI inflation y/y">Auto
-              Inflation</button>
-            <span id="inflInfo" class="small muted" aria-live="polite"></span>
-          </div>
-
-          <div class="row">
-            <label class="label" for="day">Contribution Day (1–28)</label>
-            <input id="day" class="input" type="number" min="1" max="28" step="1" inputmode="numeric" placeholder="15">
-          </div>
-        </div>
-
-        <!-- Rate Source -->
-        <div class="card" style="margin-top:12px">
-          <strong>Rate Source</strong>
-          <div class="rowx" style="margin-top:8px">
-            <select id="rateSource" class="input" style="max-width:260px">
-              <option value="manual" selected>Manual (enter above)</option>
-              <option value="index">Index (Yahoo Finance)</option>
-              <option value="mf">Mutual Fund (MFAPI.in)</option>
-            </select>
-
-            <select id="period" class="input" style="max-width:180px">
-              <option value="1">1Y CAGR</option>
-              <option value="3">3Y CAGR</option>
-              <option value="5" selected>5Y CAGR</option>
-              <option value="10">10Y CAGR</option>
-            </select>
-
-            <button id="fetchRate" class="btn secondary" type="button" title="Fetch CAGR from selected source">Fetch
-              rate</button>
-          </div>
-
-          <!-- Index chooser -->
-          <div id="indexBox" class="note em" style="margin-top:10px; display:none">
-            <div class="pill-sel" role="group" aria-label="Select index">
-              <button type="button" class="pill" data-symbol="^NSEI" aria-pressed="true" title="Nifty 50 (^NSEI)">Nifty
-                50</button>
-              <button type="button" class="pill" data-symbol="^CNX100" aria-pressed="false"
-                title="Nifty 100 (^CNX100)">Nifty 100</button>
-              <button type="button" class="pill" data-symbol="^NSEBANK" aria-pressed="false"
-                title="Nifty Bank (^NSEBANK)">Nifty Bank</button>
-              <button type="button" class="pill" data-symbol="^BSESN" aria-pressed="false"
-                title="SENSEX (^BSESN)">SENSEX</button>
-            </div>
-            <p class="small" style="margin:8px 0 0">Tip: We compute historical CAGR from the selected index’s price
-              series for the chosen period.</p>
-          </div>
-
-          <!-- Mutual fund search -->
-          <div id="mfBox" class="note em" style="margin-top:10px; display:none">
-            <label class="label" for="mfSearch">Search Mutual Fund (Direct-Growth recommended)</label>
-            <input id="mfSearch" class="input" type="search" placeholder="e.g., SBI Nifty 50 Index Fund Direct Growth"
-              autocomplete="off" aria-describedby="mfHelp">
-            <div id="mfHelp" class="small muted">Type at least 2 letters—near matches and typos are okay.</div>
-            <div id="mfSuggest" class="small" style="margin-top:6px" aria-live="polite"></div>
-            <p class="small" style="margin:8px 0 0">Source: <a href="https://www.mfapi.in/" target="_blank"
-                rel="noopener nofollow">MFAPI.in</a>. We compute NAV-based CAGR for the selected period.</p>
-          </div>
-
-          <div id="srcInfo" class="small muted" style="margin-top:8px" aria-live="polite"></div>
-        </div>
-
-        <div class="rowx" style="margin-top:12px">
-          <button id="calc" class="btn" type="button">Calculate</button>
-          <button id="reset" class="btn secondary" type="button">Reset</button>
-          <button id="share" class="btn secondary" type="button">Share</button>
-          <button id="csv" class="btn secondary" type="button">Download CSV</button>
-        </div>
-
-        <p class="note small" style="margin-top:8px">Disclaimer: Auto rates are historical CAGR for the selected asset
-          and period. Markets are volatile; past returns don’t guarantee future results.</p>
+<section class="grid" id="tool">
+  <!-- LEFT: INPUTS -->
+  <div class="card" id="inputCard">
+    <div class="inputs">
+      <div class="row">
+        <label class="label" for="amt">Monthly Investment (₹)</label>
+        <input id="amt" class="input" type="number" min="0" step="100" inputmode="numeric" placeholder="e.g., 5000" autocomplete="off">
+      </div>
+      <div class="row">
+        <label class="label" for="rate">Expected Return (% p.a.)</label>
+        <input id="rate" class="input" type="number" min="0" step="0.1" inputmode="decimal" placeholder="e.g., 12" autocomplete="off">
+      </div>
+      <div class="row">
+        <label class="label" for="yrs">Years</label>
+        <input id="yrs" class="input" type="number" min="1" step="1" inputmode="numeric" placeholder="e.g., 10" autocomplete="off">
+      </div>
+      <div class="row">
+        <label class="label" for="stepup">Step-up SIP (% per year, optional)</label>
+        <input id="stepup" class="input" type="number" min="0" step="1" inputmode="numeric" placeholder="e.g., 10">
       </div>
 
-      <!-- RIGHT: OUTPUT -->
-      <div class="card">
-        <div class="result" id="out" aria-live="polite">
-          <div class="muted">Enter values and hit <b>Calculate</b> or pick a Rate Source to auto-fill return.</div>
-        </div>
-
-        <div class="chart-wrap" style="margin-top:12px">
-          <canvas id="chart" width="640" height="180" aria-label="Invested vs Value chart"></canvas>
-        </div>
-
-        <!-- Optional ad (only if a valid ad-slot meta is present) -->
-        <div id="ad-holder" style="margin-top:12px"></div>
-
-        <div class="help" style="margin-top:12px">
-          <div class="rel-links" aria-label="Related tools">
-            <a href="/goal-sip-calculator/" title="Goal-based SIP (Text logo: G-SIP)">G-SIP</a>
-            <a href="/lumpsum-calculator/" title="Lumpsum Calculator (Text logo: LUMP)">LUMP</a>
-            <a href="/emi-calculator/" title="EMI Calculator (Text logo: EMI)">EMI</a>
-          </div>
-
-          <!-- Responsive, fixed-dimension YouTube (no layout shift) -->
-          <div class="yt-wrap" aria-label="SIP explanation video">
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/_k1cz7sSuc4?si=A6TBzbfy5ODI3EyN"
-              title="How SIP works (UpTools)" loading="lazy" frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
-            </iframe>
-          </div>
-        </div>
+      <!-- Inflation with real-time fetch -->
+      <div class="row">
+        <label class="label" for="infl">Inflation (% p.a., optional)</label>
+        <input id="infl" class="input" type="number" min="0" step="0.1" inputmode="decimal" placeholder="Auto or enter e.g., 6">
       </div>
-    </section>
+      <div class="rowx">
+        <div class="row" style="flex:1; min-width:240px">
+          <label class="label" for="inflCountry">Inflation Country</label>
+          <select id="inflCountry" class="input">
+            <option value="IND" selected>India (CPI, World Bank)</option>
+            <option value="USA">United States</option>
+            <option value="GBR">United Kingdom</option>
+            <option value="CAN">Canada</option>
+            <option value="AUS">Australia</option>
+            <option value="SGP">Singapore</option>
+          </select>
+        </div>
+        <button id="fetchInfl" class="btn secondary" type="button" title="Fetch latest CPI inflation y/y">Auto Inflation</button>
+        <span id="inflInfo" class="small muted" aria-live="polite"></span>
+      </div>
 
-    <footer class="note small" style="margin-top:6px">
-      <span>© <span id="yr"></span> <a href="/" title="UpTools Home">UpTools</a> · Finance utilities that respect your
-        privacy</span>
-      <span><a href="/#tools">All Tools</a> · <a href="/about/">ABT</a> · <a href="/contact/">CT</a></span>
-    </footer>
+      <div class="row">
+        <label class="label" for="day">Contribution Day (1–28)</label>
+        <input id="day" class="input" type="number" min="1" max="28" step="1" inputmode="numeric" placeholder="15">
+      </div>
+    </div>
+
+    <!-- Rate Source -->
+    <div class="card" style="margin-top:12px">
+      <strong>Rate Source</strong>
+      <div class="rowx" style="margin-top:8px">
+        <select id="rateSource" class="input" style="max-width:260px">
+          <option value="manual" selected>Manual (enter above)</option>
+          <option value="index">Index (Yahoo Finance)</option>
+          <option value="mf">Mutual Fund (MFAPI.in)</option>
+        </select>
+
+        <select id="period" class="input" style="max-width:180px">
+          <option value="1">1Y CAGR</option>
+          <option value="3">3Y CAGR</option>
+          <option value="5" selected>5Y CAGR</option>
+          <option value="10">10Y CAGR</option>
+        </select>
+
+        <button id="fetchRate" class="btn secondary" type="button" title="Fetch CAGR from selected source">Fetch rate</button>
+      </div>
+
+      <!-- Index chooser -->
+      <div id="indexBox" class="note em" style="margin-top:10px; display:none">
+        <div class="pill-sel" role="group" aria-label="Select index">
+          <button type="button" class="pill" data-symbol="^NSEI" aria-pressed="true" title="Nifty 50 (^NSEI)">Nifty 50</button>
+          <button type="button" class="pill" data-symbol="^CNX100" aria-pressed="false" title="Nifty 100 (^CNX100)">Nifty 100</button>
+          <button type="button" class="pill" data-symbol="^NSEBANK" aria-pressed="false" title="Nifty Bank (^NSEBANK)">Nifty Bank</button>
+          <button type="button" class="pill" data-symbol="^BSESN" aria-pressed="false" title="SENSEX (^BSESN)">SENSEX</button>
+        </div>
+        <p class="small" style="margin:8px 0 0">Tip: We compute historical CAGR from the selected index’s price series for the chosen period.</p>
+      </div>
+
+      <!-- Mutual fund search -->
+      <div id="mfBox" class="note em" style="margin-top:10px; display:none">
+        <label class="label" for="mfSearch">Search Mutual Fund (Direct-Growth recommended)</label>
+        <input id="mfSearch" class="input" type="search" placeholder="e.g., SBI Nifty 50 Index Fund Direct Growth" autocomplete="off" aria-describedby="mfHelp">
+        <div id="mfHelp" class="small muted">Type at least 2 letters—near matches and typos are okay.</div>
+        <div id="mfSuggest" class="small" style="margin-top:6px" aria-live="polite"></div>
+        <p class="small" style="margin:8px 0 0">Source: <a href="https://www.mfapi.in/" target="_blank" rel="noopener nofollow">MFAPI.in</a>. We compute NAV-based CAGR for the selected period.</p>
+      </div>
+
+      <div id="srcInfo" class="small muted" style="margin-top:8px" aria-live="polite"></div>
+    </div>
+
+    <div class="rowx" style="margin-top:12px">
+      <button id="calc" class="btn" type="button">Calculate</button>
+      <button id="reset" class="btn secondary" type="button">Reset</button>
+      <button id="share" class="btn secondary" type="button">Share</button>
+      <button id="csv" class="btn secondary" type="button">Download CSV</button>
+    </div>
+
+    <p class="note small" style="margin-top:8px">Disclaimer: Auto rates are historical CAGR for the selected asset and period. Markets are volatile; past returns don’t guarantee future results.</p>
+  </div>
+
+  <!-- RIGHT: OUTPUT -->
+  <div class="card">
+    <div class="result" id="out" aria-live="polite">
+      <div class="muted">Enter values and hit <b>Calculate</b> or pick a Rate Source to auto-fill return.</div>
+    </div>
+
+    <div class="chart-wrap" style="margin-top:12px">
+      <canvas id="chart" width="640" height="180" aria-label="Invested vs Value chart"></canvas>
+    </div>
+
+    <!-- Optional ad (only if a valid ad-slot meta is present) -->
+    <div id="ad-holder" style="margin-top:12px"></div>
+
+    <div class="help" style="margin-top:12px">
+      <div class="rel-links" aria-label="Related tools">
+        <a href="/goal-sip-calculator/" title="Goal-based SIP (Text logo: G-SIP)">G-SIP</a>
+        <a href="/lumpsum-calculator/" title="Lumpsum Calculator (Text logo: LUMP)">LUMP</a>
+        <a href="/emi-calculator/" title="EMI Calculator (Text logo: EMI)">EMI</a>
+      </div>
+
+      <!-- Responsive, fixed-dimension YouTube (no layout shift) -->
+      <div class="yt-wrap" aria-label="SIP explanation video">
+        <iframe
+          width="560" height="315"
+          src="https://www.youtube.com/embed/_k1cz7sSuc4?si=A6TBzbfy5ODI3EyN"
+          title="How SIP works (UpTools)"
+          loading="lazy"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen>
+        </iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="note small" style="margin-top:6px">
+  <span>© <span id="yr"></span> <a href="/" title="UpTools Home">UpTools</a> · Finance utilities that respect your privacy</span>
+  <span><a href="/#tools">All Tools</a> · <a href="/about/">ABT</a> · <a href="/contact/">CT</a></span>
+</footer>
 
   </main>
 
@@ -512,32 +385,83 @@
     // === Header year ===
     $('yr').textContent = new Date().getFullYear();
 
-    // === Background dots animation (wrapped to avoid UI errors) ===
-    (function dots() {
-      try {
+    // === MONEY BACKGROUND (coins + rupee glyphs) ===
+    (function moneyBg(){
+      try{
         if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
         const c = $('bg-canvas'); if (!c) return;
-        const ctx = c.getContext('2d', { alpha: true });
-        let w, h, dpr = devicePixelRatio || 1; const N = 42, dots = [];
-        const rnd = (a, b) => a + Math.random() * (b - a);
-        const resize = () => { w = c.clientWidth; h = c.clientHeight; c.width = Math.round(w * dpr); c.height = Math.round(h * dpr); ctx.setTransform(dpr, 0, 0, dpr, 0, 0); };
-        const reset = i => { dots[i] = { x: rnd(-.05 * w, 1.05 * w), y: rnd(-.05 * h, 1.05 * h), r: rnd(.6, 2.2), a: rnd(0, Math.PI * 2), s: rnd(.06, .22), o: rnd(.08, .25) }; };
-        const init = () => { resize(); dots.length = 0; for (let i = 0; i < N; i++) reset(i); };
-        let last = 0;
-        const frame = (t) => {
+        const ctx = c.getContext('2d', { alpha:true });
+
+        let w=0,h=0,dpr=window.devicePixelRatio||1;
+        const resize=()=>{ w=c.clientWidth; h=c.clientHeight; c.width=Math.round(w*dpr); c.height=Math.round(h*dpr); ctx.setTransform(dpr,0,0,dpr,0,0); };
+        addEventListener('resize', resize, {passive:true}); resize();
+
+        const GOLD = ['#FFD76A','#FFB84D','#F8A100'];
+        const MINT = '#00e0b8';
+
+        const N = 72; // more visible than before
+        const sprites = [];
+        const rnd=(a,b)=>a+Math.random()*(b-a);
+        const pick=a=>a[Math.floor(Math.random()*a.length)];
+
+        const make=()=>({
+          x:rnd(-.05*w, 1.05*w),
+          y:rnd(-.05*h, 1.05*h),
+          r:rnd(1.2, 3.2),
+          a:rnd(0, Math.PI*2),
+          s:rnd(.04, .18),
+          o:rnd(.25,.75),
+          t: Math.random()<0.25 ? '₹' : 'dot',
+          hue: pick(GOLD),
+          spin:rnd(-0.002,0.002)
+        });
+
+        for(let i=0;i<N;i++) sprites.push(make());
+
+        let last=0;
+        function frame(t){
           if (document.hidden) return requestAnimationFrame(frame);
-          const dt = Math.min(50, t - last); last = t; ctx.clearRect(0, 0, w, h);
-          ctx.globalCompositeOperation = 'lighter';
-          for (let i = 0; i < dots.length; i++) {
-            const p = dots[i];
-            p.x += Math.cos(p.a) * p.s * dt * 0.04; p.y += Math.sin(p.a) * p.s * dt * 0.04; p.a += 0.0007 * dt;
-            if (p.x < -20 || p.x > w + 20 || p.y < -20 || p.y > h + 20) reset(i);
-            ctx.beginPath(); ctx.globalAlpha = p.o; ctx.fillStyle = '#6ce0ff'; ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2); ctx.fill();
+          const dt = Math.min(50, t-last); last=t;
+          ctx.clearRect(0,0,w,h);
+          ctx.globalCompositeOperation='lighter';
+
+          for(const p of sprites){
+            p.x += Math.cos(p.a)*p.s*dt*1.2;
+            p.y += Math.sin(p.a)*p.s*dt*1.2;
+            p.a += p.spin*dt;
+
+            // wrap instead of reset for smooth flow
+            if (p.x < -20) p.x = w+20;
+            if (p.x > w+20) p.x = -20;
+            if (p.y < -20) p.y = h+20;
+            if (p.y > h+20) p.y = -20;
+
+            if (p.t==='dot'){
+              // glow coin
+              const g = ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r*5);
+              g.addColorStop(0, p.hue+'cc');
+              g.addColorStop(1, '#00000000');
+              ctx.fillStyle=g; ctx.beginPath(); ctx.arc(p.x,p.y,p.r*5,0,Math.PI*2); ctx.fill();
+            } else {
+              // neon ₹ symbol
+              ctx.save();
+              ctx.translate(p.x,p.y); ctx.rotate(p.a*.15);
+              ctx.globalAlpha = p.o;
+              ctx.font = `${10 + p.r*3}px system-ui, -apple-system, Segoe UI, Roboto`;
+              ctx.shadowBlur = 8; ctx.shadowColor = GOLD[0];
+              ctx.fillStyle = GOLD[1];
+              ctx.fillText('₹', -4, 4);
+              ctx.shadowBlur = 16; ctx.shadowColor = MINT;
+              ctx.globalAlpha *= .35;
+              ctx.fillText('₹', -4, 4);
+              ctx.restore();
+            }
           }
-          ctx.globalAlpha = 1; requestAnimationFrame(frame);
-        };
-        addEventListener('resize', resize); init(); requestAnimationFrame(frame);
-      } catch (_e) { }
+          ctx.globalAlpha=1;
+          requestAnimationFrame(frame);
+        }
+        requestAnimationFrame(frame);
+      }catch(_e){}
     })();
 
     // === Core SIP calc (supports annual step-up + inflation PV) ===
@@ -561,7 +485,7 @@
     }
 
     function drawChart(canvas, series) {
-      try {
+      try{
         const ctx = canvas.getContext('2d'); const dpr = devicePixelRatio || 1;
         const cssW = canvas.clientWidth, cssH = canvas.clientHeight;
         canvas.width = Math.round(cssW * dpr); canvas.height = Math.round(cssH * dpr); ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -571,16 +495,17 @@
         const X = i => pad + (i / (series.length - 1 || 1)) * W;
         const Yv = v => pad + (1 - v / maxY) * H;
         // grid
-        ctx.globalAlpha = .25; ctx.strokeStyle = "#ffffff"; ctx.lineWidth = 1;
+        ctx.globalAlpha = .25; ctx.strokeStyle = "rgba(255,215,106,.6)"; ctx.lineWidth = 1;
         for (let i = 0; i <= 4; i++) { const y = pad + (i / 4) * H; ctx.beginPath(); ctx.moveTo(pad, y); ctx.lineTo(pad + W, y); ctx.stroke(); }
         ctx.globalAlpha = 1;
-        // invested
+        // invested (amber)
         ctx.beginPath(); series.forEach((p, i) => { const x = X(i), y = Yv(p.invested); i ? ctx.lineTo(x, y) : ctx.moveTo(x, y); });
-        ctx.lineWidth = 2; ctx.strokeStyle = "#9aa7ff"; ctx.stroke();
-        // value
+        ctx.lineWidth = 2; ctx.strokeStyle = "#FFB84D"; ctx.shadowBlur = 6; ctx.shadowColor = "rgba(255,184,77,.6)"; ctx.stroke();
+        // value (neon gold)
         ctx.beginPath(); series.forEach((p, i) => { const x = X(i), y = Yv(p.value); i ? ctx.lineTo(x, y) : ctx.moveTo(x, y); });
-        ctx.lineWidth = 2; ctx.strokeStyle = "#6ce0ff"; ctx.stroke();
-      } catch (_e) { }
+        ctx.lineWidth = 2; ctx.strokeStyle = "#FFD76A"; ctx.shadowBlur = 10; ctx.shadowColor = "rgba(255,215,106,.75)"; ctx.stroke();
+        ctx.shadowBlur = 0;
+      }catch(_e){}
     }
 
     function uiResult({ fv, invested, real }) {
@@ -595,7 +520,7 @@
     }
 
     function onCalc() {
-      try {
+      try{
         const a = +A.value || 0, r = +R.value || 0, y = +Y.value || 0, step = +STEP.value || 0, infl = +INF.value || 0;
         if (!(a > 0 && r >= 0 && y > 0)) { O.innerHTML = `<div class='row'><span>Message</span><span class='amount'>Enter valid values</span></div>`; drawChart(CH, []); return; }
         const res = calcSIP({ amt: a, rateAnnual: r, years: y, stepUpPct: step, inflAnnual: infl });
@@ -603,7 +528,7 @@
         // persist + share URL
         localStorage?.setItem('sip_v2', JSON.stringify({ amt: A.value, rate: R.value, yrs: Y.value, stepup: STEP.value, infl: INF.value, day: DAY.value, inflC: INF_COUNTRY.value }));
         writeQuery();
-      } catch (_e) { }
+      }catch(_e){}
     }
 
     // === URL state ===
@@ -616,17 +541,17 @@
         });
         const url = `${location.origin}${location.pathname}?${params.toString()}`;
         history.replaceState(null, '', url);
-      } catch { }
+      } catch {}
     }
     function readQuery() {
-      try {
+      try{
         const q = new URLSearchParams(location.search);
         [['amt', A], ['rate', R], ['yrs', Y], ['step', STEP], ['infl', INF], ['day', DAY]].forEach(([k, el]) => { const v = q.get(k); if (v !== null) el.value = v; });
         if (q.has('src')) SRC.value = q.get('src');
         if (q.has('per')) PERIOD.value = q.get('per');
         if (q.has('inflC')) INF_COUNTRY.value = q.get('inflC');
         onRateSourceChange();
-      } catch { }
+      }catch{}
     }
 
     // === Proxy helpers ===
@@ -694,34 +619,34 @@
     // === Mutual Fund search (fuzzy / typo-friendly) ===
     const MF_CACHE = { all: null };
     const norm = (s) => (s || '').toLowerCase().replace(/[^a-z0-9\s]/g, ' ').replace(/\s+/g, ' ').trim();
-    function levenshtein(a, b, max = 3) {
+    function levenshtein(a, b, max=3){
       if (a === b) return 0;
       if (!a || !b) return (a || b).length;
-      const la = a.length, lb = b.length;
-      if (Math.abs(la - lb) > max) return max + 1;
-      const dp = new Array(lb + 1);
-      for (let j = 0; j <= lb; j++) dp[j] = j;
-      for (let i = 1; i <= la; i++) {
-        let prev = dp[0]; dp[0] = i;
-        for (let j = 1; j <= lb; j++) {
-          const temp = dp[j];
-          dp[j] = (a[i - 1] === b[j - 1]) ? prev : 1 + Math.min(prev, dp[j], dp[j - 1]);
-          prev = temp;
+      const la=a.length, lb=b.length;
+      if (Math.abs(la-lb) > max) return max+1;
+      const dp=new Array(lb+1);
+      for(let j=0;j<=lb;j++) dp[j]=j;
+      for(let i=1;i<=la;i++){
+        let prev=dp[0]; dp[0]=i;
+        for(let j=1;j<=lb;j++){
+          const temp=dp[j];
+          dp[j]=(a[i-1]===b[j-1])?prev:1+Math.min(prev, dp[j], dp[j-1]);
+          prev=temp;
         }
       }
       return dp[lb];
     }
-    function mfScore(name, q) {
-      const N = norm(name), Q = norm(q);
+    function mfScore(name, q){
+      const N=norm(name), Q=norm(q);
       if (!Q) return -1;
       if (N.includes(Q)) return 100 + Math.min(30, Q.length);
-      const nt = new Set(N.split(' ')), qt = new Set(Q.split(' '));
-      let overlap = 0; qt.forEach(t => { if (t && nt.has(t)) overlap++; });
-      let score = overlap * 20;
-      const first = Q.split(' ')[0] || '';
-      if (first && N.startsWith(first)) score += 10;
-      const ed = levenshtein(N.slice(0, 20), Q.slice(0, 20), 3);
-      if (ed <= 3) score += (10 - ed * 3);
+      const nt=new Set(N.split(' ')), qt=new Set(Q.split(' '));
+      let overlap=0; qt.forEach(t=>{ if(t && nt.has(t)) overlap++; });
+      let score=overlap*20;
+      const first=Q.split(' ')[0]||'';
+      if (first && N.startsWith(first)) score+=10;
+      const ed=levenshtein(N.slice(0,20), Q.slice(0,20), 3);
+      if (ed<=3) score+=(10 - ed*3);
       return score;
     }
     async function mfSearchApi() {
@@ -739,9 +664,9 @@
       const all = await mfSearchApi();
       const q = (query || '').trim();
       if (q.length < 2) return [];
-      const scored = all.map(x => ({ ...x, score: mfScore(x.name, q) })).filter(x => x.score > 0);
-      scored.sort((a, b) => b.score - a.score || a.name.localeCompare(b.name));
-      const list = scored.slice(0, 12).sort((a, b) => {
+      const scored = all.map(x => ({...x, score: mfScore(x.name, q)})).filter(x => x.score > 0);
+      scored.sort((a,b)=>b.score - a.score || a.name.localeCompare(b.name));
+      const list = scored.slice(0, 12).sort((a,b)=>{
         const ad = /direct/i.test(a.name) ? 1 : 0;
         const bd = /direct/i.test(b.name) ? 1 : 0;
         return (bd - ad) || (b.score - a.score);
@@ -753,7 +678,7 @@
       const j = await fetchJSONPreferProxy(`https://api.mfapi.in/mf/${encodeURIComponent(schemeCode)}`);
       const data = (j?.data || []).map(d => {
         const [dd, mm, yy] = (d.date || '').split('-'); // DD-MM-YYYY
-        const t = new Date(+yy, (+mm || 1) - 1, +dd).getTime() / 1000;
+        const t = new Date(+yy, (+mm||1)-1, +dd).getTime() / 1000;
         return { t, c: parseFloat(d.nav) };
       }).filter(p => Number.isFinite(p.c)).sort((a, b) => a.t - b.t);
       if (!data.length) throw new Error('No NAV history');
@@ -786,11 +711,11 @@
 
     // MF live search (debounced & fuzzy)
     let mfChosen = null;
-    const deb = window.utils?.debounce || ((fn, t = 250) => { let to; return (...a) => { clearTimeout(to); to = setTimeout(() => fn(...a), t); }; });
+    const deb = window.utils?.debounce || ((fn, t=250) => { let to; return (...a)=>{ clearTimeout(to); to=setTimeout(()=>fn(...a), t); }; });
 
     const renderMFList = (list) => {
       if (!list.length) { MF_SUGGEST.innerHTML = `<span class="muted">No suggestions yet—try more letters (e.g., "index direct growth").</span>`; return; }
-      const safe = (s) => String(s).replace(/[&<>"]/g, m => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[m]));
+      const safe = (s)=>String(s).replace(/[&<>"]/g, m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
       MF_SUGGEST.innerHTML = list.map(x => `<button type="button" class="pill" data-code="${safe(x.code)}" title="${safe(x.name)}">${safe(x.name)}</button>`).join(' ');
     };
 
@@ -852,12 +777,12 @@
     });
 
     // === Real-time Inflation (World Bank CPI inflation, annual %) ===
-    async function fetchLatestInflationISO3(iso3) {
+    async function fetchLatestInflationISO3(iso3){
       // World Bank: FP.CPI.TOTL.ZG (Inflation, consumer prices – annual %)
       const url = `https://api.worldbank.org/v2/country/${encodeURIComponent(iso3)}/indicator/FP.CPI.TOTL.ZG?format=json`;
       const j = await fetchJSONPreferProxy(url);
       const rows = Array.isArray(j) && j[1] ? j[1] : [];
-      for (let i = 0; i < rows.length; i++) {
+      for (let i = 0; i < rows.length; i++){
         const r = rows[i];
         const v = r?.value;
         if (v !== null && v !== undefined) {
@@ -867,19 +792,17 @@
       throw new Error('No inflation data');
     }
 
-    FETCH_INFL?.addEventListener('click', async () => {
+    FETCH_INFL?.addEventListener('click', async ()=>{
       INF_INFO.textContent = 'Fetching inflation…';
-      try {
+      try{
         const iso = INF_COUNTRY.value || 'IND';
         const { value, year } = await fetchLatestInflationISO3(iso);
-        // Use latest annual y/y CPI %, clamp to [0, 50] for sanity
         const v = Math.max(0, Math.min(50, Number(value)));
         INF.value = v.toFixed(2);
         INF_INFO.textContent = `Latest CPI inflation (${iso}, ${year}): ${v.toFixed(2)}%`;
         writeQuery();
-        // Recalculate if other inputs are present
         if (A.value && R.value && Y.value) onCalc();
-      } catch (_e) {
+      }catch(_e){
         const hint = document.querySelector('meta[name="proxy"]')?.content ? '' : ' Tip: add a Cloudflare proxy in meta[name="proxy"].';
         INF_INFO.textContent = 'Could not fetch inflation right now.' + hint;
       }
@@ -888,22 +811,22 @@
     // Actions
     $('calc').addEventListener('click', onCalc);
     $('reset').addEventListener('click', () => {
-      try {
+      try{
         [A, R, Y, STEP, INF, DAY].forEach(el => el.value = "");
         SRC.value = 'manual'; PERIOD.value = '5'; onRateSourceChange();
         O.innerHTML = `<div class='muted'>Cleared. Enter values and hit <b>Calculate</b>.</div>`;
-        drawChart(CH, []); writeQuery(); localStorage?.removeItem('sip_v2'); INF_INFO.textContent = '';
-      } catch { }
+        drawChart(CH, []); writeQuery(); localStorage?.removeItem('sip_v2'); INF_INFO.textContent='';
+      }catch{}
     });
     $('share').addEventListener('click', () => {
       writeQuery();
-      try {
-        if (navigator.share) { navigator.share({ title: document.title, url: location.href }).catch(() => { }); }
+      try{
+        if (navigator.share) { navigator.share({ title: document.title, url: location.href }).catch(()=>{}); }
         else { navigator.clipboard?.writeText(location.href); alert('Link copied:\n' + location.href); }
-      } catch { }
+      }catch{}
     });
     $('csv').addEventListener('click', () => {
-      try {
+      try{
         const a = +A.value || 0, r = +R.value || 0, y = +Y.value || 0, step = +STEP.value || 0, infl = +INF.value || 0;
         if (!(a > 0 && r >= 0 && y > 0)) return;
         const res = calcSIP({ amt: a, rateAnnual: r, years: y, stepUpPct: step, inflAnnual: infl });
@@ -911,27 +834,27 @@
         res.series.forEach((p, i) => csv += `${i + 1},${Math.round(p.invested)},${Math.round(p.value)}\n`);
         const blob = new Blob([csv], { type: "text/csv;charset=utf-8" }); const url = URL.createObjectURL(blob);
         const aTag = document.createElement('a'); aTag.href = url; aTag.download = 'sip_schedule.csv'; aTag.click(); URL.revokeObjectURL(url);
-      } catch { }
+      }catch{}
     });
     ;[A, R, Y, STEP, INF, DAY].forEach(el => el.addEventListener('keydown', e => { if (e.key === 'Enter') onCalc(); }));
 
     // Common utils hooks (if available)
-    try { window.utils?.enhanceInputs?.(); window.utils?.observeOutbound?.(); } catch { }
+    try { window.utils?.enhanceInputs?.(); window.utils?.observeOutbound?.(); } catch {}
 
     // Load saved/URL state and maybe autocalc
     (function prime() {
-      try {
+      try{
         const saved = JSON.parse(localStorage.getItem('sip_v2') || '{}');
         for (const [k, v] of Object.entries(saved)) { const el = $(k); if (el) el.value = v; }
         readQuery();
         if (location.search || localStorage?.getItem('sip_v2')) onCalc();
         (A.value ? (R.value ? (Y.value ? A : Y) : R) : A).focus({ preventScroll: true });
-      } catch { }
+      }catch{}
     })();
 
     // Optional ads
     (function ads() {
-      try {
+      try{
         const slot = (document.querySelector('meta[name="ad-slot"]')?.content || '').trim();
         if (!slot || !window.adsbygoogle) return;
         const holder = document.getElementById('ad-holder');
@@ -943,10 +866,9 @@
         ins.setAttribute('data-full-width-responsive', 'true');
         holder.appendChild(ins);
         (adsbygoogle = window.adsbygoogle || []).push({});
-      } catch { }
+      }catch{}
     })();
   </script>
 
 </body>
-
 </html>
