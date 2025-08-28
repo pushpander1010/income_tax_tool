@@ -82,7 +82,7 @@
     .tool-icon{ width:36px; height:36px; border-radius:10px; display:grid; place-items:center; font-weight:800; color:#0b1020; background:linear-gradient(135deg,#79f,#6cf); box-shadow:0 8px 30px rgba(108,204,255,.25); }
     .inputs{ display:grid; gap:10px; grid-template-columns:repeat(2, minmax(0,1fr)); }
     @media (max-width:540px){ .inputs{ grid-template-columns:1fr; } }
-    .rowx{ display:flex; gap:10px; flex-wrap:wrap; }
+    .rowx{ display:flex; gap:10px; flex-wrap:wrap; align-items:end; }
     .pill-sel{ display:flex; flex-wrap:wrap; gap:8px; }
     .pill-sel .pill{ padding:6px 10px; border-radius:999px; border:1px solid rgba(255,255,255,.08); background:#0b1326; cursor:pointer; }
     .pill[aria-pressed="true"]{ border-color:rgba(108,204,255,.5); box-shadow:0 0 0 2px rgba(108,204,255,.15); color:#e7f6ff; }
@@ -96,13 +96,10 @@
     .rel-links{ display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:10px; }
     @media (max-width:900px){ .rel-links{ grid-template-columns:1fr; } }
     .rel-links a{ display:flex; align-items:center; justify-content:center; min-height:56px; border:1px solid rgba(255,255,255,.08); border-radius:12px; text-decoration:none; color:#cdd6f4; background:rgba(255,255,255,.03); }
-    .video-thumb{ display:block; border:1px solid rgba(255,255,255,.08); border-radius:12px; overflow:hidden; aspect-ratio:16/9; background:#0b1020; }
-    .video-thumb img{ width:100%; height:100%; object-fit:cover; display:block; }
     .note.em{ border-left:3px solid #6ce0ff; padding-left:8px; }
-    .assistive{ position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden; }
-    /* Responsive YouTube wrapper to avoid CLS */
     .yt-wrap{ position:relative; width:100%; aspect-ratio:16/9; border:1px solid rgba(255,255,255,.08); border-radius:12px; overflow:hidden; background:#0b1020; }
     .yt-wrap iframe{ position:absolute; inset:0; width:100%; height:100%; }
+    .assistive{ position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden; }
   </style>
 
   <!-- Structured data: Breadcrumb + FAQ -->
@@ -173,10 +170,28 @@
         <label class="label" for="stepup">Step-up SIP (% per year, optional)</label>
         <input id="stepup" class="input" type="number" min="0" step="1" inputmode="numeric" placeholder="e.g., 10">
       </div>
+
+      <!-- Inflation with real-time fetch -->
       <div class="row">
         <label class="label" for="infl">Inflation (% p.a., optional)</label>
-        <input id="infl" class="input" type="number" min="0" step="0.1" inputmode="decimal" placeholder="e.g., 6">
+        <input id="infl" class="input" type="number" min="0" step="0.1" inputmode="decimal" placeholder="Auto or enter e.g., 6">
       </div>
+      <div class="rowx">
+        <div class="row" style="flex:1; min-width:240px">
+          <label class="label" for="inflCountry">Inflation Country</label>
+          <select id="inflCountry" class="input">
+            <option value="IND" selected>India (CPI, World Bank)</option>
+            <option value="USA">United States</option>
+            <option value="GBR">United Kingdom</option>
+            <option value="CAN">Canada</option>
+            <option value="AUS">Australia</option>
+            <option value="SGP">Singapore</option>
+          </select>
+        </div>
+        <button id="fetchInfl" class="btn secondary" type="button" title="Fetch latest CPI inflation y/y">Auto Inflation</button>
+        <span id="inflInfo" class="small muted" aria-live="polite"></span>
+      </div>
+
       <div class="row">
         <label class="label" for="day">Contribution Day (1–28)</label>
         <input id="day" class="input" type="number" min="1" max="28" step="1" inputmode="numeric" placeholder="15">
@@ -220,7 +235,7 @@
         <input id="mfSearch" class="input" type="search" placeholder="e.g., SBI Nifty 50 Index Fund Direct Growth" autocomplete="off" aria-describedby="mfHelp">
         <div id="mfHelp" class="small muted">Type at least 2 letters—near matches and typos are okay.</div>
         <div id="mfSuggest" class="small" style="margin-top:6px" aria-live="polite"></div>
-        <p class="small" style="margin:8px 0 0">Source: <a href="https://www.mfapi.in/" target="_blank" rel="noopener nofollow">MFAPI.in</a> (official AMFI data mirror). We compute NAV-based CAGR for the selected period.</p>
+        <p class="small" style="margin:8px 0 0">Source: <a href="https://www.mfapi.in/" target="_blank" rel="noopener nofollow">MFAPI.in</a>. We compute NAV-based CAGR for the selected period.</p>
       </div>
 
       <div id="srcInfo" class="small muted" style="margin-top:8px" aria-live="polite"></div>
@@ -295,12 +310,13 @@
     const CH = $('chart');
     const SRC = $('rateSource'), PERIOD = $('period'), FETCH = $('fetchRate');
     const INDEX_BOX = $('indexBox'), MF_BOX = $('mfBox'), MF_SEARCH = $('mfSearch'), MF_SUGGEST = $('mfSuggest'), SRC_INFO = $('srcInfo');
+    const INF_COUNTRY = $('inflCountry'), FETCH_INFL = $('fetchInfl'), INF_INFO = $('inflInfo');
     const fmt = new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 });
 
     // === Header year ===
     $('yr').textContent = new Date().getFullYear();
 
-    // === Background dots animation (lightweight; no front-end errors if disabled) ===
+    // === Background dots animation (wrapped to avoid UI errors) ===
     (function dots() {
       try{
         if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -325,7 +341,7 @@
           ctx.globalAlpha = 1; requestAnimationFrame(frame);
         };
         addEventListener('resize', resize); init(); requestAnimationFrame(frame);
-      }catch(_e){ /* no-op: never show errors to users */ }
+      }catch(_e){}
     })();
 
     // === Core SIP calc (supports annual step-up + inflation PV) ===
@@ -368,7 +384,7 @@
         // value
         ctx.beginPath(); series.forEach((p, i) => { const x = X(i), y = Yv(p.value); i ? ctx.lineTo(x, y) : ctx.moveTo(x, y); });
         ctx.lineWidth = 2; ctx.strokeStyle = "#6ce0ff"; ctx.stroke();
-      }catch(_e){ /* no-op */ }
+      }catch(_e){}
     }
 
     function uiResult({ fv, invested, real }) {
@@ -389,9 +405,9 @@
         const res = calcSIP({ amt: a, rateAnnual: r, years: y, stepUpPct: step, inflAnnual: infl });
         uiResult(res); drawChart(CH, res.series);
         // persist + share URL
-        localStorage?.setItem('sip_v2', JSON.stringify({ amt: A.value, rate: R.value, yrs: Y.value, stepup: STEP.value, infl: INF.value, day: DAY.value }));
+        localStorage?.setItem('sip_v2', JSON.stringify({ amt: A.value, rate: R.value, yrs: Y.value, stepup: STEP.value, infl: INF.value, day: DAY.value, inflC: INF_COUNTRY.value }));
         writeQuery();
-      }catch(_e){ /* never surface errors in UI */ }
+      }catch(_e){}
     }
 
     // === URL state ===
@@ -400,11 +416,11 @@
         const params = new URLSearchParams({
           amt: A.value || '', rate: R.value || '', yrs: Y.value || '',
           step: STEP.value || '', infl: INF.value || '', day: DAY.value || '',
-          src: SRC.value, per: PERIOD.value
+          src: SRC.value, per: PERIOD.value, inflC: INF_COUNTRY.value
         });
         const url = `${location.origin}${location.pathname}?${params.toString()}`;
         history.replaceState(null, '', url);
-      } catch { /* ignore */ }
+      } catch {}
     }
     function readQuery() {
       try{
@@ -412,11 +428,12 @@
         [['amt', A], ['rate', R], ['yrs', Y], ['step', STEP], ['infl', INF], ['day', DAY]].forEach(([k, el]) => { const v = q.get(k); if (v !== null) el.value = v; });
         if (q.has('src')) SRC.value = q.get('src');
         if (q.has('per')) PERIOD.value = q.get('per');
+        if (q.has('inflC')) INF_COUNTRY.value = q.get('inflC');
         onRateSourceChange();
-      }catch{ /* ignore */ }
+      }catch{}
     }
 
-    // === Proxy helpers: try same-origin /proxy first, then optional remote worker, then direct (last resort) ===
+    // === Proxy helpers ===
     function getProxyBase() {
       const ls = (localStorage.getItem('sip_cf_proxy') || '').trim();
       const meta = (document.querySelector('meta[name="proxy"]')?.content || '').trim();
@@ -447,7 +464,6 @@
     const humanPct = (x) => (x * 100).toFixed(2) + '%';
 
     function computeCAGR(series, fromTs, toTs) {
-      // series: array of {t: epochSeconds, c: close}
       const to = series[series.length - 1];
       const startIdx = series.findIndex(p => p && p.t >= fromTs);
       if (startIdx === -1) return null;
@@ -480,11 +496,9 @@
     }
 
     // === Mutual Fund search (fuzzy / typo-friendly) ===
-    // Helpers: normalize & scoring (token overlap + prefix + edit distance)
     const MF_CACHE = { all: null };
     const norm = (s) => (s || '').toLowerCase().replace(/[^a-z0-9\s]/g, ' ').replace(/\s+/g, ' ').trim();
     function levenshtein(a, b, max=3){
-      // early exits
       if (a === b) return 0;
       if (!a || !b) return (a || b).length;
       const la = a.length, lb = b.length;
@@ -504,16 +518,12 @@
     function mfScore(name, q){
       const N = norm(name), Q = norm(q);
       if (!Q) return -1;
-      // strong contains bonus
       if (N.includes(Q)) return 100 + Math.min(30, Q.length);
-      // token overlap
       const nt = new Set(N.split(' ')), qt = new Set(Q.split(' '));
       let overlap = 0; qt.forEach(t => { if (t && nt.has(t)) overlap++; });
       let score = overlap * 20;
-      // prefix bonus
       const first = Q.split(' ')[0] || '';
       if (first && N.startsWith(first)) score += 10;
-      // edit distance penalty (use first 20 chars to bound work)
       const ed = levenshtein(N.slice(0, 20), Q.slice(0, 20), 3);
       if (ed <= 3) score += (10 - ed * 3);
       return score;
@@ -521,7 +531,6 @@
     async function mfSearchApi() {
       if (!MF_CACHE.all) {
         const j = await fetchJSONPreferProxy('https://api.mfapi.in/mf');
-        // shape: [{schemeCode, schemeName}, ...]
         MF_CACHE.all = Array.isArray(j) ? j.map(x => ({
           code: String(x.schemeCode),
           name: x.schemeName,
@@ -536,7 +545,6 @@
       if (q.length < 2) return [];
       const scored = all.map(x => ({...x, score: mfScore(x.name, q)})).filter(x => x.score > 0);
       scored.sort((a,b)=>b.score - a.score || a.name.localeCompare(b.name));
-      // prefer Direct Growth variants by tiny boost
       const list = scored.slice(0, 12).sort((a,b)=>{
         const ad = /direct/i.test(a.name) ? 1 : 0;
         const bd = /direct/i.test(b.name) ? 1 : 0;
@@ -580,18 +588,14 @@
       btn.setAttribute('aria-pressed', 'true');
     });
 
-    // MF live search (debounced & fuzzy). Never show "error"—only gentle, neutral states.
+    // MF live search (debounced & fuzzy)
     let mfChosen = null;
-    const deb = window.utils?.debounce || ((fn, t=250) => {
-      let to; return (...a)=>{ clearTimeout(to); to=setTimeout(()=>fn(...a), t); };
-    });
+    const deb = window.utils?.debounce || ((fn, t=250) => { let to; return (...a)=>{ clearTimeout(to); to=setTimeout(()=>fn(...a), t); }; });
 
-    const renderMFList = (list, q) => {
+    const renderMFList = (list) => {
       if (!list.length) { MF_SUGGEST.innerHTML = `<span class="muted">No suggestions yet—try more letters (e.g., "index direct growth").</span>`; return; }
       const safe = (s)=>String(s).replace(/[&<>"]/g, m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
-      MF_SUGGEST.innerHTML = list.map(x => {
-        return `<button type="button" class="pill" data-code="${safe(x.code)}" title="${safe(x.name)}">${safe(x.name)}</button>`;
-      }).join(' ');
+      MF_SUGGEST.innerHTML = list.map(x => `<button type="button" class="pill" data-code="${safe(x.code)}" title="${safe(x.name)}">${safe(x.name)}</button>`).join(' ');
     };
 
     MF_SEARCH?.addEventListener('input', deb(async () => {
@@ -601,14 +605,12 @@
       try {
         MF_SUGGEST.textContent = 'Searching…';
         const list = await mfSearchFuzzy(q);
-        renderMFList(list, q);
+        renderMFList(list);
       } catch (_err) {
-        // Neutral text; do not expose errors
-        MF_SUGGEST.innerHTML = `<span class="muted">Suggestions unavailable right now. You can still type the name and fetch.</span>`;
+        MF_SUGGEST.innerHTML = `<span class="muted">Suggestions unavailable right now.</span>`;
       }
     }, 250));
 
-    // keyboard: Enter picks first suggestion
     MF_SEARCH?.addEventListener('keydown', (e) => {
       if (e.key === 'Enter') {
         const first = MF_SUGGEST.querySelector('button.pill');
@@ -623,7 +625,7 @@
       MF_SUGGEST.innerHTML = `<span class="small">Selected: ${mfChosen.name} (Code ${mfChosen.code})</span>`;
     });
 
-    // Fetch button
+    // Fetch CAGR button
     FETCH.addEventListener('click', async () => {
       const src = SRC.value, years = +PERIOD.value || 5;
       SRC_INFO.textContent = 'Working…';
@@ -636,14 +638,10 @@
           onCalc();
         } else if (src === 'mf') {
           if (!mfChosen?.code) {
-            // Try to auto-pick top fuzzy match from current input (no hard error)
             const list = await mfSearchFuzzy(MF_SEARCH.value || '');
             if (list.length) mfChosen = { code: list[0].code, name: list[0].name };
           }
-          if (!mfChosen?.code) {
-            SRC_INFO.textContent = 'Pick a mutual fund from suggestions (Direct-Growth preferred).';
-            return;
-          }
+          if (!mfChosen?.code) { SRC_INFO.textContent = 'Pick a mutual fund from suggestions (Direct-Growth preferred).'; return; }
           const { cagr, last } = await fetchMFCAGR(mfChosen.code, years);
           R.value = (cagr * 100).toFixed(2);
           SRC_INFO.textContent = `${mfChosen.name}: ${humanPct(cagr)} (CAGR, ${years}Y). Last NAV: ${last.toDateString()}.`;
@@ -652,10 +650,42 @@
           SRC_INFO.textContent = 'Manual mode: enter rate above.';
         }
       } catch (_err) {
-        const hint = document.querySelector('meta[name="proxy"]')?.content ? '' :
-          ' Tip: set a Cloudflare Worker URL in meta[name="proxy"] for CORS-safe fetching.';
-        // Soft message—no “error” words
+        const hint = document.querySelector('meta[name="proxy"]')?.content ? '' : ' Tip: set a Cloudflare Worker URL in meta[name="proxy"] for CORS-safe fetching.';
         SRC_INFO.textContent = 'Auto-fill is unavailable right now. You can type the expected return manually.' + hint;
+      }
+    });
+
+    // === Real-time Inflation (World Bank CPI inflation, annual %) ===
+    async function fetchLatestInflationISO3(iso3){
+      // World Bank: FP.CPI.TOTL.ZG (Inflation, consumer prices – annual %)
+      const url = `https://api.worldbank.org/v2/country/${encodeURIComponent(iso3)}/indicator/FP.CPI.TOTL.ZG?format=json`;
+      const j = await fetchJSONPreferProxy(url);
+      const rows = Array.isArray(j) && j[1] ? j[1] : [];
+      for (let i = 0; i < rows.length; i++){
+        const r = rows[i];
+        const v = r?.value;
+        if (v !== null && v !== undefined) {
+          return { value: Number(v), year: r.date };
+        }
+      }
+      throw new Error('No inflation data');
+    }
+
+    FETCH_INFL?.addEventListener('click', async ()=>{
+      INF_INFO.textContent = 'Fetching inflation…';
+      try{
+        const iso = INF_COUNTRY.value || 'IND';
+        const { value, year } = await fetchLatestInflationISO3(iso);
+        // Use latest annual y/y CPI %, clamp to [0, 50] for sanity
+        const v = Math.max(0, Math.min(50, Number(value)));
+        INF.value = v.toFixed(2);
+        INF_INFO.textContent = `Latest CPI inflation (${iso}, ${year}): ${v.toFixed(2)}%`;
+        writeQuery();
+        // Recalculate if other inputs are present
+        if (A.value && R.value && Y.value) onCalc();
+      }catch(_e){
+        const hint = document.querySelector('meta[name="proxy"]')?.content ? '' : ' Tip: add a Cloudflare proxy in meta[name="proxy"].';
+        INF_INFO.textContent = 'Could not fetch inflation right now.' + hint;
       }
     });
 
@@ -666,15 +696,15 @@
         [A, R, Y, STEP, INF, DAY].forEach(el => el.value = "");
         SRC.value = 'manual'; PERIOD.value = '5'; onRateSourceChange();
         O.innerHTML = `<div class='muted'>Cleared. Enter values and hit <b>Calculate</b>.</div>`;
-        drawChart(CH, []); writeQuery(); localStorage?.removeItem('sip_v2');
-      }catch{ /* ignore */ }
+        drawChart(CH, []); writeQuery(); localStorage?.removeItem('sip_v2'); INF_INFO.textContent='';
+      }catch{}
     });
     $('share').addEventListener('click', () => {
       writeQuery();
       try{
         if (navigator.share) { navigator.share({ title: document.title, url: location.href }).catch(()=>{}); }
         else { navigator.clipboard?.writeText(location.href); alert('Link copied:\n' + location.href); }
-      }catch{ /* ignore */ }
+      }catch{}
     });
     $('csv').addEventListener('click', () => {
       try{
@@ -685,12 +715,12 @@
         res.series.forEach((p, i) => csv += `${i + 1},${Math.round(p.invested)},${Math.round(p.value)}\n`);
         const blob = new Blob([csv], { type: "text/csv;charset=utf-8" }); const url = URL.createObjectURL(blob);
         const aTag = document.createElement('a'); aTag.href = url; aTag.download = 'sip_schedule.csv'; aTag.click(); URL.revokeObjectURL(url);
-      }catch{ /* ignore */ }
+      }catch{}
     });
     ;[A, R, Y, STEP, INF, DAY].forEach(el => el.addEventListener('keydown', e => { if (e.key === 'Enter') onCalc(); }));
 
     // Common utils hooks (if available)
-    try { window.utils?.enhanceInputs?.(); window.utils?.observeOutbound?.(); } catch { /* ignore */ }
+    try { window.utils?.enhanceInputs?.(); window.utils?.observeOutbound?.(); } catch {}
 
     // Load saved/URL state and maybe autocalc
     (function prime() {
@@ -699,9 +729,8 @@
         for (const [k, v] of Object.entries(saved)) { const el = $(k); if (el) el.value = v; }
         readQuery();
         if (location.search || localStorage?.getItem('sip_v2')) onCalc();
-        // focus
         (A.value ? (R.value ? (Y.value ? A : Y) : R) : A).focus({ preventScroll: true });
-      }catch{ /* ignore */ }
+      }catch{}
     })();
 
     // Optional ads
@@ -718,7 +747,7 @@
         ins.setAttribute('data-full-width-responsive', 'true');
         holder.appendChild(ins);
         (adsbygoogle = window.adsbygoogle || []).push({});
-      }catch{ /* ignore */ }
+      }catch{}
     })();
   </script>
 
