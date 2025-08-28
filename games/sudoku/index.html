@@ -13,15 +13,15 @@
   <title>Sudoku – Free Online Game (Neon Dark, Mobile-Perfect) | UpTools</title>
 
   <!-- SEO -->
-  <meta name="description" content="Play Sudoku online in a neon-dark theme. Mobile-perfect controls, notes (pencil marks), timer, mistakes cap, auto-save, and challenge links. Fully responsive and fast." />
-  <meta name="keywords" content="sudoku online, sudoku game, free sudoku, sudoku dark mode, sudoku neon, pencil marks, sudoku mobile" />
+  <meta name="description" content="Play Sudoku online in a neon-dark theme. Mobile-perfect controls, notes (pencil marks), improved timer, mistake limit, auto-save & challenge links. Fast and responsive." />
+  <meta name="keywords" content="sudoku online, sudoku game, free sudoku, sudoku dark mode, sudoku neon, pencil marks, sudoku mobile, brain puzzle" />
   <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:large" />
   <meta name="theme-color" content="#0b1020" />
   <link rel="canonical" href="https://www.uptools.in/games/sudoku/" />
 
   <!-- OpenGraph / Twitter -->
   <meta property="og:title" content="Play Sudoku – Free Online (Neon Dark) | UpTools" />
-  <meta property="og:description" content="Beautiful neon-dark Sudoku with notes, timer, and autosave. Mobile-perfect and fast." />
+  <meta property="og:description" content="Beautiful neon-dark Sudoku with notes, improved timer, and autosave. Mobile-perfect and fast." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.uptools.in/games/sudoku/" />
   <meta property="og:image" content="https://www.uptools.in/assets/social/sudoku-card.png" />
@@ -48,7 +48,6 @@
       --cardBorder:#223249;
       --muted:#9aa4b2;
       --bar-h:46px;
-      --boardGap: 3px;
     }
     @media (max-width:380px){ :root{ --bar-h:44px; } }
 
@@ -70,11 +69,10 @@
     .btn.primary{ background:var(--accent); color:#0b1020; }
     .btn.secondary{ background:transparent; color:#e6edf3; border:1px solid var(--cardBorder); }
     .btn.danger{ background:var(--danger); color:#0b1020; }
-    .btn.toggle{ background:transparent; color:#e6edf3; border:1px dashed var(--cardBorder); }
     .btn:hover{ transform:translateY(-1px); box-shadow:0 8px 26px rgba(0,0,0,.25); }
 
     select{ background:#0f151f; color:#e6edf3; border:1px solid var(--cardBorder); border-radius:.6rem; padding:.55rem .7rem; font-weight:700; }
-    .status{ text-align:center; margin:.75rem 0 0; color:var(--muted); font-weight:600; }
+    .status{ text-align:center; margin:.75rem 0 0; color:#9fb1c6; font-weight:600; }
 
     /* ======= Full-screen Play Window ======= */
     #playScreen{
@@ -122,34 +120,40 @@
       border-radius:.85rem; padding: clamp(8px, 1.6vw, 16px);
       display:grid; grid-template-rows: 1fr auto; gap: clamp(8px,1.4vw,14px);
       position:relative;
+      min-height:0;
     }
 
-    /* Sudoku grid */
+    /* Sudoku grid – now fills available stage (true full screen square) */
     .sudoku-wrap{
-      place-self:center; width: min(92vw, 92vh); max-width: 700px; aspect-ratio:1/1;
+      place-self:stretch;
+      inline-size: 100%;
+      block-size: 100%;
+      max-inline-size: 100%;
+      max-block-size: 100%;
+      aspect-ratio: 1 / 1;
       display:grid; grid-template-columns: repeat(9, 1fr); grid-auto-rows: 1fr;
       background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.02));
       border-radius:.75rem; padding: clamp(6px, 1vw, 10px);
       box-shadow: 0 0 0 1px rgba(99,229,255,.22), inset 0 0 30px rgba(176,108,255,.08);
       position:relative;
+      min-height:0; min-width:0;
     }
     .cell{
       position:relative; display:grid; place-items:center; user-select:none; cursor:pointer;
       border:1px solid rgba(255,255,255,.06);
       font-weight:900; font-size: clamp(14px, 3.3vw, 28px);
       color:#e6edf3; text-shadow: 0 0 6px rgba(99,229,255,.4);
-      transition: background .12s ease, box-shadow .12s ease;
+      transition: background .12s ease, box-shadow .12s ease, transform .06s ease;
       background:rgba(8,14,26,.5);
     }
-    /* thicker subgrid lines */
     .cell[data-r="2"], .cell[data-r="5"]{ border-bottom: 2px solid rgba(99,229,255,.38); }
-    .cell[data-c="2"], .cell[data-c="5"]{ border-right: 2px solid rgba(99,229,255,.38); }
+    .cell[data-c="2"], .cell[data-c="5"]{ border-right:  2px solid rgba(99,229,255,.38); }
 
     .cell.prefilled{ color:var(--good); text-shadow: 0 0 8px rgba(139,255,176,.35); }
     .cell.selected{ outline:2px solid var(--accent); z-index:2; box-shadow:0 0 16px rgba(99,229,255,.25) inset; }
     .cell.same{ background:linear-gradient(180deg, rgba(99,229,255,.08), rgba(176,108,255,.08)); }
     .cell.peer{ background:rgba(255,255,255,.04); }
-    .cell.error{ background:rgba(255,107,107,.12); box-shadow: inset 0 0 18px rgba(255,107,107,.25); }
+    .cell.error{ background:rgba(255,107,107,.14); box-shadow: inset 0 0 18px rgba(255,107,107,.28); }
 
     .note{
       position:absolute; inset:0; display:grid; grid-template-columns: repeat(3,1fr); grid-auto-rows:1fr;
@@ -157,7 +161,7 @@
     }
     .note span{ display:grid; place-items:center; }
 
-    /* keypad */
+    /* keypad stays compact, board never shifts */
     .keypad{
       display:grid; grid-template-columns:repeat(10, 1fr); gap: clamp(6px,1.2vw,12px);
     }
@@ -185,7 +189,7 @@
     .overlay.show{ display:grid; }
     .overlay h3{ margin:.2rem 0 .6rem; }
 
-    /* Background number animation canvas (global) */
+    /* Background number animation canvas (more visible, still lightweight) */
     .bg-canvas{
       position:fixed; inset:0; z-index:-1; pointer-events:none;
       background: radial-gradient(1100px 700px at 10% -10%, #101a34 0%, var(--bg) 45%) fixed;
@@ -220,7 +224,7 @@
         <img src="/assets/logo/uptools-logo.svg" alt="UpTools logo" width="28" height="28" loading="eager">
         <b>UpTools</b>
       </a>
-      <nav class="nav-links" aria-label="Primary">
+    <nav class="nav-links" aria-label="Primary">
         <a href="/#tools">Tools</a>
         <a aria-current="page" href="/games/">Games</a>
         <a href="/about/">About</a>
@@ -233,7 +237,7 @@
   <main class="wrap" id="homeScreen">
     <div class="tool-header" style="text-align:center;margin:1rem 0 .25rem">
       <h1>🧩 Sudoku (Neon Dark)</h1>
-      <p>Tap <b>New Game</b> to open a full-screen window. Notes, timer, mistakes, and auto-save are built-in.</p>
+      <p>Tap <b>New Game</b> to open a full-screen window. Notes, improved timer, mistakes, and auto-save are built-in.</p>
     </div>
 
     <div class="game-wrap">
@@ -256,8 +260,8 @@
           </select>
           <label for="mistLimit"><b>Mistakes</b></label>
           <select id="mistLimit">
-            <option value="3" selected>3</option>
-            <option value="5">5</option>
+            <option value="5" selected>5</option>
+            <option value="3">3</option>
             <option value="0">Unlimited</option>
           </select>
         </div>
@@ -269,7 +273,7 @@
           <button id="resetBest" class="btn danger">Reset Best</button>
         </div>
 
-        <p class="status" id="homeStatus">Tip: tap a cell then use keypad or number keys (1–9). Toggle <b>Notes</b> to pencil in candidates. Long-press or Backspace to clear.</p>
+        <p class="status" id="homeStatus">Tip: tap a cell then use keypad or number keys (1–9). Toggle <b>Notes</b> with ✎ or press N. Backspace clears.</p>
 
         <div class="grid" style="display:grid;grid-template-columns:1fr;gap:.75rem;margin-top:1rem">
           <div class="card" style="background:#0b1326;border:1px solid #233351;border-radius:.75rem;padding:.75rem">
@@ -328,15 +332,9 @@
 
         <!-- Keypad -->
         <div class="keypad" role="group" aria-label="Keypad">
-          <div class="key" data-k="1">1</div>
-          <div class="key" data-k="2">2</div>
-          <div class="key" data-k="3">3</div>
-          <div class="key" data-k="4">4</div>
-          <div class="key" data-k="5">5</div>
-          <div class="key" data-k="6">6</div>
-          <div class="key" data-k="7">7</div>
-          <div class="key" data-k="8">8</div>
-          <div class="key" data-k="9">9</div>
+          <div class="key" data-k="1">1</div><div class="key" data-k="2">2</div><div class="key" data-k="3">3</div>
+          <div class="key" data-k="4">4</div><div class="key" data-k="5">5</div><div class="key" data-k="6">6</div>
+          <div class="key" data-k="7">7</div><div class="key" data-k="8">8</div><div class="key" data-k="9">9</div>
           <div class="key sec wide" data-k="0">⌫ Clear</div>
         </div>
 
@@ -364,8 +362,9 @@
     const $ = (s, el=document) => el.querySelector(s);
     const $$ = (s, el=document) => [...el.querySelectorAll(s)];
     const clamp = (x, a, b) => Math.min(b, Math.max(a, x));
+    const haptic = (ms)=>{ try{ if(navigator.vibrate) navigator.vibrate(ms||8);}catch{} };
 
-    // safe cookies (avoid regex pitfalls in Vite)
+    // safe cookies (regex-free to avoid Vite parse quirks)
     function setCookie(name, value, days=365){
       const d = new Date(Date.now() + days*864e5);
       document.cookie = encodeURIComponent(name) + "=" + encodeURIComponent(value) + "; path=/; expires=" + d.toUTCString();
@@ -380,10 +379,7 @@
       return "";
     }
 
-    // haptics
-    const haptic = (ms)=>{ try{ if(navigator.vibrate) navigator.vibrate(ms||8);}catch{} };
-
-    // ---------- background numbers (lightweight) ----------
+    // ---------- background numbers (MORE VISIBLE, still very light) ----------
     (function bgNumbers(){
       const canvas = document.getElementById('bgCanvas');
       const ctx = canvas.getContext('2d');
@@ -398,27 +394,27 @@
       }
       addEventListener('resize', resize, {passive:true}); resize();
       const palette = ["#63e5ff","#b06cff","#8bffb0"];
-      for(let i=0;i<28;i++){
+      for(let i=0;i<40;i++){
         digits.push({
           d: 1 + (i%9),
           x: Math.random()*W, y: Math.random()*H,
-          vx: (Math.random()*0.4-0.2), vy: (Math.random()*0.4-0.2),
-          s: 14 + Math.random()*28,
+          vx: (Math.random()*0.5-0.25), vy: (Math.random()*0.4-0.2),
+          s: 18 + Math.random()*36,
           c: palette[i%palette.length],
-          a: 0.18 + Math.random()*0.14
+          a: 0.26 + Math.random()*0.18
         });
       }
-      let last=performance.now();
+      let t0=performance.now();
       function tick(t){
-        const dt = Math.min(.05, (t-last)/1000); last=t;
+        const dt = Math.min(.05,(t-t0)/1000); t0=t;
         ctx.clearRect(0,0,W,H);
         for(const n of digits){
-          n.x += n.vx*30*dt; n.y += n.vy*30*dt;
-          if(n.x<-40) n.x=W+40; if(n.x>W+40) n.x=-40;
-          if(n.y<-40) n.y=H+40; if(n.y>H+40) n.y=-40;
+          n.x += n.vx*28*dt; n.y += n.vy*22*dt;
+          if(n.x<-60) n.x=W+60; if(n.x>W+60) n.x=-60;
+          if(n.y<-60) n.y=H+60; if(n.y>H+60) n.y=-60;
           ctx.save();
           ctx.globalAlpha = n.a;
-          ctx.shadowColor = n.c; ctx.shadowBlur = 12;
+          ctx.shadowColor = n.c; ctx.shadowBlur = 16;
           ctx.fillStyle = n.c;
           ctx.font = `900 ${n.s}px system-ui`;
           ctx.fillText(String(n.d), n.x, n.y);
@@ -454,13 +450,13 @@
       psBack: $("#psBack"), psRestart: $("#psRestart"), psShare: $("#psShare"),
       psNotes: $("#psNotes"),
       timeVal: $("#timeVal"), mistVal: $("#mistVal"), diffVal: $("#diffVal"), bestVal: $("#bestVal"),
-      keypad: $(".keypad")
+      keypad: $(".keypad"), board: $("#board")
     };
 
     const S = {
-      running:false, paused:false,
+      paused:false,
       difficulty:"normal",
-      mistLimit:3,
+      mistLimit:5,
       mistakes:0,
       notesMode:false,
       startAt:0, elapsed:0, timerId:null,
@@ -473,7 +469,7 @@
       selected: {r:-1,c:-1}
     };
 
-    // Time helpers
+    // Time helpers (improved: stable 1s tick, pauses correctly)
     const fmtTime = (sec)=> {
       sec = Math.max(0, Math.floor(sec));
       const h = Math.floor(sec/3600);
@@ -481,9 +477,17 @@
       const s = sec%60;
       return (h? String(h).padStart(2,'0')+':':'') + String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
     };
-
-    // UI inert helper
-    function setInert(el,val){ if(val){ el.setAttribute("inert",""); el.inert = true; } else { el.removeAttribute("inert"); el.inert = false; } }
+    function startTimer(){
+      S.startAt = Date.now() - (S.elapsed*1000);
+      stopTimer();
+      S.timerId = setInterval(()=>{
+        if(!S.paused){
+          S.elapsed = (Date.now()-S.startAt)/1000;
+          els.timeVal.textContent = fmtTime(S.elapsed|0);
+        }
+      }, 1000);
+    }
+    function stopTimer(){ if(S.timerId){ clearInterval(S.timerId); S.timerId=null; } }
 
     // Sudoku logic
     function canPlace(grid, r,c,v){
@@ -495,9 +499,7 @@
     function findEmpty(grid){
       let best=[-1,-1,10];
       for(let r=0;r<9;r++) for(let c=0;c<9;c++) if(grid[r][c]===0){
-        // least-candidates heuristic
-        let cnt=0;
-        for(let v=1;v<=9;v++) if(canPlace(grid,r,c,v)) cnt++;
+        let cnt=0; for(let v=1;v<=9;v++) if(canPlace(grid,r,c,v)) cnt++;
         if(cnt<best[2]){ best=[r,c,cnt]; if(cnt===1) return [r,c]; }
       }
       return best[0]===-1 ? null : [best[0], best[1]];
@@ -508,9 +510,7 @@
       if(!spot) return true;
       const [r,c] = spot;
       const nums = [1,2,3,4,5,6,7,8,9];
-      if(rnd){
-        for(let i=nums.length-1;i>0;i--){ const j=(rnd()* (i+1))|0; [nums[i],nums[j]]=[nums[j],nums[i]]; }
-      }
+      if(rnd){ for(let i=nums.length-1;i>0;i--){ const j=(rnd()* (i+1))|0; [nums[i],nums[j]]=[nums[j],nums[i]]; } }
       for(const v of nums){
         if(canPlace(g,r,c,v)){
           g[r][c]=v;
@@ -544,20 +544,18 @@
       // seed & RNG
       S.seed = seed || ""; S.rnd = S.seed ? mulberry32(strHash(S.seed)) : Math.random;
 
-      // 1) make full solution
+      // 1) full solution
       const grid = Array.from({length:9},()=>Array(9).fill(0));
-      // fill diagonal 3x3 boxes randomly to speed solving
       const nums=[1,2,3,4,5,6,7,8,9];
       for(let box=0; box<3; box++){
         const arr = nums.slice();
         for(let i=arr.length-1;i>0;i--){ const j=(S.rnd()*(i+1))|0; [arr[i],arr[j]]=[arr[j],arr[i]]; }
-        let k=0;
-        for(let r=0;r<3;r++) for(let c=0;c<3;c++){ grid[box*3+r][box*3+c]=arr[k++]; }
+        let k=0; for(let r=0;r<3;r++) for(let c=0;c<3;c++){ grid[box*3+r][box*3+c]=arr[k++]; }
       }
       solve(grid, S.rnd);
       const solution = grid.map(r=>r.slice());
 
-      // 2) carve holes by difficulty, ensuring uniqueness (lightweight)
+      // 2) carve by difficulty, keep unique
       const removals = ({easy:40, normal:50, hard:56, expert:60})[diff] || 50;
       const puzzle = solution.map(r=>r.slice());
       const cells = [];
@@ -569,13 +567,9 @@
         if(removed>=removals) break;
         const backup = puzzle[r][c];
         puzzle[r][c]=0;
-
-        // quick uniqueness check (stop once >=2)
-        const count = countSolutions(puzzle, 2);
-        if(count!==1){ puzzle[r][c]=backup; } else { removed++; }
+        if(countSolutions(puzzle, 2)!==1){ puzzle[r][c]=backup; } else { removed++; }
       }
 
-      // 3) set state
       S.puzzle = puzzle;
       S.solution = solution;
       S.given = puzzle.map(row=>row.map(v=>v!==0));
@@ -594,17 +588,10 @@
           d.dataset.r = String(r);
           d.dataset.c = String(c);
           const val = S.puzzle[r][c];
-          if(val){
-            d.textContent = String(val);
-            d.classList.add("prefilled");
-          }
+          if(val){ d.textContent = String(val); d.classList.add("prefilled"); }
           const notes = document.createElement("div");
           notes.className="note";
-          for(let k=1;k<=9;k++){
-            const s=document.createElement("span");
-            s.textContent = "";
-            notes.appendChild(s);
-          }
+          for(let k=1;k<=9;k++){ const s=document.createElement("span"); s.textContent=""; notes.appendChild(s); }
           d.appendChild(notes);
           d.addEventListener("click", ()=>selectCell(r,c));
           g.appendChild(d);
@@ -613,7 +600,26 @@
       refreshSelection();
       refreshNotesAll();
       refreshErrorsAll();
+      fitGridSquare(); // ensure full-screen square on build
     }
+
+    // keep the grid a perfect square that fills all available stage height without shifting the keypad
+    function fitGridSquare(){
+      const board = els.board;
+      const keypad = els.keypad;
+      const boardStyles = getComputedStyle(board);
+      const padY = parseFloat(boardStyles.paddingTop)+parseFloat(boardStyles.paddingBottom);
+      const padX = parseFloat(boardStyles.paddingLeft)+parseFloat(boardStyles.paddingRight);
+      const availW = board.clientWidth - padX;
+      const availH = board.clientHeight - padY - keypad.offsetHeight - 8; // 8px gap buffer
+      const size = Math.max(240, Math.min(availW, availH));
+      els.grid.style.inlineSize = size + "px";
+      els.grid.style.blockSize = size + "px";
+    }
+    new ResizeObserver(fitGridSquare).observe($("#board"));
+    if(window.visualViewport){ visualViewport.addEventListener("resize", fitGridSquare); }
+    addEventListener("orientationchange", fitGridSquare, {passive:true});
+    addEventListener("resize", fitGridSquare, {passive:true});
 
     function refreshSelection(){
       $$(".cell", els.grid).forEach(el=>el.classList.remove("selected","peer","same"));
@@ -621,7 +627,6 @@
       if(r<0 || c<0) return;
       const curEl = $(`.cell[data-r="${r}"][data-c="${c}"]`, els.grid);
       if(curEl) curEl.classList.add("selected");
-      // peers
       for(let i=0;i<9;i++){
         $(`.cell[data-r="${r}"][data-c="${i}"]`, els.grid)?.classList.add("peer");
         $(`.cell[data-r="${i}"][data-c="${c}"]`, els.grid)?.classList.add("peer");
@@ -630,11 +635,9 @@
       for(let i=0;i<3;i++) for(let j=0;j<3;j++){
         $(`.cell[data-r="${br+i}"][data-c="${bc+j}"]`, els.grid)?.classList.add("peer");
       }
-      // same numbers
       const v = S.puzzle[r][c];
       if(v){
         $$(".cell", els.grid).forEach(node=>{
-          if(!node) return;
           const rr=+node.dataset.r, cc=+node.dataset.c;
           if(S.puzzle[rr][cc]===v) node.classList.add("same");
         });
@@ -648,7 +651,6 @@
           el?.classList.remove("error");
           const v = S.puzzle[r][c];
           if(v===0) continue;
-          // duplicate check
           for(let i=0;i<9;i++){
             if(i!==c && S.puzzle[r][i]===v){ el?.classList.add("error"); break; }
             if(i!==r && S.puzzle[i][c]===v){ el?.classList.add("error"); break; }
@@ -666,14 +668,9 @@
       const n = $(`.cell[data-r="${r}"][data-c="${c}"] .note`, els.grid);
       if(!n) return;
       const set = S.notes[r][c];
-      [...n.children].forEach((span, idx)=>{
-        const k = idx+1;
-        span.textContent = set.has(k) ? String(k) : "";
-      });
+      [...n.children].forEach((span, idx)=>{ const k = idx+1; span.textContent = set.has(k) ? String(k) : ""; });
     }
-    function refreshNotesAll(){
-      for(let r=0;r<9;r++) for(let c=0;c<9;c++) refreshNotesCell(r,c);
-    }
+    function refreshNotesAll(){ for(let r=0;r<9;r++) for(let c=0;c<9;c++) refreshNotesCell(r,c); }
 
     // ---------- Gameflow ----------
     function openPlay(seedFromURL, diffFromURL){
@@ -686,10 +683,12 @@
       generate(seedFromURL || "", S.difficulty);
       buildGrid();
       S.selected = {r:-1,c:-1};
+      S.paused = false;
       startTimer();
       updateHUD();
       $("#psBack").focus({preventScroll:true});
       updateHomeStats();
+      fitGridSquare(); // ensure full-screen usage at open
     }
     function closePlay(){
       stopTimer();
@@ -700,63 +699,38 @@
       updateHomeStats();
     }
 
-    function startTimer(){
-      S.startAt = Date.now() - (S.elapsed*1000);
-      if(S.timerId) clearInterval(S.timerId);
-      S.timerId = setInterval(()=>{
-        S.elapsed = (Date.now()-S.startAt)/1000;
-        els.timeVal.textContent = fmtTime(S.elapsed|0);
-      }, 250);
-    }
-    function stopTimer(){ if(S.timerId){ clearInterval(S.timerId); S.timerId=null; } }
+    function selectCell(r,c){ S.selected={r,c}; refreshSelection(); }
 
-    function selectCell(r,c){
-      if(S.given[r][c]){ S.selected={r,c}; refreshSelection(); return; }
-      S.selected={r,c}; refreshSelection();
-    }
-
+    // STRICTER mistake handling so game doesn't end "too quickly":
+    // If wrong number, DO NOT place it. Just count a mistake & animate the cell.
     function placeNumber(k){
       const {r,c}=S.selected;
       if(r<0||c<0) return;
       if(S.given[r][c]) return;
+
       if(S.notesMode){
-        // toggle note
-        if(S.puzzle[r][c]!==0) return; // don't note over a number
+        if(S.puzzle[r][c]!==0) return;
         const set = S.notes[r][c];
-        if(set.has(k)) set.delete(k); else set.add(k);
-        refreshNotesCell(r,c);
-        haptic(8);
-        saveLocal();
-        return;
+        if(k===0){ set.clear(); } else { set.has(k) ? set.delete(k) : set.add(k); }
+        refreshNotesCell(r,c); haptic(8); saveLocal(); return;
       }
+
       if(k===0){
-        S.puzzle[r][c]=0;
-        refreshCell(r,c);
-        refreshErrorsAll();
-        haptic(10);
-        saveLocal();
-        return;
+        S.puzzle[r][c]=0; refreshCell(r,c); refreshErrorsAll(); haptic(10); saveLocal(); return;
       }
+
       const correct = S.solution[r][c]===k;
       if(correct){
-        S.puzzle[r][c]=k;
-        S.notes[r][c].clear();
-        refreshCell(r,c);
-        refreshErrorsAll();
-        haptic(8);
-        if(checkWin()){
-          onWin();
-        }
+        S.puzzle[r][c]=k; S.notes[r][c].clear();
+        refreshCell(r,c); refreshErrorsAll(); haptic(8);
+        if(checkWin()){ onWin(); }
       }else{
-        S.puzzle[r][c]=k;
-        refreshCell(r,c);
-        refreshErrorsAll();
-        S.mistakes++;
-        els.mistVal.textContent = S.mistakes;
+        // bump mistake, visual feedback, but don't place wrong value
+        S.mistakes++; els.mistVal.textContent = S.mistakes;
+        const el = $(`.cell[data-r="${r}"][data-c="${c}"]`, els.grid);
+        el?.classList.add("error"); el?.animate([{transform:'scale(1.0)'},{transform:'scale(0.96)'},{transform:'scale(1.0)'}],{duration:180});
         haptic(30);
-        if(S.mistLimit>0 && S.mistakes>=S.mistLimit){
-          onGameOver();
-        }
+        if(S.mistLimit>0 && S.mistakes>=S.mistLimit){ onGameOver(); }
       }
       saveLocal();
     }
@@ -766,30 +740,17 @@
       if(!el) return;
       const v = S.puzzle[r][c];
       el.textContent = v ? String(v) : "";
-      // re-attach notes layer
       if(!v){
         const notes = document.createElement("div"); notes.className="note";
         for(let k=1;k<=9;k++){ const s=document.createElement("span"); s.textContent = S.notes[r][c].has(k)?String(k):""; notes.appendChild(s); }
         el.appendChild(notes);
       }else{
-        // keep prefilled look for givens
         if(!S.given[r][c]) el.classList.remove("prefilled");
       }
       refreshSelection();
     }
 
-    function checkWin(){
-      for(let r=0;r<9;r++) for(let c=0;c<9;c++){
-        if(S.puzzle[r][c]!==S.solution[r][c]) return false;
-      }
-      return true;
-    }
-
-    function toggleNotes(force){
-      S.notesMode = (force===undefined) ? !S.notesMode : !!force;
-      els.psNotes.classList.toggle("primary", S.notesMode);
-      els.psNotes.setAttribute("aria-pressed", S.notesMode? "true":"false");
-    }
+    function checkWin(){ for(let r=0;r<9;r++) for(let c=0;c<9;c++){ if(S.puzzle[r][c]!==S.solution[r][c]) return false; } return true; }
 
     function updateHUD(){
       els.mistVal.textContent = S.mistakes;
@@ -813,8 +774,7 @@
       const time = Math.floor(S.elapsed);
       saveLast({time, mistakes:S.mistakes, diff:S.difficulty});
       maybeSaveBest(time, S.mistakes, S.difficulty);
-      updateHomeStats();
-      updateHUD();
+      updateHomeStats(); updateHUD();
       showOverlay("You Win! 🎉", `Time: ${fmtTime(time)} · Mistakes: ${S.mistakes}`);
     }
     function onGameOver(){
@@ -836,21 +796,11 @@
       localStorage.setItem(LS.STATE, JSON.stringify(obj));
       localStorage.setItem(LS.LAST, JSON.stringify({time:Math.floor(S.elapsed), mistakes:S.mistakes, diff:S.difficulty, at:Date.now()}));
     }
-    function loadLocal(){
-      try{ return JSON.parse(localStorage.getItem(LS.STATE)||"null"); }catch{return null;}
-    }
-    function saveLast(data){
-      localStorage.setItem(LS.LAST, JSON.stringify({...data, at: Date.now()}));
-    }
-    function loadBestFor(diff){
-      try{
-        const all = JSON.parse(localStorage.getItem(LS.BEST)||"{}");
-        return all[diff] || null;
-      }catch{ return null; }
-    }
+    function loadLocal(){ try{ return JSON.parse(localStorage.getItem(LS.STATE)||"null"); }catch{return null;} }
+    function saveLast(data){ localStorage.setItem(LS.LAST, JSON.stringify({...data, at: Date.now()})); }
+    function loadBestFor(diff){ try{ const all = JSON.parse(localStorage.getItem(LS.BEST)||"{}"); return all[diff] || null; }catch{ return null; } }
     function maybeSaveBest(time, mistakes, diff){
-      let all = {};
-      try{ all = JSON.parse(localStorage.getItem(LS.BEST)||"{}"); }catch{}
+      let all = {}; try{ all = JSON.parse(localStorage.getItem(LS.BEST)||"{}"); }catch{}
       const cur = all[diff];
       if(!cur || time<cur.time || (time===cur.time && mistakes<cur.mist)){
         all[diff] = {time, mist:mistakes};
@@ -859,11 +809,9 @@
       }
     }
     function updateHomeStats(){
-      // best
       const b = loadBestFor(els.difficulty.value);
       els.homeBest.textContent = b ? fmtTime(b.time) : "–";
       els.homeBestMist.textContent = b ? (b.mist+"❌") : "–";
-      // last
       try{
         const last = JSON.parse(localStorage.getItem(LS.LAST)||"null");
         if(last){
@@ -871,9 +819,7 @@
           els.homeLastMist.textContent = last.mistakes+"❌";
           els.homeLastDate.textContent = new Date(last.at).toLocaleString();
         } else {
-          els.homeLast.textContent = "–";
-          els.homeLastMist.textContent = "–";
-          els.homeLastDate.textContent = "–";
+          els.homeLast.textContent = els.homeLastMist.textContent = els.homeLastDate.textContent = "–";
         }
       }catch{
         els.homeLast.textContent = els.homeLastMist.textContent = els.homeLastDate.textContent = "–";
@@ -881,10 +827,8 @@
     }
 
     // ---------- Inputs ----------
-    els.keypad.addEventListener("click", (e)=>{
-      const k = e.target?.dataset?.k;
-      if(!k) return;
-      placeNumber(Number(k));
+    $(".keypad").addEventListener("click", (e)=>{
+      const k = e.target?.dataset?.k; if(!k) return; placeNumber(Number(k));
     });
     document.addEventListener("keydown", (e)=>{
       if(els.play.hasAttribute("inert")) return;
@@ -905,6 +849,12 @@
       selectCell(r,c);
     }
 
+    function toggleNotes(force){
+      S.notesMode = (force===undefined) ? !S.notesMode : !!force;
+      els.psNotes.classList.toggle("primary", S.notesMode);
+      els.psNotes.setAttribute("aria-pressed", S.notesMode? "true":"false");
+    }
+
     // ---------- Buttons ----------
     $("#newGame").addEventListener("click", ()=>{
       openPlay("", els.difficulty.value);
@@ -918,7 +868,7 @@
       els.play.classList.add("open");
       Object.assign(S, {
         difficulty: saved.difficulty||"normal",
-        mistLimit: Number(saved.mistLimit||3),
+        mistLimit: Number(saved.mistLimit||5),
         seed: saved.seed||"",
         puzzle: saved.puzzle,
         solution: saved.solution,
@@ -929,6 +879,7 @@
       });
       buildGrid();
       updateHUD();
+      S.paused = false;
       startTimer();
       $("#psBack").focus({preventScroll:true});
     });
@@ -953,7 +904,7 @@
     $("#psRestart").addEventListener("click", ()=>{
       generate(S.seed, S.difficulty);
       buildGrid();
-      S.elapsed=0; S.mistakes=0; startTimer(); updateHUD(); hideOverlay();
+      S.elapsed=0; S.mistakes=0; S.paused=false; startTimer(); updateHUD(); hideOverlay();
     });
     $("#psShare").addEventListener("click", ()=>{
       const seed = S.seed || Date.now().toString(36); S.seed = seed;
@@ -969,7 +920,7 @@
       hideOverlay();
       generate(S.seed, S.difficulty);
       buildGrid();
-      S.elapsed=0; S.mistakes=0; startTimer(); updateHUD();
+      S.elapsed=0; S.mistakes=0; S.paused=false; startTimer(); updateHUD();
     });
 
     window.addEventListener("blur", ()=>{ if(!els.play.hasAttribute("inert")) showOverlay("Paused","Window unfocused"); });
@@ -979,7 +930,6 @@
       updateHomeStats();
       const saved = loadLocal();
       if(!saved){ $("#continueBtn").disabled=true; $("#continueBtn").style.opacity=.7; }
-      // auto-open if shared link
       const u = new window.URL(location.href);
       const qSeed = u.searchParams.get("seed");
       const qDiff = u.searchParams.get("d");
