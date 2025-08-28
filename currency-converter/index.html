@@ -35,7 +35,7 @@
   <link rel="stylesheet" href="/style.css?v=1.2.0" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="/style.css?v=1.2.0"></noscript>
 
-  <!-- Page-only tweaks + FX canvas styles (CLS-safe) -->
+  <!-- Page-only tweaks + FX canvas styles -->
   <style>
     :root {
       --accent: #9be7ff;
@@ -57,10 +57,6 @@
         linear-gradient(135deg, var(--bg1), var(--bg2));
       filter: saturate(110%);
     }
-
-    /* Keep everything readable above FX */
-    body{ position: relative; }
-
     .fx-mask {
       position: fixed; inset: 0; z-index: -1; pointer-events: none;
       background: radial-gradient(1000px 800px at 50% -10%, color-mix(in oklab, var(--accent) 10%, transparent), transparent 60%);
@@ -68,7 +64,7 @@
       mix-blend-mode: screen;
     }
 
-    /* ------- Page components (unchanged visually) ------- */
+    /* ------- Page components ------- */
     .fx-presets{ display:flex; flex-wrap:wrap; gap:8px; margin:8px 0 }
     .chip{ padding:.45rem .6rem; border-radius:999px; border:1px solid var(--border); background:#0b1326; cursor:pointer }
     .chip:active{ transform:translateY(0) }
@@ -245,7 +241,7 @@
     $("#y").textContent = new Date().getFullYear();
 
     // Currencies (major + INR focus)
-    const CODE = [
+    const CURR_CODES = [
       "INR","USD","EUR","GBP","AED","AUD","CAD","SGD","CHF","JPY","CNY","HKD","NZD","SEK","NOK","DKK","ZAR","THB","MYR","IDR","PHP","BDT","PKR","SAR","QAR","KWD"
     ];
 
@@ -263,7 +259,7 @@
     function fillCurrencies() {
       const fragF = document.createDocumentFragment();
       const fragT = document.createDocumentFragment();
-      for (const c of CODE) {
+      for (const c of CURR_CODES) {
         const of = document.createElement("option"); of.value = c; of.textContent = c; fragF.appendChild(of);
         const ot = document.createElement("option"); ot.value = c; ot.textContent = c; fragT.appendChild(ot);
       }
@@ -454,135 +450,134 @@
     if (els.amt.value) runConvert();
   </script>
 
-  <!-- 🌐 Neon FX Background Animation (lightweight, respects reduced-motion) -->
+  <!-- 🌐 Neon FX Background Animation (scoped; no global name clashes) -->
   <script type="module">
-    // Config
-    const CANVAS = document.getElementById('fxCanvas');
-    const ctx = CANVAS.getContext('2d', { alpha: true });
-    const mediaReduce = matchMedia('(prefers-reduced-motion: reduce)');
-    let W=0,H=0,DPR=1, running=false, hidden=false, last=0, glyphs=[];
-    const SYMBOLS = ["₹","$","€","£","¥","₩","₺","₽"];
-    const CODE   = ["INR","USD","EUR","GBP","JPY","AED","CAD","AUD","SGD","CHF","CNY","HKD"];
+    (() => {
+      const CANVAS = document.getElementById('fxCanvas');
+      const ctx = CANVAS.getContext('2d', { alpha: true });
+      const mediaReduce = matchMedia('(prefers-reduced-motion: reduce)');
+      let W=0,H=0,DPR=1, running=false, hidden=false, last=0, glyphs=[];
 
-    function resize(){
-      DPR = Math.min(2, Math.max(1, window.devicePixelRatio || 1));
-      W = CANVAS.clientWidth; H = CANVAS.clientHeight;
-      CANVAS.width = Math.floor(W * DPR);
-      CANVAS.height = Math.floor(H * DPR);
-      ctx.setTransform(DPR,0,0,DPR,0,0);
-      build();
-    }
+      // Scoped names (no collision with converter)
+      const FX_CODES = ["INR","USD","EUR","GBP","JPY","AED","CAD","AUD","SGD","CHF","CNY","HKD"];
+      const SYMBOLS  = ["₹","$","€","£","¥","₩","₺","₽"];
+      const rand = (a,b)=> a + Math.random()*(b-a);
 
-    function build(){
-      // Particle count scales to area; clamped for perf
-      const base = Math.round((W*H)/32000); // ~30 on 1440x900
-      const N = Math.max(16, Math.min(48, base));
-      glyphs = Array.from({length:N}, (_,i)=>{
-        const isCode = Math.random() < 0.45;
-        const text = isCode ? CODE[(Math.random()*CODE.length)|0] : SYMBOLS[(Math.random()*SYMBOLS.length)|0];
-        const size = isCode ? rand(16,28) : rand(20,36);
-        const speed = rand(10, 28) * (size/28);
-        return {
-          x: Math.random()*W,
-          y: Math.random()*H,
-          vx: Math.sin(i*1.7) * 6 + rand(-4,4),
-          vy: -speed, // float upwards
-          r: rand(-0.8,0.8), // rotation
-          a: rand(0.35, 0.85), // alpha
-          text, size,
-          hue: 195 + rand(-10, 25) // cyan-blue drift
-        };
-      });
-    }
-
-    const rand = (a,b)=> a + Math.random()*(b-a);
-
-    function step(ts){
-      if (!running) return;
-      const dt = Math.min(0.05, (ts - last)/1000 || 0.016);
-      last = ts;
-
-      ctx.clearRect(0,0,W,H);
-
-      // faint flowing lines (representing FX flow)
-      ctx.save();
-      ctx.globalAlpha = 0.06;
-      ctx.strokeStyle = `hsl(195 90% 60% / 1)`;
-      ctx.lineWidth = 1;
-      const lanes = 6;
-      for (let i=0;i<lanes;i++){
-        const y = (H/lanes)*i + (ts*0.015 + i*30) % (H/lanes);
-        ctx.beginPath();
-        ctx.moveTo(0, y);
-        for(let x=0; x<=W; x+=W/6){
-          const off = Math.sin((ts*0.0009)+(i*0.6)+x*0.004)*(8+i*1.2);
-          ctx.lineTo(x, y + off);
-        }
-        ctx.stroke();
+      function resize(){
+        DPR = Math.min(2, Math.max(1, window.devicePixelRatio || 1));
+        W = CANVAS.clientWidth; H = CANVAS.clientHeight;
+        CANVAS.width = Math.floor(W * DPR);
+        CANVAS.height = Math.floor(H * DPR);
+        ctx.setTransform(DPR,0,0,DPR,0,0);
+        build();
       }
-      ctx.restore();
 
-      // floating currency glyphs + gentle glow
-      for(const g of glyphs){
-        g.x += g.vx*dt;
-        g.y += g.vy*dt;
-        g.r += 0.1*dt;
+      function build(){
+        const base = Math.round((W*H)/32000);        // scales with viewport area
+        const N = Math.max(16, Math.min(48, base));  // clamp for perf
+        glyphs = Array.from({length:N}, (_,i)=>{
+          const useCode = Math.random() < 0.45;
+          const text = useCode
+            ? FX_CODES[(Math.random()*FX_CODES.length)|0]
+            : SYMBOLS[(Math.random()*SYMBOLS.length)|0];
+          const size = useCode ? rand(16,28) : rand(20,36);
+          const speed = rand(10, 28) * (size/28);
+          return {
+            x: Math.random()*W,
+            y: Math.random()*H,
+            vx: Math.sin(i*1.7) * 6 + rand(-4,4),
+            vy: -speed,
+            r: rand(-0.8,0.8),
+            a: rand(0.35, 0.85),
+            text, size,
+            hue: 195 + rand(-10, 25) // cyan-blue
+          };
+        });
+      }
 
-        if (g.y < -50){ g.y = H + 20; g.x = (g.x + rand(-40,40) + W) % W; }
-        if (g.x < -40) g.x = W+40;
-        if (g.x > W+40) g.x = -40;
+      function step(ts){
+        if (!running) return;
+        const dt = Math.min(0.05, (ts - last)/1000 || 0.016);
+        last = ts;
 
+        ctx.clearRect(0,0,W,H);
+
+        // flowing lines representing FX flows
         ctx.save();
-        ctx.translate(g.x, g.y);
-        ctx.rotate(g.r*0.2);
-        ctx.font = `700 ${g.size}px system-ui,Segoe UI,Inter,Roboto,Arial`;
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-
-        const glow = `hsl(${g.hue} 100% 60% / 1)`;
-        ctx.shadowColor = glow;
-        ctx.shadowBlur = 12;
-        ctx.fillStyle = `hsl(${g.hue} 100% 70% / ${g.a})`;
-        ctx.fillText(g.text, 0, 0);
+        ctx.globalAlpha = 0.06;
+        ctx.strokeStyle = `hsl(195 90% 60% / 1)`;
+        ctx.lineWidth = 1;
+        const lanes = 6;
+        for (let i=0;i<lanes;i++){
+          const y = (H/lanes)*i + (ts*0.015 + i*30) % (H/lanes);
+          ctx.beginPath();
+          ctx.moveTo(0, y);
+          for(let x=0; x<=W; x+=W/6){
+            const off = Math.sin((ts*0.0009)+(i*0.6)+x*0.004)*(8+i*1.2);
+            ctx.lineTo(x, y + off);
+          }
+          ctx.stroke();
+        }
         ctx.restore();
+
+        // floating currency glyphs with glow
+        for(const g of glyphs){
+          g.x += g.vx*dt;
+          g.y += g.vy*dt;
+          g.r += 0.1*dt;
+
+          if (g.y < -50){ g.y = H + 20; g.x = (g.x + rand(-40,40) + W) % W; }
+          if (g.x < -40) g.x = W+40;
+          if (g.x > W+40) g.x = -40;
+
+          ctx.save();
+          ctx.translate(g.x, g.y);
+          ctx.rotate(g.r*0.2);
+          ctx.font = `700 ${g.size}px system-ui,Segoe UI,Inter,Roboto,Arial`;
+          ctx.textAlign = 'center';
+          ctx.textBaseline = 'middle';
+
+          const glow = `hsl(${g.hue} 100% 60% / 1)`;
+          ctx.shadowColor = glow;
+          ctx.shadowBlur = 12;
+          ctx.fillStyle = `hsl(${g.hue} 100% 70% / ${g.a})`;
+          ctx.fillText(g.text, 0, 0);
+          ctx.restore();
+        }
+
+        // subtle vignette to keep content readable
+        const grd = ctx.createRadialGradient(W*0.5, H*0.1, 0, W*0.5, H*0.1, Math.max(W,H)*0.9);
+        grd.addColorStop(0, 'rgba(255,255,255,0.02)');
+        grd.addColorStop(1, 'rgba(0,0,0,0.28)');
+        ctx.fillStyle = grd;
+        ctx.fillRect(0,0,W,H);
+
+        if (!hidden) requestAnimationFrame(step);
       }
 
-      // subtle vignette to keep foreground readable
-      const grd = ctx.createRadialGradient(W*0.5, H*0.1, 0, W*0.5, H*0.1, Math.max(W,H)*0.9);
-      grd.addColorStop(0, 'rgba(255,255,255,0.02)');
-      grd.addColorStop(1, 'rgba(0,0,0,0.28)');
-      ctx.fillStyle = grd;
-      ctx.fillRect(0,0,W,H);
+      function start(){
+        if (mediaReduce.matches || running) return;
+        running = true; hidden = document.hidden;
+        last = performance.now();
+        requestAnimationFrame(step);
+      }
+      function stop(){ running = false; }
 
-      if (!hidden) requestAnimationFrame(step);
-    }
+      document.addEventListener('visibilitychange', ()=>{
+        hidden = document.hidden;
+        if (!hidden && running) { last = performance.now(); requestAnimationFrame(step); }
+      });
+      window.addEventListener('resize', resize, { passive:true });
+      window.addEventListener('orientationchange', resize, { passive:true });
+      mediaReduce.addEventListener?.('change', ()=>{ mediaReduce.matches ? stop() : start(); });
 
-    function start(){
-      if (mediaReduce.matches) return; // respect reduced motion
-      if (running) return;
-      running = true; hidden = document.hidden;
-      last = performance.now();
-      requestAnimationFrame(step);
-    }
-    function stop(){ running = false; }
-
-    // Visibility & resize
-    document.addEventListener('visibilitychange', ()=>{
-      hidden = document.hidden;
-      if (!hidden && running) { last = performance.now(); requestAnimationFrame(step); }
-    });
-    window.addEventListener('resize', resize, { passive:true });
-    window.addEventListener('orientationchange', resize, { passive:true });
-    mediaReduce.addEventListener?.('change', ()=>{ mediaReduce.matches ? stop() : start(); });
-
-    // Init
-    resize();
-    // Avoid animating when the canvas is far offscreen (safety; it's fixed anyway)
-    const io = new IntersectionObserver((e)=>{
-      const v = e[0]?.isIntersecting;
-      if (v) start(); else stop();
-    }, { root: null, threshold: 0 });
-    io.observe(CANVAS);
+      resize();
+      const io = new IntersectionObserver((e)=>{
+        const v = e[0]?.isIntersecting;
+        if (v) start(); else stop();
+      }, { root: null, threshold: 0 });
+      io.observe(CANVAS);
+    })();
   </script>
 </body>
 </html>
