@@ -1,6 +1,5 @@
 <!doctype html>
 <html lang="en">
-
 <head>
   <!-- Core meta -->
   <meta charset="UTF-8" />
@@ -34,11 +33,9 @@
   <!-- Common CSS (non-blocking) -->
   <link rel="preload" href="/style.css?v=1.2.0" as="style" />
   <link rel="stylesheet" href="/style.css?v=1.2.0" media="print" onload="this.media='all'">
-  <noscript>
-    <link rel="stylesheet" href="/style.css?v=1.2.0">
-  </noscript>
+  <noscript><link rel="stylesheet" href="/style.css?v=1.2.0"></noscript>
 
-  <!-- Small page-only tweaks (keep tiny) -->
+  <!-- Page-only tweaks + FX canvas styles (CLS-safe) -->
   <style>
     :root {
       --accent: #9be7ff;
@@ -47,102 +44,46 @@
       --cardBorder: #2a4766;
     }
 
-    .fx-presets {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin: 8px 0
+    /* ===== Background FX (canvas) ===== */
+    #fxCanvas{
+      position: fixed; inset: 0;
+      width: 100vw; height: 100dvh;
+      z-index: -1; pointer-events: none;
+      block-size: 100dvh; inline-size: 100vw;
+      /* Soft gradient base so it looks good even if JS is off */
+      background:
+        radial-gradient(1200px 600px at 8% -10%, #0b1938 0%, transparent 45%),
+        radial-gradient(1100px 700px at 110% 10%, #0a1731 0%, transparent 45%),
+        linear-gradient(135deg, var(--bg1), var(--bg2));
+      filter: saturate(110%);
     }
 
-    .chip {
-      padding: .45rem .6rem;
-      border-radius: 999px;
-      border: 1px solid var(--border);
-      background: #0b1326;
-      cursor: pointer
+    /* Keep everything readable above FX */
+    body{ position: relative; }
+
+    .fx-mask {
+      position: fixed; inset: 0; z-index: -1; pointer-events: none;
+      background: radial-gradient(1000px 800px at 50% -10%, color-mix(in oklab, var(--accent) 10%, transparent), transparent 60%);
+      opacity: .35;
+      mix-blend-mode: screen;
     }
 
-    .chip:active {
-      transform: translateY(0)
-    }
-
-    .grid {
-      display: grid;
-      gap: 12px;
-      grid-template-columns: 1fr
-    }
-
-    @media(min-width:820px) {
-      .grid {
-        grid-template-columns: 1.2fr .8fr
-      }
-    }
-
-    .kpi {
-      display: grid;
-      gap: 6px
-    }
-
-    .kpi .row {
-      display: flex;
-      justify-content: space-between;
-      border-top: 1px dashed var(--border);
-      padding: .35rem 0
-    }
-
-    .mini {
-      font-size: .875rem;
-      color: var(--muted)
-    }
-
-    .spark-wrap {
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 8px
-    }
-
-    .spark {
-      display: block;
-      width: 100%;
-      height: 120px
-    }
-
-    .swap {
-      min-width: 44px
-    }
-
-    .inline-help {
-      display: flex;
-      gap: 8px;
-      align-items: center
-    }
-
-    .video-wrap {
-      width: 100%;
-      max-width: 880px;
-      margin: 0 auto;
-      border-radius: 12px;
-      overflow: hidden;
-      border: 1px solid var(--border);
-      box-shadow: var(--glow-soft)
-    }
-
-    .video-wrap iframe {
-      width: 100%;
-      aspect-ratio: 16/9;
-      display: block
-    }
-
-    /* Textual logos for sub-links */
-    .ico {
-      display: inline-grid;
-      place-items: center;
-      width: 28px;
-      height: 28px;
-      border-radius: 7px;
-      border: 1px solid var(--border);
-      font-weight: 700
-    }
+    /* ------- Page components (unchanged visually) ------- */
+    .fx-presets{ display:flex; flex-wrap:wrap; gap:8px; margin:8px 0 }
+    .chip{ padding:.45rem .6rem; border-radius:999px; border:1px solid var(--border); background:#0b1326; cursor:pointer }
+    .chip:active{ transform:translateY(0) }
+    .grid{ display:grid; gap:12px; grid-template-columns:1fr }
+    @media(min-width:820px){ .grid{ grid-template-columns:1.2fr .8fr } }
+    .kpi{ display:grid; gap:6px }
+    .kpi .row{ display:flex; justify-content:space-between; border-top:1px dashed var(--border); padding:.35rem 0 }
+    .mini{ font-size:.875rem; color:var(--muted) }
+    .spark-wrap{ border:1px solid var(--border); border-radius:12px; padding:8px }
+    .spark{ display:block; width:100%; height:120px }
+    .swap{ min-width:44px }
+    .inline-help{ display:flex; gap:8px; align-items:center }
+    .video-wrap{ width:100%; max-width:880px; margin:0 auto; border-radius:12px; overflow:hidden; border:1px solid var(--border); box-shadow:var(--glow-soft) }
+    .video-wrap iframe{ width:100%; aspect-ratio:16/9; display:block }
+    .ico{ display:inline-grid; place-items:center; width:28px; height:28px; border-radius:7px; border:1px solid var(--border); font-weight:700 }
   </style>
 
   <!-- JSON-LD: SoftwareApplication + FAQ -->
@@ -173,14 +114,15 @@
 </head>
 
 <body>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617"
-    crossorigin="anonymous"></script>
-  <!-- small fixed -->
-  <ins class="adsbygoogle" style="display:inline-block;width:500px;height:50px" data-ad-client="ca-pub-6216304334889617"
-    data-ad-slot="9810172647"></ins>
-  <script>
-    (adsbygoogle = window.adsbygoogle || []).push({});
-  </script>
+  <!-- Neon FX background (canvas + soft mask) -->
+  <canvas id="fxCanvas" aria-hidden="true"></canvas>
+  <div class="fx-mask" aria-hidden="true"></div>
+
+  <!-- Ads -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617" crossorigin="anonymous"></script>
+  <ins class="adsbygoogle" style="display:inline-block;width:500px;height:50px" data-ad-client="ca-pub-6216304334889617" data-ad-slot="9810172647"></ins>
+  <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+
   <!-- Global header -->
   <header class="site" role="banner">
     <div class="header-inner">
@@ -258,8 +200,7 @@
         </div>
         <div class="spark-wrap" style="margin-top:10px">
           <div class="mini">30-day history</div>
-          <svg id="spark" class="spark" viewBox="0 0 300 120" preserveAspectRatio="none" role="img"
-            aria-label="30-day exchange rate history">
+          <svg id="spark" class="spark" viewBox="0 0 300 120" preserveAspectRatio="none" role="img" aria-label="30-day exchange rate history">
             <rect x="0" y="0" width="300" height="120" fill="none"></rect>
             <path id="sparkLine" d="" vector-effect="non-scaling-stroke"></path>
           </svg>
@@ -283,7 +224,6 @@
         <iframe src="https://www.youtube-nocookie.com/embed/zfAYH2Yl6xo"
           title="Wise Fees & Rates (Mid-market explained)" loading="lazy"
           referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-
       </div>
       <div class="note" style="margin-top:10px">
         Explore more: <span class="ico">IT</span> <a href="/income-tax-tool/">Income Tax Calculator</a> ·
@@ -299,15 +239,14 @@
 
   <!-- Common utilities -->
   <script type="module">
-    import { $, $$, debounce, serializeForm } from "/scripts/utils.js";
+    import { $, $$, debounce } from "/scripts/utils.js";
 
     // Footer year
     $("#y").textContent = new Date().getFullYear();
 
     // Currencies (major + INR focus)
-    const CODES = [
-      "INR", "USD", "EUR", "GBP", "AED", "AUD", "CAD", "SGD", "CHF", "JPY", "CNY", "HKD",
-      "NZD", "SEK", "NOK", "DKK", "ZAR", "THB", "MYR", "IDR", "PHP", "BDT", "PKR", "SAR", "QAR", "KWD"
+    const CODE = [
+      "INR","USD","EUR","GBP","AED","AUD","CAD","SGD","CHF","JPY","CNY","HKD","NZD","SEK","NOK","DKK","ZAR","THB","MYR","IDR","PHP","BDT","PKR","SAR","QAR","KWD"
     ];
 
     const els = {
@@ -324,7 +263,7 @@
     function fillCurrencies() {
       const fragF = document.createDocumentFragment();
       const fragT = document.createDocumentFragment();
-      for (const c of CODES) {
+      for (const c of CODE) {
         const of = document.createElement("option"); of.value = c; of.textContent = c; fragF.appendChild(of);
         const ot = document.createElement("option"); ot.value = c; ot.textContent = c; fragT.appendChild(ot);
       }
@@ -512,9 +451,138 @@
 
     // Init
     fillCurrencies();
-    // Auto-run if prefilled by URL
     if (els.amt.value) runConvert();
   </script>
-</body>
 
+  <!-- 🌐 Neon FX Background Animation (lightweight, respects reduced-motion) -->
+  <script type="module">
+    // Config
+    const CANVAS = document.getElementById('fxCanvas');
+    const ctx = CANVAS.getContext('2d', { alpha: true });
+    const mediaReduce = matchMedia('(prefers-reduced-motion: reduce)');
+    let W=0,H=0,DPR=1, running=false, hidden=false, last=0, glyphs=[];
+    const SYMBOLS = ["₹","$","€","£","¥","₩","₺","₽"];
+    const CODE   = ["INR","USD","EUR","GBP","JPY","AED","CAD","AUD","SGD","CHF","CNY","HKD"];
+
+    function resize(){
+      DPR = Math.min(2, Math.max(1, window.devicePixelRatio || 1));
+      W = CANVAS.clientWidth; H = CANVAS.clientHeight;
+      CANVAS.width = Math.floor(W * DPR);
+      CANVAS.height = Math.floor(H * DPR);
+      ctx.setTransform(DPR,0,0,DPR,0,0);
+      build();
+    }
+
+    function build(){
+      // Particle count scales to area; clamped for perf
+      const base = Math.round((W*H)/32000); // ~30 on 1440x900
+      const N = Math.max(16, Math.min(48, base));
+      glyphs = Array.from({length:N}, (_,i)=>{
+        const isCode = Math.random() < 0.45;
+        const text = isCode ? CODE[(Math.random()*CODE.length)|0] : SYMBOLS[(Math.random()*SYMBOLS.length)|0];
+        const size = isCode ? rand(16,28) : rand(20,36);
+        const speed = rand(10, 28) * (size/28);
+        return {
+          x: Math.random()*W,
+          y: Math.random()*H,
+          vx: Math.sin(i*1.7) * 6 + rand(-4,4),
+          vy: -speed, // float upwards
+          r: rand(-0.8,0.8), // rotation
+          a: rand(0.35, 0.85), // alpha
+          text, size,
+          hue: 195 + rand(-10, 25) // cyan-blue drift
+        };
+      });
+    }
+
+    const rand = (a,b)=> a + Math.random()*(b-a);
+
+    function step(ts){
+      if (!running) return;
+      const dt = Math.min(0.05, (ts - last)/1000 || 0.016);
+      last = ts;
+
+      ctx.clearRect(0,0,W,H);
+
+      // faint flowing lines (representing FX flow)
+      ctx.save();
+      ctx.globalAlpha = 0.06;
+      ctx.strokeStyle = `hsl(195 90% 60% / 1)`;
+      ctx.lineWidth = 1;
+      const lanes = 6;
+      for (let i=0;i<lanes;i++){
+        const y = (H/lanes)*i + (ts*0.015 + i*30) % (H/lanes);
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        for(let x=0; x<=W; x+=W/6){
+          const off = Math.sin((ts*0.0009)+(i*0.6)+x*0.004)*(8+i*1.2);
+          ctx.lineTo(x, y + off);
+        }
+        ctx.stroke();
+      }
+      ctx.restore();
+
+      // floating currency glyphs + gentle glow
+      for(const g of glyphs){
+        g.x += g.vx*dt;
+        g.y += g.vy*dt;
+        g.r += 0.1*dt;
+
+        if (g.y < -50){ g.y = H + 20; g.x = (g.x + rand(-40,40) + W) % W; }
+        if (g.x < -40) g.x = W+40;
+        if (g.x > W+40) g.x = -40;
+
+        ctx.save();
+        ctx.translate(g.x, g.y);
+        ctx.rotate(g.r*0.2);
+        ctx.font = `700 ${g.size}px system-ui,Segoe UI,Inter,Roboto,Arial`;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+
+        const glow = `hsl(${g.hue} 100% 60% / 1)`;
+        ctx.shadowColor = glow;
+        ctx.shadowBlur = 12;
+        ctx.fillStyle = `hsl(${g.hue} 100% 70% / ${g.a})`;
+        ctx.fillText(g.text, 0, 0);
+        ctx.restore();
+      }
+
+      // subtle vignette to keep foreground readable
+      const grd = ctx.createRadialGradient(W*0.5, H*0.1, 0, W*0.5, H*0.1, Math.max(W,H)*0.9);
+      grd.addColorStop(0, 'rgba(255,255,255,0.02)');
+      grd.addColorStop(1, 'rgba(0,0,0,0.28)');
+      ctx.fillStyle = grd;
+      ctx.fillRect(0,0,W,H);
+
+      if (!hidden) requestAnimationFrame(step);
+    }
+
+    function start(){
+      if (mediaReduce.matches) return; // respect reduced motion
+      if (running) return;
+      running = true; hidden = document.hidden;
+      last = performance.now();
+      requestAnimationFrame(step);
+    }
+    function stop(){ running = false; }
+
+    // Visibility & resize
+    document.addEventListener('visibilitychange', ()=>{
+      hidden = document.hidden;
+      if (!hidden && running) { last = performance.now(); requestAnimationFrame(step); }
+    });
+    window.addEventListener('resize', resize, { passive:true });
+    window.addEventListener('orientationchange', resize, { passive:true });
+    mediaReduce.addEventListener?.('change', ()=>{ mediaReduce.matches ? stop() : start(); });
+
+    // Init
+    resize();
+    // Avoid animating when the canvas is far offscreen (safety; it's fixed anyway)
+    const io = new IntersectionObserver((e)=>{
+      const v = e[0]?.isIntersecting;
+      if (v) start(); else stop();
+    }, { root: null, threshold: 0 });
+    io.observe(CANVAS);
+  </script>
+</body>
 </html>
