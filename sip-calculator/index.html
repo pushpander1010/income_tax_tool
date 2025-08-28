@@ -78,8 +78,18 @@
       overflow-x:hidden;
     }
 
-    /* Enhanced money-themed background layer */
-    .bg-canvas{ position:fixed; inset:0; z-index:-2; pointer-events:none; filter:saturate(1.1) brightness(.95); }
+    /* Fullscreen money-themed background canvas */
+    .bg-canvas{
+      position:fixed;
+      top:0;left:0;
+      width:100vw!important;
+      height:100vh!important;
+      z-index:-2;
+      pointer-events:none;
+      display:block;
+      background: radial-gradient(1600px 800px at 50% 10%, rgba(255,215,106,.06), transparent 60%);
+      filter:saturate(1.05) brightness(.98);
+    }
 
     .bg-accents::before,.bg-accents::after{
       content:""; position:fixed; inset:-20vmax; pointer-events:none; z-index:-3;
@@ -193,7 +203,7 @@
 </head>
 
 <body class="bg-accents">
-  <!-- Money sparkle canvas -->
+  <!-- Fullscreen money sparkle canvas -->
   <canvas id="bg-canvas" class="bg-canvas" aria-hidden="true"></canvas>
 
   <!-- Header -->
@@ -219,7 +229,6 @@
       <div class="tool-icon" aria-hidden="true">₹</div>
       <h1 style="margin:0">SIP Calculator</h1>
     </div>
-
 <section class="grid" id="tool">
   <!-- LEFT: INPUTS -->
   <div class="card" id="inputCard">
@@ -385,7 +394,7 @@
     // === Header year ===
     $('yr').textContent = new Date().getFullYear();
 
-    // === MONEY BACKGROUND (coins + rupee glyphs) ===
+    // === FULLSCREEN MONEY BACKGROUND (coins + ₹ glyphs) ===
     (function moneyBg(){
       try{
         if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -393,20 +402,26 @@
         const ctx = c.getContext('2d', { alpha:true });
 
         let w=0,h=0,dpr=window.devicePixelRatio||1;
-        const resize=()=>{ w=c.clientWidth; h=c.clientHeight; c.width=Math.round(w*dpr); c.height=Math.round(h*dpr); ctx.setTransform(dpr,0,0,dpr,0,0); };
+        const resize=()=>{ 
+          // Fill viewport
+          c.style.width='100vw'; c.style.height='100vh';
+          w = c.width = Math.round(innerWidth * dpr);
+          h = c.height = Math.round(innerHeight * dpr);
+          ctx.setTransform(dpr,0,0,dpr,0,0);
+        };
         addEventListener('resize', resize, {passive:true}); resize();
 
         const GOLD = ['#FFD76A','#FFB84D','#F8A100'];
         const MINT = '#00e0b8';
 
-        const N = 72; // more visible than before
+        const N = 80; // visible & smooth
         const sprites = [];
         const rnd=(a,b)=>a+Math.random()*(b-a);
         const pick=a=>a[Math.floor(Math.random()*a.length)];
 
         const make=()=>({
-          x:rnd(-.05*w, 1.05*w),
-          y:rnd(-.05*h, 1.05*h),
+          x:rnd(-.05*innerWidth, 1.05*innerWidth),
+          y:rnd(-.05*innerHeight, 1.05*innerHeight),
           r:rnd(1.2, 3.2),
           a:rnd(0, Math.PI*2),
           s:rnd(.04, .18),
@@ -422,7 +437,7 @@
         function frame(t){
           if (document.hidden) return requestAnimationFrame(frame);
           const dt = Math.min(50, t-last); last=t;
-          ctx.clearRect(0,0,w,h);
+          ctx.clearRect(0,0,innerWidth,innerHeight);
           ctx.globalCompositeOperation='lighter';
 
           for(const p of sprites){
@@ -430,11 +445,11 @@
             p.y += Math.sin(p.a)*p.s*dt*1.2;
             p.a += p.spin*dt;
 
-            // wrap instead of reset for smooth flow
-            if (p.x < -20) p.x = w+20;
-            if (p.x > w+20) p.x = -20;
-            if (p.y < -20) p.y = h+20;
-            if (p.y > h+20) p.y = -20;
+            // wrap for seamless movement
+            if (p.x < -20) p.x = innerWidth+20;
+            if (p.x > innerWidth+20) p.x = -20;
+            if (p.y < -20) p.y = innerHeight+20;
+            if (p.y > innerHeight+20) p.y = -20;
 
             if (p.t==='dot'){
               // glow coin
