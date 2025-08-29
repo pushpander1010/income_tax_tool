@@ -1,154 +1,138 @@
 <!doctype html>
 <html lang="en">
-
 <head>
-  <!-- Google Ads (kept stable; no in-page ad slot to avoid CLS) -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617"
-    crossorigin="anonymous"></script>
+  <!-- Google Ads (stable; no in-page ad slot → zero CLS) -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617" crossorigin="anonymous"></script>
 
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>Whatsapp click to chat – Send on WhatsApp without saving number (QR & Link) | UpTools</title>
-  <meta name="description"
-    content="Create a WhatsApp click-to-chat link in seconds. Enter phone number and message → open chat directly on mobile or desktop. Copy link, generate QR code, and share. Free, fast, privacy-first." />
-  <meta name="keywords"
-    content="WhatsApp click to chat, whatsapp link generator, wa.me, send whatsapp without saving number, whatsapp qr, open whatsapp chat, whatsapp web link, whatsapp message link" />
+  <title>WhatsApp Click-to-Chat – Link & QR Generator (Send Without Saving) | UpTools</title>
+  <meta name="description" content="Generate a WhatsApp click-to-chat link in seconds. Enter phone & optional message to open the chat instantly on mobile or desktop. Copy the link, share it, or get a QR. Fast, free & privacy-first." />
+  <meta name="keywords" content="WhatsApp click to chat,whatsapp link generator,wa.me,send whatsapp without saving number,whatsapp qr,open whatsapp chat,whatsapp web link,whatsapp message link" />
   <meta name="author" content="UpTools" />
   <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
   <meta name="theme-color" content="#0b1f14" />
 
-  <!-- Canonical -->
+  <!-- Canonical + hreflang -->
   <link rel="canonical" href="https://www.uptools.in/whatsapp-chat/" />
+  <link rel="alternate" href="https://www.uptools.in/whatsapp-chat/" hreflang="en-IN" />
+  <link rel="alternate" href="https://www.uptools.in/whatsapp-chat/" hreflang="x-default" />
 
-  <!-- Open Graph -->
-  <meta property="og:title" content="Whatsapp click to chat – Link & QR Generator" />
-  <meta property="og:description" content="Enter phone & message to open WhatsApp instantly. Copy, share, and QR." />
+  <!-- Icons -->
+  <link rel="icon" type="image/svg+xml" href="/assets/logo/uptools-logo.svg" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/logo/uptools-logo.svg" />
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:title" content="WhatsApp Click-to-Chat – Link & QR Generator" />
+  <meta property="og:description" content="Enter phone & message to open WhatsApp instantly. Copy, share, and get a QR code." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.uptools.in/whatsapp-chat/" />
   <meta property="og:site_name" content="UpTools" />
-  <meta property="og:image" content="/assets/og/whatsapp-chat.png" />
+  <meta property="og:image" content="https://www.uptools.in/assets/og/whatsapp-chat.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
   <meta property="og:locale" content="en_IN" />
 
-  <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Whatsapp click to chat – Link & QR Generator" />
+  <meta name="twitter:title" content="WhatsApp Click-to-Chat – Link & QR Generator" />
   <meta name="twitter:description" content="Send on WhatsApp without saving numbers. Copy link, QR & share." />
-  <meta name="twitter:image" content="/assets/og/whatsapp-chat.png" />
+  <meta name="twitter:image" content="https://www.uptools.in/assets/og/whatsapp-chat.png" />
 
-  <!-- Icons -->
-  <link rel="icon" sizes="50x50" type="image/svg+xml" href="/assets/logo/uptools-logo.svg" />
-  <link rel="apple-touch-icon" sizes="180x180" href="/assets/logo/uptools-logo.svg" />
+  <!-- Performance hints for embeds/APIs used on this page -->
+  <link rel="preconnect" href="https://www.youtube-nocookie.com" crossorigin>
+  <link rel="preconnect" href="https://api.qrserver.com" crossorigin>
 
   <!-- Critical tiny CSS: theme override + layout helpers (rest via shared /style.css) -->
   <style>
-    /* WhatsApp green theme overrides */
-    :root {
-      --accent: #25D366;
-      /* WhatsApp green */
-      --accent-2: #128C7E;
-      /* WhatsApp teal */
-      --bg1: #06110c;
-      --bg2: #0b1f14;
+    :root{
+      --accent:#25D366;   /* WhatsApp green */
+      --accent-2:#128C7E; /* WhatsApp teal */
+      --bg1:#06110c;
+      --bg2:#0b1f14;
     }
+    /* Layout helpers */
+    .grid-compact{display:grid;grid-template-columns:1fr;gap:12px}
+    @media (min-width:900px){.grid-compact{grid-template-columns:1.2fr .8fr}}
+    .wqr{display:grid;grid-template-columns:110px 1fr;gap:12px;align-items:center}
+    .qr-box{width:110px;height:110px;border-radius:10px;overflow:hidden;background:#0a1224;border:1px solid var(--border);box-shadow:var(--glow-soft)}
+    .mono{font-family:ui-monospace, SFMono-Regular, Menlo, Consolas, monospace}
+    .tight .row{margin:6px 0;padding:6px 0}
+    .yt-wrap{aspect-ratio:16/9;max-width:560px;border-radius:12px;overflow:hidden;border:1px solid var(--border);box-shadow:var(--glow-soft)}
+    .yt-wrap iframe{width:100%;height:100%;display:block}
 
-    .grid-compact {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 12px
-    }
-
-    @media(min-width:900px) {
-      .grid-compact {
-        grid-template-columns: 1.2fr .8fr
-      }
-    }
-
-    .wqr {
-      display: grid;
-      grid-template-columns: 110px 1fr;
-      gap: 12px;
-      align-items: center
-    }
-
-    .qr-box {
-      width: 110px;
-      height: 110px;
-      border-radius: 10px;
-      overflow: hidden;
-      background: #0a1224;
-      border: 1px solid var(--border);
-      box-shadow: var(--glow-soft)
-    }
-
-    .mono {
-      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace
-    }
-
-    .tight .row {
-      margin: 6px 0;
-      padding: 6px 0
-    }
-
-    .yt-wrap {
-      aspect-ratio: 16/9;
-      max-width: 560px;
-      border-radius: 12px;
-      overflow: hidden;
-      border: 1px solid var(--border);
-      box-shadow: var(--glow-soft)
-    }
-
-    .yt-wrap iframe {
-      width: 100%;
-      height: 100%;
-      display: block
-    }
-
-    /* Canvas background sits behind everything, zero CLS */
-    #bg-canvas {
-      position: fixed;
-      inset: 0;
-      width: 100vw;
-      height: 100vh;
-      z-index: -1;
-      display: block;
+    /* Canvas background (fixed, zero CLS) */
+    #bg-canvas{
+      position:fixed;inset:0;width:100vw;height:100vh;z-index:-1;display:block;
       background:
-        radial-gradient(1200px 800px at 10% -10%, rgba(37, 211, 102, .07) 0%, transparent 40%),
-        radial-gradient(1000px 600px at 110% 10%, rgba(18, 140, 126, .08) 0%, transparent 45%),
-        linear-gradient(135deg, var(--bg1), var(--bg2));
+        radial-gradient(1200px 800px at 10% -10%, rgba(37,211,102,.07) 0%, transparent 40%),
+        radial-gradient(1000px 600px at 110% 10%, rgba(18,140,126,.08) 0%, transparent 45%),
+        linear-gradient(135deg,var(--bg1),var(--bg2));
     }
+    /* WA hero tint */
+    .tool-icon{background:linear-gradient(135deg,var(--accent),var(--accent-2))}
+    .chips a.pill{background:#0c1a13}
 
-    /* Slight neon tint to hero icon for WA */
-    .tool-icon {
-      background: linear-gradient(135deg, var(--accent), var(--accent-2))
-    }
-
-    .chips a.pill {
-      background: #0c1a13
-    }
+    /* Breadcrumb micro style */
+    .breadcrumbs{font-size:.9rem;margin:8px 0 0;color:var(--muted)}
+    .breadcrumbs a{color:inherit;text-decoration:underline;text-underline-offset:.15em}
   </style>
 
   <!-- Shared CSS -->
   <link rel="preload" href="/style.css?v=1.1.0" as="style">
   <link rel="stylesheet" href="/style.css?v=1.1.0" media="print" onload="this.media='all'">
-  <noscript>
-    <link rel="stylesheet" href="/style.css?v=1.1.0">
-  </noscript>
+  <noscript><link rel="stylesheet" href="/style.css?v=1.1.0"></noscript>
 
-  <!-- Schema: SoftwareApplication + FAQ -->
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"WebPage",
+    "@id":"https://www.uptools.in/whatsapp-chat/#webpage",
+    "url":"https://www.uptools.in/whatsapp-chat/",
+    "name":"WhatsApp Click-to-Chat – Link & QR Generator",
+    "description":"Generate a WhatsApp click-to-chat link in seconds. Enter phone & optional message to open the chat instantly on mobile or desktop. Copy the link, share it, or get a QR. Fast, free & privacy-first.",
+    "inLanguage":"en-IN",
+    "isPartOf":{"@type":"WebSite","name":"UpTools","url":"https://www.uptools.in/"},
+    "breadcrumb":{"@id":"https://www.uptools.in/whatsapp-chat/#breadcrumb"},
+    "primaryImageOfPage":{"@type":"ImageObject","url":"https://www.uptools.in/assets/og/whatsapp-chat.png","width":1200,"height":630}
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"BreadcrumbList",
+    "@id":"https://www.uptools.in/whatsapp-chat/#breadcrumb",
+    "itemListElement":[
+      {"@type":"ListItem","position":1,"name":"Home","item":"https://www.uptools.in/"},
+      {"@type":"ListItem","position":2,"name":"Tools","item":"https://www.uptools.in/#tools"},
+      {"@type":"ListItem","position":3,"name":"WhatsApp Click-to-Chat","item":"https://www.uptools.in/whatsapp-chat/"}
+    ]
+  }
+  </script>
+
   <script type="application/ld+json">
   {
     "@context":"https://schema.org",
     "@type":"SoftwareApplication",
-    "name":"Whatsapp click to chat",
+    "name":"WhatsApp Click-to-Chat",
     "applicationCategory":"UtilitiesApplication",
     "operatingSystem":"Any",
     "url":"https://www.uptools.in/whatsapp-chat/",
-    "description":"Generate WhatsApp click-to-chat links and QR codes, open chats on mobile or desktop without saving numbers. Copy & share instantly.",
-    "offers":{"@type":"Offer","price":"0","priceCurrency":"INR"}
+    "description":"Generate WhatsApp click-to-chat links and QR codes. Open chats on mobile or desktop without saving numbers. Copy & share instantly.",
+    "offers":{"@type":"Offer","price":"0","priceCurrency":"INR"},
+    "potentialAction":{
+      "@type":"CommunicateAction",
+      "target":"https://wa.me/{phone}?text={text}",
+      "query-input":[
+        "required name=phone",
+        "optional name=text"
+      ]
+    }
   }
   </script>
+
   <script type="application/ld+json">
   {
     "@context":"https://schema.org",
@@ -158,14 +142,14 @@
       {"@type":"Question","name":"Do I need to save the number first?","acceptedAnswer":{"@type":"Answer","text":"No. Click-to-chat opens a conversation without saving the contact."}},
       {"@type":"Question","name":"What phone number format should I use?","acceptedAnswer":{"@type":"Answer","text":"Digits only: country code + number. Do not include +, spaces, or leading zeros. Example for India: 91XXXXXXXXXX."}},
       {"@type":"Question","name":"Is my data stored?","acceptedAnswer":{"@type":"Answer","text":"No. All processing happens locally in your browser."}},
-      {"@type":"Question","name":"Why are there two different links (mobile vs desktop)?","acceptedAnswer":{"@type":"Answer","text":"On mobile we open https://wa.me/ directly. On desktop we open https://web.whatsapp.com/send to ensure it launches WhatsApp Web."}}
+      {"@type":"Question","name":"Why are there different links (mobile vs desktop)?","acceptedAnswer":{"@type":"Answer","text":"On mobile we open https://wa.me/ directly. On desktop we open https://web.whatsapp.com/send to ensure it launches WhatsApp Web."}}
     ]
   }
   </script>
 </head>
 
 <body>
-  <!-- Lightweight animated background -->
+  <!-- Background -->
   <canvas id="bg-canvas" aria-hidden="true"></canvas>
 
   <!-- Header -->
@@ -179,19 +163,24 @@
         <a href="/#tools">Tools</a>
         <a href="/income-tax-tool/">Income Tax</a>
         <a href="/emi-calculator/">EMI</a>
-        <a aria-current="page" href="/whatsapp-chat/">Whatsapp click to chat</a>
+        <a href="/gst-calculator/">GST</a>
+        <a aria-current="page" href="/whatsapp-chat/">WhatsApp Click-to-Chat</a>
       </nav>
     </div>
   </header>
 
-  <main class="wrap" id="main">
+  <!-- Breadcrumbs -->
+  <nav class="breadcrumbs" aria-label="Breadcrumbs">
+    <a href="/">Home</a> › <a href="/#tools">Tools</a> › <span>WhatsApp Click-to-Chat</span>
+  </nav>
+
+  <main class="wrap" id="main" role="main">
     <!-- Intro strip -->
     <div class="tool-header" style="margin-top:8px">
       <div class="tool-icon" aria-hidden="true">WA</div>
       <div>
-        <h1 style="margin:0">Whatsapp click to chat</h1>
-        <p class="note" style="margin:.25rem 0 0">Send a WhatsApp message by just entering the phone number and text.
-          Copy link, generate QR, and share.</p>
+        <h1 style="margin:0">WhatsApp Click-to-Chat</h1>
+        <p class="note" style="margin:.25rem 0 0">Send a WhatsApp message by just entering the phone number and text. Copy link, generate QR, and share.</p>
       </div>
     </div>
 
@@ -199,7 +188,7 @@
       <!-- Left: Form + Result -->
       <div class="card tight">
         <form id="wa-form" class="mono" novalidate>
-          <div class="row" style="border:0; padding:0; margin:0; gap:8px">
+          <div class="row" style="border:0;padding:0;margin:0;gap:8px">
             <label class="label" for="country">Country</label>
             <select id="country" class="input" aria-label="Country code">
               <option value="91" selected>🇮🇳 India (+91)</option>
@@ -211,19 +200,21 @@
               <option value="49">🇩🇪 Germany (+49)</option>
               <option value="33">🇫🇷 France (+33)</option>
               <option value="55">🇧🇷 Brazil (+55)</option>
-              <option value="1-CA">🇨🇦 Canada (+1)</option>
+              <option value="1">🇨🇦 Canada (+1)</option>
+              <option value="39">🇮🇹 Italy (+39)</option>
+              <option value="34">🇪🇸 Spain (+34)</option>
+              <option value="7">🇷🇺 Russia (+7)</option>
+              <option value="86">🇨🇳 China (+86)</option>
             </select>
           </div>
 
           <label class="label" for="phone">Phone number (digits only)</label>
-          <input id="phone" class="input" type="tel" inputmode="numeric" placeholder="e.g., 9876543210"
-            autocomplete="tel" required>
+          <input id="phone" class="input" type="tel" inputmode="numeric" placeholder="e.g., 9876543210" autocomplete="tel" required>
 
           <label class="label" for="message">Message (optional)</label>
-          <textarea id="message" class="textarea"
-            placeholder="Hi! I found you via UpTools Whatsapp click to chat."></textarea>
+          <textarea id="message" class="textarea" placeholder="Hi! I found you via UpTools WhatsApp click to chat."></textarea>
 
-          <div class="row" style="border:0; padding:0; margin-top:10px; gap:10px; flex-wrap:wrap">
+          <div class="row" style="border:0;padding:0;margin-top:10px;gap:10px;flex-wrap:wrap">
             <button type="button" id="sendBtn" class="btn">Send on WhatsApp</button>
             <button type="button" id="copyBtn" class="btn secondary">Copy Link</button>
             <button type="button" id="shareBtn" class="btn secondary">Share</button>
@@ -235,7 +226,9 @@
               <a id="openLink" class="btn sm" href="#" rel="noopener" target="_blank">Open</a>
             </div>
             <div class="wqr" style="margin-top:8px">
-              <div class="qr-box center"><img id="qr" src="" width="110" height="110" alt="WhatsApp link QR code"></div>
+              <a class="qr-box center" id="qrLink" href="#" target="_blank" rel="noopener">
+                <img id="qr" src="" width="110" height="110" alt="WhatsApp link QR code">
+              </a>
               <div>
                 <div class="note">Link (tap to select):</div>
                 <div id="linkOut" class="mono" style="word-break:break-all"></div>
@@ -261,32 +254,30 @@
 
         <div class="divider"></div>
         <div class="yt-wrap" aria-label="YouTube tutorial">
-          <!-- Replace with your tutorial video ID when ready -->
-          <iframe width="auto" height="auto" src="https://www.youtube.com/embed/7cwr7ZakB_k?si=BKxxkl2_CFDR_oEv"
-            title="YouTube video player" frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+          <iframe src="https://www.youtube-nocookie.com/embed/7cwr7ZakB_k?rel=0" title="WhatsApp Click-to-Chat tutorial"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe>
         </div>
 
         <p class="note">
-          Learn more: <a href="https://faq.whatsapp.com/5900/wa-link" rel="nofollow noopener" target="_blank">Official
-            WhatsApp help on wa.me links</a>
+          Learn more: <a href="https://faq.whatsapp.com/5900/wa-link" rel="nofollow noopener" target="_blank">Official WhatsApp help on wa.me links</a>
         </p>
 
         <div class="divider"></div>
         <h3>More from UpTools</h3>
         <div class="chips">
           <a class="pill" href="/#tools" aria-label="View all tools">All Tools</a>
-          <a class="pill" href="/emi-calculator/">EMI Calculator</a>
-          <a class="pill" href="/gst-calculator/">GST Calculator</a>
-          <a class="pill" href="/income-tax-tool/">Income Tax</a>
+          <a class="pill" href="/qr-generator/">QR Code Generator</a>
+          <a class="pill" href="/text-case-converter/">Text Case Converter</a>
+          <a class="pill" href="/base64-encoder/">Base64 Encoder</a>
+          <a class="pill" href="/whatsapp-stickers/">WhatsApp Sticker Maker</a>
+          <a class="pill" href="/whatsapp-chat/">WhatsApp Click-to-Chat</a>
         </div>
       </aside>
     </section>
 
     <footer class="note small site-footer" role="contentinfo" style="margin-top:14px">
-      © <span id="y"></span> UpTools · <a href="/sitemap.xml">Sitemap</a> · <a href="/about/">About</a> · <a
-        href="/contact/">Contact</a>
+      © <span id="y"></span> UpTools · <a href="/sitemap.xml">Sitemap</a> · <a href="/about/">About</a> · <a href="/contact/">Contact</a>
     </footer>
   </main>
 
@@ -303,7 +294,8 @@
       shareBtn: $('#shareBtn'),
       openLink: $('#openLink'),
       linkOut: $('#linkOut'),
-      qr: $('#qr')
+      qr: $('#qr'),
+      qrLink: $('#qrLink')
     };
 
     // Restore persisted state
@@ -316,19 +308,19 @@
       }
     })();
 
-    function sanitizeDigits(s = '') { return (s + '').replace(/\D+/g, ''); }
-    function countryCode() { return sanitizeDigits(el.country.value); }
+    const sanitizeDigits = (s='') => (s + '').replace(/\D+/g, '');
+    const countryCode = () => sanitizeDigits(el.country.value);
 
-    function buildLink() {
+    function buildLink(){
       const cc = countryCode();
       const num = sanitizeDigits(el.phone.value);
-      if (!cc || !num) { return { url: '#', api: '#', valid: false }; }
+      if (!cc || !num) return { url:'#', api:'#', valid:false };
 
       const phone = cc + num; // digits only
       const text = (el.message.value || '').trim();
       const enc = encodeURIComponent(text);
 
-      const isMobile = /Android|iPhone|iPad|iPod|Opera Mini|IEMobile/i.test(navigator.userAgent);
+      const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
       const base = isMobile ? 'https://wa.me/' : 'https://web.whatsapp.com/send';
 
       const url = isMobile
@@ -336,6 +328,8 @@
         : `${base}?phone=${phone}${text ? `&text=${enc}` : ''}`;
 
       const api = `https://wa.me/${phone}${text ? `?text=${enc}` : ''}`;
+
+      // E.164 max length 15; keep a permissive lower bound
       const valid = phone.length >= 6 && phone.length <= 15;
 
       return { url, api, valid, phone };
@@ -357,9 +351,14 @@
       el.linkOut.textContent = out.valid ? out.api : 'Add a valid number to generate link';
 
       // QR (fixed size → no CLS)
-      el.qr.src = out.valid
-        ? `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(out.api)}&size=110x110&margin=0`
-        : '';
+      if (out.valid){
+        const qrl = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(out.api)}&size=110x110&margin=0`;
+        el.qr.src = qrl;
+        el.qrLink.href = qrl;
+      } else {
+        el.qr.src = '';
+        el.qrLink.href = '#';
+      }
     }, 120);
 
     // Events
@@ -388,9 +387,9 @@
     el.shareBtn.addEventListener('click', async () => {
       const out = buildLink();
       if (!out.valid) { alert('Add a valid phone number first.'); return; }
-      const shareData = { title: 'WhatsApp click to chat', text: 'WhatsApp link', url: out.api };
+      const shareData = { title: 'WhatsApp Click-to-Chat', text: 'WhatsApp link', url: out.api };
       if (navigator.share) {
-        try { await navigator.share(shareData); } catch { }
+        try { await navigator.share(shareData); } catch {}
       } else {
         try { await navigator.clipboard.writeText(out.api); alert('Link copied to clipboard.'); }
         catch { alert('Share not supported. Copied link to clipboard if permitted.'); }
@@ -404,56 +403,55 @@
     /* -----------------------------
        Lightweight background anim
        -----------------------------
-       - GPU-friendly canvas with a few softly glowing WA icons.
-       - Runs at low intensity; respects reduced-motion.
+       - GPU-friendly canvas with softly glowing WA-themed particles.
+       - Respects reduced-motion.
     */
-    (function bg() {
+    (function bg(){
       const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (prefersReduced) return;
+
       const cvs = document.getElementById('bg-canvas');
-      const ctx = cvs.getContext('2d', { alpha: true });
+      const ctx = cvs.getContext('2d', { alpha:true });
 
-      // Resize helper
-      function fit() { cvs.width = window.innerWidth; cvs.height = window.innerHeight; }
-      fit(); window.addEventListener('resize', fit, { passive: true });
+      const fit = () => { cvs.width = innerWidth; cvs.height = innerHeight; };
+      fit(); addEventListener('resize', fit, { passive:true });
 
-      // Pre-render tiny emojis as sprites (chat bubble 💬 and phone 📱)
-      const sprites = ['💬', '📱', '🔗', '🟢'].map(text => {
+      // Pre-render tiny emoji sprites (💬 📱 🔗 🟢)
+      const sprites = ['💬','📱','🔗','🟢'].map(text => {
         const c = document.createElement('canvas');
         const s = c.getContext('2d');
         const size = 28; c.width = c.height = size;
         s.font = '24px system-ui, Apple Color Emoji, Segoe UI Emoji';
         s.textAlign = 'center'; s.textBaseline = 'middle';
-        s.fillText(text, size / 2, size / 2 + 1);
+        s.fillText(text, size/2, size/2 + 1);
         return c;
       });
 
-      // Particles
       const P = 24;
-      const parts = Array.from({ length: P }, (_, i) => ({
-        x: Math.random() * cvs.width,
-        y: Math.random() * cvs.height,
-        r: 0.25 + Math.random() * 0.75,
-        vx: (Math.random() * 0.5 + 0.15) * (Math.random() < 0.5 ? -1 : 1),
-        vy: (Math.random() * 0.4 + 0.1) * (Math.random() < 0.5 ? -1 : 1),
+      const parts = Array.from({length:P}, (_,i)=>({
+        x: Math.random()*cvs.width,
+        y: Math.random()*cvs.height,
+        vx:(Math.random()*0.5+0.15)*(Math.random()<0.5?-1:1),
+        vy:(Math.random()*0.4+0.1)*(Math.random()<0.5?-1:1),
         s: sprites[i % sprites.length],
-        a: 0.15 + Math.random() * 0.25
+        a: 0.15 + Math.random()*0.25
       }));
 
-      function tick() {
-        ctx.clearRect(0, 0, cvs.width, cvs.height);
+      function tick(){
+        ctx.clearRect(0,0,cvs.width,cvs.height);
 
-        // Soft grid glow lines (very light)
+        // Soft grid glow
         ctx.save();
         ctx.globalAlpha = 0.06;
         ctx.strokeStyle = '#1e3a2e';
         ctx.lineWidth = 1;
         const step = 64;
-        for (let x = 0; x < cvs.width; x += step) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, cvs.height); ctx.stroke(); }
-        for (let y = 0; y < cvs.height; y += step) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(cvs.width, y); ctx.stroke(); }
+        for (let x=0;x<cvs.width;x+=step){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,cvs.height);ctx.stroke();}
+        for (let y=0;y<cvs.height;y+=step){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(cvs.width,y);ctx.stroke();}
         ctx.restore();
 
         // Particles
-        for (const p of parts) {
+        for (const p of parts){
           p.x += p.vx; p.y += p.vy;
           if (p.x < -40) p.x = cvs.width + 40;
           if (p.x > cvs.width + 40) p.x = -40;
@@ -462,24 +460,30 @@
 
           // Glow dot
           ctx.save();
-          const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, 24);
-          g.addColorStop(0, 'rgba(37,211,102,0.35)');
-          g.addColorStop(1, 'rgba(37,211,102,0)');
+          const g = ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,24);
+          g.addColorStop(0,'rgba(37,211,102,0.35)');
+          g.addColorStop(1,'rgba(37,211,102,0)');
           ctx.fillStyle = g;
-          ctx.beginPath(); ctx.arc(p.x, p.y, 24, 0, Math.PI * 2); ctx.fill();
+          ctx.beginPath(); ctx.arc(p.x,p.y,24,0,Math.PI*2); ctx.fill();
           ctx.restore();
 
           // Emoji sprite
           ctx.globalAlpha = p.a;
-          ctx.drawImage(p.s, p.x - 14, p.y - 14);
+          ctx.drawImage(p.s, p.x-14, p.y-14);
           ctx.globalAlpha = 1;
         }
 
-        if (!prefersReduced) requestAnimationFrame(tick);
+        requestAnimationFrame(tick);
       }
-      if (!prefersReduced) tick();
+      requestAnimationFrame(tick);
     })();
   </script>
-</body>
 
+  <noscript>
+    <div class="wrap card note">
+      JavaScript is required to generate links automatically. You can still craft one manually:
+      <code class="mono">https://wa.me/&lt;countrycode&gt;&lt;number&gt;?text=&lt;encoded message&gt;</code>
+    </div>
+  </noscript>
+</body>
 </html>
