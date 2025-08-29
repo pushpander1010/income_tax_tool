@@ -10,7 +10,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <title>Password Generator (Strong & Memorable) – UpTools</title>
-  <meta name="description" content="Create strong passwords and memorable passphrases. New: local encrypted Vault with PIN, site labels, search, export/import. Entropy meter, batch generator, copy, mask, and more. Free & privacy-first." />
+  <meta name="description" content="Create strong passwords and memorable passphrases. Local encrypted Vault with PIN, labels, search, export/import. Entropy meter, batch generator, copy, mask, and more. Free & privacy-first." />
   <meta name="keywords" content="password generator, strong password, passphrase, entropy, secure password, AES-GCM, local vault, offline password tool, UpTools" />
   <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:large" />
   <meta name="theme-color" content="#0b1020" />
@@ -24,7 +24,7 @@
   <!-- Open Graph / Twitter -->
 
   <meta property="og:title" content="Password Generator (Strong & Memorable) – UpTools" />
-  <meta property="og:description" content="Generate strong passwords and passphrases. Save them locally in an encrypted Vault with your PIN. Copy, mask, batch, entropy & crack-time estimate. No tracking." />
+  <meta property="og:description" content="Generate strong passwords and passphrases. Save locally in an encrypted Vault with your PIN. Copy, mask, batch, entropy & crack-time estimate. No tracking." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.uptools.in/password-generator/" />
   <meta property="og:site_name" content="UpTools" />
@@ -75,6 +75,10 @@
     dialog.vault-modal{border:1px solid var(--border);border-radius:12px;max-width:520px;width:min(92vw,520px);background:color-mix(in oklab,var(--card) 95%,transparent);box-shadow:var(--shadow),var(--glow-soft)}
     dialog.vault-modal::backdrop{background:rgba(0,0,0,.45)}
     .hr{height:1px;background:color-mix(in oklab,var(--accent) 25%, #243);margin:10px 0}
+    /* tiny link buttons that don't cause layout shift */
+    .micro-links{display:inline-flex;gap:8px;margin-left:8px}
+    .linkbtn{background:none;border:none;padding:0;color:var(--link,#8ab4ff);cursor:pointer;font:600 12px/1.2 ui-sans-serif,system-ui}
+    .linkbtn:focus{outline:2px dashed var(--line,#2b3142);outline-offset:2px;border-radius:4px}
   </style>
 
   <!-- Structured Data -->
@@ -149,7 +153,6 @@
       </div>
     </section>
 
-```
 <!-- Tool -->
 <section class="tool-grid" aria-label="Password and passphrase generator">
   <!-- Left: Strong password -->
@@ -202,8 +205,17 @@
         <textarea id="batchOut" class="input mono" rows="6" readonly placeholder="Generated passwords will appear here"></textarea>
       </details>
 
-      <label class="check"><input id="rememberLast" type="checkbox"> <span>Save last password on this device</span></label>
-      <div id="saveNotice" class="notice hint" hidden>Saved locally. You can clear it anytime.</div>
+      <label class="check">
+        <input id="rememberLast" type="checkbox"> <span>Save last password on this device</span>
+      </label>
+      <div id="saveNotice" class="notice hint" hidden>
+        Saved locally. You can clear it anytime.
+        <span class="micro-links" aria-live="polite" id="localLinks" hidden>
+          <button id="localReveal" class="linkbtn" type="button">Reveal</button>
+          <button id="localCopy" class="linkbtn" type="button">Copy</button>
+          <button id="localClear" class="linkbtn" type="button">Clear</button>
+        </span>
+      </div>
     </div>
   </div>
 
@@ -293,7 +305,6 @@
   </nav>
   <div class="note small">Made with care. Privacy-first, no sign-ups.</div>
 </footer>
-```
 
   </main>
 
@@ -355,6 +366,7 @@
       requestAnimationFrame(()=>n.style.opacity='1'); setTimeout(()=>{n.style.opacity='0'; setTimeout(()=>n.remove(),250);},1200);
     }
     const clamp = (v,min,max)=>Math.min(max,Math.max(min,v));
+    function q(s, r=document){ return r.querySelector(s); }
 
     // ====== DOM ======
     const els = {
@@ -364,7 +376,8 @@
       out:q('#out'), gen:q('#gen'), shuffle:q('#shuffle'), copy:q('#copy'), toggle:q('#toggle'),
       meterFill:q('#meterFill'), entropy:q('#entropy'), est:q('#est'),
       batchCount:q('#batchCount'), batchGen:q('#batchGen'), batchCopy:q('#batchCopy'), batchOut:q('#batchOut'), batchSave:q('#batchSave'),
-      rememberLast:q('#rememberLast'), saveNotice:q('#saveNotice'),
+      rememberLast:q('#rememberLast'), saveNotice:q('#saveNotice'), localLinks:q('#localLinks'),
+      localReveal:q('#localReveal'), localCopy:q('#localCopy'), localClear:q('#localClear'),
       // passphrase
       words:q('#words'), sep:q('#sep'), capWords:q('#capWords'), addNum:q('#addNum'),
       phraseGen:q('#phraseGen'), phraseCopy:q('#phraseCopy'), phraseOut:q('#phraseOut'), meterFill2:q('#meterFill2'), phraseEntropy:q('#phraseEntropy'),
@@ -376,7 +389,6 @@
       saveModal:q('#saveModal'), svSite:q('#svSite'), svUser:q('#svUser'), svValue:q('#svValue'), svSubmit:q('#svSubmit'),
       pinModal:q('#pinModal'), pinTitle:q('#pinTitle'), pinMsg:q('#pinMsg'), pinInput:q('#pinInput'), pinSubmit:q('#pinSubmit')
     };
-    function q(s, r=document){ return r.querySelector(s); }
 
     // ====== Character pools ======
     const POOLS = {
@@ -443,8 +455,22 @@
     }
 
     // ====== Save last (simple) ======
-    function updateSaved(pass){ if(!els.rememberLast.checked) return; U.saveLocal('uptools.password-generator.last',{v:pass,t:Date.now()}); els.saveNotice.hidden=false; }
-    function loadSaved(){ const saved=U.readLocal('uptools.password-generator.last'); if(saved?.v){ els.out.textContent=saved.v; updateStrength(saved.v, getPool({lc:els.lc.checked,uc:els.uc.checked,dg:els.dg.checked,sc:els.sc.checked,ns:els.ns.checked,amb:els.amb.checked}).length); els.saveNotice.hidden=false; } }
+    function updateSaved(pass){
+      if(!els.rememberLast.checked) return;
+      U.saveLocal('uptools.password-generator.last',{v:pass,t:Date.now()});
+      els.saveNotice.hidden=false;
+      // show micro actions
+      els.localLinks.hidden=false;
+    }
+    function loadSaved(){
+      const saved=U.readLocal('uptools.password-generator.last');
+      if(saved?.v){
+        els.out.textContent=saved.v;
+        updateStrength(saved.v, getPool({lc:els.lc.checked,uc:els.uc.checked,dg:els.dg.checked,sc:els.sc.checked,ns:els.ns.checked,amb:els.amb.checked}).length);
+        els.saveNotice.hidden=false;
+        els.localLinks.hidden=false;
+      }
+    }
 
     // ====== Vault (AES-GCM with PIN via PBKDF2) ======
     const VAULT_K='uptools.pw.vault'; // { salt, verifier, items:[{site,user,iv,cipher,ts}] }
@@ -455,7 +481,6 @@
       return cryptoObj.subtle.deriveKey({name:'PBKDF2',salt,iterations:120000,hash:'SHA-256'}, base, {name:'AES-GCM',length:256}, false, ['encrypt','decrypt']);
     }
     async function hashVerifier(key,salt){
-      const bits=await cryptoObj.subtle.deriveBits({name:'PBKDF2',salt,iterations:1,hash:'SHA-256'}, await cryptoObj.subtle.importKey('raw', new Uint8Array([1,2,3,4]), 'PBKDF2', false, ['deriveBits']), 128);
       // lightweight check: encrypt a known string with key and keep ciphertext
       const iv=cryptoObj.getRandomValues(new Uint8Array(12));
       const ct = await cryptoObj.subtle.encrypt({name:'AES-GCM',iv}, key, new TextEncoder().encode('verifier'));
@@ -534,7 +559,7 @@
       for(const it of items){
         const row=document.createElement('div'); row.className='vault-row'; row.role='listitem';
         const left=document.createElement('div');
-        left.innerHTML = `<div class="mono"><b>${escapeHTML(it.site||'—')}</b> · <span class="note">${escapeHTML(it.user||'')}</span></div>
+        left.innerHTML = `<div class="mono"><b>${escapeHTML(it.site||'-')}</b> · <span class="note">${escapeHTML(it.user||'')}</span></div>
                           <div class="note">${new Date(it.ts).toLocaleString()}</div>`;
         const btns=document.createElement('div');
         const btns2=document.createElement('div');
@@ -620,8 +645,32 @@
     els.phraseGen.addEventListener('click', genPhrase);
     els.phraseCopy.addEventListener('click', ()=>{ const t=els.phraseOut.textContent.trim(); if(t) U.copy(t); });
 
-    // remember last
-    els.rememberLast.addEventListener('change', ()=>{ if(!els.rememberLast.checked){ U.rmLocal('uptools.password-generator.last'); els.saveNotice.hidden=true; } });
+    // remember last - with Reveal/Copy/Clear micro actions
+    els.rememberLast.addEventListener('change', ()=>{
+      if(!els.rememberLast.checked){
+        U.rmLocal('uptools.password-generator.last');
+        els.saveNotice.hidden=true;
+        els.localLinks.hidden=true;
+      }else{
+        // on enabling, save current output if present
+        const t=els.out.textContent.trim();
+        if(t) updateSaved(t);
+      }
+    });
+    els.localReveal.addEventListener('click', ()=>{
+      const saved=U.readLocal('uptools.password-generator.last');
+      if(saved?.v){ modalView('Local Save','', saved.v); } else { toast('Nothing saved'); }
+    });
+    els.localCopy.addEventListener('click', ()=>{
+      const saved=U.readLocal('uptools.password-generator.last');
+      if(saved?.v){ U.copy(saved.v); } else { toast('Nothing saved'); }
+    });
+    els.localClear.addEventListener('click', ()=>{
+      U.rmLocal('uptools.password-generator.last');
+      els.saveNotice.hidden=false; // keep notice but hide links to avoid CLS
+      els.localLinks.hidden=true;
+      toast('Cleared');
+    });
 
     // Save to Vault buttons
     els.savePwd.addEventListener('click', async()=>{
