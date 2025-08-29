@@ -51,6 +51,16 @@
       "unit-converter",
       "qr-generator",
       "color-picker",
+      "whatsapp-chat",
+      "whatsapp-stickers",
+      "games/2048",
+      "games/snake",
+      "games/sudoku",
+      "games/tic-tac-toe",
+      "games/memory-match",
+      "games/love-test",
+      "ai-plagiarism",
+      "resume-analyzer",
       "scripts",
       "worker"
     ]
