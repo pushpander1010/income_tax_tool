@@ -1,0 +1,853 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Core Meta -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>WhatsApp Sticker Maker (Free, No Sign-up) | UpTools</title>
+    <meta name="description"
+        content="Make WhatsApp stickers in your browser: upload, drag/drop, paste, zoom/pan, rotate, rounded corners, padding, text/emoji overlay, background removal, and export as 512×512 WebP/PNG. Build multi-sticker ZIP packs. Free & fast." />
+    <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
+    <meta name="theme-color" content="#0b1020" />
+    <meta name="keywords"
+        content="whatsapp sticker maker, create whatsapp sticker, webp sticker, whatsapp web sticker, transparent sticker, sticker pack zip, free sticker tool, uptools" />
+
+    <!-- Canonical & Icons -->
+    <link rel="canonical" href="https://www.uptools.in/tools/whatsapp-sticker-maker/" />
+    <link rel="icon" type="image/svg+xml" href="/assets/logo/uptools-logo.svg" />
+
+    <!-- Open Graph / Twitter -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="WhatsApp Sticker Maker | UpTools" />
+    <meta property="og:description"
+        content="Upload, edit, and export stickers as 512×512 WebP/PNG. Add text/emoji, rounded corners, and pack into a ZIP." />
+    <meta property="og:url" content="https://www.uptools.in/tools/whatsapp-sticker-maker/" />
+    <meta property="og:image" content="https://www.uptools.in/assets/og/whatsapp-sticker-maker.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="WhatsApp Sticker Maker | UpTools" />
+    <meta name="twitter:description" content="Make WhatsApp stickers in your browser. Fast & free." />
+    <meta name="twitter:image" content="https://www.uptools.in/assets/og/whatsapp-sticker-maker.jpg" />
+
+    <!-- Structured data -->
+    <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"SoftwareApplication",
+    "name":"WhatsApp Sticker Maker",
+    "operatingSystem":"Any",
+    "applicationCategory":"MultimediaApplication",
+    "offers":{"@type":"Offer","price":"0","priceCurrency":"INR"},
+    "url":"https://www.uptools.in/tools/whatsapp-sticker-maker/",
+    "image":"https://www.uptools.in/assets/og/whatsapp-sticker-maker.jpg",
+    "publisher":{"@type":"Organization","name":"UpTools"}
+  }
+  </script>
+
+    <!-- Common CSS & Fonts -->
+    <link rel="stylesheet" href="/style.css" />
+    <style>
+        /* ===== Layout tokens ===== */
+        :root {
+            --vh: 100svh;
+            /* set from JS for mobile correctness */
+            --hdr: 0px;
+            /* header height (set from JS) */
+            --ftr: 0px;
+            /* footer height (set from JS if any) */
+            --gap: 16px;
+            --sticky-top: 12px;
+            --content-max: 1200px;
+            --stage-size: 512px;
+            /* computed from JS to avoid horizontal scroll */
+        }
+
+        html,
+        body {
+            height: 100%;
+            overflow-x: hidden;
+            background: var(--bg, #0b1020);
+            color: var(--ink, #e6f1ff);
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        /* ===== Header (kept as requested) ===== */
+        header.site {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            backdrop-filter: saturate(140%) blur(6px);
+        }
+
+        .header-inner {
+            max-width: var(--content-max);
+            margin: 0 auto;
+            padding: 10px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        /* ===== Main 2-column workspace =====
+       Left: sticky editor (only the editing screen)
+       Right: tools pane (scrollable, overflow auto)
+    ===================================== */
+        main.workspace {
+            max-width: var(--content-max);
+            margin: 12px auto;
+            padding: 0 16px;
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+            gap: var(--gap);
+            align-items: start;
+            min-height: calc(var(--vh) - var(--hdr) - 24px);
+        }
+
+        @media (max-width: 960px) {
+            main.workspace {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ===== Left: sticky editor ===== */
+        .editor {
+            position: sticky;
+            top: calc(var(--sticky-top) + var(--hdr));
+            align-self: start;
+            display: grid;
+            grid-template-rows: auto 1fr auto;
+            gap: 10px;
+            max-height: calc(var(--vh) - var(--hdr) - var(--sticky-top));
+        }
+
+        .editor .card {
+            padding: 10px 12px;
+        }
+
+        .editor-head {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            border: 1px solid var(--border, rgba(255, 255, 255, .08));
+            border-radius: 12px;
+            background: rgba(16, 24, 48, .65);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, .35);
+        }
+
+        .title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+        }
+
+        .title small {
+            color: var(--muted, #9aa7bd);
+            font-weight: 600;
+        }
+
+        .view-tools {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-left: auto;
+        }
+
+        .btn {
+            appearance: none;
+            border: 1px solid var(--border, rgba(255, 255, 255, .08));
+            background: #1b2344;
+            color: #e6f1ff;
+            padding: .52rem .8rem;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 700;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, .35);
+        }
+
+        .btn.secondary {
+            background: transparent;
+        }
+
+        .btn:active {
+            transform: translateY(1px);
+        }
+
+        /* The square preview box is sized by --stage-size so it NEVER overflows left column width/height */
+        .stage-shell {
+            border: 1px solid var(--border, rgba(255, 255, 255, .08));
+            border-radius: 12px;
+            background: #0f1731;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, .35);
+            display: grid;
+            place-items: center;
+            width: var(--stage-size);
+            height: var(--stage-size);
+            margin: 0 auto;
+            /* center in the left column */
+            overflow: hidden;
+        }
+
+        canvas#stage {
+            width: 100%;
+            height: 100%;
+            display: block;
+            background: transparent;
+            image-rendering: crisp-edges;
+            cursor: grab;
+        }
+
+        canvas#stage:active {
+            cursor: grabbing;
+        }
+
+        .editor-io {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        /* ===== Right: tools panel (overflow auto) ===== */
+        .tools {
+            border: 1px solid var(--border, rgba(255, 255, 255, .08));
+            border-radius: 12px;
+            background: rgba(16, 24, 48, .55);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, .35);
+            max-height: calc(var(--vh) - var(--hdr) - var(--sticky-top));
+            overflow: auto;
+            padding: 12px;
+        }
+
+        .section {
+            display: grid;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .row {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .row>label {
+            color: var(--muted, #9aa7bd);
+            font-size: .92rem;
+            min-width: 90px;
+        }
+
+        .note {
+            color: var(--muted, #9aa7bd);
+            font-size: .85rem;
+        }
+
+        input[type="range"] {
+            width: 100%;
+        }
+
+        input[type="color"],
+        input[type="text"] {
+            padding: 6px 10px;
+            border-radius: 8px;
+            border: 1px solid var(--border, rgba(255, 255, 255, .08));
+            background: #0b1020;
+            color: #e6f1ff;
+        }
+
+        /* Thumbs */
+        .thumbs {
+            display: flex;
+            gap: 10px;
+            overflow: auto;
+            padding-top: 8px;
+        }
+
+        .t {
+            display: grid;
+            justify-items: center;
+            gap: 4px;
+            border: 1px solid var(--border, rgba(255, 255, 255, .08));
+            border-radius: 10px;
+            padding: 6px;
+            background: #0f1731;
+            cursor: pointer;
+        }
+
+        .t img {
+            width: 64px;
+            height: 64px;
+            display: block;
+        }
+
+        .t small {
+            color: var(--muted, #9aa7bd);
+            font-size: .78rem;
+        }
+
+        /* YT fixed size to avoid CLS */
+        .yt-wrap {
+            border: 1px solid var(--border, rgba(255, 255, 255, .08));
+            border-radius: 12px;
+            overflow: hidden;
+            background: #0f1731;
+            width: 560px;
+            height: 315px;
+            max-width: 100%;
+            margin: 6px 0 0;
+        }
+
+        .yt-wrap iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+            display: block;
+        }
+
+        /* Mobile: stack, keep no horizontal scroll */
+        @media (max-width: 960px) {
+            .editor {
+                top: var(--sticky-top);
+            }
+
+            .stage-shell {
+                width: min(92vw, 560px);
+                height: min(92vw, 560px);
+            }
+        }
+    </style>
+
+    <!-- ZIP lib -->
+    <script defer src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+</head>
+
+<body>
+    <!-- Header (kept) -->
+    <header class="site" role="banner" id="siteHeader">
+        <div class="header-inner">
+            <a class="brand" href="/" aria-label="UpTools Home">
+                <img src="/assets/logo/uptools-logo.svg" alt="UpTools logo" width="28" height="28" loading="eager">
+                <b>UpTools</b>
+            </a>
+            <nav class="nav-links" aria-label="Primary">
+                <a href="/#tools">Tools</a>
+                <a href="/image-converter/">Image Converter</a>
+                <a href="/png-compressor/">PNG Compressor</a>
+                <a aria-current="page" href="/tools/whatsapp-sticker-maker/">WA Sticker</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="workspace" id="main" role="main">
+        <!-- LEFT: sticky editing screen only -->
+        <section class="editor" id="editor">
+            <div class="editor-head card" id="editorHead">
+                <div class="title">
+                    <span>WhatsApp Sticker Maker</span>
+                    <small>512×512 • WebP/PNG</small>
+                </div>
+                <div class="view-tools">
+                    <button class="btn" id="btnFit" title="Fit (no overflow)">Fit</button>
+                    <button class="btn secondary" id="btnFill" title="Fill (cover)">Fill</button>
+                    <button class="btn secondary" id="btnCenter" title="Center image">Center</button>
+                    <button class="btn secondary" id="btnReset" title="Reset view">Reset</button>
+                </div>
+            </div>
+
+            <!-- Square preview sized via --stage-size -->
+            <div class="stage-shell" id="stageShell" aria-label="Editor preview">
+                <canvas id="stage" width="512" height="512" aria-label="Sticker preview"></canvas>
+            </div>
+
+            <!-- Minimal I/O near the editor (upload/paste) -->
+            <div class="editor-io card" id="editorActions">
+                <input type="file" id="file" accept="image/*" hidden>
+                <label for="file" class="btn" title="Upload image">⬆️ Upload</label>
+                <button class="btn secondary" id="btnPaste" title="Paste from clipboard (Ctrl/Cmd+V)">📋 Paste</button>
+                <button class="btn" id="btnDownloadWebP" title="Download as WebP">⬇️ WebP</button>
+                <button class="btn secondary" id="btnDownloadPNG" title="Download as PNG">⬇️ PNG</button>
+            </div>
+        </section>
+
+        <!-- RIGHT: all tools (overflow auto) -->
+        <aside class="tools" aria-label="Tools" id="toolsPane">
+            <!-- Transform -->
+            <div class="section">
+                <div class="row"><label for="zoom">Zoom</label>
+                    <input id="zoom" type="range" min="0.1" max="5" value="1" step="0.01" style="flex:1">
+                    <output id="zoomOut" class="note">1.00×</output>
+                </div>
+                <div class="row"><label for="panX">Pan X</label>
+                    <input id="panX" type="range" min="-256" max="256" value="0" step="1" style="flex:1">
+                    <output id="panXOut" class="note">0</output>
+                </div>
+                <div class="row"><label for="panY">Pan Y</label>
+                    <input id="panY" type="range" min="-256" max="256" value="0" step="1" style="flex:1">
+                    <output id="panYOut" class="note">0</output>
+                </div>
+                <div class="row"><label for="rot">Rotate</label>
+                    <input id="rot" type="range" min="-180" max="180" value="0" step="0.1" style="flex:1">
+                    <output id="rotOut" class="note">0°</output>
+                </div>
+                <div class="row"><label for="pad">Padding</label>
+                    <input id="pad" type="range" min="0" max="80" value="16" step="1" style="flex:1">
+                    <output id="padOut" class="note">16px</output>
+                </div>
+                <div class="row"><label for="rad">Rounded</label>
+                    <input id="rad" type="range" min="0" max="180" value="36" step="1" style="flex:1">
+                    <output id="radOut" class="note">36px</output>
+                </div>
+            </div>
+
+            <!-- Background -->
+            <hr class="divider">
+            <div class="section">
+                <div class="row">
+                    <label><input id="bgTransparent" type="checkbox" checked> Transparent Background</label>
+                </div>
+                <div class="row">
+                    <label for="bgColor">BG Color</label>
+                    <input id="bgColor" type="color" value="#00000000">
+                </div>
+            </div>
+
+            <!-- Key color removal -->
+            <div class="section">
+                <div class="row">
+                    <label><input id="rmEnable" type="checkbox"> Remove Color</label>
+                </div>
+                <div class="row">
+                    <label for="rmColor">Pick</label>
+                    <input id="rmColor" type="color" value="#ffffff">
+                    <small class="note">Tip: Click the image to sample</small>
+                </div>
+                <div class="row">
+                    <label for="rmTol">Tolerance</label>
+                    <input id="rmTol" type="range" min="0" max="255" value="40" style="flex:1">
+                    <output id="rmTolOut" class="note">40</output>
+                </div>
+            </div>
+
+            <!-- Text/Emoji -->
+            <hr class="divider">
+            <div class="section">
+                <div class="row">
+                    <label for="text">Text/Emoji</label>
+                    <input id="text" type="text" placeholder="Add text or emoji 😊" style="flex:1">
+                </div>
+                <div class="row">
+                    <label for="textSize">Size</label>
+                    <input id="textSize" type="range" min="10" max="160" value="72" style="flex:1">
+                    <output id="textSizeOut" class="note">72px</output>
+                </div>
+                <div class="row">
+                    <label for="textColor">Text</label><input id="textColor" type="color" value="#ffffff">
+                    <label for="textStroke">Stroke</label><input id="textStroke" type="color" value="#000000">
+                </div>
+            </div>
+
+            <!-- Pack meta + actions -->
+            <hr class="divider">
+            <div class="section">
+                <div class="row">
+                    <label for="packTitle">Pack Title</label>
+                    <input id="packTitle" type="text" placeholder="My Stickers" style="flex:1">
+                </div>
+                <div class="row">
+                    <label for="packAuthor">Author</label>
+                    <input id="packAuthor" type="text" placeholder="UpTools" style="flex:1">
+                </div>
+                <div class="row" style="gap:10px">
+                    <button class="btn" id="btnAddToPack" title="Add current sticker to pack">➕ Add to Pack</button>
+                    <button class="btn secondary" id="btnZip" title="Download all as ZIP">📦 ZIP</button>
+                </div>
+                <div class="thumbs" id="thumbs" aria-label="Sticker pack thumbnails"></div>
+            </div>
+
+            <!-- Helpful links + YouTube -->
+            <hr class="divider">
+            <div class="section">
+                <div class="row" style="justify-content:center; gap:.75rem; flex-wrap:wrap">
+                    <a href="/image-converter/">Image Converter</a>
+                    <span>·</span>
+                    <a href="/png-compressor/">PNG Compressor</a>
+                    <span>·</span>
+                    <a href="/games/sudoku/">Sudoku</a>
+                    <span>·</span>
+                    <a href="https://faq.whatsapp.com/1317564962315842" rel="noopener" target="_blank">WhatsApp Stickers
+                        Help</a>
+                    <span>·</span>
+                    <a href="/about/" aria-label="About">ABT</a>
+                    <span>·</span>
+                    <a href="/contact/" aria-label="Contact">CT</a>
+                </div>
+                <div class="yt-wrap" aria-label="How to make WhatsApp stickers (video)">
+                    <iframe width="auto" height="auto" src="https://www.youtube.com/embed/6vhVVngXNE0?si=NujsHS_SexsxKZCS"
+                        title="YouTube video player" frameborder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+            </div>
+        </aside>
+    </main>
+
+    <footer class="site-footer note" id="siteFooter" style="text-align:center; padding:10px 16px;">
+        © <span id="y"></span> UpTools · Fast, privacy-first tools.
+    </footer>
+
+    <!-- App (ESM) -->
+    <script type="module">
+        import * as Utils from '/scripts/utils.js';
+
+        // ---- DOM helpers / fallbacks ----
+        const $ = Utils.$ || (s => document.querySelector(s));
+        const $$ = Utils.$$ || (s => Array.from(document.querySelectorAll(s)));
+        const clamp = Utils.clamp || ((v, min, max) => Math.min(max, Math.max(min, v)));
+        const debounce = Utils.debounce || ((fn, ms) => { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms) } });
+        const setText = Utils.setText || ((el, t) => el && (el.textContent = t));
+        const downloadBlob = Utils.downloadBlob || ((blob, name) => { const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name; a.click(); URL.revokeObjectURL(a.href); });
+
+        // ---- dynamic layout vars ----
+        const headerEl = $('#siteHeader');
+        const footerEl = $('#siteFooter');
+        const stageShell = $('#stageShell');
+        const editor = $('#editor');
+        const editorHead = $('#editorHead');
+        const editorActions = $('#editorActions');
+
+        function setHeights() {
+            const vh = window.innerHeight;
+            const hdr = headerEl?.offsetHeight || 0;
+            const ftr = footerEl?.offsetHeight || 0;
+            document.documentElement.style.setProperty('--vh', vh + 'px');
+            document.documentElement.style.setProperty('--hdr', hdr + 'px');
+            document.documentElement.style.setProperty('--ftr', ftr + 'px');
+            sizeStage(); // also recompute stage size on any layout change
+        }
+
+        // Stage size = min(available width of left column, available height within sticky editor)
+        function sizeStage() {
+            const leftWidth = editor.getBoundingClientRect().width - 4; // minus borders
+            const headH = editorHead?.offsetHeight || 0;
+            const actionsH = editorActions?.offsetHeight || 0;
+            const maxStickyH = (window.innerHeight - (headerEl?.offsetHeight || 0) - (parseInt(getComputedStyle(document.documentElement).getPropertyValue('--sticky-top')) || 12)) - 12;
+            const availableH = Math.max(260, maxStickyH - headH - actionsH - 16);
+            const size = Math.floor(Math.min(leftWidth, availableH));
+            document.documentElement.style.setProperty('--stage-size', size + 'px');
+        }
+
+        setHeights();
+        window.addEventListener('resize', debounce(setHeights, 80));
+        new ResizeObserver(setHeights).observe(headerEl);
+        new ResizeObserver(setHeights).observe(footerEl);
+        new ResizeObserver(debounce(sizeStage, 50)).observe(editor);
+        setText($('#y'), new Date().getFullYear());
+
+        // ---- App state ----
+        const STICKER_SIZE = 512;
+        const canvas = $('#stage');
+        const ctx = canvas.getContext('2d', { willReadFrequently: true });
+
+        let img = new Image(); img.crossOrigin = 'anonymous';
+        let imgCanvas = document.createElement('canvas');
+        let imgCtx = imgCanvas.getContext('2d', { willReadFrequently: true });
+
+        const state = {
+            view: 'fit',         // 'fit' | 'fill'  (affects baseScale calc)
+            baseScale: 1,        // computed to guarantee no overflow for current rot/pad
+            scale: 1,            // user multiplier
+            x: 0, y: 0,          // pan from center
+            rot: 0,              // degrees
+            pad: 16, rad: 36,
+            bgTransparent: true, bgColor: '#00000000',
+            rmEnable: false, rmColor: { r: 255, g: 255, b: 255 }, rmTol: 40,
+            text: '', textSize: 72, textColor: '#ffffff', textStroke: '#000000'
+        };
+
+        // ---- Elements ----
+        const file = $('#file');
+        const zoom = $('#zoom'), panX = $('#panX'), panY = $('#panY'), rot = $('#rot'), pad = $('#pad'), rad = $('#rad');
+        const zoomOut = $('#zoomOut'), panXOut = $('#panXOut'), panYOut = $('#panYOut'), rotOut = $('#rotOut'), padOut = $('#padOut'), radOut = $('#radOut');
+        const bgTransparent = $('#bgTransparent'), bgColor = $('#bgColor');
+        const rmEnable = $('#rmEnable'), rmColor = $('#rmColor'), rmTol = $('#rmTol'), rmTolOut = $('#rmTolOut');
+        const text = $('#text'), textSize = $('#textSize'), textSizeOut = $('#textSizeOut'), textColor = $('#textColor'), textStroke = $('#textStroke');
+        const btnPaste = $('#btnPaste'), btnClear = $('#btnReset'), btnDownloadWebP = $('#btnDownloadWebP'), btnDownloadPNG = $('#btnDownloadPNG');
+        const btnAddToPack = $('#btnAddToPack'), btnZip = $('#btnZip'), thumbs = $('#thumbs');
+        const btnFit = $('#btnFit'), btnFill = $('#btnFill'), btnCenter = $('#btnCenter');
+
+        // ---- helpers ----
+        function hexToRgb(h) {
+            const s = h.replace('#', ''); const b = s.length === 3 ? s.split('').map(c => c + c).join('') : s;
+            const m = b.match(/.{1,2}/g).map(x => parseInt(x, 16));
+            return { r: m[0], g: m[1], b: m[2] };
+        }
+
+        // Base scale that accounts for rotation so the rotated bounding box fits within (draw x draw)
+        function computeBaseScale(view = 'fit') {
+            if (!imgCanvas.width) return 1;
+            const draw = STICKER_SIZE - state.pad * 2;
+            const w = imgCanvas.width, h = imgCanvas.height;
+            const t = Math.abs(state.rot) * Math.PI / 180;
+            const c = Math.abs(Math.cos(t)), s = Math.abs(Math.sin(t));
+            // bounding box of rotated rectangle
+            const bw = w * c + h * s;
+            const bh = w * s + h * c;
+            const fitS = Math.min(draw / bw, draw / bh);
+            const fillS = Math.max(draw / bw, draw / bh);
+            return view === 'fill' ? fillS : fitS;
+        }
+
+        function centerImage() {
+            state.x = 0; state.y = 0;
+            panX.value = '0'; panY.value = '0';
+            panXOut.textContent = '0'; panYOut.textContent = '0';
+        }
+        function applyFit() {
+            state.view = 'fit';
+            state.baseScale = computeBaseScale('fit');
+            state.scale = 1;
+            zoom.value = '1.00'; zoomOut.textContent = '1.00×';
+            centerImage(); render();
+        }
+        function applyFill() {
+            state.view = 'fill';
+            state.baseScale = computeBaseScale('fill');
+            state.scale = 1;
+            zoom.value = '1.00'; zoomOut.textContent = '1.00×';
+            centerImage(); render();
+        }
+
+        function prepareSource() {
+            imgCanvas.width = img.naturalWidth || img.width || 0;
+            imgCanvas.height = img.naturalHeight || img.height || 0;
+            imgCtx.clearRect(0, 0, imgCanvas.width, imgCanvas.height);
+            if (imgCanvas.width && imgCanvas.height) {
+                imgCtx.drawImage(img, 0, 0);
+            }
+            if (state.rmEnable && imgCanvas.width) {
+                const key = state.rmColor, tol = state.rmTol | 0;
+                const imgData = imgCtx.getImageData(0, 0, imgCanvas.width, imgCanvas.height);
+                const d = imgData.data;
+                for (let i = 0; i < d.length; i += 4) {
+                    const dr = d[i] - key.r, dg = d[i + 1] - key.g, db = d[i + 2] - key.b;
+                    const dist = Math.sqrt(dr * dr + dg * dg + db * db);
+                    if (dist <= tol) { d[i + 3] = 0; }
+                }
+                imgCtx.clearRect(0, 0, imgCanvas.width, imgCanvas.height);
+                imgCtx.putImageData(imgData, 0, 0);
+            }
+            state.baseScale = computeBaseScale(state.view);
+        }
+
+        function roundRect(ctx, x, y, w, h, r) {
+            const rr = Math.min(r, w / 2, h / 2);
+            ctx.beginPath();
+            ctx.moveTo(x + rr, y);
+            ctx.arcTo(x + w, y, x + w, y + h, rr);
+            ctx.arcTo(x + w, y + h, x, y + h, rr);
+            ctx.arcTo(x, y + h, x, y, rr);
+            ctx.arcTo(x, y, x + w, y, rr);
+            ctx.closePath();
+        }
+
+        function render() {
+            ctx.clearRect(0, 0, STICKER_SIZE, STICKER_SIZE);
+            if (!state.bgTransparent) {
+                ctx.fillStyle = state.bgColor;
+                ctx.fillRect(0, 0, STICKER_SIZE, STICKER_SIZE);
+            }
+            ctx.save();
+            roundRect(ctx, state.pad, state.pad, STICKER_SIZE - state.pad * 2, STICKER_SIZE - state.pad * 2, state.rad);
+            ctx.clip();
+
+            if (imgCanvas.width) {
+                const cx = STICKER_SIZE / 2 + state.x;
+                const cy = STICKER_SIZE / 2 + state.y;
+                ctx.translate(cx, cy);
+                ctx.rotate(state.rot * Math.PI / 180);
+
+                const s = state.baseScale * state.scale;
+                const dw = imgCanvas.width * s, dh = imgCanvas.height * s;
+                ctx.drawImage(imgCanvas, -dw / 2, -dh / 2, dw, dh);
+                ctx.setTransform(1, 0, 0, 1, 0, 0);
+            }
+            ctx.restore();
+
+            if (state.text.trim()) {
+                ctx.save();
+                ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+                ctx.font = `700 ${state.textSize}px system-ui,Segoe UI Emoji,Apple Color Emoji,Segoe UI Symbol`;
+                ctx.lineWidth = Math.max(2, Math.floor(state.textSize / 12));
+                ctx.strokeStyle = state.textStroke;
+                ctx.fillStyle = state.textColor;
+                const textY = STICKER_SIZE - state.pad - (state.textSize / 2) - 6;
+                ctx.strokeText(state.text, STICKER_SIZE / 2, textY);
+                ctx.fillText(state.text, STICKER_SIZE / 2, textY);
+                ctx.restore();
+            }
+        }
+
+        // ---- File I/O ----
+        function loadFile(f) {
+            if (!f || !f.type?.startsWith('image/')) return;
+            const url = URL.createObjectURL(f);
+            img.onload = () => { URL.revokeObjectURL(url); prepareSource(); applyFit(); };
+            img.onerror = () => { URL.revokeObjectURL(url); };
+            img.src = url;
+        }
+        file.addEventListener('change', e => loadFile(e.target.files?.[0]));
+
+        // Paste button
+        btnPaste.addEventListener('click', async () => {
+            try {
+                const items = await navigator.clipboard.read();
+                for (const it of items) {
+                    for (const t of it.types) {
+                        if (t.startsWith('image/')) {
+                            const blob = await it.getType(t);
+                            loadFile(new File([blob], 'pasted.png', { type: t }));
+                            return;
+                        }
+                    }
+                }
+                alert('No image in clipboard.');
+            } catch { alert('Clipboard read not permitted. Use Ctrl/Cmd+V on supported browsers.'); }
+        });
+
+        // ---- Bindings ----
+        const connect = (el, fn) => { const apply = () => { fn(el.type === 'checkbox' ? el.checked : el.value); render(); }; el.addEventListener('input', apply); el.addEventListener('change', apply); apply(); };
+
+        connect(zoom, v => { state.scale = +v; zoomOut.textContent = (+v).toFixed(2) + '×'; });
+        connect(panX, v => { state.x = +v; panXOut.textContent = v; });
+        connect(panY, v => { state.y = +v; panYOut.textContent = v; });
+
+        // On rotation or padding change, recompute baseScale according to current view (FIT/FILL)
+        connect(rot, v => { state.rot = +v; rotOut.textContent = v + '°'; state.baseScale = computeBaseScale(state.view); });
+        connect(pad, v => { state.pad = +v; padOut.textContent = v + 'px'; state.baseScale = computeBaseScale(state.view); });
+        connect(rad, v => { state.rad = +v; radOut.textContent = v + 'px'; });
+
+        connect(bgTransparent, v => { state.bgTransparent = v; });
+        connect(bgColor, v => { state.bgColor = v; });
+        connect(rmEnable, v => { state.rmEnable = v; prepareSource(); });
+        connect(rmColor, v => { state.rmColor = hexToRgb(v); prepareSource(); });
+        connect(rmTol, v => { state.rmTol = +v; rmTolOut.textContent = v; prepareSource(); });
+        connect(text, v => { state.text = v; });
+        connect(textSize, v => { state.textSize = +v; textSizeOut.textContent = v + 'px'; });
+        connect(textColor, v => { state.textColor = v; });
+        connect(textStroke, v => { state.textStroke = v; });
+
+        // Drag pan on canvas
+        let dragging = false, lastX = 0, lastY = 0;
+        canvas.addEventListener('mousedown', (e) => { dragging = true; lastX = e.clientX; lastY = e.clientY; });
+        window.addEventListener('mouseup', () => { dragging = false; });
+        window.addEventListener('mousemove', (e) => {
+            if (!dragging) return;
+            const dx = e.clientX - lastX, dy = e.clientY - lastY;
+            lastX = e.clientX; lastY = e.clientY;
+            state.x = clamp(state.x + dx, -STICKER_SIZE, STICKER_SIZE);
+            state.y = clamp(state.y + dy, -STICKER_SIZE, STICKER_SIZE);
+            panX.value = state.x; panY.value = state.y; panXOut.textContent = Math.round(state.x); panYOut.textContent = Math.round(state.y);
+            render();
+        });
+
+        // Wheel: zoom / rotate (Shift). Keep baseScale consistent with current view.
+        canvas.addEventListener('wheel', (e) => {
+            e.preventDefault();
+            if (e.shiftKey) {
+                state.rot = clamp(state.rot + (e.deltaY > 0 ? 1 : -1), -180, 180);
+                rot.value = state.rot; rotOut.textContent = state.rot + '°';
+                state.baseScale = computeBaseScale(state.view);
+                render();
+                return;
+            }
+            const factor = e.deltaY > 0 ? 0.92 : 1.08;
+            state.scale = clamp(state.scale * factor, 0.1, 5);
+            zoom.value = state.scale.toFixed(2); zoomOut.textContent = state.scale.toFixed(2) + '×';
+            render();
+        }, { passive: false });
+
+        // Double click to FIT
+        canvas.addEventListener('dblclick', applyFit);
+
+        // Sample color on click for removal
+        canvas.addEventListener('click', (e) => {
+            if (!state.rmEnable || !imgCanvas.width) return;
+            const rect = canvas.getBoundingClientRect();
+            const sx = Math.floor((e.clientX - rect.left) / rect.width * STICKER_SIZE);
+            const sy = Math.floor((e.clientY - rect.top) / rect.height * STICKER_SIZE);
+            const d = ctx.getImageData(sx, sy, 1, 1).data;
+            const hex = '#' + [d[0], d[1], d[2]].map(v => v.toString(16).padStart(2, '0')).join('');
+            rmColor.value = hex;
+            state.rmColor = { r: d[0], g: d[1], b: d[2] };
+            prepareSource(); render();
+        });
+
+        // Quick actions
+        btnFit.addEventListener('click', applyFit);
+        btnFill.addEventListener('click', applyFill);
+        btnCenter.addEventListener('click', () => { centerImage(); render(); });
+        btnClear.addEventListener('click', () => {
+            img.src = ''; imgCanvas.width = imgCanvas.height = 0; ctx.clearRect(0, 0, STICKER_SIZE, STICKER_SIZE);
+            state.text = ''; text.value = ''; text.dispatchEvent(new Event('input'));
+            state.rot = 0; rot.value = '0'; rot.dispatchEvent(new Event('input'));
+            applyFit();
+        });
+
+        // Downloads
+        btnDownloadWebP.addEventListener('click', async () => {
+            render();
+            const blob = await new Promise(r => canvas.toBlob(r, 'image/webp', 0.95));
+            downloadBlob(blob, 'sticker.webp');
+        });
+        btnDownloadPNG.addEventListener('click', async () => {
+            render();
+            const blob = await new Promise(r => canvas.toBlob(r, 'image/png'));
+            downloadBlob(blob, 'sticker.png');
+        });
+
+        // Pack ZIP
+        const pack = [];
+        btnAddToPack.addEventListener('click', async () => {
+            render();
+            const blob = await new Promise(r => canvas.toBlob(r, 'image/webp', 0.95));
+            const url = URL.createObjectURL(blob);
+            const name = `sticker_${(pack.length + 1).toString().padStart(2, '0')}.webp`;
+            pack.push({ name, blob });
+            const card = document.createElement('button');
+            card.className = 't'; card.title = name;
+            const imgEl = document.createElement('img'); imgEl.src = url; imgEl.alt = name; imgEl.width = 64; imgEl.height = 64;
+            const cap = document.createElement('small'); cap.textContent = name;
+            card.appendChild(imgEl); card.appendChild(cap);
+            card.addEventListener('click', () => downloadBlob(blob, name));
+            thumbs.appendChild(card);
+        });
+
+        btnZip.addEventListener('click', async () => {
+            if (!pack.length) { alert('No stickers added.'); return; }
+            if (!window.JSZip) { alert('ZIP library not loaded. Try again.'); return; }
+            const zip = new JSZip();
+            const folder = zip.folder((($('#packTitle')?.value) || 'UpTools_Stickers').replace(/[^\w\-]+/g, '_'));
+            for (const s of pack) { folder.file(s.name, s.blob); }
+            folder.file('README.txt',
+                `Sticker Pack
+Title : ${$('#packTitle')?.value || 'UpTools Stickers'}
+Author: ${$('#packAuthor')?.value || 'UpTools'}
+
+Each file is 512x512 .webp
+Import: WhatsApp Desktop -> drag/drop images into a chat's Sticker tool,
+or use a mobile "Sticker Maker" app to import WebP files.`);
+            const blob = await zip.generateAsync({ type: 'blob' });
+            downloadBlob(blob, `${(($('#packTitle')?.value) || 'UpTools_Stickers').replace(/[^\w\-]+/g, '_')}.zip`);
+        });
+
+        // Initial layout + render
+        applyFit(); render();
+    </script>
+</body>
+
+</html>

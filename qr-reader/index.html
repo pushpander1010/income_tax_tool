@@ -1,8 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <!-- Ads (only if available; injected later to avoid layout shift) -->
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617" crossorigin="anonymous"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617"
+    crossorigin="anonymous"></script>
   <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
   <link rel="dns-prefetch" href="//pagead2.googlesyndication.com">
 
@@ -15,7 +17,8 @@
   <title>QR Reader - Scan QR Codes Online (Camera & Image) | UpTools</title>
 
   <!-- SEO -->
-  <meta name="description" content="Free QR code scanner in your browser. Tap Enable Camera to trigger the permission prompt, then scan via camera or upload an image. Multiple codes, Wi-Fi & vCard parsing, copy/share/open, torch, camera switch, local history. Privacy-first - no uploads." />
+  <meta name="description"
+    content="Free QR code scanner in your browser. Tap Enable Camera to trigger the permission prompt, then scan via camera or upload an image. Multiple codes, Wi-Fi & vCard parsing, copy/share/open, torch, camera switch, local history. Privacy-first - no uploads." />
   <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:large" />
   <link rel="canonical" href="https://www.uptools.in/qr-reader/" />
   <meta name="theme-color" content="#0b1020" />
@@ -26,19 +29,23 @@
 
   <!-- Open Graph / Twitter -->
   <meta property="og:title" content="QR Reader - Scan QR Codes Online" />
-  <meta property="og:description" content="Enable camera permission with one tap and scan QR codes instantly. Works on-device - no uploads." />
+  <meta property="og:description"
+    content="Enable camera permission with one tap and scan QR codes instantly. Works on-device - no uploads." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.uptools.in/qr-reader/" />
   <meta property="og:image" content="/assets/og/qr-reader.png" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="QR Reader - Scan QR Codes Online" />
-  <meta name="twitter:description" content="Grant camera permission and scan QR codes. Copy/share/open results, Wi-Fi/vCard parsing, history, torch & camera switch." />
+  <meta name="twitter:description"
+    content="Grant camera permission and scan QR codes. Copy/share/open results, Wi-Fi/vCard parsing, history, torch & camera switch." />
   <meta name="twitter:image" content="/assets/og/qr-reader.png" />
 
   <!-- Common CSS (shared) -->
   <link rel="preload" href="/style.css?v=1.2.4" as="style">
   <link rel="stylesheet" href="/style.css?v=1.2.4" media="print" onload="this.media='all'">
-  <noscript><link rel="stylesheet" href="/style.css?v=1.2.4"></noscript>
+  <noscript>
+    <link rel="stylesheet" href="/style.css?v=1.2.4">
+  </noscript>
 
   <!-- Structured Data -->
   <script type="application/ld+json">
@@ -54,46 +61,182 @@
 
   <style>
     /* Page-scoped helpers (qr-*) layered on top of /style.css */
-    .qr-wrap{min-height:100dvh;display:grid;grid-template-rows:auto 1fr auto}
-    .qr-main{display:grid;grid-template-columns:1.2fr 1fr;gap:16px;padding:16px;align-items:stretch;min-height:calc(100dvh - 56px - 64px)}
-    .qr-panel{background:color-mix(in oklab,var(--card,#121a2c) 95%,transparent);border:1px solid var(--border,#223);border-radius:14px;padding:12px;box-shadow:var(--shadow,0 8px 30px rgba(0,0,0,.35))}
-    .qr-media{display:grid;grid-template-rows:auto auto auto 1fr auto;gap:10px}
+    .qr-wrap {
+      min-height: 100dvh;
+      display: grid;
+      grid-template-rows: auto 1fr auto
+    }
+
+    .qr-main {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 16px;
+      padding: 16px;
+      align-items: stretch;
+      min-height: calc(100dvh - 56px - 64px)
+    }
+
+    .qr-panel {
+      background: color-mix(in oklab, var(--card, #121a2c) 95%, transparent);
+      border: 1px solid var(--border, #223);
+      border-radius: 14px;
+      padding: 12px;
+      box-shadow: var(--shadow, 0 8px 30px rgba(0, 0, 0, .35))
+    }
+
+    .qr-media {
+      display: grid;
+      grid-template-rows: auto auto auto 1fr auto;
+      gap: 10px
+    }
 
     /* Permission/info strip (stable height) */
-    .perm-strip{display:grid;grid-template-columns:1fr auto;gap:10px;align-items:center;border:1px dashed var(--border);background:#0b1326;border-radius:12px;padding:10px}
-    .perm-strip .note{margin:0}
+    .perm-strip {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: center;
+      border: 1px dashed var(--border);
+      background: #0b1326;
+      border-radius: 12px;
+      padding: 10px
+    }
+
+    .perm-strip .note {
+      margin: 0
+    }
 
     /* Viewport (no overflow) */
-    .qr-video-wrap{position:relative;width:100%;aspect-ratio:16/10;max-height:min(52vh,520px);border-radius:12px;overflow:hidden;background:#000;margin:2px 0;contain:content}
-    .qr-video,.qr-overlay{position:absolute;inset:0;width:100%;height:100%;display:block}
-    .qr-video{object-fit:contain;background:#000}
-    .qr-overlay{pointer-events:none}
+    .qr-video-wrap {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16/10;
+      max-height: min(52vh, 520px);
+      border-radius: 12px;
+      overflow: hidden;
+      background: #000;
+      margin: 2px 0;
+      contain: content
+    }
+
+    .qr-video,
+    .qr-overlay {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      display: block
+    }
+
+    .qr-video {
+      object-fit: contain;
+      background: #000
+    }
+
+    .qr-overlay {
+      pointer-events: none
+    }
 
     /* Tap-to-enable layer (visible before permission) */
-    .qr-tap{position:absolute;inset:0;display:grid;place-items:center;background:rgba(0,0,0,.35);backdrop-filter:blur(1px);font-weight:800}
-    .qr-tap.hide{display:none}
+    .qr-tap {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      background: rgba(0, 0, 0, .35);
+      backdrop-filter: blur(1px);
+      font-weight: 800
+    }
 
-    .qr-controls{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
-    .qr-actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
-    .qr-selects{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+    .qr-tap.hide {
+      display: none
+    }
 
-    .qr-side{display:grid;grid-template-rows:auto auto 1fr auto;gap:12px}
-    .qr-results{display:grid;gap:8px;overflow:auto}
-    .qr-result{padding:10px;border-radius:10px;border:1px solid var(--border,#223);background:rgba(25,30,45,.55);display:grid;gap:6px}
-    .qr-badges{display:flex;flex-wrap:wrap;gap:6px}
-    .qr-badge{font:700 12px/1.8 system-ui;padding:2px 8px;border-radius:999px;border:1px solid #1a2b3a;background:#0e1724}
+    .qr-controls {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px
+    }
 
-    .qr-youtube{border-radius:12px;overflow:hidden;background:#000}
-    .qr-youtube iframe{display:block;width:100%;aspect-ratio:16/9}
+    .qr-actions {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px
+    }
 
-    @media (max-width:980px){
-      .qr-main{grid-template-columns:1fr}
-      .qr-controls{grid-template-columns:repeat(2,minmax(0,1fr))}
-      .qr-actions{grid-template-columns:repeat(2,minmax(0,1fr))}
-      .qr-video-wrap{max-height:min(45vh,420px)}
+    .qr-selects {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px
+    }
+
+    .qr-side {
+      display: grid;
+      grid-template-rows: auto auto 1fr auto;
+      gap: 12px
+    }
+
+    .qr-results {
+      display: grid;
+      gap: 8px;
+      overflow: auto
+    }
+
+    .qr-result {
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid var(--border, #223);
+      background: rgba(25, 30, 45, .55);
+      display: grid;
+      gap: 6px
+    }
+
+    .qr-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px
+    }
+
+    .qr-badge {
+      font: 700 12px/1.8 system-ui;
+      padding: 2px 8px;
+      border-radius: 999px;
+      border: 1px solid #1a2b3a;
+      background: #0e1724
+    }
+
+    .qr-youtube {
+      border-radius: 12px;
+      overflow: hidden;
+      background: #000
+    }
+
+    .qr-youtube iframe {
+      display: block;
+      width: 100%;
+      aspect-ratio: 16/9
+    }
+
+    @media (max-width:980px) {
+      .qr-main {
+        grid-template-columns: 1fr
+      }
+
+      .qr-controls {
+        grid-template-columns: repeat(2, minmax(0, 1fr))
+      }
+
+      .qr-actions {
+        grid-template-columns: repeat(2, minmax(0, 1fr))
+      }
+
+      .qr-video-wrap {
+        max-height: min(45vh, 420px)
+      }
     }
   </style>
 </head>
+
 <body>
   <div class="qr-wrap">
     <!-- Header -->
@@ -117,7 +260,8 @@
       <!-- Camera + Controls -->
       <section class="qr-panel qr-media" aria-label="QR camera scanner">
         <div class="perm-strip" id="permStrip" role="status" aria-live="polite">
-          <p class="note" id="permText">Tap <b>Enable Camera</b> (or the video area). We'll auto-start scanning and stop after the first code.</p>
+          <p class="note" id="permText">Tap <b>Enable Camera</b> (or the video area). We'll auto-start scanning and stop
+            after the first code.</p>
           <div style="display:flex;gap:8px">
             <button id="btnEnable" class="btn">Enable Camera</button>
             <button id="btnHelp" class="btn secondary" title="If you don't see a prompt">Help</button>
@@ -125,7 +269,8 @@
         </div>
 
         <div class="qr-mini" style="display:flex;align-items:center;gap:8px">
-          <span class="text-logo" aria-hidden="true" style="font-weight:800;padding:2px 8px;border-radius:8px;border:1px solid #2a3b5a;background:#0e1a2b">QR</span>
+          <span class="text-logo" aria-hidden="true"
+            style="font-weight:800;padding:2px 8px;border-radius:8px;border:1px solid #2a3b5a;background:#0e1a2b">QR</span>
           <div>
             <h1 id="page-title" style="margin:0;">QR Reader</h1>
             <p class="note" style="margin:2px 0 0;">Privacy-first. On-device. No uploads.</p>
@@ -166,7 +311,8 @@
         </div>
 
         <div class="qr-actions">
-          <button class="btn" id="btnScanScreen" title="Capture a window/tab and scan its QR (desktop)">Scan Screen</button>
+          <button class="btn" id="btnScanScreen" title="Capture a window/tab and scan its QR (desktop)">Scan
+            Screen</button>
           <a class="btn" href="/qr-generator/"><span class="text-logo" aria-hidden="true">QR</span> Create QR</a>
           <a class="btn secondary" href="/sitemap.xml">Sitemap</a>
         </div>
@@ -194,17 +340,18 @@
           <summary><b>How it works & permission tips</b></summary>
           <ul class="note" style="margin:.5rem 0 0; padding-left:1rem;">
             <li><b>HTTPS required</b> (or <code>localhost</code>) for camera access.</li>
-            <li>If this page is inside an <b>iframe</b>, the parent must set <code>allow="camera;microphone"</code> and your server's <code>Permissions-Policy</code> must allow <code>camera</code>.</li>
+            <li>If this page is inside an <b>iframe</b>, the parent must set <code>allow="camera;microphone"</code> and
+              your server's <code>Permissions-Policy</code> must allow <code>camera</code>.</li>
             <li><b>We auto-start</b> once permission is granted and <b>auto-stop</b> after first detection.</li>
             <li><b>Browser support</b>: auto-fallback if <code>BarcodeDetector</code> is unavailable.</li>
           </ul>
         </details>
 
         <figure class="qr-youtube" aria-labelledby="yt-title" style="margin:4px 0 0;">
-          <iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/5v9fN6xw8wU"
-                  title="How to scan QR codes in your browser" loading="lazy"
-                  referrerpolicy="strict-origin-when-cross-origin"
-                  allow="accelerometer; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+          <iframe width="auto" height="auto" src="https://www.youtube.com/embed/pamazHwk0hg?si=W5m7_p6rvYyUJYE9"
+            title="YouTube video player" frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
           <figcaption id="yt-title" class="visually-hidden">Demo: scanning QR codes in a web browser</figcaption>
         </figure>
 
@@ -213,10 +360,12 @@
     </main>
 
     <!-- Footer backlinks -->
-    <footer class="container" style="padding:10px 16px 18px; display:flex; flex-wrap:wrap; gap:10px; align-items:center; justify-content:space-between;">
+    <footer class="container"
+      style="padding:10px 16px 18px; display:flex; flex-wrap:wrap; gap:10px; align-items:center; justify-content:space-between;">
       <div class="chips">
         <a class="chip" href="/qr-generator/"><span class="text-logo" aria-hidden="true">QR</span> Create QR</a>
-        <a class="chip" href="/image-converter/"><span class="text-logo" aria-hidden="true">IC</span> Image Converter</a>
+        <a class="chip" href="/image-converter/"><span class="text-logo" aria-hidden="true">IC</span> Image
+          Converter</a>
         <a class="chip" href="/image-tool/"><span class="text-logo" aria-hidden="true">IT</span> Image Tools</a>
         <a class="chip" href="/currency-converter/"><span class="text-logo" aria-hidden="true">CC</span> Currency</a>
         <a class="chip" href="/ifsc-finder/"><span class="text-logo" aria-hidden="true">IF</span> IFSC Finder</a>
@@ -232,7 +381,8 @@
       <h2 id="permTitle">Didn't see a camera prompt?</h2>
       <div id="permDesc" class="note" style="text-align:left">
         <p><b>1) Check HTTPS</b> - open this page at <code>https://</code> or on <code>localhost</code>.</p>
-        <p><b>2) If embedded</b> - parent iframe must include <code>allow="camera;microphone"</code> and headers must allow <code>camera</code> in <code>Permissions-Policy</code>.</p>
+        <p><b>2) If embedded</b> - parent iframe must include <code>allow="camera;microphone"</code> and headers must
+          allow <code>camera</code> in <code>Permissions-Policy</code>.</p>
         <p><b>3) Reset site permission</b> - padlock icon → Site settings → Camera → Ask/Allow.</p>
       </div>
       <div style="display:flex;gap:8px;justify-content:flex-end;margin-top:10px">
@@ -290,7 +440,7 @@
 
     // Environment checks
     const isHttpsLike = location.protocol === 'https:' || location.hostname === 'localhost' || location.hostname === '127.0.0.1';
-    const inIframe = (()=>{ try { return window.top !== window.self; } catch { return true; } })();
+    const inIframe = (() => { try { return window.top !== window.self; } catch { return true; } })();
     if (!isHttpsLike) {
       els.permText.innerHTML = 'Open this page over <b>HTTPS</b> (or <code>localhost</code>) to access the camera.';
     }
@@ -302,49 +452,49 @@
     const notify = (msg) => {
       const n = Object.assign(document.createElement('div'), { textContent: msg });
       n.style.cssText = 'position:fixed;left:50%;transform:translateX(-50%);bottom:18px;background:#0b1326;border:1px solid #234;padding:8px 12px;border-radius:10px;box-shadow:0 2px 10px rgba(0,0,0,.3);z-index:9999';
-      document.body.appendChild(n); setTimeout(()=> n.remove(), 1600);
+      document.body.appendChild(n); setTimeout(() => n.remove(), 1600);
     };
-    const resolutionConstraints = (val)=>{
-      switch(val){
-        case 'hd': return { width:{ideal:1280}, height:{ideal:720} };
-        case 'fhd': return { width:{ideal:1920}, height:{ideal:1080} };
-        case 'uhd': return { width:{ideal:2560}, height:{ideal:1440} };
+    const resolutionConstraints = (val) => {
+      switch (val) {
+        case 'hd': return { width: { ideal: 1280 }, height: { ideal: 720 } };
+        case 'fhd': return { width: { ideal: 1920 }, height: { ideal: 1080 } };
+        case 'uhd': return { width: { ideal: 2560 }, height: { ideal: 1440 } };
         default: return {};
       }
     };
 
-    async function listCameras(){
-      try{
+    async function listCameras() {
+      try {
         const devices = await navigator.mediaDevices.enumerateDevices();
         const vids = devices.filter(d => d.kind === 'videoinput');
         els.cameraSel.innerHTML = '';
-        vids.forEach((d,i)=>{
+        vids.forEach((d, i) => {
           const opt = document.createElement('option');
           opt.value = d.deviceId || '';
-          opt.textContent = d.label || `Camera ${i+1}`;
+          opt.textContent = d.label || `Camera ${i + 1}`;
           els.cameraSel.appendChild(opt);
         });
-        if (vids.length && !currentDeviceId){
+        if (vids.length && !currentDeviceId) {
           const back = vids.find(d => /back|rear|environment/i.test(d.label));
           currentDeviceId = (back || vids[0]).deviceId || undefined;
         }
         if (currentDeviceId) els.cameraSel.value = currentDeviceId;
-      }catch{}
+      } catch { }
     }
 
-    async function startStream(){
+    async function startStream() {
       await stopStream();               // ensure clean start
       foundOnce = false;                // allow a new detection
       const deviceId = els.cameraSel.value || currentDeviceId;
       currentDeviceId = deviceId || undefined;
       const constraints = {
-        video: { ...(deviceId ? { deviceId:{ exact: deviceId } } : { facingMode:{ ideal:'environment' } }), ...resolutionConstraints(els.resSel.value) },
+        video: { ...(deviceId ? { deviceId: { exact: deviceId } } : { facingMode: { ideal: 'environment' } }), ...resolutionConstraints(els.resSel.value) },
         audio: false
       };
-      try{
+      try {
         stream = await navigator.mediaDevices.getUserMedia(constraints);
         els.video.srcObject = stream;
-        await els.video.play().catch(()=>{});
+        await els.video.play().catch(() => { });
         resizeOverlayToWrap();
         els.btnStop.disabled = false;
         els.btnAgain.disabled = true;
@@ -355,7 +505,7 @@
         els.btnEnable.textContent = 'Camera Allowed ✅';
         els.btnEnable.disabled = true;
         await listCameras(); // after permission granted, labels populate
-      }catch(err){
+      } catch (err) {
         if (err && (err.name === 'NotAllowedError' || err.name === 'SecurityError')) {
           els.permText.textContent = 'Permission was blocked. Tap Help for steps or use Upload Image.';
           openModal();
@@ -368,86 +518,86 @@
       }
     }
 
-    async function stopStream(){
+    async function stopStream() {
       scanning = false;
-      if (zxingReader){ try{ zxingReader.reset(); }catch{} }
-      if (stream){ stream.getTracks().forEach(t=>t.stop()); stream = null; }
+      if (zxingReader) { try { zxingReader.reset(); } catch { } }
+      if (stream) { stream.getTracks().forEach(t => t.stop()); stream = null; }
       els.btnStop.disabled = true;
-      ctx && ctx.clearRect(0,0,els.overlay.width,els.overlay.height);
+      ctx && ctx.clearRect(0, 0, els.overlay.width, els.overlay.height);
       els.tapToEnable.classList.toggle('hide', !!(navigator.permissions && (await canAutoStart())));
       els.btnAgain.disabled = false;     // enable rescan button
     }
 
-    async function canAutoStart(){
+    async function canAutoStart() {
       if (!navigator.permissions?.query) return false;
       try {
-        const st = await navigator.permissions.query({ name:'camera' });
+        const st = await navigator.permissions.query({ name: 'camera' });
         return st.state === 'granted';
       } catch { return false; }
     }
 
-    async function enableTorchIfAvailable(){
-      try{
+    async function enableTorchIfAvailable() {
+      try {
         const track = stream?.getVideoTracks?.()[0];
         const caps = track?.getCapabilities?.();
         els.btnTorch.disabled = !(caps && 'torch' in caps);
-      }catch{ els.btnTorch.disabled = true; }
+      } catch { els.btnTorch.disabled = true; }
     }
-    async function toggleTorch(){
-      try{
+    async function toggleTorch() {
+      try {
         const track = stream?.getVideoTracks?.()[0]; if (!track) return;
         const caps = track.getCapabilities?.(); if (!caps || !('torch' in caps)) return;
         const settings = track.getSettings?.() || {};
         const torchOn = !settings.torch;
-        await track.applyConstraints({ advanced:[{ torch: torchOn }] });
+        await track.applyConstraints({ advanced: [{ torch: torchOn }] });
         notify(torchOn ? 'Torch on' : 'Torch off');
-      }catch{ notify('Torch not available on this device.'); }
+      } catch { notify('Torch not available on this device.'); }
     }
 
-    async function ensureZXing(){ if (!ZX) ZX = await import('https://cdn.jsdelivr.net/npm/@zxing/browser@0.1.5/+esm'); }
-    async function runScanner(){
+    async function ensureZXing() { if (!ZX) ZX = await import('https://cdn.jsdelivr.net/npm/@zxing/browser@0.1.5/+esm'); }
+    async function runScanner() {
       scanning = true;
-      if ('BarcodeDetector' in window){ if (!barcodeDetector){ try{ barcodeDetector = new window.BarcodeDetector({ formats:['qr_code'] }); }catch{} } }
+      if ('BarcodeDetector' in window) { if (!barcodeDetector) { try { barcodeDetector = new window.BarcodeDetector({ formats: ['qr_code'] }); } catch { } } }
       useBarcodeDetector = !!barcodeDetector;
-      if (useBarcodeDetector){
+      if (useBarcodeDetector) {
         loopBarcodeDetector();
       } else {
         await ensureZXing();
         if (!zxingReader) zxingReader = new ZX.BrowserQRCodeReader();
-        zxingReader.decodeFromVideoDevice(currentDeviceId || undefined, els.video, (res)=>{
+        zxingReader.decodeFromVideoDevice(currentDeviceId || undefined, els.video, (res) => {
           if (!scanning || foundOnce) return;
-          ctx.clearRect(0,0,els.overlay.width,els.overlay.height);
-          if (res?.resultPoints?.length){
-            ctx.beginPath(); ctx.strokeStyle='rgba(0,255,180,.9)'; ctx.lineWidth=3;
-            res.resultPoints.forEach((p,i)=> (i?ctx.lineTo(p.x,p.y):ctx.moveTo(p.x,p.y)));
+          ctx.clearRect(0, 0, els.overlay.width, els.overlay.height);
+          if (res?.resultPoints?.length) {
+            ctx.beginPath(); ctx.strokeStyle = 'rgba(0,255,180,.9)'; ctx.lineWidth = 3;
+            res.resultPoints.forEach((p, i) => (i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y)));
             ctx.closePath(); ctx.stroke();
           }
-          if (res?.getText?.()) handleFound(res.getText(), { from:'camera' });
+          if (res?.getText?.()) handleFound(res.getText(), { from: 'camera' });
         });
       }
     }
-    async function loopBarcodeDetector(){
+    async function loopBarcodeDetector() {
       if (!scanning || !barcodeDetector || foundOnce) return;
-      try{
+      try {
         const detections = await barcodeDetector.detect(els.video);
-        ctx.clearRect(0,0,els.overlay.width,els.overlay.height);
-        if (detections?.length){
+        ctx.clearRect(0, 0, els.overlay.width, els.overlay.height);
+        if (detections?.length) {
           const first = detections[0];
-          if (first?.boundingBox){
-            ctx.strokeStyle='rgba(0,255,180,.9)'; ctx.lineWidth=3;
+          if (first?.boundingBox) {
+            ctx.strokeStyle = 'rgba(0,255,180,.9)'; ctx.lineWidth = 3;
             ctx.strokeRect(first.boundingBox.x, first.boundingBox.y, first.boundingBox.width, first.boundingBox.height);
           }
-          handleFound(first.rawValue, { from:'camera', count:detections.length });
+          handleFound(first.rawValue, { from: 'camera', count: detections.length });
           return; // stop after first
         }
-      }catch{
+      } catch {
         useBarcodeDetector = false; await runScanner(); return;
       }
       if (scanning && !foundOnce) requestAnimationFrame(loopBarcodeDetector);
     }
 
     // NEW: unified handler that stops scanning after first detection
-    async function handleFound(text, meta={}){
+    async function handleFound(text, meta = {}) {
       if (foundOnce) return;
       foundOnce = true;
       addResult(text, meta);
@@ -456,70 +606,70 @@
     }
 
     // Frame snap (manual)
-    async function snapScan(){
+    async function snapScan() {
       if (!els.video.videoWidth) return notify('Video not ready');
       const w = els.video.videoWidth, h = els.video.videoHeight;
-      const c = document.createElement('canvas'); c.width=w; c.height=h;
+      const c = document.createElement('canvas'); c.width = w; c.height = h;
       c.getContext('2d').drawImage(els.video, 0, 0, w, h);
       let found = false;
-      if (useBarcodeDetector && barcodeDetector){
-        try{
+      if (useBarcodeDetector && barcodeDetector) {
+        try {
           const det = await barcodeDetector.detect(c);
-          if (det?.length){ handleFound(det[0].rawValue, { from:'snapshot', count:det.length }); found = true; }
-        }catch{}
+          if (det?.length) { handleFound(det[0].rawValue, { from: 'snapshot', count: det.length }); found = true; }
+        } catch { }
       }
-      if (!found){
+      if (!found) {
         await ensureZXing();
         const reader = new ZX.BrowserQRCodeReader();
-        try{
+        try {
           const res = await reader.decodeFromImage(c);
-          if (res?.getText()) handleFound(res.getText(), { from:'snapshot' });
+          if (res?.getText()) handleFound(res.getText(), { from: 'snapshot' });
           else notify('No QR found in this frame.');
-        }catch{ notify('No QR found in this frame.'); }
+        } catch { notify('No QR found in this frame.'); }
       }
     }
 
     // Image upload
-    async function scanFile(file){
+    async function scanFile(file) {
       if (!file) return;
       let found = false;
-      if ('BarcodeDetector' in window){
-        try{
+      if ('BarcodeDetector' in window) {
+        try {
           const bmp = await createImageBitmap(file);
-          const det = await (barcodeDetector || new BarcodeDetector({ formats:['qr_code'] })).detect(bmp);
-          if (det?.length){ handleFound(det[0].rawValue, { from:'image', count:det.length }); found = true; }
-        }catch{}
+          const det = await (barcodeDetector || new BarcodeDetector({ formats: ['qr_code'] })).detect(bmp);
+          if (det?.length) { handleFound(det[0].rawValue, { from: 'image', count: det.length }); found = true; }
+        } catch { }
       }
-      if (!found){
+      if (!found) {
         await ensureZXing();
-        try{
+        try {
           const url = URL.createObjectURL(file);
           const res = await new ZX.BrowserQRCodeReader().decodeFromImageUrl(url);
-          if (res?.getText()) handleFound(res.getText(), { from:'image' });
+          if (res?.getText()) handleFound(res.getText(), { from: 'image' });
           else notify('No QR found in image.');
           URL.revokeObjectURL(url);
-        }catch{ notify('No QR found in image.'); }
+        } catch { notify('No QR found in image.'); }
       }
     }
 
     // Screen capture (desktop)
-    async function scanScreen(){
-      if (!navigator.mediaDevices?.getDisplayMedia){ notify('Screen capture not supported.'); return; }
-      try{
-        const disp = await navigator.mediaDevices.getDisplayMedia({ video:true, audio:false });
+    async function scanScreen() {
+      if (!navigator.mediaDevices?.getDisplayMedia) { notify('Screen capture not supported.'); return; }
+      try {
+        const disp = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: false });
         const v = document.createElement('video');
         v.srcObject = disp; await v.play();
         const c = document.createElement('canvas');
         c.width = v.videoWidth || 1280; c.height = v.videoHeight || 720;
-        c.getContext('2d').drawImage(v,0,0,c.width,c.height);
+        c.getContext('2d').drawImage(v, 0, 0, c.width, c.height);
         const blob = await (await fetch(c.toDataURL())).blob();
         await scanFile(blob);
-        disp.getTracks().forEach(t=>t.stop());
-      }catch{ notify('Screen capture cancelled.'); }
+        disp.getTracks().forEach(t => t.stop());
+      } catch { notify('Screen capture cancelled.'); }
     }
 
     // Results
-    function addResult(raw, meta={}){
+    function addResult(raw, meta = {}) {
       if (els.emptyMsg) els.emptyMsg.remove();
       const { type, parsed } = analyzePayload(raw);
       const card = document.createElement('div');
@@ -527,40 +677,40 @@
 
       const badges = document.createElement('div');
       badges.className = 'qr-badges';
-      const b1 = document.createElement('span'); b1.className='qr-badge'; b1.textContent = type; badges.appendChild(b1);
-      if (meta.from){ const b2 = document.createElement('span'); b2.className='qr-badge'; b2.textContent = `source: ${meta.from}`; badges.appendChild(b2); }
-      if (meta.count && meta.count>1){ const b3 = document.createElement('span'); b3.className='qr-badge'; b3.textContent = `${meta.count} codes`; badges.appendChild(b3); }
+      const b1 = document.createElement('span'); b1.className = 'qr-badge'; b1.textContent = type; badges.appendChild(b1);
+      if (meta.from) { const b2 = document.createElement('span'); b2.className = 'qr-badge'; b2.textContent = `source: ${meta.from}`; badges.appendChild(b2); }
+      if (meta.count && meta.count > 1) { const b3 = document.createElement('span'); b3.className = 'qr-badge'; b3.textContent = `${meta.count} codes`; badges.appendChild(b3); }
       card.appendChild(badges);
 
       const actions = document.createElement('div');
       actions.className = 'qr-actions';
       actions.style.cssText = 'margin-top:4px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px';
 
-      const copyBtn = document.createElement('button'); copyBtn.className='btn'; copyBtn.textContent='Copy';
-      copyBtn.addEventListener('click', async ()=>{ await navigator.clipboard?.writeText(raw); notify('Copied!'); });
-      const shareBtn = document.createElement('button'); shareBtn.className='btn'; shareBtn.textContent='Share';
-      shareBtn.addEventListener('click', async ()=>{
-        if (navigator.share) { try { await navigator.share({ text: raw }); } catch{} }
+      const copyBtn = document.createElement('button'); copyBtn.className = 'btn'; copyBtn.textContent = 'Copy';
+      copyBtn.addEventListener('click', async () => { await navigator.clipboard?.writeText(raw); notify('Copied!'); });
+      const shareBtn = document.createElement('button'); shareBtn.className = 'btn'; shareBtn.textContent = 'Share';
+      shareBtn.addEventListener('click', async () => {
+        if (navigator.share) { try { await navigator.share({ text: raw }); } catch { } }
         else { await navigator.clipboard?.writeText(raw); notify('Copied to clipboard (sharing not supported).'); }
       });
       actions.append(copyBtn, shareBtn);
 
-      if (parsed?.href){
-        const openA = document.createElement('a'); openA.className='btn'; openA.href = parsed.href; openA.target='_blank'; openA.rel='noopener'; openA.textContent='Open';
+      if (parsed?.href) {
+        const openA = document.createElement('a'); openA.className = 'btn'; openA.href = parsed.href; openA.target = '_blank'; openA.rel = 'noopener'; openA.textContent = 'Open';
         actions.appendChild(openA);
       } else {
-        const openBtn = document.createElement('button'); openBtn.className='btn'; openBtn.disabled = true; openBtn.textContent='Open';
+        const openBtn = document.createElement('button'); openBtn.className = 'btn'; openBtn.disabled = true; openBtn.textContent = 'Open';
         actions.appendChild(openBtn);
       }
       card.appendChild(actions);
 
-      if (parsed?.wifi){
-        const p = document.createElement('p'); p.className='note';
+      if (parsed?.wifi) {
+        const p = document.createElement('p'); p.className = 'note';
         p.innerHTML = `Wi-Fi: <b>${(parsed.wifi.ssid || '')}</b> (${(parsed.wifi.auth || 'nopass')})`;
         card.appendChild(p);
       }
-      if (parsed?.vcard){
-        const p = document.createElement('p'); p.className='note';
+      if (parsed?.vcard) {
+        const p = document.createElement('p'); p.className = 'note';
         p.innerHTML = `Contact: <b>${(parsed.vcard.fn || parsed.vcard.n || 'Unknown')}</b>`;
         card.appendChild(p);
       }
@@ -570,35 +720,35 @@
       els.results.prepend(card);
     }
 
-    function analyzePayload(t){
-      const s = (t||'').trim();
-      try { const u = new URL(s); return { type:'URL', parsed:{ href:u.href } }; } catch{}
-      if (/^WIFI:/i.test(s)){
-        const obj = {}; s.replace(/^WIFI:/i,'').split(';').forEach(part=>{ const [k,v] = part.split(':'); if (k && v) obj[k]=v; });
-        return { type:'Wi-Fi', parsed:{ wifi:{ auth:obj.T||'nopass', ssid:obj.S||'', pass:obj.P||'' } } };
+    function analyzePayload(t) {
+      const s = (t || '').trim();
+      try { const u = new URL(s); return { type: 'URL', parsed: { href: u.href } }; } catch { }
+      if (/^WIFI:/i.test(s)) {
+        const obj = {}; s.replace(/^WIFI:/i, '').split(';').forEach(part => { const [k, v] = part.split(':'); if (k && v) obj[k] = v; });
+        return { type: 'Wi-Fi', parsed: { wifi: { auth: obj.T || 'nopass', ssid: obj.S || '', pass: obj.P || '' } } };
       }
-      if (/^BEGIN:VCARD/i.test(s) || /^MECARD:/i.test(s)){
-        const v = {}; (s.split(/\r?\n|;/)).forEach(line=>{ const [k,...rest]=line.split(':'); const val = rest.join(':'); if (/^(FN|N|TEL|EMAIL|ORG|TITLE)$/i.test(k||'')) v[k.toLowerCase()] = val; });
-        return { type:'Contact', parsed:{ vcard:v } };
+      if (/^BEGIN:VCARD/i.test(s) || /^MECARD:/i.test(s)) {
+        const v = {}; (s.split(/\r?\n|;/)).forEach(line => { const [k, ...rest] = line.split(':'); const val = rest.join(':'); if (/^(FN|N|TEL|EMAIL|ORG|TITLE)$/i.test(k || '')) v[k.toLowerCase()] = val; });
+        return { type: 'Contact', parsed: { vcard: v } };
       }
-      if (/^mailto:/i.test(s)) return { type:'Email', parsed:{ href:s } };
-      if (/^tel:/i.test(s)) return { type:'Phone', parsed:{ href:s } };
-      if (/^sms:/i.test(s)) return { type:'SMS', parsed:{ href:s } };
-      if (/^geo:/i.test(s)) return { type:'Map', parsed:{ href:s } };
-      return { type:'Text', parsed:null };
+      if (/^mailto:/i.test(s)) return { type: 'Email', parsed: { href: s } };
+      if (/^tel:/i.test(s)) return { type: 'Phone', parsed: { href: s } };
+      if (/^sms:/i.test(s)) return { type: 'SMS', parsed: { href: s } };
+      if (/^geo:/i.test(s)) return { type: 'Map', parsed: { href: s } };
+      return { type: 'Text', parsed: null };
     }
 
     // Canvas sizing
-    function resizeOverlayToWrap(){
+    function resizeOverlayToWrap() {
       const w = Math.max(320, Math.round(els.videoWrap.clientWidth));
       const h = Math.max(240, Math.round(els.videoWrap.clientHeight));
-      if (els.overlay.width !== w || els.overlay.height !== h){ els.overlay.width = w; els.overlay.height = h; ctx.clearRect(0,0,w,h); }
+      if (els.overlay.width !== w || els.overlay.height !== h) { els.overlay.width = w; els.overlay.height = h; ctx.clearRect(0, 0, w, h); }
     }
     new ResizeObserver(resizeOverlayToWrap).observe(els.videoWrap);
 
     // Modal helpers
-    const openModal = () => { els.permModal.classList.add('show'); els.permModal.setAttribute('aria-hidden','false'); };
-    const closeModal = () => { els.permModal.classList.remove('show'); els.permModal.setAttribute('aria-hidden','true'); };
+    const openModal = () => { els.permModal.classList.add('show'); els.permModal.setAttribute('aria-hidden', 'false'); };
+    const closeModal = () => { els.permModal.classList.remove('show'); els.permModal.setAttribute('aria-hidden', 'true'); };
 
     // Events
     els.btnEnable.onclick = startStream;
@@ -610,29 +760,29 @@
     els.btnStop.onclick = stopStream;
     els.btnTorch.onclick = toggleTorch;
     els.btnSnap.onclick = snapScan;
-    els.btnSwitch.onclick = async ()=> {
+    els.btnSwitch.onclick = async () => {
       const opts = Array.from(els.cameraSel.options); if (!opts.length) return;
-      const idx = Math.max(0, (opts.findIndex(o=>o.value===els.cameraSel.value)+1) % opts.length);
+      const idx = Math.max(0, (opts.findIndex(o => o.value === els.cameraSel.value) + 1) % opts.length);
       els.cameraSel.selectedIndex = idx; currentDeviceId = els.cameraSel.value; await startStream();
     };
-    els.btnClear.onclick = ()=> { els.results.innerHTML = ''; const m = document.createElement('div'); m.id='emptyMsg'; m.className='qr-result'; m.innerHTML = '<p class="note">Cleared.</p>'; els.results.appendChild(m); };
-    els.fileInput.onchange = (e)=> scanFile(e.target.files?.[0]);
-    ['dragenter','dragover'].forEach(ev => els.videoWrap.addEventListener(ev, e => { e.preventDefault(); e.dataTransfer.dropEffect='copy'; }));
+    els.btnClear.onclick = () => { els.results.innerHTML = ''; const m = document.createElement('div'); m.id = 'emptyMsg'; m.className = 'qr-result'; m.innerHTML = '<p class="note">Cleared.</p>'; els.results.appendChild(m); };
+    els.fileInput.onchange = (e) => scanFile(e.target.files?.[0]);
+    ['dragenter', 'dragover'].forEach(ev => els.videoWrap.addEventListener(ev, e => { e.preventDefault(); e.dataTransfer.dropEffect = 'copy'; }));
     els.videoWrap.addEventListener('drop', e => { e.preventDefault(); const f = e.dataTransfer.files?.[0]; if (f) scanFile(f); });
-    els.resSel.onchange = async ()=> { if (stream) await startStream(); };
-    els.cameraSel.onchange = async ()=> { currentDeviceId = els.cameraSel.value; if (stream) await startStream(); };
+    els.resSel.onchange = async () => { if (stream) await startStream(); };
+    els.cameraSel.onchange = async () => { currentDeviceId = els.cameraSel.value; if (stream) await startStream(); };
     els.btnScanScreen.onclick = scanScreen;
 
     // Footer year
     setText($('#year'), new Date().getFullYear());
 
     // Inject ad if available (avoid CLS)
-    (function injectAd(){
+    (function injectAd() {
       if (!('adsbygoogle' in window) || !els.adMount) return;
       const cont = document.createElement('div');
       cont.innerHTML = `<ins class="adsbygoogle" style="display:block;min-height:90px" data-ad-client="ca-pub-6216304334889617" data-ad-slot="9651757525" data-ad-format="auto" data-full-width-responsive="true"></ins>`;
       els.adMount.appendChild(cont);
-      try { (adsbygoogle = window.adsbygoogle || []).push({}); } catch {}
+      try { (adsbygoogle = window.adsbygoogle || []).push({}); } catch { }
     })();
 
     // Init
@@ -643,7 +793,7 @@
       if (await canAutoStart()) {
         els.btnEnable.disabled = true; els.btnEnable.textContent = 'Camera Allowed ✅';
         els.tapToEnable.classList.add('hide');
-        try { await listCameras(); await startStream(); } catch {}
+        try { await listCameras(); await startStream(); } catch { }
       }
     })();
   </script>
@@ -656,4 +806,5 @@
     <iframe src="https://www.uptools.in/qr-reader/" allow="camera;microphone"></iframe>
   -->
 </body>
+
 </html>
