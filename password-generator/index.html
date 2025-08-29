@@ -9,7 +9,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>Password Generator (Strong & Memorable) – UpTools</title>
+  <title>Password Generator (Strong & Memorable) - UpTools</title>
   <meta name="description" content="Create strong passwords and memorable passphrases. Local encrypted Vault with PIN, labels, search, export/import. Entropy meter, batch generator, copy, mask, and more. Free & privacy-first." />
   <meta name="keywords" content="password generator, strong password, passphrase, entropy, secure password, AES-GCM, local vault, offline password tool, UpTools" />
   <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:large" />
@@ -23,7 +23,7 @@
 
   <!-- Open Graph / Twitter -->
 
-  <meta property="og:title" content="Password Generator (Strong & Memorable) – UpTools" />
+  <meta property="og:title" content="Password Generator (Strong & Memorable) - UpTools" />
   <meta property="og:description" content="Generate strong passwords and passphrases. Save locally in an encrypted Vault with your PIN. Copy, mask, batch, entropy & crack-time estimate. No tracking." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.uptools.in/password-generator/" />
@@ -103,7 +103,7 @@
     "@type":"FAQPage",
     "mainEntity":[
       {"@type":"Question","name":"Is this password generator secure?","acceptedAnswer":{"@type":"Answer","text":"Yes. It uses the browser's cryptographically secure random generator (window.crypto.getRandomValues). Nothing is sent to any server. The optional Vault encrypts entries locally with AES-GCM using a PIN-derived key (PBKDF2)."}},
-      {"@type":"Question","name":"What password length is recommended?","acceptedAnswer":{"@type":"Answer","text":"We suggest 16–24 characters with upper+lower+digits+symbols, or a 4–6 word passphrase with a separator and a number."}},
+      {"@type":"Question","name":"What password length is recommended?","acceptedAnswer":{"@type":"Answer","text":"We suggest 16-24 characters with upper+lower+digits+symbols, or a 4-6 word passphrase with a separator and a number."}},
       {"@type":"Question","name":"Where are saved passwords stored?","acceptedAnswer":{"@type":"Answer","text":"Only in your browser's local storage, encrypted with AES-GCM using your Vault PIN. You can export or clear them anytime."}}
     ]
   }
@@ -251,6 +251,8 @@
     <h2 id="vault-title" class="h4" style="margin:0">🔒 Encrypted Vault (Local)</h2>
     <div class="row">
       <button id="vaultLock" class="btn ghost sm">Lock</button>
+      <!-- NEW: Explicit Unlock button -->
+      <button id="vaultUnlock" class="btn ghost sm">Unlock</button>
       <button id="vaultSetPin" class="btn ghost sm">Set/Change PIN</button>
       <button id="vaultExport" class="btn ghost sm">Export</button>
       <label class="btn ghost sm" style="cursor:pointer">
@@ -273,7 +275,7 @@
 <section class="card" aria-labelledby="tips-title">
   <h2 id="tips-title" class="h4">Tips</h2>
   <ul class="list">
-    <li>Use at least <b>16+ characters</b> or a <b>4–6 word</b> passphrase.</li>
+    <li>Use at least <b>16+ characters</b> or a <b>4-6 word</b> passphrase.</li>
     <li>Prefer a <span class="kbd">Password Manager</span> for long-term storage; avoid reuse across sites.</li>
     <li>Enable <b>2-factor authentication</b> wherever possible.</li>
   </ul>
@@ -335,7 +337,7 @@
       <h3 id="pinTitle" style="margin:0 0 6px">Unlock Vault</h3>
       <p id="pinMsg" class="note" style="margin:0 0 8px">Enter your Vault PIN to decrypt saved items.</p>
       <label class="label" for="pinInput">Vault PIN</label>
-      <input id="pinInput" class="input" type="password" inputmode="numeric" autocomplete="current-password" placeholder="4–32 characters" required>
+      <input id="pinInput" class="input" type="password" inputmode="numeric" autocomplete="current-password" placeholder="4-32 characters" required>
       <div class="hr"></div>
       <div class="row" style="justify-content:flex-end">
         <button value="cancel" class="btn secondary">Cancel</button>
@@ -385,6 +387,8 @@
       savePwd:q('#savePwd'), savePhrase:q('#savePhrase'),
       vault:q('#vault'), vaultList:q('#vaultList'), vaultCount:q('#vaultCount'), vaultSearch:q('#vaultSearch'), vaultEmpty:q('#vaultEmpty'),
       vaultExport:q('#vaultExport'), vaultImport:q('#vaultImport'), vaultLock:q('#vaultLock'), vaultSetPin:q('#vaultSetPin'),
+      // NEW: unlock button reference
+      vaultUnlock:q('#vaultUnlock'),
       // modals
       saveModal:q('#saveModal'), svSite:q('#svSite'), svUser:q('#svUser'), svValue:q('#svValue'), svSubmit:q('#svSubmit'),
       pinModal:q('#pinModal'), pinTitle:q('#pinTitle'), pinMsg:q('#pinMsg'), pinInput:q('#pinInput'), pinSubmit:q('#pinSubmit')
@@ -521,7 +525,7 @@
     }
     async function openPinModal(isSetup){
       els.pinTitle.textContent = isSetup ? 'Set Vault PIN' : 'Unlock Vault';
-      els.pinMsg.textContent   = isSetup ? 'Create a PIN (4–32 chars). Keep it safe; we cannot recover it.' : 'Enter your Vault PIN to decrypt items.';
+      els.pinMsg.textContent   = isSetup ? 'Create a PIN (4-32 chars). Keep it safe; we cannot recover it.' : 'Enter your Vault PIN to decrypt items.';
       els.pinInput.value='';
       await els.pinModal.showModal();
       return new Promise((resolve)=>{
@@ -730,6 +734,21 @@
         }catch{ toast('Failed to re-encrypt'); }
       };
     });
+
+    // NEW: Explicit Unlock handler
+    els.vaultUnlock.addEventListener('click', async () => {
+      vault = loadVaultRaw();
+      // If vault doesn't exist yet, create and set PIN
+      if(!vault){
+        await ensureVault(); // will prompt to set PIN
+        renderVault();
+        return;
+      }
+      // If vault exists, ask for PIN to unlock
+      const ok = await openPinModal(false);
+      if(ok){ unlocked = true; renderVault(); }
+    });
+
     els.vaultSearch.addEventListener('input', ()=>{
       if(!vault){ renderVault(); return; }
       const filtered = filterVault(els.vaultSearch.value);
