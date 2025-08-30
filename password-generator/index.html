@@ -37,7 +37,7 @@
   <link rel="stylesheet" href="/style.css?v=1.2.1" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="/style.css?v=1.2.1"></noscript>
 
-  <!-- Page-scoped styles (compact; plays nice with common CSS) -->
+  <!-- Page-scoped styles -->
   <style>
     .tool-grid{display:grid;grid-template-columns:1fr;gap:12px}
     @media (min-width: 920px){.tool-grid{grid-template-columns:1.15fr .85fr}}
@@ -65,11 +65,11 @@
     @media (min-width: 920px){.vault-row .mono{max-width:28vw}}
     .pill.sec{background:#0b1326;border:1px solid var(--border)}
     .btn.icon{min-width:36px;padding:6px 8px}
+    .btn.sm{padding:6px 10px}
     .sr{position:absolute;left:-9999px}
     dialog.vault-modal{border:1px solid var(--border);border-radius:12px;max-width:520px;width:min(92vw,520px);background:color-mix(in oklab,var(--card) 95%,transparent);box-shadow:var(--shadow),var(--glow-soft)}
     dialog.vault-modal::backdrop{background:rgba(0,0,0,.45)}
     .hr{height:1px;background:color-mix(in oklab,var(--accent) 25%, #243);margin:10px 0}
-    /* tiny link buttons that don't cause layout shift */
     .micro-links{display:inline-flex;gap:8px;margin-left:8px}
     .linkbtn{background:none;border:none;padding:0;color:var(--link,#8ab4ff);cursor:pointer;font:600 12px/1.2 ui-sans-serif,system-ui}
     .linkbtn:focus{outline:2px dashed var(--line,#2b3142);outline-offset:2px;border-radius:4px}
@@ -127,7 +127,7 @@
       <div class="two-col">
         <div>
           <h1 id="pg-title">Password Generator + Local Encrypted Vault</h1>
-          <p class="note">Create <strong>strong passwords</strong> and <strong>memorable passphrases</strong>. Save them locally in an <b>encrypted Vault</b> protected by your PIN. Nothing leaves your browser.</p>
+        <p class="note">Create <strong>strong passwords</strong> and <strong>memorable passphrases</strong>. Save them locally in an <b>encrypted Vault</b> protected by your PIN. Nothing leaves your browser.</p>
           <div class="chips" style="margin-top:8px">
             <span class="pill">🔐 Secure RNG</span>
             <span class="pill">🧠 Entropy & crack-time</span>
@@ -244,13 +244,15 @@
         <h2 id="vault-title" class="h4" style="margin:0">🔒 Encrypted Vault (Local)</h2>
         <div class="row">
           <button id="vaultLock" class="btn ghost sm">Lock</button>
-          <!-- Explicit Unlock button -->
           <button id="vaultUnlock" class="btn ghost sm">Unlock</button>
           <button id="vaultSetPin" class="btn ghost sm">Set/Change PIN</button>
           <button id="vaultExport" class="btn ghost sm">Export</button>
           <label class="btn ghost sm" style="cursor:pointer">
             Import <input id="vaultImport" type="file" accept="application/json" class="sr">
           </label>
+          <!-- NEW: Delete Vault -->
+          <button id="vaultDelete" class="btn ghost sm" aria-describedby="delHelp">Delete Vault</button>
+          <span id="delHelp" class="sr">Deletes all saved items from this browser.</span>
         </div>
       </div>
 
@@ -305,7 +307,7 @@
 
   <!-- Modal: Save to Vault -->
   <dialog id="saveModal" class="vault-modal">
-    <form method="dialog" class="card" style="margin:0">
+    <form id="svForm" method="dialog" class="card" style="margin:0">
       <h3 style="margin:0 0 6px">Save to Vault</h3>
       <p class="note" style="margin:0 0 8px">Entry is encrypted locally with your Vault PIN.</p>
       <label class="label" for="svSite">Site / Label</label>
@@ -316,23 +318,23 @@
       <input id="svValue" class="input mono" required>
       <div class="hr"></div>
       <div class="row" style="justify-content:flex-end">
-        <button value="cancel" class="btn secondary">Cancel</button>
-        <button id="svSubmit" value="default" class="btn">Save</button>
+        <button value="cancel" class="btn secondary" type="button" id="svCancel">Cancel</button>
+        <button id="svSubmit" class="btn" type="submit">Save</button>
       </div>
     </form>
   </dialog>
 
   <!-- Modal: Unlock / Set PIN -->
-  <dialog id="pinModal" class="vault-modal">
-    <form method="dialog" class="card" style="margin:0">
+  <dialog id="pinModal" class="vault-modal" aria-labelledby="pinTitle">
+    <form id="pinForm" method="dialog" class="card" style="margin:0">
       <h3 id="pinTitle" style="margin:0 0 6px">Unlock Vault</h3>
       <p id="pinMsg" class="note" style="margin:0 0 8px">Enter your Vault PIN to decrypt saved items.</p>
       <label class="label" for="pinInput">Vault PIN</label>
       <input id="pinInput" class="input" type="password" inputmode="numeric" autocomplete="current-password" placeholder="4-32 characters" required>
       <div class="hr"></div>
       <div class="row" style="justify-content:flex-end">
-        <button value="cancel" class="btn secondary">Cancel</button>
-        <button id="pinSubmit" value="default" class="btn">Continue</button>
+        <button class="btn secondary" type="button" id="pinCancel">Cancel</button>
+        <button id="pinSubmit" class="btn" type="submit">Continue</button>
       </div>
     </form>
   </dialog>
@@ -341,7 +343,7 @@
   <script type="module" src="/scripts/utils.js"></script>
 
   <script type="module">
-    // ====== Utilities (fallbacks) ======
+    // ====== Utilities ======
     const cryptoObj = (window.crypto || window.msCrypto);
     const U = {
       copy: async (text) => { try { await navigator.clipboard.writeText(text); toast('Copied'); } catch { fallbackCopy(text); toast('Copied'); } },
@@ -377,10 +379,10 @@
       savePwd:q('#savePwd'), savePhrase:q('#savePhrase'),
       vault:q('#vault'), vaultList:q('#vaultList'), vaultCount:q('#vaultCount'), vaultSearch:q('#vaultSearch'), vaultEmpty:q('#vaultEmpty'),
       vaultExport:q('#vaultExport'), vaultImport:q('#vaultImport'), vaultLock:q('#vaultLock'), vaultSetPin:q('#vaultSetPin'),
-      vaultUnlock:q('#vaultUnlock'),
+      vaultUnlock:q('#vaultUnlock'), vaultDelete:q('#vaultDelete'),
       // modals
-      saveModal:q('#saveModal'), svSite:q('#svSite'), svUser:q('#svUser'), svValue:q('#svValue'), svSubmit:q('#svSubmit'),
-      pinModal:q('#pinModal'), pinTitle:q('#pinTitle'), pinMsg:q('#pinMsg'), pinInput:q('#pinInput'), pinSubmit:q('#pinSubmit')
+      saveModal:q('#saveModal'), svForm:q('#svForm'), svSite:q('#svSite'), svUser:q('#svUser'), svValue:q('#svValue'), svSubmit:q('#svSubmit'), svCancel:q('#svCancel'),
+      pinModal:q('#pinModal'), pinForm:q('#pinForm'), pinTitle:q('#pinTitle'), pinMsg:q('#pinMsg'), pinInput:q('#pinInput'), pinSubmit:q('#pinSubmit'), pinCancel:q('#pinCancel')
     };
 
     // ====== Character pools ======
@@ -416,11 +418,9 @@
       shuffleArray(chars);
       if(opts.startL){
         const letters=(opts.lc?POOLS.lc:'')+(opts.uc?POOLS.uc:'');
-        if(letters){
-          if(!letters.includes(chars[0])){
-            const k=chars.findIndex((c,i)=>i>0 && letters.includes(c));
-            if(k>0){ [chars[0],chars[k]]=[chars[k],chars[0]]; } else { chars[0]=letters[secureInts(1,letters.length)[0]]; }
-          }
+        if(letters && !letters.includes(chars[0])){
+          const k=chars.findIndex((c,i)=>i>0 && letters.includes(c));
+          if(k>0){ [chars[0],chars[k]]=[chars[k],chars[0]]; } else { chars[0]=letters[secureInts(1,letters.length)[0]]; }
         }
       }
       const pass=chars.join(''); els.out.textContent=pass; updateStrength(pass,pool.length); updateSaved(pass); return pass;
@@ -472,10 +472,9 @@
       const enc=new TextEncoder(); const base=await cryptoObj.subtle.importKey('raw', enc.encode(pin), 'PBKDF2', false, ['deriveKey','deriveBits']);
       return cryptoObj.subtle.deriveKey({name:'PBKDF2',salt,iterations:120000,hash:'SHA-256'}, base, {name:'AES-GCM',length:256}, false, ['encrypt','decrypt']);
     }
-    async function hashVerifier(key){
-      // lightweight check: encrypt a known string with key and keep ciphertext
+    async function makeVerifier(aesKey){
       const iv=cryptoObj.getRandomValues(new Uint8Array(12));
-      const ct = await cryptoObj.subtle.encrypt({name:'AES-GCM',iv}, key, new TextEncoder().encode('verifier'));
+      const ct = await cryptoObj.subtle.encrypt({name:'AES-GCM',iv}, aesKey, new TextEncoder().encode('verifier'));
       return {iv: Array.from(iv), ct:Array.from(new Uint8Array(ct))};
     }
     async function encryptText(text){
@@ -488,8 +487,16 @@
       const pt=await cryptoObj.subtle.decrypt({name:'AES-GCM',iv}, key, ct);
       return new TextDecoder().decode(pt);
     }
-    function loadVaultRaw(){ return U.readLocal(VAULT_K) || null; }
-    function saveVaultRaw(v){ U.saveLocal(VAULT_K, v); }
+    const loadVaultRaw = ()=> U.readLocal(VAULT_K) || null;
+    const saveVaultRaw = (v)=> U.saveLocal(VAULT_K, v);
+
+    async function verifyKey(){
+      try{
+        const {iv, ct}=vault.verifier;
+        const dec=await cryptoObj.subtle.decrypt({name:'AES-GCM',iv:new Uint8Array(iv)}, key, new Uint8Array(ct));
+        return new TextDecoder().decode(dec)==='verifier';
+      }catch{ return false; }
+    }
 
     async function ensureVault(){
       const existing = loadVaultRaw();
@@ -507,12 +514,23 @@
       }
     }
 
-    async function verifyKey(){
-      try{
-        const {iv, ct}=vault.verifier;
-        const dec=await cryptoObj.subtle.decrypt({name:'AES-GCM',iv:new Uint8Array(iv)}, key, new Uint8Array(ct));
-        return new TextDecoder().decode(dec)==='verifier';
-      }catch{ return false; }
+    // ====== Dialogs (robust submit handling to avoid premature close) ======
+    function openSaveModal(defaultValue=''){
+      els.svSite.value=''; els.svUser.value=''; els.svValue.value=defaultValue;
+      els.saveModal.showModal();
+      return new Promise((resolve)=>{
+        const onSubmit = async (e)=>{ e.preventDefault(); resolve('save'); cleanup(); };
+        const onCancel = ()=>{ resolve('cancel'); cleanup(); els.saveModal.close(); };
+        const onClose  = ()=>{ resolve('cancel'); cleanup(); };
+        function cleanup(){
+          els.svForm.removeEventListener('submit', onSubmit);
+          els.svCancel.removeEventListener('click', onCancel);
+          els.saveModal.removeEventListener('close', onClose);
+        }
+        els.svForm.addEventListener('submit', onSubmit);
+        els.svCancel.addEventListener('click', onCancel);
+        els.saveModal.addEventListener('close', onClose, {once:true});
+      });
     }
 
     async function openPinModal(isSetup){
@@ -522,33 +540,40 @@
       els.pinModal.showModal();
       return new Promise((resolve)=>{
         const onSubmit = async (e)=>{
-          e?.preventDefault();
+          e.preventDefault(); // prevent auto-close on method="dialog"
           const pin=els.pinInput.value.trim();
           if(pin.length<4){ toast('PIN too short'); return; }
+
           if(isSetup){
-            // fresh salt for new vault
             const saltBytes = cryptoObj.getRandomValues(new Uint8Array(16));
             key = await pbkdf2Key(pin, saltBytes);
-            const vHash=await hashVerifier(key);
-            saveVaultRaw({salt:Array.from(saltBytes), verifier:vHash, items:[]});
-            vault=loadVaultRaw();
-            unlocked=true; els.pinModal.close(); toast('Vault ready');
-            cleanup(); resolve(true);
+            const verifier = await makeVerifier(key);
+            saveVaultRaw({salt:Array.from(saltBytes), verifier, items:[]});
+            vault=loadVaultRaw(); unlocked=true;
+            els.pinModal.close(); cleanup(); toast('Vault ready'); resolve(true);
           }else{
+            if(!vault){ toast('No vault found'); return; }
             const saltBytes = new Uint8Array(vault.salt);
             key = await pbkdf2Key(pin, saltBytes);
-            const ok=await verifyKey();
-            if(ok){ els.pinModal.close(); toast('Vault unlocked'); cleanup(); resolve(true); }
+            const ok = await verifyKey();
+            if(ok){ unlocked=true; els.pinModal.close(); cleanup(); toast('Vault unlocked'); resolve(true); }
             else { key=null; toast('Wrong PIN'); }
           }
         };
-        const onClose = (ev)=>{ if(ev.target!==els.pinModal) return; cleanup(); resolve(false); };
-        function cleanup(){ els.pinSubmit.removeEventListener('click', onSubmit); els.pinModal.removeEventListener('close', onClose); }
-        els.pinSubmit.addEventListener('click', onSubmit);
-        els.pinModal.addEventListener('close', onClose);
+        const onCancel = ()=>{ cleanup(); els.pinModal.close(); resolve(false); };
+        const onClose  = ()=>{ cleanup(); resolve(false); };
+        function cleanup(){
+          els.pinForm.removeEventListener('submit', onSubmit);
+          els.pinCancel.removeEventListener('click', onCancel);
+          els.pinModal.removeEventListener('close', onClose);
+        }
+        els.pinForm.addEventListener('submit', onSubmit);
+        els.pinCancel.addEventListener('click', onCancel);
+        els.pinModal.addEventListener('close', onClose, {once:true});
       });
     }
 
+    // ====== Vault UI ======
     function renderVault(list=null){
       const items = Array.isArray(list) ? list : (vault?.items ?? []);
       els.vaultCount.textContent = items.length;
@@ -566,7 +591,7 @@
         const bReveal=btn('Reveal','👁️','icon'); const bCopy=btn('Copy','📋','icon'); const bDel=btn('Delete','🗑️','icon');
         bReveal.addEventListener('click', async()=>{ try{ const t=await decryptText(it.iv,it.cipher); modalView(it.site, it.user, t);}catch{ toast('Unlock first or wrong PIN'); } });
         bCopy.addEventListener('click', async()=>{ try{ const t=await decryptText(it.iv,it.cipher); await U.copy(t);}catch{ toast('Unlock first'); } });
-        bDel.addEventListener('click', ()=>{ if(confirm('Delete this entry?')){ vault.items= vault.items.filter(x=>x!==it); saveVaultRaw(vault); renderVault(); } });
+        bDel.addEventListener('click', ()=>{ if(confirm('Delete this entry?')){ vault.items = vault.items.filter(x=>x!==it); saveVaultRaw(vault); renderVault(); } });
         btns.append(bReveal); btns2.append(bCopy); btns2.append(bDel);
         row.append(left); row.append(btns); row.append(btns2); wrap.append(row);
       }
@@ -581,24 +606,15 @@
         <div class="note" style="margin:0 0 8px">${site?escape(site):''} ${user?('· '+escape(user)) : ''}</div>
         <input class="input mono" value="${escape(value)}" readonly>
         <div class="hr"></div>
-        <div class="row" style="justify-content:flex-end"><button class="btn">Close</button></div>
+        <div class="row" style="justify-content:flex-end"><button class="btn" type="submit">Close</button></div>
       </form>`;
       document.body.appendChild(d); d.showModal(); d.addEventListener('close',()=>d.remove());
       function escape(s){ return String(s??'').replace(/"/g,'&quot;'); }
     }
 
-    // Save dialog helpers
-    function openSaveModal(defaultValue=''){
-      els.svSite.value=''; els.svUser.value=''; els.svValue.value=defaultValue;
-      return new Promise((resolve)=>{
-        els.saveModal.showModal();
-        const done=(e)=>{ e?.preventDefault?.(); resolve({action:e?.submitter?.value||'cancel'}); cleanup(); }
-        function cleanup(){ els.svSubmit.removeEventListener('click', done); els.saveModal.removeEventListener('close', onClose); }
-        function onClose(){ resolve({action:'cancel'}); cleanup(); }
-        els.svSubmit.addEventListener('click', done); els.saveModal.addEventListener('close', onClose);
-      });
-    }
-    async function saveEntryFromModal(){
+    // Save dialog submit
+    els.svForm.addEventListener('submit', async (e)=>{
+      e.preventDefault();
       await ensureVault();
       if(!unlocked){ toast('Vault locked'); return; }
       const site=els.svSite.value.trim(); const user=els.svUser.value.trim(); const val=els.svValue.value;
@@ -606,9 +622,10 @@
       const enc=await encryptText(val);
       vault.items.unshift({site,user,iv:enc.iv,cipher:enc.cipher,ts:Date.now()});
       saveVaultRaw(vault); els.saveModal.close(); renderVault(); toast('Saved');
-    }
+    });
+    els.svCancel.addEventListener('click', ()=> els.saveModal.close());
 
-    // Export / Import
+    // ====== Export / Import / Lock / Unlock / Delete ======
     function exportVault(){
       if(!vault){ toast('Nothing to export'); return; }
       const blob=new Blob([JSON.stringify(vault)],{type:'application/json'});
@@ -621,76 +638,6 @@
       return vault.items.filter(it=>(it.site||'').toLowerCase().includes(ql)||(it.user||'').toLowerCase().includes(ql));
     }
 
-    // ====== Events ======
-    let masked=true;
-    const regen=()=>genPassword();
-    els.gen.addEventListener('click', regen);
-    els.shuffle.addEventListener('click', regen);
-    els.copy.addEventListener('click', ()=>{ const t=els.out.textContent.trim(); if(t){ U.copy(t); } });
-    els.toggle.addEventListener('click', ()=>{ masked=!masked; toMask(masked); });
-
-    // length sync
-    const syncLen = (e)=>{ const v=clamp(Number(e.target.value||16),6,64); els.len.value=v; els.lenRange.value=v; };
-    els.len.addEventListener('input', syncLen); els.lenRange.addEventListener('input', syncLen);
-
-    // option change (debounced)
-    let tId; [els.lc,els.uc,els.dg,els.sc,els.ns,els.reqAll,els.amb,els.startL,els.len,els.lenRange].forEach(el=>el.addEventListener('input',()=>{ clearTimeout(tId); tId=setTimeout(regen,80); }));
-
-    // batch
-    function genBatch(){ const n=clamp(Number(els.batchCount.value||10),2,50); const list=Array.from({length:n},()=>genPassword()); els.batchOut.value=list.join('\n'); toast('Batch ready'); }
-    els.batchGen.addEventListener('click', genBatch);
-    els.batchCopy.addEventListener('click', ()=>{ const t=els.batchOut.value.trim(); if(t) U.copy(t); });
-
-    // passphrase
-    els.phraseGen.addEventListener('click', genPhrase);
-    els.phraseCopy.addEventListener('click', ()=>{ const t=els.phraseOut.textContent.trim(); if(t) U.copy(t); });
-
-    // remember last - with Reveal/Copy/Clear micro actions
-    els.rememberLast.addEventListener('change', ()=>{
-      if(!els.rememberLast.checked){
-        U.rmLocal('uptools.password-generator.last');
-        els.saveNotice.hidden=true;
-        els.localLinks.hidden=true;
-      }else{
-        const t=els.out.textContent.trim();
-        if(t) updateSaved(t);
-      }
-    });
-    els.localReveal.addEventListener('click', ()=>{
-      const saved=U.readLocal('uptools.password-generator.last');
-      if(saved?.v){ modalView('Local Save','', saved.v); } else { toast('Nothing saved'); }
-    });
-    els.localCopy.addEventListener('click', ()=>{
-      const saved=U.readLocal('uptools.password-generator.last');
-      if(saved?.v){ U.copy(saved.v); } else { toast('Nothing saved'); }
-    });
-    els.localClear.addEventListener('click', ()=>{
-      U.rmLocal('uptools.password-generator.last');
-      els.saveNotice.hidden=false; // keep notice but hide links to avoid CLS
-      els.localLinks.hidden=true;
-      toast('Cleared');
-    });
-
-    // Save to Vault buttons
-    els.savePwd.addEventListener('click', async()=>{
-      const val=els.out.textContent.trim(); if(!val){ toast('Generate first'); return; }
-      await ensureVault(); if(!unlocked) return;
-      await openSaveModal(val);
-    });
-    els.savePhrase.addEventListener('click', async()=>{
-      const val=els.phraseOut.textContent.trim(); if(!val){ toast('Generate first'); return; }
-      await ensureVault(); if(!unlocked) return;
-      await openSaveModal(val);
-    });
-    els.batchSave.addEventListener('click', async()=>{
-      const list=els.batchOut.value.trim().split('\n').filter(Boolean);
-      if(list.length===0){ toast('Generate a list first'); return; }
-      await ensureVault(); if(!unlocked) return;
-      await openSaveModal(list.join('\n'));
-    });
-    els.svSubmit.addEventListener('click', async(e)=>{ e.preventDefault(); await saveEntryFromModal(); });
-
-    // Vault actions
     els.vaultExport.addEventListener('click', exportVault);
     els.vaultImport.addEventListener('change', async (e)=>{
       const f=e.target.files?.[0]; if(!f) return;
@@ -703,53 +650,93 @@
       e.target.value='';
     });
     els.vaultLock.addEventListener('click', ()=>{ key=null; unlocked=false; renderVault(); toast('Vault locked'); });
-
-    els.vaultSetPin.addEventListener('click', async()=>{
-      await ensureVault(); if(!unlocked && vault) { /* user cancelled unlock */ return; }
-      // ask for new PIN
-      els.pinTitle.textContent='Set/Change PIN'; els.pinMsg.textContent='Enter a new Vault PIN.'; els.pinInput.value='';
-      els.pinModal.showModal();
-
-      const cleanup = ()=>{ els.pinSubmit.onclick=null; };
-      const onClose = ()=>{ cleanup(); els.pinModal.removeEventListener('close', onClose); };
-      els.pinModal.addEventListener('close', onClose, {once:true});
-
-      els.pinSubmit.onclick = async (ev)=>{
-        ev.preventDefault();
-        const newPin=els.pinInput.value.trim(); if(newPin.length<4){ toast('PIN too short'); return; }
-        const newSalt=cryptoObj.getRandomValues(new Uint8Array(16));
-        const newKey=await pbkdf2Key(newPin,newSalt);
-        try{
-          const newItems=[];
-          for(const it of (vault?.items ?? [])){
-            const plain=await decryptText(it.iv,it.cipher);
-            const iv=cryptoObj.getRandomValues(new Uint8Array(12));
-            const ct=await cryptoObj.subtle.encrypt({name:'AES-GCM',iv}, newKey, new TextEncoder().encode(plain));
-            newItems.push({site:it.site,user:it.user,iv:Array.from(iv),cipher:Array.from(new Uint8Array(ct)),ts:it.ts});
-          }
-          const vHash=await hashVerifier(newKey);
-          const newVault={salt:Array.from(newSalt), verifier:vHash, items:newItems};
-          saveVaultRaw(newVault); vault=newVault; key=newKey; unlocked=true; els.pinModal.close(); renderVault(); toast('PIN updated');
-        }catch{ toast('Failed to re-encrypt'); }
-      };
-    });
-
-    // Explicit Unlock handler
-    els.vaultUnlock.addEventListener('click', async () => {
+    els.vaultUnlock.addEventListener('click', async ()=>{
       vault = loadVaultRaw();
       if(!vault){
-        await ensureVault(); // will prompt to set PIN
-        renderVault();
+        // Initialize new vault
+        const ok = await openPinModal(true);
+        if(ok){ renderVault(); }
         return;
       }
       const ok = await openPinModal(false);
-      if(ok){ unlocked = true; renderVault(); }
+      if(ok){ renderVault(); }
+    });
+    els.vaultDelete.addEventListener('click', ()=>{
+      if(confirm('Delete the entire vault from this browser? This cannot be undone.')){
+        U.rmLocal(VAULT_K);
+        vault=null; key=null; unlocked=false;
+        renderVault();
+        toast('Vault deleted');
+      }
     });
 
+    // Search
     els.vaultSearch.addEventListener('input', ()=>{
-      if(!vault){ renderVault(); return; }
+      if(!vault || !unlocked){ renderVault(); return; }
       const filtered = filterVault(els.vaultSearch.value);
       renderVault(filtered);
+    });
+
+    // ====== Batch / Phrase / Last Saved ======
+    let masked=true;
+    const regen=()=>genPassword();
+    els.gen.addEventListener('click', regen);
+    els.shuffle.addEventListener('click', regen);
+    els.copy.addEventListener('click', ()=>{ const t=els.out.textContent.trim(); if(t){ U.copy(t); } });
+    els.toggle.addEventListener('click', ()=>{ masked=!masked; toMask(masked); });
+
+    const syncLen = (e)=>{ const v=clamp(Number(e.target.value||16),6,64); els.len.value=v; els.lenRange.value=v; };
+    els.len.addEventListener('input', syncLen); els.lenRange.addEventListener('input', syncLen);
+
+    let tId; [els.lc,els.uc,els.dg,els.sc,els.ns,els.reqAll,els.amb,els.startL,els.len,els.lenRange]
+      .forEach(el=>el.addEventListener('input',()=>{ clearTimeout(tId); tId=setTimeout(regen,80); }));
+
+    function genBatch(){ const n=clamp(Number(els.batchCount.value||10),2,50); const list=Array.from({length:n},()=>genPassword()); els.batchOut.value=list.join('\n'); toast('Batch ready'); }
+    els.batchGen.addEventListener('click', genBatch);
+    els.batchCopy.addEventListener('click', ()=>{ const t=els.batchOut.value.trim(); if(t) U.copy(t); });
+
+    els.phraseGen.addEventListener('click', genPhrase);
+    els.phraseCopy.addEventListener('click', ()=>{ const t=els.phraseOut.textContent.trim(); if(t) U.copy(t); });
+
+    els.rememberLast.addEventListener('change', ()=>{
+      if(!els.rememberLast.checked){
+        U.rmLocal('uptools.password-generator.last');
+        els.saveNotice.hidden=true; els.localLinks.hidden=true;
+      }else{
+        const t=els.out.textContent.trim(); if(t) updateSaved(t);
+      }
+    });
+    els.localReveal.addEventListener('click', ()=>{
+      const saved=U.readLocal('uptools.password-generator.last');
+      if(saved?.v){ modalView('Local Save','', saved.v); } else { toast('Nothing saved'); }
+    });
+    els.localCopy.addEventListener('click', ()=>{
+      const saved=U.readLocal('uptools.password-generator.last');
+      if(saved?.v){ U.copy(saved.v); } else { toast('Nothing saved'); }
+    });
+    els.localClear.addEventListener('click', ()=>{
+      U.rmLocal('uptools.password-generator.last');
+      els.saveNotice.hidden=false; els.localLinks.hidden=true; toast('Cleared');
+    });
+
+    els.savePwd.addEventListener('click', async()=>{
+      const val=els.out.textContent.trim(); if(!val){ toast('Generate first'); return; }
+      await ensureVault(); if(!unlocked) return;
+      const act = await openSaveModal(val);
+      if(act==='save'){ els.svForm.requestSubmit(); }
+    });
+    els.savePhrase.addEventListener('click', async()=>{
+      const val=els.phraseOut.textContent.trim(); if(!val){ toast('Generate first'); return; }
+      await ensureVault(); if(!unlocked) return;
+      const act = await openSaveModal(val);
+      if(act==='save'){ els.svForm.requestSubmit(); }
+    });
+    els.batchSave.addEventListener('click', async()=>{
+      const list=els.batchOut.value.trim().split('\n').filter(Boolean);
+      if(list.length===0){ toast('Generate a list first'); return; }
+      await ensureVault(); if(!unlocked) return;
+      const act = await openSaveModal(list.join('\n'));
+      if(act==='save'){ els.svForm.requestSubmit(); }
     });
 
     // ====== Init ======
@@ -758,7 +745,6 @@
     if(!els.out.textContent) genPassword();
     if(!els.phraseOut.textContent) genPhrase();
     vault=loadVaultRaw(); renderVault();
-
   </script>
 
 </body>
