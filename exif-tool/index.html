@@ -1,0 +1,649 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- AdSense (async; no fixed ad slots here => no CLS) -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617" crossorigin="anonymous"></script>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>EXIF Tool — Cleaner, Hidden Data Extractor & Secret Embedder (Stego PNG) | UpTools</title>
+  <meta name="description" content="EXIF Tool: extract EXIF, XMP, IPTC, ICC, JPEG comments, PNG/WebP chunks & trailing bytes. Clean metadata losslessly and optionally embed/extract secret data (LSB stego & PNG tEXt). 100% local, private, mobile-friendly." />
+  <meta name="keywords" content="exif tool, exif cleaner, remove exif, strip metadata, image metadata viewer, xmp, iptc, icc, png text chunks, webp riff chunks, steganography, hide secret in image, lsb stego, png text chunk" />
+  <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
+  <meta name="theme-color" content="#0a1b0f" />
+  <link rel="canonical" href="https://www.uptools.in/exif-tool/" />
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:title" content="EXIF Tool — Cleaner, Hidden Data Extractor & Secret Embedder (Stego PNG)" />
+  <meta property="og:description" content="View & remove hidden image data (EXIF/XMP/IPTC/ICC/PNG/WebP), then optionally embed/extract secrets locally. Free & private." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.uptools.in/exif-tool/" />
+  <meta property="og:site_name" content="UpTools" />
+  <meta property="og:image" content="https://www.uptools.in/assets/og/exif-tool.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- Icons -->
+  <link rel="icon" sizes="50x50" type="image/svg+xml" href="/assets/logo/uptools-logo.svg" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/logo/uptools-logo.svg" />
+
+  <!-- JSON-LD: Breadcrumbs -->
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
+    {"@type":"ListItem","position":1,"name":"Home","item":"https://www.uptools.in/"},
+    {"@type":"ListItem","position":2,"name":"Tools","item":"https://www.uptools.in/#tools"},
+    {"@type":"ListItem","position":3,"name":"EXIF Tool","item":"https://www.uptools.in/exif-tool/"}
+  ]}
+  </script>
+
+  <!-- JSON-LD: Software + FAQ -->
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"SoftwareApplication","name":"EXIF Tool","applicationCategory":"UtilitiesApplication","operatingSystem":"Any","url":"https://www.uptools.in/exif-tool/","description":"Extract, audit and remove hidden image data; optionally embed/extract secrets (LSB & PNG tEXt), all locally.","offers":{"@type":"Offer","price":"0","priceCurrency":"INR"}}
+  </script>
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+    {"@type":"Question","name":"Does this upload my images?","acceptedAnswer":{"@type":"Answer","text":"No. Everything runs in your browser. Images and secrets never leave your device."}},
+    {"@type":"Question","name":"Will cleaning remove all metadata?","acceptedAnswer":{"@type":"Answer","text":"We re-encode via Canvas to strip EXIF/XMP/IPTC/ICC and comments. PNG/WebP chunks are also removed by the new encode. Visual pixels remain the same (for PNG) or recompressed (for JPEG)."}},
+    {"@type":"Question","name":"Is embedding secrets legal?","acceptedAnswer":{"@type":"Answer","text":"Use only with your own content and for lawful purposes (e.g., watermarking or private notes). LSB stego can be destroyed by re-encoding (e.g., social uploads). PNG tEXt can be removed by some apps."}}
+  ]}
+  </script>
+
+  <!-- Minimal libs: exifr for robust EXIF/XMP/IPTC/ICC parsing -->
+  <script defer src="https://cdn.jsdelivr.net/npm/exifr@7.1.3/dist/full.umd.js"></script>
+
+  <!-- Page theme (neon green) -->
+  <style>
+    :root{ --accent:#22c55e; --accent-2:#16a34a; --bg1:#07140e; --bg2:#0b1711; }
+    .bg-net{position:fixed;inset:0;z-index:-1;pointer-events:none;background:
+      radial-gradient(900px 600px at 12% -10%, rgba(34,197,94,.16), transparent 50%),
+      radial-gradient(900px 600px at 110% 10%, rgba(22,163,74,.12), transparent 50%),
+      linear-gradient(135deg, var(--bg1), var(--bg2));
+    }
+    .bg-net .ping{position:absolute;width:220px;height:220px;border-radius:50%;
+      border:2px solid color-mix(in oklab,var(--accent) 55%,transparent);
+      box-shadow:0 0 18px color-mix(in oklab,var(--accent) 40%,transparent);
+      animation:r 6s infinite ease-in-out;opacity:.12}
+    .bg-net .ping:nth-child(1){top:12%;left:8%;animation-delay:0s}
+    .bg-net .ping:nth-child(2){top:62%;right:14%;animation-delay:1.2s}
+    .bg-net .ping:nth-child(3){top:28%;right:35%;animation-delay:2.1s}
+    @keyframes r{0%{transform:scale(.6);opacity:.18}50%{transform:scale(1.15);opacity:.10}100%{transform:scale(1.6);opacity:.06}}
+
+    /* Tool layout */
+    .panel{display:grid;grid-template-columns:1.1fr 1fr;gap:12px;align-items:start}
+    @media (max-width: 900px){ .panel{grid-template-columns:1fr} }
+    .preview-wrap{display:flex;gap:10px}
+    .preview-box{flex:1;min-height:240px;background:#0a1224;border:1px solid color-mix(in oklab,var(--accent) 25%, #223);border-radius:12px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+    .preview-box img{max-width:100%;max-height:100%;object-fit:contain}
+    .scroll{max-height:50vh; overflow:auto}
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace; font-size:12px;line-height:1.4}
+    .kv .row{display:flex; justify-content:space-between; gap:10px; padding:4px 0; border-bottom:1px dotted #163}
+    .kv .row:last-child{border-bottom:0}
+    .chip-badge{display:inline-block;padding:2px 6px;border:1px solid color-mix(in oklab,var(--accent) 40%, #223);border-radius:999px;font-size:12px;margin-left:6px}
+    .hint{font-size:12px;color:var(--muted)}
+    .hidden{display:none!important}
+  </style>
+
+  <!-- Common site CSS -->
+  <link rel="preload" href="/style.css?v=1.1.0" as="style">
+  <link rel="stylesheet" href="/style.css?v=1.1.0" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="/style.css?v=1.1.0"></noscript>
+</head>
+
+<body>
+  <div class="bg-net" aria-hidden="true"><i class="ping"></i><i class="ping"></i><i class="ping"></i></div>
+
+  <!-- Header -->
+  <header class="site" role="banner">
+    <div class="header-inner">
+      <a class="brand" href="/" aria-label="UpTools Home">
+        <img src="/assets/logo/uptools-logo.svg" alt="UpTools logo" width="28" height="28" loading="eager">
+        <b>UpTools</b>
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="/#tools">Tools</a>
+        <a href="/file-hash/">File Hash</a>
+        <a href="/browser-fingerprint/">Fingerprint</a>
+        <a aria-current="page" href="/exif-tool/">EXIF Tool</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap" id="main">
+    <!-- Breadcrumbs -->
+    <nav class="note small" aria-label="Breadcrumb">
+      <a href="/">Home</a> › <a href="/#tools">Tools</a> › <span aria-current="page">EXIF Tool</span>
+    </nav>
+
+    <!-- Hero -->
+    <div class="hero neon" style="margin-top:10px">
+      <img class="hero-logo" src="/assets/logo/uptools-logo.svg" alt="UpTools shield" width="28" height="28" loading="lazy">
+      <div>
+        <h1>EXIF Tool</h1>
+        <p class="note">View & remove EXIF/XMP/IPTC/ICC + PNG/WebP chunks • Optional secret embed/extract (LSB & PNG tEXt)</p>
+      </div>
+    </div>
+
+    <!-- Page Bookmarks -->
+    <nav class="chips" aria-label="On this page" style="margin:8px 0 16px">
+      <a class="pill" href="#inspector">Inspector</a>
+      <a class="pill" href="#cleaner">Cleaner</a>
+      <a class="pill" href="#stego">Secret Embed/Extract</a>
+      <a class="pill" href="#video">Video</a>
+      <a class="pill" href="#faq">FAQ</a>
+    </nav>
+
+    <section class="panel">
+      <!-- LEFT: Upload + Inspector -->
+      <article class="card" id="inspector" aria-labelledby="insp-title">
+        <div class="tool-header" style="margin-bottom:8px">
+          <div class="tool-icon">🔍</div>
+          <div>
+            <h2 id="insp-title" style="margin:0">Inspector (Hidden Data)</h2>
+            <p class="note" style="margin:2px 0 0">Drop an image or paste (Ctrl/Cmd+V). All parsing stays local.</p>
+          </div>
+        </div>
+
+        <div class="preview-wrap">
+          <div class="preview-box" id="dropzone" tabindex="0" aria-label="Drop image here">
+            <img id="preview" alt="Preview of uploaded image" width="320" height="240">
+          </div>
+          <div style="width:220px">
+            <input id="file" type="file" class="input" accept="image/*">
+            <div class="kv" style="margin-top:8px">
+              <div class="row"><span>Format</span><span class="amount" id="fmt">—</span></div>
+              <div class="row"><span>Dimensions</span><span class="amount" id="dim">—</span></div>
+              <div class="row"><span>File size</span><span class="amount" id="size">—</span></div>
+            </div>
+            <div class="chips" style="margin-top:8px">
+              <button class="btn sm" id="exportReport" type="button">Export Report (JSON)</button>
+            </div>
+            <p class="hint">Large files are fine (tested up to ~25MB). HEIC: metadata via EXIFR; canvas render depends on browser.</p>
+          </div>
+        </div>
+
+        <div class="grid" style="margin-top:10px">
+          <div class="card neon">
+            <strong>EXIF / XMP / IPTC / ICC</strong>
+            <pre id="exifOut" class="mono scroll" aria-label="EXIF/XMP output">{}</pre>
+          </div>
+          <div class="card neon">
+            <strong>Container Chunks & Trailing Data</strong>
+            <pre id="chunksOut" class="mono scroll" aria-label="Container & chunk output">[]</pre>
+          </div>
+        </div>
+      </article>
+
+      <!-- RIGHT: Cleaner + Stego -->
+      <article class="card" id="cleaner" aria-labelledby="clean-title">
+        <div class="tool-header" style="margin-bottom:8px">
+          <div class="tool-icon">🧹</div>
+          <div>
+            <h2 id="clean-title" style="margin:0">Cleaner (Strip Metadata)</h2>
+            <p class="note" style="margin:2px 0 0">Re-encode via Canvas to remove metadata. Pixels preserved for PNG; JPEG recompresses.</p>
+          </div>
+        </div>
+
+        <label class="label" for="formatOut">Output</label>
+        <select id="formatOut" class="input">
+          <option value="image/png">PNG (lossless, best for stego)</option>
+          <option value="image/jpeg">JPEG (quality control)</option>
+          <option value="image/webp">WebP</option>
+        </select>
+
+        <div id="jpegQWrap" class="hidden">
+          <label class="label" for="jpegQ">JPEG Quality</label>
+          <input id="jpegQ" class="input" type="range" min="0.5" max="0.95" step="0.05" value="0.9">
+        </div>
+
+        <div class="chips" style="margin-top:8px">
+          <button class="btn sm" id="cleanBtn" type="button">Clean & Download</button>
+          <button class="btn sm secondary" id="copyCanvas" type="button">Copy Clean Image</button>
+        </div>
+
+        <hr class="divider" style="margin:12px 0">
+
+        <div id="stego" aria-labelledby="stego-title">
+          <div class="tool-header" style="margin-bottom:8px">
+            <div class="tool-icon">🕵️</div>
+            <div>
+              <h2 id="stego-title" style="margin:0">Secret Embed / Extract (Local)</h2>
+              <p class="note" style="margin:2px 0 0">Two modes: <span class="chip-badge">Pixel-LSB</span> and <span class="chip-badge">PNG tEXt</span>. Use lawfully, on your own images.</p>
+            </div>
+          </div>
+
+          <label class="label" for="stegoMode">Mode</label>
+          <select id="stegoMode" class="input">
+            <option value="lsb">Pixel-LSB (PNG only)</option>
+            <option value="pngtext">PNG tEXt chunk</option>
+          </select>
+
+          <div id="stegoTextWrap">
+            <label class="label" for="secret">Secret Text</label>
+            <textarea id="secret" class="input" placeholder="Write your secret message..." rows="3" maxlength="20000"></textarea>
+          </div>
+
+          <div class="chips" style="margin-top:8px">
+            <button id="embedBtn" class="btn sm" type="button">Embed & Download Stego PNG</button>
+            <button id="extractBtn" class="btn sm secondary" type="button">Extract Secret</button>
+          </div>
+
+          <p class="hint">Note: JPEG recompression destroys LSB. PNG tEXt is metadata and may be stripped by some apps. For resilience, prefer LSB within PNG you control.</p>
+          <pre id="stegoOut" class="mono scroll" style="margin-top:8px" aria-label="Stego output">Ready.</pre>
+        </div>
+      </article>
+    </section>
+
+    <!-- Video -->
+    <section class="card" id="video" style="margin-top:16px">
+      <h2 style="margin-top:0">Why EXIF/Metadata Matters (Privacy)</h2>
+      <p class="note">Short explainer: what cameras store, and how to remove it safely.</p>
+      <div class="center" style="padding:6px">
+        <iframe width="560" height="315" loading="lazy"
+          src="https://www.youtube.com/embed/6w8GQv8tB7Y"
+          title="EXIF Metadata & Privacy - How to remove hidden data from photos"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"></iframe>
+      </div>
+    </section>
+
+    <!-- Related internal links (textual logos for subpages) -->
+    <section class="card" style="margin-top:16px">
+      <h2 style="margin-top:0">Related Tools</h2>
+      <ul>
+        <li><a href="/file-hash/"><span class="ico" aria-hidden="true">FH</span> File Hash (MD5/SHA-256) Verifier</a></li>
+        <li><a href="/qr-scanner/"><span class="ico" aria-hidden="true">QR</span> QR Scanner (camera) with risk badges</a></li>
+        <li><a href="/browser-fingerprint/"><span class="ico" aria-hidden="true">BF</span> Browser Fingerprint & Tracker Test</a></li>
+        <li><a href="/wifi-router/"><span class="ico" aria-hidden="true">WR</span> WiFi Router Tools (Default passwords catalog)</a></li>
+        <li><a href="/about/"><span class="ico" aria-hidden="true">ABT</span> About UpTools</a></li>
+        <li><a href="/contact/"><span class="ico" aria-hidden="true">CT</span> Contact</a></li>
+      </ul>
+    </section>
+
+    <section class="card" id="faq" style="margin-top:16px">
+      <h2 style="margin-top:0">FAQ</h2>
+      <details>
+        <summary><strong>Does this upload my images?</strong></summary>
+        <p class="note">No. Everything runs locally in your browser.</p>
+      </details>
+      <details>
+        <summary><strong>Will cleaning remove all metadata?</strong></summary>
+        <p class="note">Yes, via re-encode (Canvas). PNG keeps pixels; JPEG/WebP re-compress.</p>
+      </details>
+      <details>
+        <summary><strong>Is embedding secrets legal?</strong></summary>
+        <p class="note">Use on your own images and only for lawful purposes.</p>
+      </details>
+    </section>
+
+    <footer class="note small site-footer" role="contentinfo">
+      © <span id="y"></span> UpTools · <a href="/sitemap.xml">Sitemap</a> · <a href="/privacy/">Privacy</a>
+    </footer>
+  </main>
+
+  <!-- Common utils + Page logic -->
+  <script type="module">
+    import * as Utils from '/scripts/utils.js';
+    const { $, $$, debounce } = Utils;
+
+    // Elements
+    const fileInput = $('#file');
+    const dropzone = $('#dropzone');
+    const pv = $('#preview');
+    const fmt = $('#fmt'), dim = $('#dim'), sizeEl = $('#size');
+    const exifOut = $('#exifOut'), chunksOut = $('#chunksOut');
+    const exportReportBtn = $('#exportReport');
+
+    const formatOut = $('#formatOut'), jpegQ = $('#jpegQ'), jpegQWrap = $('#jpegQWrap');
+    const cleanBtn = $('#cleanBtn'), copyCanvasBtn = $('#copyCanvas');
+
+    const stegoMode = $('#stegoMode'), secretEl = $('#secret');
+    const embedBtn = $('#embedBtn'), extractBtn = $('#extractBtn'), stegoOut = $('#stegoOut');
+
+    const yearEl = $('#y'); yearEl.textContent = new Date().getFullYear();
+
+    // State
+    let currentFile = null;
+    let currentAB = null;         // ArrayBuffer of original file
+    let currentImg = new Image(); // for canvas draws
+    let metaReport = { exif:{}, container:[], trailing:false, format:null, width:null, height:null, fileSize:0 };
+
+    // Helpers
+    const toKB = (n) => `${(n/1024).toFixed(1)} KB`;
+    const isPNG = (u8) => u8[0]===0x89 && u8[1]===0x50 && u8[2]===0x4E && u8[3]===0x47;
+    const isJPG = (u8) => u8[0]===0xFF && u8[1]===0xD8;
+    const isWebP = (u8) => u8[0]===0x52 && u8[1]===0x49 && u8[2]===0x46 && u8[3]===0x46 && u8[8]===0x57 && u8[9]===0x45 && u8[10]===0x42 && u8[11]===0x50;
+    const b2str = (b) => new TextDecoder().decode(b);
+    const str2bytes = (s) => new TextEncoder().encode(s);
+
+    // CRC32 for PNG chunk
+    const CRC_TABLE = new Uint32Array(256).map((_,n)=>{let c=n;for(let k=0;k<8;k++)c=((c&1)?(0xEDB88320^(c>>>1)):(c>>>1));return c>>>0;});
+    function crc32(bytes){
+      let c = 0xFFFFFFFF;
+      for (let i=0;i<bytes.length;i++) c = CRC_TABLE[(c ^ bytes[i]) & 0xFF] ^ (c >>> 8);
+      return (c ^ 0xFFFFFFFF) >>> 0;
+    }
+    const u32 = (v)=> new DataView(new Uint8Array([ (v>>>24)&255, (v>>>16)&255, (v>>>8)&255, v&255 ]).buffer);
+
+    // Load file
+    fileInput.addEventListener('change', e => { const f=e.target.files?.[0]; if(f) handleFile(f); });
+    dropzone.addEventListener('dragover', e => { e.preventDefault(); dropzone.classList.add('neon'); });
+    dropzone.addEventListener('dragleave', ()=> dropzone.classList.remove('neon'));
+    dropzone.addEventListener('drop', e => { e.preventDefault(); dropzone.classList.remove('neon'); const f=e.dataTransfer.files?.[0]; if(f) handleFile(f); });
+    document.addEventListener('paste', e => { const f=[...e.clipboardData.files][0]; if(f) handleFile(f); });
+
+    async function handleFile(file){
+      currentFile = file;
+      currentAB = await file.arrayBuffer();
+      const u8 = new Uint8Array(currentAB);
+      metaReport.fileSize = file.size;
+      metaReport.format = isPNG(u8) ? 'PNG' : isJPG(u8) ? 'JPEG' : isWebP(u8) ? 'WEBP' : file.type || 'Unknown';
+
+      // Preview
+      const blobUrl = URL.createObjectURL(file);
+      currentImg.onload = () => {
+        dim.textContent = `${currentImg.naturalWidth} × ${currentImg.naturalHeight}`;
+        metaReport.width=currentImg.naturalWidth; metaReport.height=currentImg.naturalHeight;
+        URL.revokeObjectURL(blobUrl);
+      };
+      pv.src = blobUrl; pv.alt = file.name;
+
+      fmt.textContent = metaReport.format;
+      sizeEl.textContent = toKB(file.size);
+
+      await parseMetadata(u8);
+      exifOut.textContent = JSON.stringify(metaReport.exif, null, 2).slice(0, 50000) || '{}';
+      chunksOut.textContent = JSON.stringify(metaReport.container, null, 2).slice(0, 50000) || '[]';
+    }
+
+    async function parseMetadata(u8){
+      metaReport.exif = {};
+      metaReport.container = [];
+      metaReport.trailing = false;
+
+      try{
+        // EXIF/XMP/IPTC/ICC via exifr (JPEG/TIFF/HEIC; partial PNG/WebP)
+        const tags = await exifr.parse(u8.buffer, { xmp:true, tiff:true, icc:true, iptc:true, gps:true, jfif:true, ihdr:true });
+        if (tags) {
+          const kept = {};
+          const keepKeys = ['Make','Model','LensModel','Software','DateTimeOriginal','CreateDate','ModifyDate','Orientation','GPSLatitude','GPSLongitude','GPSAltitude','FNumber','ExposureTime','ISO','FocalLength','ICCProfileName','JFIFVersion','XMP','IPTC','Artist','Copyright'];
+          for (const k of keepKeys) if (k in tags) kept[k] = tags[k];
+          metaReport.exif = kept;
+        }
+      }catch(e){ /* ignore */ }
+
+      // Container-specific chunk listing & trailing data check
+      if (isJPG(u8)){
+        let i=2;
+        while (i+4 <= u8.length){
+          if (u8[i] !== 0xFF) break;
+          const marker = u8[i+1]; i+=2;
+          if (marker === 0xD9){ // EOI
+            if (i < u8.length) metaReport.container.push({type:'TRAILING', size:u8.length - i});
+            break;
+          }
+          if (marker === 0xDA){ // SOS (scan) -> find EOI
+            break;
+          }
+          const len = (u8[i]<<8) | u8[i+1]; i+=2;
+          const segType = (marker===0xE1?'APP1': marker===0xED?'APP13': marker===0xFE?'COM': ('FF'+marker.toString(16).toUpperCase()));
+          metaReport.container.push({type: segType, size: len-2});
+          i += len-2;
+        }
+      } else if (isPNG(u8)){
+        let p = 8; // skip signature
+        while (p+12 <= u8.length){
+          const len = (u8[p]<<24)|(u8[p+1]<<16)|(u8[p+2]<<8)|u8[p+3];
+          const type = b2str(u8.subarray(p+4, p+8));
+          metaReport.container.push({type, size: len});
+          p += 12 + len;
+        }
+        if (p < u8.length) metaReport.container.push({type:'TRAILING', size:u8.length - p});
+      } else if (isWebP(u8)){
+        let p = 12; // RIFF header
+        while (p+8 <= u8.length){
+          const type = b2str(u8.subarray(p, p+4));
+          const len = u8[p+4] | (u8[p+5]<<8) | (u8[p+6]<<16) | (u8[p+7]<<24);
+          metaReport.container.push({type, size: len});
+          p += 8 + len + (len%2); // padding
+        }
+        if (p < u8.length) metaReport.container.push({type:'TRAILING', size:u8.length - p});
+      }
+    }
+
+    // Export report
+    exportReportBtn.addEventListener('click', ()=>{
+      const blob = new Blob([JSON.stringify(metaReport, null, 2)], {type:'application/json'});
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = `image-report.json`;
+      a.click();
+      URL.revokeObjectURL(a.href);
+    });
+
+    // Cleaner
+    formatOut.addEventListener('change', ()=>{
+      jpegQWrap.classList.toggle('hidden', formatOut.value!=='image/jpeg');
+    });
+
+    async function drawToCanvas(){
+      if (!currentFile) return null;
+      await new Promise(res=>{
+        if (currentImg.complete) return res();
+        currentImg.onload = () => res();
+      });
+      const canvas = document.createElement('canvas');
+      canvas.width = currentImg.naturalWidth || currentImg.width;
+      canvas.height = currentImg.naturalHeight || currentImg.height;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(currentImg, 0, 0);
+      return canvas;
+    }
+
+    cleanBtn.addEventListener('click', async ()=>{
+      if (!currentFile) return alert('Load an image first.');
+      const canvas = await drawToCanvas();
+      const type = formatOut.value;
+      const q = (type==='image/jpeg') ? Number(jpegQ.value) : undefined;
+      canvas.toBlob(blob=>{
+        const a = document.createElement('a');
+        const ext = type==='image/png'?'png': type==='image/webp'?'webp':'jpg';
+        a.href = URL.createObjectURL(blob);
+        a.download = `cleaned.${ext}`;
+        a.click();
+        URL.revokeObjectURL(a.href);
+      }, type, q);
+    });
+
+    copyCanvasBtn.addEventListener('click', async ()=>{
+      if (!currentFile) return alert('Load an image first.');
+      const canvas = await drawToCanvas();
+      canvas.toBlob(async blob=>{
+        try{
+          await navigator.clipboard.write([new ClipboardItem({ [blob.type]: blob })]);
+          alert('Copied clean image to clipboard.');
+        }catch{ alert('Clipboard copy not supported in this browser.'); }
+      });
+    });
+
+    // ---- Stego helpers ----
+    function canvasToPNGBytes(canvas){
+      const dataURL = canvas.toDataURL('image/png');
+      const b64 = dataURL.split(',')[1];
+      const bin = atob(b64);
+      const u8 = new Uint8Array(bin.length);
+      for (let i=0;i<bin.length;i++) u8[i] = bin.charCodeAt(i);
+      return u8;
+    }
+    function bytesToDataURL(u8, mime='image/png'){
+      let bin=''; for (let i=0;i<u8.length;i++) bin += String.fromCharCode(u8[i]);
+      return `data:${mime};base64,` + btoa(bin);
+    }
+    function insertPNGTextChunk(pngBytes, key, text){
+      const sigLen=8;
+      let p = sigLen;
+      const len = (pngBytes[p]<<24)|(pngBytes[p+1]<<16)|(pngBytes[p+2]<<8)|pngBytes[p+3];
+      const type = b2str(pngBytes.subarray(p+4,p+8));
+      if (type!=='IHDR') return pngBytes;
+      const afterIHDR = p + 12 + len;
+
+      const keyBytes = new TextEncoder().encode(key);
+      const textBytes = new TextEncoder().encode(text);
+      const data = new Uint8Array(keyBytes.length + 1 + textBytes.length);
+      data.set(keyBytes, 0); data[keyBytes.length]=0; data.set(textBytes, keyBytes.length+1);
+
+      const typeBytes = new TextEncoder().encode('tEXt');
+      const crcIn = new Uint8Array(typeBytes.length + data.length);
+      crcIn.set(typeBytes, 0); crcIn.set(data, typeBytes.length);
+      // CRC32
+      const CRC_TABLE = new Uint32Array(256).map((_,n)=>{let c=n;for(let k=0;k<8;k++)c=((c&1)?(0xEDB88320^(c>>>1)):(c>>>1));return c>>>0;});
+      let c = 0xFFFFFFFF;
+      for (let i=0;i<crcIn.length;i++) c = CRC_TABLE[(c ^ crcIn[i]) & 0xFF] ^ (c >>> 8);
+      const crc = (c ^ 0xFFFFFFFF) >>> 0;
+
+      const out = new Uint8Array(pngBytes.length + 12 + data.length);
+      out.set(pngBytes.subarray(0, afterIHDR), 0);
+      out.set(new Uint8Array([ (data.length>>>24)&255,(data.length>>>16)&255,(data.length>>>8)&255,data.length&255 ]), afterIHDR);
+      out.set(typeBytes, afterIHDR+4);
+      out.set(data, afterIHDR+8);
+      out.set(new Uint8Array([ (crc>>>24)&255,(crc>>>16)&255,(crc>>>8)&255,crc&255 ]), afterIHDR+8+data.length);
+      out.set(pngBytes.subarray(afterIHDR), afterIHDR+12+data.length);
+      return out;
+    }
+
+    function extractPNGTextChunks(pngBytes){
+      const chunks = [];
+      let p = 8;
+      while (p+12 <= pngBytes.length){
+        const len = (pngBytes[p]<<24)|(pngBytes[p+1]<<16)|(pngBytes[p+2]<<8)|pngBytes[p+3];
+        const type = b2str(pngBytes.subarray(p+4, p+8));
+        if (type==='tEXt' && len>0){
+          const data = pngBytes.subarray(p+8, p+8+len);
+          const zero = data.indexOf(0);
+          let key='(unknown)', text='';
+          if (zero>=0){ key = b2str(data.subarray(0,zero)); text = b2str(data.subarray(zero+1)); }
+          chunks.push({key, text});
+        }
+        p += 12 + len;
+      }
+      return chunks;
+    }
+
+    // LSB encode/decode in RGB channels
+    function lsbCapacityPX(w,h){ return w*h*3; } // bits
+    function lsbEncode(canvas, msg){
+      const w=canvas.width, h=canvas.height;
+      const ctx = canvas.getContext('2d');
+      const img = ctx.getImageData(0,0,w,h);
+      const d = img.data;
+      const data = new TextEncoder().encode(msg);
+      const header = new TextEncoder().encode('UPLS'); // magic
+      const lenBytes = new Uint8Array(4); new DataView(lenBytes.buffer).setUint32(0, data.length, false);
+      const payload = new Uint8Array(header.length + lenBytes.length + data.length);
+      payload.set(header,0); payload.set(lenBytes, header.length); payload.set(data, header.length+4);
+
+      const bitsNeeded = payload.length * 8;
+      if (bitsNeeded > lsbCapacityPX(w,h)) throw new Error('Message too large for this image.');
+
+      let bi=0;
+      for (let i=0;i<d.length && bi<bitsNeeded;i+=4){
+        for (let c=0;c<3;c++){
+          if (bi>=bitsNeeded) break;
+          const byteIndex = bi>>3;
+          const bitIndex = 7 - (bi & 7);
+          const bit = (payload[byteIndex] >> bitIndex) & 1;
+          d[i+c] = (d[i+c] & 0xFE) | bit;
+          bi++;
+        }
+      }
+      ctx.putImageData(img,0,0);
+      return canvas;
+    }
+
+    function lsbDecode(canvas){
+      const w=canvas.width, h=canvas.height;
+      const ctx = canvas.getContext('2d');
+      const d = ctx.getImageData(0,0,w,h).data;
+      const totalBits = lsbCapacityPX(w,h);
+      const takeBytes = Math.min(8, Math.floor(totalBits/8));
+      const tmp = new Uint8Array(takeBytes);
+      let bi=0;
+      for (let i=0;i<d.length && bi<takeBytes*8;i+=4){
+        for (let c=0;c<3;c++){
+          if (bi>=takeBytes*8) break;
+          tmp[bi>>3] = (tmp[bi>>3]<<1) | (d[i+c]&1);
+          bi++;
+        }
+      }
+      const magic = new TextDecoder().decode(tmp.subarray(0,4));
+      if (magic!=='UPLS') return null;
+      const msgLen = new DataView(tmp.buffer).getUint32(4,false);
+      const bitsNeeded = (8+msgLen)*8;
+      if (bitsNeeded > totalBits) return null;
+
+      const full = new Uint8Array(8 + msgLen);
+      let b=0;
+      for (let i=0;i<d.length && b<bitsNeeded;i+=4){
+        for (let c=0;c<3;c++){
+          if (b>=bitsNeeded) break;
+          const byteIndex = b>>3;
+          full[byteIndex] = (full[byteIndex]<<1) | (d[i+c]&1);
+          b++;
+        }
+      }
+      const out = full.subarray(8);
+      return new TextDecoder().decode(out);
+    }
+
+    // Embed / Extract actions
+    embedBtn.addEventListener('click', async ()=>{
+      if (!currentFile) return alert('Load an image first.');
+      const msg = secretEl.value || '';
+      if (!msg) return alert('Enter some secret text.');
+
+      const base = await drawToCanvas();
+      let outPNG;
+
+      try{
+        if (stegoMode.value==='lsb'){
+          const stegoCanvas = lsbEncode(base, msg);
+          const bytes = canvasToPNGBytes(stegoCanvas);
+          outPNG = bytes;
+        } else {
+          const bytes = canvasToPNGBytes(base);
+          const injected = insertPNGTextChunk(bytes, 'UpToolsSecret', msg);
+          outPNG = injected;
+        }
+      }catch(err){
+        console.error(err);
+        return alert('Failed to embed: ' + err.message);
+      }
+
+      const a = document.createElement('a');
+      a.href = bytesToDataURL(outPNG, 'image/png');
+      a.download = 'stego.png';
+      a.click();
+    });
+
+    extractBtn.addEventListener('click', async ()=>{
+      if (!currentFile) return alert('Load an image first.');
+      const base = await drawToCanvas();
+      let results = { lsb:null, pngText:[] };
+
+      try{
+        const m = lsbDecode(base);
+        if (m) results.lsb = m;
+      }catch{}
+
+      try{
+        const bytes = canvasToPNGBytes(base);
+        const txts = extractPNGTextChunks(bytes);
+        results.pngText = txts.filter(t => !!t.text);
+      }catch{}
+
+      stegoOut.textContent = JSON.stringify(results, null, 2);
+      if (!results.lsb && results.pngText.length===0) stegoOut.textContent = 'No embedded secret found (LSB or PNG tEXt).';
+    });
+
+  </script>
+</body>
+</html>
