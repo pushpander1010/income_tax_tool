@@ -1,0 +1,761 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+    <!-- Google AdSense (async; no fixed ad slots here to avoid CLS) -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617"
+        crossorigin="anonymous"></script>
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>WiFi Router Tools – FULL On-Site Default Passwords, Wi-Fi QR & MAC Vendor Lookup | UpTools</title>
+    <meta name="description"
+        content="Professional WiFi Router Tools by UpTools. A FULL on-site, searchable catalog of default router passwords (educational), a Wi-Fi QR code generator (WPA/WPA2/WPA3), and a MAC address vendor (OUI) lookup. Fast, private, mobile-friendly." />
+    <meta name="keywords"
+        content="default router passwords, router default credentials, wifi router admin, router login, admin password, Wi-Fi QR code, WPA3 QR, MAC lookup, OUI lookup, TP-Link, Netgear, D-Link, Linksys, ASUS, Huawei, JioFiber, Airtel Xstream" />
+    <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
+    <meta name="theme-color" content="#0a1b0f" />
+    <link rel="canonical" href="https://www.uptools.in/wifi-router/" />
+
+    <!-- Open Graph -->
+
+    <meta property="og:title" content="WiFi Router Tools – Default Passwords, QR & MAC Lookup (On-Site)" />
+    <meta property="og:description"
+        content="Browse the full default router password list on this page, generate Wi-Fi QR codes, and look up MAC vendors. Free, privacy-first." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.uptools.in/wifi-router/" />
+    <meta property="og:site_name" content="UpTools" />
+    <meta property="og:image" content="https://www.uptools.in/assets/og/wifi-router-tools.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Icons -->
+
+    <link rel="icon" sizes="50x50" type="image/svg+xml" href="/assets/logo/uptools-logo.svg" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/logo/uptools-logo.svg" />
+
+    <!-- JSON-LD: Breadcrumbs -->
+
+    <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
+    {"@type":"ListItem","position":1,"name":"Home","item":"https://www.uptools.in/"},
+    {"@type":"ListItem","position":2,"name":"Tools","item":"https://www.uptools.in/#tools"},
+    {"@type":"ListItem","position":3,"name":"WiFi Router Tools","item":"https://www.uptools.in/wifi-router/"}
+  ]}
+  </script>
+
+    <!-- JSON-LD: Software + FAQ -->
+
+    <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
+    {"@type":"Question","name":"Do you host the full default router password list?","acceptedAnswer":{"@type":"Answer","text":"Yes. The catalog is hosted on this page and loads from our domain. You can search, filter and export it. It is provided for educational purposes only—always change defaults immediately."}},
+    {"@type":"Question","name":"Is this a Wi-Fi password cracker?","acceptedAnswer":{"@type":"Answer","text":"No. UpTools provides legal, educational, defensive tools only: default credential catalog, Wi-Fi QR generator, and MAC vendor lookup. No cracking or unauthorized access."}},
+    {"@type":"Question","name":"Is the Wi-Fi QR code generated locally?","acceptedAnswer":{"@type":"Answer","text":"Yes. We generate the QR entirely in your browser. Do not share the QR publicly."}}
+  ]}
+  </script>
+
+    <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"SoftwareApplication","name":"WiFi Router Tools","applicationCategory":"SecurityApplication","operatingSystem":"Any","url":"https://www.uptools.in/wifi-router/","description":"On-site default router passwords (educational), Wi-Fi QR generator and MAC vendor lookup.","offers":{"@type":"Offer","price":"0","priceCurrency":"INR"}}
+  </script>
+
+    <!-- Neon-green page theming (tiny critical) -->
+
+    <style>
+        :root {
+            --accent: #22c55e;
+            --accent-2: #16a34a;
+            --bg1: #07140e;
+            --bg2: #0b1711;
+        }
+
+        .bg-net {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            pointer-events: none;
+            background:
+                radial-gradient(900px 600px at 12% -10%, rgba(34, 197, 94, .16), transparent 50%),
+                radial-gradient(900px 600px at 110% 10%, rgba(22, 163, 74, .12), transparent 50%),
+                linear-gradient(135deg, var(--bg1), var(--bg2));
+        }
+
+        .bg-net .ping {
+            position: absolute;
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            border: 2px solid color-mix(in oklab, var(--accent) 55%, transparent);
+            box-shadow: 0 0 18px color-mix(in oklab, var(--accent) 40%, transparent);
+            animation: r 6s infinite ease-in-out;
+            opacity: .12
+        }
+
+        .bg-net .ping:nth-child(1) {
+            top: 12%;
+            left: 8%;
+            animation-delay: 0s
+        }
+
+        .bg-net .ping:nth-child(2) {
+            top: 62%;
+            right: 14%;
+            animation-delay: 1.2s
+        }
+
+        .bg-net .ping:nth-child(3) {
+            top: 28%;
+            right: 35%;
+            animation-delay: 2.1s
+        }
+
+        @keyframes r {
+            0% {
+                transform: scale(.6);
+                opacity: .18
+            }
+
+            50% {
+                transform: scale(1.15);
+                opacity: .10
+            }
+
+            100% {
+                transform: scale(1.6);
+                opacity: .06
+            }
+        }
+
+        .wifi-badge {
+            --c: color-mix(in oklab, var(--accent) 75%, white);
+            width: 22px;
+            height: 22px;
+            position: relative;
+            display: inline-block
+        }
+
+        .wifi-badge:before,
+        .wifi-badge:after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 2px solid var(--c);
+            border-color: var(--c) transparent transparent transparent;
+            border-radius: 50%;
+            animation: b 2.4s ease-in-out infinite;
+            box-shadow: 0 0 10px color-mix(in oklab, var(--accent) 55%, transparent)
+        }
+
+        .wifi-badge:before {
+            width: 18px;
+            height: 18px;
+            top: 2px
+        }
+
+        .wifi-badge:after {
+            width: 12px;
+            height: 12px;
+            top: 6px;
+            animation-delay: .3s
+        }
+
+        @keyframes b {
+
+            0%,
+            100% {
+                filter: saturate(1)
+            }
+
+            50% {
+                filter: saturate(1.25)
+            }
+        }
+
+        /* Table controls */
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            align-items: center;
+            margin: 6px 0 10px
+        }
+
+        .stat {
+            font-size: 12px;
+            color: var(--muted)
+        }
+
+        .tbl {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0
+        }
+
+        .tbl th,
+        .tbl td {
+            padding: 8px 10px;
+            border-bottom: 1px solid color-mix(in oklab, var(--accent) 25%, #243)
+        }
+
+        .tbl th {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: .04em;
+            text-align: left;
+            color: var(--muted)
+        }
+
+        .tbl tr:hover td {
+            background: #0a1224
+        }
+
+        .pagination {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            justify-content: flex-end;
+            margin-top: 8px
+        }
+    </style>
+
+    <!-- Common site CSS (shared across pages) -->
+
+    <link rel="preload" href="/style.css?v=1.1.0" as="style">
+    <link rel="stylesheet" href="/style.css?v=1.1.0" media="print" onload="this.media='all'">
+    <noscript>
+        <link rel="stylesheet" href="/style.css?v=1.1.0">
+    </noscript>
+
+    <!-- Lightweight QR lib -->
+
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+</head>
+
+<body>
+    <div class="bg-net" aria-hidden="true"><i class="ping"></i><i class="ping"></i><i class="ping"></i></div>
+
+    <!-- Header (use main logo) -->
+
+    <header class="site" role="banner">
+        <div class="header-inner">
+            <a class="brand" href="/" aria-label="UpTools Home">
+                <img src="/assets/logo/uptools-logo.svg" alt="UpTools logo" width="28" height="28" loading="eager">
+                <b>UpTools</b>
+            </a>
+            <nav class="nav-links" aria-label="Primary">
+                <a href="/#tools">Tools</a>
+                <a href="/income-tax-tool/">Income Tax</a>
+                <a href="/emi-calculator/">EMI</a>
+                <a aria-current="page" href="/wifi-router/">WiFi Router</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="wrap" id="main">
+        <!-- Breadcrumbs (visual) -->
+        <nav class="note small" aria-label="Breadcrumb">
+            <a href="/">Home</a> › <a href="/#tools">Tools</a> › <span aria-current="page">WiFi Router Tools</span>
+        </nav>
+
+        <!-- Hero -->
+        <div class="hero neon" style="margin-top:10px">
+            <img class="hero-logo" src="/assets/logo/uptools-logo.svg" alt="UpTools shield" width="28" height="28"
+                loading="lazy">
+            <div>
+                <h1>WiFi Router Tools</h1>
+                <p class="note">FULL on-site default passwords (educational) · Wi-Fi QR · MAC Vendor</p>
+            </div>
+            <span class="wifi-badge" aria-hidden="true" title="Wi-Fi"></span>
+        </div>
+
+        <!-- On-page bookmarks -->
+        <nav class="chips" aria-label="On this page" style="margin:8px 0 16px">
+            <a class="pill" href="#default-passwords">Default Passwords (Full Catalog)</a>
+            <a class="pill" href="#wifi-qr">Wi-Fi QR Code</a>
+            <a class="pill" href="#mac-lookup">MAC Vendor</a>
+            <a class="pill" href="#video">Video</a>
+            <a class="pill" href="#faq">FAQ</a>
+        </nav>
+
+        <!-- 3-up grid -->
+        <section class="grid" style="align-items:start">
+
+            <!-- A) FULL On-site Default Passwords -->
+            <article class="card" id="default-passwords" aria-labelledby="dpf-title">
+                <div class="tool-header" style="margin-bottom:8px">
+                    <div class="tool-icon">🔑</div>
+                    <div>
+                        <h2 id="dpf-title" style="margin:0">Router Default Passwords (On-Site)</h2>
+                        <p class="note" style="margin:2px 0 0">For your own devices. Always change defaults immediately.
+                            <span class="small">Last updated: <time datetime="2025-08-30T00:00:00+05:30">30 Aug
+                                    2025</time></span></p>
+                    </div>
+                </div>
+
+                <!-- Controls -->
+                <div class="controls">
+                    <input id="q" class="input" placeholder="Search brand, model, username…" style="flex:1 1 220px">
+                    <select id="brand" class="input" style="max-width:180px"></select>
+                    <select id="perPage" class="input" style="max-width:120px">
+                        <option value="10">10 / page</option>
+                        <option value="20" selected>20 / page</option>
+                        <option value="50">50 / page</option>
+                        <option value="100">100 / page</option>
+                    </select>
+                    <button class="btn sm secondary" id="exportJSON" type="button"
+                        title="Export current catalog as JSON">Export JSON</button>
+                    <label class="btn sm ghost" for="importJSON"
+                        title="Import/replace catalog JSON (on this device)">Import JSON</label>
+                    <input id="importJSON" type="file" accept="application/json" hidden>
+                </div>
+
+                <div class="stat" id="stat">Loading catalog…</div>
+
+                <div class="result neon" style="margin-top:10px">
+                    <div style="overflow:auto; max-height:48vh">
+                        <table class="tbl" aria-describedby="stat">
+                            <thead>
+                                <tr>
+                                    <th>Brand</th>
+                                    <th>Model</th>
+                                    <th>Username</th>
+                                    <th>Password</th>
+                                    <th>Login URL</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tblBody"></tbody>
+                        </table>
+                    </div>
+                    <div class="pagination">
+                        <button class="btn sm secondary" id="prev">Prev</button>
+                        <span class="note" id="pageInfo">Page 1/1</span>
+                        <button class="btn sm secondary" id="next">Next</button>
+                    </div>
+                </div>
+
+                <p class="note small" style="margin-top:8px">
+                    Sources: public manuals & device stickers. Region/firmware may differ. Educational use only.
+                </p>
+            </article>
+
+            <!-- B) Wi-Fi QR -->
+            <article class="card" id="wifi-qr" aria-labelledby="qr-title">
+                <div class="tool-header" style="margin-bottom:8px">
+                    <div class="tool-icon">📳</div>
+                    <div>
+                        <h2 id="qr-title" style="margin:0">Wi-Fi QR Code Generator</h2>
+                        <p class="note" style="margin:2px 0 0">Share Wi-Fi safely without typing the password.</p>
+                    </div>
+                </div>
+
+                <label class="label" for="ssid">Network Name (SSID)</label>
+                <input id="ssid" class="input" placeholder="e.g., Home_5G" maxlength="64" />
+
+                <label class="label" for="enc">Encryption</label>
+                <select id="enc" class="input">
+                    <option value="WPA" selected>WPA/WPA2/WPA3</option>
+                    <option value="WEP">WEP</option>
+                    <option value="nopass">None (open)</option>
+                </select>
+
+                <div id="pwGroup">
+                    <label class="label" for="pass">Password</label>
+                    <input id="pass" class="input" type="text" placeholder="Use 12+ chars for WPA2/3" maxlength="63" />
+                </div>
+
+                <label class="check" style="display:block; margin-top:8px">
+                    <input id="hidden" type="checkbox"> <span>Hidden SSID</span>
+                </label>
+
+                <div class="result center neon" style="margin-top:10px; padding:12px">
+                    <div id="qrPreview" style="width:220px; height:220px"></div>
+                </div>
+
+                <div class="chips" style="margin-top:10px">
+                    <button class="btn sm" id="makeQR" type="button">Generate</button>
+                    <button class="btn sm secondary" id="downloadQR" type="button">Download PNG</button>
+                    <button class="btn sm ghost" id="copyWiFiString" type="button">Copy Wi-Fi String</button>
+                </div>
+
+                <p class="note small" style="margin-top:8px">Generated locally in your browser.</p>
+            </article>
+
+            <!-- C) MAC Vendor -->
+            <article class="card" id="mac-lookup" aria-labelledby="mac-title">
+                <div class="tool-header" style="margin-bottom:8px">
+                    <div class="tool-icon">🔎</div>
+                    <div>
+                        <h2 id="mac-title" style="margin:0">MAC Address Vendor Lookup</h2>
+                        <p class="note" style="margin:2px 0 0">Identify device vendor by OUI (first 6 hex).</p>
+                    </div>
+                </div>
+
+                <label class="label" for="mac">MAC Address</label>
+                <input id="mac" class="input" placeholder="A4:C1:38:12:34:56 or a4c138123456" />
+
+                <div class="result" id="macResult" style="min-height:72px">
+                    <div class="row"><span>OUI</span><span id="ouiVal" class="amount">—</span></div>
+                    <div class="row"><span>Vendor</span><span id="vendorVal" class="amount">—</span></div>
+                </div>
+
+                <div class="chips" style="margin-top:10px">
+                    <button class="btn sm ghost" id="copyOUI" type="button">Copy OUI</button>
+                    <a class="btn sm secondary" href="#default-passwords">Find related brand ↑</a>
+                </div>
+
+                <p class="note small" style="margin-top:8px">Tip: Open your router’s device list, copy MAC, paste here.
+                </p>
+            </article>
+        </section>
+
+        <!-- Video (SEO booster) -->
+        <section class="card" id="video" style="margin-top:16px">
+            <h2 style="margin-top:0">How to Share Wi-Fi with a QR Code</h2>
+            <p class="note">Short demo: generate a Wi-Fi QR and scan on Android/iOS.</p>
+            <div class="center" style="padding:6px">
+                <iframe width="auto" height="auto" src="https://www.youtube.com/embed/AFEhHGzidNI?si=IpsE4iYL06J4XnvZ"
+                    title="YouTube video player" frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+            </div>
+        </section>
+
+        <!-- Related internal links with textual logos -->
+        <section class="card" style="margin-top:16px">
+            <h2 style="margin-top:0">Related Tools</h2>
+            <ul>
+                <li><a href="/password-generator/"><span class="ico" aria-hidden="true">PG</span> Strong Password
+                        Generator (Entropy)</a></li>
+                <li><a href="/ip-lookup/"><span class="ico" aria-hidden="true">IP</span> What’s My IP & Location
+                        (Privacy Check)</a></li>
+                <li><a href="/browser-fingerprint/"><span class="ico" aria-hidden="true">BF</span> Browser Fingerprint &
+                        Tracker Test</a></li>
+                <li><a href="/file-hash/"><span class="ico" aria-hidden="true">FH</span> File Hash (MD5/SHA-256)
+                        Verifier</a></li>
+                <li><a href="/about/"><span class="ico" aria-hidden="true">ABT</span> About UpTools</a></li>
+                <li><a href="/contact/"><span class="ico" aria-hidden="true">CT</span> Contact</a></li>
+            </ul>
+        </section>
+
+        <!-- FAQ -->
+        <section class="card" id="faq" style="margin-top:16px">
+            <h2 style="margin-top:0">FAQ</h2>
+            <details>
+                <summary><strong>Is this a Wi-Fi password cracker?</strong></summary>
+                <p class="note">No. We provide legal, educational tools only.</p>
+            </details>
+            <details>
+                <summary><strong>My default doesn’t match the table.</strong></summary>
+                <p class="note">Defaults vary by region/firmware. Check the device sticker/manual and change credentials
+                    immediately.</p>
+            </details>
+        </section>
+
+        <footer class="note small site-footer" role="contentinfo">
+            © <span id="y"></span> UpTools · <a href="/sitemap.xml">Sitemap</a> · <a href="/privacy/">Privacy</a>
+        </footer>
+
+    </main>
+
+    <!-- ======= LARGE INLINE SEED (On-Site). If /assets/data/router-defaults.json exists, it will override this. ======= -->
+
+    <script id="router-seed" type="application/json">
+  {
+    "TP-Link":[
+      {"model":"Archer C6 v2","user":"admin","pass":"admin","url":"http://192.168.0.1"},
+      {"model":"Archer A7","user":"admin","pass":"admin","url":"http://192.168.0.1"},
+      {"model":"TL-WR840N","user":"admin","pass":"admin","url":"http://192.168.0.1"},
+      {"model":"TL-WR841N / 841ND","user":"admin","pass":"admin","url":"http://192.168.0.1"},
+      {"model":"Archer AX10","user":"admin","pass":"admin","url":"http://192.168.0.1"},
+      {"model":"Archer C20","user":"admin","pass":"admin","url":"http://192.168.0.1"},
+      {"model":"Deco (early UI)","user":"admin","pass":"admin","url":"http://192.168.68.1"}
+    ],
+    "D-Link":[
+      {"model":"DIR-600","user":"admin","pass":"","url":"http://192.168.0.1"},
+      {"model":"DIR-615","user":"admin","pass":"admin","url":"http://192.168.0.1"},
+      {"model":"DIR-816","user":"admin","pass":"admin","url":"http://192.168.0.1"},
+      {"model":"DSL-2750U","user":"admin","pass":"admin","url":"http://192.168.1.1"},
+      {"model":"DIR-850L","user":"admin","pass":"admin","url":"http://192.168.0.1"}
+    ],
+    "Netgear":[
+      {"model":"Nighthawk (many)","user":"admin","pass":"password","url":"http://192.168.1.1"},
+      {"model":"R6120","user":"admin","pass":"password","url":"http://192.168.1.1"},
+      {"model":"R7000","user":"admin","pass":"password","url":"http://192.168.1.1"},
+      {"model":"WNR2000","user":"admin","pass":"password","url":"http://192.168.1.1"}
+    ],
+    "Linksys":[
+      {"model":"E2500","user":"admin","pass":"admin","url":"http://192.168.1.1"},
+      {"model":"WRT54GL (variant)","user":"admin","pass":"admin","url":"http://192.168.1.1"},
+      {"model":"EA6350","user":"admin","pass":"admin","url":"http://192.168.1.1"},
+      {"model":"E1200","user":"admin","pass":"admin","url":"http://192.168.1.1"}
+    ],
+    "ASUS":[
+      {"model":"RT-AC66U","user":"admin","pass":"admin","url":"http://192.168.1.1"},
+      {"model":"RT-AC68U","user":"admin","pass":"admin","url":"http://192.168.1.1"},
+      {"model":"RT-AX55","user":"admin","pass":"admin","url":"http://192.168.1.1"},
+      {"model":"RT-N12","user":"admin","pass":"admin","url":"http://192.168.1.1"}
+    ],
+    "Huawei":[
+      {"model":"HG8145V5","user":"admin","pass":"admin","url":"http://192.168.100.1"},
+      {"model":"B315s-22","user":"admin","pass":"admin","url":"http://192.168.8.1"},
+      {"model":"HG8245H","user":"admin","pass":"admin","url":"http://192.168.100.1"},
+      {"model":"AX3","user":"admin","pass":"admin","url":"http://192.168.3.1"}
+    ],
+    "Nokia":[
+      {"model":"G-2425G-A (Airtel)","user":"admin","pass":"admin","url":"http://192.168.1.1"},
+      {"model":"G-140W-C","user":"admin","pass":"admin","url":"http://192.168.1.1"}
+    ],
+    "Tenda":[
+      {"model":"N301","user":"admin","pass":"admin","url":"http://192.168.0.1"},
+      {"model":"AC10","user":"admin","pass":"admin","url":"http://192.168.0.1"},
+      {"model":"AC6","user":"admin","pass":"admin","url":"http://192.168.0.1"}
+    ],
+    "Xiaomi / Mi":[
+      {"model":"Mi Router 4A","user":"admin","pass":"admin","url":"http://192.168.31.1"},
+      {"model":"Mi AIoT AX3600","user":"admin","pass":"admin","url":"http://192.168.31.1"},
+      {"model":"Redmi AX5","user":"admin","pass":"admin","url":"http://192.168.31.1"}
+    ],
+    "Ubiquiti":[
+      {"model":"UniFi (early)","user":"ubnt","pass":"ubnt","url":"https://unifi.ui.com"},
+      {"model":"AirOS (legacy)","user":"ubnt","pass":"ubnt","url":"http://192.168.1.20"}
+    ],
+    "MikroTik":[
+      {"model":"RouterOS (default)","user":"admin","pass":"","url":"http://192.168.88.1"}
+    ],
+    "ZTE":[
+      {"model":"F660","user":"admin","pass":"admin","url":"http://192.168.1.1"},
+      {"model":"ZXHN H298A","user":"admin","pass":"admin","url":"http://192.168.1.1"}
+    ],
+    "Zyxel":[
+      {"model":"P660HW","user":"admin","pass":"1234","url":"http://192.168.1.1"},
+      {"model":"VMG3312","user":"admin","pass":"1234","url":"http://192.168.1.1"}
+    ],
+    "TOTOLINK":[
+      {"model":"N300RT","user":"admin","pass":"admin","url":"http://192.168.0.1"},
+      {"model":"A702R","user":"admin","pass":"admin","url":"http://192.168.0.1"}
+    ],
+    "Mercusys":[
+      {"model":"MW325R","user":"admin","pass":"admin","url":"http://192.168.0.1"},
+      {"model":"AC12G","user":"admin","pass":"admin","url":"http://192.168.0.1"}
+    ],
+    "Realtek OEM":[
+      {"model":"Generic","user":"admin","pass":"admin","url":"http://192.168.1.1"}
+    ],
+    "JioFiber (India)":[
+      {"model":"GigaFiber ONT","user":"admin","pass":"admin","url":"http://192.168.29.1"},
+      {"model":"JCO401 (ONT)","user":"admin","pass":"admin","url":"http://192.168.29.1"}
+    ],
+    "Airtel Xstream (India)":[
+      {"model":"Nokia G-2425G-A","user":"admin","pass":"admin","url":"http://192.168.1.1"},
+      {"model":"Sercomm / Beetel","user":"admin","pass":"admin","url":"http://192.168.1.1"}
+    ],
+    "BSNL (India)":[
+      {"model":"Type-II (various)","user":"admin","pass":"admin","url":"http://192.168.1.1"}
+    ],
+    "Spectrum (ISP)":[
+      {"model":"Sagemcom","user":"admin","pass":"admin","url":"http://192.168.1.1"}
+    ],
+    "Comcast/Xfinity":[
+      {"model":"XB3/XB6 gateway","user":"admin","pass":"password","url":"http://10.0.0.1"}
+    ],
+    "Arris":[
+      {"model":"TG862","user":"admin","pass":"password","url":"http://192.168.0.1"},
+      {"model":"SBG6580","user":"admin","pass":"motorola","url":"http://192.168.0.1"}
+    ],
+    "Cisco/Linksys (old)":[
+      {"model":"WAG120N","user":"admin","pass":"admin","url":"http://192.168.1.1"},
+      {"model":"RV042","user":"admin","pass":"admin","url":"http://192.168.1.1"}
+    ],
+    "Belkin":[
+      {"model":"F5D8236-4","user":"admin","pass":"","url":"http://192.168.2.1"}
+    ],
+    "DrayTek":[
+      {"model":"Vigor 2760","user":"admin","pass":"admin","url":"http://192.168.1.1"},
+      {"model":"Vigor 2860","user":"admin","pass":"admin","url":"http://192.168.1.1"}
+    ]
+  }
+  </script>
+
+    <!-- ======= PAGE LOGIC ======= -->
+
+    <script type="module">
+        import * as Utils from '/scripts/utils.js';
+        const { $, $$, debounce } = Utils;
+
+        // Footer year
+        const y = $('#y'); if (y) y.textContent = new Date().getFullYear();
+
+        // ---------- Default Passwords Catalog ----------
+        const q = $('#q');
+        const brandSel = $('#brand');
+        const perPageSel = $('#perPage');
+        const tblBody = $('#tblBody');
+        const stat = $('#stat');
+        const pageInfo = $('#pageInfo');
+        const prevBtn = $('#prev');
+        const nextBtn = $('#next');
+        const exportBtn = $('#exportJSON');
+        const importInput = $('#importJSON');
+
+        let CATALOG = {};
+        let FLAT = [];
+        let page = 1;
+        let perPage = +perPageSel.value;
+
+        async function loadCatalog() {
+            // Try a bigger on-site file first; fallback to inline seed.
+            try {
+                const res = await fetch('/assets/data/router-defaults.json', { cache: 'no-store' });
+                if (res.ok) {
+                    CATALOG = await res.json();
+                } else {
+                    CATALOG = JSON.parse($('#router-seed').textContent);
+                }
+            } catch {
+                CATALOG = JSON.parse($('#router-seed').textContent);
+            }
+            normalize();
+            initBrandFilter();
+            render();
+        }
+
+        function normalize() {
+            const out = [];
+            Object.keys(CATALOG).forEach(brand => {
+                (CATALOG[brand] || []).forEach(row => {
+                    out.push({
+                        brand,
+                        model: row.model || '—',
+                        user: row.user ?? '—',
+                        pass: row.pass ?? '—',
+                        url: row.url || 'http://192.168.1.1'
+                    });
+                });
+            });
+            FLAT = out;
+        }
+
+        function initBrandFilter() {
+            const brands = Object.keys(CATALOG).sort();
+            brandSel.innerHTML = `<option value="">All brands</option>` + brands.map(b => `<option value="${b}">${b}</option>`).join('');
+        }
+
+        function filtered() {
+            const term = (q.value || '').trim().toLowerCase();
+            const brand = brandSel.value;
+            return FLAT.filter(r => {
+                const t = `${r.brand} ${r.model} ${r.user} ${r.pass}`.toLowerCase();
+                const hit = !term || t.includes(term);
+                const b = !brand || r.brand === brand;
+                return hit && b;
+            });
+        }
+
+        function render() {
+            const data = filtered();
+            const total = data.length;
+            const brandCount = new Set(data.map(x => x.brand)).size;
+            const pages = Math.max(1, Math.ceil(total / perPage));
+            page = Math.min(Math.max(1, page), pages);
+
+            const start = (page - 1) * perPage;
+            const slice = data.slice(start, start + perPage);
+
+            tblBody.innerHTML = slice.map(r => `
+        <tr>
+          <td>${r.brand}</td>
+          <td>${r.model}</td>
+          <td>${(r.user === '' ? '(blank)' : r.user)}</td>
+          <td>${(r.pass === '' ? '(blank)' : r.pass)}</td>
+          <td><a href="${r.url}" target="_blank" rel="noopener">${r.url.replace(/^https?:\/\//, '')}</a></td>
+        </tr>
+      `).join('');
+
+            stat.textContent = `${brandCount} brand${brandCount !== 1 ? 's' : ''} • ${total} result${total !== 1 ? 's' : ''} • Source: on-site catalog`;
+            pageInfo.textContent = `Page ${page}/${pages}`;
+            prevBtn.disabled = page <= 1;
+            nextBtn.disabled = page >= pages;
+        }
+
+        q.addEventListener('input', debounce(() => { page = 1; render(); }, 200));
+        brandSel.addEventListener('change', () => { page = 1; render(); });
+        perPageSel.addEventListener('change', () => { perPage = +perPageSel.value; page = 1; render(); });
+        prevBtn.addEventListener('click', () => { page--; render(); });
+        nextBtn.addEventListener('click', () => { page++; render(); });
+
+        // Export / Import
+        exportBtn.addEventListener('click', () => {
+            const blob = new Blob([JSON.stringify(CATALOG, null, 2)], { type: 'application/json' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = 'router-defaults.json';
+            a.click();
+            URL.revokeObjectURL(a.href);
+        });
+        importInput.addEventListener('change', async (e) => {
+            const file = e.target.files?.[0];
+            if (!file) return;
+            try {
+                const txt = await file.text();
+                const js = JSON.parse(txt);
+                if (typeof js !== 'object') throw new Error('Invalid JSON');
+                CATALOG = js;
+                normalize(); initBrandFilter(); page = 1; render();
+            } catch {
+                alert('Invalid JSON file.');
+            } finally {
+                importInput.value = '';
+            }
+        });
+
+        await loadCatalog();
+
+        // ---------- Wi-Fi QR ----------
+        const ssid = $('#ssid'), enc = $('#enc'), pass = $('#pass'), hidden = $('#hidden');
+        const qrWrap = $('#qrPreview');
+        function wifiString() {
+            const S = (ssid.value || '').replace(/([\\;,"])/g, '\\$1');
+            const T = enc.value;
+            const P = (T === 'nopass') ? '' : (pass.value || '').replace(/([\\;,"])/g, '\\$1');
+            const H = hidden.checked ? 'true' : '';
+            return `WIFI:T:${T};S:${S};${T === 'nopass' ? '' : `P:${P};`}${H ? `H:${H};` : ''};`;
+        }
+        function renderQR() {
+            qrWrap.innerHTML = '';
+            const data = wifiString();
+            new QRCode(qrWrap, { text: data, width: 220, height: 220, correctLevel: QRCode.CorrectLevel.M });
+        }
+        function showPwGroup() { $('#pwGroup').style.display = enc.value === 'nopass' ? 'none' : 'block'; }
+        $('#makeQR').addEventListener('click', renderQR);
+        $('#copyWiFiString').addEventListener('click', () => navigator.clipboard?.writeText(wifiString()));
+        $('#downloadQR').addEventListener('click', () => {
+            const img = qrWrap.querySelector('img'); if (!img || !img.src) return alert('Generate a QR first.');
+            const a = document.createElement('a'); a.href = img.src; a.download = `wifi-qr-${(ssid.value || 'network').replace(/\W+/g, '_')}.png`; a.click();
+        });
+        [ssid, enc, pass, hidden].forEach(el => el.addEventListener('input', debounce(renderQR, 300)));
+        enc.addEventListener('change', showPwGroup); showPwGroup();
+
+        // ---------- MAC Vendor Lookup ----------
+        const OUI = {
+            "A4C138": "Apple, Inc.", "3C5A37": "Google LLC", "CC50E3": "Samsung Electronics", "FCFBFB": "TP-Link Technologies",
+            "00163E": "Ubiquiti Networks", "0469F8": "NETGEAR", "B827EB": "Raspberry Pi Foundation", "D85D4C": "Huawei Technologies",
+            "F0D7AA": "Hewlett Packard", "D8C4E9": "OnePlus Technology", "B0BE76": "realme / Oppo", "2C54CF": "Microsoft Corporation",
+            "B48C9D": "HMD Global (Nokia)", "5C52E1": "ASUSTek COMPUTER INC.", "D4E6B7": "Xiaomi Communications"
+        };
+        const macIn = $('#mac'), ouiVal = $('#ouiVal'), vendorVal = $('#vendorVal');
+        function normMac(v) { return (v || '').toUpperCase().replace(/[^A-F0-9]/g, ''); }
+        function lookupVendor() {
+            const n = normMac(macIn.value); const oui = n.slice(0, 6);
+            ouiVal.textContent = oui || '—';
+            vendorVal.textContent = OUI[oui] || (oui ? 'Unknown vendor (check device label)' : '—');
+        }
+        macIn.addEventListener('input', debounce(lookupVendor, 150));
+        $('#copyOUI').addEventListener('click', () => ouiVal.textContent !== '—' && navigator.clipboard?.writeText(ouiVal.textContent));
+        lookupVendor();
+    </script>
+
+</body>
+
+</html>
