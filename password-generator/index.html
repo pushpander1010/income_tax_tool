@@ -1,5 +1,4 @@
 <!doctype html>
-
 <html lang="en">
 
 <head>
@@ -17,12 +16,10 @@
   <link rel="canonical" href="https://www.uptools.in/password-generator/" />
 
   <!-- Favicons -->
-
   <link rel="icon" sizes="50x50" type="image/svg+xml" href="/assets/logo/uptools-logo.svg">
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/logo/uptools-logo.svg">
 
   <!-- Open Graph / Twitter -->
-
   <meta property="og:title" content="Password Generator (Strong & Memorable) - UpTools" />
   <meta property="og:description" content="Generate strong passwords and passphrases. Save locally in an encrypted Vault with your PIN. Copy, mask, batch, entropy & crack-time estimate. No tracking." />
   <meta property="og:type" content="website" />
@@ -32,18 +29,15 @@
   <meta name="twitter:card" content="summary_large_image" />
 
   <!-- Performance hints -->
-
   <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
   <link rel="dns-prefetch" href="//pagead2.googlesyndication.com">
 
   <!-- Common CSS -->
-
   <link rel="preload" href="/style.css?v=1.2.1" as="style">
   <link rel="stylesheet" href="/style.css?v=1.2.1" media="print" onload="this.media='all'">
   <noscript><link rel="stylesheet" href="/style.css?v=1.2.1"></noscript>
 
   <!-- Page-scoped styles (compact; plays nice with common CSS) -->
-
   <style>
     .tool-grid{display:grid;grid-template-columns:1fr;gap:12px}
     @media (min-width: 920px){.tool-grid{grid-template-columns:1.15fr .85fr}}
@@ -82,7 +76,6 @@
   </style>
 
   <!-- Structured Data -->
-
   <script type="application/ld+json">
   {
     "@context":"https://schema.org",
@@ -153,165 +146,164 @@
       </div>
     </section>
 
-<!-- Tool -->
-<section class="tool-grid" aria-label="Password and passphrase generator">
-  <!-- Left: Strong password -->
-  <div class="card" id="password-card">
-    <h2 class="h3">Strong Password</h2>
-    <div class="stack">
-      <div class="row">
-        <label for="len" class="label">Length</label>
-        <input id="len" class="input" type="number" min="6" max="64" value="16" inputmode="numeric" style="max-width:110px">
-        <input id="lenRange" class="range grow" type="range" min="6" max="64" value="16" aria-label="Length slider">
+    <!-- Tool -->
+    <section class="tool-grid" aria-label="Password and passphrase generator">
+      <!-- Left: Strong password -->
+      <div class="card" id="password-card">
+        <h2 class="h3">Strong Password</h2>
+        <div class="stack">
+          <div class="row">
+            <label for="len" class="label">Length</label>
+            <input id="len" class="input" type="number" min="6" max="64" value="16" inputmode="numeric" style="max-width:110px">
+            <input id="lenRange" class="range grow" type="range" min="6" max="64" value="16" aria-label="Length slider">
+          </div>
+
+          <div class="options-grid">
+            <label class="check"><input id="lc" type="checkbox" checked> <span>Lowercase</span></label>
+            <label class="check"><input id="uc" type="checkbox" checked> <span>Uppercase</span></label>
+            <label class="check"><input id="dg" type="checkbox" checked> <span>Digits</span></label>
+            <label class="check"><input id="sc" type="checkbox"> <span>Symbols</span></label>
+            <label class="check"><input id="ns" type="checkbox"> <span>Exclude similar (O0l1I)</span></label>
+            <label class="check"><input id="reqAll" type="checkbox" checked> <span>Require all selected types</span></label>
+            <label class="check"><input id="amb" type="checkbox"> <span>Only unambiguous symbols</span></label>
+            <label class="check"><input id="startL" type="checkbox"> <span>Start with a letter</span></label>
+          </div>
+
+          <div class="row">
+            <button id="gen" class="btn">Generate</button>
+            <button id="shuffle" class="btn ghost">Regenerate</button>
+            <button id="copy" class="btn">Copy</button>
+            <button id="toggle" class="btn ghost" aria-pressed="false" aria-controls="out">Show</button>
+            <button id="savePwd" class="btn secondary">Save to Vault</button>
+          </div>
+
+          <div class="result-wrap">
+            <output id="out" class="result card tone-mono" aria-live="polite" aria-label="Generated password"></output>
+            <div class="meter" aria-hidden="true"><i id="meterFill"></i></div>
+            <div class="row">
+              <div id="entropy" class="hint mono">Entropy: -</div>
+              <div id="est" class="hint">Crack time: -</div>
+            </div>
+          </div>
+
+          <details>
+            <summary class="hint">Batch generate</summary>
+            <div class="row" style="margin-top:8px">
+              <label for="batchCount" class="label">Count</label>
+              <input id="batchCount" class="input" type="number" min="2" max="50" value="10" style="max-width:100px">
+              <button id="batchGen" class="btn">Generate List</button>
+              <button id="batchCopy" class="btn ghost">Copy List</button>
+              <button id="batchSave" class="btn secondary">Save List to Vault</button>
+            </div>
+            <textarea id="batchOut" class="input mono" rows="6" readonly placeholder="Generated passwords will appear here"></textarea>
+          </details>
+
+          <label class="check">
+            <input id="rememberLast" type="checkbox"> <span>Save last password on this device</span>
+          </label>
+          <div id="saveNotice" class="notice hint" hidden>
+            Saved locally. You can clear it anytime.
+            <span class="micro-links" aria-live="polite" id="localLinks" hidden>
+              <button id="localReveal" class="linkbtn" type="button">Reveal</button>
+              <button id="localCopy" class="linkbtn" type="button">Copy</button>
+              <button id="localClear" class="linkbtn" type="button">Clear</button>
+            </span>
+          </div>
+        </div>
       </div>
 
-      <div class="options-grid">
-        <label class="check"><input id="lc" type="checkbox" checked> <span>Lowercase</span></label>
-        <label class="check"><input id="uc" type="checkbox" checked> <span>Uppercase</span></label>
-        <label class="check"><input id="dg" type="checkbox" checked> <span>Digits</span></label>
-        <label class="check"><input id="sc" type="checkbox"> <span>Symbols</span></label>
-        <label class="check"><input id="ns" type="checkbox"> <span>Exclude similar (O0l1I)</span></label>
-        <label class="check"><input id="reqAll" type="checkbox" checked> <span>Require all selected types</span></label>
-        <label class="check"><input id="amb" type="checkbox"> <span>Only unambiguous symbols</span></label>
-        <label class="check"><input id="startL" type="checkbox"> <span>Start with a letter</span></label>
-      </div>
+      <!-- Right: Passphrase -->
+      <div class="card" id="phrase-card">
+        <h2 class="h3">Memorable Passphrase</h2>
+        <div class="stack">
+          <div class="row">
+            <label for="words" class="label">Words</label>
+            <input id="words" class="input" type="number" min="3" max="12" value="4" style="max-width:100px">
+            <label for="sep" class="label">Separator</label>
+            <input id="sep" class="input" type="text" value="-" maxlength="3" style="max-width:70px">
+            <label class="check"><input id="capWords" type="checkbox"> <span>Capitalize</span></label>
+            <label class="check"><input id="addNum" type="checkbox" checked> <span>Add number</span></label>
+          </div>
 
-      <div class="row">
-        <button id="gen" class="btn">Generate</button>
-        <button id="shuffle" class="btn ghost">Regenerate</button>
-        <button id="copy" class="btn">Copy</button>
-        <button id="toggle" class="btn ghost" aria-pressed="false" aria-controls="out">Show</button>
-        <button id="savePwd" class="btn secondary">Save to Vault</button>
-      </div>
+          <div class="row">
+            <button id="phraseGen" class="btn">Generate Passphrase</button>
+            <button id="phraseCopy" class="btn">Copy</button>
+            <button id="savePhrase" class="btn secondary">Save to Vault</button>
+          </div>
 
-      <div class="result-wrap">
-        <output id="out" class="result card tone-mono" aria-live="polite" aria-label="Generated password"></output>
-        <div class="meter" aria-hidden="true"><i id="meterFill"></i></div>
+          <output id="phraseOut" class="result card tone-mono" aria-live="polite" aria-label="Generated passphrase"></output>
+          <div class="meter" aria-hidden="true"><i id="meterFill2"></i></div>
+          <div class="hint mono" id="phraseEntropy">Entropy: -</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Vault -->
+    <section id="vault" class="card" aria-labelledby="vault-title">
+      <div class="row" style="justify-content:space-between;align-items:center">
+        <h2 id="vault-title" class="h4" style="margin:0">🔒 Encrypted Vault (Local)</h2>
         <div class="row">
-          <div id="entropy" class="hint mono">Entropy: -</div>
-          <div id="est" class="hint">Crack time: -</div>
+          <button id="vaultLock" class="btn ghost sm">Lock</button>
+          <!-- Explicit Unlock button -->
+          <button id="vaultUnlock" class="btn ghost sm">Unlock</button>
+          <button id="vaultSetPin" class="btn ghost sm">Set/Change PIN</button>
+          <button id="vaultExport" class="btn ghost sm">Export</button>
+          <label class="btn ghost sm" style="cursor:pointer">
+            Import <input id="vaultImport" type="file" accept="application/json" class="sr">
+          </label>
         </div>
       </div>
 
-      <details>
-        <summary class="hint">Batch generate</summary>
-        <div class="row" style="margin-top:8px">
-          <label for="batchCount" class="label">Count</label>
-          <input id="batchCount" class="input" type="number" min="2" max="50" value="10" style="max-width:100px">
-          <button id="batchGen" class="btn">Generate List</button>
-          <button id="batchCopy" class="btn ghost">Copy List</button>
-          <button id="batchSave" class="btn secondary">Save List to Vault</button>
-        </div>
-        <textarea id="batchOut" class="input mono" rows="6" readonly placeholder="Generated passwords will appear here"></textarea>
-      </details>
-
-      <label class="check">
-        <input id="rememberLast" type="checkbox"> <span>Save last password on this device</span>
-      </label>
-      <div id="saveNotice" class="notice hint" hidden>
-        Saved locally. You can clear it anytime.
-        <span class="micro-links" aria-live="polite" id="localLinks" hidden>
-          <button id="localReveal" class="linkbtn" type="button">Reveal</button>
-          <button id="localCopy" class="linkbtn" type="button">Copy</button>
-          <button id="localClear" class="linkbtn" type="button">Clear</button>
-        </span>
-      </div>
-    </div>
-  </div>
-
-  <!-- Right: Passphrase -->
-  <div class="card" id="phrase-card">
-    <h2 class="h3">Memorable Passphrase</h2>
-    <div class="stack">
-      <div class="row">
-        <label for="words" class="label">Words</label>
-        <input id="words" class="input" type="number" min="3" max="12" value="4" style="max-width:100px">
-        <label for="sep" class="label">Separator</label>
-        <input id="sep" class="input" type="text" value="-" maxlength="3" style="max-width:70px">
-        <label class="check"><input id="capWords" type="checkbox"> <span>Capitalize</span></label>
-        <label class="check"><input id="addNum" type="checkbox" checked> <span>Add number</span></label>
+      <div class="row" style="margin-top:8px">
+        <input id="vaultSearch" class="input grow" type="search" placeholder="Search by site/label…">
+        <span class="badge pill sec">Stored: <b id="vaultCount">0</b></span>
       </div>
 
-      <div class="row">
-        <button id="phraseGen" class="btn">Generate Passphrase</button>
-        <button id="phraseCopy" class="btn">Copy</button>
-        <button id="savePhrase" class="btn secondary">Save to Vault</button>
+      <div id="vaultList" class="vault-grid" role="list" aria-live="polite">
+        <p class="note" id="vaultEmpty">Your Vault is empty (or locked). Generate a password and click <b>Save to Vault</b>.</p>
       </div>
+    </section>
 
-      <output id="phraseOut" class="result card tone-mono" aria-live="polite" aria-label="Generated passphrase"></output>
-      <div class="meter" aria-hidden="true"><i id="meterFill2"></i></div>
-      <div class="hint mono" id="phraseEntropy">Entropy: -</div>
-    </div>
-  </div>
-</section>
+    <!-- Helpful links -->
+    <section class="card" aria-labelledby="tips-title">
+      <h2 id="tips-title" class="h4">Tips</h2>
+      <ul class="list">
+        <li>Use at least <b>16+ characters</b> or a <b>4-6 word</b> passphrase.</li>
+        <li>Prefer a <span class="kbd">Password Manager</span> for long-term storage; avoid reuse across sites.</li>
+        <li>Enable <b>2-factor authentication</b> wherever possible.</li>
+      </ul>
+      <div class="chips" style="margin-top:8px">
+        <a class="chip" href="/random-string/">Random String</a>
+        <a class="chip" href="/uuid-generator/">UUID Generator</a>
+        <a class="chip" href="/json-formatter/">JSON Formatter</a>
+        <a class="chip" href="/ifsc-finder/">IFSC Finder</a>
+      </div>
+    </section>
 
-<!-- Vault -->
-<section id="vault" class="card" aria-labelledby="vault-title">
-  <div class="row" style="justify-content:space-between;align-items:center">
-    <h2 id="vault-title" class="h4" style="margin:0">🔒 Encrypted Vault (Local)</h2>
-    <div class="row">
-      <button id="vaultLock" class="btn ghost sm">Lock</button>
-      <!-- NEW: Explicit Unlock button -->
-      <button id="vaultUnlock" class="btn ghost sm">Unlock</button>
-      <button id="vaultSetPin" class="btn ghost sm">Set/Change PIN</button>
-      <button id="vaultExport" class="btn ghost sm">Export</button>
-      <label class="btn ghost sm" style="cursor:pointer">
-        Import <input id="vaultImport" type="file" accept="application/json" class="sr">
-      </label>
-    </div>
-  </div>
+    <!-- Google Ad slot (stable space to avoid CLS) -->
+    <section class="card">
+      <ins class="adsbygoogle"
+           style="display:block;min-height:120px"
+           data-ad-client="ca-pub-6216304334889617"
+           data-ad-slot="9651757525"
+           data-ad-format="auto"
+           data-full-width-responsive="true"></ins>
+      <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
+    </section>
 
-  <div class="row" style="margin-top:8px">
-    <input id="vaultSearch" class="input grow" type="search" placeholder="Search by site/label…">
-    <span class="badge pill sec">Stored: <b id="vaultCount">0</b></span>
-  </div>
-
-  <div id="vaultList" class="vault-grid" role="list" aria-live="polite">
-    <p class="note" id="vaultEmpty">Your Vault is empty (or locked). Generate a password and click <b>Save to Vault</b>.</p>
-  </div>
-</section>
-
-<!-- Helpful links -->
-<section class="card" aria-labelledby="tips-title">
-  <h2 id="tips-title" class="h4">Tips</h2>
-  <ul class="list">
-    <li>Use at least <b>16+ characters</b> or a <b>4-6 word</b> passphrase.</li>
-    <li>Prefer a <span class="kbd">Password Manager</span> for long-term storage; avoid reuse across sites.</li>
-    <li>Enable <b>2-factor authentication</b> wherever possible.</li>
-  </ul>
-  <div class="chips" style="margin-top:8px">
-    <a class="chip" href="/random-string/">Random String</a>
-    <a class="chip" href="/uuid-generator/">UUID Generator</a>
-    <a class="chip" href="/json-formatter/">JSON Formatter</a>
-    <a class="chip" href="/ifsc-finder/">IFSC Finder</a>
-  </div>
-</section>
-
-<!-- Google Ad slot (stable space to avoid CLS) -->
-<section class="card">
-  <ins class="adsbygoogle"
-       style="display:block;min-height:120px"
-       data-ad-client="ca-pub-6216304334889617"
-       data-ad-slot="9651757525"
-       data-ad-format="auto"
-       data-full-width-responsive="true"></ins>
-  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>
-</section>
-
-<footer class="site-foot">
-  <nav class="nav-links small">
-    <a href="/">UpTools</a> ·
-    <a href="/sitemap.xml">Sitemap</a> ·
-    <a href="/about/">ABT</a> ·
-    <a href="/contact/">CT</a>
-  </nav>
-  <div class="note small">Made with care. Privacy-first, no sign-ups.</div>
-</footer>
+    <footer class="site-foot">
+      <nav class="nav-links small">
+        <a href="/">UpTools</a> ·
+        <a href="/sitemap.xml">Sitemap</a> ·
+        <a href="/about/">ABT</a> ·
+        <a href="/contact/">CT</a>
+      </nav>
+      <div class="note small">Made with care. Privacy-first, no sign-ups.</div>
+    </footer>
 
   </main>
 
   <!-- Modal: Save to Vault -->
-
   <dialog id="saveModal" class="vault-modal">
     <form method="dialog" class="card" style="margin:0">
       <h3 style="margin:0 0 6px">Save to Vault</h3>
@@ -331,7 +323,6 @@
   </dialog>
 
   <!-- Modal: Unlock / Set PIN -->
-
   <dialog id="pinModal" class="vault-modal">
     <form method="dialog" class="card" style="margin:0">
       <h3 id="pinTitle" style="margin:0 0 6px">Unlock Vault</h3>
@@ -347,7 +338,6 @@
   </dialog>
 
   <!-- Shared helpers + page script -->
-
   <script type="module" src="/scripts/utils.js"></script>
 
   <script type="module">
@@ -368,7 +358,7 @@
       requestAnimationFrame(()=>n.style.opacity='1'); setTimeout(()=>{n.style.opacity='0'; setTimeout(()=>n.remove(),250);},1200);
     }
     const clamp = (v,min,max)=>Math.min(max,Math.max(min,v));
-    function q(s, r=document){ return r.querySelector(s); }
+    const q = (s, r=document)=> r.querySelector(s);
 
     // ====== DOM ======
     const els = {
@@ -387,7 +377,6 @@
       savePwd:q('#savePwd'), savePhrase:q('#savePhrase'),
       vault:q('#vault'), vaultList:q('#vaultList'), vaultCount:q('#vaultCount'), vaultSearch:q('#vaultSearch'), vaultEmpty:q('#vaultEmpty'),
       vaultExport:q('#vaultExport'), vaultImport:q('#vaultImport'), vaultLock:q('#vaultLock'), vaultSetPin:q('#vaultSetPin'),
-      // NEW: unlock button reference
       vaultUnlock:q('#vaultUnlock'),
       // modals
       saveModal:q('#saveModal'), svSite:q('#svSite'), svUser:q('#svUser'), svValue:q('#svValue'), svSubmit:q('#svSubmit'),
@@ -463,7 +452,6 @@
       if(!els.rememberLast.checked) return;
       U.saveLocal('uptools.password-generator.last',{v:pass,t:Date.now()});
       els.saveNotice.hidden=false;
-      // show micro actions
       els.localLinks.hidden=false;
     }
     function loadSaved(){
@@ -484,7 +472,7 @@
       const enc=new TextEncoder(); const base=await cryptoObj.subtle.importKey('raw', enc.encode(pin), 'PBKDF2', false, ['deriveKey','deriveBits']);
       return cryptoObj.subtle.deriveKey({name:'PBKDF2',salt,iterations:120000,hash:'SHA-256'}, base, {name:'AES-GCM',length:256}, false, ['encrypt','decrypt']);
     }
-    async function hashVerifier(key,salt){
+    async function hashVerifier(key){
       // lightweight check: encrypt a known string with key and keep ciphertext
       const iv=cryptoObj.getRandomValues(new Uint8Array(12));
       const ct = await cryptoObj.subtle.encrypt({name:'AES-GCM',iv}, key, new TextEncoder().encode('verifier'));
@@ -502,59 +490,67 @@
     }
     function loadVaultRaw(){ return U.readLocal(VAULT_K) || null; }
     function saveVaultRaw(v){ U.saveLocal(VAULT_K, v); }
+
     async function ensureVault(){
-      if(!loadVaultRaw()){
-        const salt=cryptoObj.getRandomValues(new Uint8Array(16));
-        // ask for PIN to initialize
-        await openPinModal(true);
-        const vHash=await hashVerifier(key, salt);
-        saveVaultRaw({salt:Array.from(salt), verifier:vHash, items:[]});
-        vault=loadVaultRaw(); unlocked=true;
+      const existing = loadVaultRaw();
+      if(!existing){
+        // No vault yet: prompt to set a PIN and initialize
+        const ok = await openPinModal(true);
+        vault = loadVaultRaw();
+        unlocked = !!ok;
       }else{
-        vault=loadVaultRaw();
-        if(!unlocked){ await openPinModal(false); unlocked=true; }
+        vault = existing;
+        if(!unlocked){
+          const ok = await openPinModal(false);
+          unlocked = !!ok;
+        }
       }
     }
+
     async function verifyKey(){
       try{
-        // try decrypt known-plaintext verifier
         const {iv, ct}=vault.verifier;
         const dec=await cryptoObj.subtle.decrypt({name:'AES-GCM',iv:new Uint8Array(iv)}, key, new Uint8Array(ct));
         return new TextDecoder().decode(dec)==='verifier';
       }catch{ return false; }
     }
+
     async function openPinModal(isSetup){
       els.pinTitle.textContent = isSetup ? 'Set Vault PIN' : 'Unlock Vault';
       els.pinMsg.textContent   = isSetup ? 'Create a PIN (4-32 chars). Keep it safe; we cannot recover it.' : 'Enter your Vault PIN to decrypt items.';
       els.pinInput.value='';
-      await els.pinModal.showModal();
+      els.pinModal.showModal();
       return new Promise((resolve)=>{
         const onSubmit = async (e)=>{
           e?.preventDefault();
           const pin=els.pinInput.value.trim();
           if(pin.length<4){ toast('PIN too short'); return; }
-          const saltBytes = isSetup ? cryptoObj.getRandomValues(new Uint8Array(16)) : new Uint8Array(vault.salt);
-          key = await pbkdf2Key(pin, saltBytes);
           if(isSetup){
-            const vHash=await hashVerifier(key, saltBytes);
+            // fresh salt for new vault
+            const saltBytes = cryptoObj.getRandomValues(new Uint8Array(16));
+            key = await pbkdf2Key(pin, saltBytes);
+            const vHash=await hashVerifier(key);
             saveVaultRaw({salt:Array.from(saltBytes), verifier:vHash, items:[]});
             vault=loadVaultRaw();
             unlocked=true; els.pinModal.close(); toast('Vault ready');
-            resolve(true);
+            cleanup(); resolve(true);
           }else{
+            const saltBytes = new Uint8Array(vault.salt);
+            key = await pbkdf2Key(pin, saltBytes);
             const ok=await verifyKey();
-            if(ok){ els.pinModal.close(); toast('Vault unlocked'); resolve(true); }
+            if(ok){ els.pinModal.close(); toast('Vault unlocked'); cleanup(); resolve(true); }
             else { key=null; toast('Wrong PIN'); }
           }
         };
-        const handler=(ev)=>{ if(ev.target!==els.pinModal) return; els.pinSubmit.removeEventListener('click', onSubmit); els.pinModal.removeEventListener('close', handler); resolve(false); };
+        const onClose = (ev)=>{ if(ev.target!==els.pinModal) return; cleanup(); resolve(false); };
+        function cleanup(){ els.pinSubmit.removeEventListener('click', onSubmit); els.pinModal.removeEventListener('close', onClose); }
         els.pinSubmit.addEventListener('click', onSubmit);
-        els.pinModal.addEventListener('close', handler);
+        els.pinModal.addEventListener('close', onClose);
       });
     }
 
-    function renderVault(list= null){
-      const items = list ?? vault?.items ?? [];
+    function renderVault(list=null){
+      const items = Array.isArray(list) ? list : (vault?.items ?? []);
       els.vaultCount.textContent = items.length;
       const wrap = els.vaultList;
       wrap.innerHTML = '';
@@ -656,7 +652,6 @@
         els.saveNotice.hidden=true;
         els.localLinks.hidden=true;
       }else{
-        // on enabling, save current output if present
         const t=els.out.textContent.trim();
         if(t) updateSaved(t);
       }
@@ -708,43 +703,45 @@
       e.target.value='';
     });
     els.vaultLock.addEventListener('click', ()=>{ key=null; unlocked=false; renderVault(); toast('Vault locked'); });
+
     els.vaultSetPin.addEventListener('click', async()=>{
-      // re-encrypt with new PIN
-      await ensureVault(); if(!unlocked) return;
+      await ensureVault(); if(!unlocked && vault) { /* user cancelled unlock */ return; }
       // ask for new PIN
       els.pinTitle.textContent='Set/Change PIN'; els.pinMsg.textContent='Enter a new Vault PIN.'; els.pinInput.value='';
-      await els.pinModal.showModal();
+      els.pinModal.showModal();
+
+      const cleanup = ()=>{ els.pinSubmit.onclick=null; };
+      const onClose = ()=>{ cleanup(); els.pinModal.removeEventListener('close', onClose); };
+      els.pinModal.addEventListener('close', onClose, {once:true});
+
       els.pinSubmit.onclick = async (ev)=>{
         ev.preventDefault();
         const newPin=els.pinInput.value.trim(); if(newPin.length<4){ toast('PIN too short'); return; }
         const newSalt=cryptoObj.getRandomValues(new Uint8Array(16));
         const newKey=await pbkdf2Key(newPin,newSalt);
-        // rewrap: decrypt each with old key, encrypt with newKey
         try{
           const newItems=[];
-          for(const it of vault.items){
+          for(const it of (vault?.items ?? [])){
             const plain=await decryptText(it.iv,it.cipher);
             const iv=cryptoObj.getRandomValues(new Uint8Array(12));
             const ct=await cryptoObj.subtle.encrypt({name:'AES-GCM',iv}, newKey, new TextEncoder().encode(plain));
             newItems.push({site:it.site,user:it.user,iv:Array.from(iv),cipher:Array.from(new Uint8Array(ct)),ts:it.ts});
           }
-          const vHash=await (async()=>{ const iv=cryptoObj.getRandomValues(new Uint8Array(12)); const ct=await cryptoObj.subtle.encrypt({name:'AES-GCM',iv}, newKey, new TextEncoder().encode('verifier')); return {iv:Array.from(iv), ct:Array.from(new Uint8Array(ct))}; })();
+          const vHash=await hashVerifier(newKey);
           const newVault={salt:Array.from(newSalt), verifier:vHash, items:newItems};
           saveVaultRaw(newVault); vault=newVault; key=newKey; unlocked=true; els.pinModal.close(); renderVault(); toast('PIN updated');
         }catch{ toast('Failed to re-encrypt'); }
       };
     });
 
-    // NEW: Explicit Unlock handler
+    // Explicit Unlock handler
     els.vaultUnlock.addEventListener('click', async () => {
       vault = loadVaultRaw();
-      // If vault doesn't exist yet, create and set PIN
       if(!vault){
         await ensureVault(); // will prompt to set PIN
         renderVault();
         return;
       }
-      // If vault exists, ask for PIN to unlock
       const ok = await openPinModal(false);
       if(ok){ unlocked = true; renderVault(); }
     });
@@ -752,7 +749,7 @@
     els.vaultSearch.addEventListener('input', ()=>{
       if(!vault){ renderVault(); return; }
       const filtered = filterVault(els.vaultSearch.value);
-      renderVault({items:filtered});
+      renderVault(filtered);
     });
 
     // ====== Init ======
