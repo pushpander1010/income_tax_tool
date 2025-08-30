@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <!-- AdSense (async; no fixed slots here => no CLS) -->
+  <!-- AdSense (async; no fixed ad slots here => no CLS) -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617" crossorigin="anonymous"></script>
 
   <meta charset="UTF-8" />
@@ -53,7 +53,7 @@
   <script defer src="https://cdn.jsdelivr.net/npm/exifr@7.1.3/dist/full.umd.js" crossorigin="anonymous"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/pako@2.1.0/dist/pako.min.js" crossorigin="anonymous"></script>
 
-  <!-- Page theme (neon green) -->
+  <!-- Page theme (neon green) + improved uploader styles -->
   <style>
     :root{ --accent:#22c55e; --accent-2:#16a34a; --bg1:#07140e; --bg2:#0b1711; --muted:#9bb3a2; }
     .bg-net{position:fixed;inset:0;z-index:-1;pointer-events:none;background:
@@ -70,7 +70,7 @@
     .bg-net .ping:nth-child(3){top:28%;right:35%;animation-delay:2.1s}
     @keyframes r{0%{transform:scale(.6);opacity:.18}50%{transform:scale(1.15);opacity:.10}100%{transform:scale(1.6);opacity:.06}}
 
-    /* Tool layout */
+    /* Layout */
     .panel{display:grid;grid-template-columns:1.15fr 1fr;gap:12px;align-items:start}
     @media (max-width: 960px){ .panel{grid-template-columns:1fr} }
     .preview-wrap{display:flex;gap:10px}
@@ -87,10 +87,18 @@
     .hint{font-size:12px;color:var(--muted)}
     .hidden{display:none!important}
     .danger{color:#ffb4b4}
-    .ok{color:#a7f3d0}
     .sticky-controls{position:sticky; top:8px}
-    .stat{font-size:12px;color:var(--muted)}
     .btn.small{padding:6px 10px;font-size:12px}
+
+    /* Improved uploader */
+    .visually-hidden{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+    .uploader{border:1px dashed color-mix(in oklab,var(--accent) 35%, #223);border-radius:12px;padding:10px;background:#0a1224}
+    .file-cta{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;height:40px;border-radius:10px;border:1px solid color-mix(in oklab,var(--accent) 45%, #223);background:linear-gradient(180deg, rgba(34,197,94,.12), rgba(34,197,94,.06));cursor:pointer;transition:transform .06s ease, box-shadow .2s ease}
+    .file-cta:hover{box-shadow:0 0 0 2px rgba(34,197,94,.25) inset}
+    .file-cta:active{transform:translateY(1px)}
+    .file-cta svg{width:18px;height:18px;display:block}
+    .file-meta{display:flex;align-items:center;justify-content:space-between;margin-top:8px;font-size:12px;color:var(--muted);min-height:18px}
+    .file-actions{display:flex;gap:6px;margin-top:8px}
   </style>
 
   <!-- Common site CSS -->
@@ -150,7 +158,7 @@
           <div class="tool-icon">🔍</div>
           <div>
             <h2 id="insp-title" style="margin:0">Inspector (Hidden Data)</h2>
-            <p class="note" style="margin:2px 0 0">Drop an image or paste (Ctrl/Cmd+V). 100% local parsing.</p>
+            <p class="note" style="margin:2px 0 0">Drop an image, <kbd>Ctrl/⌘+V</kbd> to paste, or use the button. 100% local parsing.</p>
           </div>
         </div>
 
@@ -159,19 +167,37 @@
             <div class="dz-overlay">Drop image</div>
             <img id="preview" alt="Preview of uploaded image" width="320" height="240">
           </div>
-          <div class="sticky-controls" style="width:260px">
-            <input id="file" type="file" class="input" accept="image/*">
-            <div class="kv" style="margin-top:8px">
+
+          <!-- Improved uploader -->
+          <div class="sticky-controls" style="width:280px">
+            <div class="uploader">
+              <input id="file" name="file" type="file" class="visually-hidden" accept="image/*" capture="environment" aria-describedby="fileHelp">
+              <label for="file" class="file-cta" role="button">
+                <!-- inline icon -->
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path fill="currentColor" d="M12 16a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm7-9h-2.2l-1.2-1.6A2 2 0 0 0 13.8 4H10.2a2 2 0 0 0-1.8 1.4L7.2 7H5a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2Z"/>
+                </svg>
+                <span><b>Choose image</b></span>
+              </label>
+              <div class="file-meta" id="fileMeta">No file selected</div>
+              <div class="file-actions">
+                <button id="changeFile" class="btn small" type="button" aria-label="Change image">Change</button>
+                <button id="removeFile" class="btn small secondary" type="button" aria-label="Remove image">Remove</button>
+              </div>
+              <p id="fileHelp" class="hint" style="margin-top:6px">Supports PNG, JPEG, WebP, HEIC (render depends on browser). On mobile, tap to use camera.</p>
+            </div>
+
+            <div class="kv" style="margin-top:10px">
               <div class="row"><span>Format</span><span class="amount" id="fmt">—</span></div>
               <div class="row"><span>Dimensions</span><span class="amount" id="dim">—</span></div>
               <div class="row"><span>File size</span><span class="amount" id="size">—</span></div>
             </div>
+
             <div class="chips" style="margin-top:8px;display:flex;gap:8px;flex-wrap:wrap">
               <button class="btn sm" id="exportReport" type="button">Export Report (JSON)</button>
               <button class="btn sm secondary" id="copyReport" type="button">Copy Report</button>
               <button class="btn sm ghost" id="clearAll" type="button">Clear</button>
             </div>
-            <p class="hint">HEIC: metadata parsed via EXIFR; canvas render depends on browser codecs.</p>
             <div id="flags" class="note small" style="margin-top:8px"></div>
           </div>
         </div>
@@ -284,7 +310,7 @@
       </div>
     </section>
 
-    <!-- Related internal links (textual logos for subpages) -->
+    <!-- Related internal links -->
     <section class="card" style="margin-top:16px">
       <h2 style="margin-top:0">Related Tools</h2>
       <ul>
@@ -326,12 +352,17 @@
 
     // Elements
     const live = $('#live');
-    const fileInput = $('#file');
     const dropzone = $('#dropzone');
     const pv = $('#preview');
     const fmt = $('#fmt'), dim = $('#dim'), sizeEl = $('#size');
     const exifOut = $('#exifOut'), chunksOut = $('#chunksOut'), flags = $('#flags');
     const exportReportBtn = $('#exportReport'), copyReportBtn = $('#copyReport'), clearAllBtn = $('#clearAll');
+
+    // Improved uploader bits
+    const fileInput = $('#file');
+    const fileMeta = $('#fileMeta');
+    const changeFileBtn = $('#changeFile');
+    const removeFileBtn = $('#removeFile');
 
     const formatOut = $('#formatOut'), jpegQ = $('#jpegQ'), jpegQWrap = $('#jpegQWrap');
     const cleanBtn = $('#cleanBtn'), copyCanvasBtn = $('#copyCanvas'), previewCleanBtn = $('#previewClean'), cleanSize = $('#cleanSize');
@@ -344,8 +375,8 @@
 
     // State
     let currentFile = null;
-    let currentAB = null;         // ArrayBuffer of original file
-    let currentImg = new Image(); // for canvas draws
+    let currentAB = null;
+    let currentImg = new Image();
     let metaReport = { exif:{}, chunks:[], trailing:false, format:null, width:null, height:null, fileSize:0, pngTexts:[] };
 
     // Helpers
@@ -367,11 +398,15 @@
     ['dragleave','drop'].forEach(ev => dropzone.addEventListener(ev, e=>{ e.preventDefault(); dropzone.classList.remove('drag','neon'); }));
     dropzone.addEventListener('drop', e => { const f=e.dataTransfer.files?.[0]; if(f) handleFile(f); });
     document.addEventListener('paste', e => { const f=[...e.clipboardData.files][0]; if(f) handleFile(f); });
+
+    // Improved uploader events
     fileInput.addEventListener('change', e => { const f=e.target.files?.[0]; if(f) handleFile(f); });
-    clearAllBtn.addEventListener('click', ()=>{ resetUI(); });
+    changeFileBtn.addEventListener('click', ()=> fileInput.click());
+    removeFileBtn.addEventListener('click', ()=> resetUI());
 
     function resetUI(){
       currentFile=null; currentAB=null; currentImg.src=''; pv.removeAttribute('src'); pv.alt='';
+      fileInput.value=''; fileMeta.textContent='No file selected';
       fmt.textContent='—'; dim.textContent='—'; sizeEl.textContent='—'; cleanSize.textContent='—';
       exifOut.textContent='{}'; chunksOut.textContent='[]'; flags.innerHTML='';
       stegoOut.textContent='Ready.'; setLive('');
@@ -382,6 +417,8 @@
       resetUI();
       setLive('Loading image…');
       currentFile = file;
+      fileMeta.textContent = `${file.name} • ${toKB(file.size)}`;
+
       currentAB = await file.arrayBuffer();
       const u8 = new Uint8Array(currentAB);
       metaReport.fileSize = file.size;
@@ -426,7 +463,6 @@
       metaReport.pngTexts = [];
 
       try{
-        // EXIF/XMP/IPTC/ICC via exifr (JPEG/TIFF/HEIC; partial PNG/WebP)
         const tags = await exifr.parse(u8.buffer, { xmp:true, tiff:true, icc:true, iptc:true, gps:true, jfif:true, ihdr:true });
         if (tags) {
           const kept = {};
@@ -434,20 +470,19 @@
           for (const k of keepKeys) if (k in tags) kept[k] = tags[k];
           metaReport.exif = kept;
         }
-      }catch(e){ /* ignore */ }
+      }catch(e){}
 
-      // Container-specific chunk listing & trailing data check
       if (isJPG(u8)){
         let i=2;
         while (i+4 <= u8.length){
           if (u8[i] !== 0xFF) break;
           const marker = u8[i+1]; i+=2;
-          if (marker === 0xD9){ // EOI
+          if (marker === 0xD9){
             metaReport.trailing = (i < u8.length);
             if (metaReport.trailing) metaReport.chunks.push({type:'TRAILING', size:u8.length - i});
             break;
           }
-          if (marker === 0xDA){ // SOS -> scans to EOI; stop listing
+          if (marker === 0xDA){
             metaReport.chunks.push({type:'SOS..(scan)..', note:'binary image data'});
             break;
           }
@@ -457,14 +492,12 @@
           i += len-2;
         }
       } else if (isPNG(u8)){
-        let p = 8; // skip signature
-        let afterIEND = 0;
+        let p = 8; let afterIEND = 0;
         while (p+12 <= u8.length){
           const len = (u8[p]<<24)|(u8[p+1]<<16)|(u8[p+2]<<8)|u8[p+3];
           const type = b2str(u8.subarray(p+4, p+8));
           const data = u8.subarray(p+8, p+8+len);
           metaReport.chunks.push({type, size: len});
-          // Decode text chunks
           if (type==='tEXt'){
             const zero = data.indexOf(0);
             let key='(unknown)', text='';
@@ -472,7 +505,6 @@
             metaReport.pngTexts.push({type, key, text});
           }
           if (type==='iTXt'){
-            // iTXt: key\0flag(1)\0method(1)\0lang\0translated\0text
             let off=0;
             const readZ = ()=>{ const idx = data.indexOf(0, off); const out = data.subarray(off, idx); off=idx+1; return out; };
             const key = b2str(readZ());
@@ -480,13 +512,10 @@
             const lang = b2str(readZ()); const translated = b2str(readZ());
             const textRaw = data.subarray(off);
             let text = '';
-            try{
-              text = compFlag? new TextDecoder().decode(pako.inflate(textRaw)) : b2str(textRaw);
-            }catch{ text='(decode failed)'; }
+            try{ text = compFlag? new TextDecoder().decode(pako.inflate(textRaw)) : b2str(textRaw); }catch{ text='(decode failed)'; }
             metaReport.pngTexts.push({type, key, compFlag, compMethod, lang, translated, text});
           }
           if (type==='zTXt'){
-            // zTXt: key\0method(1) + compressed text
             const zero = data.indexOf(0);
             const key = b2str(data.subarray(0,zero));
             const method = data[zero+1];
@@ -501,19 +530,18 @@
           metaReport.chunks.push({type:'TRAILING', size:u8.length - afterIEND});
         }
       } else if (isWebP(u8)){
-        let p = 12; // RIFF header
+        let p = 12;
         while (p+8 <= u8.length){
           const type = b2str(u8.subarray(p, p+4));
           const len = u8[p+4] | (u8[p+5]<<8) | (u8[p+6]<<16) | (u8[p+7]<<24);
           metaReport.chunks.push({type, size: len});
-          p += 8 + len + (len%2); // padding
+          p += 8 + len + (len%2);
         }
         if (p < u8.length){
           metaReport.trailing = true;
           metaReport.chunks.push({type:'TRAILING', size:u8.length - p});
         }
       }
-      // include textual chunks in report output as well
       if (metaReport.pngTexts?.length){
         metaReport.chunks.push({type:'PNG_TEXTS', count: metaReport.pngTexts.length, items: metaReport.pngTexts.slice(0,50)});
       }
@@ -554,11 +582,9 @@
       ctx.drawImage(currentImg, 0, 0);
       return canvas;
     }
-
     async function canvasToBlob(canvas, type, quality){
       return await new Promise(res=> canvas.toBlob(res, type, quality));
     }
-
     previewCleanBtn.addEventListener('click', async ()=>{
       if (!currentFile) return alert('Load an image first.');
       const canvas = await drawToCanvas();
@@ -568,7 +594,6 @@
       cleanSize.textContent = toKB(blob.size);
       setLive('Clean preview size estimated.');
     });
-
     cleanBtn.addEventListener('click', async ()=>{
       if (!currentFile) return alert('Load an image first.');
       const canvas = await drawToCanvas();
@@ -582,7 +607,6 @@
       a.click();
       URL.revokeObjectURL(a.href);
     });
-
     copyCanvasBtn.addEventListener('click', async ()=>{
       if (!currentFile) return alert('Load an image first.');
       const canvas = await drawToCanvas();
@@ -595,7 +619,7 @@
       }catch{ alert('Clipboard copy not supported in this browser.'); }
     });
 
-    // ---- PNG utilities ----
+    // ---- PNG + Stego utils (unchanged but kept for completeness) ----
     function canvasToPNGBytes(canvas){
       const dataURL = canvas.toDataURL('image/png');
       const b64 = dataURL.split(',')[1];
@@ -609,33 +633,27 @@
       return `data:${mime};base64,` + btoa(bin);
     }
     function insertPNGTextChunk(pngBytes, key, text){
-      // Insert after IHDR
       let p = 8;
       const len = (pngBytes[p]<<24)|(pngBytes[p+1]<<16)|(pngBytes[p+2]<<8)|pngBytes[p+3];
       const type = b2str(pngBytes.subarray(p+4,p+8));
       if (type!=='IHDR') return pngBytes;
       const afterIHDR = p + 12 + len;
-
       const keyBytes = str2bytes(key);
       const textBytes = str2bytes(text);
       const data = new Uint8Array(keyBytes.length + 1 + textBytes.length);
       data.set(keyBytes, 0); data[keyBytes.length]=0; data.set(textBytes, keyBytes.length+1);
-
       const typeBytes = str2bytes('tEXt');
       const crcIn = new Uint8Array(typeBytes.length + data.length);
       crcIn.set(typeBytes, 0); crcIn.set(data, typeBytes.length);
-      const crc = crc32(crcIn);
-
       const out = new Uint8Array(pngBytes.length + 12 + data.length);
       out.set(pngBytes.subarray(0, afterIHDR), 0);
       out.set(u32(data.length), afterIHDR);
       out.set(typeBytes, afterIHDR+4);
       out.set(data, afterIHDR+8);
-      out.set(u32(crc), afterIHDR+8+data.length);
+      out.set(u32(crc32(crcIn)), afterIHDR+8+data.length);
       out.set(pngBytes.subarray(afterIHDR), afterIHDR+12+data.length);
       return out;
     }
-
     function extractPNGTextChunks(pngBytes){
       const texts = [];
       let p = 8;
@@ -649,10 +667,8 @@
           if (zero>=0){ key = b2str(data.subarray(0,zero)); text = b2str(data.subarray(zero+1)); }
           texts.push({type, key, text});
         } else if (type==='iTXt'){
-          let off=0;
-          const readZ = ()=>{ const idx = data.indexOf(0, off); const out = data.subarray(off, idx); off=idx+1; return out; };
-          const key = b2str(readZ());
-          const compFlag = data[off++]; const compMethod = data[off++];
+          let off=0; const readZ = ()=>{ const idx = data.indexOf(0, off); const out = data.subarray(off, idx); off=idx+1; return out; };
+          const key = b2str(readZ()); const compFlag = data[off++]; const compMethod = data[off++];
           const lang = b2str(readZ()); const translated = b2str(readZ());
           const textRaw = data.subarray(off);
           let text = ''; try{ text = compFlag? new TextDecoder().decode(pako.inflate(textRaw)) : b2str(textRaw); }catch{ text='(decode failed)'; }
@@ -663,15 +679,13 @@
           const method = data[zero+1];
           let text=''; try{ text = new TextDecoder().decode(pako.inflate(data.subarray(zero+2))); }catch{ text='(decode failed)'; }
           texts.push({type, key, method, text});
-        } else if (type==='IEND'){
-          break;
-        }
+        } else if (type==='IEND'){ break; }
         p += 12 + len;
       }
       return texts;
     }
 
-    // ---- AES-GCM (optional encryption) ----
+    // AES-GCM (optional)
     async function deriveKey(passphrase, salt){
       const enc = new TextEncoder();
       const baseKey = await crypto.subtle.importKey('raw', enc.encode(passphrase), 'PBKDF2', false, ['deriveKey']);
@@ -684,8 +698,8 @@
       );
     }
     async function encryptIfNeeded(bytes){
-      if (!encryptEl.checked) return { mode:'plain', data: bytes };
-      const pass = passphraseEl.value || '';
+      if (!$('#encrypt').checked) return { mode:'plain', data: bytes };
+      const pass = $('#passphrase').value || '';
       if (!pass) throw new Error('Passphrase required for encryption.');
       const salt = crypto.getRandomValues(new Uint8Array(16));
       const iv = crypto.getRandomValues(new Uint8Array(12));
@@ -698,27 +712,24 @@
       if (wrapper.mode!=='aes-gcm') throw new Error('Unknown encryption mode.');
       const salt = new Uint8Array(wrapper.salt);
       const iv = new Uint8Array(wrapper.iv);
-      const key = await deriveKey(passphraseEl.value||'', salt);
+      const key = await deriveKey($('#passphrase').value||'', salt);
       const pt = await crypto.subtle.decrypt({name:'AES-GCM', iv}, key, new Uint8Array(wrapper.data).buffer);
       return new Uint8Array(pt);
     }
 
-    // ---- LSB encode/decode in RGB channels ----
-    function lsbCapacityPX(w,h){ return w*h*3; } // bits
+    // LSB
+    function lsbCapacityPX(w,h){ return w*h*3; }
     function lsbEncode(canvas, payloadBytes){
       const w=canvas.width, h=canvas.height;
       const ctx = canvas.getContext('2d');
       const img = ctx.getImageData(0,0,w,h);
       const d = img.data;
-
-      const header = str2bytes('UPLS'); // magic
+      const header = str2bytes('UPLS');
       const lenBytes = new Uint8Array(4); new DataView(lenBytes.buffer).setUint32(0, payloadBytes.length, false);
       const payload = new Uint8Array(header.length + 4 + payloadBytes.length);
       payload.set(header,0); payload.set(lenBytes,4); payload.set(payloadBytes,8);
-
       const bitsNeeded = payload.length * 8;
       if (bitsNeeded > lsbCapacityPX(w,h)) throw new Error('Message too large for this image.');
-
       let bi=0;
       for (let i=0;i<d.length && bi<bitsNeeded;i+=4){
         for (let c=0;c<3;c++){
@@ -739,8 +750,6 @@
       const d = ctx.getImageData(0,0,w,h).data;
       const totalBits = lsbCapacityPX(w,h);
       if (totalBits < 8*8) return null;
-
-      // Read first 8 bytes to get magic+len
       const first = new Uint8Array(8);
       let bi=0;
       for (let i=0;i<d.length && bi<64;i+=4){
@@ -755,7 +764,6 @@
       const msgLen = new DataView(first.buffer).getUint32(4,false);
       const bitsNeeded = (8+msgLen)*8;
       if (bitsNeeded > totalBits) return null;
-
       const full = new Uint8Array(8 + msgLen);
       let b=0;
       for (let i=0;i<d.length && b<bitsNeeded;i+=4){
@@ -769,17 +777,15 @@
       return full.subarray(8);
     }
 
-    // ---- PNG Trailer embed/extract (file or text) ----
+    // PNG Trailer embed/extract
     function pngAppendTrailer(pngU8, trailerU8){
-      // Append signature + length + data after end of file
-      const sig = str2bytes('UPTB'); // UpTools Binary trailer
+      const sig = str2bytes('UPTB');
       const len = new Uint8Array(4); new DataView(len.buffer).setUint32(0, trailerU8.length, false);
       const out = new Uint8Array(pngU8.length + 4 + 4 + trailerU8.length);
       out.set(pngU8,0); out.set(sig, pngU8.length); out.set(len, pngU8.length+4); out.set(trailerU8, pngU8.length+8);
       return out;
     }
     function pngReadTrailer(pngU8){
-      // Search backwards for 'UPTB'
       const sig = 'UPTB'.split('').map(ch=>ch.charCodeAt(0));
       for (let i=pngU8.length-8-1; i>=8; i--){
         if (pngU8[i]===sig[0] && pngU8[i+1]===sig[1] && pngU8[i+2]===sig[2] && pngU8[i+3]===sig[3]){
@@ -791,15 +797,16 @@
       return null;
     }
 
-    // ---- Embed / Extract actions ----
+    // Stego mode toggles
     stegoMode.addEventListener('change', ()=>{
-      fileWrap.classList.toggle('hidden', stegoMode.value!=='pngtrail');
-      secretEl.parentElement.classList.toggle('hidden', stegoMode.value==='pngtrail' && secretFile.files?.length>0);
+      $('#fileWrap').classList.toggle('hidden', stegoMode.value!=='pngtrail');
+      $('#secret').parentElement.classList.toggle('hidden', stegoMode.value==='pngtrail' && $('#secretFile').files?.length>0);
     });
     secretFile.addEventListener('change', ()=>{
-      secretEl.parentElement.classList.toggle('hidden', secretFile.files?.length>0);
+      $('#secret').parentElement.classList.toggle('hidden', secretFile.files?.length>0);
     });
 
+    // Embed
     embedBtn.addEventListener('click', async ()=>{
       if (!currentFile) return alert('Load an image first.');
       const canvas = await drawToCanvas();
@@ -808,7 +815,6 @@
         if (stegoMode.value==='lsb'){
           const text = secretEl.value || '';
           if (!text) return alert('Enter some secret text.');
-          // Wrap & encrypt
           const payload = await encryptIfNeeded(str2bytes(text));
           const wrapped = str2bytes(JSON.stringify(payload));
           const stegoCanvas = lsbEncode(canvas, wrapped);
@@ -819,7 +825,6 @@
           const payload = await encryptIfNeeded(str2bytes(text));
           pngBytes = insertPNGTextChunk(pngBytes, 'UpToolsSecret', JSON.stringify(payload));
         } else {
-          // PNG Trailer (file or text)
           let bytes;
           if (secretFile.files?.length){
             bytes = new Uint8Array(await secretFile.files[0].arrayBuffer());
@@ -842,12 +847,11 @@
       a.click();
     });
 
+    // Extract
     extractBtn.addEventListener('click', async ()=>{
       if (!currentFile) return alert('Load an image first.');
       const canvas = await drawToCanvas();
       let results = { lsb:null, pngText:[], trailer:null };
-
-      // LSB
       try{
         const raw = lsbDecode(canvas);
         if (raw){
@@ -858,8 +862,6 @@
           }catch{ results.lsb = '(could not decode)'; }
         }
       }catch{}
-
-      // tEXt / iTXt / zTXt
       try{
         const bytes = canvasToPNGBytes(canvas);
         const texts = extractPNGTextChunks(bytes);
@@ -877,8 +879,6 @@
           }
         }
       }catch{}
-
-      // Trailer
       try{
         const base = canvasToPNGBytes(canvas);
         const trailer = pngReadTrailer(base);
@@ -887,18 +887,14 @@
             const wrapper = JSON.parse(b2str(trailer));
             const arr = new Uint8Array((wrapper.data||[]));
             const plain = await decryptIfNeeded({mode:wrapper.mode, salt:wrapper.salt, iv:wrapper.iv, data:arr});
-            // Try to detect if it’s text
-            let asText = null;
-            try{ asText = new TextDecoder().decode(plain); }catch{}
+            let asText = null; try{ asText = new TextDecoder().decode(plain); }catch{}
             results.trailer = { bytes: plain.length, preview: asText && /^[\x09\x0A\x0D\x20-\x7E\u00A0-\uFFFF]+$/.test(asText.slice(0,200)) ? asText.slice(0,4000) : '(binary)' };
           }catch{ results.trailer = '(could not decode)'; }
         }
       }catch{}
-
       stegoOut.textContent = JSON.stringify(results, null, 2);
       if (!results.lsb && (!results.pngText || results.pngText.length===0) && !results.trailer) stegoOut.textContent = 'No embedded secret found (LSB / PNG text / PNG trailer).';
     });
-
     copySecretBtn.addEventListener('click', async ()=>{
       try{
         await navigator.clipboard.writeText(stegoOut.textContent||'');
