@@ -445,7 +445,7 @@
               <ul class="list compact">
                 <li><a href="/ai-writer/">AI Writer</a> - rewrite experience bullets.</li>
                 <li><a href="/word-counter/">Word Counter</a> - ensure concise length.</li>
-                <li><a href="/plagiarism-checker/">Plagiarism Checker</a> - remove clichés.</li>
+                <li><a href="/ai-plagiarism/">Plagiarism Checker</a> - remove clichés.</li>
               </ul>
             </div>
           </div>
@@ -469,7 +469,7 @@
       <nav class="nav-links" aria-label="Footer">
         <a href="/about/"><span class="card-badge" aria-hidden="true">ABT</span> About</a>
         <a href="/contact/"><span class="card-badge" aria-hidden="true">CT</span> Contact</a>
-        <a href="/privacy/"><span class="card-badge" aria-hidden="true">PP</span> Privacy</a>
+        <a href="/privacy-policy/"><span class="card-badge" aria-hidden="true">PP</span> Privacy</a>
       </nav>
       <p class="tiny">© <span id="y"></span> UpTools · <a href="/sitemap.xml">Sitemap</a></p>
     </footer>
@@ -718,7 +718,7 @@
       if (mode === 'againstJD') {
         return [
           "You are an ATS assistant. Given this resume:\n"+resume+" and the job description:\n"+jd+".",
-          "Compare the given reume against the job description and provide: ATS Score (0-100), Match % (0-100), list of missing keywords, strengths, issues, and a brief summary.",
+          "Compare the given resume against the job description and provide: ATS Score (0-100), Match % (0-100), list of missing keywords, strengths, issues, and a brief summary.",
           "Return the results in the following format.",
           "OUTPUT FORMAT (strict):",
           "1) First, a single fenced JSON block with EXACT keys:",
@@ -780,7 +780,7 @@
           const payload = line.slice(5).trim();
           if (payload === '[DONE]') { aborter = null; return acc; }
           try {
-            colsole.log('payload:'+ payload);
+            // console.log('payload:'+ payload);
             const json = JSON.parse(payload);
             const delta = json?.choices?.[0]?.delta?.content ?? '';
             if (delta) { acc += delta; output.append(document.createTextNode(delta)); output.scrollTop = output.scrollHeight; }
