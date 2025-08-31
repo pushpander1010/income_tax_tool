@@ -347,6 +347,7 @@
                 aria-label="Upload resume file">
               <span id="fileName" class="file-name" aria-live="polite">PDF/DOCX/TXT</span>
             </span>
+            <label class="inline tiny" style="margin-left:8px"><input id="useOCR" type="checkbox"> Use OCR if PDF has no text</label>
 
             <button id="clearBtn" class="btn sm secondary" type="button" title="Clear">Clear</button>
           </div>
@@ -488,6 +489,7 @@
 
     const byId = (id) => document.getElementById(id);
     const resumeFile = byId('resumeFile');
+    const useOCR = byId('useOCR');
     const fileNameEl = byId('fileName');
     const resumeText = byId('resumeText');
     const jdText = byId('jdText');
@@ -613,7 +615,7 @@
                 const s = (it.str || '').trim();
                 if (!s) continue;
                 const tr = it.transform || it?.matrix || [1,0,0,1,0,0];
-                const y = Math.round((tr[5] || 0) / 2); // 2px tolerance
+                const y = Math.round(tr[5] || 0);
                 const x = tr[4] || 0;
                 const key = String(y);
                 const arr = lines.get(key) || [];
@@ -639,8 +641,45 @@
             }
             return naive.trim();
           }
-          const text = await extractPdfTextSmart(buf);
-          if (!text) throw new Error('No selectable text found (likely a scanned PDF).');
+          let text = await extractPdfTextSmart(buf);
+          // Optional OCR fallback for scanned PDFs
+          if ((!text || text.length < 20) && useOCR?.checked) {
+            status.textContent = 'Running OCR on PDF pages…';
+            // Lightweight dynamic loader (once)
+            const loadScriptOnce = (src) => new Promise((res, rej) => {
+              if (document.querySelector(`script[src="${src}"]`)) return res();
+              const s = document.createElement('script'); s.src = src; s.async = true; s.onload = () => res(); s.onerror = rej; document.head.appendChild(s);
+            });
+            try { await loadScriptOnce('https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js'); } catch {}
+            const ocrPdf = async (u8, pages=3, scale=2) => {
+              const doc = await pdfjsLib.getDocument({ data: u8 }).promise;
+              const take = Math.min(pages, doc.numPages);
+              const parts = [];
+              for (let p=1; p<=take; p++){
+                const page = await doc.getPage(p);
+                const vp = page.getViewport({ scale });
+                const canvas = document.createElement('canvas');
+                canvas.width = Math.round(vp.width);
+                canvas.height = Math.round(vp.height);
+                const ctx = canvas.getContext('2d');
+                await page.render({ canvasContext: ctx, viewport: vp }).promise;
+                if (window.Tesseract){
+                  try{
+                    const { data:{ text } } = await window.Tesseract.recognize(canvas, 'eng');
+                    if (text?.trim()) parts.push(text.trim());
+                  }catch{}
+                }
+              }
+              return parts.join('\n\n').trim();
+            };
+            const ocrText = await ocrPdf(buf, 4, 2);
+            if (ocrText && ocrText.length > 20) {
+              text = ocrText;
+              parseNotice.innerHTML = '<b>[Loaded via OCR]</b> Extracted text from PDF images (first few pages).';
+            }
+            status.textContent = '';
+          }
+          if (!text || text.length < 5) throw new Error('No selectable text found (likely a scanned PDF).');
           resumeText.value = text;
         } else if (ext === 'docx') {
           const buf = await f.arrayBuffer();
