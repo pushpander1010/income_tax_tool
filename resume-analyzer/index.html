@@ -475,8 +475,11 @@
     </footer>
   </main>
 
-  <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/build/pdf.min.js"></script>
-  <script>pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/build/pdf.worker.min.js";</script>
+  <!-- Use legacy build of PDF.js for widest script-tag compatibility -->
+  <script src="https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/legacy/build/pdf.min.js"></script>
+  <script>
+    pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdn.jsdelivr.net/npm/pdfjs-dist@4.10.38/legacy/build/pdf.worker.min.js";
+  </script>
 
   <script src="https://cdn.jsdelivr.net/npm/mammoth@1.8.0/mammoth.browser.min.js"></script>
 
@@ -596,14 +599,49 @@
       try {
         if (ext === 'pdf') {
           const buf = await f.arrayBuffer();
-          const pdf = await pdfjsLib.getDocument({ data: buf }).promise;
-          let text = '';
-          for (let p = 1; p <= pdf.numPages; p++) {
-            const page = await pdf.getPage(p);
-            const content = await page.getTextContent();
-            text += content.items.map(i => i.str).join(' ') + '\n';
+          // Smart extraction: group by Y to preserve line breaks; fallback to naive if empty
+          async function extractPdfTextSmart(u8) {
+            const doc = await pdfjsLib.getDocument({ data: u8 }).promise;
+            const out = [];
+            for (let p = 1; p <= doc.numPages; p++) {
+              const page = await doc.getPage(p);
+              const content = await page.getTextContent();
+              const items = content.items || [];
+              // Group text items by approx Y position (tolerance)
+              const lines = new Map();
+              for (const it of items) {
+                const s = (it.str || '').trim();
+                if (!s) continue;
+                const tr = it.transform || it?.matrix || [1,0,0,1,0,0];
+                const y = Math.round((tr[5] || 0) / 2); // 2px tolerance
+                const x = tr[4] || 0;
+                const key = String(y);
+                const arr = lines.get(key) || [];
+                arr.push({ x, s });
+                lines.set(key, arr);
+              }
+              const ys = [...lines.keys()].map(Number).sort((a,b) => b - a); // top→bottom
+              for (const y of ys) {
+                const line = (lines.get(String(y)) || []).sort((a,b) => a.x - b.x).map(t => t.s).join(' ');
+                if (line.trim()) out.push(line.trim());
+              }
+              out.push('');
+            }
+            const joined = out.join('\n').trim();
+            if (joined.length >= 20) return joined;
+            // Fallback (naive)
+            const doc2 = await pdfjsLib.getDocument({ data: u8 }).promise;
+            let naive = '';
+            for (let p = 1; p <= doc2.numPages; p++) {
+              const page = await doc2.getPage(p);
+              const content = await page.getTextContent();
+              naive += (content.items || []).map(i => (i.str || '')).join(' ') + '\n';
+            }
+            return naive.trim();
           }
-          resumeText.value = text.trim();
+          const text = await extractPdfTextSmart(buf);
+          if (!text) throw new Error('No selectable text found (likely a scanned PDF).');
+          resumeText.value = text;
         } else if (ext === 'docx') {
           const buf = await f.arrayBuffer();
           const res = await window.mammoth.extractRawText({ arrayBuffer: buf });
@@ -623,8 +661,8 @@
         quickKPIs();
       } catch (err) {
         console.error(err);
-        toast('Could not read file. Try a different format or copy-paste text.');
-        parseNotice.innerHTML = '<b>[Notice]</b> Could not parse file. Please open your document and paste plain text here for best accuracy.';
+        toast('Could not read file. Try a different format or paste text.');
+        parseNotice.innerHTML = '<b>[Notice]</b> Could not parse file (possible scanned PDF or unsupported encoding). Please open your document and paste plain text here for best accuracy.';
       }
     });
 
