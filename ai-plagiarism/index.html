@@ -849,7 +849,9 @@
               if (typeof json.text === 'string') { append(json.text); continue; }
               if (json.message?.content) { append(json.message.content); continue; }
               if (json.error?.message) throw new Error(json.error.message);
-            } catch { /* keep-alives */ }
+            } catch {
+              if (payload && payload !== '[DONE]') append(payload + "\n");
+            }
           }
         }
         aborter = null; return acc;

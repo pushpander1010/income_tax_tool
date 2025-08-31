@@ -861,7 +861,14 @@
             const json = JSON.parse(payload);
             const delta = json?.choices?.[0]?.delta?.content ?? '';
             if (delta) { acc += delta; output.append(document.createTextNode(delta)); output.scrollTop = output.scrollHeight; }
-          } catch { }
+          } catch {
+            // If provider streams plain text errors, surface them instead of hiding
+            if (payload && payload !== '[DONE]') {
+              acc += payload + "\n";
+              output.append(document.createTextNode(payload + "\n"));
+              output.scrollTop = output.scrollHeight;
+            }
+          }
         }
       }
       aborter = null; return acc;

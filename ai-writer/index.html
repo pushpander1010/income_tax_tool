@@ -631,7 +631,9 @@
             const json = JSON.parse(payload);
             const delta = json.choices?.[0]?.delta?.content ?? '';
             if (delta) { accumulated += delta; output.textContent += delta; }
-          } catch { }
+          } catch {
+            if (payload && payload !== '[DONE]') { accumulated += payload + "\n"; output.textContent += payload + "\n"; }
+          }
         }
       }
       aborter = null;
