@@ -54,6 +54,8 @@
     .kpi .card { text-align:center }
     .spark { width:120px; height:40px }
     @media (max-width:720px){ .opt-spark { display:none } }
+    @media (max-width:960px){ .opt-supply, .opt-ath { display:none } }
+    @media (max-width:720px){ .opt-cap, .opt-vol { display:none } }
     /* Crypto flair */
     .neon { box-shadow: 0 0 0 1px rgba(64,110,255,.15), 0 0 32px rgba(100,200,255,.08) inset }
     .tool-icon { background: linear-gradient(135deg,#0b1a2a,#0d243a); border: 1px solid var(--border) }
@@ -109,6 +111,15 @@
         <label class="chip" style="gap:6px"><input id="auto" type="checkbox" /> Auto-refresh</label>
         <button id="refresh" class="btn secondary sm">Refresh</button>
       </div>
+      <div class="chips" id="filters" style="margin-top:6px">
+        <button class="chip" data-filter="all">All</button>
+        <button class="chip" data-filter="l1">L1</button>
+        <button class="chip" data-filter="defi">DeFi</button>
+        <button class="chip" data-filter="stable">Stable</button>
+        <button class="chip" data-filter="meme">Meme</button>
+        <button class="chip" data-filter="gainers">Top Gainers</button>
+        <button class="chip" data-filter="losers">Top Losers</button>
+      </div>
       <div class="kpi" id="kpi">
         <div class="card"><div class="note mini">Coins listed</div><div class="amount" id="kCoins">-</div></div>
         <div class="card"><div class="note mini">Total Market Cap (Top)</div><div class="amount" id="kCap">-</div></div>
@@ -118,7 +129,7 @@
         <table class="table" aria-label="Crypto prices table">
           <thead>
             <tr>
-              <th>#</th><th>Coin</th><th>Price</th><th>24h</th><th>Market Cap</th><th>Volume 24h</th><th class="opt-spark">7d</th>
+              <th>#</th><th>Coin</th><th>Price</th><th>24h</th><th class="opt-cap">Market Cap</th><th class="opt-vol">Volume 24h</th><th class="opt-supply">Circ</th><th class="opt-supply">Max</th><th class="opt-ath">ATH</th><th class="opt-ath">ATL</th><th class="opt-spark">7d</th>
             </tr>
           </thead>
           <tbody id="rows"></tbody>
@@ -182,6 +193,10 @@
           change24h: Number(x.price_change_percentage_24h),
           marketCap: Number(x.market_cap),
           volume24h: Number(x.total_volume),
+          circ: Number(x.circulating_supply),
+          max: Number(x.max_supply),
+          ath: Number(x.ath),
+          atl: Number(x.atl),
           img: x.image || ''
         }));
       }
@@ -196,7 +211,10 @@
         change24h: Number(x.changePercent24Hr),
         marketCap: Number(x.marketCapUsd),
         volume24h: Number(x.volumeUsd24Hr),
-        img: ''
+        img: '',
+        circ: Number(x.supply ?? NaN),
+        max: Number(x.maxSupply ?? NaN),
+        ath: NaN, atl: NaN
       }));
     }
 
@@ -250,18 +268,41 @@
       els.kVol.textContent = money.format(totVol);
     }
 
+    function passFilter(x){
+      const sym = String(x.symbol||'').toUpperCase();
+      const name = String(x.name||'');
+      if (ACTIVE_FILTER === 'all') return true;
+      if (ACTIVE_FILTER === 'stable') {
+        const stableNames = ['USDT','USDC','DAI','TUSD','USDD','USDE','FDUSD','PYUSD','EURS','EURT','USDP'];
+        return stableNames.includes(sym) || Math.abs(Number(x.change24h||0)) < 0.3;
+      }
+      if (ACTIVE_FILTER === 'meme') { return /DOGE|SHIB|INU|PEPE|FLOKI|BONK|WIF/i.test(sym+name); }
+      if (ACTIVE_FILTER === 'l1') {
+        const l1 = ['BTC','ETH','SOL','ADA','AVAX','DOT','TRX','XRP','LTC','BCH','ATOM','ALGO','NEAR','APT','SUI','SEI','TON','MATIC','ETC','EGLD','KAS'];
+        return l1.includes(sym);
+      }
+      if (ACTIVE_FILTER === 'defi') {
+        const defi = ['UNI','AAVE','CRV','COMP','SUSHI','CAKE','RUNE','MKR','BAL','GMX','LDO','DYDX'];
+        return defi.includes(sym) || /swap|dex|finance|dao/i.test(name);
+      }
+      if (ACTIVE_FILTER === 'gainers' || ACTIVE_FILTER === 'losers') return true;
+      return true;
+    }
+
     function render(list) {
       const q = els.q.value.trim().toLowerCase();
-      let filtered = list;
+      let filtered = list.filter(passFilter);
       if (q) filtered = list.filter(x => x.name.toLowerCase().includes(q) || x.symbol.toLowerCase().includes(q));
       const sort = els.sort.value;
-      const arr = [...filtered].sort((a, b) => {
+      let arr = [...filtered].sort((a, b) => {
         if (sort === 'rank') return a.rank - b.rank;
         if (sort === 'price') return b.price - a.price;
         if (sort === 'change') return (b.change24h - a.change24h);
         if (sort === 'marketCap') return b.marketCap - a.marketCap;
         return 0;
       });
+      if (ACTIVE_FILTER === 'gainers') arr = arr.filter(x=>isFinite(x.change24h)).sort((a,b)=>b.change24h-a.change24h).slice(0,50);
+      if (ACTIVE_FILTER === 'losers') arr = arr.filter(x=>isFinite(x.change24h)).sort((a,b)=>a.change24h-b.change24h).slice(0,50);
       const money = moneyFmt();
       els.rows.innerHTML = arr.map(x => {
         const img = x.img || `https://assets.coincap.io/assets/icons/${String(x.symbol||'').toLowerCase()}@2x.png`;
@@ -272,8 +313,12 @@
           <td style="display:flex;align-items:center;gap:8px"><img class="logo" src="${img}" alt="${x.symbol}" onerror="this.style.display='none'" /><span class="badge sym">${x.symbol}</span> ${x.name}</td>
           <td class="amount">${money.format(x.price * fx)}</td>
           <td class="${cls}">${nf2.format(ch)}%</td>
-          <td class="amount">${money.format(x.marketCap * fx)}</td>
-          <td class="amount">${money.format(x.volume24h * fx)}</td>
+          <td class="amount opt-cap">${money.format(x.marketCap * fx)}</td>
+          <td class="amount opt-vol">${money.format(x.volume24h * fx)}</td>
+          <td class="amount opt-supply">${int.format(Number(x.circ||0))}</td>
+          <td class="amount opt-supply">${isFinite(x.max)? int.format(Number(x.max)) : '-'}</td>
+          <td class="amount opt-ath">${isFinite(x.ath)? money.format(x.ath*fx) : '-'}</td>
+          <td class="amount opt-ath">${isFinite(x.atl)? money.format(x.atl*fx) : '-'}</td>
           <td class="opt-spark"><svg data-coin="${x.id}" class="spark" viewBox="0 0 120 40" preserveAspectRatio="none"></svg></td>
         </tr>`;
       }).join("");
@@ -308,7 +353,10 @@
       u.searchParams.set('cur', els.cur.value);
       if (els.q.value) u.searchParams.set('q', els.q.value); else u.searchParams.delete('q');
       u.searchParams.set('sort', els.sort.value);
+      u.searchParams.set('mode', mode);
+      u.searchParams.set('filter', ACTIVE_FILTER);
       history.replaceState({}, '', u);
+      try { localStorage.setItem('cprefs', JSON.stringify({ mode, filter: ACTIVE_FILTER })); } catch{}
     }
 
     async function init() {
@@ -317,8 +365,15 @@
       const q = u.searchParams.get('q'); if (q) els.q.value = q;
       const cur = u.searchParams.get('cur'); if (cur) els.cur.value = cur;
       const sort = u.searchParams.get('sort'); if (sort) els.sort.value = sort;
+      const m = u.searchParams.get('mode'); if (m) mode = m;
+      const f = u.searchParams.get('filter'); if (f) ACTIVE_FILTER = f;
+      try { const saved = JSON.parse(localStorage.getItem('cprefs')||'{}'); if (saved.mode && !m) mode = saved.mode; if (saved.filter && !f) ACTIVE_FILTER = saved.filter; } catch{}
       await loadFX(els.cur.value);
-      try { cache = await fetchAssets(50); render(cache); }
+      try {
+        const lim = mode==='all'? 50 : Number(mode)||50;
+        cache = await fetchAssets(lim); render(cache);
+        if (mode==='all') fetchAllCoins_CG(250, 1, 20);
+      }
       catch { els.meta.textContent = 'Failed to load data. Try again later.'; }
       updateURL();
     }
@@ -358,6 +413,7 @@
         cache = await fetchAssets(lim);
         render(cache);
       }
+      updateURL();
     }));
 
     els.loadMore.addEventListener('click', async ()=>{
@@ -366,6 +422,26 @@
       const add = await fetchAllCoins_CG(250, nextPage, nextPage); // just one page
       loading = false; if (add.length) { cache = add; render(cache); }
     });
+
+    // Filter controls
+    $$('#filters [data-filter]').forEach(btn => btn.addEventListener('click', ()=>{
+      ACTIVE_FILTER = btn.getAttribute('data-filter');
+      updateURL(); render(cache);
+    }));
+
+    // Infinite scroll when in 'all' mode
+    const sentinel = document.getElementById('sentinel');
+    if ('IntersectionObserver' in window && sentinel) {
+      const io = new IntersectionObserver(async (entries)=>{
+        if (mode !== 'all') return;
+        if (entries.some(e=>e.isIntersecting)) {
+          if (loading) return; const nextPage = Math.floor(cache.length/250)+1; loading = true;
+          const add = await fetchAllCoins_CG(250, nextPage, nextPage);
+          loading = false; if (add.length) { cache = add; render(cache); }
+        }
+      }, { rootMargin: '1200px 0px 1200px 0px' });
+      io.observe(sentinel);
+    }
 
     async function searchAndInject(query) {
       try {
