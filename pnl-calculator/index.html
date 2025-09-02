@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="x-ua-compatible" content="IE=edge" />
+  <meta name="color-scheme" content="dark light" />
+
+  <title>Profit & Loss Calculator (Average Cost, Break‑Even, Targets) | UpTools</title>
+  <meta name="description" content="Track PnL across multiple buys/sells with fees (average cost). Shows realized and unrealized PnL, break‑even price, and target price. Works offline for stocks or crypto." />
+  <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
+  <meta name="theme-color" content="#0b1020" />
+  <link rel="canonical" href="https://www.uptools.in/pnl-calculator/" />
+
+  <meta property="og:title" content="Profit & Loss Calculator (Average Cost, Break‑Even, Targets)" />
+  <meta property="og:description" content="Multiple trades with fees, realized/unrealized PnL, break‑even and target price. Offline." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.uptools.in/pnl-calculator/" />
+  <meta property="og:site_name" content="UpTools" />
+  <meta property="og:image" content="https://www.uptools.in/assets/og/home.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="icon" sizes="50x50" type="image/svg+xml" href="/assets/logo/uptools-logo.svg" />
+
+  <link rel="preload" href="/style.css?v=1.2.0" as="style" />
+  <link rel="stylesheet" href="/style.css?v=1.2.0" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="/style.css?v=1.2.0"></noscript>
+
+  <style>
+    .grid{ display:grid; gap:12px; grid-template-columns:1fr }
+    @media(min-width:980px){ .grid{ grid-template-columns:1.2fr .8fr } }
+    table{ width:100%; border-collapse:collapse }
+    th,td{ padding:.5rem; border-top:1px solid var(--border); text-align:left }
+    th{ color:var(--muted) }
+    .row{ display:flex; gap:8px; align-items:center; flex-wrap:wrap }
+    .mono{ font-family: ui-monospace,SFMono-Regular,Consolas,Menlo,monospace }
+    .right{ text-align:right }
+    .kpi{ display:grid; gap:6px }
+    .kpi .row{ display:flex; justify-content:space-between; border-top:1px dashed var(--border); padding:.35rem 0 }
+    .pos{ color:#36d399 } .neg{ color:#ff6b6b }
+    .small{ font-size:.85rem }
+    .btn.sm{ min-height:32px }
+  </style>
+</head>
+<body>
+  <header class="site">
+    <div class="header-inner">
+      <a class="brand" href="/">
+        <img class="hero-logo" src="/assets/logo/uptools-logo.svg" alt="UpTools" width="48" height="48" />
+        <span>UpTools</span>
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="/#tools">Tools</a>
+        <a aria-current="page" href="/pnl-calculator/">PnL</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="tool-header">
+      <div class="tool-icon" aria-hidden="true">📈</div>
+      <h1 style="margin:0">Profit & Loss Calculator</h1>
+    </div>
+
+    <section class="grid">
+      <div class="card neon">
+        <div class="row">
+          <label class="label" for="sym" style="margin:0">Symbol</label>
+          <input id="sym" class="input" style="max-width:200px" placeholder="e.g., BTC or AAPL" />
+          <label class="label" for="cur" style="margin:0">Currency</label>
+          <input id="cur" class="input" style="max-width:120px" placeholder="e.g., USD" />
+        </div>
+
+        <div class="row" style="margin-top:8px">
+          <select id="side" class="input" style="max-width:120px">
+            <option value="buy">Buy</option>
+            <option value="sell">Sell</option>
+          </select>
+          <input id="qty" class="input mono" style="max-width:160px" inputmode="decimal" placeholder="Qty" />
+          <input id="price" class="input mono" style="max-width:180px" inputmode="decimal" placeholder="Price" />
+          <input id="fee" class="input mono" style="max-width:140px" inputmode="decimal" placeholder="Fee % (optional)" />
+          <button id="add" class="btn sm">Add trade</button>
+          <button id="reset" class="btn secondary sm">Reset</button>
+        </div>
+
+        <div style="overflow:auto; margin-top:10px">
+          <table aria-label="Trades">
+            <thead><tr><th>Date</th><th>Side</th><th class="right">Qty</th><th class="right">Price</th><th class="right">Fee %</th><th class="right">Notional</th><th></th></tr></thead>
+            <tbody id="rows"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <aside class="card neon">
+        <h2 style="margin-top:0">Overview</h2>
+        <label class="label" for="cp">Current Price</label>
+        <input id="cp" class="input mono" inputmode="decimal" placeholder="Enter current price" />
+        <div class="kpi" style="margin-top:8px">
+          <div class="row"><span>Position</span><span id="posQty" class="amount">-</span></div>
+          <div class="row"><span>Avg cost</span><span id="avg" class="amount">-</span></div>
+          <div class="row"><span>Invested</span><span id="invested" class="amount">-</span></div>
+          <div class="row"><span>Realized PnL</span><span id="realized" class="amount">-</span></div>
+          <div class="row"><span>Unrealized PnL</span><span id="unrealized" class="amount">-</span></div>
+          <div class="row"><span>Total PnL</span><span id="total" class="amount">-</span></div>
+          <div class="row"><span>Break‑even</span><span id="breakeven" class="amount">-</span></div>
+          <div class="row"><span>Target @</span>
+            <span>
+              <input id="targetPct" class="input mono" style="max-width:90px" inputmode="decimal" value="10" />%
+              → <b id="targetPrice">-</b>
+            </span>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="card neon" aria-labelledby="help">
+      <h2 id="help" style="margin-top:0">Notes</h2>
+      <p class="note small">Method: Average cost (AVCO). For each sell, realized PnL = (proceeds − fee) − (qty × avg cost at the moment of sale). Position and cost basis update accordingly.</p>
+    </section>
+
+    <footer class="note small site-footer">© <span id="y"></span> UpTools • <a href="/sitemap.xml">Sitemap</a> • <a href="/privacy-policy/">Privacy</a></footer>
+  </main>
+
+  <script type="module">
+    const $ = (s, r = document) => r.querySelector(s);
+    const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+    const money = (c) => new Intl.NumberFormat(undefined, { style:'currency', currency: c || 'USD', maximumFractionDigits: 2 });
+    const num = (d=2) => new Intl.NumberFormat(undefined, { maximumFractionDigits: d });
+    $('#y').textContent = new Date().getFullYear();
+
+    const els = {
+      sym: $('#sym'), cur: $('#cur'), side: $('#side'), qty: $('#qty'), price: $('#price'), fee: $('#fee'), add: $('#add'), reset: $('#reset'),
+      rows: $('#rows'), cp: $('#cp'), posQty: $('#posQty'), avg: $('#avg'), invested: $('#invested'), realized: $('#realized'), unrealized: $('#unrealized'), total: $('#total'), breakeven: $('#breakeven'), targetPct: $('#targetPct'), targetPrice: $('#targetPrice')
+    };
+    els.cur.value = 'USD';
+
+    let trades = [];
+
+    function pushTrade(t){ trades.push({ ...t, id: crypto.randomUUID(), ts: t.ts ?? Date.now() }); renderTrades(); compute(); save(); }
+    function removeTrade(id){ trades = trades.filter(t => t.id !== id); renderTrades(); compute(); save(); }
+
+    function renderTrades(){
+      const c = els.cur.value || 'USD';
+      els.rows.innerHTML = trades.sort((a,b)=>a.ts-b.ts).map(t => {
+        const feePct = isFinite(t.feePct) ? t.feePct : 0;
+        const notional = t.qty * t.price * (t.side==='buy' ? (1+feePct/100) : (1-feePct/100));
+        return `<tr>
+          <td>${new Date(t.ts).toLocaleDateString()}</td>
+          <td>${t.side}</td>
+          <td class="right">${num(6).format(t.qty)}</td>
+          <td class="right">${money(c).format(t.price)}</td>
+          <td class="right">${feePct ? num(2).format(feePct)+'%' : '-'}</td>
+          <td class="right">${money(c).format(notional)}</td>
+          <td><button class="btn secondary sm" data-del="${t.id}">Delete</button></td>
+        </tr>`
+      }).join('');
+      $$('button[data-del]').forEach(b => b.addEventListener('click', ()=> removeTrade(b.getAttribute('data-del'))));
+    }
+
+    function compute(){
+      const c = els.cur.value || 'USD';
+      let pos = 0; // units
+      let cost = 0; // currency invested in current position
+      let realized = 0; // currency
+      for(const t of trades.sort((a,b)=>a.ts-b.ts)){
+        const feePct = isFinite(t.feePct) ? t.feePct : 0;
+        if (t.side === 'buy'){
+          const gross = t.qty * t.price; const fee = gross * (feePct/100);
+          const total = gross + fee;
+          // update average cost basis
+          const newCost = cost + total;
+          const newPos = pos + t.qty;
+          cost = newCost; pos = newPos;
+        } else if (t.side === 'sell'){
+          const qty = Math.min(t.qty, pos);
+          const avg = pos > 0 ? cost / pos : 0;
+          const gross = qty * t.price; const fee = gross * (feePct/100);
+          const proceeds = gross - fee;
+          realized += proceeds - qty * avg;
+          // reduce position and cost basis
+          pos -= qty; cost -= qty * avg;
+        }
+      }
+      const cp = Number(els.cp.value || NaN);
+      const avg = pos > 0 ? cost / pos : 0;
+      const unreal = isFinite(cp) && pos>0 ? (cp - avg) * pos : 0;
+      const total = realized + unreal;
+      const be = pos>0 ? (avg - realized/pos) : 0; // price to get total PnL to zero
+      const tgtPct = Number(els.targetPct.value || 0) / 100;
+      const tgt = pos>0 ? (avg + (tgtPct * (avg))) : 0; // target relative to avg cost
+
+      els.posQty.textContent = num(6).format(pos);
+      els.avg.textContent = pos>0 ? money(c).format(avg) : '-';
+      els.invested.textContent = money(c).format(cost);
+      els.realized.textContent = (realized>=0?'+':'') + money(c).format(realized);
+      els.realized.className = 'amount ' + (realized>=0?'pos':'neg');
+      els.unrealized.textContent = (unreal>=0?'+':'') + money(c).format(unreal);
+      els.unrealized.className = 'amount ' + (unreal>=0?'pos':'neg');
+      els.total.textContent = (total>=0?'+':'') + money(c).format(total);
+      els.total.className = 'amount ' + (total>=0?'pos':'neg');
+      els.breakeven.textContent = pos>0 ? money(c).format(be) : '-';
+      els.targetPrice.textContent = pos>0 ? money(c).format(tgt) : '-';
+    }
+
+    function addTrade(){
+      const t = {
+        ts: Date.now(),
+        side: els.side.value,
+        qty: Number(els.qty.value||0),
+        price: Number(els.price.value||0),
+        feePct: Number(els.fee.value||0)
+      };
+      if (!(t.qty>0 && t.price>0)) return;
+      pushTrade(t);
+      els.qty.value = els.price.value = els.fee.value = '';
+    }
+
+    function save(){
+      try { localStorage.setItem('pnl-calculator', JSON.stringify({ sym: els.sym.value, cur: els.cur.value, trades })); } catch {}
+    }
+    function load(){
+      try { const s = JSON.parse(localStorage.getItem('pnl-calculator')||'{}'); if (s.sym) els.sym.value=s.sym; if (s.cur) els.cur.value=s.cur; if (Array.isArray(s.trades)) trades = s.trades; } catch {}
+      renderTrades(); compute();
+    }
+
+    els.add.addEventListener('click', addTrade);
+    els.reset.addEventListener('click', ()=>{ trades=[]; renderTrades(); compute(); save(); });
+    els.cp.addEventListener('input', compute);
+    els.cur.addEventListener('input', ()=>{ renderTrades(); compute(); save(); });
+    els.targetPct.addEventListener('input', compute);
+
+    load();
+  </script>
+</body>
+</html>
+

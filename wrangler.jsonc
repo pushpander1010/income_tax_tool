@@ -53,11 +53,12 @@
       "color-picker",
       "whatsapp-chat",
       "whatsapp-stickers",
-      "crypto-prices",
-      "crypto-converter",
-      "bitcoin-fees",
-      "crypto-fear-greed",
+      
+      
+      
+      
       "games/2048",
+      "pnl-calculator",
       "games/snake",
       "games/sudoku",
       "games/tic-tac-toe",
@@ -76,3 +77,6 @@
     "local_protocol": "http"
   }
 }
+
+
+

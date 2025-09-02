@@ -42,7 +42,7 @@ const paths = [
   '/ai-writer/',
   '/ai-plagiarism/',
   '/resume-analyzer/',
-  '/crypto-unit-converter/',
+  '/pnl-calculator/',
   '/about/',
   '/contact/',
   '/privacy-policy/',
