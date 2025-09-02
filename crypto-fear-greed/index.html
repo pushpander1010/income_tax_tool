@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="x-ua-compatible" content="IE=edge" />
+  <meta name="color-scheme" content="dark light" />
+
+  <title>Crypto Fear & Greed Index (Live) - Sentiment Today | UpTools</title>
+  <meta name="description" content="Live Crypto Fear & Greed Index with value and classification (Extreme Fear to Extreme Greed). Updated daily. Data from alternative.me public API." />
+  <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
+  <meta name="theme-color" content="#0b1020" />
+  <link rel="canonical" href="https://www.uptools.in/crypto-fear-greed/" />
+
+  <meta property="og:title" content="Crypto Fear & Greed Index (Live)" />
+  <meta property="og:description" content="See market sentiment today: Extreme Fear to Extreme Greed." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.uptools.in/crypto-fear-greed/" />
+  <meta property="og:site_name" content="UpTools" />
+  <meta property="og:image" content="https://www.uptools.in/assets/og/home.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="icon" sizes="50x50" type="image/svg+xml" href="/assets/logo/uptools-logo.svg" />
+
+  <link rel="preload" href="/style.css?v=1.2.0" as="style" />
+  <link rel="stylesheet" href="/style.css?v=1.2.0" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="/style.css?v=1.2.0"></noscript>
+
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"SoftwareApplication",
+    "name":"UpTools Crypto Fear & Greed Index",
+    "applicationCategory":"FinanceApplication",
+    "operatingSystem":"Web",
+    "url":"https://www.uptools.in/crypto-fear-greed/",
+    "description":"Live Crypto Fear & Greed Index with daily updates.",
+    "featureList":["Live index","Classification","History link"],
+    "offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}
+  }
+  </script>
+
+  <style>
+    .dial{ width:240px; height:120px }
+    .gauge{ display:grid; place-items:center; margin:8px 0 }
+    .big{ font-size:3rem; font-weight:900 }
+    .grid{ display:grid; gap:12px; grid-template-columns:1fr }
+    @media(min-width:820px){ .grid{ grid-template-columns:1fr 1fr } }
+  </style>
+</head>
+<body>
+  <header class="site">
+    <div class="header-inner">
+      <a class="brand" href="/">
+        <img class="hero-logo" src="/assets/logo/uptools-logo.svg" alt="UpTools" width="48" height="48" />
+        <span>UpTools</span>
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="/#tools">Tools</a>
+        <a href="/crypto-prices/">Crypto</a>
+        <a aria-current="page" href="/crypto-fear-greed/">Fear & Greed</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="tool-header">
+      <div class="tool-icon" aria-hidden="true">🙂</div>
+      <h1 style="margin:0">Crypto Fear & Greed Index</h1>
+    </div>
+
+    <section class="grid">
+      <div class="card neon">
+        <div class="gauge">
+          <svg class="dial" viewBox="0 0 100 50" aria-label="Fear and Greed gauge">
+            <path d="M5,50 A45,45 0 0,1 95,50" fill="none" stroke="#264" stroke-width="10" />
+            <line id="needle" x1="50" y1="50" x2="50" y2="10" stroke="#9be7ff" stroke-width="3" stroke-linecap="round" />
+          </svg>
+          <div class="big" id="val">-</div>
+          <div id="cls" class="note">-</div>
+          <div id="delta" class="note mini">-</div>
+          <div id="meta" class="note mini">Loading…</div>
+        </div>
+      </div>
+      <aside class="card neon">
+        <h2 style="margin-top:0">What it means</h2>
+        <p class="note">0–24: Extreme Fear • 25–44: Fear • 45–54: Neutral • 55–74: Greed • 75–100: Extreme Greed.</p>
+        <p class="note">This index is updated daily and aggregates volatility, market momentum, social media and other data sources (by alternative.me).</p>
+        <div class="note">More: <a href="/crypto-prices/">Crypto Prices</a> • <a href="/crypto-converter/">Converter</a> • <a href="/bitcoin-fees/">BTC Fees</a></div>
+      </aside>
+    </section>
+
+    <footer class="note small site-footer">© <span id="y"></span> UpTools • <a href="/sitemap.xml">Sitemap</a> • <a href="/privacy-policy/">Privacy</a></footer>
+  </main>
+
+  <script type="module">
+    import { $ } from "/scripts/utils.js";
+    $("#y").textContent = new Date().getFullYear();
+    const els = { val: $("#val"), cls: $("#cls"), delta: $("#delta"), meta: $("#meta"), needle: $("#needle") };
+
+    function setNeedle(pct){
+      // pct 0..100 maps to angle 180..0 degrees
+      const deg = 180 - (pct * 1.8);
+      els.needle.setAttribute('transform', `rotate(${deg} 50 50)`);
+    }
+
+    function colorFor(v){ if (v<=24) return '#ff6b6b'; if (v<=44) return '#ffb86b'; if (v<55) return '#cfd8dc'; if (v<=74) return '#9be7ff'; return '#36d399'; }
+
+    const PX = (u) => `/proxy?u=${encodeURIComponent(u)}`;
+
+    async function load(){
+      try {
+        const r = await fetch(PX('https://api.alternative.me/fng/?limit=2'));
+        if (!r.ok) throw 0; const j = await r.json();
+        const list = j?.data || [];
+        const cur = list[0]; const prev = list[1]; if (!cur) throw 0;
+        const v = Number(cur.value || 0); const c = cur.value_classification || '-';
+        els.val.textContent = String(v);
+        els.cls.textContent = c;
+        setNeedle(Math.max(0, Math.min(100, v)));
+        els.needle.setAttribute('stroke', colorFor(v));
+        if (prev) {
+          const pv = Number(prev.value||0); const d = v - pv; const arrow = d>0?'↑': d<0?'↓':'→';
+          els.delta.textContent = `${arrow} ${Math.abs(d)} vs yesterday`;
+        } else { els.delta.textContent = ''; }
+        const ts = cur.timestamp ? new Date(Number(cur.timestamp)*1000) : null;
+        els.meta.textContent = `Updated ${ts ? ts.toLocaleDateString() : 'today'} • Source: alternative.me`;
+      } catch { els.meta.textContent = 'Failed to load index. Try later.'; }
+    }
+    load();
+  </script>
+</body>
+</html>

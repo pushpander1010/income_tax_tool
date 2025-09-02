@@ -264,4 +264,28 @@
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
+  <url>
+    <loc>https://www.uptools.in/crypto-prices/</loc>
+    <lastmod>2025-08-31</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.uptools.in/crypto-converter/</loc>
+    <lastmod>2025-08-31</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.uptools.in/bitcoin-fees/</loc>
+    <lastmod>2025-08-31</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.uptools.in/crypto-fear-greed/</loc>
+    <lastmod>2025-08-31</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
 </urlset>

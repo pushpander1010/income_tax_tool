@@ -138,6 +138,12 @@ const DEFAULT_FINANCE_HOSTS = [
   "query2.finance.yahoo.com",
   "mfapi.in",
   "api.mfapi.in",
+  // Crypto + FX + fees + sentiment (public, CORS-friendly)
+  "api.coincap.io",
+  "api.exchangerate.host",
+  "api.frankfurter.app",
+  "mempool.space",
+  "api.alternative.me",
 ];
 
 function allowlistFromEnv(env: Env): string[] {
