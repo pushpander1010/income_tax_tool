@@ -341,12 +341,13 @@ function corsPreflight(req: Request, env: Env): Response {
 }
 function corsHeaders(req: Request, env: Env): Record<string, string> {
   const origin = req.headers.get("Origin") || "";
-  const allow = (env.CORS_ORIGINS || "").split(",").map(s => s.trim()).filter(Boolean);
-  const allowed = allow.includes(origin) ? origin : allow[0] || "*";
+  const allowList = (env.CORS_ORIGINS || "").split(",").map(s => s.trim()).filter(Boolean);
+  // If the exact origin is allowlisted, echo it; otherwise default to '*'
+  const allowed = allowList.includes(origin) ? origin : "*";
   return {
     "Access-Control-Allow-Origin": allowed,
     "Vary": "Origin",
-    "Access-Control-Allow-Methods": "POST,OPTIONS,GET",
+    "Access-Control-Allow-Methods": "GET,HEAD,POST,OPTIONS",
     "Access-Control-Allow-Headers": "Content-Type,Authorization",
   };
 }

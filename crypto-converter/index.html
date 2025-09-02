@@ -140,7 +140,10 @@
   </main>
 
   <script type="module">
-    import { $, $$, debounce } from "/scripts/utils.js";
+    // Minimal helpers (avoid dependency failures)
+    const $ = (s, r = document) => r.querySelector(s);
+    const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+    const debounce = (fn, d = 150) => { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), d); }; };
     $("#y").textContent = new Date().getFullYear();
 
     const els = {
