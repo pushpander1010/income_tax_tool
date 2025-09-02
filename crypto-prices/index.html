@@ -54,6 +54,12 @@
     .kpi .card { text-align:center }
     .spark { width:120px; height:40px }
     @media (max-width:720px){ .opt-spark { display:none } }
+    /* Crypto flair */
+    .neon { box-shadow: 0 0 0 1px rgba(64,110,255,.15), 0 0 32px rgba(100,200,255,.08) inset }
+    .tool-icon { background: linear-gradient(135deg,#0b1a2a,#0d243a); border: 1px solid var(--border) }
+    .chip.toggle { display:inline-flex; align-items:center; gap:6px }
+    .logo { width: 20px; height: 20px; border-radius: 50%; background:#0d1628; border:1px solid var(--border); object-fit:cover }
+    .row:hover { background:#0b1424 }
   </style>
 </head>
 <body>
@@ -93,6 +99,13 @@
           <option value="change">24h change</option>
           <option value="marketCap">Market cap</option>
         </select>
+        <div class="chip toggle">
+          Load:
+          <button class="btn secondary sm" data-load="50">Top 50</button>
+          <button class="btn secondary sm" data-load="100">Top 100</button>
+          <button class="btn secondary sm" data-load="250">Top 250</button>
+          <button class="btn secondary sm" data-load="all">All</button>
+        </div>
         <label class="chip" style="gap:6px"><input id="auto" type="checkbox" /> Auto-refresh</label>
         <button id="refresh" class="btn secondary sm">Refresh</button>
       </div>
@@ -111,7 +124,10 @@
           <tbody id="rows"></tbody>
         </table>
       </div>
-      <div id="meta" class="note mini" style="margin-top:6px"></div>
+      <div style="display:flex; gap:8px; align-items:center; margin-top:6px">
+        <button id="loadMore" class="btn secondary sm">Load more</button>
+        <div id="meta" class="note mini" style="margin-left:auto"></div>
+      </div>
     </section>
 
     <section class="card neon" aria-labelledby="faq">
@@ -130,7 +146,7 @@
 
     const els = {
       q: $("#q"), cur: $("#cur"), sort: $("#sort"), auto: $("#auto"), rows: $("#rows"), meta: $("#meta"),
-      kCoins: $("#kCoins"), kCap: $("#kCap"), kVol: $("#kVol"), refresh: $("#refresh")
+      kCoins: $("#kCoins"), kCap: $("#kCap"), kVol: $("#kVol"), refresh: $("#refresh"), loadMore: $("#loadMore")
     };
 
     const nf2 = new Intl.NumberFormat(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
@@ -138,6 +154,9 @@
 
     let cache = [];
     let fx = 1; // USD -> selected currency
+    let mode = '50'; // '50' | '100' | '250' | 'all'
+    let page = 1; let loading = false; let session = 0;
+    let lastSearchInjected = '';
 
     const PX = (u) => `/proxy?nocache=1&u=${encodeURIComponent(u)}`;
     async function getJSON(url) {
@@ -162,7 +181,8 @@
           price: Number(x.current_price),
           change24h: Number(x.price_change_percentage_24h),
           marketCap: Number(x.market_cap),
-          volume24h: Number(x.total_volume)
+          volume24h: Number(x.total_volume),
+          img: x.image || ''
         }));
       }
       // CoinCap
@@ -175,8 +195,41 @@
         price: Number(x.priceUsd),
         change24h: Number(x.changePercent24Hr),
         marketCap: Number(x.marketCapUsd),
-        volume24h: Number(x.volumeUsd24Hr)
+        volume24h: Number(x.volumeUsd24Hr),
+        img: ''
       }));
+    }
+
+    async function fetchAllCoins_CG(per = 250, startPage = 1, maxPages = 20) {
+      // Progressive loader for "All" mode
+      const curSession = ++session; loading = true; page = startPage;
+      const out = [];
+      while (page <= maxPages) {
+        if (curSession !== session) break; // aborted by another load
+        els.meta.textContent = `Loading page ${page}…`;
+        const cg = await getJSON(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=${per}&page=${page}&price_change_percentage=24h`);
+        const mapped = (cg || []).map(x => ({
+          id: x.id,
+          rank: Number(x.market_cap_rank || 0),
+          symbol: String(x.symbol || '').toUpperCase(),
+          name: x.name,
+          price: Number(x.current_price),
+          change24h: Number(x.price_change_percentage_24h),
+          marketCap: Number(x.market_cap),
+          volume24h: Number(x.total_volume),
+          img: x.image || ''
+        }));
+        if (!mapped.length) break;
+        out.push(...mapped);
+        cache = out;
+        render(cache);
+        if (mapped.length < per) break; // last page
+        page++;
+        // polite delay to avoid hitting rate limits
+        await new Promise(r => setTimeout(r, 450));
+      }
+      loading = false; els.meta.textContent = `Loaded ${out.length} coins`;
+      return out;
     }
 
     async function loadFX(to) {
@@ -211,11 +264,12 @@
       });
       const money = moneyFmt();
       els.rows.innerHTML = arr.map(x => {
+        const img = x.img || `https://assets.coincap.io/assets/icons/${String(x.symbol||'').toLowerCase()}@2x.png`;
         const ch = isFinite(x.change24h) ? x.change24h : 0;
         const cls = ch >= 0 ? 'pos' : 'neg';
         return `<tr>
-          <td>${x.rank}</td>
-          <td><span class="badge sym">${x.symbol}</span> ${x.name}</td>
+          <td>${x.rank || ''}</td>
+          <td style="display:flex;align-items:center;gap:8px"><img class="logo" src="${img}" alt="${x.symbol}" onerror="this.style.display='none'" /><span class="badge sym">${x.symbol}</span> ${x.name}</td>
           <td class="amount">${money.format(x.price * fx)}</td>
           <td class="${cls}">${nf2.format(ch)}%</td>
           <td class="amount">${money.format(x.marketCap * fx)}</td>
@@ -272,11 +326,74 @@
     let timer = 0;
     function setAuto(on){ clearInterval(timer); if (on) { timer = setInterval(async ()=>{ await loadFX(els.cur.value); cache = await fetchAssets(50); render(cache); }, 60000); } }
 
-    els.q.addEventListener('input', debounce(()=>{ render(cache); updateURL(); }, 100));
+    els.q.addEventListener('input', debounce(async ()=>{
+      const qv = els.q.value.trim();
+      render(cache);
+      updateURL();
+      // If the query isn't present in cache, try on-demand search inject (CoinGecko)
+      if (qv.length >= 2) {
+        const present = cache.some(x => x.name.toLowerCase().includes(qv.toLowerCase()) || x.symbol.toLowerCase() === qv.toLowerCase());
+        if (!present && lastSearchInjected !== qv) {
+          await searchAndInject(qv);
+          lastSearchInjected = qv;
+          render(cache);
+        }
+      }
+    }, 300));
     els.sort.addEventListener('change', ()=>{ render(cache); updateURL(); });
     els.cur.addEventListener('change', async ()=>{ await loadFX(els.cur.value); render(cache); updateURL(); });
     els.auto.addEventListener('change', ()=> setAuto(els.auto.checked));
-    $("#refresh").addEventListener('click', async ()=>{ await loadFX(els.cur.value); cache = await fetchAssets(50); render(cache); });
+    $("#refresh").addEventListener('click', async ()=>{ await loadFX(els.cur.value); cache = await fetchAssets(Number(mode)||50); render(cache); });
+
+    // Load controls
+    $$("[data-load]").forEach(b=> b.addEventListener('click', async ()=>{
+      const m = b.getAttribute('data-load'); if (!m) return; mode = m; session++; // cancel in-flight
+      if (mode === 'all') {
+        els.loadMore.style.display = 'none';
+        cache = []; render(cache);
+        await fetchAllCoins_CG(250, 1, 20);
+      } else {
+        els.loadMore.style.display = '';
+        const lim = Number(mode)||50;
+        cache = await fetchAssets(lim);
+        render(cache);
+      }
+    }));
+
+    els.loadMore.addEventListener('click', async ()=>{
+      // Incrementally extend list using CoinGecko pages beyond current size
+      if (loading) return; const nextPage = Math.floor(cache.length/250)+1; loading = true;
+      const add = await fetchAllCoins_CG(250, nextPage, nextPage); // just one page
+      loading = false; if (add.length) { cache = add; render(cache); }
+    });
+
+    async function searchAndInject(query) {
+      try {
+        els.meta.textContent = `Searching "${query}"…`;
+        const s = await getJSON(`https://api.coingecko.com/api/v3/search?query=${encodeURIComponent(query)}`);
+        const ids = (s?.coins || []).slice(0, 10).map(c => c.id).filter(Boolean);
+        if (!ids.length) { els.meta.textContent = `No results for "${query}"`; return; }
+        const det = await getJSON(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${encodeURIComponent(ids.join(','))}&price_change_percentage=24h`);
+        const mapped = (det || []).map(x => ({
+          id: x.id,
+          rank: Number(x.market_cap_rank || 0),
+          symbol: String(x.symbol || '').toUpperCase(),
+          name: x.name,
+          price: Number(x.current_price),
+          change24h: Number(x.price_change_percentage_24h),
+          marketCap: Number(x.market_cap),
+          volume24h: Number(x.total_volume),
+          img: x.image || ''
+        }));
+        // Merge (dedupe by id)
+        const map = new Map(cache.map(c => [c.id, c]));
+        for (const m of mapped) map.set(m.id, m);
+        cache = Array.from(map.values());
+        els.meta.textContent = `Added ${mapped.length} result(s)`;
+      } catch {
+        els.meta.textContent = `Search unavailable right now`;
+      }
+    }
 
     init();
   </script>
