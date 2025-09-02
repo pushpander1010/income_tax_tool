@@ -78,14 +78,25 @@
           </select>
           <input id="qty" class="input mono" style="max-width:160px" inputmode="decimal" placeholder="Qty" />
           <input id="price" class="input mono" style="max-width:180px" inputmode="decimal" placeholder="Price" />
-          <input id="fee" class="input mono" style="max-width:140px" inputmode="decimal" placeholder="Fee % (optional)" />
+          <input id="fee" class="input mono" style="max-width:120px" inputmode="decimal" placeholder="Fee %" />
+          <input id="feeFixed" class="input mono" style="max-width:120px" inputmode="decimal" placeholder="Fee (flat)" />
           <button id="add" class="btn sm">Add trade</button>
           <button id="reset" class="btn secondary sm">Reset</button>
+          <div class="row" style="margin-left:auto">
+            <select id="mode" class="input" style="max-width:160px" title="Cost basis method">
+              <option value="avco" selected>Average Cost (AVCO)</option>
+              <option value="fifo">FIFO</option>
+            </select>
+            <button id="exportCsv" class="btn secondary sm">Export CSV</button>
+            <label class="btn secondary sm" for="importCsv" style="cursor:pointer">Import CSV</label>
+            <input id="importCsv" type="file" accept=".csv,text/csv" style="display:none" />
+            <button id="sample" class="btn ghost sm">Sample</button>
+          </div>
         </div>
 
         <div style="overflow:auto; margin-top:10px">
           <table aria-label="Trades">
-            <thead><tr><th>Date</th><th>Side</th><th class="right">Qty</th><th class="right">Price</th><th class="right">Fee %</th><th class="right">Notional</th><th></th></tr></thead>
+            <thead><tr><th>Date</th><th>Side</th><th class="right">Qty</th><th class="right">Price</th><th class="right">Fee %</th><th class="right">Fee (flat)</th><th class="right">Notional</th><th></th></tr></thead>
             <tbody id="rows"></tbody>
           </table>
         </div>
@@ -103,12 +114,23 @@
           <div class="row"><span>Unrealized PnL</span><span id="unrealized" class="amount">-</span></div>
           <div class="row"><span>Total PnL</span><span id="total" class="amount">-</span></div>
           <div class="row"><span>Break‑even</span><span id="breakeven" class="amount">-</span></div>
+          <div class="row"><span>ROI</span><span id="roi" class="amount">-</span></div>
+          <div class="row"><span>Stop‑loss @</span>
+            <span>
+              <input id="stop" class="input mono" style="max-width:110px" inputmode="decimal" placeholder="Stop" />
+              → Risk: <b id="riskAbs">-</b> (<b id="riskPct">-</b>)
+            </span>
+          </div>
           <div class="row"><span>Target @</span>
             <span>
               <input id="targetPct" class="input mono" style="max-width:90px" inputmode="decimal" value="10" />%
               → <b id="targetPrice">-</b>
             </span>
           </div>
+        </div>
+        <div class="card" id="lotsCard" style="margin-top:10px; display:none">
+          <div class="note small" style="margin-bottom:6px">Open lots (FIFO)</div>
+          <table style="width:100%"><thead><tr><th>Qty</th><th>Cost/Unit</th></tr></thead><tbody id="lots"></tbody></table>
         </div>
       </aside>
     </section>
@@ -130,7 +152,8 @@
 
     const els = {
       sym: $('#sym'), cur: $('#cur'), side: $('#side'), qty: $('#qty'), price: $('#price'), fee: $('#fee'), add: $('#add'), reset: $('#reset'),
-      rows: $('#rows'), cp: $('#cp'), posQty: $('#posQty'), avg: $('#avg'), invested: $('#invested'), realized: $('#realized'), unrealized: $('#unrealized'), total: $('#total'), breakeven: $('#breakeven'), targetPct: $('#targetPct'), targetPrice: $('#targetPrice')
+      feeFixed: $('#feeFixed'), mode: $('#mode'), exportCsv: $('#exportCsv'), importCsv: $('#importCsv'), sample: $('#sample'),
+      rows: $('#rows'), cp: $('#cp'), posQty: $('#posQty'), avg: $('#avg'), invested: $('#invested'), realized: $('#realized'), unrealized: $('#unrealized'), total: $('#total'), breakeven: $('#breakeven'), roi: $('#roi'), stop: $('#stop'), riskAbs: $('#riskAbs'), riskPct: $('#riskPct'), targetPct: $('#targetPct'), targetPrice: $('#targetPrice'), lotsCard: $('#lotsCard'), lots: $('#lots')
     };
     els.cur.value = 'USD';
 
@@ -143,13 +166,17 @@
       const c = els.cur.value || 'USD';
       els.rows.innerHTML = trades.sort((a,b)=>a.ts-b.ts).map(t => {
         const feePct = isFinite(t.feePct) ? t.feePct : 0;
-        const notional = t.qty * t.price * (t.side==='buy' ? (1+feePct/100) : (1-feePct/100));
+        const flat = isFinite(t.feeFlat) ? t.feeFlat : 0;
+        const gross = t.qty * t.price;
+        const feeVal = gross * (feePct/100) + flat;
+        const notional = (t.side==='buy') ? (gross + feeVal) : (gross - feeVal);
         return `<tr>
           <td>${new Date(t.ts).toLocaleDateString()}</td>
           <td>${t.side}</td>
           <td class="right">${num(6).format(t.qty)}</td>
           <td class="right">${money(c).format(t.price)}</td>
           <td class="right">${feePct ? num(2).format(feePct)+'%' : '-'}</td>
+          <td class="right">${flat ? money(c).format(flat) : '-'}</td>
           <td class="right">${money(c).format(notional)}</td>
           <td><button class="btn secondary sm" data-del="${t.id}">Delete</button></td>
         </tr>`
@@ -159,26 +186,43 @@
 
     function compute(){
       const c = els.cur.value || 'USD';
-      let pos = 0; // units
-      let cost = 0; // currency invested in current position
-      let realized = 0; // currency
-      for(const t of trades.sort((a,b)=>a.ts-b.ts)){
-        const feePct = isFinite(t.feePct) ? t.feePct : 0;
-        if (t.side === 'buy'){
-          const gross = t.qty * t.price; const fee = gross * (feePct/100);
-          const total = gross + fee;
-          // update average cost basis
-          const newCost = cost + total;
-          const newPos = pos + t.qty;
-          cost = newCost; pos = newPos;
-        } else if (t.side === 'sell'){
-          const qty = Math.min(t.qty, pos);
-          const avg = pos > 0 ? cost / pos : 0;
-          const gross = qty * t.price; const fee = gross * (feePct/100);
-          const proceeds = gross - fee;
-          realized += proceeds - qty * avg;
-          // reduce position and cost basis
-          pos -= qty; cost -= qty * avg;
+      let pos = 0, cost = 0, realized = 0;
+      const sorted = [...trades].sort((a,b)=>a.ts-b.ts);
+      const lots = [] as Array<{qty:number, cost:number}>; // FIFO lots cost = total cost for lot
+
+      if ((els.mode.value||'avco') === 'fifo') {
+        for(const t of sorted){
+          const feePct = isFinite(t.feePct) ? t.feePct : 0; const flat = isFinite(t.feeFlat)? t.feeFlat : 0;
+          if (t.side==='buy'){
+            const gross = t.qty * t.price; const fee = gross*(feePct/100)+flat; const total = gross+fee;
+            lots.push({ qty: t.qty, cost: total }); pos += t.qty; cost += total;
+          } else {
+            let sellQty = t.qty;
+            const sellGross = sellQty * t.price; const sellFee = sellGross*(feePct/100)+flat; let proceeds = sellGross - sellFee;
+            while(sellQty>0 && lots.length){
+              const lot = lots[0]; const use = Math.min(sellQty, lot.qty); const avg = lot.cost/lot.qty;
+              realized += (use * t.price) - (use * avg) - (sellFee * (use / t.qty));
+              lot.qty -= use; lot.cost -= avg * use; sellQty -= use; pos -= use; cost -= avg * use;
+              if (lot.qty <= 1e-12) lots.shift();
+            }
+          }
+        }
+        // show open lots
+        els.lotsCard.style.display = lots.length ? '' : 'none';
+        els.lots.innerHTML = lots.map(l => `<tr><td>${num(6).format(l.qty)}</td><td>${money(c).format((l.cost/l.qty)||0)}</td></tr>`).join('');
+      } else {
+        // AVCO
+        els.lotsCard.style.display = 'none'; els.lots.innerHTML = '';
+        for(const t of sorted){
+          const feePct = isFinite(t.feePct) ? t.feePct : 0; const flat = isFinite(t.feeFlat)? t.feeFlat : 0;
+          if (t.side === 'buy'){
+            const gross = t.qty * t.price; const fee = gross*(feePct/100)+flat; const total = gross + fee;
+            cost += total; pos += t.qty;
+          } else {
+            const qty = Math.min(t.qty, pos); const avg = pos>0 ? cost/pos : 0;
+            const gross = qty * t.price; const fee = gross*(feePct/100)+flat; const proceeds = gross - fee;
+            realized += proceeds - qty * avg; pos -= qty; cost -= qty * avg;
+          }
         }
       }
       const cp = Number(els.cp.value || NaN);
@@ -188,6 +232,8 @@
       const be = pos>0 ? (avg - realized/pos) : 0; // price to get total PnL to zero
       const tgtPct = Number(els.targetPct.value || 0) / 100;
       const tgt = pos>0 ? (avg + (tgtPct * (avg))) : 0; // target relative to avg cost
+      const roiDen = (cost + Math.max(0, -realized)) || 0; // invested capital baseline
+      const roi = roiDen ? (total / roiDen) : 0;
 
       els.posQty.textContent = num(6).format(pos);
       els.avg.textContent = pos>0 ? money(c).format(avg) : '-';
@@ -200,6 +246,15 @@
       els.total.className = 'amount ' + (total>=0?'pos':'neg');
       els.breakeven.textContent = pos>0 ? money(c).format(be) : '-';
       els.targetPrice.textContent = pos>0 ? money(c).format(tgt) : '-';
+      els.roi.textContent = `${num(2).format(roi*100)}%`;
+
+      // Risk (stop)
+      const stop = Number(els.stop.value||NaN);
+      if (isFinite(stop) && pos>0){
+        const per = avg>0 ? ((avg - stop)/avg) : 0; const loss = (avg - stop) * pos;
+        els.riskAbs.textContent = money(c).format(Math.max(0, loss));
+        els.riskPct.textContent = `${num(2).format(Math.max(0, per*100))}%`;
+      } else { els.riskAbs.textContent = '-'; els.riskPct.textContent = '-'; }
     }
 
     function addTrade(){
@@ -208,18 +263,19 @@
         side: els.side.value,
         qty: Number(els.qty.value||0),
         price: Number(els.price.value||0),
-        feePct: Number(els.fee.value||0)
+        feePct: Number(els.fee.value||0),
+        feeFlat: Number(els.feeFixed.value||0)
       };
       if (!(t.qty>0 && t.price>0)) return;
       pushTrade(t);
-      els.qty.value = els.price.value = els.fee.value = '';
+      els.qty.value = els.price.value = els.fee.value = els.feeFixed.value = '';
     }
 
     function save(){
-      try { localStorage.setItem('pnl-calculator', JSON.stringify({ sym: els.sym.value, cur: els.cur.value, trades })); } catch {}
+      try { localStorage.setItem('pnl-calculator', JSON.stringify({ sym: els.sym.value, cur: els.cur.value, mode: els.mode.value, trades })); } catch {}
     }
     function load(){
-      try { const s = JSON.parse(localStorage.getItem('pnl-calculator')||'{}'); if (s.sym) els.sym.value=s.sym; if (s.cur) els.cur.value=s.cur; if (Array.isArray(s.trades)) trades = s.trades; } catch {}
+      try { const s = JSON.parse(localStorage.getItem('pnl-calculator')||'{}'); if (s.sym) els.sym.value=s.sym; if (s.cur) els.cur.value=s.cur; if (s.mode) els.mode.value=s.mode; if (Array.isArray(s.trades)) trades = s.trades; } catch {}
       renderTrades(); compute();
     }
 
@@ -228,9 +284,40 @@
     els.cp.addEventListener('input', compute);
     els.cur.addEventListener('input', ()=>{ renderTrades(); compute(); save(); });
     els.targetPct.addEventListener('input', compute);
+    els.stop.addEventListener('input', compute);
+    els.mode.addEventListener('change', ()=>{ compute(); save(); });
+
+    // CSV export/import
+    els.exportCsv.addEventListener('click', ()=>{
+      const header = 'date,side,qty,price,feePct,feeFlat\n';
+      const rows = trades.sort((a,b)=>a.ts-b.ts).map(t=>[
+        new Date(t.ts).toISOString(), t.side, t.qty, t.price, (t.feePct||0), (t.feeFlat||0)
+      ].join(',')).join('\n');
+      const blob = new Blob([header+rows], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href=url; a.download = `${els.sym.value||'trades'}.csv`; a.click(); URL.revokeObjectURL(url);
+    });
+    els.importCsv.addEventListener('change', async () => {
+      const f = els.importCsv.files?.[0]; if (!f) return; const text = await f.text();
+      const lines = text.split(/\r?\n/).filter(Boolean); const out=[];
+      for (let i=0;i<lines.length;i++){
+        const line = lines[i]; if (i===0 && /date\s*,/i.test(line)) continue; const [date, side, qty, price, feePct, feeFlat] = line.split(',');
+        const ts = Date.parse(date) || Date.now();
+        const t = { ts, side: (side||'').trim().toLowerCase()==='sell'?'sell':'buy', qty: Number(qty||0), price: Number(price||0), feePct: Number(feePct||0), feeFlat: Number(feeFlat||0) };
+        if (t.qty>0 && t.price>0) out.push(t);
+      }
+      trades = out; renderTrades(); compute(); save(); els.importCsv.value='';
+    });
+
+    // Sample data
+    els.sample.addEventListener('click', ()=>{
+      trades = [
+        { ts: Date.now()-86400000*5, side:'buy', qty: 1.2, price: 100, feePct: 0.1, feeFlat: 0 },
+        { ts: Date.now()-86400000*3, side:'buy', qty: 0.8, price: 110, feePct: 0.1, feeFlat: 0 },
+        { ts: Date.now()-86400000*1, side:'sell', qty: 0.5, price: 120, feePct: 0.1, feeFlat: 0 },
+      ]; renderTrades(); compute(); save();
+    });
 
     load();
   </script>
 </body>
 </html>
-
