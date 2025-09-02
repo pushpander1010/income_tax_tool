@@ -160,11 +160,24 @@
     updateFeeLabel();
 
     const PX = (u) => `/proxy?nocache=1&u=${encodeURIComponent(u)}`;
+    async function getJSON(url) {
+      try { const r = await fetch(PX(url)); if (!r.ok) throw 0; return await r.json(); } catch {}
+      const r2 = await fetch(url); if (!r2.ok) throw new Error('fetch failed'); return await r2.json();
+    }
 
     async function loadCoins() {
-      const r = await fetch(PX('https://api.coincap.io/v2/assets?limit=100'));
-      const j = await r.json();
-      COINS = (j.data || []).map(c => ({ code: c.symbol, id: c.id, name: c.name, price: Number(c.priceUsd) })).filter(x => isFinite(x.price));
+      // Try CoinCap
+      let data;
+      try {
+        const j = await getJSON('https://api.coincap.io/v2/assets?limit=100');
+        data = (j.data || []).map(c => ({ code: c.symbol, id: c.id, name: c.name, price: Number(c.priceUsd) }));
+      } catch {}
+      if (!data || !data.length) {
+        // Fallback: CoinGecko markets
+        const cg = await getJSON('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=150&page=1&price_change_percentage=24h');
+        data = (cg || []).map(x => ({ code: String(x.symbol||'').toUpperCase(), id: x.id, name: x.name, price: Number(x.current_price) }));
+      }
+      COINS = data.filter(x => isFinite(x.price));
     }
 
     function fillDropdowns(){
@@ -190,8 +203,7 @@
     async function fxRate(base, quote) {
       if (base === quote) return 1;
       try {
-        const r = await fetch(PX(`https://api.exchangerate.host/latest?base=${base}&symbols=${quote}`));
-        const j = await r.json();
+        const j = await getJSON(`https://api.exchangerate.host/latest?base=${base}&symbols=${quote}`);
         return Number(j?.rates?.[quote]) || 1;
       } catch { return 1; }
     }

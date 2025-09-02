@@ -140,13 +140,32 @@
     let fx = 1; // USD -> selected currency
 
     const PX = (u) => `/proxy?nocache=1&u=${encodeURIComponent(u)}`;
+    async function getJSON(url) {
+      try { const r = await fetch(PX(url)); if (!r.ok) throw 0; return await r.json(); } catch {}
+      const r2 = await fetch(url); if (!r2.ok) throw new Error('fetch failed'); return await r2.json();
+    }
 
     async function fetchAssets(limit = 50) {
-      const url = PX(`https://api.coincap.io/v2/assets?limit=${limit}`);
+      const url = `https://api.coincap.io/v2/assets?limit=${limit}`;
       const t0 = performance.now();
-      const r = await fetch(url, { headers: { 'accept': 'application/json' } });
-      if (!r.ok) throw new Error('Failed to load prices');
-      const j = await r.json();
+      let j;
+      try { j = await getJSON(url); } catch {}
+      // Fallback: CoinGecko
+      if (!j || !j.data) {
+        const cg = await getJSON(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=${limit}&page=1&price_change_percentage=24h`);
+        els.meta.textContent = `Updated just now • ${(performance.now()-t0).toFixed(0)}ms`;
+        return (cg || []).map(x => ({
+          id: x.id,
+          rank: Number(x.market_cap_rank || 0),
+          symbol: String(x.symbol || '').toUpperCase(),
+          name: x.name,
+          price: Number(x.current_price),
+          change24h: Number(x.price_change_percentage_24h),
+          marketCap: Number(x.market_cap),
+          volume24h: Number(x.total_volume)
+        }));
+      }
+      // CoinCap
       els.meta.textContent = `Updated just now • ${(performance.now()-t0).toFixed(0)}ms`;
       return (j.data || []).map(x => ({
         id: x.id,
@@ -163,8 +182,8 @@
     async function loadFX(to) {
       if (to === 'USD') { fx = 1; return; }
       try {
-        const r = await fetch(PX(`https://api.exchangerate.host/latest?base=USD&symbols=${to}`));
-        const j = await r.json(); fx = Number(j?.rates?.[to]) || 1;
+        const j = await getJSON(`https://api.exchangerate.host/latest?base=USD&symbols=${to}`);
+        fx = Number(j?.rates?.[to]) || 1;
       } catch { fx = 1; }
     }
 
@@ -214,10 +233,15 @@
       try {
         const end = Date.now();
         const start = end - 7*24*60*60*1000;
-        const r = await fetch(PX(`https://api.coincap.io/v2/assets/${id}/history?interval=h12&start=${start}&end=${end}`));
-        if (!r.ok) return;
-        const j = await r.json();
-        const pts = (j.data || []).map(p => Number(p.priceUsd)).filter(v => isFinite(v));
+        let j, pts = [];
+        try {
+          j = await getJSON(`https://api.coincap.io/v2/assets/${id}/history?interval=h12&start=${start}&end=${end}`);
+          pts = (j.data || []).map(p => Number(p.priceUsd)).filter(v => isFinite(v));
+        } catch {}
+        if (!pts.length) {
+          const cg = await getJSON(`https://api.coingecko.com/api/v3/coins/${id}/market_chart?vs_currency=usd&days=7&interval=hourly`);
+          pts = Array.isArray(cg?.prices) ? cg.prices.map(p => Number(p[1])).filter(isFinite) : [];
+        }
         if (!pts.length) return;
         const W=120,H=40,P=2; const min=Math.min(...pts), max=Math.max(...pts), span=max-min||1; const step=(W-P*2)/(pts.length-1);
         let d=""; pts.forEach((v,i)=>{ const x=P+i*step; const y=H-P-((v-min)/span)*(H-P*2); d+= i?` L ${x} ${y}`:`M ${x} ${y}`; });

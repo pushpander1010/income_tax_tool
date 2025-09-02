@@ -144,6 +144,7 @@ const DEFAULT_FINANCE_HOSTS = [
   "api.frankfurter.app",
   "mempool.space",
   "api.alternative.me",
+  "api.coingecko.com",
 ];
 
 function allowlistFromEnv(env: Env): string[] {

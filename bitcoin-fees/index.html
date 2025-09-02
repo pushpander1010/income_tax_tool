@@ -114,10 +114,14 @@
 
     const PX = (u) => `/proxy?nocache=1&u=${encodeURIComponent(u)}`;
 
+    async function getJSON(url){
+      try { const r = await fetch(PX(url)); if (!r.ok) throw 0; return await r.json(); } catch {}
+      const r2 = await fetch(url); if (!r2.ok) throw new Error('fetch failed'); return await r2.json();
+    }
+
     async function loadFees(){
       try {
-        const r = await fetch(PX('https://mempool.space/api/v1/fees/recommended'));
-        if (!r.ok) throw 0; const j = await r.json();
+        const j = await getJSON('https://mempool.space/api/v1/fees/recommended');
         els.fastV.textContent = nf0.format(j.fastestFee) + ' sats/vB';
         els.normV.textContent = nf0.format(j.halfHourFee) + ' sats/vB';
         els.ecoV.textContent  = nf0.format(j.hourFee) + ' sats/vB';
@@ -126,7 +130,7 @@
         try {
           const [mh, mp] = await Promise.all([
             fetch(PX('https://mempool.space/api/blocks/tip/height')).then(r=>r.ok?r.text():''),
-            fetch(PX('https://mempool.space/api/mempool')).then(r=>r.ok?r.json():{})
+            getJSON('https://mempool.space/api/mempool')
           ]);
           const count = mp?.count; const vsize = mp?.vsize;
           if (mh) extra += ` • Height: ${mh}`;
