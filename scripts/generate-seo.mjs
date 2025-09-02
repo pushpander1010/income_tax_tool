@@ -42,10 +42,7 @@ const paths = [
   '/ai-writer/',
   '/ai-plagiarism/',
   '/resume-analyzer/',
-  '/crypto-prices/',
-  '/crypto-converter/',
-  '/bitcoin-fees/',
-  '/crypto-fear-greed/',
+  '/crypto-unit-converter/',
   '/about/',
   '/contact/',
   '/privacy-policy/',
@@ -75,10 +72,7 @@ const entries = paths.map(path => {
   } else if (path.includes('tax') || path.includes('emi') || path.includes('sip') || path.includes('gst')) {
     priority = 0.7;
     changefreq = 'monthly';
-  } else if (path.includes('currency') || path.includes('crypto-converter')) {
-    priority = 0.8;
-    changefreq = 'daily';
-  } else if (path.includes('crypto-prices') || path.includes('bitcoin-fees') || path.includes('crypto-fear-greed')) {
+  } else if (path.includes('currency')) {
     priority = 0.8;
     changefreq = 'daily';
   } else if (path.includes('games/')) {
