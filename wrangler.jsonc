@@ -58,6 +58,7 @@
       
       
       "games/2048",
+      "crypto-prices",
       "pnl-calculator",
       "games/snake",
       "games/sudoku",
@@ -77,6 +78,7 @@
     "local_protocol": "http"
   }
 }
+
 
 
 

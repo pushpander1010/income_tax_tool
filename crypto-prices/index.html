@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="x-ua-compatible" content="IE=edge" />
+  <meta name="color-scheme" content="dark light" />
+
+  <title>Crypto Prices (Live) — Top Coins, Market Cap, 24h Change | UpTools</title>
+  <meta name="description" content="Live crypto prices for BTC, ETH, SOL and more with market cap and 24h change. Fast, simple, and reliable using CoinGecko via a secure proxy." />
+  <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
+  <meta name="theme-color" content="#0b1020" />
+  <link rel="canonical" href="https://www.uptools.in/crypto-prices/" />
+
+  <meta property="og:title" content="Crypto Prices (Live) — Top Coins" />
+  <meta property="og:description" content="Top 100 coins with market cap and 24h change. Simple and fast." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.uptools.in/crypto-prices/" />
+  <meta property="og:site_name" content="UpTools" />
+  <meta property="og:image" content="https://www.uptools.in/assets/og/home.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="icon" sizes="50x50" type="image/svg+xml" href="/assets/logo/uptools-logo.svg" />
+
+  <link rel="preload" href="/style.css?v=1.2.0" as="style" />
+  <link rel="stylesheet" href="/style.css?v=1.2.0" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="/style.css?v=1.2.0"></noscript>
+
+  <style>
+    .grid { display:grid; gap:12px }
+    .toolbar { display:flex; gap:8px; flex-wrap:wrap; align-items:center }
+    .input { flex:1; min-width:220px }
+    table { width:100%; border-collapse:collapse }
+    th, td { padding:.6rem; border-top:1px solid var(--border) }
+    th { text-align:left; font-weight:700; color:var(--muted) }
+    .logo { width:20px; height:20px; border-radius:50%; border:1px solid var(--border); object-fit:cover }
+    .pos{ color:#36d399 } .neg{ color:#ff6b6b }
+    .amount{ font-variant-numeric: tabular-nums }
+  </style>
+</head>
+<body>
+  <header class="site">
+    <div class="header-inner">
+      <a class="brand" href="/">
+        <img class="hero-logo" src="/assets/logo/uptools-logo.svg" alt="UpTools" width="48" height="48" />
+        <span>UpTools</span>
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="/#tools">Tools</a>
+        <a aria-current="page" href="/crypto-prices/">Crypto</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="tool-header">
+      <div class="tool-icon" aria-hidden="true">🪙</div>
+      <h1 style="margin:0">Crypto Prices</h1>
+    </div>
+
+    <section class="card neon">
+      <div class="toolbar">
+        <input id="q" class="input" placeholder="Search coin e.g., bitcoin, eth, sol" aria-label="Search coin" />
+        <select id="cur" class="input" style="max-width:140px" aria-label="Currency">
+          <option value="USD" selected>USD</option>
+          <option value="INR">INR</option>
+          <option value="EUR">EUR</option>
+          <option value="GBP">GBP</option>
+          <option value="AED">AED</option>
+        </select>
+        <button id="refresh" class="btn secondary sm">Refresh</button>
+        <div id="meta" class="note mini" style="margin-left:auto"></div>
+      </div>
+      <div style="overflow:auto">
+        <table aria-label="Crypto prices">
+          <thead>
+            <tr><th>#</th><th>Coin</th><th>Price</th><th>24h</th><th>Market Cap</th><th>Volume 24h</th></tr>
+          </thead>
+          <tbody id="rows"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <footer class="note small site-footer">© <span id="y"></span> UpTools • <a href="/sitemap.xml">Sitemap</a> • <a href="/privacy-policy/">Privacy</a></footer>
+  </main>
+
+  <script type="module">
+    const $ = (s, r = document) => r.querySelector(s);
+    const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+    const debounce = (fn, d=150) => { let t; return (...a)=>{ clearTimeout(t); t=setTimeout(()=>fn(...a), d);} };
+    $('#y').textContent = new Date().getFullYear();
+
+    const els = { q: $('#q'), cur: $('#cur'), rows: $('#rows'), meta: $('#meta'), refresh: $('#refresh') };
+    const nf2 = new Intl.NumberFormat(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    const int = new Intl.NumberFormat(undefined, { maximumFractionDigits: 0 });
+
+    let cache = [];
+    let fx = 1;
+    const PX = (u) => `/proxy?nocache=1&u=${encodeURIComponent(u)}`;
+
+    async function getJSON(url){
+      try { const r = await fetch(PX(url)); if (!r.ok) throw 0; return await r.json(); } catch {}
+      const r2 = await fetch(url); if (!r2.ok) throw new Error('fetch failed'); return await r2.json();
+    }
+
+    async function loadFX(to){
+      if (to==='USD') { fx=1; return; }
+      try { const j = await getJSON(`https://api.exchangerate.host/latest?base=USD&symbols=${to}`); fx = Number(j?.rates?.[to])||1; } catch { fx=1; }
+    }
+
+    async function fetchTop(limit=100){
+      const t0 = performance.now();
+      const cg = await getJSON(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=${limit}&page=1&price_change_percentage=24h`);
+      cache = (cg||[]).map(x=>({
+        id:x.id, rank:Number(x.market_cap_rank||0), symbol:String(x.symbol||'').toUpperCase(), name:x.name,
+        price:Number(x.current_price), change24h:Number(x.price_change_percentage_24h),
+        marketCap:Number(x.market_cap), volume24h:Number(x.total_volume), img:x.image||''
+      }));
+      els.meta.textContent = `Updated • ${(performance.now()-t0|0)}ms`;
+      render();
+    }
+
+    function moneyFmt(){ return new Intl.NumberFormat(undefined,{ style:'currency', currency: els.cur.value, maximumFractionDigits: 2 }); }
+
+    function render(){
+      const q = (els.q.value||'').trim().toLowerCase();
+      const list = q? cache.filter(x => x.name.toLowerCase().includes(q) || x.symbol.toLowerCase().includes(q)) : cache;
+      const m = moneyFmt();
+      els.rows.innerHTML = list.map(x=>{
+        const ch = isFinite(x.change24h)? x.change24h : 0; const cls = ch>=0? 'pos':'neg';
+        return `<tr>
+          <td>${x.rank||''}</td>
+          <td style="display:flex;align-items:center;gap:8px"><img class="logo" src="${x.img}" alt="${x.symbol}" onerror="this.style.display='none'" /><span class="badge sym">${x.symbol}</span> ${x.name}</td>
+          <td class="amount">${m.format(x.price*fx)}</td>
+          <td class="${cls}">${nf2.format(ch)}%</td>
+          <td class="amount">${m.format(x.marketCap*fx)}</td>
+          <td class="amount">${m.format(x.volume24h*fx)}</td>
+        </tr>`;
+      }).join('');
+    }
+
+    els.q.addEventListener('input', debounce(render, 150));
+    els.cur.addEventListener('change', async ()=>{ await loadFX(els.cur.value); render(); });
+    els.refresh.addEventListener('click', fetchTop);
+
+    (async function init(){ await loadFX(els.cur.value); await fetchTop(100); })();
+  </script>
+</body>
+</html>
+

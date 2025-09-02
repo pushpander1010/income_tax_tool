@@ -43,6 +43,7 @@ const paths = [
   '/ai-plagiarism/',
   '/resume-analyzer/',
   '/pnl-calculator/',
+  '/crypto-prices/',
   '/about/',
   '/contact/',
   '/privacy-policy/',
@@ -72,7 +73,7 @@ const entries = paths.map(path => {
   } else if (path.includes('tax') || path.includes('emi') || path.includes('sip') || path.includes('gst')) {
     priority = 0.7;
     changefreq = 'monthly';
-  } else if (path.includes('currency')) {
+  } else if (path.includes('currency') || path.includes('crypto-prices')) {
     priority = 0.8;
     changefreq = 'daily';
   } else if (path.includes('games/')) {
