@@ -396,7 +396,8 @@
     {"@type":"Thing","name":"Finance"},{"@type":"Thing","name":"Tax"},{"@type":"Thing","name":"Banking"},
     {"@type":"Thing","name":"Images"},{"@type":"Thing","name":"Text"},{"@type":"Thing","name":"Developer"},
     {"@type":"Thing","name":"Security"},{"@type":"Thing","name":"Networking"},{"@type":"Thing","name":"Fun"},
-    {"@type":"Thing","name":"Health"},{"@type":"Thing","name":"Canada"},{"@type":"Thing","name":"Romantic"}
+    {"@type":"Thing","name":"Health"},{"@type":"Thing","name":"Canada"},{"@type":"Thing","name":"Romantic"},
+    {"@type":"Thing","name":"Crypto"}
   ]}
   </script>
 
@@ -509,6 +510,7 @@
         <label class="chip"><input type="checkbox" value="tax"> Tax</label>
         <label class="chip"><input type="checkbox" value="finance"> Finance</label>
         <label class="chip"><input type="checkbox" value="banking"> Banking</label>
+        <label class="chip"><input type="checkbox" value="crypto"> Crypto</label>
         <label class="chip"><input type="checkbox" value="text"> Text</label>
         <label class="chip"><input type="checkbox" value="dev"> Dev</label>
         <label class="chip"><input type="checkbox" value="security"> Security</label>
@@ -645,6 +647,7 @@
         finance: { label: "Finance", icon: "💰", desc: "Money, loans & returns" },
         tax: { label: "Tax", icon: "🧮", desc: "GST, Income Tax & HST" },
         banking: { label: "Banking", icon: "🏦", desc: "IFSC & bank utilities" },
+        crypto: { label: "Crypto", icon: "🪙", desc: "Prices, mining & portfolio" },
         images: { label: "Images", icon: "🖼️", desc: "Convert, edit, generate" },
         text: { label: "Text", icon: "🔤", desc: "Formatters & counters" },
         dev: { label: "Developer", icon: "🧩", desc: "JSON, UUID, Base64, QR" },
@@ -693,7 +696,10 @@
         {slug:  "wifi-router", title: "WiFi Router Passwords", icon: "📶", desc: "Wifi tools including password recovery, MAC address lookup, and more.", href: "/wifi-router/", tags: ["networking", "security"], cats: ["networking", "security","wifi"] },
         {slug:  "exif-tool", title: "EXIF Data Viewer", icon: "🖼️", desc: "View and remove EXIF metadata from images.", href: "/exif-tool/", tags: ["images", "security"], cats: ["images", "security"] },
         { slug: "pnl-calculator", title: "Profit & Loss Calculator", icon: "📈", desc: "Trades with fees, realized/unrealized PnL, break‑even & targets.", href: "/pnl-calculator/", tags: ["finance"], cats: ["finance", "dev"] },
-        { slug: "crypto-prices", title: "Crypto Prices (live)", icon: "🪙", desc: "Top coins with market cap & 24h change.", href: "/crypto-prices/", tags: ["finance", "crypto"], cats: ["finance"] }
+        { slug: "crypto-prices", title: "Crypto Prices (live)", icon: "🪙", desc: "Top coins with market cap & 24h change.", href: "/crypto-prices/", tags: ["finance", "crypto"], cats: ["crypto", "finance"] },
+        { slug: "crypto-profitability", title: "Crypto Mining Profitability", icon: "⛏️", desc: "Hashrate → earnings, power cost and ROI.", href: "/crypto-profitability/", tags: ["crypto", "finance"], cats: ["crypto"] },
+        { slug: "crypto-portfolio", title: "Crypto Portfolio Tracker", icon: "📊", desc: "Track holdings, gain/loss, pie chart & tax.", href: "/crypto-portfolio/", tags: ["crypto", "finance"], cats: ["crypto"] },
+        { slug: "unit-converter", title: "Unit Converter", icon: "📏", desc: "Convert length, weight and temperature.", href: "/unit-converter/", tags: ["dev"], cats: ["dev"] }
       ];
 
       // ---- Elements ----
