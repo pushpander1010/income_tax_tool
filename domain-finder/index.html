@@ -132,7 +132,7 @@
     .right{ display:grid; grid-template-rows:min-content minmax(0,1fr); gap:.75rem; min-height:0; }
     .lists{ display:grid; grid-template-columns:1fr 1fr; gap:.75rem; min-height:0; }
     @media (max-width:950px){ .lists{ grid-template-columns:1fr; } }
-    .card h3{ margin:.8rem .9rem; display:flex; align-items:center; justify-content:space-between; }
+    .card h3{ margin:.8rem .9rem; overflow: auto; display:flex; align-items:center; justify-content:space-between; }
     .rows{ display:grid; gap:.5rem; overflow:auto; padding:0 .9rem .9rem; max-height:calc(100% - 48px); }
 
     .rowi{ display:grid; grid-template-columns:1fr auto; gap:.6rem; align-items:center; border:1px dashed #253149; border-radius:10px; padding:.7rem .8rem; background:#0b1326; overflow:hidden; }
