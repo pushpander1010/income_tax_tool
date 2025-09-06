@@ -1,150 +1,596 @@
 <!doctype html>
+
 <html lang="en">
+
 <head>
+  <!-- Ads: NOT inserting page-level ad slots to avoid layout shift as requested -->
+
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta http-equiv="x-ua-compatible" content="IE=edge" />
-  <meta name="color-scheme" content="dark light" />
 
-  <title>Crypto Prices (Live) — Top Coins, Market Cap, 24h Change | UpTools</title>
-  <meta name="description" content="Live crypto prices for BTC, ETH, SOL and more with market cap and 24h change. Fast, simple, and reliable using CoinGecko via a secure proxy." />
+  <title>Live Crypto Prices (INR & USD) — Bitcoin (BTC), Ethereum (ETH), Top Gainers/Losers & Market Cap | UpTools</title>
+  <meta name="description" content="Track live cryptocurrency prices in INR & USD: Bitcoin (BTC), Ethereum (ETH), Solana (SOL), XRP, and 10,000+ coins. See market cap, volume, dominance, top gainers/losers, 1h/24h/7d change, and mini sparklines. Watchlist, search, filters, and auto-refresh. Fast & privacy-first by UpTools." />
+  <meta name="keywords" content="crypto prices, live crypto prices, Bitcoin price, BTC price in INR, BTC price today, Ethereum price, ETH price today, crypto market cap, top gainers, crypto losers, cryptocurrency prices India, bitcoin price INR, btc to inr, btc price, ethereum price in inr" />
   <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
-  <meta name="theme-color" content="#0b1020" />
+  <meta name="theme-color" content="#0b0f1a" />
   <link rel="canonical" href="https://www.uptools.in/crypto-prices/" />
 
-  <meta property="og:title" content="Crypto Prices (Live) — Top Coins" />
-  <meta property="og:description" content="Top 100 coins with market cap and 24h change. Simple and fast." />
+  <!-- OG/Twitter -->
+
+  <meta property="og:title" content="Live Crypto Prices (INR & USD) — Bitcoin, Ethereum, Gainers/Losers" />
+  <meta property="og:description" content="Real-time cryptocurrency prices, market cap, dominance, and top gainers/losers. Watchlist, search, filters & auto-refresh." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.uptools.in/crypto-prices/" />
   <meta property="og:site_name" content="UpTools" />
-  <meta property="og:image" content="https://www.uptools.in/assets/og/home.png" />
+  <meta property="og:image" content="https://www.uptools.in/assets/og/crypto-prices.png" />
   <meta name="twitter:card" content="summary_large_image" />
 
-  <link rel="icon" sizes="50x50" type="image/svg+xml" href="/assets/logo/uptools-logo.svg" />
+  <!-- Favicon -->
 
-  <link rel="preload" href="/style.css?v=1.2.0" as="style" />
-  <link rel="stylesheet" href="/style.css?v=1.2.0" media="print" onload="this.media='all'">
-  <noscript><link rel="stylesheet" href="/style.css?v=1.2.0"></noscript>
+  <link rel="icon" sizes="50x50" type="image/svg+xml" href="/assets/logo/uptools-logo.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/logo/uptools-logo.svg">
+
+  <!-- Common CSS (production) -->
+
+  <link rel="preload" href="/style.css?v=1.1.0" as="style">
+  <link rel="stylesheet" href="/style.css?v=1.1.0" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="/style.css?v=1.1.0"></noscript>
+
+  <!-- Page-specific critical tweaks (golden neon dark) -->
 
   <style>
-    .grid { display:grid; gap:12px }
-    .toolbar { display:flex; gap:8px; flex-wrap:wrap; align-items:center }
-    .input { flex:1; min-width:220px }
-    table { width:100%; border-collapse:collapse }
-    th, td { padding:.6rem; border-top:1px solid var(--border) }
-    th { text-align:left; font-weight:700; color:var(--muted) }
-    .logo { width:20px; height:20px; border-radius:50%; border:1px solid var(--border); object-fit:cover }
-    .pos{ color:#36d399 } .neg{ color:#ff6b6b }
-    .amount{ font-variant-numeric: tabular-nums }
+    :root{
+      --accent:#f4c43a;      /* golden neon */
+      --accent-2:#f59e0b;    /* warm amber */
+      --bg1:#0b0f1a;
+      --bg2:#111428;
+      --content-w:1100px;
+    }
+    body{
+      background:
+        radial-gradient(900px 500px at 10% -10%, rgba(245, 158, 11, .08) 0%, transparent 50%),
+        radial-gradient(900px 600px at 110% 10%, rgba(244, 196, 58, .08) 0%, transparent 45%),
+        linear-gradient(135deg, var(--bg1), var(--bg2));
+    }
+    /* Compact hero & control bar fits above the fold */
+    .market-hero{
+      display:grid; grid-template-columns: 48px 1fr; gap:12px; align-items:center;
+      padding:12px; border-radius:12px; background:#0b1326; border:1px solid var(--border); box-shadow: var(--glow-soft);
+      margin:12px 0;
+    }
+    .market-ico{ width:40px; height:40px; display:grid; place-items:center; border-radius:10px; color:#141414;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.25), var(--glow-soft);
+      font-weight:900;
+    }
+    .controls{
+      display:flex; flex-wrap:wrap; gap:8px; align-items:center; justify-content:space-between; margin:8px 0 0;
+    }
+    .controls .group{ display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
+    .pill-input{
+      display:flex; align-items:center; gap:8px; padding:6px 10px; border-radius:999px;
+      background:#0b1326; border:1px solid var(--border); box-shadow: var(--glow-soft);
+    }
+    .pill-input input{
+      background:transparent; border:0; outline:none; color:var(--text); width:180px;
+    }
+    .toggle{
+      display:inline-flex; align-items:center; gap:6px; padding:6px 10px; border-radius:999px; cursor:pointer;
+      background:#0b1326; border:1px solid var(--border); box-shadow: var(--glow-soft); font-size:12px;
+    }
+    .toggle input{ accent-color: var(--accent); }
+    .currency-select{ min-width:110px; }
+    /* Market grid/table */
+    .panel{
+      display:grid; grid-template-columns: 1fr; gap:12px;
+      grid-template-rows:auto 1fr; min-height:min(68vh, 800px);
+    }
+    .table-wrap{
+      overflow:auto; border:1px solid var(--border); border-radius:12px; background:#0a1224; box-shadow: var(--glow-soft);
+      max-height: min(72vh, 900px);
+    }
+    table.market{
+      width:100%; border-collapse:separate; border-spacing:0; font-variant-numeric:tabular-nums; font-size:14px;
+    }
+    .market th, .market td{
+      padding:10px 12px; border-bottom:1px solid color-mix(in oklab, var(--accent) 20%, #243);
+      white-space:nowrap; vertical-align:middle;
+    }
+    .market th{
+      position:sticky; top:0; background:#0b1326; z-index:1; text-align:left; font-weight:800;
+    }
+    .market tr{ height:56px; }
+    .sym{
+      display:flex; align-items:center; gap:10px;
+    }
+    .sym img{
+      width:24px; height:24px; border-radius:50%; flex:0 0 auto;
+    }
+    .chg-pos{ color:#34d399; }
+    .chg-neg{ color:#f87171; }
+    .spark{
+      width:120px; height:32px; display:block; background:linear-gradient(180deg,#0b1a34,#0f1f3a);
+      border-radius:8px; border:1px solid var(--border);
+    }
+    .badge{ font-size:12px; padding:3px 8px; border-radius:999px; border:1px solid var(--border); background:#0b1326; }
+    .tabbar{ display:flex; gap:8px; flex-wrap:wrap; }
+    .tabbar .chip[aria-selected="true"]{ color:#141414; background:linear-gradient(135deg,var(--accent),var(--accent-2)); border-color:transparent; font-weight:900; }
+    /* Skeleton for first load */
+    .skeleton{
+      --sk:#0f1d38;
+      background: linear-gradient(90deg, var(--sk) 25%, #122448 37%, var(--sk) 63%);
+      background-size: 400% 100%;
+      animation: sh 1.2s ease-in-out infinite;
+      border-radius:10px;
+    }
+    @keyframes sh{ 0%{background-position: 100% 0;} 100%{background-position: 0 0;} }
+    .mini-kpis{ display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }
+    .kpi{ padding:10px 12px; border-radius:10px; background:#0b1326; border:1px solid var(--border); box-shadow: var(--glow-soft); }
+    .kpi .lab{ color:var(--muted); font-size:12px; }
+    .kpi .val{ font-weight:900; font-variant-numeric:tabular-nums; }
+    /* Video box with fixed dimensions to avoid CLS */
+    .video-box{ display:grid; grid-template-columns: 1fr; gap:8px; }
+    .yt-wrap{ width:100%; max-width: 560px; height:315px; border-radius:12px; overflow:hidden; border:1px solid var(--border); box-shadow: var(--glow-soft); }
+    .yt-wrap iframe{ width:100%; height:100%; display:block; }
+    /* Backlinks grid */
+    .links-grid{ display:grid; gap:10px; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); }
+    .links-grid a{ display:flex; align-items:center; gap:10px; padding:12px; border-radius:10px; background:#0b1326; border:1px solid var(--border); box-shadow: var(--glow-soft); text-decoration:none; color:var(--text); }
+    .links-grid .txt-logo{ font-weight:900; letter-spacing:.5px; padding:6px 10px; border-radius:8px; background:#111b34; border:1px solid var(--border); }
+    @media (max-width: 780px){
+      .mini-kpis{ grid-template-columns:repeat(2,1fr); }
+      .panel{ min-height:auto; }
+      .table-wrap{ max-height: 62vh; }
+      .pill-input input{ width:130px; }
+    }
   </style>
+
+  <!-- Structured Data (SoftwareApplication + WebPage + Breadcrumbs + FAQ) -->
+
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"SoftwareApplication",
+    "name":"Live Crypto Prices (INR & USD)",
+    "applicationCategory":"FinanceApplication",
+    "operatingSystem":"Any",
+    "url":"https://www.uptools.in/crypto-prices/",
+    "description":"Real-time cryptocurrency prices with market cap, volume, dominance, top gainers/losers, and sparklines. Watchlist, search, and auto-refresh.",
+    "offers":{"@type":"Offer","price":"0","priceCurrency":"INR"}
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"WebPage",
+    "name":"Live Crypto Prices (INR & USD) — Bitcoin (BTC), Ethereum (ETH)",
+    "url":"https://www.uptools.in/crypto-prices/",
+    "breadcrumb":{"@type":"BreadcrumbList","itemListElement":[
+      {"@type":"ListItem","position":1,"name":"Home","item":"https://www.uptools.in/"},
+      {"@type":"ListItem","position":2,"name":"Crypto Prices","item":"https://www.uptools.in/crypto-prices/"}
+    ]}
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"FAQPage",
+    "mainEntity":[
+      {"@type":"Question","name":"What is the live Bitcoin (BTC) price in INR?","acceptedAnswer":{"@type":"Answer","text":"Use this page to see the current BTC price in INR and USD with 1h/24h/7d change, market cap and mini sparkline."}},
+      {"@type":"Question","name":"How often are crypto prices updated?","acceptedAnswer":{"@type":"Answer","text":"Prices auto-refresh every 30 seconds by default. You can toggle auto-refresh or refresh manually."}},
+      {"@type":"Question","name":"Can I track only a few coins?","acceptedAnswer":{"@type":"Answer","text":"Yes. Click the star icon to add coins to your Watchlist. Your list is saved locally in your browser (no login required)."}}
+    ]
+  }
+  </script>
+
 </head>
+
 <body>
-  <header class="site">
+  <!-- Header -->
+  <header class="site" role="banner">
     <div class="header-inner">
-      <a class="brand" href="/">
-        <img class="hero-logo" src="/assets/logo/uptools-logo.svg" alt="UpTools" width="48" height="48" />
-        <span>UpTools</span>
+      <a class="brand" href="/" aria-label="UpTools Home">
+        <img src="/assets/logo/uptools-logo.svg" alt="UpTools logo" width="28" height="28" loading="eager">
+        <b>UpTools</b>
       </a>
       <nav class="nav-links" aria-label="Primary">
         <a href="/#tools">Tools</a>
+        <a href="/income-tax-tool/">Income Tax</a>
+        <a href="/currency-converter/">Currency</a>
         <a aria-current="page" href="/crypto-prices/">Crypto</a>
       </nav>
     </div>
   </header>
 
-  <main class="wrap">
-    <div class="tool-header">
-      <div class="tool-icon" aria-hidden="true">🪙</div>
-      <h1 style="margin:0">Crypto Prices</h1>
+  <main class="wrap" id="main">
+    <!-- Hero -->
+    <section class="market-hero neon" aria-label="Crypto Prices">
+      <div class="market-ico">₿</div>
+      <div>
+        <h1>Live Crypto Prices — BTC, ETH, & Top Market Movers</h1>
+        <p class="note" style="margin:2px 0 0;">
+          Realtime cryptocurrency market: <strong>BTC price</strong>, <strong>Bitcoin price in INR</strong>, <strong>ETH price</strong>, market cap, volume, dominance, and sparklines. Search, filter, watchlist & auto-refresh.
+        </p>
+        <div class="controls">
+          <div class="group">
+            <label class="pill-input" aria-label="Search coins">
+              <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="m21.53 20.47l-4.66-4.66A7.92 7.92 0 0 0 18 10a8 8 0 1 0-8 8c1.86 0 3.57-.64 4.91-1.73l4.66 4.66zM4 10a6 6 0 1 1 6 6a6 6 0 0 1-6-6"/></svg>
+              <input id="q" type="search" placeholder="Search: bitcoin, eth, sol..." autocomplete="off">
+            </label>
+
+        <select id="vs" class="input currency-select" aria-label="Quote currency">
+          <option value="inr" selected>INR ₹</option>
+          <option value="usd">USD $</option>
+        </select>
+
+        <select id="sort" class="input" aria-label="Sort by">
+          <option value="market_cap_desc" selected>Sort: Market Cap ↓</option>
+          <option value="market_cap_asc">Sort: Market Cap ↑</option>
+          <option value="volume_desc">Sort: Volume ↓</option>
+          <option value="price_change_percentage_24h_desc">Sort: 24h Change ↓</option>
+          <option value="price_change_percentage_24h_asc">Sort: 24h Change ↑</option>
+        </select>
+
+        <div class="tabbar">
+          <button class="chip" data-tab="all" aria-selected="true">All</button>
+          <button class="chip" data-tab="top100">Top 100</button>
+          <button class="chip" data-tab="gainers">Gainers</button>
+          <button class="chip" data-tab="losers">Losers</button>
+          <button class="chip" data-tab="watch">Watchlist ★</button>
+        </div>
+      </div>
+
+      <div class="group">
+        <label class="toggle"><input id="auto" type="checkbox" checked> Auto-refresh (30s)</label>
+        <button id="refresh" class="btn sm secondary" type="button">Refresh</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- KPIs -->
+<section class="mini-kpis">
+  <div class="kpi"><div class="lab">Global Market Cap</div><div id="k-mcap" class="val skeleton" style="height:18px;"></div></div>
+  <div class="kpi"><div class="lab">24h Volume</div><div id="k-vol" class="val skeleton" style="height:18px;"></div></div>
+  <div class="kpi"><div class="lab">BTC Dominance</div><div id="k-btc" class="val skeleton" style="height:18px;"></div></div>
+  <div class="kpi"><div class="lab">ETH Dominance</div><div id="k-eth" class="val skeleton" style="height:18px;"></div></div>
+</section>
+
+<!-- Market Table -->
+<section class="panel" aria-label="Market Table">
+  <div class="table-wrap" id="tableWrap">
+    <table class="market" id="tbl" aria-describedby="caption">
+      <caption id="caption" class="sr-only">Live cryptocurrency prices and market data</caption>
+      <thead>
+        <tr>
+          <th style="width:44px;">★</th>
+          <th>#</th>
+          <th>Coin</th>
+          <th>Price</th>
+          <th>1h</th>
+          <th>24h</th>
+          <th>7d</th>
+          <th>Market Cap</th>
+          <th>Volume 24h</th>
+          <th>Supply</th>
+          <th>Spark 7d</th>
+        </tr>
+      </thead>
+      <tbody id="rows">
+        <!-- Skeleton rows -->
+        <tr><td colspan="11"><div class="skeleton" style="height:48px; margin:8px;"></div></td></tr>
+        <tr><td colspan="11"><div class="skeleton" style="height:48px; margin:8px;"></div></td></tr>
+        <tr><td colspan="11"><div class="skeleton" style="height:48px; margin:8px;"></div></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Right rail: tutorial + internal links (kept compact; no scrolling required on desktop) -->
+  <aside class="card" aria-label="Help & Links">
+    <h2 style="margin-top:0">How to use</h2>
+    <ol class="note" style="margin: 0 0 10px 16px;">
+      <li>Pick currency (₹ INR or $ USD)</li>
+      <li>Search “bitcoin”, “eth”, “sol”…</li>
+      <li>Sort or open <span class="badge">Gainers</span>/<span class="badge">Losers</span></li>
+      <li>Star ★ to add to <strong>Watchlist</strong></li>
+    </ol>
+
+    <div class="video-box">
+      <div class="yt-wrap">
+        <!-- Stable dimensions + lazy load -->
+        <iframe loading="lazy" width="auto" height="auto"
+          src="https://www.youtube.com/embed/bBC-nXj3Ng4"
+          title="How does Bitcoin actually work? (YouTube)"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen></iframe>
+      </div>
+      <p class="note">Video: “How does Bitcoin actually work?” — a great primer for new users.</p>
     </div>
 
-    <section class="card neon">
-      <div class="toolbar">
-        <input id="q" class="input" placeholder="Search coin e.g., bitcoin, eth, sol" aria-label="Search coin" />
-        <select id="cur" class="input" style="max-width:140px" aria-label="Currency">
-          <option value="USD" selected>USD</option>
-          <option value="INR">INR</option>
-          <option value="EUR">EUR</option>
-          <option value="GBP">GBP</option>
-          <option value="AED">AED</option>
-        </select>
-        <button id="refresh" class="btn secondary sm">Refresh</button>
-        <div id="meta" class="note mini" style="margin-left:auto"></div>
-      </div>
-      <div style="overflow:auto">
-        <table aria-label="Crypto prices">
-          <thead>
-            <tr><th>#</th><th>Coin</th><th>Price</th><th>24h</th><th>Market Cap</th><th>Volume 24h</th></tr>
-          </thead>
-          <tbody id="rows"></tbody>
-        </table>
-      </div>
-    </section>
+    <div class="divider"></div>
+    <h3>Popular links</h3>
+    <div class="links-grid">
+      <a href="/bitcoin-price/"><span class="txt-logo">BTC</span> Bitcoin Price in INR</a>
+      <a href="/crypto-tax-calculator/"><span class="txt-logo">CTC</span> Crypto Profit & Tax Calculator</a>
+      <a href="/currency-converter/"><span class="txt-logo">FX</span> Currency Converter (Live FX)</a>
+      <a href="/income-tax-tool/"><span class="txt-logo">IT</span> India Income Tax (FY 2024-25)</a>
+    </div>
+  </aside>
+</section>
 
-    <footer class="note small site-footer">© <span id="y"></span> UpTools • <a href="/sitemap.xml">Sitemap</a> • <a href="/privacy-policy/">Privacy</a></footer>
+<footer class="note small site-footer" role="contentinfo" style="margin-top:14px;">
+  © <span id="y"></span> UpTools · <a href="/sitemap.xml">Sitemap</a> · <a href="/about/">About</a> · <a href="/contact/">Contact</a>
+</footer>
+
   </main>
 
+  <!-- Year -->
+
+  <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
+
+  <!-- Utilities shared across pages -->
+
+  <script type="module" src="/scripts/utils.js"></script>
+
+  <!-- Page logic -->
+
   <script type="module">
-    const $ = (s, r = document) => r.querySelector(s);
-    const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
-    const debounce = (fn, d=150) => { let t; return (...a)=>{ clearTimeout(t); t=setTimeout(()=>fn(...a), d);} };
-    $('#y').textContent = new Date().getFullYear();
+    import { $, $$, fmtNum, fmtCur, debounce, persist, read } from '/scripts/utils.js';
 
-    const els = { q: $('#q'), cur: $('#cur'), rows: $('#rows'), meta: $('#meta'), refresh: $('#refresh') };
-    const nf2 = new Intl.NumberFormat(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-    const int = new Intl.NumberFormat(undefined, { maximumFractionDigits: 0 });
+    // --- Config ---
+    const API_BASE = 'https://api.coingecko.com/api/v3';
+    const PER_PAGE = 250;            // CG free: up to 250/req
+    const DEFAULT_SORT = 'market_cap_desc';
+    const REFRESH_MS = 30_000;       // 30s auto refresh
+    const SPARK_SAMPLES = 64;        // used to draw a mini sparkline
 
-    let cache = [];
-    let fx = 1;
-    const PX = (u) => `/proxy?nocache=1&u=${encodeURIComponent(u)}`;
+    // --- State ---
+    const state = {
+      vs: read('cp:vs', 'inr'),
+      sort: read('cp:sort', DEFAULT_SORT),
+      tab: read('cp:tab', 'all'),
+      q: '',
+      auto: read('cp:auto', true),
+      page: 1,
+      data: [],
+      watch: new Set(read('cp:watch', [])),
+      global: null
+    };
 
-    async function getJSON(url){
-      try { const r = await fetch(PX(url)); if (!r.ok) throw 0; return await r.json(); } catch {}
-      const r2 = await fetch(url); if (!r2.ok) throw new Error('fetch failed'); return await r2.json();
+    // --- Elements ---
+    const el = {
+      vs: $('#vs'),
+      sort: $('#sort'),
+      q: $('#q'),
+      rows: $('#rows'),
+      tabs: $$('.tabbar .chip'),
+      auto: $('#auto'),
+      refresh: $('#refresh'),
+      kMcap: $('#k-mcap'),
+      kVol:  $('#k-vol'),
+      kBTC:  $('#k-btc'),
+      kETH:  $('#k-eth'),
+    };
+
+    // --- Helpers ---
+    const curFmt = (n) => new Intl.NumberFormat(state.vs === 'inr' ? 'en-IN' : 'en-US', {
+      style:'currency', currency: state.vs.toUpperCase(), maximumFractionDigits: n >= 100 ? 0 : 2
+    }).format(n ?? 0);
+
+    function setKPI(elm, val){ if(elm){ elm.textContent = val; elm.classList.remove('skeleton'); } }
+
+    function drawSpark(canvas, arr){
+      if(!canvas) return;
+      const w = canvas.width = canvas.clientWidth * devicePixelRatio;
+      const h = canvas.height = canvas.clientHeight * devicePixelRatio;
+      const ctx = canvas.getContext('2d');
+      ctx.clearRect(0,0,w,h);
+      if(!arr?.length) return;
+      const min = Math.min(...arr), max = Math.max(...arr);
+      const pad = h*0.15;
+      const sx = w / (arr.length-1 || 1);
+      ctx.lineWidth = Math.max(1, Math.floor(devicePixelRatio));
+      const first = arr[0], last = arr[arr.length-1];
+      const up = last >= first;
+      ctx.strokeStyle = up ? '#34d399' : '#f87171';
+      ctx.beginPath();
+      arr.forEach((v,i)=>{
+        const x = i * sx;
+        const y = h - pad - ((v - min) / (max - min || 1)) * (h - pad*2);
+        if(i===0) ctx.moveTo(x,y); else ctx.lineTo(x,y);
+      });
+      ctx.stroke();
     }
 
-    async function loadFX(to){
-      if (to==='USD') { fx=1; return; }
-      try { const j = await getJSON(`https://api.exchangerate.host/latest?base=USD&symbols=${to}`); fx = Number(j?.rates?.[to])||1; } catch { fx=1; }
+    function pctCell(v){
+      if(v == null) return '<span class="note">—</span>';
+      const cls = v >= 0 ? 'chg-pos' : 'chg-neg';
+      const s = (v>0?'+':'') + v.toFixed(2) + '%';
+      return `<span class="${cls}">${s}</span>`;
     }
 
-    async function fetchTop(limit=100){
-      const t0 = performance.now();
-      const cg = await getJSON(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=${limit}&page=1&price_change_percentage=24h`);
-      cache = (cg||[]).map(x=>({
-        id:x.id, rank:Number(x.market_cap_rank||0), symbol:String(x.symbol||'').toUpperCase(), name:x.name,
-        price:Number(x.current_price), change24h:Number(x.price_change_percentage_24h),
-        marketCap:Number(x.market_cap), volume24h:Number(x.total_volume), img:x.image||''
-      }));
-      els.meta.textContent = `Updated • ${(performance.now()-t0|0)}ms`;
+    function supplyCell(c){
+      const s = c.circulating_supply ?? 0;
+      const ms = c.max_supply || c.total_supply || 0;
+      return `${fmtNum(s)} <span class="note">${c.symbol?.toUpperCase() || ''}</span>` + (ms ? ` <span class="note">/ ${fmtNum(ms)}</span>`:'');
+    }
+
+    function rowHTML(c, i){
+      const price = c.current_price ?? 0;
+      const vol = c.total_volume ?? 0;
+      const cap = c.market_cap ?? 0;
+      const s1 = c.price_change_percentage_1h_in_currency;
+      const s24 = c.price_change_percentage_24h_in_currency;
+      const s7 = c.price_change_percentage_7d_in_currency;
+      const liked = state.watch.has(c.id);
+      const rank = c.market_cap_rank ?? i+1;
+
+      return `<tr data-id="${c.id}">
+        <td><button class="btn sm ghost js-star" title="Toggle watchlist" aria-label="Watch ${c.name}">${liked ? '★' : '☆'}</button></td>
+        <td>${rank}</td>
+        <td class="sym"><img src="${c.image}" alt="${c.name} logo" width="24" height="24" loading="lazy"><div><strong>${c.name}</strong><div class="note">${(c.symbol||'').toUpperCase()}</div></div></td>
+        <td><strong>${curFmt(price)}</strong></td>
+        <td>${pctCell(s1)}</td>
+        <td>${pctCell(s24)}</td>
+        <td>${pctCell(s7)}</td>
+        <td>${curFmt(cap)}</td>
+        <td>${curFmt(vol)}</td>
+        <td>${supplyCell(c)}</td>
+        <td><canvas class="spark" width="120" height="32" aria-label="${c.name} 7d price trend"></canvas></td>
+      </tr>`;
+    }
+
+    function filterData(){
+      let arr = [...state.data];
+      // Tabs
+      if(state.tab === 'top100') arr = arr.filter(x => (x.market_cap_rank ?? 9999) <= 100);
+      if(state.tab === 'gainers') arr = arr.filter(x => (x.price_change_percentage_24h_in_currency ?? -999) > 0).sort((a,b)=>(b.price_change_percentage_24h_in_currency??0)-(a.price_change_percentage_24h_in_currency??0)).slice(0,100);
+      if(state.tab === 'losers')  arr = arr.filter(x => (x.price_change_percentage_24h_in_currency ?? 999) < 0).sort((a,b)=>(a.price_change_percentage_24h_in_currency??0)-(b.price_change_percentage_24h_in_currency??0)).slice(0,100);
+      if(state.tab === 'watch')   arr = arr.filter(x => state.watch.has(x.id));
+
+      // Search
+      if(state.q){
+        const q = state.q.toLowerCase();
+        arr = arr.filter(x=> x.name?.toLowerCase().includes(q) || x.symbol?.toLowerCase().includes(q));
+      }
+      return arr;
+    }
+
+    function render(){
+      const data = filterData();
+      el.rows.innerHTML = data.map(rowHTML).join('') || `<tr><td colspan="11" class="note" style="padding:16px;">No results.</td></tr>`;
+
+      // Draw sparklines after rows mount
+      $('#rows').querySelectorAll('tr').forEach((tr, idx)=>{
+        const id = tr.getAttribute('data-id');
+        const c = data[idx];
+        const spark = c?.sparkline_in_7d?.price?.slice(-(SPARK_SAMPLES));
+        drawSpark(tr.querySelector('canvas.spark'), spark);
+      });
+
+      // Bind stars
+      $$('#rows .js-star').forEach(btn=>{
+        btn.addEventListener('click', ()=>{
+          const id = btn.closest('tr').getAttribute('data-id');
+          if(state.watch.has(id)) state.watch.delete(id); else state.watch.add(id);
+          persist('cp:watch', [...state.watch]);
+          render();
+        }, { passive:true });
+      });
+    }
+
+    // --- Fetching ---
+    async function getGlobal(){
+      try{
+        const r = await fetch(`${API_BASE}/global`);
+        const j = await r.json();
+        state.global = j?.data || null;
+        if(state.global){
+          const mcap = state.global.total_market_cap[state.vs] ?? state.global.total_market_cap.usd;
+          const vol  = state.global.total_volume[state.vs] ?? state.global.total_volume.usd;
+          const btcD = state.global.market_cap_percentage?.btc ?? 0;
+          const ethD = state.global.market_cap_percentage?.eth ?? 0;
+          setKPI(el.kMcap, curFmt(mcap));
+          setKPI(el.kVol,  curFmt(vol));
+          setKPI(el.kBTC,  fmtNum(btcD, {maximumFractionDigits:2}) + '%');
+          setKPI(el.kETH,  fmtNum(ethD, {maximumFractionDigits:2}) + '%');
+        }
+      }catch(e){ /* silent */ }
+    }
+
+    async function getMarkets(){
+      const url = new URL(`${API_BASE}/coins/markets`);
+      url.searchParams.set('vs_currency', state.vs);
+      url.searchParams.set('order', state.sort);
+      url.searchParams.set('per_page', PER_PAGE);
+      url.searchParams.set('page', '1');
+      url.searchParams.set('sparkline', 'true');
+      url.searchParams.set('price_change_percentage', '1h,24h,7d');
+
+      const r = await fetch(url.toString());
+      if(!r.ok) throw new Error('Failed to load market data');
+      const j = await r.json();
+      state.data = Array.isArray(j) ? j : [];
+    }
+
+    async function loadAll(){
+      try{
+        await Promise.all([getGlobal(), getMarkets()]);
+        render();
+        // Update URL (UTM-less; shareable)
+        const params = new URLSearchParams();
+        params.set('vs', state.vs);
+        params.set('sort', state.sort);
+        params.set('tab', state.tab);
+        const q = state.q.trim(); if(q) params.set('q', q);
+        history.replaceState({}, '', location.pathname + '?' + params.toString());
+      }catch(e){
+        el.rows.innerHTML = `<tr><td colspan="11" class="note" style="padding:16px;">Could not load market data. Please try again.</td></tr>`;
+      }
+    }
+
+    // --- Events & Init ---
+    function setTab(tab){
+      state.tab = tab; persist('cp:tab', tab);
+      $$('.tabbar .chip').forEach(b=> b.setAttribute('aria-selected', String(b.dataset.tab === tab)));
       render();
     }
 
-    function moneyFmt(){ return new Intl.NumberFormat(undefined,{ style:'currency', currency: els.cur.value, maximumFractionDigits: 2 }); }
+    el.tabs.forEach(b=> b.addEventListener('click', ()=> setTab(b.dataset.tab)));
+    el.vs.value = state.vs;
+    el.vs.addEventListener('change', async ()=>{
+      state.vs = el.vs.value; persist('cp:vs', state.vs);
+      // refresh all with new currency
+      // show skeleton in KPIs to avoid stale flash
+      [el.kMcap, el.kVol, el.kBTC, el.kETH].forEach(n=>{ n.classList.add('skeleton'); n.textContent=''; });
+      await loadAll();
+    });
 
-    function render(){
-      const q = (els.q.value||'').trim().toLowerCase();
-      const list = q? cache.filter(x => x.name.toLowerCase().includes(q) || x.symbol.toLowerCase().includes(q)) : cache;
-      const m = moneyFmt();
-      els.rows.innerHTML = list.map(x=>{
-        const ch = isFinite(x.change24h)? x.change24h : 0; const cls = ch>=0? 'pos':'neg';
-        return `<tr>
-          <td>${x.rank||''}</td>
-          <td style="display:flex;align-items:center;gap:8px"><img class="logo" src="${x.img}" alt="${x.symbol}" onerror="this.style.display='none'" /><span class="badge sym">${x.symbol}</span> ${x.name}</td>
-          <td class="amount">${m.format(x.price*fx)}</td>
-          <td class="${cls}">${nf2.format(ch)}%</td>
-          <td class="amount">${m.format(x.marketCap*fx)}</td>
-          <td class="amount">${m.format(x.volume24h*fx)}</td>
-        </tr>`;
-      }).join('');
+    el.sort.value = state.sort;
+    el.sort.addEventListener('change', async ()=>{
+      state.sort = el.sort.value; persist('cp:sort', state.sort);
+      await loadAll();
+    });
+
+    el.q.value = state.q;
+    el.q.addEventListener('input', debounce(e=>{ state.q = e.target.value; render(); }, 150));
+
+    el.auto.checked = !!state.auto;
+    el.auto.addEventListener('change', ()=>{
+      state.auto = el.auto.checked; persist('cp:auto', state.auto);
+      if(state.auto){ schedule(); } else { clearInterval(timer); }
+    });
+
+    el.refresh.addEventListener('click', loadAll);
+
+    // Restore from URL if present
+    (function restoreFromURL(){
+      const q = new URLSearchParams(location.search);
+      if(q.has('vs'))  state.vs = (q.get('vs')||'inr').toLowerCase();
+      if(q.has('sort')) state.sort = q.get('sort') || DEFAULT_SORT;
+      if(q.has('tab'))  state.tab = q.get('tab') || 'all';
+      if(q.has('q'))    state.q = q.get('q') || '';
+      el.vs.value = state.vs;
+      el.sort.value = state.sort;
+      el.q.value = state.q;
+      setTab(state.tab);
+    })();
+
+    let timer=null;
+    function schedule(){
+      clearInterval(timer);
+      if(state.auto){ timer = setInterval(loadAll, REFRESH_MS); }
     }
 
-    els.q.addEventListener('input', debounce(render, 150));
-    els.cur.addEventListener('change', async ()=>{ await loadFX(els.cur.value); render(); });
-    els.refresh.addEventListener('click', fetchTop);
+    // First load
+    await loadAll();
+    schedule();
 
-    (async function init(){ await loadFX(els.cur.value); await fetchTop(100); })();
+    // Expose minimal share for debugging
+    window.__cp = { state };
   </script>
+
 </body>
 </html>
-
