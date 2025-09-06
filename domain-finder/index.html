@@ -1,18 +1,17 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <!-- Ads (kept stable to avoid CLS; do NOT insert ad slot if unavailable) -->
+  <!-- Ads (kept stable to avoid CLS; render slots only if globally enabled) -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617" crossorigin="anonymous"></script>
 
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-
   <title>Domain Finder (Available Now + Expiring Soon) for Flipping | UpTools</title>
-  <meta name="description" content="Find only REAL opportunities: instantly check which domains are AVAILABLE now and which are EXPIRING soon (with expiry dates). Optional traffic/rank estimate, shortlist, CSV export, and quick-buy links. Free & privacy-first." />
-  <meta name="keywords" content="domain flipping, buy domains, available domains, expiring domains, expired domains, domain finder, rdap, domain availability checker, similarweb rank, domain investing tools" />
+  <meta name="description" content="See only REAL opportunities: instantly verify domains that are AVAILABLE now and those EXPIRING soon (with expiry dates). Optional traffic/rank estimate, shortlist & CSV export. Privacy-first.">
+  <meta name="keywords" content="domain flipping, available domains, expiring domains, expired domains, RDAP, domain availability, domain investing, domain auctions, similarweb traffic, domain rank">
   <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
   <meta name="theme-color" content="#0b1020" />
-  <link rel="canonical" href="https://www.uptools.in/domain-finder/" />
+  <link rel="canonical" href="https://www.uptools.in/domain-finder/">
 
   <!-- Icons -->
   <link rel="icon" type="image/svg+xml" href="/assets/logo/uptools-logo.svg" />
@@ -21,7 +20,7 @@
   <!-- Open Graph -->
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Domain Finder (Available + Expiring Soon) | UpTools" />
-  <meta property="og:description" content="See only the domains that matter: AVAILABLE now + EXPIRING soon (with dates) and optional traffic rank. Export CSV. Free & fast." />
+  <meta property="og:description" content="Only available & expiring domains (with expiry dates), plus optional traffic rank. Export CSV. Free & fast." />
   <meta property="og:url" content="https://www.uptools.in/domain-finder/" />
   <meta property="og:image" content="/assets/og/domain-finder.png" />
   <meta property="og:site_name" content="UpTools" />
@@ -29,16 +28,14 @@
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Domain Finder (Available + Expiring Soon)" />
-  <meta name="twitter:description" content="Only available & expiring domains, with expiry dates and optional traffic rank. Shortlist & export." />
+  <meta name="twitter:description" content="See only the domains that matter: AVAILABLE now + EXPIRING soon (with dates) & optional traffic rank." />
   <meta name="twitter:image" content="/assets/og/domain-finder.png" />
 
-  <!-- Shared brand CSS & Utils -->
-  <link rel="preload" href="/style.css?v=1.3.0" as="style">
-  <link rel="stylesheet" href="/style.css?v=1.3.0" media="print" onload="this.media='all'">
-  <noscript><link rel="stylesheet" href="/style.css?v=1.3.0"></noscript>
+  <!-- Common CSS & Utils -->
+  <link rel="stylesheet" href="/style.css?v=1.3.1" />
   <script defer src="/utils.js"></script>
 
-  <!-- JSON-LD: Software + Breadcrumb + FAQ -->
+  <!-- JSON-LD -->
   <script type="application/ld+json">
   {
     "@context":"https://schema.org",
@@ -60,68 +57,146 @@
           {"@type":"ListItem","position":2,"name":"Tools","item":"https://www.uptools.in/#tools"},
           {"@type":"ListItem","position":3,"name":"Domain Finder","item":"https://www.uptools.in/domain-finder/"}
         ]
-      },
-      {
-        "@type":"FAQPage",
-        "mainEntity":[
-          {"@type":"Question","name":"How do you check availability without exposing me?", "acceptedAnswer":{"@type":"Answer","text":"We use public RDAP endpoints through a privacy-friendly proxy (via your server-side /api?url=) to see if a domain object exists. A 404 usually means the domain is available. If present, we read its expiry event date."}},
-          {"@type":"Question","name":"Can I see expiry dates for registered domains?", "acceptedAnswer":{"@type":"Answer","text":"Yes. When the RDAP record includes an expiration event, we show the expiry date and highlight domains expiring within your chosen window (e.g., 7–60 days)."}},
-          {"@type":"Question","name":"Do you show traffic?", "acceptedAnswer":{"@type":"Answer","text":"Optionally. We try a lightweight public rank/traffic source (like Similarweb data endpoint). If the source is unavailable for a domain or blocked by CORS, we fall back to showing N/A."}}
-        ]
       }
     ]
   }
   </script>
 
   <style>
-    /* Page tweaks on top of common /style.css */
-    :root{ --content-w: 1100px; }
-    body{ background: radial-gradient(1200px 600px at 10% -10%, #0b1020 0, transparent 40%), linear-gradient(135deg,#0a0f1a,#0a1220); }
-    .site{ position: sticky; top: 0; z-index: 20; }
-    main.page { max-width: var(--content-w); margin: 0 auto; padding: 12px; display: grid; grid-template-columns: 360px 1fr; gap: 12px; min-height: calc(100vh - 64px); }
-    @media (max-width: 900px){ main.page{ grid-template-columns: 1fr; } }
+    :root{
+      --header-h: 60px;
+      --content-w: 1120px;
+      --radius: 12px;
+    }
+    body{
+      background:
+        radial-gradient(900px 480px at 12% -10%, #0b1020 0, transparent 50%),
+        linear-gradient(135deg,#0a0f1a,#0a1220);
+    }
+    /* Header */
+    .site{ position: sticky; top: 0; z-index: 20; background: rgba(8,12,20,.6); backdrop-filter: blur(6px); border-bottom: 1px solid rgba(255,255,255,.06); }
+    .header-inner{ max-width: var(--content-w); margin:0 auto; padding:.6rem .8rem; display:flex; justify-content:space-between; align-items:center; min-height: var(--header-h); }
+    .brand{ display:flex; gap:.5rem; align-items:center; color:#eaf3ff; text-decoration:none; }
+    .nav-links a{ color:#b8c7d9; margin-left:1rem; text-decoration:none; }
+    .nav-links a[aria-current="page"]{ color:#fff; font-weight:700; text-decoration:underline; text-underline-offset: 6px; }
 
-    .panel{ background:#101828; border:1px solid var(--border); border-radius:12px; box-shadow: var(--shadow); }
-    .panel-header{ padding:.9rem 1rem; border-bottom:1px solid color-mix(in oklab,var(--accent) 20%, #233); display:flex; align-items:center; justify-content:space-between; }
-    .panel-title{ display:flex; align-items:center; gap:.6rem; font-weight:800; }
-    .pill{ display:inline-grid; place-items:center; width:28px; height:28px; border-radius:8px; background:linear-gradient(135deg, var(--accent), var(--accent-2)); color:#06121a; font-weight:900; }
-    .panel-body{ padding: 12px; display: grid; gap: 12px; }
+    /* Layout: single-page with internal scrollers */
+    main.page{
+      max-width: var(--content-w);
+      margin: 0 auto;
+      padding: .75rem;
+      height: calc(100dvh - var(--header-h)); /* single screen */
+      display: grid;
+      grid-template-columns: 360px 1fr;
+      gap: .75rem;
+    }
+    @media (max-width: 950px){
+      main.page{ grid-template-columns: 1fr; height: auto; min-height: calc(100dvh - var(--header-h)); }
+    }
 
-    .row-grid{ display:grid; gap:10px; }
-    .row-2{ grid-template-columns:1fr 1fr; }
-    .chips{ gap:8px; }
-    .chip.active{ border-color: color-mix(in oklab, var(--accent) 70%, white); color:#eafffb; }
+    /* Panels */
+    .panel, .card{
+      background: #0f1726;
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: var(--radius);
+      box-shadow: 0 10px 30px rgba(0,0,0,.35);
+    }
+    .panel{ display:flex; flex-direction:column; min-height: 0; }
+    .panel-header{ padding:.8rem .9rem; border-bottom:1px solid rgba(255,255,255,.08); display:flex; align-items:center; justify-content:space-between; }
+    .panel-title{ display:flex; align-items:center; gap:.5rem; font-weight:800; color:#e9f2ff; }
 
-    .kbar{ display:flex; align-items:center; gap:8px; font-size:12px; color:var(--muted); }
-    .progress{ height:8px; background:#0b1326; border:1px solid var(--border); border-radius:8px; width:100%; overflow:hidden; }
-    .progress > span{ display:block; height:100%; width:0%; background:linear-gradient(90deg, var(--accent), var(--accent-2)); transition:width .25s ease; }
+    /* FIX #4: “pill” auto-size (no overflow) */
+    .pill{
+      display:inline-block;
+      padding: .25rem .5rem;
+      height: auto;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--accent,#64ffda), var(--accent-2,#41c9a8));
+      color:#07161a;
+      font-weight:900;
+      line-height:1;
+      white-space:nowrap;
+    }
 
-    .right{ display:grid; grid-template-rows:auto auto 1fr; gap:12px; min-height: calc(100vh - 110px); }
-    .card{ padding: 12px; }
-    .card h3{ margin:0 0 6px; display:flex; align-items:center; justify-content:space-between; }
-    .badge{ font:700 12px/1 system-ui; border:1px solid var(--border); background:#0b1326; color:#cfe7ff; padding:.25rem .45rem; border-radius:999px; }
+    .panel-body{
+      padding: .8rem .9rem;
+      display: grid;
+      gap: .75rem;
+      overflow: auto;               /* FIX #3: internal scroller */
+      max-height: calc(100% - 54px);
+    }
 
-    .lists{ display:grid; grid-template-columns:1fr 1fr; gap:12px; height:100%; }
-    @media (max-width: 1100px){ .lists{ grid-template-columns:1fr; } }
+    .row-grid{ display:grid; gap:.6rem; }
+    .row-2{ grid-template-columns: 1fr 1fr; gap: .6rem; }
+    @media (max-width: 950px){ .row-2{ grid-template-columns:1fr; } }
 
-    .rows{ display:grid; gap:8px; overflow:auto; max-height: 100%; padding-right:2px; }
-    .rowi{ display:grid; grid-template-columns: 1fr auto; gap:8px; align-items:center; border:1px dashed var(--border); border-radius:10px; padding:8px; background:#0b1326; }
-    .meta{ display:flex; gap:8px; flex-wrap:wrap; color:#9ec2ff; font-size:12px; }
-    .meta .tag{ border:1px solid var(--border); padding:2px 6px; border-radius:999px; background:#0a1224; }
-    .act{ display:flex; gap:6px; flex-wrap:wrap; }
-    .act a{ text-decoration:none; }
+    /* Inputs */
+    label{ color:#c7d6e5; font-size:.95rem; }
+    .input, .textarea, select{
+      background:#0b1322; border:1px solid #263248; color:#e7f0ff; border-radius:10px; padding:.6rem .65rem; outline:none; width:100%;
+    }
+    .textarea{ min-height: 120px; resize: vertical; }
+
+    .chips{ display:flex; flex-wrap:wrap; gap:.5rem; }
+    .chip{
+      padding:.45rem .6rem;
+      border-radius:999px;
+      background:#0b1322;
+      border:1px solid #263248;
+      color:#a9bed4;
+      cursor:pointer;
+      user-select:none;
+      transition: .15s ease;
+      position:relative;
+    }
+    /* FIX #5: clearer selected state + icon + aria-pressed sync */
+    .chip.active{ background: linear-gradient(135deg, rgba(100,255,218,.18), rgba(65,201,168,.18)); border-color:#4bdcb3; color:#eafffb; }
+    .chip.active::after{
+      content:"✓";
+      position:absolute; right:.5rem; top:50%; transform:translateY(-50%);
+      font-weight:900; opacity:.9;
+    }
+
+    .btn{ border:1px solid #2a3a57; background:#122034; color:#d8e7ff; border-radius:10px; padding:.55rem .8rem; font-weight:700; cursor:pointer; }
+    .btn.primary{ background:linear-gradient(180deg,#13aa87,#0e8c71); border-color:#0b6b57; }
+    .btn.secondary{ background:#10182a; }
+    .btn.ghost{ background:transparent; }
+    .btn.sm{ padding:.35rem .55rem; font-size:.85rem; }
+
+    .kbar{ display:flex; align-items:center; gap:.6rem; font-size:.9rem; color:#9db2c8; }
+    .progress{ height:8px; background:#0b1326; border:1px solid #203052; border-radius:8px; width:100%; overflow:hidden; }
+    .progress > span{ display:block; height:100%; width:0%; background:linear-gradient(90deg, var(--accent,#64ffda), var(--accent-2,#41c9a8)); transition:width .25s ease; }
+
+    /* Right side grid with internal scrollers */
+    .right{ display:grid; grid-template-rows: min-content minmax(0,1fr); gap:.75rem; min-height:0; }
+    .lists{ display:grid; grid-template-columns: 1fr 1fr; gap:.75rem; min-height:0; }
+    @media (max-width: 950px){ .lists{ grid-template-columns:1fr; } }
+    .card h3{ margin:.8rem .9rem; display:flex; align-items:center; justify-content:space-between; }
+    .rows{ display:grid; gap:.5rem; overflow:auto; padding: 0 .9rem .9rem; max-height: calc(100% - 48px); } /* FIX #3: scroller */
+
+    .rowi{
+      display:grid; grid-template-columns: 1fr auto; gap:.6rem; align-items:center;
+      border:1px dashed #253149; border-radius:10px; padding:.6rem .7rem; background:#0b1326;
+    }
     .n{ font-weight:800; color:#dffaf2; }
+    .meta{ display:flex; flex-wrap:wrap; gap:.4rem; margin-top:.35rem; font-size:.85rem; }
+    .tag{ border:1px solid #2a3a57; background:#0a1224; color:#b9d0ff; padding:.2rem .45rem; border-radius:999px; }
     .score{ color:#aef8e4; font-weight:800; }
-    .when{ color:#ffd3a3; font-weight:700; }
-    .rank{ color:#cfa9ff; font-weight:700; }
-    .muted{ font-size:12px; }
+    .when{ color:#ffd3a3; font-weight:800; }
+    .rank{ color:#cfa9ff; font-weight:800; }
+    .visits{ color:#8ff9ff; font-weight:800; }
 
-    .video-card .video-frame{ position:relative; width:100%; aspect-ratio:16/9; border:1px solid var(--border); border-radius:10px; overflow:hidden; background:#0b1326; }
+    .badge{ font:700 12px/1 system-ui; border:1px solid #203052; background:#0b1326; color:#cfe7ff; padding:.25rem .45rem; border-radius:999px; }
+
+    .video-card .frame{ position:relative; width:100%; aspect-ratio:16/9; border-top:1px solid rgba(255,255,255,.06); border-bottom-left-radius: var(--radius); border-bottom-right-radius: var(--radius); overflow:hidden; background:#0b1326; }
     .video-card iframe{ position:absolute; inset:0; width:100%; height:100%; border:0; }
     .thumb{ position:absolute; inset:0; cursor:pointer; display:grid; place-items:center; }
     .thumb img{ width:100%; height:100%; object-fit:cover; }
     .thumb .play{ position:absolute; width:72px; height:72px; border-radius:999px; background:rgba(0,0,0,.5); border:2px solid #fff; display:grid; place-items:center; }
     .thumb .play::after{ content:""; border-left:18px solid #fff; border-top:10px solid transparent; border-bottom:10px solid transparent; margin-left:6px; }
+
+    footer{ max-width: var(--content-w); margin: .6rem auto 1rem; color:#9db3c6; text-align:center; }
+    footer a{ color:#9ac7ff; text-decoration:none; }
   </style>
 </head>
 
@@ -144,7 +219,7 @@
   </header>
 
   <main class="page">
-    <!-- LEFT: Controls -->
+    <!-- LEFT: Controls (scrollable) -->
     <section class="panel" id="controls">
       <div class="panel-header">
         <div class="panel-title"><span class="pill" title="Subpage textual logo">DF</span> Only-Opportunities Finder</div>
@@ -154,35 +229,35 @@
       <div class="panel-body">
         <!-- Mode -->
         <div class="row-grid">
-          <label class="label">Search mode</label>
+          <label>Search mode</label>
           <div class="chips" role="group" aria-label="Search mode">
-            <button type="button" class="chip active" data-mode="generate">Generate ideas</button>
-            <button type="button" class="chip" data-mode="paste">Paste domain list</button>
-            <button type="button" class="chip" data-mode="csv">Import CSV</button>
+            <button type="button" class="chip active" data-mode="generate" aria-pressed="true">Generate ideas</button>
+            <button type="button" class="chip" data-mode="paste" aria-pressed="false">Paste list</button>
+            <button type="button" class="chip" data-mode="csv" aria-pressed="false">Import CSV</button>
           </div>
         </div>
 
         <!-- Generate -->
         <div id="mode-generate" class="row-grid">
-          <label class="label" for="kw">Seed keywords</label>
+          <label for="kw">Seed keywords</label>
           <input id="kw" class="input" placeholder="e.g., ai, health, fintech, travel" />
           <div class="row-grid row-2">
             <div>
-              <label class="label">TLDs</label>
+              <label>TLDs</label>
               <div class="chips" id="tlds">
-                <button class="chip active" data-tld=".com">.com</button>
-                <button class="chip active" data-tld=".in">.in</button>
-                <button class="chip active" data-tld=".co">.co</button>
-                <button class="chip" data-tld=".ai">.ai</button>
-                <button class="chip" data-tld=".io">.io</button>
-                <button class="chip" data-tld=".dev">.dev</button>
-                <button class="chip" data-tld=".app">.app</button>
+                <button class="chip active" data-tld=".com" aria-pressed="true">.com</button>
+                <button class="chip active" data-tld=".in" aria-pressed="true">.in</button>
+                <button class="chip active" data-tld=".co" aria-pressed="true">.co</button>
+                <button class="chip" data-tld=".ai" aria-pressed="false">.ai</button>
+                <button class="chip" data-tld=".io" aria-pressed="false">.io</button>
+                <button class="chip" data-tld=".dev" aria-pressed="false">.dev</button>
+                <button class="chip" data-tld=".app" aria-pressed="false">.app</button>
               </div>
             </div>
             <div>
-              <label class="label" for="maxLen">Max name length</label>
+              <label for="maxLen">Max name length</label>
               <input id="maxLen" type="number" class="input" min="3" max="30" value="14" />
-              <label class="label" for="allow">Characters</label>
+              <label for="allow">Characters</label>
               <select id="allow" class="input">
                 <option value="no">No digits/hyphens</option>
                 <option value="digits-ok">Digits OK</option>
@@ -194,35 +269,36 @@
         </div>
 
         <!-- Paste -->
-        <div id="mode-paste" class="row-grid hidden">
-          <label class="label" for="pasteBox">Paste domains (one per line)</label>
+        <div id="mode-paste" class="row-grid" hidden>
+          <label for="pasteBox">Paste domains (one per line)</label>
           <textarea id="pasteBox" class="textarea" placeholder="example.com&#10;cool.ai&#10;awesome.co"></textarea>
         </div>
 
         <!-- CSV -->
-        <div id="mode-csv" class="row-grid hidden">
-          <label class="label" for="csvFile">Import CSV (domain[,exp_date])</label>
+        <div id="mode-csv" class="row-grid" hidden>
+          <label for="csvFile">Import CSV (domain[,exp_date])</label>
           <input id="csvFile" type="file" class="input" accept=".csv,text/csv" />
         </div>
 
         <div class="row-grid row-2">
           <div>
-            <label class="label" for="expWindow">Expiring within (days)</label>
+            <label for="expWindow">Expiring within (days)</label>
             <input id="expWindow" class="input" type="number" min="1" max="120" value="30" />
           </div>
           <div>
-            <label class="label" for="withTraffic">Traffic estimate</label>
+            <label for="withTraffic">Traffic estimate</label>
             <select id="withTraffic" class="input">
-              <option value="off">Off (faster)</option>
-              <option value="expiring">Expiring only</option>
-              <option value="all">All domains</option>
+              <!-- FIX #1 default to expiring so users see some traffic -->
+              <option value="expiring" selected>Expiring only (recommended)</option>
+              <option value="all">All domains (slower)</option>
+              <option value="off">Off (fastest)</option>
             </select>
           </div>
         </div>
 
         <div class="kbar">
-          <button class="btn" id="runBtn">Generate & Check</button>
-          <button class="btn secondary" id="exportBtn">Export CSV</button>
+          <button class="btn primary" id="runBtn">Generate & Check</button>
+          <button class="btn" id="exportBtn">Export CSV</button>
         </div>
 
         <div class="kbar" aria-live="polite">
@@ -230,67 +306,55 @@
           <div class="progress"><span id="statBar"></span></div>
         </div>
 
-        <div class="note">
-          Only <b>Available Now</b> & <b>Expiring Soon</b> are shown. We use RDAP (via your <code>/api?url=</code> proxy) to verify availability and read expiry dates. Traffic rank is best-effort.
-        </div>
-
-        <!-- Helpful links -->
-        <div class="card">
-          <h3 class="muted" style="margin:0 0 6px">Marketplaces & Tools</h3>
-          <div class="chips">
-            <a class="pill" href="https://auctions.godaddy.com/" target="_blank" rel="noopener">GoDaddy Auctions</a>
-            <a class="pill" href="https://www.namejet.com/" target="_blank" rel="noopener">NameJet</a>
-            <a class="pill" href="https://www.dropcatch.com/" target="_blank" rel="noopener">DropCatch</a>
-            <a class="pill" href="https://www.expireddomains.net/" target="_blank" rel="noopener">ExpiredDomains</a>
-            <a class="pill" href="https://lookup.icann.org/en/lookup" target="_blank" rel="noopener">ICANN WHOIS</a>
-            <a class="pill" href="https://web.archive.org/" target="_blank" rel="noopener">Archive.org</a>
+        <div class="card" style="padding:.7rem;">
+          <div class="row-grid">
+            <strong style="color:#e6f1ff;">Marketplaces & Tools</strong>
+            <div class="chips">
+              <a class="chip" href="https://auctions.godaddy.com/" target="_blank" rel="noopener">GoDaddy Auctions</a>
+              <a class="chip" href="https://www.namejet.com/" target="_blank" rel="noopener">NameJet</a>
+              <a class="chip" href="https://www.dropcatch.com/" target="_blank" rel="noopener">DropCatch</a>
+              <a class="chip" href="https://www.expireddomains.net/" target="_blank" rel="noopener">ExpiredDomains</a>
+              <a class="chip" href="https://lookup.icann.org/en/lookup" target="_blank" rel="noopener">ICANN WHOIS</a>
+              <a class="chip" href="https://web.archive.org/" target="_blank" rel="noopener">Archive.org</a>
+            </div>
+            <p class="tag" title="We verify via RDAP through your server-side proxy /api?url=">We verify via <b>RDAP</b> and show <b>expiry dates</b> when the registry exposes them. Traffic is best-effort (Similarweb public endpoint); if blocked, you’ll see “N/A”.</p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- RIGHT: Results -->
+    <!-- RIGHT: Results (both sections have internal scrollers) -->
     <section class="right">
       <article class="card">
-        <h3>
-          Available Now
-          <span class="badge" id="countAvail">0</span>
-        </h3>
+        <h3>Available Now <span class="badge" id="countAvail">0</span></h3>
         <div class="rows" id="listAvail">
-          <div class="muted">Run a search to see available domains.</div>
+          <div class="tag">Run a search to see available domains.</div>
         </div>
       </article>
 
       <div class="lists">
         <article class="card">
-          <h3>
-            Expiring Soon
-            <span class="badge" id="countExp">0</span>
-          </h3>
+          <h3>Expiring Soon <span class="badge" id="countExp">0</span></h3>
           <div class="rows" id="listExp">
-            <div class="muted">Import CSV or run generate to find domains expiring within your window.</div>
+            <div class="tag">Import CSV or run generate to find domains expiring within your window.</div>
           </div>
         </article>
 
         <article class="card video-card" aria-labelledby="ytTitle">
           <h3 id="ytTitle">How to Flip Domains (Beginner to Pro)</h3>
-          <div class="video-frame" id="ytFrame">
-            <!-- click-to-load to avoid CLS -->
+          <div class="frame" id="ytFrame">
             <button class="thumb" id="ytLoad" aria-label="Play tutorial video" data-id="QZp8x6J8T30">
               <img src="https://img.youtube.com/vi/QZp8x6J8T30/hqdefault.jpg" alt="Domain flipping tutorial" width="560" height="315" loading="lazy" decoding="async">
               <div class="play" aria-hidden="true"></div>
             </button>
           </div>
-          <p class="note" style="margin:.5rem 0 0">Video is lazy-loaded; layout is fixed with 16:9 frame for zero CLS.</p>
         </article>
       </div>
-
-      <!-- Suggested ad placement: After results (below fold on desktop) to avoid layout shift. Only render if you have an ad slot configured. -->
     </section>
   </main>
 
-  <footer class="center" style="margin: 12px 0 18px">
-    <div class="note">© UpTools · <a href="/#tools">All Tools</a> · <a href="/currency-converter/">Currency</a> · <a href="/password-generator/">Passwords</a> · <a href="/uuid-generator/">UUID</a> · <a href="/whatsapp-chat/">WhatsApp Link</a></div>
+  <footer>
+    © UpTools · <a href="/#tools">All Tools</a> · <a href="/currency-converter/">Currency</a> · <a href="/password-generator/">Passwords</a> · <a href="/uuid-generator/">UUID</a> · <a href="/whatsapp-chat/">WhatsApp Link</a>
   </footer>
 
   <script>
@@ -299,32 +363,35 @@
       $: (s, r=document)=>r.querySelector(s),
       $$: (s, r=document)=>[...r.querySelectorAll(s)],
       debounce(fn, d=120){ let t; return (...a)=>{ clearTimeout(t); t=setTimeout(()=>fn(...a), d); }; },
-      persist:(k,v)=>localStorage.setItem(k, JSON.stringify(v)),
-      read:(k,d=null)=>{try{return JSON.parse(localStorage.getItem(k)) ?? d;}catch{return d;}},
       fmtNum:(n,o={})=>(new Intl.NumberFormat('en-IN', {maximumFractionDigits:2, ...o}).format(n??0))
     };
     const {$, $$} = Utils;
 
-    // ---- UI helpers ----
+    // ---- TLD bubbles (FIX #5: visible active + aria-pressed) ----
     const tldSet = new Set([".com",".in",".co"]);
-    $$('#tlds .chip').forEach(c=> c.addEventListener('click', ()=>{
-      c.classList.toggle('active');
-      const t=c.dataset.tld;
-      if(c.classList.contains('active')) tldSet.add(t); else tldSet.delete(t);
-    }));
-
-    // Mode switching
-    const modes = { generate: $('#mode-generate'), paste: $('#mode-paste'), csv: $('#mode-csv') };
-    $$('.panel-body .chip[data-mode]').forEach(btn=>{
-      btn.addEventListener('click', ()=>{
-        $$('.panel-body .chip[data-mode]').forEach(b=> b.classList.remove('active'));
-        btn.classList.add('active');
-        const m = btn.dataset.mode;
-        Object.entries(modes).forEach(([k,el])=> el.classList.toggle('hidden', k!==m));
+    $$('#tlds .chip').forEach(c=>{
+      c.addEventListener('click', ()=>{
+        c.classList.toggle('active');
+        const t=c.dataset.tld;
+        const active=c.classList.contains('active');
+        c.setAttribute('aria-pressed', active ? 'true' : 'false');
+        if(active) tldSet.add(t); else tldSet.delete(t);
       });
     });
 
-    // ---- Brandability score (fast heuristic) ----
+    // ---- Mode switching ----
+    const modeBtns = $$('.panel-body .chip[data-mode]');
+    const modes = { generate: $('#mode-generate'), paste: $('#mode-paste'), csv: $('#mode-csv') };
+    modeBtns.forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        modeBtns.forEach(b=>{ b.classList.remove('active'); b.setAttribute('aria-pressed','false'); });
+        btn.classList.add('active'); btn.setAttribute('aria-pressed','true');
+        const m = btn.dataset.mode;
+        Object.entries(modes).forEach(([k,el])=> el.hidden = (k!==m));
+      });
+    });
+
+    // ---- Brandability score ----
     const vowels = new Set('aeiou');
     function brandScore(domain){
       const name = domain.split('.')[0];
@@ -373,24 +440,24 @@
           }
         });
       });
-      // score + dedupe
-      const uniq = [...new Map(out.map(d => [d, d])).values()];
+      const uniq = [...new Set(out)];
       return uniq.slice(0, 250).map(d=>({domain:d, score:brandScore(d)}))
                  .sort((a,b)=> b.score - a.score || a.domain.length - b.domain.length);
     }
 
-    // ---- RDAP lookup (via your CF Worker /api?url= proxy) ----
+    // ---- RDAP lookup via your CF Worker /api?url= ----
     async function rdapLookup(domain){
-      // rdap.org routes to the right registry. 404 => likely available.
       const url = `/api?url=${encodeURIComponent('https://rdap.org/domain/' + domain)}`;
       try{
         const res = await fetch(url, {cache:'no-store'});
         if(res.status === 404) return { status:'available' };
         if(!res.ok) return { status:'unknown' };
         const j = await res.json();
+        // expiration event can be "expiration", "expires", etc.
         const events = Array.isArray(j.events)? j.events : [];
-        const exp = events.find(e=> /expir/i.test(e.eventAction || ''))?.eventDate || null;
-        // registrar (best-effort)
+        const expEvt = events.find(e=> /(expir|expire)/i.test(e.eventAction || ''));
+        const exp = expEvt?.eventDate || null;
+        // registrar best-effort
         let registrar = j.registrarName || '';
         if(!registrar && Array.isArray(j.entities)){
           for(const ent of j.entities){
@@ -407,20 +474,21 @@
       }
     }
 
-    // ---- Traffic estimate (best-effort; Similarweb public data) ----
+    // ---- Traffic estimate (Similarweb public endpoint via proxy) ----
     async function trafficEstimate(domain){
+      // Many times CORS or missing data occurs. We still return a consistent object.
       const sw = `/api?url=${encodeURIComponent('https://data.similarweb.com/api/v1/data?domain=' + domain)}`;
       try{
         const r = await fetch(sw, {cache:'no-store'});
-        if(!r.ok) return null;
+        if(!r.ok) return { rank:null, visits:null };
         const j = await r.json();
         const rank = j?.GlobalRank?.Rank ?? null;
         const visits = j?.Engagements?.Visits ?? null;
         return { rank, visits };
-      }catch(_e){ return null; }
+      }catch(_e){ return { rank:null, visits:null }; }
     }
 
-    // ---- Concurrency control ----
+    // ---- Concurrency helper ----
     async function mapLimit(items, limit, worker){
       const ret = [];
       let i = 0;
@@ -433,42 +501,49 @@
       return ret;
     }
 
-    // ---- Rendering ----
+    // ---- Rendering (FIX #1, #2 show placeholders when missing) ----
     const listAvail = $('#listAvail');
     const listExp   = $('#listExp');
     const countAvail = $('#countAvail');
     const countExp = $('#countExp');
-    function rowHtml({domain, score, when, rank, registrar}){
+
+    function rowHtml({domain, score, when, rank, visits, registrar}){
       const buy = [
         ["Namecheap", `https://www.namecheap.com/domains/registration/results/?domain=${encodeURIComponent(domain)}`],
         ["Porkbun", `https://porkbun.com/search?q=${encodeURIComponent(domain)}`],
         ["Dynadot", `https://www.dynadot.com/domain/search.html?domain=${encodeURIComponent(domain)}`],
         ["GoDaddy", `https://in.godaddy.com/domainsearch/find?domainToCheck=${encodeURIComponent(domain)}`]
       ];
-      const links = buy.map(([t,h])=>`<a class="btn sm ghost" href="${h}" target="_blank" rel="noopener">${t}</a>`).join('');
-      const meta = `
-        <div class="meta">
-          <span class="tag"><b>Score</b> <span class="score">${score}</span></span>
-          ${when ? `<span class="tag">Expiry <span class="when">${when}</span></span>`:''}
-          ${rank ? `<span class="tag">Traffic rank <span class="rank">#${Utils.fmtNum(rank,{maximumFractionDigits:0})}</span></span>`:''}
-          ${registrar ? `<span class="tag">Registrar: ${registrar}</span>`:''}
-        </div>`;
+      const links = buy.map(([t,h])=>`<a class="btn sm ghost" href="${h}" target="_blank" rel="noopener" title="Open ${t} in new tab">${t}</a>`).join('');
+      const trafficText = (rank || visits) ? `
+        ${rank ? `<span class="tag">Rank <span class="rank">#${Utils.fmtNum(rank,{maximumFractionDigits:0})}</span></span>`:''}
+        ${visits ? `<span class="tag">Visits <span class="visits">${Utils.fmtNum(visits,{maximumFractionDigits:0})}</span></span>`:''}
+      ` : `<span class="tag" title="Traffic source unavailable or blocked; try later or keep Off for speed.">Traffic: N/A</span>`; // FIX #1 visible
+      const expiryText = when ? `<span class="tag">Expiry <span class="when">${when}</span></span>` : ''; // FIX #2 visible when we have it
+      const regText = registrar ? `<span class="tag" title="Registrar">${registrar}</span>` : '';
       return `<div class="rowi">
         <div>
           <div class="n">${domain}</div>
-          ${meta}
+          <div class="meta">
+            <span class="tag">Score <span class="score">${score}</span></span>
+            ${expiryText}
+            ${trafficText}
+            ${regText}
+          </div>
         </div>
         <div class="act">${links}</div>
       </div>`;
     }
 
     function addAvail(item){
-      if(listAvail.firstElementChild?.classList.contains('muted')) listAvail.innerHTML='';
+      if(listAvail.firstElementChild && !listAvail.firstElementChild.classList) listAvail.innerHTML='';
+      if(listAvail.querySelector('.tag') && listAvail.children.length===1) listAvail.innerHTML='';
       listAvail.insertAdjacentHTML('beforeend', rowHtml(item));
       countAvail.textContent = String(+countAvail.textContent + 1);
     }
     function addExp(item){
-      if(listExp.firstElementChild?.classList.contains('muted')) listExp.innerHTML='';
+      if(listExp.firstElementChild && !listExp.firstElementChild.classList) listExp.innerHTML='';
+      if(listExp.querySelector('.tag') && listExp.children.length===1) listExp.innerHTML='';
       listExp.insertAdjacentHTML('beforeend', rowHtml(item));
       countExp.textContent = String(+countExp.textContent + 1);
     }
@@ -492,15 +567,17 @@
       }).filter(x=> x.domain && /\./.test(x.domain));
     }
     function exportCSV(){
-      const rows = [['domain','score','status','expiry','rank','registrar']];
+      const rows = [['domain','score','status','expiry','rank','visits','registrar']];
       $$('#listAvail .rowi, #listExp .rowi').forEach(r=>{
         const domain = r.querySelector('.n')?.textContent?.trim() || '';
         const score = r.querySelector('.score')?.textContent?.trim() || '';
         const when  = r.querySelector('.when')?.textContent?.trim() || '';
         const rank  = r.querySelector('.rank')?.textContent?.replace('#','').trim() || '';
+        const visits= r.querySelector('.visits')?.textContent?.trim() || '';
         const status = r.closest('#listExp') ? 'expiring' : 'available';
-        const reg = r.querySelector('.meta .tag:nth-child(4)')?.textContent?.replace('Registrar:','').trim() || '';
-        rows.push([domain, score, status, when, rank, reg]);
+        const regTag = [...r.querySelectorAll('.meta .tag')].find(t=> t.title==='Registrar');
+        const registrar = regTag ? regTag.textContent.trim() : '';
+        rows.push([domain, score, status, when, rank, visits, registrar]);
       });
       const csv = rows.map(r=> r.map(x=> `"${String(x).replace(/"/g,'""')}"`).join(',')).join('\n');
       const a=document.createElement('a');
@@ -512,16 +589,16 @@
     // ---- Main flow ----
     $('#exportBtn').addEventListener('click', exportCSV);
     $('#resetBtn').addEventListener('click', ()=>{
-      listAvail.innerHTML = '<div class="muted">Run a search to see available domains.</div>';
-      listExp.innerHTML   = '<div class="muted">Import CSV or run generate to find domains expiring within your window.</div>';
+      listAvail.innerHTML = '<div class="tag">Run a search to see available domains.</div>';
+      listExp.innerHTML   = '<div class="tag">Import CSV or run generate to find domains expiring within your window.</div>';
       countAvail.textContent = '0'; countExp.textContent='0';
       setProgress(0,0,'Idle');
     });
 
     $('#runBtn').addEventListener('click', async ()=>{
       // Reset UI
-      listAvail.innerHTML = '<div class="muted">Checking…</div>';
-      listExp.innerHTML   = '<div class="muted">Checking…</div>';
+      listAvail.innerHTML = '<div class="tag">Checking…</div>';
+      listExp.innerHTML   = '<div class="tag">Checking…</div>';
       countAvail.textContent='0'; countExp.textContent='0';
       setProgress(0,0,'Preparing…');
 
@@ -543,46 +620,44 @@
         const text = await f.text();
         domains = parseCSV(text).map(r=>r.domain);
       }
+
       // Deduplicate & limit
       domains = [...new Set(domains)].slice(0, 300);
+      if(domains.length === 0){ alert('No domains to check.'); return; }
 
       const total = domains.length;
       let done = 0; setProgress(done, total, 'Checking RDAP');
 
       const expWindowDays = Math.max(1, Math.min(120, +$('#expWindow').value || 30));
-      const trafficMode = $('#withTraffic').value; // off | expiring | all
+      const trafficMode = $('#withTraffic').value; // expiring | all | off
       const wantTrafficAll = trafficMode === 'all';
       const wantTrafficExp = trafficMode === 'expiring';
 
-      // Precompute scores
       const scoreMap = new Map(domains.map(d => [d, brandScore(d)]));
 
-      // Lookups with small concurrency
       await mapLimit(domains, 6, async (domain)=>{
         const rd = await rdapLookup(domain);
-        let rank = null, visits = null;
+        let rank=null, visits=null;
 
         if(rd.status === 'available'){
-          if(wantTrafficAll){ const t = await trafficEstimate(domain); rank = t?.rank || null; visits = t?.visits || null; }
-          addAvail({ domain, score: scoreMap.get(domain), rank });
+          if(wantTrafficAll){ ({rank, visits} = await trafficEstimate(domain)); }
+          addAvail({ domain, score: scoreMap.get(domain), rank, visits });
         }else if(rd.status === 'registered' && rd.expiration){
           const exp = new Date(rd.expiration);
           const today = new Date();
-          const days = Math.ceil((exp - today)/86400000);
+          // Use floor so “same day” shows 0 days (not 1+ due to time zone rounding)
+          const days = Math.floor((exp - today)/86400000);
           if(days >= 0 && days <= expWindowDays){
-            if(wantTrafficAll || wantTrafficExp){
-              const t = await trafficEstimate(domain); rank = t?.rank || null; visits = t?.visits || null;
-            }
+            if(wantTrafficAll || wantTrafficExp){ ({rank, visits} = await trafficEstimate(domain)); }
             const when = exp.toISOString().split('T')[0];
-            addExp({ domain, score: scoreMap.get(domain), when, rank, registrar: rd.registrar || '' });
+            addExp({ domain, score: scoreMap.get(domain), when, rank, visits, registrar: rd.registrar || '' });
           }
         }
-        // ignore registered but not expiring within window
         done++; setProgress(done, total, 'Checking RDAP');
       });
 
-      if(+countAvail.textContent === 0) listAvail.innerHTML = '<div class="muted">No immediately available candidates found with current settings.</div>';
-      if(+countExp.textContent === 0) listExp.innerHTML = '<div class="muted">No domains expiring within your chosen window.</div>';
+      if(+countAvail.textContent === 0) listAvail.innerHTML = '<div class="tag">No immediately available candidates found with current settings.</div>';
+      if(+countExp.textContent === 0) listExp.innerHTML = '<div class="tag">No domains expiring within your chosen window.</div>';
     });
 
     // ---- YouTube lazy loader ----
