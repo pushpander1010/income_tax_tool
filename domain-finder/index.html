@@ -1,15 +1,15 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <!-- If an ad-blocker is active you'll see a console warning (ERR_BLOCKED_BY_CLIENT). It's harmless. -->
+  <!-- Ads (async; harmless if blocked) -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617" crossorigin="anonymous"></script>
 
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <title>Domain Finder (Available + Expiring) | UpTools</title>
-  <meta name="description" content="Find only REAL opportunities: show domains that are AVAILABLE now or EXPIRING soon (with expiry dates). Generate by keywords, by length (permutations & pronounceable patterns), or filter by REGEX. RDAP checks, optional traffic, shortlist & export." />
-  <meta name="keywords" content="domain finder, available domains, expiring domains, RDAP, domain flipping, permutations, pronounceable domains, regex domain search, domain traffic, brandable domains, domain investing" />
+  <meta name="description" content="Find ONLY real opportunities: domains AVAILABLE now or EXPIRING soon (with expiry dates). Use Seed Keyword Finder, Length-Based Generator, or Regex Filter. RDAP checks + optional traffic. Export CSV." />
+  <meta name="keywords" content="domain finder, available domains, expiring domains, RDAP, regex domain search, length based domains, pronounceable domains, domain flipping, brandable names" />
   <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
   <meta name="theme-color" content="#0b1020" />
   <link rel="canonical" href="https://www.uptools.in/domain-finder/" />
@@ -18,10 +18,10 @@
   <link rel="icon" type="image/svg+xml" href="/assets/logo/uptools-logo.svg" />
   <link rel="apple-touch-icon" href="/assets/logo/uptools-logo.svg" />
 
-  <!-- Open Graph (safe to keep even if the image is missing; it’s for social previews only) -->
+  <!-- Open Graph -->
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Domain Finder (Available + Expiring) | UpTools" />
-  <meta property="og:description" content="Only available & expiring domains (with expiry dates). Generate by keywords or by length, and filter by regex. Optional traffic rank. Export CSV." />
+  <meta property="og:description" content="Seed, Length, or Regex based discovery. Shows ONLY available or expiring domains (with dates). Optional traffic. Export CSV." />
   <meta property="og:url" content="https://www.uptools.in/domain-finder/" />
   <meta property="og:image" content="/assets/og/domain-finder.png" />
   <meta property="og:site_name" content="UpTools" />
@@ -29,11 +29,11 @@
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Domain Finder (Available + Expiring)" />
-  <meta name="twitter:description" content="Generate domains by keywords or by length (permutations/patterns). Filter with your regex. Show only AVAILABLE & EXPIRING (with dates), optional traffic rank." />
+  <meta name="twitter:description" content="Generate or filter domains via Seed, Length, or Regex. Only AVAILABLE & EXPIRING (with dates)." />
   <meta name="twitter:image" content="/assets/og/domain-finder.png" />
 
-  <!-- Common CSS & Utils (point to shared root; avoids /scripts/ path & MIME issues) -->
-  <link rel="stylesheet" href="/style.css?v=1.3.5" />
+  <!-- Common CSS & Utils -->
+  <link rel="stylesheet" href="/style.css?v=1.3.6" />
   <script defer src="/utils.js" type="text/javascript"></script>
 
   <!-- JSON-LD -->
@@ -48,7 +48,7 @@
         "operatingSystem":"Any",
         "url":"https://www.uptools.in/domain-finder/",
         "image":"https://www.uptools.in/assets/og/domain-finder.png",
-        "description":"Find only real opportunities: AVAILABLE domains and EXPIRING soon domains with expiry dates. Generate by keywords or by character length (permutations & pronounceable patterns), and filter by regex.",
+        "description":"Find AVAILABLE domains and EXPIRING soon domains with expiry dates. Seed keywords, Length-based, or Regex filter.",
         "offers":{"@type":"Offer","price":"0","priceCurrency":"INR"}
       },
       {
@@ -64,15 +64,11 @@
   </script>
 
   <style>
-    /* ---------- Safety + base ---------- */
+    /* ---------- Base ---------- */
     *,*::before,*::after{ box-sizing:border-box; }
     html,body{ height:100%; }
     img{ max-width:100%; height:auto; }
-    :root{
-      --header-h: 60px;
-      --content-w: 1120px;
-      --radius: 12px;
-    }
+    :root{ --header-h:60px; --content-w:1120px; --radius:12px; }
     body{
       background:
         radial-gradient(900px 480px at 12% -10%, #0b1020 0, transparent 50%),
@@ -80,64 +76,47 @@
     }
 
     /* ---------- Header ---------- */
-    .site{ position: sticky; top: 0; z-index: 20; background: rgba(8,12,20,.6); backdrop-filter: blur(6px); border-bottom: 1px solid rgba(255,255,255,.06); }
-    .header-inner{ max-width: var(--content-w); margin:0 auto; padding:.6rem .8rem; display:flex; justify-content:space-between; align-items:center; min-height: var(--header-h); }
+    .site{ position:sticky; top:0; z-index:20; background:rgba(8,12,20,.6); backdrop-filter:blur(6px); border-bottom:1px solid rgba(255,255,255,.06);}
+    .header-inner{ max-width:var(--content-w); margin:0 auto; padding:.6rem .8rem; display:flex; justify-content:space-between; align-items:center; min-height:var(--header-h); }
     .brand{ display:flex; gap:.5rem; align-items:center; color:#eaf3ff; text-decoration:none; }
     .nav-links a{ color:#b8c7d9; margin-left:1rem; text-decoration:none; }
-    .nav-links a[aria-current="page"]{ color:#fff; font-weight:700; text-decoration:underline; text-underline-offset: 6px; }
+    .nav-links a[aria-current="page"]{ color:#fff; font-weight:700; text-decoration:underline; text-underline-offset:6px; }
 
-    /* ---------- Layout (single page with internal scrollers) ---------- */
+    /* ---------- Layout ---------- */
     main.page{
-      max-width: var(--content-w);
-      margin: 0 auto;
-      padding: .75rem;
-      height: calc(100dvh - var(--header-h));
-      display: grid;
-      grid-template-columns: 390px 1fr;
-      gap: .75rem;
-      min-height: 560px;
+      max-width:var(--content-w);
+      margin:0 auto;
+      padding:.75rem;
+      height:calc(100dvh - var(--header-h));
+      display:grid;
+      grid-template-columns: 420px 1fr;
+      gap:.75rem;
+      min-height:560px;
     }
-    @media (max-width: 950px){
-      main.page{ grid-template-columns: 1fr; height: auto; min-height: calc(100dvh - var(--header-h)); }
-    }
+    @media (max-width: 1020px){ main.page{ grid-template-columns:1fr; height:auto; } }
 
     /* ---------- Panels ---------- */
-    .panel, .card{
-      background: #0f1726;
-      border: 1px solid rgba(255,255,255,.08);
-      border-radius: var(--radius);
-      box-shadow: 0 10px 30px rgba(0,0,0,.35);
-    }
-    .panel{ display:flex; flex-direction:column; min-height: 0; }
+    .panel,.card{ background:#0f1726; border:1px solid rgba(255,255,255,.08); border-radius:var(--radius); box-shadow:0 10px 30px rgba(0,0,0,.35); }
+    .panel{ display:flex; flex-direction:column; min-height:0; }
     .panel-header{ padding:.8rem .9rem; border-bottom:1px solid rgba(255,255,255,.08); display:flex; align-items:center; justify-content:space-between; }
     .panel-title{ display:flex; align-items:center; gap:.5rem; font-weight:800; color:#e9f2ff; }
-    .pill{
-      display:inline-block; padding:.32rem .6rem; border-radius: 10px;
-      background: linear-gradient(135deg, var(--accent,#64ffda), var(--accent-2,#41c9a8)); color:#07161a; font-weight:900; line-height:1; white-space:nowrap;
-    }
-    .panel-body{ padding: .8rem .9rem; display: grid; gap: .75rem; overflow: auto; max-height: calc(100% - 54px); }
+    .pill{ display:inline-block; padding:.32rem .6rem; border-radius:10px; background:linear-gradient(135deg,#64ffda,#41c9a8); color:#07161a; font-weight:900; line-height:1; white-space:nowrap; }
+    .panel-body{ padding:.8rem .9rem; display:grid; gap:.75rem; overflow:auto; max-height:calc(100% - 54px); }
+    .section{ border:1px dashed #263248; border-radius:12px; padding:.75rem; display:grid; gap:.6rem; }
+    .section h4{ margin:0; color:#eaf3ff; display:flex; align-items:center; gap:.5rem; font-size:1.02rem; }
 
     .row-grid{ display:grid; gap:.6rem; }
-    .row-2{ grid-template-columns: 1fr 1fr; gap: .6rem; }
-    .row-3{ grid-template-columns: repeat(3,1fr); gap: .6rem; }
-    @media (max-width: 950px){ .row-2,.row-3{ grid-template-columns:1fr; } }
+    .row-2{ grid-template-columns:1fr 1fr; gap:.6rem; }
+    .row-3{ grid-template-columns:repeat(3,1fr); gap:.6rem; }
+    @media (max-width:950px){ .row-2,.row-3{ grid-template-columns:1fr; } }
 
-    /* Inputs */
+    /* Inputs & chips */
     label{ color:#c7d6e5; font-size:.95rem; }
-    .input, .textarea, select{
-      background:#0b1322; border:1px solid #263248; color:#e7f0ff; border-radius:10px; padding:.6rem .75rem; outline:none; width:100%;
-    }
-    .textarea{ min-height: 120px; resize: vertical; }
-
+    .input,.textarea,select{ background:#0b1322; border:1px solid #263248; color:#e7f0ff; border-radius:10px; padding:.6rem .75rem; outline:none; width:100%; }
+    .textarea{ min-height:120px; resize:vertical; }
     .chips{ display:flex; flex-wrap:wrap; gap:.5rem; }
-    .chip{
-      padding:.45rem .7rem; border-radius:999px; background:#0b1322; border:1px solid #263248; color:#a9bed4;
-      cursor:pointer; user-select:none; transition: .15s ease; position:relative; font-weight:600;
-    }
-    .chip.active{
-      background: linear-gradient(135deg, rgba(100,255,218,.20), rgba(65,201,168,.20));
-      border-color:#4bdcb3; color:#eafffb; outline: 2px solid rgba(100,255,218,.25); outline-offset: 1px; box-shadow: 0 0 0 2px rgba(75,220,179,.1) inset;
-    }
+    .chip{ padding:.45rem .7rem; border-radius:999px; background:#0b1322; border:1px solid #263248; color:#a9bed4; cursor:pointer; user-select:none; transition:.15s; position:relative; font-weight:600; }
+    .chip.active{ background:linear-gradient(135deg,rgba(100,255,218,.20),rgba(65,201,168,.20)); border-color:#4bdcb3; color:#eafffb; outline:2px solid rgba(100,255,218,.25); outline-offset:1px; box-shadow:0 0 0 2px rgba(75,220,179,.1) inset; }
 
     .btn{ border:1px solid #2a3a57; background:#122034; color:#d8e7ff; border-radius:10px; padding:.55rem .9rem; font-weight:700; cursor:pointer; }
     .btn.primary{ background:linear-gradient(180deg,#13aa87,#0e8c71); border-color:#0b6b57; }
@@ -147,19 +126,16 @@
 
     .kbar{ display:flex; align-items:center; gap:.6rem; font-size:.9rem; color:#9db2c8; }
     .progress{ height:8px; background:#0b1326; border:1px solid #203052; border-radius:8px; width:100%; overflow:hidden; }
-    .progress > span{ display:block; height:100%; width:0%; background:linear-gradient(90deg, var(--accent,#64ffda), var(--accent-2,#41c9a8)); transition:width .25s ease; }
+    .progress>span{ display:block; height:100%; width:0%; background:linear-gradient(90deg,#64ffda,#41c9a8); transition:width .25s ease; }
 
-    /* RIGHT */
-    .right{ display:grid; grid-template-rows: min-content minmax(0,1fr); gap:.75rem; min-height:0; }
-    .lists{ display:grid; grid-template-columns: 1fr 1fr; gap:.75rem; min-height:0; }
-    @media (max-width: 950px){ .lists{ grid-template-columns:1fr; } }
+    /* RIGHT area */
+    .right{ display:grid; grid-template-rows:min-content minmax(0,1fr); gap:.75rem; min-height:0; }
+    .lists{ display:grid; grid-template-columns:1fr 1fr; gap:.75rem; min-height:0; }
+    @media (max-width:950px){ .lists{ grid-template-columns:1fr; } }
     .card h3{ margin:.8rem .9rem; display:flex; align-items:center; justify-content:space-between; }
-    .rows{ display:grid; gap:.5rem; overflow:auto; padding: 0 .9rem .9rem; max-height: calc(100% - 48px); }
+    .rows{ display:grid; gap:.5rem; overflow:auto; padding:0 .9rem .9rem; max-height:calc(100% - 48px); }
 
-    .rowi{
-      display:grid; grid-template-columns: 1fr auto; gap:.6rem; align-items:center;
-      border:1px dashed #253149; border-radius:10px; padding:.7rem .8rem; background:#0b1326; overflow:hidden;
-    }
+    .rowi{ display:grid; grid-template-columns:1fr auto; gap:.6rem; align-items:center; border:1px dashed #253149; border-radius:10px; padding:.7rem .8rem; background:#0b1326; overflow:hidden; }
     .n{ font-weight:800; color:#dffaf2; overflow-wrap:anywhere; word-break:break-word; }
     .meta{ display:flex; flex-wrap:wrap; gap:.45rem; margin-top:.35rem; font-size:.85rem; }
     .tag{ border:1px solid #2a3a57; background:#0a1224; color:#b9d0ff; padding:.25rem .55rem; border-radius:999px; }
@@ -169,29 +145,22 @@
     .visits{ color:#8ff9ff; font-weight:800; }
     .badge{ font:700 12px/1 system-ui; border:1px solid #203052; background:#0b1326; color:#cfe7ff; padding:.25rem .55rem; border-radius:999px; }
 
-    /* Themed Choose File */
-    .file-row{ display:grid; gap:.5rem; }
-    input[type="file"]{ display:none; }
-    .filebtn{
-      display:inline-flex; align-items:center; gap:.5rem;
-      border:1px dashed #2a3a57; background:#0b1322; color:#d8e7ff; border-radius:10px; padding:.55rem .8rem; font-weight:700; cursor:pointer;
-    }
-    .filebtn:hover{ border-color:#4bdcb3; box-shadow: 0 0 0 2px rgba(75,220,179,.08) inset; }
-    .fileinfo{ font-size:.85rem; color:#9db2c8; }
+    /* Regex examples */
+    .examples{ display:flex; flex-wrap:wrap; gap:.4rem; }
+    .ex{ font:600 .9rem/1.2 system-ui; color:#cfe7ff; background:#0b1326; border:1px solid #203052; border-radius:8px; padding:.28rem .5rem; }
 
     /* Video */
-    .video-card .frame{ position:relative; width:100%; aspect-ratio:16/9; border-top:1px solid rgba(255,255,255,.06); border-bottom-left-radius: var(--radius); border-bottom-right-radius: var(--radius); overflow:hidden; background:#0b1326; }
+    .video-card .frame{ position:relative; width:100%; aspect-ratio:16/9; border-top:1px solid rgba(255,255,255,.06); border-bottom-left-radius:var(--radius); border-bottom-right-radius:var(--radius); overflow:hidden; background:#0b1326; }
     .video-card iframe{ position:absolute; inset:0; width:100%; height:100%; border:0; }
     .thumb{ position:absolute; inset:0; cursor:pointer; display:grid; place-items:center; }
     .thumb img{ width:100%; height:100%; object-fit:cover; }
     .thumb .play{ position:absolute; width:72px; height:72px; border-radius:999px; background:rgba(0,0,0,.5); border:2px solid #fff; display:grid; place-items:center; }
     .thumb .play::after{ content:""; border-left:18px solid #fff; border-top:10px solid transparent; border-bottom:10px solid transparent; margin-left:6px; }
 
-    footer{ max-width: var(--content-w); margin: .6rem auto 1rem; color:#9db3c6; text-align:center; }
+    footer{ max-width:var(--content-w); margin:.6rem auto 1rem; color:#9db3c6; text-align:center; }
     footer a{ color:#9ac7ff; text-decoration:none; }
   </style>
 </head>
-
 <body>
   <!-- Header -->
   <header class="site" role="banner">
@@ -211,33 +180,25 @@
   </header>
 
   <main class="page">
-    <!-- LEFT: Controls -->
+    <!-- LEFT: Three separate sections -->
     <section class="panel" id="controls">
       <div class="panel-header">
-        <div class="panel-title"><span class="pill">DF</span> Only-Opportunities Finder</div>
+        <div class="panel-title"><span class="pill">DF</span> Domain Opportunities</div>
         <button class="btn sm secondary" id="resetBtn">Reset</button>
       </div>
 
       <div class="panel-body">
-        <!-- Mode -->
-        <div class="row-grid">
-          <label>Search mode</label>
-          <div class="chips" role="group" aria-label="Search mode">
-            <button type="button" class="chip active" data-mode="generate" aria-pressed="true">Generate (keywords, optional)</button>
-            <button type="button" class="chip" data-mode="length" aria-pressed="false">Length-only (permutations / patterns)</button>
-            <button type="button" class="chip" data-mode="paste" aria-pressed="false">Paste list</button>
-            <button type="button" class="chip" data-mode="csv" aria-pressed="false">Import CSV</button>
+        <!-- 1) Seed word domain name finder -->
+        <div class="section" id="seed-sec">
+          <h4>1) Seed Keyword Finder</h4>
+          <div class="row-grid">
+            <label for="kw">Seed keywords (optional, comma/space separated)</label>
+            <input id="kw" class="input" placeholder="e.g., ai, health, travel — or leave empty" />
           </div>
-        </div>
-
-        <!-- Generate (seed OPTIONAL) -->
-        <div id="mode-generate" class="row-grid">
-          <label for="kw">Seed keywords (optional)</label>
-          <input id="kw" class="input" placeholder="e.g., ai, health, fintech, travel — or leave empty" />
           <div class="row-grid row-2">
             <div>
               <label>TLDs</label>
-              <div class="chips" id="tlds">
+              <div class="chips" id="tlds-seed">
                 <button class="chip active" data-tld=".com" aria-pressed="true">.com</button>
                 <button class="chip active" data-tld=".in" aria-pressed="true">.in</button>
                 <button class="chip active" data-tld=".co" aria-pressed="true">.co</button>
@@ -259,10 +220,12 @@
               </select>
             </div>
           </div>
+          <button class="btn primary" id="runSeedBtn">Find from Seeds</button>
         </div>
 
-        <!-- Length-only generator -->
-        <div id="mode-length" class="row-grid" hidden>
+        <!-- 2) Length-based -->
+        <div class="section" id="length-sec">
+          <h4>2) Length-Based Generator</h4>
           <div class="row-grid row-3">
             <div>
               <label for="lenN">Target length</label>
@@ -272,7 +235,7 @@
               <label for="lenKind">Generation</label>
               <select id="lenKind" class="input">
                 <option value="pattern" selected>Pronounceable (C/V patterns)</option>
-                <option value="perm">Brute-force permutations (small length)</option>
+                <option value="perm">Permutations (short length)</option>
               </select>
             </div>
             <div>
@@ -280,7 +243,6 @@
               <input id="lenLimit" type="number" class="input" min="10" max="1000" value="200" />
             </div>
           </div>
-
           <div class="row-grid row-3">
             <div>
               <label>Allowed chars</label>
@@ -299,7 +261,7 @@
             </div>
             <div>
               <label>TLDs</label>
-              <div class="chips" id="tlds2">
+              <div class="chips" id="tlds-length">
                 <button class="chip active" data-tld=".com" aria-pressed="true">.com</button>
                 <button class="chip active" data-tld=".in" aria-pressed="true">.in</button>
                 <button class="chip" data-tld=".co" aria-pressed="false">.co</button>
@@ -308,34 +270,21 @@
               </div>
             </div>
           </div>
-
-          <p class="tag">Tip: <b>Permutations</b> explode quickly. For length ≤ 3 we try exhaustive; otherwise we sample up to your <b>Max candidates</b>. <b>Pronounceable</b> uses C/V patterns (e.g., CVCV, CVVCV) to generate brandable strings.</p>
+          <button class="btn primary" id="runLengthBtn">Generate by Length</button>
         </div>
 
-        <!-- Paste -->
-        <div id="mode-paste" class="row-grid" hidden>
-          <label for="pasteBox">Paste domains (one per line)</label>
-          <textarea id="pasteBox" class="textarea" placeholder="example.com&#10;cool.ai&#10;awesome.co"></textarea>
-        </div>
-
-        <!-- CSV (themed Choose File) -->
-        <div id="mode-csv" class="row-grid" hidden>
-          <div class="file-row">
-            <input id="csvFile" type="file" accept=".csv,text/csv" />
-            <label for="csvFile" class="filebtn" id="fileBtn">📄 Choose CSV</label>
-            <div class="fileinfo" id="fileInfo">Import CSV as: domain[,exp_date]</div>
+        <!-- 3) Regex-based -->
+        <div class="section" id="regex-sec">
+          <h4>3) Regex-Based Filter</h4>
+          <div class="row-grid">
+            <label for="regexFilter">Regex pattern (match domain name or full domain)</label>
+            <input id="regexFilter" class="input" placeholder="Raw: ^re[a-z]{3}$  or JS style: /^[a-z]{5}\d$/i" />
           </div>
-        </div>
-
-        <!-- Regex filter -->
-        <div class="row-grid">
-          <label for="regexFilter">Regex filter (optional)</label>
-          <input id="regexFilter" class="input" placeholder="e.g., ^(ai|ml)[a-z]{3,6}$  or  /^[a-z]{5}\d$/i" />
           <div class="row-3">
             <div>
               <label>Scope</label>
               <div class="chips" id="regexScope">
-                <button class="chip active" data-scope="name" aria-pressed="true">Match name only</button>
+                <button class="chip active" data-scope="name" aria-pressed="true">Name only</button>
                 <button class="chip" data-scope="full" aria-pressed="false">Include TLD</button>
               </div>
             </div>
@@ -350,7 +299,27 @@
               <div id="regexErr" class="tag" style="display:none;">Invalid regex pattern</div>
             </div>
           </div>
-          <p class="tag">You can enter either a raw pattern (<code>^[a-z]{4,7}(ai|io)$</code>) or a JavaScript-style regex with slashes (<code>/^[a-z]{4,7}(ai|io)$/i</code>).</p>
+          <div class="row-grid row-2">
+            <div>
+              <label>TLDs (used when scope = name)</label>
+              <div class="chips" id="tlds-regex">
+                <button class="chip active" data-tld=".com" aria-pressed="true">.com</button>
+                <button class="chip active" data-tld=".in" aria-pressed="true">.in</button>
+                <button class="chip" data-tld=".co" aria-pressed="false">.co</button>
+                <button class="chip" data-tld=".io" aria-pressed="false">.io</button>
+                <button class="chip" data-tld=".ai" aria-pressed="false">.ai</button>
+              </div>
+            </div>
+            <div>
+              <label for="regexPool">Candidate pool size (generated to test)</label>
+              <input id="regexPool" type="number" class="input" min="50" max="1200" value="400" />
+            </div>
+          </div>
+          <div class="row-grid">
+            <label>Example matches your regex would accept</label>
+            <div class="examples" id="regexExamples"><span class="tag">Type a regex to preview examples…</span></div>
+          </div>
+          <button class="btn primary" id="runRegexBtn">Filter by Regex</button>
         </div>
 
         <!-- Global options -->
@@ -370,7 +339,6 @@
         </div>
 
         <div class="kbar">
-          <button class="btn primary" id="runBtn">Generate & Check</button>
           <button class="btn" id="exportBtn">Export CSV</button>
         </div>
 
@@ -390,7 +358,7 @@
               <a class="chip" href="https://lookup.icann.org/en/lookup" target="_blank" rel="noopener">ICANN WHOIS</a>
               <a class="chip" href="https://web.archive.org/" target="_blank" rel="noopener">Archive.org</a>
             </div>
-            <p class="tag">Verification via <b>RDAP</b> (expiry when exposed). Traffic is best-effort; if blocked you’ll see <b>N/A</b>.</p>
+            <p class="tag">We verify via <b>RDAP</b> and show <b>expiry dates</b> when registries expose them. Traffic is best-effort; if blocked you’ll see <b>N/A</b>.</p>
           </div>
         </div>
       </div>
@@ -409,14 +377,14 @@
         <article class="card">
           <h3>Expiring Soon <span class="badge" id="countExp">0</span></h3>
           <div class="rows" id="listExp">
-            <div class="tag">Import CSV or run generate to find domains expiring within your window.</div>
+            <div class="tag">Find domains expiring within your window.</div>
           </div>
         </article>
 
         <article class="card video-card" aria-labelledby="ytTitle">
           <h3 id="ytTitle">How to Flip Domains (Beginner to Pro)</h3>
           <div class="frame" id="ytFrame">
-            <!-- Inline SVG placeholder (avoids 404 for missing /assets/og/domain-finder.png) -->
+            <!-- Inline SVG placeholder to avoid 404 -->
             <button class="thumb" id="ytLoad" aria-label="Play tutorial video" data-id="dQw4w9WgXcQ">
               <img alt="Domain flipping tutorial"
                    width="560" height="315" loading="lazy" decoding="async"
@@ -434,23 +402,17 @@
   </footer>
 
   <script>
-    /* ======================== FALLBACK UTILS (if /utils.js 404 or wrong MIME) ======================== */
+    /* ====== Fallback Utils (if /utils.js missing) ====== */
     const Utils = (window.Utils) || {
       $: (s, r=document)=>r.querySelector(s),
       $$: (s, r=document)=>[...r.querySelectorAll(s)],
-      debounce(fn, d=120){ let t; return (...a)=>{ clearTimeout(t); t=setTimeout(()=>fn(...a), d); }; },
+      debounce(fn, d=160){ let t; return (...a)=>{ clearTimeout(t); t=setTimeout(()=>fn(...a), d); }; },
       fmtNum:(n,o={})=>(new Intl.NumberFormat('en-IN', {maximumFractionDigits:2, ...o}).format(n??0)),
       download(name, data, type="text/csv"){ const blob = new Blob([data], {type}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=name; a.click(); URL.revokeObjectURL(a.href); }
     };
     const {$, $$} = Utils;
 
-    /* ======================== UI HOOKS ======================== */
-    const fileEl = $('#csvFile'), fileInfo = $('#fileInfo');
-    fileEl?.addEventListener('change', ()=>{
-      const f = fileEl.files?.[0];
-      fileInfo.textContent = f ? `Selected: ${f.name} (${Utils.fmtNum(f.size)} bytes)` : 'Import CSV as: domain[,exp_date]';
-    });
-
+    /* ====== Chip toggles ====== */
     function initChipToggle(containerSelector, onToggle, singleSelect=false){
       $$(containerSelector + ' .chip').forEach(c=>{
         c.addEventListener('click', ()=>{
@@ -466,77 +428,62 @@
       });
     }
 
-    // TLD chips
-    const tldSet = new Set([".com",".in",".co"]);
-    const tldSet2 = new Set([".com",".in"]); // length-mode
-    initChipToggle('#tlds', (c,active)=>{ const t=c.dataset.tld; if(active) tldSet.add(t); else tldSet.delete(t); });
-    initChipToggle('#tlds2', (c,active)=>{ const t=c.dataset.tld; if(active) tldSet2.add(t); else tldSet2.delete(t); });
+    /* ====== TLD sets per section ====== */
+    const tldSeed = new Set([".com",".in",".co"]);
+    const tldLength = new Set([".com",".in"]);
+    const tldRegex = new Set([".com",".in"]);
+    initChipToggle('#tlds-seed',  (c,a)=>{ const t=c.dataset.tld; if(a) tldSeed.add(t); else tldSeed.delete(t); });
+    initChipToggle('#tlds-length',(c,a)=>{ const t=c.dataset.tld; if(a) tldLength.add(t); else tldLength.delete(t); });
+    initChipToggle('#tlds-regex', (c,a)=>{ const t=c.dataset.tld; if(a) tldRegex.add(t); else tldRegex.delete(t); });
 
-    // Length-only flags
+    /* ====== Length flags ====== */
     const lenFlags = { letters:true, digits:false, hyphen:false, start:'letter' };
-    initChipToggle('#lenChars', (c,active)=>{ lenFlags[c.dataset.flag] = active; });
-    initChipToggle('#lenStart', (c,active)=>{
-      if(active){
+    initChipToggle('#lenChars', (c,a)=>{ lenFlags[c.dataset.flag] = a; });
+    initChipToggle('#lenStart', (c,a)=>{
+      if(a){
         $$('#lenStart .chip').forEach(x=>{ if(x!==c){ x.classList.remove('active'); x.setAttribute('aria-pressed','false'); } });
         lenFlags.start = c.dataset.start;
       }
-    });
+    }, true);
 
-    // Regex controls
+    /* ====== Regex controls ====== */
     let regexScope = 'name';
     let regexFlags = '';
-    initChipToggle('#regexScope', (c,active)=>{
-      if(active){
+    initChipToggle('#regexScope', (c,a)=>{
+      if(a){
         $$('#regexScope .chip').forEach(x=>{ if(x!==c){ x.classList.remove('active'); x.setAttribute('aria-pressed','false'); } });
         regexScope = c.dataset.scope || 'name';
+        updateRegexExamples();
       }
     }, true);
-    initChipToggle('#regexFlags', (c,active)=>{
+    initChipToggle('#regexFlags', (c,a)=>{
       const f = c.dataset.flag;
-      if(active && !regexFlags.includes(f)) regexFlags += f;
-      if(!active) regexFlags = regexFlags.replace(new RegExp(f,'g'),'');
+      if(a && !regexFlags.includes(f)) regexFlags += f;
+      if(!a) regexFlags = regexFlags.replace(new RegExp(f,'g'),'');
+      updateRegexExamples();
     });
 
     function parseRegexInput(input, chipFlags){
       const s = input.trim();
       if(!s) return null;
-      // Accept forms like `/pattern/gi` or raw `pattern`
+      // Accept `/pattern/gi` or raw `pattern`
       if(s.startsWith('/')){
         const last = s.lastIndexOf('/');
         if(last > 0){
-          const body = s.slice(1, last);
-          const tailFlags = s.slice(last+1);
-          // merge flags: unique union of (tailFlags U chipFlags)
-          const merged = [...new Set((tailFlags + chipFlags).split(''))].join('');
+          const body = s.slice(1,last);
+          const tail = s.slice(last+1);
+          const merged = [...new Set((tail+chipFlags).split(''))].join('');
           try{ return new RegExp(body, merged); }catch(e){ return 'invalid'; }
         }
       }
       try{ return new RegExp(s, chipFlags); }catch(e){ return 'invalid'; }
     }
 
-    function showInvalidRegex(){
-      $('#regexErr').style.display = 'inline-block';
-      // Reset UI so it doesn't look like it's still processing
-      listAvail.innerHTML = '<div class="tag">Invalid regex. Fix the pattern and try again.</div>';
-      listExp.innerHTML   = '<div class="tag">Invalid regex. Fix the pattern and try again.</div>';
-      countAvail.textContent = '0';
-      countExp.textContent   = '0';
-      setProgress(0,0,'Idle');
+    function showRegexError(on=true){
+      $('#regexErr').style.display = on ? 'inline-block' : 'none';
     }
 
-    // Mode switching
-    const modeBtns = $$('.panel-body .chip[data-mode]');
-    const modes = { generate: $('#mode-generate'), length: $('#mode-length'), paste: $('#mode-paste'), csv: $('#mode-csv') };
-    modeBtns.forEach(btn=>{
-      btn.addEventListener('click', ()=>{
-        modeBtns.forEach(b=>{ b.classList.remove('active'); b.setAttribute('aria-pressed','false'); });
-        btn.classList.add('active'); btn.setAttribute('aria-pressed','true');
-        const m = btn.dataset.mode;
-        Object.entries(modes).forEach(([k,el])=> el.hidden = (k!==m));
-      });
-    });
-
-    // Brandability scorer
+    /* ====== Generators & helpers ====== */
     const vowels = new Set('aeiou');
     function brandScore(domain){
       const name = domain.split('.')[0];
@@ -553,8 +500,6 @@
       if(/^(go|get|try|my|hey|we|use|top|pro)/.test(name)) s += 5;
       return Math.max(0, Math.min(100, s));
     }
-
-    // Seeds → candidates
     const PREFIX = ["go","get","try","my","hey","we","use","top","pro","neo","ultra","swift","true","hyper","omni","mint","clear","alpha","next"];
     const SUFFIX = ["ly","ify","io","hub","labs","base","stack","gen","flow","grid","zone","spot","deck","kit","forge","nest","pilot","vista","pulse","mint"];
     function combos(seed){
@@ -564,7 +509,7 @@
       out.add(s);
       PREFIX.forEach(p=> out.add(p+s));
       SUFFIX.forEach(x=> out.add(s+x));
-      out.add(s.replace(/[aeiou][^aeiou]*$/,'')); // short blend
+      out.add(s.replace(/[aeiou][^aeiou]*$/,'')); // blend
       out.add(s.slice(0, Math.max(3, s.length-1)));
       return out;
     }
@@ -590,9 +535,11 @@
                  .sort((a,b)=> b.score - a.score || a.domain.length - b.domain.length);
     }
 
-    // Length-only generator
     const letters = 'abcdefghijklmnopqrstuvwxyz';
     const digits  = '0123456789';
+    const Cset = 'bcdfghjklmnpqrstvwxyz';
+    const Vset = 'aeiou';
+
     function pickCharset(flags){
       let cs = flags.letters ? letters : '';
       if(flags.digits) cs += digits;
@@ -600,95 +547,63 @@
       return cs;
     }
     function sanitizeName(name, flags){
-      if(!flags.hyphen){
-        name = name.replace(/-+/g,'');
-      }else{
-        name = name.replace(/^-+/, '').replace(/-+$/, '').replace(/--+/g, '-');
-      }
+      if(!flags.hyphen) name = name.replace(/-+/g,'');
+      else name = name.replace(/^-+/, '').replace(/-+$/, '').replace(/--+/g, '-');
       if(flags.start==='letter') name = name.replace(/^[^a-z]+/,'');
       return name;
     }
     function bruteForceByLength(n, flags, limit){
-      const cs = pickCharset(flags);
-      if(!cs) return [];
-      const N = cs.length ** n;
-      const CAP = 15000;
+      const cs = pickCharset(flags); if(!cs) return [];
+      const N = cs.length ** n, CAP = 15000;
       const results = new Set();
       if(N <= CAP){
         const idx = Array(n).fill(0);
         while(true){
-          let s = '';
-          for(let i=0;i<n;i++) s += cs[idx[i]];
-          s = sanitizeName(s, flags);
-          if(s.length===n) results.add(s);
-          let p=n-1;
-          while(p>=0 && ++idx[p]===cs.length){ idx[p]=0; p--; }
-          if(p<0) break;
-          if(results.size >= limit) break;
+          let s=''; for(let i=0;i<n;i++) s += cs[idx[i]];
+          s = sanitizeName(s, flags); if(s.length===n) results.add(s);
+          let p=n-1; while(p>=0 && ++idx[p]===cs.length){ idx[p]=0; p--; }
+          if(p<0) break; if(results.size >= limit) break;
         }
       }else{
-        let tries = 0;
+        let tries=0;
         while(results.size < limit && tries < limit*20){
-          let s = '';
-          for(let i=0;i<n;i++) s += cs[Math.floor(Math.random()*cs.length)];
-          s = sanitizeName(s, flags);
-          if(s.length===n) results.add(s);
-          tries++;
+          let s=''; for(let i=0;i<n;i++) s += cs[Math.floor(Math.random()*cs.length)];
+          s = sanitizeName(s, flags); if(s.length===n) results.add(s); tries++;
         }
       }
       return [...results];
     }
-    const Cset = 'bcdfghjklmnpqrstvwxyz';
-    const Vset = 'aeiou';
     function buildPatterns(n){
-      const base = ['cv','cvc','cvv','vcv','cvcv','cvvc','vcvc','cvcvc','cvccv','cvcvv','cvvcv','vcvcv','cvcvcv'];
+      const base=['cv','cvc','cvv','vcv','cvcv','cvvc','vcvc','cvcvc','cvccv','cvcvv','cvvcv','vcvcv','cvcvcv'];
       const filtered = base.filter(p=> p.length===n);
       if(filtered.length) return filtered;
-      const out = [];
-      let s = 'cvcv'; while(s.length < n){ s += 'cv'; } out.push(s.slice(0,n));
-      s = 'cvvcvvcvvcvv'; while(s.length < n){ s += 'cv'; } out.push(s.slice(0,n));
+      const out=[]; let s='cvcv'; while(s.length<n){ s+='cv'; } out.push(s.slice(0,n));
+      s='cvvcvvcvvcvv'; while(s.length<n){ s+='cv'; } out.push(s.slice(0,n));
       out.push('c'.repeat(n).replace(/cc/g,'cv'));
       return [...new Set(out)];
     }
     function patternCandidates(n, flags, limit){
-      const out = new Set();
-      const patterns = buildPatterns(n);
-      let tries = 0;
-      while(out.size < limit && tries < limit*50){
-        const pat = patterns[Math.floor(Math.random()*patterns.length)];
-        let s = '';
-        for(const ch of pat){ s += ch==='c' ? Cset[Math.floor(Math.random()*Cset.length)] : Vset[Math.floor(Math.random()*Vset.length)]; }
-        if(flags.digits && Math.random()<0.15){
-          const pos = 1 + Math.floor(Math.random()*(s.length-2));
-          s = s.slice(0,pos) + digits[Math.floor(Math.random()*digits.length)] + s.slice(pos+1);
-        }
-        if(flags.hyphen && Math.random()<0.1){
-          const pos = 2 + Math.floor(Math.random()*(s.length-3));
-          s = s.slice(0,pos) + '-' + s.slice(pos);
-        }
-        s = sanitizeName(s, flags);
-        if(flags.start==='letter' && !/^[a-z]/.test(s)) { tries++; continue; }
-        if(s.length===n) out.add(s);
-        tries++;
+      const out=new Set(), patterns=buildPatterns(n); let tries=0;
+      while(out.size<limit && tries<limit*50){
+        const pat=patterns[Math.floor(Math.random()*patterns.length)];
+        let s=''; for(const ch of pat){ s += ch==='c' ? Cset[Math.floor(Math.random()*Cset.length)] : Vset[Math.floor(Math.random()*Vset.length)]; }
+        if(flags.digits && Math.random()<0.15){ const pos=1+Math.floor(Math.random()*(s.length-2)); s=s.slice(0,pos)+digits[Math.floor(Math.random()*digits.length)]+s.slice(pos+1); }
+        if(flags.hyphen && Math.random()<0.1){ const pos=2+Math.floor(Math.random()*(s.length-3)); s=s.slice(0,pos)+'-'+s.slice(pos); }
+        s=sanitizeName(s,flags); if(flags.start==='letter' && !/^[a-z]/.test(s)){ tries++; continue; }
+        if(s.length===n) out.add(s); tries++;
       }
       return [...out];
     }
     function makeLengthDomains(n, flags, kind, tlds, limit){
       const names = kind==='perm' ? bruteForceByLength(n, flags, limit) : patternCandidates(n, flags, limit);
-      const domains = [];
-      names.forEach(name=>{
-        tlds.forEach(tld=>{
-          const d = `${name}${tld}`;
-          if(/^[a-z0-9-]+(\.[a-z]{2,})$/.test(d)) domains.push(d);
-        });
-      });
-      const uniq = [...new Set(domains)];
+      const domains=[]; names.forEach(name=>{ tlds.forEach(tld=>{ const d=`${name}${tld}`; if(/^[a-z0-9-]+(\.[a-z]{2,})$/.test(d)) domains.push(d); }); });
+      const uniq=[...new Set(domains)];
       return uniq.map(d=>({domain:d, score:brandScore(d)}))
                  .sort((a,b)=> b.score - a.score || a.domain.length - b.domain.length)
                  .slice(0, limit);
     }
 
-    // RDAP + Similarweb
+    /* ====== RDAP / Traffic ====== */
     async function rdapLookup(domain){
       const url = `/api?url=${encodeURIComponent('https://rdap.org/domain/' + domain)}`;
       try{
@@ -723,24 +638,19 @@
         return { rank, visits };
       }catch(_e){ return { rank:null, visits:null }; }
     }
-
     async function mapLimit(items, limit, worker){
-      const ret = [];
-      let i = 0;
+      const ret=[]; let i=0;
       const runners = Array(Math.min(limit, items.length)).fill(0).map(async function run(){
-        while(i < items.length){
-          const cur = i++; ret[cur] = await worker(items[cur], cur);
-        }
+        while(i<items.length){ const cur=i++; ret[cur] = await worker(items[cur], cur); }
       });
-      await Promise.all(runners);
-      return ret;
+      await Promise.all(runners); return ret;
     }
 
-    // Rendering
-    const listAvail = document.getElementById('listAvail');
-    const listExp   = document.getElementById('listExp');
-    const countAvail = document.getElementById('countAvail');
-    const countExp = document.getElementById('countExp');
+    /* ====== Rendering & progress ====== */
+    const listAvail = $('#listAvail');
+    const listExp   = $('#listExp');
+    const countAvail = $('#countAvail');
+    const countExp = $('#countExp');
 
     function rowHtml({domain, score, when, rank, visits, registrar}){
       const buy = [
@@ -779,25 +689,166 @@
       listExp.insertAdjacentHTML('beforeend', rowHtml(item));
       countExp.textContent = String(+countExp.textContent + 1);
     }
-
-    // Progress
     function setProgress(done, total, label='Working…'){
-      document.getElementById('statLabel').textContent = `${label} ${done}/${total}`;
-      document.getElementById('statBar').style.width = total ? `${Math.round(done*100/total)}%` : '0%';
+      $('#statLabel').textContent = `${label} ${done}/${total}`;
+      $('#statBar').style.width = total ? `${Math.round(done*100/total)}%` : '0%';
     }
 
-    // CSV helpers
-    function parseCSV(text){
-      const lines = text.split(/\r?\n/).filter(Boolean);
-      if(!lines.length) return [];
-      const header = lines[0].toLowerCase();
-      const hasHeader = /domain|exp/.test(header);
-      const rows = hasHeader ? lines.slice(1) : lines;
-      return rows.map(line=>{
-        const cols = line.split(',').map(s=>s.trim());
-        return { domain: cols[0], exp_date: cols[1] || '' };
-      }).filter(x=> x.domain && /\./.test(x.domain));
+    function resetResults(msgA='Run a search to see available domains.', msgE='Find domains expiring within your window.'){
+      listAvail.innerHTML = `<div class="tag">${msgA}</div>`;
+      listExp.innerHTML   = `<div class="tag">${msgE}</div>`;
+      countAvail.textContent='0'; countExp.textContent='0';
     }
+
+    /* ====== Core runner (shared) ====== */
+    async function runCheck(domains, label){
+      resetResults('Checking…','Checking…');
+      setProgress(0,0,label);
+
+      domains = [...new Set(domains)].slice(0, 400);
+      if(domains.length===0){ resetResults('No candidates with current settings.','No candidates with current settings.'); setProgress(0,0,'Idle'); return; }
+
+      const total = domains.length; let done=0; setProgress(done,total,`${label} (RDAP)`);
+      const expWindowDays = Math.max(1, Math.min(120, +$('#expWindow').value || 30));
+      const trafficMode = $('#withTraffic').value; // expiring | all | off
+      const wantTrafficAll = trafficMode === 'all';
+      const wantTrafficExp = trafficMode === 'expiring';
+      const scoreMap = new Map(domains.map(d => [d, brandScore(d)]));
+
+      await mapLimit(domains, 6, async (domain)=>{
+        const rd = await rdapLookup(domain);
+        let rank=null, visits=null;
+        if(rd.status === 'available'){
+          if(wantTrafficAll){ ({rank, visits} = await trafficEstimate(domain)); }
+          addAvail({ domain, score: scoreMap.get(domain), rank, visits });
+        }else if(rd.status === 'registered' && rd.expiration){
+          const exp = new Date(rd.expiration);
+          if(!isNaN(exp)){
+            const today = new Date();
+            const days = Math.floor((exp - today)/86400000);
+            if(days >= 0 && days <= expWindowDays){
+              if(wantTrafficAll || wantTrafficExp){ ({rank, visits} = await trafficEstimate(domain)); }
+              const when = exp.toISOString().split('T')[0];
+              addExp({ domain, score: scoreMap.get(domain), when, rank, visits, registrar: rd.registrar || '' });
+            }
+          }
+        }
+        done++; setProgress(done,total,`${label} (RDAP)`);
+      });
+
+      if(+countAvail.textContent === 0) listAvail.innerHTML = '<div class="tag">No immediately available domains found.</div>';
+      if(+countExp.textContent === 0) listExp.innerHTML = '<div class="tag">No domains expiring within your chosen window.</div>';
+    }
+
+    /* ====== Buttons ====== */
+    $('#resetBtn').addEventListener('click', ()=>{
+      resetResults();
+      setProgress(0,0,'Idle');
+      $('#kw').value='';
+      $('#regexFilter').value='';
+      showRegexError(false);
+      $('#regexExamples').innerHTML = '<span class="tag">Type a regex to preview examples…</span>';
+    });
+
+    // Seed run
+    $('#runSeedBtn').addEventListener('click', ()=>{
+      const raw = $('#kw').value.trim();
+      const words = raw ? raw.split(/[,\s]+/).map(s=>s.trim()).filter(Boolean).slice(0,8) : [];
+      const maxLen = +$('#maxLen').value || 14;
+      const allow = $('#allow').value;
+      const tlds = [...tldSeed];
+      let domains;
+      if(words.length){
+        domains = makeCandidates(words, tlds, maxLen, allow).map(x=>x.domain);
+      }else{
+        // fallback to pronounceable length-based using maxLen
+        const n = Math.min(12, Math.max(3, Math.floor(maxLen/1.2)));
+        const flags = { letters:true, digits:/digits|both/.test(allow), hyphen:/hyphen|both/.test(allow), start:'letter' };
+        domains = makeLengthDomains(n, flags, 'pattern', tlds, 200).map(x=>x.domain);
+      }
+      runCheck(domains, 'Seed Finder');
+    });
+
+    // Length run
+    $('#runLengthBtn').addEventListener('click', ()=>{
+      const n = Math.max(2, Math.min(15, +$('#lenN').value || 6));
+      const kind = $('#lenKind').value;
+      const limit = Math.max(10, Math.min(1000, +$('#lenLimit').value || 200));
+      const tlds = [...tldLength];
+      const domains = makeLengthDomains(n, lenFlags, kind, tlds, limit).map(x=>x.domain);
+      runCheck(domains, 'Length Generator');
+    });
+
+    /* ====== Regex Examples + Run ====== */
+    function genCandidateNames(pool=400){
+      // mix pronounceable 4–9 length + a few randoms
+      const t = Math.max(50, Math.min(1200, pool));
+      const out = new Set();
+      const lens = [4,5,6,7,8,9];
+      while(out.size < t){
+        const n = lens[Math.floor(Math.random()*lens.length)];
+        const names = patternCandidates(n, {letters:true,digits:Math.random()<.25,hyphen:Math.random()<.15,start:'letter'}, 1+Math.floor(Math.random()*3));
+        names.forEach(x=> out.add(x));
+        if(Math.random()<0.2 && out.size < t){ // sprinkle some randoms
+          let s=''; const cs = letters + (Math.random()<.3?digits:'');
+          const L = 3+Math.floor(Math.random()*8);
+          for(let i=0;i<L;i++) s += cs[Math.floor(Math.random()*cs.length)];
+          out.add(s);
+        }
+      }
+      return [...out].slice(0,t);
+    }
+
+    function updateRegexExamples(){
+      const patt = $('#regexFilter').value;
+      const re = parseRegexInput(patt, regexFlags);
+      const box = $('#regexExamples');
+      showRegexError(re==='invalid');
+      if(re==='invalid'){ box.innerHTML = '<span class="tag">Invalid regex. Fix and we will preview examples.</span>'; return; }
+      if(!re){ box.innerHTML = '<span class="tag">Type a regex to preview examples…</span>'; return; }
+
+      const names = genCandidateNames(Math.max(80, Math.min(400, +$('#regexPool').value || 400)));
+      const tlds = [...tldRegex];
+      const matches = [];
+      for(const name of names){
+        const target = (regexScope==='full') ? `${name}${tlds[Math.floor(Math.random()*tlds.length)]}` : name;
+        if(re.test(target)) matches.push(target);
+        if(matches.length >= 12) break;
+      }
+      if(matches.length===0){
+        box.innerHTML = '<span class="tag">No quick examples matched. Try relaxing the pattern.</span>';
+      }else{
+        box.innerHTML = matches.map(m=>`<span class="ex">${m}</span>`).join('');
+      }
+    }
+    $('#regexFilter').addEventListener('input', Utils.debounce(updateRegexExamples, 200));
+    $('#regexPool').addEventListener('input', Utils.debounce(updateRegexExamples, 300));
+    // Update examples if TLDs change and scope is full/name relevant
+    ['#tlds-regex','#regexScope','#regexFlags'].forEach(sel=>{
+      $$(sel + ' .chip').forEach(ch=> ch.addEventListener('click', Utils.debounce(updateRegexExamples, 150)));
+    });
+
+    $('#runRegexBtn').addEventListener('click', ()=>{
+      const patt = $('#regexFilter').value;
+      const re = parseRegexInput(patt, regexFlags);
+      if(re==='invalid'){ showRegexError(true); return; }
+      showRegexError(false);
+
+      // Build a large candidate pool and filter by regex
+      const pool = genCandidateNames(Math.max(200, Math.min(1200, +$('#regexPool').value || 400)));
+      const tlds = [...tldRegex];
+      let domains = [];
+      if(regexScope === 'full'){
+        domains = pool.map(n => `${n}${tlds[Math.floor(Math.random()*tlds.length)]}`).filter(d => re.test(d));
+      }else{
+        // name-only: test name; then attach all selected TLDs
+        const names = pool.filter(n => re.test(n));
+        names.forEach(n => tlds.forEach(t => domains.push(`${n}${t}`)));
+      }
+      runCheck(domains, 'Regex Filter');
+    });
+
+    /* ====== Export & Reset ====== */
     function exportCSV(){
       const rows = [['domain','score','status','expiry','rank','visits','registrar']];
       $$('#listAvail .rowi, #listExp .rowi').forEach(r=>{
@@ -814,120 +865,18 @@
       const csv = rows.map(r=> r.map(x=> `"${String(x).replace(/"/g,'""')}"`).join(',')).join('\n');
       Utils.download('domain_opportunities.csv', csv, 'text/csv');
     }
+    $('#exportBtn').addEventListener('click', exportCSV);
 
-    document.getElementById('exportBtn').addEventListener('click', exportCSV);
-    document.getElementById('resetBtn').addEventListener('click', ()=>{
-      listAvail.innerHTML = '<div class="tag">Run a search to see available domains.</div>';
-      listExp.innerHTML   = '<div class="tag">Import CSV or run generate to find domains expiring within your window.</div>';
-      countAvail.textContent = '0'; countExp.textContent='0';
-      setProgress(0,0,'Idle');
-      document.getElementById('kw').value='';
-      document.getElementById('regexFilter').value=''; document.getElementById('regexErr').style.display='none';
-    });
-
-    document.getElementById('runBtn').addEventListener('click', async ()=>{
-      listAvail.innerHTML = '<div class="tag">Checking…</div>';
-      listExp.innerHTML   = '<div class="tag">Checking…</div>';
-      countAvail.textContent='0'; countExp.textContent='0';
-      setProgress(0,0,'Preparing…');
-
-      // Build domain list
-      let domains = [];
-      const actMode = $('.panel-body .chip[data-mode].active')?.dataset.mode || 'generate';
-
-      if(actMode === 'generate'){
-        const wordsRaw = document.getElementById('kw').value.trim();
-        const words = wordsRaw ? wordsRaw.split(/[,\s]+/).map(s=>s.trim()).filter(Boolean).slice(0,8) : [];
-        const maxLen = +document.getElementById('maxLen').value || 14;
-        const allow = document.getElementById('allow').value;
-        const tlds = [...tldSet];
-        if(words.length){
-          domains = makeCandidates(words, tlds, maxLen, allow).map(x=>x.domain);
-        }else{
-          const n = Math.min(12, Math.max(3, Math.floor(maxLen/1.2)));
-          const flags = { letters:true, digits:/digits|both/.test(allow), hyphen:/hyphen|both/.test(allow), start:'letter' };
-          domains = makeLengthDomains(n, flags, 'pattern', tlds, 200).map(x=>x.domain);
-        }
-      } else if(actMode === 'length'){
-        const n = Math.max(2, Math.min(15, +document.getElementById('lenN').value || 6));
-        const kind = document.getElementById('lenKind').value; // pattern | perm
-        const limit = Math.max(10, Math.min(1000, +document.getElementById('lenLimit').value || 200));
-        const flags = { ...lenFlags };
-        const tlds = [...tldSet2];
-        domains = makeLengthDomains(n, flags, kind, tlds, limit).map(x=>x.domain);
-      } else if(actMode === 'paste'){
-        domains = document.getElementById('pasteBox').value.split(/\r?\n/).map(s=>s.trim()).filter(Boolean);
-      } else {
-        const f = document.getElementById('csvFile').files?.[0];
-        if(!f){ alert('Choose a CSV file.'); showInvalidRegex(); return; }
-        const text = await f.text();
-        domains = parseCSV(text).map(r=>r.domain);
-      }
-
-      // Optional regex filter
-      const userRegex = parseRegexInput(document.getElementById('regexFilter').value, regexFlags);
-      if(userRegex === 'invalid'){ showInvalidRegex(); return; }
-      if(userRegex){
-        domains = domains.filter(d=>{
-          const target = (regexScope === 'full') ? d : d.split('.')[0];
-          return userRegex.test(target);
-        });
-      }
-
-      // Deduplicate & limit
-      domains = [...new Set(domains)].slice(0, 400);
-      if(domains.length === 0){
-        listAvail.innerHTML = '<div class="tag">No candidates. Relax the regex or settings and try again.</div>';
-        listExp.innerHTML   = '<div class="tag">No candidates. Relax the regex or settings and try again.</div>';
-        setProgress(0,0,'Idle');
-        return;
-      }
-
-      const total = domains.length;
-      let done = 0; setProgress(done, total, 'Checking RDAP');
-
-      const expWindowDays = Math.max(1, Math.min(120, +document.getElementById('expWindow').value || 30));
-      const trafficMode = document.getElementById('withTraffic').value; // expiring | all | off
-      const wantTrafficAll = trafficMode === 'all';
-      const wantTrafficExp = trafficMode === 'expiring';
-      const scoreMap = new Map(domains.map(d => [d, brandScore(d)]));
-
-      await mapLimit(domains, 6, async (domain)=>{
-        const rd = await rdapLookup(domain);
-        let rank=null, visits=null;
-
-        if(rd.status === 'available'){
-          if(wantTrafficAll){ ({rank, visits} = await trafficEstimate(domain)); }
-          addAvail({ domain, score: scoreMap.get(domain), rank, visits });
-        }else if(rd.status === 'registered' && rd.expiration){
-          const exp = new Date(rd.expiration);
-          if(!isNaN(exp)) {
-            const today = new Date();
-            const days = Math.floor((exp - today)/86400000);
-            if(days >= 0 && days <= expWindowDays){
-              if(wantTrafficAll || wantTrafficExp){ ({rank, visits} = await trafficEstimate(domain)); }
-              const when = exp.toISOString().split('T')[0];
-              addExp({ domain, score: scoreMap.get(domain), when, rank, visits, registrar: rd.registrar || '' });
-            }
-          }
-        }
-        done++; setProgress(done, total, 'Checking RDAP');
-      });
-
-      if(+countAvail.textContent === 0) listAvail.innerHTML = '<div class="tag">No immediately available candidates found with current settings.</div>';
-      if(+countExp.textContent === 0) listExp.innerHTML = '<div class="tag">No domains expiring within your chosen window.</div>';
-    });
-
-    // YouTube lazy loader
-    document.getElementById('ytLoad').addEventListener('click', ()=>{
-      const id = document.getElementById('ytLoad').dataset.id;
+    /* ====== Video Lazy Loader ====== */
+    $('#ytLoad').addEventListener('click', ()=>{
+      const id = $('#ytLoad').dataset.id;
       const ifr = document.createElement('iframe');
       ifr.width=560; ifr.height=315;
       ifr.allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
       ifr.referrerPolicy="strict-origin-when-cross-origin";
       ifr.allowFullscreen = true;
       ifr.src = `https://www.youtube-nocookie.com/embed/${encodeURIComponent(id)}?autoplay=1&rel=0`;
-      const frame = document.getElementById('ytFrame'); frame.innerHTML=''; frame.appendChild(ifr);
+      const frame = $('#ytFrame'); frame.innerHTML=''; frame.appendChild(ifr);
     });
   </script>
 </body>
