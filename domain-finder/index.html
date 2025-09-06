@@ -1,0 +1,581 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <!-- Core -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Domain Finder (Available + Expiring) for Flipping | UpTools</title>
+  <meta name="description" content="Find brandable domains to buy and flip: generate name ideas, check availability fast, score brandability, import expiring lists (CSV), and jump to auctions (GoDaddy, NameJet, DropCatch). Free, fast, SEO-ready." />
+  <meta name="keywords" content="domain flipping, buy and sell domains, expired domains, expiring domains, domain finder, brandable names, dropcatch, godaddy auctions, domain investing, domain valuation" />
+  <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
+  <meta name="theme-color" content="#0b1020" />
+  <link rel="canonical" href="https://www.uptools.in/domain-finder/" />
+
+  <!-- Icons -->
+  <link rel="icon" type="image/svg+xml" href="/assets/logo/uptools-logo.svg" sizes="48x48" />
+  <link rel="apple-touch-icon" href="/assets/logo/uptools-logo.svg" />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Domain Finder (Available + Expiring) for Flipping | UpTools" />
+  <meta property="og:description" content="Generate, score, and shortlist profitable domains. Bulk-check, CSV import for expiring lists, and one-click auction links." />
+  <meta property="og:url" content="https://www.uptools.in/domain-finder/" />
+  <meta property="og:image" content="/assets/og/domain-finder.png" />
+  <meta property="og:site_name" content="UpTools" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Domain Finder (Available + Expiring) for Flipping" />
+  <meta name="twitter:description" content="Generate, score, and shortlist profitable domains for domain investing and flipping." />
+  <meta name="twitter:image" content="/assets/og/domain-finder.png" />
+
+  <!-- Performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="dns-prefetch" href="https://www.youtube.com" />
+  <link rel="dns-prefetch" href="https://img.youtube.com" />
+
+  <!-- Shared brand CSS & Utils (as per project guideline) -->
+  <link rel="stylesheet" href="/style.css?v=1.0.0" />
+  <script defer src="/utils.js"></script>
+
+  <!-- JSON-LD: Software + Breadcrumb + FAQ -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@graph":[
+      {
+        "@type":"SoftwareApplication",
+        "name":"UpTools Domain Finder",
+        "applicationCategory":"BusinessApplication",
+        "operatingSystem":"Any",
+        "url":"https://www.uptools.in/domain-finder/",
+        "image":"https://www.uptools.in/assets/og/domain-finder.png",
+        "description":"Generate brandable domain ideas, score them, and analyze expiring domains for flipping.",
+        "offers":{"@type":"Offer","price":"0","priceCurrency":"INR"}
+      },
+      {
+        "@type":"BreadcrumbList",
+        "itemListElement":[
+          {"@type":"ListItem","position":1,"name":"Home","item":"https://www.uptools.in/"},
+          {"@type":"ListItem","position":2,"name":"Tools","item":"https://www.uptools.in/#tools"},
+          {"@type":"ListItem","position":3,"name":"Domain Finder","item":"https://www.uptools.in/domain-finder/"}
+        ]
+      },
+      {
+        "@type":"FAQPage",
+        "mainEntity":[
+          {"@type":"Question","name":"What is domain flipping?","acceptedAnswer":{"@type":"Answer","text":"Domain flipping is buying domains at a low price and selling them later for a higher price. Success depends on quality, brandability, keywords, and demand."}},
+          {"@type":"Question","name":"Where to find expiring domains?","acceptedAnswer":{"@type":"Answer","text":"Common sources include GoDaddy Auctions, NameJet, DropCatch, and ExpiredDomains.net. You can import CSV lists here to score and filter."}},
+          {"@type":"Question","name":"How do you evaluate a domain?","acceptedAnswer":{"@type":"Answer","text":"Check length, TLD, hyphens/numbers, pronounceability, keyword value, backlink history, and trademarks. Our score highlights brandability; use Archive.org & WHOIS for history."}}
+        ]
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    /* Page-specific styles layered on top of global /style.css */
+    :root{
+      --panel: #0f141b;
+      --card: #121826;
+      --muted: #a0b3c7;
+      --accent: var(--accent, #64ffda);
+      --radius: 12px;
+    }
+    body{ background: radial-gradient(1200px 600px at 10% 0%, #0b1020 0, #070b12 60%, #05080d 100%); }
+    .site{ position: sticky; top: 0; z-index: 20; background: rgba(5,8,13,.7); backdrop-filter: blur(6px); border-bottom: 1px solid rgba(255,255,255,.05); }
+    .header-inner{ max-width: 1100px; margin: 0 auto; padding: .75rem 1rem; display: flex; justify-content: space-between; align-items: center; }
+    .brand{ display:flex; gap:.5rem; align-items:center; color:#e6f1ff; text-decoration:none; }
+    .brand b{ letter-spacing:.2px; }
+    .nav-links a{ color:#b9c6d4; margin-left:1rem; text-decoration:none; }
+    .nav-links a[aria-current="page"]{ color:#fff; font-weight:600; text-decoration:underline; text-underline-offset: 6px; }
+
+    main.page { max-width: 1100px; margin: 0 auto; padding: 1rem; display: grid; grid-template-columns: 360px 1fr; gap: 1rem; min-height: calc(100vh - 64px); }
+    @media (max-width: 900px){ main.page{ grid-template-columns: 1fr; } }
+
+    .panel { background: var(--panel); border: 1px solid rgba(255,255,255,.06); border-radius: var(--radius); box-shadow: 0 10px 30px rgba(0,0,0,.3); }
+    .panel-header { padding: .9rem 1rem; border-bottom: 1px solid rgba(255,255,255,.06); display: flex; align-items: center; justify-content: space-between; }
+    .panel-title { font-weight: 700; color:#e9f2fb; display:flex; align-items:center; gap:.5rem; }
+    .pill { display:inline-grid; place-items:center; font: 700 11px/1 system-ui, -apple-system, Segoe UI, Roboto, sans-serif; width: 28px; height: 28px; border-radius: 8px; background:#17202e; color:#8fb3ff; border:1px solid #253149; }
+    .panel-body { padding: 1rem; }
+    .row { display: grid; gap:.75rem; }
+    .row.cols-2 { grid-template-columns: 1fr 1fr; }
+    .row.cols-3 { grid-template-columns: repeat(3,1fr); }
+    .row .field { display:flex; flex-direction:column; gap:.35rem; }
+    label { color:#c7d6e5; font-size:.9rem; }
+    input[type="text"], input[type="number"], select, textarea {
+      background: #0c121c; border:1px solid #263248; color:#e7f0ff; border-radius:10px; padding:.65rem .7rem; outline:none;
+    }
+    .chips { display:flex; flex-wrap:wrap; gap:.5rem; }
+    .chip { padding:.4rem .55rem; border-radius:999px; background:#0c121c; border:1px solid #263248; color:#a9bed4; cursor:pointer; user-select:none; }
+    .chip.active{ border-color:#4bdcb3; color:#dffaf2; }
+
+    .actions { display:flex; gap:.5rem; flex-wrap:wrap; }
+    .btn {
+      border:1px solid #2a3a57; background:#122034; color:#d8e7ff; border-radius:10px; padding:.6rem .8rem; font-weight:600; cursor:pointer;
+    }
+    .btn.primary { background:linear-gradient(180deg,#13aa87,#0e8c71); border-color:#0b6b57; }
+    .btn.ghost { background: transparent; }
+    .btn.small{ padding:.35rem .55rem; font-size:.85rem; }
+    .muted{ color:var(--muted); font-size:.9rem; }
+    .tip{ font-size:.85rem; color:#93abc2; }
+
+    /* Right side: results - all-in-one viewport without vertical page scroll */
+    .right { display:grid; grid-template-rows: auto 1fr auto; gap: .75rem; min-height: calc(100vh - 110px); }
+    .results-wrap{ display:grid; gap:.75rem; grid-template-columns: 1fr 1fr; height: 100%; }
+    @media (max-width: 1100px){ .results-wrap{ grid-template-columns: 1fr; } }
+    .card { background: var(--card); border: 1px solid rgba(255,255,255,.06); border-radius: var(--radius); overflow:hidden; display:flex; flex-direction:column; min-height: 0; }
+    .card h3 { margin:0; padding:.8rem 1rem; border-bottom:1px solid rgba(255,255,255,.06); color:#eaf3ff; display:flex; align-items:center; justify-content:space-between; }
+    .card .content { padding:.6rem; overflow:auto; }
+    .list { display:grid; gap:.5rem; }
+    .rowi { display:grid; grid-template-columns: 1fr auto auto; gap:.5rem; align-items:center; border:1px dashed #253149; border-radius:10px; padding:.5rem .6rem; }
+    .rowi .n { font-weight:700; color:#dffaf2; }
+    .rowi .score { font-weight:700; color:#aef8e4; }
+    .links a{ color:#9ac7ff; margin-left:.6rem; text-decoration:none; }
+    .badge { font:600 .75rem/1 system-ui; border:1px solid #2a3a57; background:#101a2a; padding:.25rem .45rem; border-radius:999px; color:#9fc1ff; }
+
+    /* YouTube placeholder with fixed aspect to avoid CLS */
+    .video-card { background: var(--card); border:1px solid rgba(255,255,255,.06); border-radius: var(--radius); }
+    .video-frame { position:relative; width:100%; aspect-ratio: 16/9; background:#0c121c; border-bottom-left-radius: var(--radius); border-bottom-right-radius: var(--radius); }
+    .video-frame iframe { position:absolute; inset:0; width:100%; height:100%; border:0; }
+    .video-thumb { position:absolute; inset:0; display:grid; place-items:center; cursor:pointer; }
+    .video-thumb img { width:100%; height:100%; object-fit:cover; }
+    .video-thumb .play { position:absolute; width:72px; height:72px; border-radius:999px; background:rgba(0,0,0,.5); border:2px solid #fff; display:grid; place-items:center; }
+    .video-thumb .play::after{ content:""; border-left:18px solid #fff; border-top:10px solid transparent; border-bottom:10px solid transparent; margin-left:6px; }
+
+    footer.site-footer{ display:flex; justify-content:space-between; align-items:center; gap:1rem; padding: .75rem 0 1.25rem; color:#9db3c6; }
+    footer .links a{ color:#9ac7ff; margin-right:.8rem; text-decoration:none; }
+    .note{ font-size:.85rem; color:#8aa2b8; }
+  </style>
+</head>
+
+<body>
+  <!-- Header (shared brand spec) -->
+  <header class="site" role="banner">
+    <div class="header-inner">
+      <a class="brand" href="/" aria-label="UpTools Home">
+        <img src="/assets/logo/uptools-logo.svg" alt="UpTools logo" width="28" height="28" loading="eager">
+        <b>UpTools</b>
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="/#tools">Tools</a>
+        <a href="/income-tax-tool/">Income Tax</a>
+        <a href="/emi-calculator/">EMI</a>
+        <a href="/gst-calculator/">GST</a>
+        <a aria-current="page" href="/domain-finder/">Domains</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="page">
+    <!-- LEFT: Controls (sticky-ish by staying on left column) -->
+    <section class="panel" id="controls">
+      <div class="panel-header">
+        <div class="panel-title"><span class="pill" title="Subpage textual logo">DF</span> Domain Finder & Expiring Watch</div>
+        <button class="btn small ghost" id="resetBtn">Reset</button>
+      </div>
+      <div class="panel-body row" style="gap:1rem">
+        <!-- Idea generator -->
+        <div class="row">
+          <div class="field">
+            <label for="kw">Seed keywords (comma or space separated)</label>
+            <input id="kw" class="input" placeholder="e.g., ai, health, fintech, travel" inputmode="latin" />
+            <p class="tip">Tip: Add 2–4 themes. We’ll blend with smart prefixes/suffixes and score brandability.</p>
+          </div>
+          <div class="field">
+            <label>TLDs to try</label>
+            <div class="chips" id="tlds">
+              <button type="button" class="chip active" data-tld=".com">.com</button>
+              <button type="button" class="chip active" data-tld=".in">.in</button>
+              <button type="button" class="chip active" data-tld=".co">.co</button>
+              <button type="button" class="chip" data-tld=".ai">.ai</button>
+              <button type="button" class="chip" data-tld=".io">.io</button>
+              <button type="button" class="chip" data-tld=".dev">.dev</button>
+              <button type="button" class="chip" data-tld=".app">.app</button>
+            </div>
+          </div>
+          <div class="row cols-2">
+            <div class="field">
+              <label for="maxLen">Max length</label>
+              <input id="maxLen" type="number" min="3" max="30" value="14" />
+            </div>
+            <div class="field">
+              <label for="hyphens">Allow hyphens / digits</label>
+              <select id="hyphens">
+                <option value="no">No</option>
+                <option value="digits-ok">Digits OK</option>
+                <option value="hyphen-ok">Hyphens OK</option>
+                <option value="both-ok">Both OK</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="actions">
+            <button class="btn primary" id="genBtn">Generate & Score</button>
+            <button class="btn" id="exportBtn">Export CSV</button>
+            <button class="btn" id="copyBtn">Copy Shortlist</button>
+          </div>
+          <p class="muted">We don’t auto-register or query registrars directly (privacy-first). Use quick-check links to open your preferred registrar in a new tab.</p>
+        </div>
+
+        <!-- Expiring list import -->
+        <div class="row">
+          <h3 style="margin:.2rem 0;color:#eaf3ff">Expiring Domains (CSV import)</h3>
+          <div class="row cols-3">
+            <div class="field">
+              <label for="csvFile">Upload CSV</label>
+              <input id="csvFile" type="file" accept=".csv,text/csv" />
+            </div>
+            <div class="field">
+              <label for="dropDays">Drop window (days)</label>
+              <input id="dropDays" type="number" min="0" max="60" value="5" />
+            </div>
+            <div class="field" style="align-self:end">
+              <button class="btn" id="parseCsvBtn">Parse & Score</button>
+            </div>
+          </div>
+          <p class="tip">CSV can be a single column “domain” or include headers: domain, tld, exp_date (YYYY-MM-DD). We’ll auto-detect.</p>
+        </div>
+
+        <!-- Helpful quick links (internal + external) -->
+        <div class="row">
+          <h3 style="margin:.2rem 0;color:#eaf3ff">Marketplaces & Tools</h3>
+          <div class="chips">
+            <a class="chip" href="https://auctions.godaddy.com/" target="_blank" rel="noopener">GoDaddy Auctions</a>
+            <a class="chip" href="https://www.namejet.com/" target="_blank" rel="noopener">NameJet</a>
+            <a class="chip" href="https://www.dropcatch.com/" target="_blank" rel="noopener">DropCatch</a>
+            <a class="chip" href="https://www.expireddomains.net/" target="_blank" rel="noopener">ExpiredDomains</a>
+            <a class="chip" href="https://lookup.icann.org/en/lookup" target="_blank" rel="noopener">ICANN WHOIS</a>
+            <a class="chip" href="https://web.archive.org/" target="_blank" rel="noopener">Archive.org</a>
+            <a class="chip" href="https://trends.google.com/trends/" target="_blank" rel="noopener">Google Trends</a>
+          </div>
+          <p class="note">For SEO, consider brand safety (history via Archive.org), trademark checks, and clean backlink profile.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- RIGHT: Results & Video (kept within viewport; internal scrolls) -->
+    <section class="right">
+      <div class="card">
+        <h3>
+          <span>Available / Brandable Ideas</span>
+          <span class="badge" id="ideasCount">0</span>
+        </h3>
+        <div class="content" id="ideasList" aria-live="polite">
+          <div class="muted">No ideas yet. Add keywords and click <b>Generate &amp; Score</b>.</div>
+        </div>
+      </div>
+
+      <div class="results-wrap">
+        <div class="card">
+          <h3>
+            <span>Expiring / Auction Shortlist</span>
+            <span class="badge" id="expCount">0</span>
+          </h3>
+          <div class="content" id="expList">
+            <div class="muted">Import a CSV from your favorite source to analyze and sort.</div>
+          </div>
+        </div>
+
+        <article class="video-card card" aria-labelledby="ytTitle">
+          <h3 id="ytTitle">Domain Flipping Tutorial (YouTube)</h3>
+          <div class="video-frame">
+            <!-- “Click-to-load” pattern to keep it light; width/height locked by aspect-ratio. Replace data-id with your chosen video. -->
+            <div class="video-thumb" id="ytLoader" role="button" aria-label="Play tutorial video" tabindex="0" data-id="QZp8x6J8T30">
+              <img src="https://img.youtube.com/vi/QZp8x6J8T30/hqdefault.jpg" alt="Domain flipping tutorial thumbnail" width="560" height="315" loading="lazy" decoding="async" />
+              <div class="play" aria-hidden="true"></div>
+            </div>
+          </div>
+          <div class="content">
+            <p class="tip">We load the player only on click to improve performance and avoid CLS. Video uses a fixed 16:9 frame for a stable layout.</p>
+          </div>
+        </article>
+      </div>
+
+      <!-- (Ad spot suggestion: a single responsive ad can live below this line on wide screens only to avoid mid-content CLS) -->
+      <!-- Place your ad slot here conditionally ONLY if ads are enabled globally. -->
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="links">
+      <a href="/#tools">All Tools</a>
+      <a href="/currency-converter/">Currency</a>
+      <a href="/password-generator/">Passwords</a>
+      <a href="/uuid-generator/">UUID</a>
+      <a href="/whatsapp-chat/">WhatsApp Link</a>
+    </div>
+    <div class="note">© UpTools. Built for speed, privacy, and SEO.</div>
+  </footer>
+
+  <script>
+    // --- Utilities fallback (use shared /utils.js if available) ---
+    const U = (window.Utils) || {
+      debounce(fn, ms=300){ let t; return (...a)=>{ clearTimeout(t); t = setTimeout(()=>fn(...a), ms); }; },
+      copy(str){ navigator.clipboard?.writeText(str).catch(()=>{}); },
+      download(name, data, type="text/csv"){ const blob = new Blob([data], {type}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=name; a.click(); URL.revokeObjectURL(a.href); },
+      qs:(s,p=document)=>p.querySelector(s),
+      qsa:(s,p=document)=>[...p.querySelectorAll(s)],
+    };
+
+    // --- Controls: TLD chips toggle ---
+    const tldSet = new Set([".com",".in",".co"]); // defaults
+    U.qsa('#tlds .chip').forEach(ch=>{
+      ch.addEventListener('click', ()=>{
+        ch.classList.toggle('active');
+        const t = ch.dataset.tld;
+        if(ch.classList.contains('active')) tldSet.add(t); else tldSet.delete(t);
+      });
+    });
+
+    // --- Brandability scoring helpers ---
+    const vowels = new Set('aeiou');
+    function brandScore(s){
+      const name = s.split('.')[0];
+      const len = name.length;
+      const hasHyphen = /-/.test(name);
+      const hasDigit = /\d/.test(name);
+      const vcPattern = name.replace(/[^a-z]/g,'').split('').map(c=>vowels.has(c)?'v':'c').join('');
+      let score = 100;
+      if(len < 4 || len > 14) score -= 20;
+      if(hasHyphen) score -= 15;
+      if(hasDigit) score -= 10;
+      if(/(vv|ccc{3,}|[aeiou]{4,})/.test(vcPattern)) score -= 10;
+      if(/(ai|io|ly|ify|hub|base|labs|stack|flow|gen|matic|sy|ly|fy|able|ster)$/.test(name)) score += 8;
+      if(/(go|get|try|my|hey|we|use|best|top|pro)^/.test(name)) score += 5;
+      return Math.max(0, Math.min(100, score));
+    }
+
+    // --- Idea generator (prefix/suffix combos) ---
+    const PREFIX = ["go","get","try","my","hey","we","use","top","pro","meta","neo","ultra","swift","true","mint","clear","hyper","omni","nano","alpha"];
+    const SUFFIX = ["ly","ify","io","hub","labs","base","stack","gen","flow","grid","zone","spot","deck","kit","forge","nest","pilot","vista","byte","deck"];
+    function combos(seed){
+      const out = new Set();
+      const s = seed.toLowerCase().replace(/[^a-z0-9]+/g,'');
+      if(!s) return out;
+      out.add(s); // raw
+      PREFIX.forEach(p=> out.add(p+s));
+      SUFFIX.forEach(x=> out.add(s+x));
+      // short blends (remove last vowel or last char)
+      out.add(s.replace(/[aeiou][^aeiou]*$/,''));
+      out.add(s.slice(0, Math.max(3, s.length-1)));
+      return out;
+    }
+
+    function makeCandidates(keywords, tlds, maxLen, allowMode){
+      const allowHyphen = /hyphen/.test(allowMode) || /both/.test(allowMode);
+      const allowDigit  = /digits/.test(allowMode) || /both/.test(allowMode);
+      const seeds = new Set();
+      keywords.forEach(k=>{
+        combos(k).forEach(x=> seeds.add(x));
+      });
+      const candidates = [];
+      seeds.forEach(n=>{
+        tlds.forEach(tld=>{
+          let name = n;
+          if(!allowHyphen) name = name.replace(/-/g,'');
+          if(!allowDigit)  name = name.replace(/\d/g,'');
+          const domain = `${name}${tld}`;
+          if(domain.length <= maxLen + tld.length && /^[a-z0-9-]+(\.[a-z]{2,})+$/.test(domain)){
+            candidates.push(domain);
+          }
+        });
+      });
+      // unique + sorted by score desc, then length
+      const withScore = candidates
+        .map(d=>({d, s: brandScore(d)}))
+        .sort((a,b)=> b.s - a.s || a.d.length - b.d.length)
+        .slice(0, 200);
+      return withScore;
+    }
+
+    function renderIdeas(list){
+      const wrap = U.qs('#ideasList'); wrap.innerHTML = '';
+      const ul = document.createElement('div'); ul.className = 'list';
+      list.forEach(({d,s})=>{
+        const row = document.createElement('div');
+        row.className = 'rowi';
+        const left = document.createElement('div');
+        left.innerHTML = `<span class="n">${d}</span> · <span class="score">${s}</span>`;
+        const links = document.createElement('div'); links.className='links';
+        // Quick-check links (open registrar search in new tab)
+        const reg = [
+          ["Namecheap", `https://www.namecheap.com/domains/registration/results/?domain=${encodeURIComponent(d)}`],
+          ["Porkbun", `https://porkbun.com/search?q=${encodeURIComponent(d)}`],
+          ["Dynadot", `https://www.dynadot.com/domain/search.html?domain=${encodeURIComponent(d)}`],
+          ["GoDaddy", `https://in.godaddy.com/domainsearch/find?domainToCheck=${encodeURIComponent(d)}`],
+          ["WHOIS", `https://lookup.icann.org/en/lookup?name=${encodeURIComponent(d)}`]
+        ];
+        reg.forEach(([label, href])=>{
+          const a=document.createElement('a'); a.href=href; a.target="_blank"; a.rel="noopener"; a.textContent=label;
+          links.appendChild(a);
+        });
+        const act = document.createElement('div');
+        const btn = document.createElement('button'); btn.className='btn small ghost'; btn.textContent='Shortlist';
+        btn.addEventListener('click', ()=>{
+          shortlist.add(d);
+          renderShortlistBadge();
+        });
+        act.appendChild(btn);
+        row.appendChild(left); row.appendChild(links); row.appendChild(act);
+        ul.appendChild(row);
+      });
+      wrap.appendChild(ul);
+      U.qs('#ideasCount').textContent = String(list.length);
+    }
+
+    // Shortlist in-memory
+    const shortlist = new Set();
+    function renderShortlistBadge(){
+      const c = shortlist.size;
+      U.qs('#copyBtn').textContent = c ? `Copy Shortlist (${c})` : 'Copy Shortlist';
+    }
+
+    // Generate button
+    U.qs('#genBtn').addEventListener('click', ()=>{
+      const words = U.qs('#kw').value.split(/[,\s]+/).map(x=>x.trim()).filter(Boolean).slice(0, 8);
+      if(!words.length){ alert('Please enter 1–8 keywords.'); return; }
+      const tlds = [...tldSet];
+      const maxLen = parseInt(U.qs('#maxLen').value, 10) || 14;
+      const allowMode = U.qs('#hyphens').value;
+      const list = makeCandidates(words, tlds, maxLen, allowMode);
+      renderIdeas(list);
+    });
+
+    // Export CSV
+    U.qs('#exportBtn').addEventListener('click', ()=>{
+      const rows = [['domain','score']];
+      U.qsa('#ideasList .rowi').forEach(r=>{
+        const d = r.querySelector('.n')?.textContent?.trim() || '';
+        const s = r.querySelector('.score')?.textContent?.trim() || '';
+        if(d) rows.push([d,s]);
+      });
+      const csv = rows.map(r => r.map(x=> `"${String(x).replace(/"/g,'""')}"`).join(',')).join('\n');
+      U.download('domain_ideas.csv', csv, 'text/csv');
+    });
+
+    // Copy shortlist
+    U.qs('#copyBtn').addEventListener('click', ()=>{
+      const text = [...shortlist].join('\n');
+      if(!text){ alert('Shortlist is empty. Click “Shortlist” on candidates you like.'); return; }
+      U.copy(text);
+      alert('Shortlist copied!');
+    });
+
+    // Reset
+    U.qs('#resetBtn').addEventListener('click', ()=>{
+      shortlist.clear(); renderShortlistBadge();
+      U.qs('#ideasList').innerHTML = '<div class="muted">No ideas yet. Add keywords and click <b>Generate &amp; Score</b>.</div>';
+      U.qs('#ideasCount').textContent = '0';
+      U.qs('#expList').innerHTML = '<div class="muted">Import a CSV from your favorite source to analyze and sort.</div>';
+      U.qs('#expCount').textContent = '0';
+      U.qsa('#tlds .chip').forEach(c=> c.classList.remove('active'));
+      tldSet.clear(); ['.com','.in','.co'].forEach(t=>{ tldSet.add(t); const chip = U.qs(`[data-tld="${t}"]`); chip && chip.classList.add('active'); });
+      U.qs('#kw').value='';
+    });
+
+    // --- CSV import for expiring domains ---
+    function parseCSV(text){
+      const lines = text.split(/\r?\n/).filter(Boolean);
+      if(!lines.length) return [];
+      const first = lines[0].toLowerCase();
+      let hasHeader = /domain|exp|tld/.test(first);
+      const rows = hasHeader ? lines.slice(1) : lines;
+      return rows.map(line=>{
+        const cols = line.split(',').map(x=>x.trim());
+        let domain = cols[0] || '';
+        let exp_date = cols[1] || '';
+        let tld = '';
+        if(/domain/.test(first)){ // naive mapping when header exists
+          const map = first.split(',').reduce((a,k,i)=> (a[k.trim()]=i, a), {});
+          domain = cols[map['domain']] || domain;
+          exp_date = cols[map['exp_date']] || exp_date;
+          tld = cols[map['tld']] || '';
+        }
+        if(!/\./.test(domain) && tld) domain = domain + tld;
+        domain = domain.toLowerCase();
+        return { domain, exp_date };
+      }).filter(x=> x.domain);
+    }
+
+    function renderExp(list){
+      const wrap = U.qs('#expList'); wrap.innerHTML='';
+      if(!list.length){ wrap.innerHTML = '<div class="muted">No rows.</div>'; U.qs('#expCount').textContent = '0'; return; }
+      const ul = document.createElement('div'); ul.className='list';
+      list.forEach(item=>{
+        const s = brandScore(item.domain);
+        const row = document.createElement('div'); row.className='rowi';
+        const left = document.createElement('div'); left.innerHTML = `<span class="n">${item.domain}</span> · <span class="score">${s}</span>`;
+        const links = document.createElement('div'); links.className='links';
+        [
+          ["Auctions", `https://auctions.godaddy.com/trpsearchresults.aspx?searchText=${encodeURIComponent(item.domain)}`],
+          ["NameJet", `https://www.namejet.com/Pages/SearchDomains.aspx?searchpattern=${encodeURIComponent(item.domain)}`],
+          ["DropCatch", `https://www.dropcatch.com/domain/${encodeURIComponent(item.domain)}`],
+          ["Archive", `https://web.archive.org/web/*/${encodeURIComponent(item.domain)}`],
+          ["WHOIS", `https://lookup.icann.org/en/lookup?name=${encodeURIComponent(item.domain)}`]
+        ].forEach(([label, href])=>{
+          const a=document.createElement('a'); a.href=href; a.target="_blank"; a.rel="noopener"; a.textContent=label;
+          links.appendChild(a);
+        });
+        const act = document.createElement('div');
+        const b = document.createElement('span'); b.className='badge'; b.textContent= item.drop_in ? (`Drops in ${item.drop_in}d`) : (item.exp_date || '—');
+        act.appendChild(b);
+        row.appendChild(left); row.appendChild(links); row.appendChild(act);
+        ul.appendChild(row);
+      });
+      wrap.appendChild(ul);
+      U.qs('#expCount').textContent = String(list.length);
+    }
+
+    U.qs('#parseCsvBtn').addEventListener('click', ()=>{
+      const f = U.qs('#csvFile').files?.[0];
+      if(!f){ alert('Choose a CSV file.'); return; }
+      const days = parseInt(U.qs('#dropDays').value, 10) || 0;
+      const reader = new FileReader();
+      reader.onload = () => {
+        const rows = parseCSV(String(reader.result));
+        const today = new Date();
+        const out = rows.map(r=>{
+          let drop_in = null;
+          if(r.exp_date){
+            const exp = new Date(r.exp_date);
+            const drop = new Date(exp.getTime() + days*86400000);
+            const diff = Math.ceil((drop - today)/86400000);
+            drop_in = isFinite(diff) ? diff : null;
+          }
+          return {...r, drop_in};
+        }).sort((a,b)=>{
+          if(a.drop_in==null && b.drop_in==null) return 0;
+          if(a.drop_in==null) return 1;
+          if(b.drop_in==null) return -1;
+          return a.drop_in - b.drop_in;
+        });
+        renderExp(out);
+      };
+      reader.readAsText(f);
+    });
+
+    // --- YouTube: click-to-load (fixed frame to avoid layout shifts) ---
+    function loadYouTube(id){
+      const frame = document.createElement('iframe');
+      frame.width = 560; frame.height = 315;
+      frame.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+      frame.referrerPolicy = "strict-origin-when-cross-origin";
+      frame.allowFullscreen = true;
+      frame.src = `https://www.youtube-nocookie.com/embed/${encodeURIComponent(id)}?autoplay=1&rel=0`;
+      const holder = document.querySelector('.video-frame');
+      holder.innerHTML = '';
+      holder.appendChild(frame);
+    }
+    const loadBtn = document.getElementById('ytLoader');
+    const activate = ()=> loadYouTube(loadBtn.dataset.id);
+    loadBtn.addEventListener('click', activate);
+    loadBtn.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' ') { e.preventDefault(); activate(); } });
+
+    // Accessibility: focus ring for keyboard
+    document.addEventListener('keydown', e=>{
+      if(e.key==='Tab') document.documentElement.classList.add('show-focus');
+    }, {once:true});
+  </script>
+</body>
+</html>
