@@ -1,41 +1,41 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <!-- Core -->
+  <!-- Ads (kept stable to avoid CLS; do NOT insert ad slot if unavailable) -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617" crossorigin="anonymous"></script>
+
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Domain Finder (Available + Expiring) for Flipping | UpTools</title>
-  <meta name="description" content="Find brandable domains to buy and flip: generate name ideas, check availability fast, score brandability, import expiring lists (CSV), and jump to auctions (GoDaddy, NameJet, DropCatch). Free, fast, SEO-ready." />
-  <meta name="keywords" content="domain flipping, buy and sell domains, expired domains, expiring domains, domain finder, brandable names, dropcatch, godaddy auctions, domain investing, domain valuation" />
+
+  <title>Domain Finder (Available Now + Expiring Soon) for Flipping | UpTools</title>
+  <meta name="description" content="Find only REAL opportunities: instantly check which domains are AVAILABLE now and which are EXPIRING soon (with expiry dates). Optional traffic/rank estimate, shortlist, CSV export, and quick-buy links. Free & privacy-first." />
+  <meta name="keywords" content="domain flipping, buy domains, available domains, expiring domains, expired domains, domain finder, rdap, domain availability checker, similarweb rank, domain investing tools" />
   <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
   <meta name="theme-color" content="#0b1020" />
   <link rel="canonical" href="https://www.uptools.in/domain-finder/" />
 
   <!-- Icons -->
-  <link rel="icon" type="image/svg+xml" href="/assets/logo/uptools-logo.svg" sizes="48x48" />
+  <link rel="icon" type="image/svg+xml" href="/assets/logo/uptools-logo.svg" />
   <link rel="apple-touch-icon" href="/assets/logo/uptools-logo.svg" />
 
   <!-- Open Graph -->
   <meta property="og:type" content="website" />
-  <meta property="og:title" content="Domain Finder (Available + Expiring) for Flipping | UpTools" />
-  <meta property="og:description" content="Generate, score, and shortlist profitable domains. Bulk-check, CSV import for expiring lists, and one-click auction links." />
+  <meta property="og:title" content="Domain Finder (Available + Expiring Soon) | UpTools" />
+  <meta property="og:description" content="See only the domains that matter: AVAILABLE now + EXPIRING soon (with dates) and optional traffic rank. Export CSV. Free & fast." />
   <meta property="og:url" content="https://www.uptools.in/domain-finder/" />
   <meta property="og:image" content="/assets/og/domain-finder.png" />
   <meta property="og:site_name" content="UpTools" />
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Domain Finder (Available + Expiring) for Flipping" />
-  <meta name="twitter:description" content="Generate, score, and shortlist profitable domains for domain investing and flipping." />
+  <meta name="twitter:title" content="Domain Finder (Available + Expiring Soon)" />
+  <meta name="twitter:description" content="Only available & expiring domains, with expiry dates and optional traffic rank. Shortlist & export." />
   <meta name="twitter:image" content="/assets/og/domain-finder.png" />
 
-  <!-- Performance -->
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="dns-prefetch" href="https://www.youtube.com" />
-  <link rel="dns-prefetch" href="https://img.youtube.com" />
-
-  <!-- Shared brand CSS & Utils (as per project guideline) -->
-  <link rel="stylesheet" href="/style.css?v=1.0.0" />
+  <!-- Shared brand CSS & Utils -->
+  <link rel="preload" href="/style.css?v=1.3.0" as="style">
+  <link rel="stylesheet" href="/style.css?v=1.3.0" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="/style.css?v=1.3.0"></noscript>
   <script defer src="/utils.js"></script>
 
   <!-- JSON-LD: Software + Breadcrumb + FAQ -->
@@ -50,7 +50,7 @@
         "operatingSystem":"Any",
         "url":"https://www.uptools.in/domain-finder/",
         "image":"https://www.uptools.in/assets/og/domain-finder.png",
-        "description":"Generate brandable domain ideas, score them, and analyze expiring domains for flipping.",
+        "description":"Find only real opportunities: AVAILABLE domains and EXPIRING soon domains with expiry dates, plus optional traffic/rank estimate.",
         "offers":{"@type":"Offer","price":"0","priceCurrency":"INR"}
       },
       {
@@ -64,9 +64,9 @@
       {
         "@type":"FAQPage",
         "mainEntity":[
-          {"@type":"Question","name":"What is domain flipping?","acceptedAnswer":{"@type":"Answer","text":"Domain flipping is buying domains at a low price and selling them later for a higher price. Success depends on quality, brandability, keywords, and demand."}},
-          {"@type":"Question","name":"Where to find expiring domains?","acceptedAnswer":{"@type":"Answer","text":"Common sources include GoDaddy Auctions, NameJet, DropCatch, and ExpiredDomains.net. You can import CSV lists here to score and filter."}},
-          {"@type":"Question","name":"How do you evaluate a domain?","acceptedAnswer":{"@type":"Answer","text":"Check length, TLD, hyphens/numbers, pronounceability, keyword value, backlink history, and trademarks. Our score highlights brandability; use Archive.org & WHOIS for history."}}
+          {"@type":"Question","name":"How do you check availability without exposing me?", "acceptedAnswer":{"@type":"Answer","text":"We use public RDAP endpoints through a privacy-friendly proxy (via your server-side /api?url=) to see if a domain object exists. A 404 usually means the domain is available. If present, we read its expiry event date."}},
+          {"@type":"Question","name":"Can I see expiry dates for registered domains?", "acceptedAnswer":{"@type":"Answer","text":"Yes. When the RDAP record includes an expiration event, we show the expiry date and highlight domains expiring within your chosen window (e.g., 7–60 days)."}},
+          {"@type":"Question","name":"Do you show traffic?", "acceptedAnswer":{"@type":"Answer","text":"Optionally. We try a lightweight public rank/traffic source (like Similarweb data endpoint). If the source is unavailable for a domain or blocked by CORS, we fall back to showing N/A."}}
         ]
       }
     ]
@@ -74,83 +74,59 @@
   </script>
 
   <style>
-    /* Page-specific styles layered on top of global /style.css */
-    :root{
-      --panel: #0f141b;
-      --card: #121826;
-      --muted: #a0b3c7;
-      --accent: var(--accent, #64ffda);
-      --radius: 12px;
-    }
-    body{ background: radial-gradient(1200px 600px at 10% 0%, #0b1020 0, #070b12 60%, #05080d 100%); }
-    .site{ position: sticky; top: 0; z-index: 20; background: rgba(5,8,13,.7); backdrop-filter: blur(6px); border-bottom: 1px solid rgba(255,255,255,.05); }
-    .header-inner{ max-width: 1100px; margin: 0 auto; padding: .75rem 1rem; display: flex; justify-content: space-between; align-items: center; }
-    .brand{ display:flex; gap:.5rem; align-items:center; color:#e6f1ff; text-decoration:none; }
-    .brand b{ letter-spacing:.2px; }
-    .nav-links a{ color:#b9c6d4; margin-left:1rem; text-decoration:none; }
-    .nav-links a[aria-current="page"]{ color:#fff; font-weight:600; text-decoration:underline; text-underline-offset: 6px; }
-
-    main.page { max-width: 1100px; margin: 0 auto; padding: 1rem; display: grid; grid-template-columns: 360px 1fr; gap: 1rem; min-height: calc(100vh - 64px); }
+    /* Page tweaks on top of common /style.css */
+    :root{ --content-w: 1100px; }
+    body{ background: radial-gradient(1200px 600px at 10% -10%, #0b1020 0, transparent 40%), linear-gradient(135deg,#0a0f1a,#0a1220); }
+    .site{ position: sticky; top: 0; z-index: 20; }
+    main.page { max-width: var(--content-w); margin: 0 auto; padding: 12px; display: grid; grid-template-columns: 360px 1fr; gap: 12px; min-height: calc(100vh - 64px); }
     @media (max-width: 900px){ main.page{ grid-template-columns: 1fr; } }
 
-    .panel { background: var(--panel); border: 1px solid rgba(255,255,255,.06); border-radius: var(--radius); box-shadow: 0 10px 30px rgba(0,0,0,.3); }
-    .panel-header { padding: .9rem 1rem; border-bottom: 1px solid rgba(255,255,255,.06); display: flex; align-items: center; justify-content: space-between; }
-    .panel-title { font-weight: 700; color:#e9f2fb; display:flex; align-items:center; gap:.5rem; }
-    .pill { display:inline-grid; place-items:center; font: 700 11px/1 system-ui, -apple-system, Segoe UI, Roboto, sans-serif; width: 28px; height: 28px; border-radius: 8px; background:#17202e; color:#8fb3ff; border:1px solid #253149; }
-    .panel-body { padding: 1rem; }
-    .row { display: grid; gap:.75rem; }
-    .row.cols-2 { grid-template-columns: 1fr 1fr; }
-    .row.cols-3 { grid-template-columns: repeat(3,1fr); }
-    .row .field { display:flex; flex-direction:column; gap:.35rem; }
-    label { color:#c7d6e5; font-size:.9rem; }
-    input[type="text"], input[type="number"], select, textarea {
-      background: #0c121c; border:1px solid #263248; color:#e7f0ff; border-radius:10px; padding:.65rem .7rem; outline:none;
-    }
-    .chips { display:flex; flex-wrap:wrap; gap:.5rem; }
-    .chip { padding:.4rem .55rem; border-radius:999px; background:#0c121c; border:1px solid #263248; color:#a9bed4; cursor:pointer; user-select:none; }
-    .chip.active{ border-color:#4bdcb3; color:#dffaf2; }
+    .panel{ background:#101828; border:1px solid var(--border); border-radius:12px; box-shadow: var(--shadow); }
+    .panel-header{ padding:.9rem 1rem; border-bottom:1px solid color-mix(in oklab,var(--accent) 20%, #233); display:flex; align-items:center; justify-content:space-between; }
+    .panel-title{ display:flex; align-items:center; gap:.6rem; font-weight:800; }
+    .pill{ display:inline-grid; place-items:center; width:28px; height:28px; border-radius:8px; background:linear-gradient(135deg, var(--accent), var(--accent-2)); color:#06121a; font-weight:900; }
+    .panel-body{ padding: 12px; display: grid; gap: 12px; }
 
-    .actions { display:flex; gap:.5rem; flex-wrap:wrap; }
-    .btn {
-      border:1px solid #2a3a57; background:#122034; color:#d8e7ff; border-radius:10px; padding:.6rem .8rem; font-weight:600; cursor:pointer;
-    }
-    .btn.primary { background:linear-gradient(180deg,#13aa87,#0e8c71); border-color:#0b6b57; }
-    .btn.ghost { background: transparent; }
-    .btn.small{ padding:.35rem .55rem; font-size:.85rem; }
-    .muted{ color:var(--muted); font-size:.9rem; }
-    .tip{ font-size:.85rem; color:#93abc2; }
+    .row-grid{ display:grid; gap:10px; }
+    .row-2{ grid-template-columns:1fr 1fr; }
+    .chips{ gap:8px; }
+    .chip.active{ border-color: color-mix(in oklab, var(--accent) 70%, white); color:#eafffb; }
 
-    /* Right side: results - all-in-one viewport without vertical page scroll */
-    .right { display:grid; grid-template-rows: auto 1fr auto; gap: .75rem; min-height: calc(100vh - 110px); }
-    .results-wrap{ display:grid; gap:.75rem; grid-template-columns: 1fr 1fr; height: 100%; }
-    @media (max-width: 1100px){ .results-wrap{ grid-template-columns: 1fr; } }
-    .card { background: var(--card); border: 1px solid rgba(255,255,255,.06); border-radius: var(--radius); overflow:hidden; display:flex; flex-direction:column; min-height: 0; }
-    .card h3 { margin:0; padding:.8rem 1rem; border-bottom:1px solid rgba(255,255,255,.06); color:#eaf3ff; display:flex; align-items:center; justify-content:space-between; }
-    .card .content { padding:.6rem; overflow:auto; }
-    .list { display:grid; gap:.5rem; }
-    .rowi { display:grid; grid-template-columns: 1fr auto auto; gap:.5rem; align-items:center; border:1px dashed #253149; border-radius:10px; padding:.5rem .6rem; }
-    .rowi .n { font-weight:700; color:#dffaf2; }
-    .rowi .score { font-weight:700; color:#aef8e4; }
-    .links a{ color:#9ac7ff; margin-left:.6rem; text-decoration:none; }
-    .badge { font:600 .75rem/1 system-ui; border:1px solid #2a3a57; background:#101a2a; padding:.25rem .45rem; border-radius:999px; color:#9fc1ff; }
+    .kbar{ display:flex; align-items:center; gap:8px; font-size:12px; color:var(--muted); }
+    .progress{ height:8px; background:#0b1326; border:1px solid var(--border); border-radius:8px; width:100%; overflow:hidden; }
+    .progress > span{ display:block; height:100%; width:0%; background:linear-gradient(90deg, var(--accent), var(--accent-2)); transition:width .25s ease; }
 
-    /* YouTube placeholder with fixed aspect to avoid CLS */
-    .video-card { background: var(--card); border:1px solid rgba(255,255,255,.06); border-radius: var(--radius); }
-    .video-frame { position:relative; width:100%; aspect-ratio: 16/9; background:#0c121c; border-bottom-left-radius: var(--radius); border-bottom-right-radius: var(--radius); }
-    .video-frame iframe { position:absolute; inset:0; width:100%; height:100%; border:0; }
-    .video-thumb { position:absolute; inset:0; display:grid; place-items:center; cursor:pointer; }
-    .video-thumb img { width:100%; height:100%; object-fit:cover; }
-    .video-thumb .play { position:absolute; width:72px; height:72px; border-radius:999px; background:rgba(0,0,0,.5); border:2px solid #fff; display:grid; place-items:center; }
-    .video-thumb .play::after{ content:""; border-left:18px solid #fff; border-top:10px solid transparent; border-bottom:10px solid transparent; margin-left:6px; }
+    .right{ display:grid; grid-template-rows:auto auto 1fr; gap:12px; min-height: calc(100vh - 110px); }
+    .card{ padding: 12px; }
+    .card h3{ margin:0 0 6px; display:flex; align-items:center; justify-content:space-between; }
+    .badge{ font:700 12px/1 system-ui; border:1px solid var(--border); background:#0b1326; color:#cfe7ff; padding:.25rem .45rem; border-radius:999px; }
 
-    footer.site-footer{ display:flex; justify-content:space-between; align-items:center; gap:1rem; padding: .75rem 0 1.25rem; color:#9db3c6; }
-    footer .links a{ color:#9ac7ff; margin-right:.8rem; text-decoration:none; }
-    .note{ font-size:.85rem; color:#8aa2b8; }
+    .lists{ display:grid; grid-template-columns:1fr 1fr; gap:12px; height:100%; }
+    @media (max-width: 1100px){ .lists{ grid-template-columns:1fr; } }
+
+    .rows{ display:grid; gap:8px; overflow:auto; max-height: 100%; padding-right:2px; }
+    .rowi{ display:grid; grid-template-columns: 1fr auto; gap:8px; align-items:center; border:1px dashed var(--border); border-radius:10px; padding:8px; background:#0b1326; }
+    .meta{ display:flex; gap:8px; flex-wrap:wrap; color:#9ec2ff; font-size:12px; }
+    .meta .tag{ border:1px solid var(--border); padding:2px 6px; border-radius:999px; background:#0a1224; }
+    .act{ display:flex; gap:6px; flex-wrap:wrap; }
+    .act a{ text-decoration:none; }
+    .n{ font-weight:800; color:#dffaf2; }
+    .score{ color:#aef8e4; font-weight:800; }
+    .when{ color:#ffd3a3; font-weight:700; }
+    .rank{ color:#cfa9ff; font-weight:700; }
+    .muted{ font-size:12px; }
+
+    .video-card .video-frame{ position:relative; width:100%; aspect-ratio:16/9; border:1px solid var(--border); border-radius:10px; overflow:hidden; background:#0b1326; }
+    .video-card iframe{ position:absolute; inset:0; width:100%; height:100%; border:0; }
+    .thumb{ position:absolute; inset:0; cursor:pointer; display:grid; place-items:center; }
+    .thumb img{ width:100%; height:100%; object-fit:cover; }
+    .thumb .play{ position:absolute; width:72px; height:72px; border-radius:999px; background:rgba(0,0,0,.5); border:2px solid #fff; display:grid; place-items:center; }
+    .thumb .play::after{ content:""; border-left:18px solid #fff; border-top:10px solid transparent; border-bottom:10px solid transparent; margin-left:6px; }
   </style>
 </head>
 
 <body>
-  <!-- Header (shared brand spec) -->
+  <!-- Header -->
   <header class="site" role="banner">
     <div class="header-inner">
       <a class="brand" href="/" aria-label="UpTools Home">
@@ -168,414 +144,458 @@
   </header>
 
   <main class="page">
-    <!-- LEFT: Controls (sticky-ish by staying on left column) -->
+    <!-- LEFT: Controls -->
     <section class="panel" id="controls">
       <div class="panel-header">
-        <div class="panel-title"><span class="pill" title="Subpage textual logo">DF</span> Domain Finder & Expiring Watch</div>
-        <button class="btn small ghost" id="resetBtn">Reset</button>
+        <div class="panel-title"><span class="pill" title="Subpage textual logo">DF</span> Only-Opportunities Finder</div>
+        <button class="btn sm secondary" id="resetBtn">Reset</button>
       </div>
-      <div class="panel-body row" style="gap:1rem">
-        <!-- Idea generator -->
-        <div class="row">
-          <div class="field">
-            <label for="kw">Seed keywords (comma or space separated)</label>
-            <input id="kw" class="input" placeholder="e.g., ai, health, fintech, travel" inputmode="latin" />
-            <p class="tip">Tip: Add 2–4 themes. We’ll blend with smart prefixes/suffixes and score brandability.</p>
+
+      <div class="panel-body">
+        <!-- Mode -->
+        <div class="row-grid">
+          <label class="label">Search mode</label>
+          <div class="chips" role="group" aria-label="Search mode">
+            <button type="button" class="chip active" data-mode="generate">Generate ideas</button>
+            <button type="button" class="chip" data-mode="paste">Paste domain list</button>
+            <button type="button" class="chip" data-mode="csv">Import CSV</button>
           </div>
-          <div class="field">
-            <label>TLDs to try</label>
-            <div class="chips" id="tlds">
-              <button type="button" class="chip active" data-tld=".com">.com</button>
-              <button type="button" class="chip active" data-tld=".in">.in</button>
-              <button type="button" class="chip active" data-tld=".co">.co</button>
-              <button type="button" class="chip" data-tld=".ai">.ai</button>
-              <button type="button" class="chip" data-tld=".io">.io</button>
-              <button type="button" class="chip" data-tld=".dev">.dev</button>
-              <button type="button" class="chip" data-tld=".app">.app</button>
+        </div>
+
+        <!-- Generate -->
+        <div id="mode-generate" class="row-grid">
+          <label class="label" for="kw">Seed keywords</label>
+          <input id="kw" class="input" placeholder="e.g., ai, health, fintech, travel" />
+          <div class="row-grid row-2">
+            <div>
+              <label class="label">TLDs</label>
+              <div class="chips" id="tlds">
+                <button class="chip active" data-tld=".com">.com</button>
+                <button class="chip active" data-tld=".in">.in</button>
+                <button class="chip active" data-tld=".co">.co</button>
+                <button class="chip" data-tld=".ai">.ai</button>
+                <button class="chip" data-tld=".io">.io</button>
+                <button class="chip" data-tld=".dev">.dev</button>
+                <button class="chip" data-tld=".app">.app</button>
+              </div>
             </div>
-          </div>
-          <div class="row cols-2">
-            <div class="field">
-              <label for="maxLen">Max length</label>
-              <input id="maxLen" type="number" min="3" max="30" value="14" />
-            </div>
-            <div class="field">
-              <label for="hyphens">Allow hyphens / digits</label>
-              <select id="hyphens">
-                <option value="no">No</option>
+            <div>
+              <label class="label" for="maxLen">Max name length</label>
+              <input id="maxLen" type="number" class="input" min="3" max="30" value="14" />
+              <label class="label" for="allow">Characters</label>
+              <select id="allow" class="input">
+                <option value="no">No digits/hyphens</option>
                 <option value="digits-ok">Digits OK</option>
                 <option value="hyphen-ok">Hyphens OK</option>
                 <option value="both-ok">Both OK</option>
               </select>
             </div>
           </div>
-
-          <div class="actions">
-            <button class="btn primary" id="genBtn">Generate & Score</button>
-            <button class="btn" id="exportBtn">Export CSV</button>
-            <button class="btn" id="copyBtn">Copy Shortlist</button>
-          </div>
-          <p class="muted">We don’t auto-register or query registrars directly (privacy-first). Use quick-check links to open your preferred registrar in a new tab.</p>
         </div>
 
-        <!-- Expiring list import -->
-        <div class="row">
-          <h3 style="margin:.2rem 0;color:#eaf3ff">Expiring Domains (CSV import)</h3>
-          <div class="row cols-3">
-            <div class="field">
-              <label for="csvFile">Upload CSV</label>
-              <input id="csvFile" type="file" accept=".csv,text/csv" />
-            </div>
-            <div class="field">
-              <label for="dropDays">Drop window (days)</label>
-              <input id="dropDays" type="number" min="0" max="60" value="5" />
-            </div>
-            <div class="field" style="align-self:end">
-              <button class="btn" id="parseCsvBtn">Parse & Score</button>
-            </div>
-          </div>
-          <p class="tip">CSV can be a single column “domain” or include headers: domain, tld, exp_date (YYYY-MM-DD). We’ll auto-detect.</p>
+        <!-- Paste -->
+        <div id="mode-paste" class="row-grid hidden">
+          <label class="label" for="pasteBox">Paste domains (one per line)</label>
+          <textarea id="pasteBox" class="textarea" placeholder="example.com&#10;cool.ai&#10;awesome.co"></textarea>
         </div>
 
-        <!-- Helpful quick links (internal + external) -->
-        <div class="row">
-          <h3 style="margin:.2rem 0;color:#eaf3ff">Marketplaces & Tools</h3>
+        <!-- CSV -->
+        <div id="mode-csv" class="row-grid hidden">
+          <label class="label" for="csvFile">Import CSV (domain[,exp_date])</label>
+          <input id="csvFile" type="file" class="input" accept=".csv,text/csv" />
+        </div>
+
+        <div class="row-grid row-2">
+          <div>
+            <label class="label" for="expWindow">Expiring within (days)</label>
+            <input id="expWindow" class="input" type="number" min="1" max="120" value="30" />
+          </div>
+          <div>
+            <label class="label" for="withTraffic">Traffic estimate</label>
+            <select id="withTraffic" class="input">
+              <option value="off">Off (faster)</option>
+              <option value="expiring">Expiring only</option>
+              <option value="all">All domains</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="kbar">
+          <button class="btn" id="runBtn">Generate & Check</button>
+          <button class="btn secondary" id="exportBtn">Export CSV</button>
+        </div>
+
+        <div class="kbar" aria-live="polite">
+          <span id="statLabel">Idle</span>
+          <div class="progress"><span id="statBar"></span></div>
+        </div>
+
+        <div class="note">
+          Only <b>Available Now</b> & <b>Expiring Soon</b> are shown. We use RDAP (via your <code>/api?url=</code> proxy) to verify availability and read expiry dates. Traffic rank is best-effort.
+        </div>
+
+        <!-- Helpful links -->
+        <div class="card">
+          <h3 class="muted" style="margin:0 0 6px">Marketplaces & Tools</h3>
           <div class="chips">
-            <a class="chip" href="https://auctions.godaddy.com/" target="_blank" rel="noopener">GoDaddy Auctions</a>
-            <a class="chip" href="https://www.namejet.com/" target="_blank" rel="noopener">NameJet</a>
-            <a class="chip" href="https://www.dropcatch.com/" target="_blank" rel="noopener">DropCatch</a>
-            <a class="chip" href="https://www.expireddomains.net/" target="_blank" rel="noopener">ExpiredDomains</a>
-            <a class="chip" href="https://lookup.icann.org/en/lookup" target="_blank" rel="noopener">ICANN WHOIS</a>
-            <a class="chip" href="https://web.archive.org/" target="_blank" rel="noopener">Archive.org</a>
-            <a class="chip" href="https://trends.google.com/trends/" target="_blank" rel="noopener">Google Trends</a>
+            <a class="pill" href="https://auctions.godaddy.com/" target="_blank" rel="noopener">GoDaddy Auctions</a>
+            <a class="pill" href="https://www.namejet.com/" target="_blank" rel="noopener">NameJet</a>
+            <a class="pill" href="https://www.dropcatch.com/" target="_blank" rel="noopener">DropCatch</a>
+            <a class="pill" href="https://www.expireddomains.net/" target="_blank" rel="noopener">ExpiredDomains</a>
+            <a class="pill" href="https://lookup.icann.org/en/lookup" target="_blank" rel="noopener">ICANN WHOIS</a>
+            <a class="pill" href="https://web.archive.org/" target="_blank" rel="noopener">Archive.org</a>
           </div>
-          <p class="note">For SEO, consider brand safety (history via Archive.org), trademark checks, and clean backlink profile.</p>
         </div>
       </div>
     </section>
 
-    <!-- RIGHT: Results & Video (kept within viewport; internal scrolls) -->
+    <!-- RIGHT: Results -->
     <section class="right">
-      <div class="card">
+      <article class="card">
         <h3>
-          <span>Available / Brandable Ideas</span>
-          <span class="badge" id="ideasCount">0</span>
+          Available Now
+          <span class="badge" id="countAvail">0</span>
         </h3>
-        <div class="content" id="ideasList" aria-live="polite">
-          <div class="muted">No ideas yet. Add keywords and click <b>Generate &amp; Score</b>.</div>
+        <div class="rows" id="listAvail">
+          <div class="muted">Run a search to see available domains.</div>
         </div>
-      </div>
+      </article>
 
-      <div class="results-wrap">
-        <div class="card">
+      <div class="lists">
+        <article class="card">
           <h3>
-            <span>Expiring / Auction Shortlist</span>
-            <span class="badge" id="expCount">0</span>
+            Expiring Soon
+            <span class="badge" id="countExp">0</span>
           </h3>
-          <div class="content" id="expList">
-            <div class="muted">Import a CSV from your favorite source to analyze and sort.</div>
+          <div class="rows" id="listExp">
+            <div class="muted">Import CSV or run generate to find domains expiring within your window.</div>
           </div>
-        </div>
+        </article>
 
-        <article class="video-card card" aria-labelledby="ytTitle">
-          <h3 id="ytTitle">Domain Flipping Tutorial (YouTube)</h3>
-          <div class="video-frame">
-            <!-- “Click-to-load” pattern to keep it light; width/height locked by aspect-ratio. Replace data-id with your chosen video. -->
-            <div class="video-thumb" id="ytLoader" role="button" aria-label="Play tutorial video" tabindex="0" data-id="QZp8x6J8T30">
-              <img src="https://img.youtube.com/vi/QZp8x6J8T30/hqdefault.jpg" alt="Domain flipping tutorial thumbnail" width="560" height="315" loading="lazy" decoding="async" />
+        <article class="card video-card" aria-labelledby="ytTitle">
+          <h3 id="ytTitle">How to Flip Domains (Beginner to Pro)</h3>
+          <div class="video-frame" id="ytFrame">
+            <!-- click-to-load to avoid CLS -->
+            <button class="thumb" id="ytLoad" aria-label="Play tutorial video" data-id="QZp8x6J8T30">
+              <img src="https://img.youtube.com/vi/QZp8x6J8T30/hqdefault.jpg" alt="Domain flipping tutorial" width="560" height="315" loading="lazy" decoding="async">
               <div class="play" aria-hidden="true"></div>
-            </div>
+            </button>
           </div>
-          <div class="content">
-            <p class="tip">We load the player only on click to improve performance and avoid CLS. Video uses a fixed 16:9 frame for a stable layout.</p>
-          </div>
+          <p class="note" style="margin:.5rem 0 0">Video is lazy-loaded; layout is fixed with 16:9 frame for zero CLS.</p>
         </article>
       </div>
 
-      <!-- (Ad spot suggestion: a single responsive ad can live below this line on wide screens only to avoid mid-content CLS) -->
-      <!-- Place your ad slot here conditionally ONLY if ads are enabled globally. -->
+      <!-- Suggested ad placement: After results (below fold on desktop) to avoid layout shift. Only render if you have an ad slot configured. -->
     </section>
   </main>
 
-  <footer class="site-footer">
-    <div class="links">
-      <a href="/#tools">All Tools</a>
-      <a href="/currency-converter/">Currency</a>
-      <a href="/password-generator/">Passwords</a>
-      <a href="/uuid-generator/">UUID</a>
-      <a href="/whatsapp-chat/">WhatsApp Link</a>
-    </div>
-    <div class="note">© UpTools. Built for speed, privacy, and SEO.</div>
+  <footer class="center" style="margin: 12px 0 18px">
+    <div class="note">© UpTools · <a href="/#tools">All Tools</a> · <a href="/currency-converter/">Currency</a> · <a href="/password-generator/">Passwords</a> · <a href="/uuid-generator/">UUID</a> · <a href="/whatsapp-chat/">WhatsApp Link</a></div>
   </footer>
 
   <script>
-    // --- Utilities fallback (use shared /utils.js if available) ---
-    const U = (window.Utils) || {
-      debounce(fn, ms=300){ let t; return (...a)=>{ clearTimeout(t); t = setTimeout(()=>fn(...a), ms); }; },
-      copy(str){ navigator.clipboard?.writeText(str).catch(()=>{}); },
-      download(name, data, type="text/csv"){ const blob = new Blob([data], {type}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download=name; a.click(); URL.revokeObjectURL(a.href); },
-      qs:(s,p=document)=>p.querySelector(s),
-      qsa:(s,p=document)=>[...p.querySelectorAll(s)],
+    // ---- utils fallback if /utils.js isn't present during dev ----
+    const Utils = (window.Utils) || {
+      $: (s, r=document)=>r.querySelector(s),
+      $$: (s, r=document)=>[...r.querySelectorAll(s)],
+      debounce(fn, d=120){ let t; return (...a)=>{ clearTimeout(t); t=setTimeout(()=>fn(...a), d); }; },
+      persist:(k,v)=>localStorage.setItem(k, JSON.stringify(v)),
+      read:(k,d=null)=>{try{return JSON.parse(localStorage.getItem(k)) ?? d;}catch{return d;}},
+      fmtNum:(n,o={})=>(new Intl.NumberFormat('en-IN', {maximumFractionDigits:2, ...o}).format(n??0))
     };
+    const {$, $$} = Utils;
 
-    // --- Controls: TLD chips toggle ---
-    const tldSet = new Set([".com",".in",".co"]); // defaults
-    U.qsa('#tlds .chip').forEach(ch=>{
-      ch.addEventListener('click', ()=>{
-        ch.classList.toggle('active');
-        const t = ch.dataset.tld;
-        if(ch.classList.contains('active')) tldSet.add(t); else tldSet.delete(t);
+    // ---- UI helpers ----
+    const tldSet = new Set([".com",".in",".co"]);
+    $$('#tlds .chip').forEach(c=> c.addEventListener('click', ()=>{
+      c.classList.toggle('active');
+      const t=c.dataset.tld;
+      if(c.classList.contains('active')) tldSet.add(t); else tldSet.delete(t);
+    }));
+
+    // Mode switching
+    const modes = { generate: $('#mode-generate'), paste: $('#mode-paste'), csv: $('#mode-csv') };
+    $$('.panel-body .chip[data-mode]').forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        $$('.panel-body .chip[data-mode]').forEach(b=> b.classList.remove('active'));
+        btn.classList.add('active');
+        const m = btn.dataset.mode;
+        Object.entries(modes).forEach(([k,el])=> el.classList.toggle('hidden', k!==m));
       });
     });
 
-    // --- Brandability scoring helpers ---
+    // ---- Brandability score (fast heuristic) ----
     const vowels = new Set('aeiou');
-    function brandScore(s){
-      const name = s.split('.')[0];
+    function brandScore(domain){
+      const name = domain.split('.')[0];
       const len = name.length;
       const hasHyphen = /-/.test(name);
       const hasDigit = /\d/.test(name);
-      const vcPattern = name.replace(/[^a-z]/g,'').split('').map(c=>vowels.has(c)?'v':'c').join('');
-      let score = 100;
-      if(len < 4 || len > 14) score -= 20;
-      if(hasHyphen) score -= 15;
-      if(hasDigit) score -= 10;
-      if(/(vv|ccc{3,}|[aeiou]{4,})/.test(vcPattern)) score -= 10;
-      if(/(ai|io|ly|ify|hub|base|labs|stack|flow|gen|matic|sy|ly|fy|able|ster)$/.test(name)) score += 8;
-      if(/(go|get|try|my|hey|we|use|best|top|pro)^/.test(name)) score += 5;
-      return Math.max(0, Math.min(100, score));
+      const vc = name.replace(/[^a-z]/g,'').split('').map(c=> vowels.has(c)?'v':'c').join('');
+      let s = 100;
+      if(len < 4 || len > 14) s -= 20;
+      if(hasHyphen) s -= 15;
+      if(hasDigit) s -= 10;
+      if(/(vv|ccc{3,}|[aeiou]{4,})/.test(vc)) s -= 10;
+      if(/(ai|io|ly|ify|hub|labs|base|stack|gen|flow|grid|zone|nest|forge|kit|deck|nova|pulse|mint)$/.test(name)) s += 8;
+      if(/^(go|get|try|my|hey|we|use|top|pro)/.test(name)) s += 5;
+      return Math.max(0, Math.min(100, s));
     }
 
-    // --- Idea generator (prefix/suffix combos) ---
-    const PREFIX = ["go","get","try","my","hey","we","use","top","pro","meta","neo","ultra","swift","true","mint","clear","hyper","omni","nano","alpha"];
-    const SUFFIX = ["ly","ify","io","hub","labs","base","stack","gen","flow","grid","zone","spot","deck","kit","forge","nest","pilot","vista","byte","deck"];
+    // ---- Candidate generator ----
+    const PREFIX = ["go","get","try","my","hey","we","use","top","pro","neo","ultra","swift","true","hyper","omni","mint","clear","alpha","next"];
+    const SUFFIX = ["ly","ify","io","hub","labs","base","stack","gen","flow","grid","zone","spot","deck","kit","forge","nest","pilot","vista","pulse","mint"];
     function combos(seed){
       const out = new Set();
-      const s = seed.toLowerCase().replace(/[^a-z0-9]+/g,'');
+      const s = seed.toLowerCase().replace(/[^a-z0-9-]+/g,'');
       if(!s) return out;
-      out.add(s); // raw
+      out.add(s);
       PREFIX.forEach(p=> out.add(p+s));
       SUFFIX.forEach(x=> out.add(s+x));
-      // short blends (remove last vowel or last char)
-      out.add(s.replace(/[aeiou][^aeiou]*$/,''));
+      out.add(s.replace(/[aeiou][^aeiou]*$/,'')); // short blend
       out.add(s.slice(0, Math.max(3, s.length-1)));
       return out;
     }
-
-    function makeCandidates(keywords, tlds, maxLen, allowMode){
-      const allowHyphen = /hyphen/.test(allowMode) || /both/.test(allowMode);
-      const allowDigit  = /digits/.test(allowMode) || /both/.test(allowMode);
+    function makeCandidates(words, tlds, maxLen, mode){
+      const allowHyphen = /hyphen|both/.test(mode);
+      const allowDigit  = /digits|both/.test(mode);
       const seeds = new Set();
-      keywords.forEach(k=>{
-        combos(k).forEach(x=> seeds.add(x));
-      });
-      const candidates = [];
+      words.forEach(w=> combos(w).forEach(x=> seeds.add(x)));
+      const out=[];
       seeds.forEach(n=>{
         tlds.forEach(tld=>{
-          let name = n;
+          let name=n;
           if(!allowHyphen) name = name.replace(/-/g,'');
           if(!allowDigit)  name = name.replace(/\d/g,'');
-          const domain = `${name}${tld}`;
-          if(domain.length <= maxLen + tld.length && /^[a-z0-9-]+(\.[a-z]{2,})+$/.test(domain)){
-            candidates.push(domain);
+          const d = `${name}${tld}`;
+          if(name && d.length <= maxLen + tld.length && /^[a-z0-9-]+(\.[a-z]{2,})$/.test(d)){
+            out.push(d);
           }
         });
       });
-      // unique + sorted by score desc, then length
-      const withScore = candidates
-        .map(d=>({d, s: brandScore(d)}))
-        .sort((a,b)=> b.s - a.s || a.d.length - b.d.length)
-        .slice(0, 200);
-      return withScore;
+      // score + dedupe
+      const uniq = [...new Map(out.map(d => [d, d])).values()];
+      return uniq.slice(0, 250).map(d=>({domain:d, score:brandScore(d)}))
+                 .sort((a,b)=> b.score - a.score || a.domain.length - b.domain.length);
     }
 
-    function renderIdeas(list){
-      const wrap = U.qs('#ideasList'); wrap.innerHTML = '';
-      const ul = document.createElement('div'); ul.className = 'list';
-      list.forEach(({d,s})=>{
-        const row = document.createElement('div');
-        row.className = 'rowi';
-        const left = document.createElement('div');
-        left.innerHTML = `<span class="n">${d}</span> · <span class="score">${s}</span>`;
-        const links = document.createElement('div'); links.className='links';
-        // Quick-check links (open registrar search in new tab)
-        const reg = [
-          ["Namecheap", `https://www.namecheap.com/domains/registration/results/?domain=${encodeURIComponent(d)}`],
-          ["Porkbun", `https://porkbun.com/search?q=${encodeURIComponent(d)}`],
-          ["Dynadot", `https://www.dynadot.com/domain/search.html?domain=${encodeURIComponent(d)}`],
-          ["GoDaddy", `https://in.godaddy.com/domainsearch/find?domainToCheck=${encodeURIComponent(d)}`],
-          ["WHOIS", `https://lookup.icann.org/en/lookup?name=${encodeURIComponent(d)}`]
-        ];
-        reg.forEach(([label, href])=>{
-          const a=document.createElement('a'); a.href=href; a.target="_blank"; a.rel="noopener"; a.textContent=label;
-          links.appendChild(a);
-        });
-        const act = document.createElement('div');
-        const btn = document.createElement('button'); btn.className='btn small ghost'; btn.textContent='Shortlist';
-        btn.addEventListener('click', ()=>{
-          shortlist.add(d);
-          renderShortlistBadge();
-        });
-        act.appendChild(btn);
-        row.appendChild(left); row.appendChild(links); row.appendChild(act);
-        ul.appendChild(row);
+    // ---- RDAP lookup (via your CF Worker /api?url= proxy) ----
+    async function rdapLookup(domain){
+      // rdap.org routes to the right registry. 404 => likely available.
+      const url = `/api?url=${encodeURIComponent('https://rdap.org/domain/' + domain)}`;
+      try{
+        const res = await fetch(url, {cache:'no-store'});
+        if(res.status === 404) return { status:'available' };
+        if(!res.ok) return { status:'unknown' };
+        const j = await res.json();
+        const events = Array.isArray(j.events)? j.events : [];
+        const exp = events.find(e=> /expir/i.test(e.eventAction || ''))?.eventDate || null;
+        // registrar (best-effort)
+        let registrar = j.registrarName || '';
+        if(!registrar && Array.isArray(j.entities)){
+          for(const ent of j.entities){
+            if((ent.roles||[]).includes('registrar') && Array.isArray(ent.vcardArray)){
+              const card = ent.vcardArray[1] || [];
+              const fn = card.find(row => row[0]==='fn');
+              if(fn && fn[3]) registrar = fn[3];
+            }
+          }
+        }
+        return { status:'registered', expiration: exp, registrar };
+      }catch(_e){
+        return { status:'error' };
+      }
+    }
+
+    // ---- Traffic estimate (best-effort; Similarweb public data) ----
+    async function trafficEstimate(domain){
+      const sw = `/api?url=${encodeURIComponent('https://data.similarweb.com/api/v1/data?domain=' + domain)}`;
+      try{
+        const r = await fetch(sw, {cache:'no-store'});
+        if(!r.ok) return null;
+        const j = await r.json();
+        const rank = j?.GlobalRank?.Rank ?? null;
+        const visits = j?.Engagements?.Visits ?? null;
+        return { rank, visits };
+      }catch(_e){ return null; }
+    }
+
+    // ---- Concurrency control ----
+    async function mapLimit(items, limit, worker){
+      const ret = [];
+      let i = 0;
+      const runners = Array(Math.min(limit, items.length)).fill(0).map(async function run(){
+        while(i < items.length){
+          const cur = i++; ret[cur] = await worker(items[cur], cur);
+        }
       });
-      wrap.appendChild(ul);
-      U.qs('#ideasCount').textContent = String(list.length);
+      await Promise.all(runners);
+      return ret;
     }
 
-    // Shortlist in-memory
-    const shortlist = new Set();
-    function renderShortlistBadge(){
-      const c = shortlist.size;
-      U.qs('#copyBtn').textContent = c ? `Copy Shortlist (${c})` : 'Copy Shortlist';
+    // ---- Rendering ----
+    const listAvail = $('#listAvail');
+    const listExp   = $('#listExp');
+    const countAvail = $('#countAvail');
+    const countExp = $('#countExp');
+    function rowHtml({domain, score, when, rank, registrar}){
+      const buy = [
+        ["Namecheap", `https://www.namecheap.com/domains/registration/results/?domain=${encodeURIComponent(domain)}`],
+        ["Porkbun", `https://porkbun.com/search?q=${encodeURIComponent(domain)}`],
+        ["Dynadot", `https://www.dynadot.com/domain/search.html?domain=${encodeURIComponent(domain)}`],
+        ["GoDaddy", `https://in.godaddy.com/domainsearch/find?domainToCheck=${encodeURIComponent(domain)}`]
+      ];
+      const links = buy.map(([t,h])=>`<a class="btn sm ghost" href="${h}" target="_blank" rel="noopener">${t}</a>`).join('');
+      const meta = `
+        <div class="meta">
+          <span class="tag"><b>Score</b> <span class="score">${score}</span></span>
+          ${when ? `<span class="tag">Expiry <span class="when">${when}</span></span>`:''}
+          ${rank ? `<span class="tag">Traffic rank <span class="rank">#${Utils.fmtNum(rank,{maximumFractionDigits:0})}</span></span>`:''}
+          ${registrar ? `<span class="tag">Registrar: ${registrar}</span>`:''}
+        </div>`;
+      return `<div class="rowi">
+        <div>
+          <div class="n">${domain}</div>
+          ${meta}
+        </div>
+        <div class="act">${links}</div>
+      </div>`;
     }
 
-    // Generate button
-    U.qs('#genBtn').addEventListener('click', ()=>{
-      const words = U.qs('#kw').value.split(/[,\s]+/).map(x=>x.trim()).filter(Boolean).slice(0, 8);
-      if(!words.length){ alert('Please enter 1–8 keywords.'); return; }
-      const tlds = [...tldSet];
-      const maxLen = parseInt(U.qs('#maxLen').value, 10) || 14;
-      const allowMode = U.qs('#hyphens').value;
-      const list = makeCandidates(words, tlds, maxLen, allowMode);
-      renderIdeas(list);
-    });
+    function addAvail(item){
+      if(listAvail.firstElementChild?.classList.contains('muted')) listAvail.innerHTML='';
+      listAvail.insertAdjacentHTML('beforeend', rowHtml(item));
+      countAvail.textContent = String(+countAvail.textContent + 1);
+    }
+    function addExp(item){
+      if(listExp.firstElementChild?.classList.contains('muted')) listExp.innerHTML='';
+      listExp.insertAdjacentHTML('beforeend', rowHtml(item));
+      countExp.textContent = String(+countExp.textContent + 1);
+    }
 
-    // Export CSV
-    U.qs('#exportBtn').addEventListener('click', ()=>{
-      const rows = [['domain','score']];
-      U.qsa('#ideasList .rowi').forEach(r=>{
-        const d = r.querySelector('.n')?.textContent?.trim() || '';
-        const s = r.querySelector('.score')?.textContent?.trim() || '';
-        if(d) rows.push([d,s]);
-      });
-      const csv = rows.map(r => r.map(x=> `"${String(x).replace(/"/g,'""')}"`).join(',')).join('\n');
-      U.download('domain_ideas.csv', csv, 'text/csv');
-    });
+    // ---- Progress UI ----
+    function setProgress(done, total, label='Working…'){
+      $('#statLabel').textContent = `${label} ${done}/${total}`;
+      $('#statBar').style.width = total ? `${Math.round(done*100/total)}%` : '0%';
+    }
 
-    // Copy shortlist
-    U.qs('#copyBtn').addEventListener('click', ()=>{
-      const text = [...shortlist].join('\n');
-      if(!text){ alert('Shortlist is empty. Click “Shortlist” on candidates you like.'); return; }
-      U.copy(text);
-      alert('Shortlist copied!');
-    });
-
-    // Reset
-    U.qs('#resetBtn').addEventListener('click', ()=>{
-      shortlist.clear(); renderShortlistBadge();
-      U.qs('#ideasList').innerHTML = '<div class="muted">No ideas yet. Add keywords and click <b>Generate &amp; Score</b>.</div>';
-      U.qs('#ideasCount').textContent = '0';
-      U.qs('#expList').innerHTML = '<div class="muted">Import a CSV from your favorite source to analyze and sort.</div>';
-      U.qs('#expCount').textContent = '0';
-      U.qsa('#tlds .chip').forEach(c=> c.classList.remove('active'));
-      tldSet.clear(); ['.com','.in','.co'].forEach(t=>{ tldSet.add(t); const chip = U.qs(`[data-tld="${t}"]`); chip && chip.classList.add('active'); });
-      U.qs('#kw').value='';
-    });
-
-    // --- CSV import for expiring domains ---
+    // ---- CSV helpers ----
     function parseCSV(text){
       const lines = text.split(/\r?\n/).filter(Boolean);
       if(!lines.length) return [];
-      const first = lines[0].toLowerCase();
-      let hasHeader = /domain|exp|tld/.test(first);
+      const header = lines[0].toLowerCase();
+      const hasHeader = /domain|exp/.test(header);
       const rows = hasHeader ? lines.slice(1) : lines;
       return rows.map(line=>{
-        const cols = line.split(',').map(x=>x.trim());
-        let domain = cols[0] || '';
-        let exp_date = cols[1] || '';
-        let tld = '';
-        if(/domain/.test(first)){ // naive mapping when header exists
-          const map = first.split(',').reduce((a,k,i)=> (a[k.trim()]=i, a), {});
-          domain = cols[map['domain']] || domain;
-          exp_date = cols[map['exp_date']] || exp_date;
-          tld = cols[map['tld']] || '';
-        }
-        if(!/\./.test(domain) && tld) domain = domain + tld;
-        domain = domain.toLowerCase();
-        return { domain, exp_date };
-      }).filter(x=> x.domain);
+        const cols = line.split(',').map(s=>s.trim());
+        return { domain: cols[0], exp_date: cols[1] || '' };
+      }).filter(x=> x.domain && /\./.test(x.domain));
     }
-
-    function renderExp(list){
-      const wrap = U.qs('#expList'); wrap.innerHTML='';
-      if(!list.length){ wrap.innerHTML = '<div class="muted">No rows.</div>'; U.qs('#expCount').textContent = '0'; return; }
-      const ul = document.createElement('div'); ul.className='list';
-      list.forEach(item=>{
-        const s = brandScore(item.domain);
-        const row = document.createElement('div'); row.className='rowi';
-        const left = document.createElement('div'); left.innerHTML = `<span class="n">${item.domain}</span> · <span class="score">${s}</span>`;
-        const links = document.createElement('div'); links.className='links';
-        [
-          ["Auctions", `https://auctions.godaddy.com/trpsearchresults.aspx?searchText=${encodeURIComponent(item.domain)}`],
-          ["NameJet", `https://www.namejet.com/Pages/SearchDomains.aspx?searchpattern=${encodeURIComponent(item.domain)}`],
-          ["DropCatch", `https://www.dropcatch.com/domain/${encodeURIComponent(item.domain)}`],
-          ["Archive", `https://web.archive.org/web/*/${encodeURIComponent(item.domain)}`],
-          ["WHOIS", `https://lookup.icann.org/en/lookup?name=${encodeURIComponent(item.domain)}`]
-        ].forEach(([label, href])=>{
-          const a=document.createElement('a'); a.href=href; a.target="_blank"; a.rel="noopener"; a.textContent=label;
-          links.appendChild(a);
-        });
-        const act = document.createElement('div');
-        const b = document.createElement('span'); b.className='badge'; b.textContent= item.drop_in ? (`Drops in ${item.drop_in}d`) : (item.exp_date || '—');
-        act.appendChild(b);
-        row.appendChild(left); row.appendChild(links); row.appendChild(act);
-        ul.appendChild(row);
+    function exportCSV(){
+      const rows = [['domain','score','status','expiry','rank','registrar']];
+      $$('#listAvail .rowi, #listExp .rowi').forEach(r=>{
+        const domain = r.querySelector('.n')?.textContent?.trim() || '';
+        const score = r.querySelector('.score')?.textContent?.trim() || '';
+        const when  = r.querySelector('.when')?.textContent?.trim() || '';
+        const rank  = r.querySelector('.rank')?.textContent?.replace('#','').trim() || '';
+        const status = r.closest('#listExp') ? 'expiring' : 'available';
+        const reg = r.querySelector('.meta .tag:nth-child(4)')?.textContent?.replace('Registrar:','').trim() || '';
+        rows.push([domain, score, status, when, rank, reg]);
       });
-      wrap.appendChild(ul);
-      U.qs('#expCount').textContent = String(list.length);
+      const csv = rows.map(r=> r.map(x=> `"${String(x).replace(/"/g,'""')}"`).join(',')).join('\n');
+      const a=document.createElement('a');
+      a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));
+      a.download='domain_opportunities.csv'; a.click();
+      URL.revokeObjectURL(a.href);
     }
 
-    U.qs('#parseCsvBtn').addEventListener('click', ()=>{
-      const f = U.qs('#csvFile').files?.[0];
-      if(!f){ alert('Choose a CSV file.'); return; }
-      const days = parseInt(U.qs('#dropDays').value, 10) || 0;
-      const reader = new FileReader();
-      reader.onload = () => {
-        const rows = parseCSV(String(reader.result));
-        const today = new Date();
-        const out = rows.map(r=>{
-          let drop_in = null;
-          if(r.exp_date){
-            const exp = new Date(r.exp_date);
-            const drop = new Date(exp.getTime() + days*86400000);
-            const diff = Math.ceil((drop - today)/86400000);
-            drop_in = isFinite(diff) ? diff : null;
-          }
-          return {...r, drop_in};
-        }).sort((a,b)=>{
-          if(a.drop_in==null && b.drop_in==null) return 0;
-          if(a.drop_in==null) return 1;
-          if(b.drop_in==null) return -1;
-          return a.drop_in - b.drop_in;
-        });
-        renderExp(out);
-      };
-      reader.readAsText(f);
+    // ---- Main flow ----
+    $('#exportBtn').addEventListener('click', exportCSV);
+    $('#resetBtn').addEventListener('click', ()=>{
+      listAvail.innerHTML = '<div class="muted">Run a search to see available domains.</div>';
+      listExp.innerHTML   = '<div class="muted">Import CSV or run generate to find domains expiring within your window.</div>';
+      countAvail.textContent = '0'; countExp.textContent='0';
+      setProgress(0,0,'Idle');
     });
 
-    // --- YouTube: click-to-load (fixed frame to avoid layout shifts) ---
-    function loadYouTube(id){
-      const frame = document.createElement('iframe');
-      frame.width = 560; frame.height = 315;
-      frame.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
-      frame.referrerPolicy = "strict-origin-when-cross-origin";
-      frame.allowFullscreen = true;
-      frame.src = `https://www.youtube-nocookie.com/embed/${encodeURIComponent(id)}?autoplay=1&rel=0`;
-      const holder = document.querySelector('.video-frame');
-      holder.innerHTML = '';
-      holder.appendChild(frame);
-    }
-    const loadBtn = document.getElementById('ytLoader');
-    const activate = ()=> loadYouTube(loadBtn.dataset.id);
-    loadBtn.addEventListener('click', activate);
-    loadBtn.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' ') { e.preventDefault(); activate(); } });
+    $('#runBtn').addEventListener('click', async ()=>{
+      // Reset UI
+      listAvail.innerHTML = '<div class="muted">Checking…</div>';
+      listExp.innerHTML   = '<div class="muted">Checking…</div>';
+      countAvail.textContent='0'; countExp.textContent='0';
+      setProgress(0,0,'Preparing…');
 
-    // Accessibility: focus ring for keyboard
-    document.addEventListener('keydown', e=>{
-      if(e.key==='Tab') document.documentElement.classList.add('show-focus');
-    }, {once:true});
+      // Source set
+      let domains = [];
+      const mode = $('.panel-body .chip[data-mode].active')?.dataset.mode || 'generate';
+      if(mode === 'generate'){
+        const words = $('#kw').value.split(/[,\s]+/).map(s=>s.trim()).filter(Boolean).slice(0,8);
+        if(!words.length){ alert('Enter at least one keyword.'); return; }
+        const maxLen = +$('#maxLen').value || 14;
+        const allow = $('#allow').value;
+        const tlds = [...tldSet];
+        domains = makeCandidates(words, tlds, maxLen, allow).map(x=>x.domain);
+      }else if(mode === 'paste'){
+        domains = $('#pasteBox').value.split(/\r?\n/).map(s=>s.trim()).filter(Boolean);
+      }else{
+        const f = $('#csvFile').files?.[0];
+        if(!f){ alert('Choose a CSV file.'); return; }
+        const text = await f.text();
+        domains = parseCSV(text).map(r=>r.domain);
+      }
+      // Deduplicate & limit
+      domains = [...new Set(domains)].slice(0, 300);
+
+      const total = domains.length;
+      let done = 0; setProgress(done, total, 'Checking RDAP');
+
+      const expWindowDays = Math.max(1, Math.min(120, +$('#expWindow').value || 30));
+      const trafficMode = $('#withTraffic').value; // off | expiring | all
+      const wantTrafficAll = trafficMode === 'all';
+      const wantTrafficExp = trafficMode === 'expiring';
+
+      // Precompute scores
+      const scoreMap = new Map(domains.map(d => [d, brandScore(d)]));
+
+      // Lookups with small concurrency
+      await mapLimit(domains, 6, async (domain)=>{
+        const rd = await rdapLookup(domain);
+        let rank = null, visits = null;
+
+        if(rd.status === 'available'){
+          if(wantTrafficAll){ const t = await trafficEstimate(domain); rank = t?.rank || null; visits = t?.visits || null; }
+          addAvail({ domain, score: scoreMap.get(domain), rank });
+        }else if(rd.status === 'registered' && rd.expiration){
+          const exp = new Date(rd.expiration);
+          const today = new Date();
+          const days = Math.ceil((exp - today)/86400000);
+          if(days >= 0 && days <= expWindowDays){
+            if(wantTrafficAll || wantTrafficExp){
+              const t = await trafficEstimate(domain); rank = t?.rank || null; visits = t?.visits || null;
+            }
+            const when = exp.toISOString().split('T')[0];
+            addExp({ domain, score: scoreMap.get(domain), when, rank, registrar: rd.registrar || '' });
+          }
+        }
+        // ignore registered but not expiring within window
+        done++; setProgress(done, total, 'Checking RDAP');
+      });
+
+      if(+countAvail.textContent === 0) listAvail.innerHTML = '<div class="muted">No immediately available candidates found with current settings.</div>';
+      if(+countExp.textContent === 0) listExp.innerHTML = '<div class="muted">No domains expiring within your chosen window.</div>';
+    });
+
+    // ---- YouTube lazy loader ----
+    $('#ytLoad').addEventListener('click', ()=>{
+      const id = $('#ytLoad').dataset.id;
+      const ifr = document.createElement('iframe');
+      ifr.width=560; ifr.height=315;
+      ifr.allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+      ifr.referrerPolicy="strict-origin-when-cross-origin";
+      ifr.allowFullscreen = true;
+      ifr.src = `https://www.youtube-nocookie.com/embed/${encodeURIComponent(id)}?autoplay=1&rel=0`;
+      const frame = $('#ytFrame'); frame.innerHTML=''; frame.appendChild(ifr);
+    });
   </script>
 </body>
 </html>
