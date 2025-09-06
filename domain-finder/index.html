@@ -1,15 +1,15 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <!-- Ads (async; harmless if blocked) -->
+  <!-- If an ad-blocker is active you'll see a console warning (ERR_BLOCKED_BY_CLIENT). It's harmless. -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617" crossorigin="anonymous"></script>
 
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <title>Domain Finder (Available + Expiring) | UpTools</title>
-  <meta name="description" content="Find REAL opportunities: show only domains that are AVAILABLE now or EXPIRING soon (with dates). Generate by keywords, by length (permutations & pronounceable patterns), or FILTER by your REGEX. RDAP checks, optional traffic, shortlist & export." />
-  <meta name="keywords" content="domain finder, available domains, expiring domains, RDAP, domain flipping, permutations, pronounceable domains, regex domain search, domain traffic, brandable names" />
+  <meta name="description" content="Find only REAL opportunities: show domains that are AVAILABLE now or EXPIRING soon (with expiry dates). Generate by keywords, by length (permutations & pronounceable patterns), or filter by REGEX. RDAP checks, optional traffic, shortlist & export." />
+  <meta name="keywords" content="domain finder, available domains, expiring domains, RDAP, domain flipping, permutations, pronounceable domains, regex domain search, domain traffic, brandable domains, domain investing" />
   <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
   <meta name="theme-color" content="#0b1020" />
   <link rel="canonical" href="https://www.uptools.in/domain-finder/" />
@@ -18,7 +18,7 @@
   <link rel="icon" type="image/svg+xml" href="/assets/logo/uptools-logo.svg" />
   <link rel="apple-touch-icon" href="/assets/logo/uptools-logo.svg" />
 
-  <!-- Open Graph -->
+  <!-- Open Graph (safe to keep even if the image is missing; it’s for social previews only) -->
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Domain Finder (Available + Expiring) | UpTools" />
   <meta property="og:description" content="Only available & expiring domains (with expiry dates). Generate by keywords or by length, and filter by regex. Optional traffic rank. Export CSV." />
@@ -32,9 +32,9 @@
   <meta name="twitter:description" content="Generate domains by keywords or by length (permutations/patterns). Filter with your regex. Show only AVAILABLE & EXPIRING (with dates), optional traffic rank." />
   <meta name="twitter:image" content="/assets/og/domain-finder.png" />
 
-  <!-- Common CSS & Utils (shared across site) -->
-  <link rel="stylesheet" href="/style.css?v=1.3.4" />
-  <script defer src="/scripts/utils.js" type="text/javascript"></script>
+  <!-- Common CSS & Utils (point to shared root; avoids /scripts/ path & MIME issues) -->
+  <link rel="stylesheet" href="/style.css?v=1.3.5" />
+  <script defer src="/utils.js" type="text/javascript"></script>
 
   <!-- JSON-LD -->
   <script type="application/ld+json">
@@ -169,7 +169,7 @@
     .visits{ color:#8ff9ff; font-weight:800; }
     .badge{ font:700 12px/1 system-ui; border:1px solid #203052; background:#0b1326; color:#cfe7ff; padding:.25rem .55rem; border-radius:999px; }
 
-    /* Themed Choose File (improved) */
+    /* Themed Choose File */
     .file-row{ display:grid; gap:.5rem; }
     input[type="file"]{ display:none; }
     .filebtn{
@@ -230,7 +230,7 @@
           </div>
         </div>
 
-        <!-- Generate (keywords OPTIONAL) -->
+        <!-- Generate (seed OPTIONAL) -->
         <div id="mode-generate" class="row-grid">
           <label for="kw">Seed keywords (optional)</label>
           <input id="kw" class="input" placeholder="e.g., ai, health, fintech, travel — or leave empty" />
@@ -327,10 +327,10 @@
           </div>
         </div>
 
-        <!-- NEW: Regex filter (applies to ANY mode) -->
+        <!-- Regex filter -->
         <div class="row-grid">
           <label for="regexFilter">Regex filter (optional)</label>
-          <input id="regexFilter" class="input" placeholder="e.g., ^(ai|ml)[a-z]{3,6}$  or  ^[a-z]{5}\d$" />
+          <input id="regexFilter" class="input" placeholder="e.g., ^(ai|ml)[a-z]{3,6}$  or  /^[a-z]{5}\d$/i" />
           <div class="row-3">
             <div>
               <label>Scope</label>
@@ -350,7 +350,7 @@
               <div id="regexErr" class="tag" style="display:none;">Invalid regex pattern</div>
             </div>
           </div>
-          <p class="tag">Examples: <code>^re[a-z]{3}$</code> (exact length 5, starting with “re”) · <code>^[a-z]{4,7}(ai|io)$</code> (ends with ai/io) · <code>^[a-z]+-?[a-z]+$</code> (optional hyphen)</p>
+          <p class="tag">You can enter either a raw pattern (<code>^[a-z]{4,7}(ai|io)$</code>) or a JavaScript-style regex with slashes (<code>/^[a-z]{4,7}(ai|io)$/i</code>).</p>
         </div>
 
         <!-- Global options -->
@@ -390,7 +390,7 @@
               <a class="chip" href="https://lookup.icann.org/en/lookup" target="_blank" rel="noopener">ICANN WHOIS</a>
               <a class="chip" href="https://web.archive.org/" target="_blank" rel="noopener">Archive.org</a>
             </div>
-            <p class="tag">We verify via <b>RDAP</b> and show <b>expiry dates</b> when the registry exposes them. Traffic is best-effort; if blocked, you’ll see <b>N/A</b>.</p>
+            <p class="tag">Verification via <b>RDAP</b> (expiry when exposed). Traffic is best-effort; if blocked you’ll see <b>N/A</b>.</p>
           </div>
         </div>
       </div>
@@ -416,9 +416,11 @@
         <article class="card video-card" aria-labelledby="ytTitle">
           <h3 id="ytTitle">How to Flip Domains (Beginner to Pro)</h3>
           <div class="frame" id="ytFrame">
-            <!-- Local OG as placeholder -->
+            <!-- Inline SVG placeholder (avoids 404 for missing /assets/og/domain-finder.png) -->
             <button class="thumb" id="ytLoad" aria-label="Play tutorial video" data-id="dQw4w9WgXcQ">
-              <img src="/assets/og/domain-finder.png" alt="Domain flipping tutorial" width="560" height="315" loading="lazy" decoding="async">
+              <img alt="Domain flipping tutorial"
+                   width="560" height="315" loading="lazy" decoding="async"
+                   src='data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720"><defs><linearGradient id="g" x1="0" x2="1" y1="0" y2="1"><stop stop-color="%230b1020" offset="0"/><stop stop-color="%2311223a" offset="1"/></linearGradient></defs><rect fill="url(%23g)" width="100%25" height="100%25"/><text x="50%25" y="50%25" fill="%23e6f1ff" font-family="system-ui,Segoe UI,Roboto" font-size="48" text-anchor="middle" dominant-baseline="middle">UpTools • Domain Flipping Tutorial</text></svg>'>
               <div class="play" aria-hidden="true"></div>
             </button>
           </div>
@@ -432,7 +434,7 @@
   </footer>
 
   <script>
-    // ---- utils fallback if /scripts/utils.js isn't present ----
+    /* ======================== FALLBACK UTILS (if /utils.js 404 or wrong MIME) ======================== */
     const Utils = (window.Utils) || {
       $: (s, r=document)=>r.querySelector(s),
       $$: (s, r=document)=>[...r.querySelectorAll(s)],
@@ -442,14 +444,13 @@
     };
     const {$, $$} = Utils;
 
-    // Themed file input UX
-    const fileEl = $('#csvFile'), fileBtn = $('#fileBtn'), fileInfo = $('#fileInfo');
+    /* ======================== UI HOOKS ======================== */
+    const fileEl = $('#csvFile'), fileInfo = $('#fileInfo');
     fileEl?.addEventListener('change', ()=>{
       const f = fileEl.files?.[0];
       fileInfo.textContent = f ? `Selected: ${f.name} (${Utils.fmtNum(f.size)} bytes)` : 'Import CSV as: domain[,exp_date]';
     });
 
-    // Generic chip toggler
     function initChipToggle(containerSelector, onToggle, singleSelect=false){
       $$(containerSelector + ' .chip').forEach(c=>{
         c.addEventListener('click', ()=>{
@@ -475,7 +476,7 @@
     const lenFlags = { letters:true, digits:false, hyphen:false, start:'letter' };
     initChipToggle('#lenChars', (c,active)=>{ lenFlags[c.dataset.flag] = active; });
     initChipToggle('#lenStart', (c,active)=>{
-      if(active){ // single-select
+      if(active){
         $$('#lenStart .chip').forEach(x=>{ if(x!==c){ x.classList.remove('active'); x.setAttribute('aria-pressed','false'); } });
         lenFlags.start = c.dataset.start;
       }
@@ -496,16 +497,31 @@
       if(!active) regexFlags = regexFlags.replace(new RegExp(f,'g'),'');
     });
 
-    function compileRegex(){
-      const pattern = $('#regexFilter').value.trim();
-      $('#regexErr').style.display = 'none';
-      if(!pattern) return null;
-      try{
-        return new RegExp(pattern, regexFlags);
-      }catch(e){
-        $('#regexErr').style.display = 'inline-block';
-        return 'invalid';
+    function parseRegexInput(input, chipFlags){
+      const s = input.trim();
+      if(!s) return null;
+      // Accept forms like `/pattern/gi` or raw `pattern`
+      if(s.startsWith('/')){
+        const last = s.lastIndexOf('/');
+        if(last > 0){
+          const body = s.slice(1, last);
+          const tailFlags = s.slice(last+1);
+          // merge flags: unique union of (tailFlags U chipFlags)
+          const merged = [...new Set((tailFlags + chipFlags).split(''))].join('');
+          try{ return new RegExp(body, merged); }catch(e){ return 'invalid'; }
+        }
       }
+      try{ return new RegExp(s, chipFlags); }catch(e){ return 'invalid'; }
+    }
+
+    function showInvalidRegex(){
+      $('#regexErr').style.display = 'inline-block';
+      // Reset UI so it doesn't look like it's still processing
+      listAvail.innerHTML = '<div class="tag">Invalid regex. Fix the pattern and try again.</div>';
+      listExp.innerHTML   = '<div class="tag">Invalid regex. Fix the pattern and try again.</div>';
+      countAvail.textContent = '0';
+      countExp.textContent   = '0';
+      setProgress(0,0,'Idle');
     }
 
     // Mode switching
@@ -520,7 +536,7 @@
       });
     });
 
-    // Brandability
+    // Brandability scorer
     const vowels = new Set('aeiou');
     function brandScore(domain){
       const name = domain.split('.')[0];
@@ -538,7 +554,7 @@
       return Math.max(0, Math.min(100, s));
     }
 
-    // Keyword generator (seed optional)
+    // Seeds → candidates
     const PREFIX = ["go","get","try","my","hey","we","use","top","pro","neo","ultra","swift","true","hyper","omni","mint","clear","alpha","next"];
     const SUFFIX = ["ly","ify","io","hub","labs","base","stack","gen","flow","grid","zone","spot","deck","kit","forge","nest","pilot","vista","pulse","mint"];
     function combos(seed){
@@ -585,7 +601,7 @@
     }
     function sanitizeName(name, flags){
       if(!flags.hyphen){
-        name = name.replace(/-/g,'');
+        name = name.replace(/-+/g,'');
       }else{
         name = name.replace(/^-+/, '').replace(/-+$/, '').replace(/--+/g, '-');
       }
@@ -629,12 +645,8 @@
       const filtered = base.filter(p=> p.length===n);
       if(filtered.length) return filtered;
       const out = [];
-      let s = 'cvcv';
-      while(s.length < n){ s += 'cv'; }
-      out.push(s.slice(0,n));
-      s = 'cvvcvvcvvcvv';
-      while(s.length < n){ s += 'cv'; }
-      out.push(s.slice(0,n));
+      let s = 'cvcv'; while(s.length < n){ s += 'cv'; } out.push(s.slice(0,n));
+      s = 'cvvcvvcvvcvv'; while(s.length < n){ s += 'cv'; } out.push(s.slice(0,n));
       out.push('c'.repeat(n).replace(/cc/g,'cv'));
       return [...new Set(out)];
     }
@@ -645,10 +657,7 @@
       while(out.size < limit && tries < limit*50){
         const pat = patterns[Math.floor(Math.random()*patterns.length)];
         let s = '';
-        for(const ch of pat){
-          s += ch==='c' ? Cset[Math.floor(Math.random()*Cset.length)]
-                        : Vset[Math.floor(Math.random()*Vset.length)];
-        }
+        for(const ch of pat){ s += ch==='c' ? Cset[Math.floor(Math.random()*Cset.length)] : Vset[Math.floor(Math.random()*Vset.length)]; }
         if(flags.digits && Math.random()<0.15){
           const pos = 1 + Math.floor(Math.random()*(s.length-2));
           s = s.slice(0,pos) + digits[Math.floor(Math.random()*digits.length)] + s.slice(pos+1);
@@ -658,7 +667,7 @@
           s = s.slice(0,pos) + '-' + s.slice(pos);
         }
         s = sanitizeName(s, flags);
-        if(flags.start==='letter' && !/^[a-z]/.test(s)) continue;
+        if(flags.start==='letter' && !/^[a-z]/.test(s)) { tries++; continue; }
         if(s.length===n) out.add(s);
         tries++;
       }
@@ -728,10 +737,10 @@
     }
 
     // Rendering
-    const listAvail = $('#listAvail');
-    const listExp   = $('#listExp');
-    const countAvail = $('#countAvail');
-    const countExp = $('#countExp');
+    const listAvail = document.getElementById('listAvail');
+    const listExp   = document.getElementById('listExp');
+    const countAvail = document.getElementById('countAvail');
+    const countExp = document.getElementById('countExp');
 
     function rowHtml({domain, score, when, rank, visits, registrar}){
       const buy = [
@@ -773,8 +782,8 @@
 
     // Progress
     function setProgress(done, total, label='Working…'){
-      $('#statLabel').textContent = `${label} ${done}/${total}`;
-      $('#statBar').style.width = total ? `${Math.round(done*100/total)}%` : '0%';
+      document.getElementById('statLabel').textContent = `${label} ${done}/${total}`;
+      document.getElementById('statBar').style.width = total ? `${Math.round(done*100/total)}%` : '0%';
     }
 
     // CSV helpers
@@ -806,76 +815,79 @@
       Utils.download('domain_opportunities.csv', csv, 'text/csv');
     }
 
-    // Main
-    $('#exportBtn').addEventListener('click', exportCSV);
-    $('#resetBtn').addEventListener('click', ()=>{
+    document.getElementById('exportBtn').addEventListener('click', exportCSV);
+    document.getElementById('resetBtn').addEventListener('click', ()=>{
       listAvail.innerHTML = '<div class="tag">Run a search to see available domains.</div>';
       listExp.innerHTML   = '<div class="tag">Import CSV or run generate to find domains expiring within your window.</div>';
       countAvail.textContent = '0'; countExp.textContent='0';
       setProgress(0,0,'Idle');
-      $('#kw').value='';
-      $('#regexFilter').value=''; $('#regexErr').style.display='none';
+      document.getElementById('kw').value='';
+      document.getElementById('regexFilter').value=''; document.getElementById('regexErr').style.display='none';
     });
 
-    $('#runBtn').addEventListener('click', async ()=>{
+    document.getElementById('runBtn').addEventListener('click', async ()=>{
       listAvail.innerHTML = '<div class="tag">Checking…</div>';
       listExp.innerHTML   = '<div class="tag">Checking…</div>';
       countAvail.textContent='0'; countExp.textContent='0';
       setProgress(0,0,'Preparing…');
 
-      // Build domain list from chosen mode
+      // Build domain list
       let domains = [];
       const actMode = $('.panel-body .chip[data-mode].active')?.dataset.mode || 'generate';
 
       if(actMode === 'generate'){
-        const wordsRaw = $('#kw').value.trim();
+        const wordsRaw = document.getElementById('kw').value.trim();
         const words = wordsRaw ? wordsRaw.split(/[,\s]+/).map(s=>s.trim()).filter(Boolean).slice(0,8) : [];
-        const maxLen = +$('#maxLen').value || 14;
-        const allow = $('#allow').value;
+        const maxLen = +document.getElementById('maxLen').value || 14;
+        const allow = document.getElementById('allow').value;
         const tlds = [...tldSet];
         if(words.length){
           domains = makeCandidates(words, tlds, maxLen, allow).map(x=>x.domain);
         }else{
-          // Seed optional → fall back to length-only sensible defaults
           const n = Math.min(12, Math.max(3, Math.floor(maxLen/1.2)));
           const flags = { letters:true, digits:/digits|both/.test(allow), hyphen:/hyphen|both/.test(allow), start:'letter' };
           domains = makeLengthDomains(n, flags, 'pattern', tlds, 200).map(x=>x.domain);
         }
       } else if(actMode === 'length'){
-        const n = Math.max(2, Math.min(15, +$('#lenN').value || 6));
-        const kind = $('#lenKind').value; // pattern | perm
-        const limit = Math.max(10, Math.min(1000, +$('#lenLimit').value || 200));
+        const n = Math.max(2, Math.min(15, +document.getElementById('lenN').value || 6));
+        const kind = document.getElementById('lenKind').value; // pattern | perm
+        const limit = Math.max(10, Math.min(1000, +document.getElementById('lenLimit').value || 200));
         const flags = { ...lenFlags };
         const tlds = [...tldSet2];
         domains = makeLengthDomains(n, flags, kind, tlds, limit).map(x=>x.domain);
       } else if(actMode === 'paste'){
-        domains = $('#pasteBox').value.split(/\r?\n/).map(s=>s.trim()).filter(Boolean);
+        domains = document.getElementById('pasteBox').value.split(/\r?\n/).map(s=>s.trim()).filter(Boolean);
       } else {
-        const f = $('#csvFile').files?.[0];
-        if(!f){ alert('Choose a CSV file.'); return; }
+        const f = document.getElementById('csvFile').files?.[0];
+        if(!f){ alert('Choose a CSV file.'); showInvalidRegex(); return; }
         const text = await f.text();
         domains = parseCSV(text).map(r=>r.domain);
       }
 
-      // Optional regex filter (applies to any mode)
-      const re = compileRegex();
-      if(re === 'invalid'){ return; }
-      if(re){
+      // Optional regex filter
+      const userRegex = parseRegexInput(document.getElementById('regexFilter').value, regexFlags);
+      if(userRegex === 'invalid'){ showInvalidRegex(); return; }
+      if(userRegex){
         domains = domains.filter(d=>{
           const target = (regexScope === 'full') ? d : d.split('.')[0];
-          return re.test(target);
+          return userRegex.test(target);
         });
       }
 
       // Deduplicate & limit
       domains = [...new Set(domains)].slice(0, 400);
-      if(domains.length === 0){ alert('No domains to check (try relaxing the regex or settings).'); return; }
+      if(domains.length === 0){
+        listAvail.innerHTML = '<div class="tag">No candidates. Relax the regex or settings and try again.</div>';
+        listExp.innerHTML   = '<div class="tag">No candidates. Relax the regex or settings and try again.</div>';
+        setProgress(0,0,'Idle');
+        return;
+      }
 
       const total = domains.length;
       let done = 0; setProgress(done, total, 'Checking RDAP');
 
-      const expWindowDays = Math.max(1, Math.min(120, +$('#expWindow').value || 30));
-      const trafficMode = $('#withTraffic').value; // expiring | all | off
+      const expWindowDays = Math.max(1, Math.min(120, +document.getElementById('expWindow').value || 30));
+      const trafficMode = document.getElementById('withTraffic').value; // expiring | all | off
       const wantTrafficAll = trafficMode === 'all';
       const wantTrafficExp = trafficMode === 'expiring';
       const scoreMap = new Map(domains.map(d => [d, brandScore(d)]));
@@ -889,12 +901,14 @@
           addAvail({ domain, score: scoreMap.get(domain), rank, visits });
         }else if(rd.status === 'registered' && rd.expiration){
           const exp = new Date(rd.expiration);
-          const today = new Date();
-          const days = Math.floor((exp - today)/86400000);
-          if(days >= 0 && days <= expWindowDays){
-            if(wantTrafficAll || wantTrafficExp){ ({rank, visits} = await trafficEstimate(domain)); }
-            const when = exp.toISOString().split('T')[0];
-            addExp({ domain, score: scoreMap.get(domain), when, rank, visits, registrar: rd.registrar || '' });
+          if(!isNaN(exp)) {
+            const today = new Date();
+            const days = Math.floor((exp - today)/86400000);
+            if(days >= 0 && days <= expWindowDays){
+              if(wantTrafficAll || wantTrafficExp){ ({rank, visits} = await trafficEstimate(domain)); }
+              const when = exp.toISOString().split('T')[0];
+              addExp({ domain, score: scoreMap.get(domain), when, rank, visits, registrar: rd.registrar || '' });
+            }
           }
         }
         done++; setProgress(done, total, 'Checking RDAP');
@@ -905,15 +919,15 @@
     });
 
     // YouTube lazy loader
-    $('#ytLoad').addEventListener('click', ()=>{
-      const id = $('#ytLoad').dataset.id;
+    document.getElementById('ytLoad').addEventListener('click', ()=>{
+      const id = document.getElementById('ytLoad').dataset.id;
       const ifr = document.createElement('iframe');
       ifr.width=560; ifr.height=315;
       ifr.allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
       ifr.referrerPolicy="strict-origin-when-cross-origin";
       ifr.allowFullscreen = true;
       ifr.src = `https://www.youtube-nocookie.com/embed/${encodeURIComponent(id)}?autoplay=1&rel=0`;
-      const frame = $('#ytFrame'); frame.innerHTML=''; frame.appendChild(ifr);
+      const frame = document.getElementById('ytFrame'); frame.innerHTML=''; frame.appendChild(ifr);
     });
   </script>
 </body>
