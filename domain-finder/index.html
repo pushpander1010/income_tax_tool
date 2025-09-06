@@ -1,15 +1,15 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <!-- Ads (async; if blocked, harmless) -->
+  <!-- Ads (async; harmless if blocked) -->
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617" crossorigin="anonymous"></script>
 
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <title>Domain Finder (Available + Expiring) | UpTools</title>
-  <meta name="description" content="Find REAL opportunities: show only domains that are AVAILABLE now or EXPIRING soon (with dates). Generate by keywords or by length (permutations & pronounceable patterns), check via RDAP, optional traffic rank, shortlist & export. Free & privacy-first." />
-  <meta name="keywords" content="domain finder, available domains, expiring domains, expired domains, RDAP check, domain flipping, permutations, pronounceable domains, domain traffic, brandable names" />
+  <meta name="description" content="Find REAL opportunities: show only domains that are AVAILABLE now or EXPIRING soon (with dates). Generate by keywords, by length (permutations & pronounceable patterns), or FILTER by your REGEX. RDAP checks, optional traffic, shortlist & export." />
+  <meta name="keywords" content="domain finder, available domains, expiring domains, RDAP, domain flipping, permutations, pronounceable domains, regex domain search, domain traffic, brandable names" />
   <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
   <meta name="theme-color" content="#0b1020" />
   <link rel="canonical" href="https://www.uptools.in/domain-finder/" />
@@ -21,7 +21,7 @@
   <!-- Open Graph -->
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Domain Finder (Available + Expiring) | UpTools" />
-  <meta property="og:description" content="Only available & expiring domains (with expiry dates). Generate by keywords or by length, optional traffic rank. Export CSV. Free & fast." />
+  <meta property="og:description" content="Only available & expiring domains (with expiry dates). Generate by keywords or by length, and filter by regex. Optional traffic rank. Export CSV." />
   <meta property="og:url" content="https://www.uptools.in/domain-finder/" />
   <meta property="og:image" content="/assets/og/domain-finder.png" />
   <meta property="og:site_name" content="UpTools" />
@@ -29,11 +29,11 @@
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Domain Finder (Available + Expiring)" />
-  <meta name="twitter:description" content="Generate domains by keywords or by length (permutations/patterns). Show only AVAILABLE & EXPIRING (with dates), optional traffic rank." />
+  <meta name="twitter:description" content="Generate domains by keywords or by length (permutations/patterns). Filter with your regex. Show only AVAILABLE & EXPIRING (with dates), optional traffic rank." />
   <meta name="twitter:image" content="/assets/og/domain-finder.png" />
 
   <!-- Common CSS & Utils (shared across site) -->
-  <link rel="stylesheet" href="/style.css?v=1.3.3" />
+  <link rel="stylesheet" href="/style.css?v=1.3.4" />
   <script defer src="/scripts/utils.js" type="text/javascript"></script>
 
   <!-- JSON-LD -->
@@ -48,7 +48,7 @@
         "operatingSystem":"Any",
         "url":"https://www.uptools.in/domain-finder/",
         "image":"https://www.uptools.in/assets/og/domain-finder.png",
-        "description":"Find only real opportunities: AVAILABLE domains and EXPIRING soon domains with expiry dates. Generate by keywords or by character length (permutations & pronounceable patterns).",
+        "description":"Find only real opportunities: AVAILABLE domains and EXPIRING soon domains with expiry dates. Generate by keywords or by character length (permutations & pronounceable patterns), and filter by regex.",
         "offers":{"@type":"Offer","price":"0","priceCurrency":"INR"}
       },
       {
@@ -93,7 +93,7 @@
       padding: .75rem;
       height: calc(100dvh - var(--header-h));
       display: grid;
-      grid-template-columns: 380px 1fr;
+      grid-template-columns: 390px 1fr;
       gap: .75rem;
       min-height: 560px;
     }
@@ -230,7 +230,7 @@
           </div>
         </div>
 
-        <!-- Generate (keywords OPTIONAL now) -->
+        <!-- Generate (keywords OPTIONAL) -->
         <div id="mode-generate" class="row-grid">
           <label for="kw">Seed keywords (optional)</label>
           <input id="kw" class="input" placeholder="e.g., ai, health, fintech, travel — or leave empty" />
@@ -309,7 +309,7 @@
             </div>
           </div>
 
-          <p class="tag">Tip: <b>Permutations</b> explode quickly. For length ≤ 3 we try exhaustive; beyond that we sample up to your <b>Max candidates</b>. <b>Pronounceable</b> uses C/V patterns (e.g., CVCV, CVVCV) to generate brandable strings.</p>
+          <p class="tag">Tip: <b>Permutations</b> explode quickly. For length ≤ 3 we try exhaustive; otherwise we sample up to your <b>Max candidates</b>. <b>Pronounceable</b> uses C/V patterns (e.g., CVCV, CVVCV) to generate brandable strings.</p>
         </div>
 
         <!-- Paste -->
@@ -318,13 +318,39 @@
           <textarea id="pasteBox" class="textarea" placeholder="example.com&#10;cool.ai&#10;awesome.co"></textarea>
         </div>
 
-        <!-- CSV (improved themed Choose File) -->
+        <!-- CSV (themed Choose File) -->
         <div id="mode-csv" class="row-grid" hidden>
           <div class="file-row">
             <input id="csvFile" type="file" accept=".csv,text/csv" />
             <label for="csvFile" class="filebtn" id="fileBtn">📄 Choose CSV</label>
             <div class="fileinfo" id="fileInfo">Import CSV as: domain[,exp_date]</div>
           </div>
+        </div>
+
+        <!-- NEW: Regex filter (applies to ANY mode) -->
+        <div class="row-grid">
+          <label for="regexFilter">Regex filter (optional)</label>
+          <input id="regexFilter" class="input" placeholder="e.g., ^(ai|ml)[a-z]{3,6}$  or  ^[a-z]{5}\d$" />
+          <div class="row-3">
+            <div>
+              <label>Scope</label>
+              <div class="chips" id="regexScope">
+                <button class="chip active" data-scope="name" aria-pressed="true">Match name only</button>
+                <button class="chip" data-scope="full" aria-pressed="false">Include TLD</button>
+              </div>
+            </div>
+            <div>
+              <label>Flags</label>
+              <div class="chips" id="regexFlags">
+                <button class="chip" data-flag="i" aria-pressed="false">Ignore case /i</button>
+              </div>
+            </div>
+            <div>
+              <label>&nbsp;</label>
+              <div id="regexErr" class="tag" style="display:none;">Invalid regex pattern</div>
+            </div>
+          </div>
+          <p class="tag">Examples: <code>^re[a-z]{3}$</code> (exact length 5, starting with “re”) · <code>^[a-z]{4,7}(ai|io)$</code> (ends with ai/io) · <code>^[a-z]+-?[a-z]+$</code> (optional hyphen)</p>
         </div>
 
         <!-- Global options -->
@@ -364,7 +390,7 @@
               <a class="chip" href="https://lookup.icann.org/en/lookup" target="_blank" rel="noopener">ICANN WHOIS</a>
               <a class="chip" href="https://web.archive.org/" target="_blank" rel="noopener">Archive.org</a>
             </div>
-            <p class="tag" title="We verify via RDAP through your server-side proxy /api?url=">We verify via <b>RDAP</b> and show <b>expiry dates</b> when the registry exposes them. Traffic is best-effort; if blocked, you’ll see <b>N/A</b>.</p>
+            <p class="tag">We verify via <b>RDAP</b> and show <b>expiry dates</b> when the registry exposes them. Traffic is best-effort; if blocked, you’ll see <b>N/A</b>.</p>
           </div>
         </div>
       </div>
@@ -390,7 +416,7 @@
         <article class="card video-card" aria-labelledby="ytTitle">
           <h3 id="ytTitle">How to Flip Domains (Beginner to Pro)</h3>
           <div class="frame" id="ytFrame">
-            <!-- Use local OG as placeholder to avoid external thumbnail 404 -->
+            <!-- Local OG as placeholder -->
             <button class="thumb" id="ytLoad" aria-label="Play tutorial video" data-id="dQw4w9WgXcQ">
               <img src="/assets/og/domain-finder.png" alt="Domain flipping tutorial" width="560" height="315" loading="lazy" decoding="async">
               <div class="play" aria-hidden="true"></div>
@@ -418,22 +444,28 @@
 
     // Themed file input UX
     const fileEl = $('#csvFile'), fileBtn = $('#fileBtn'), fileInfo = $('#fileInfo');
-    fileEl?.addEventListener('change', e=>{
+    fileEl?.addEventListener('change', ()=>{
       const f = fileEl.files?.[0];
       fileInfo.textContent = f ? `Selected: ${f.name} (${Utils.fmtNum(f.size)} bytes)` : 'Import CSV as: domain[,exp_date]';
     });
 
-    // TLD chips (two groups: generate and length)
-    function initChipToggle(containerSelector, onToggle){
+    // Generic chip toggler
+    function initChipToggle(containerSelector, onToggle, singleSelect=false){
       $$(containerSelector + ' .chip').forEach(c=>{
         c.addEventListener('click', ()=>{
-          c.classList.toggle('active');
-          const active=c.classList.contains('active');
-          c.setAttribute('aria-pressed', active ? 'true' : 'false');
-          onToggle?.(c, active);
+          if(singleSelect){
+            $$(containerSelector + ' .chip').forEach(x=>{ x.classList.remove('active'); x.setAttribute('aria-pressed','false'); });
+            c.classList.add('active'); c.setAttribute('aria-pressed','true');
+          }else{
+            c.classList.toggle('active');
+            c.setAttribute('aria-pressed', c.classList.contains('active') ? 'true' : 'false');
+          }
+          onToggle?.(c, c.classList.contains('active'));
         });
       });
     }
+
+    // TLD chips
     const tldSet = new Set([".com",".in",".co"]);
     const tldSet2 = new Set([".com",".in"]); // length-mode
     initChipToggle('#tlds', (c,active)=>{ const t=c.dataset.tld; if(active) tldSet.add(t); else tldSet.delete(t); });
@@ -443,20 +475,42 @@
     const lenFlags = { letters:true, digits:false, hyphen:false, start:'letter' };
     initChipToggle('#lenChars', (c,active)=>{ lenFlags[c.dataset.flag] = active; });
     initChipToggle('#lenStart', (c,active)=>{
-      if(active){ // make single-select
+      if(active){ // single-select
         $$('#lenStart .chip').forEach(x=>{ if(x!==c){ x.classList.remove('active'); x.setAttribute('aria-pressed','false'); } });
         lenFlags.start = c.dataset.start;
       }
     });
 
+    // Regex controls
+    let regexScope = 'name';
+    let regexFlags = '';
+    initChipToggle('#regexScope', (c,active)=>{
+      if(active){
+        $$('#regexScope .chip').forEach(x=>{ if(x!==c){ x.classList.remove('active'); x.setAttribute('aria-pressed','false'); } });
+        regexScope = c.dataset.scope || 'name';
+      }
+    }, true);
+    initChipToggle('#regexFlags', (c,active)=>{
+      const f = c.dataset.flag;
+      if(active && !regexFlags.includes(f)) regexFlags += f;
+      if(!active) regexFlags = regexFlags.replace(new RegExp(f,'g'),'');
+    });
+
+    function compileRegex(){
+      const pattern = $('#regexFilter').value.trim();
+      $('#regexErr').style.display = 'none';
+      if(!pattern) return null;
+      try{
+        return new RegExp(pattern, regexFlags);
+      }catch(e){
+        $('#regexErr').style.display = 'inline-block';
+        return 'invalid';
+      }
+    }
+
     // Mode switching
     const modeBtns = $$('.panel-body .chip[data-mode]');
-    const modes = {
-      generate: $('#mode-generate'),
-      length:   $('#mode-length'),
-      paste:    $('#mode-paste'),
-      csv:      $('#mode-csv')
-    };
+    const modes = { generate: $('#mode-generate'), length: $('#mode-length'), paste: $('#mode-paste'), csv: $('#mode-csv') };
     modeBtns.forEach(btn=>{
       btn.addEventListener('click', ()=>{
         modeBtns.forEach(b=>{ b.classList.remove('active'); b.setAttribute('aria-pressed','false'); });
@@ -520,7 +574,7 @@
                  .sort((a,b)=> b.score - a.score || a.domain.length - b.domain.length);
     }
 
-    // Length-only generator (permutations & pronounceable patterns)
+    // Length-only generator
     const letters = 'abcdefghijklmnopqrstuvwxyz';
     const digits  = '0123456789';
     function pickCharset(flags){
@@ -533,35 +587,30 @@
       if(!flags.hyphen){
         name = name.replace(/-/g,'');
       }else{
-        // no hyphen at start/end or double hyphen
         name = name.replace(/^-+/, '').replace(/-+$/, '').replace(/--+/g, '-');
       }
       if(flags.start==='letter') name = name.replace(/^[^a-z]+/,'');
       return name;
     }
-    // Brute-force permutations (returns up to limit items)
     function bruteForceByLength(n, flags, limit){
       const cs = pickCharset(flags);
       if(!cs) return [];
       const N = cs.length ** n;
-      const CAP = 15000; // if more, sample instead of full enumerate
+      const CAP = 15000;
       const results = new Set();
       if(N <= CAP){
-        // exhaustive (iterative)
         const idx = Array(n).fill(0);
         while(true){
           let s = '';
           for(let i=0;i<n;i++) s += cs[idx[i]];
           s = sanitizeName(s, flags);
           if(s.length===n) results.add(s);
-          // increment
           let p=n-1;
           while(p>=0 && ++idx[p]===cs.length){ idx[p]=0; p--; }
           if(p<0) break;
           if(results.size >= limit) break;
         }
       }else{
-        // random sampling
         let tries = 0;
         while(results.size < limit && tries < limit*20){
           let s = '';
@@ -573,15 +622,12 @@
       }
       return [...results];
     }
-    // Pronounceable patterns
-    const C = 'bcdfghjklmnpqrstvwxyz';
-    const V = 'aeiou';
+    const Cset = 'bcdfghjklmnpqrstvwxyz';
+    const Vset = 'aeiou';
     function buildPatterns(n){
-      // create a small set of common patterns close to length n
       const base = ['cv','cvc','cvv','vcv','cvcv','cvvc','vcvc','cvcvc','cvccv','cvcvv','cvvcv','vcvcv','cvcvcv'];
       const filtered = base.filter(p=> p.length===n);
       if(filtered.length) return filtered;
-      // extend by repeating
       const out = [];
       let s = 'cvcv';
       while(s.length < n){ s += 'cv'; }
@@ -589,7 +635,7 @@
       s = 'cvvcvvcvvcvv';
       while(s.length < n){ s += 'cv'; }
       out.push(s.slice(0,n));
-      out.push('c'.repeat(n).replace(/cc/g,'cv')); // rough mix
+      out.push('c'.repeat(n).replace(/cc/g,'cv'));
       return [...new Set(out)];
     }
     function patternCandidates(n, flags, limit){
@@ -600,13 +646,9 @@
         const pat = patterns[Math.floor(Math.random()*patterns.length)];
         let s = '';
         for(const ch of pat){
-          if(ch==='c'){
-            s += C[Math.floor(Math.random()*C.length)];
-          }else{
-            s += V[Math.floor(Math.random()*V.length)];
-          }
+          s += ch==='c' ? Cset[Math.floor(Math.random()*Cset.length)]
+                        : Vset[Math.floor(Math.random()*Vset.length)];
         }
-        // sprinkle digits/hyphens if allowed (rarely to keep brandable)
         if(flags.digits && Math.random()<0.15){
           const pos = 1 + Math.floor(Math.random()*(s.length-2));
           s = s.slice(0,pos) + digits[Math.floor(Math.random()*digits.length)] + s.slice(pos+1);
@@ -631,7 +673,6 @@
           if(/^[a-z0-9-]+(\.[a-z]{2,})$/.test(d)) domains.push(d);
         });
       });
-      // score + dedupe
       const uniq = [...new Set(domains)];
       return uniq.map(d=>({domain:d, score:brandScore(d)}))
                  .sort((a,b)=> b.score - a.score || a.domain.length - b.domain.length)
@@ -773,6 +814,7 @@
       countAvail.textContent = '0'; countExp.textContent='0';
       setProgress(0,0,'Idle');
       $('#kw').value='';
+      $('#regexFilter').value=''; $('#regexErr').style.display='none';
     });
 
     $('#runBtn').addEventListener('click', async ()=>{
@@ -815,8 +857,19 @@
         domains = parseCSV(text).map(r=>r.domain);
       }
 
+      // Optional regex filter (applies to any mode)
+      const re = compileRegex();
+      if(re === 'invalid'){ return; }
+      if(re){
+        domains = domains.filter(d=>{
+          const target = (regexScope === 'full') ? d : d.split('.')[0];
+          return re.test(target);
+        });
+      }
+
+      // Deduplicate & limit
       domains = [...new Set(domains)].slice(0, 400);
-      if(domains.length === 0){ alert('No domains to check.'); return; }
+      if(domains.length === 0){ alert('No domains to check (try relaxing the regex or settings).'); return; }
 
       const total = domains.length;
       let done = 0; setProgress(done, total, 'Checking RDAP');
