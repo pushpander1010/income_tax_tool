@@ -188,7 +188,7 @@
       const c = els.cur.value || 'USD';
       let pos = 0, cost = 0, realized = 0;
       const sorted = [...trades].sort((a,b)=>a.ts-b.ts);
-      const lots = [] as Array<{qty:number, cost:number}>; // FIFO lots cost = total cost for lot
+      const lots = []; // FIFO lots: each item { qty:number, cost:number }
 
       if ((els.mode.value||'avco') === 'fifo') {
         for(const t of sorted){
