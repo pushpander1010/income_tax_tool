@@ -1,0 +1,847 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+  <!-- No inline ad slot to avoid CLS -->
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Crypto Portfolio Tracker (Free, No Signup) + Live Tax Estimator | UpTools</title>
+  <meta name="description" content="Free crypto portfolio tracker with live prices (CoinGecko), gain/loss, and allocation pie chart — no signup, all local. Smarter BTC/ETH suggestions, clear multi-color pie chart, and instant tax estimates (India & USA)." />
+  <meta name="keywords" content="crypto portfolio tracker free,no signup,bitcoin portfolio,btc price in inr,ethereum price,eth price today,crypto tax india 30%,capital gains tax usa,crypto gain loss calculator,portfolio allocation pie chart,coin portfolio app,uptools" />
+  <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
+  <meta name="theme-color" content="#0b0f1a" />
+  <link rel="canonical" href="https://www.uptools.in/crypto-portfolio-tracker/" />
+
+  <!-- Social -->
+
+  <meta property="og:title" content="Crypto Portfolio Tracker (Free, No Signup) + Live Tax Estimator" />
+  <meta property="og:description" content="Track holdings locally, fetch live prices, see gain/loss & a clear multi-color allocation pie chart. Live price preview + smarter suggestions for BTC/ETH. India & USA tax." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.uptools.in/crypto-portfolio-tracker/" />
+  <meta property="og:site_name" content="UpTools" />
+  <meta property="og:image" content="https://www.uptools.in/assets/og/crypto-portfolio.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- Icons -->
+
+  <link rel="icon" sizes="50x50" type="image/svg+xml" href="/assets/logo/uptools-logo.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/logo/uptools-logo.svg">
+
+  <!-- Common CSS -->
+
+  <link rel="preload" href="/style.css?v=1.1.0" as="style">
+  <link rel="stylesheet" href="/style.css?v=1.1.0" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="/style.css?v=1.1.0"></noscript>
+
+  <!-- Page theme: Golden Neon Dark -->
+
+  <style>
+    :root{
+      --accent:#f4c43a;      /* golden */
+      --accent-2:#f59e0b;    /* amber */
+      --bg1:#0b0f1a;
+      --bg2:#111428;
+      --content-w:1100px;
+    }
+    body{
+      background:
+        radial-gradient(880px 520px at 10% -10%, rgba(245, 158, 11, .08) 0%, transparent 50%),
+        radial-gradient(900px 600px at 110% 10%, rgba(244, 196, 58, .08) 0%, transparent 45%),
+        linear-gradient(135deg, var(--bg1), var(--bg2));
+    }
+    .hero{
+      display:grid; grid-template-columns: 48px 1fr; gap:12px; align-items:center;
+      padding:12px; border-radius:12px; background:#0b1326; border:1px solid var(--border); box-shadow: var(--glow-soft);
+      margin:12px 0;
+    }
+    .ico{
+      width:40px; height:40px; display:grid; place-items:center; border-radius:10px; color:#141414;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.25), var(--glow-soft);
+      font-weight:900;
+    }
+    .grid2{ display:grid; grid-template-columns: 1.05fr .95fr; gap:12px; align-items:start; }
+    .sticky{ position:sticky; top:72px; }
+    .controls{ display:flex; flex-wrap:wrap; gap:8px; align-items:center; }
+    .pill-input{
+      position:relative; /* for suggestions panel */
+      display:flex; align-items:center; gap:8px; padding:6px 10px; border-radius:999px;
+      background:#0b1326; border:1px solid var(--border); box-shadow: var(--glow-soft);
+    }
+    .pill-input input{ background:transparent; border:0; outline:none; color:var(--text); width:220px; }
+    .price-chip{
+      margin-left:8px; padding:4px 8px; border-radius:999px; border:1px solid var(--border); background:#0b1326;
+      font-variant-numeric:tabular-nums; white-space:nowrap; min-width:80px; text-align:right;
+    }
+    .sug-panel{
+      position:absolute; left:0; right:0; top:100%; margin-top:6px; z-index:30;
+      background:#0a1224; border:1px solid var(--border); border-radius:12px; box-shadow: var(--glow-soft);
+      max-height:310px; overflow:auto; padding:6px; display:none;
+    }
+    .sug-item{
+      display:flex; align-items:center; gap:10px; padding:8px; border-radius:10px; cursor:pointer;
+      background:transparent; border:1px solid transparent;
+    }
+    .sug-item .sym{ font-size:12px; color:var(--muted); }
+    .sug-item img{ width:18px; height:18px; border-radius:50%; }
+    .sug-item[aria-selected="true"], .sug-item:hover{
+      background:#0b1326; border-color:var(--border); box-shadow: var(--glow-soft);
+    }
+    .table-wrap{ overflow:auto; border:1px solid var(--border); border-radius:12px; background:#0a1224; box-shadow: var(--glow-soft); }
+    table.hold{ width:100%; border-collapse:separate; border-spacing:0; font-variant-numeric:tabular-nums; }
+    .hold th, .hold td{ padding:10px 12px; border-bottom:1px solid color-mix(in oklab, var(--accent) 20%, #243); white-space:nowrap; }
+    .hold th{ position:sticky; top:0; background:#0b1326; text-align:left; font-weight:800; z-index:1; }
+    /* ✅ Quantity visibility & usability */
+    .hold td input.input{
+      background:#0b152c; color:#fff; border:1px solid var(--border);
+      height:30px; padding:0 10px; border-radius:8px; min-width:140px;
+      text-align:right; font-variant-numeric:tabular-nums;
+    }
+    .chg-pos{ color:#34d399; } .chg-neg{ color:#f87171; }
+    .kpis{ display:grid; grid-template-columns: repeat(3,1fr); gap:10px; }
+    .kpi{ padding:10px 12px; border-radius:10px; background:#0b1326; border:1px solid var(--border); box-shadow: var(--glow-soft); }
+    .kpi .lab{ color:var(--muted); font-size:12px; }
+    .kpi .val{ font-weight:900; font-variant-numeric:tabular-nums; }
+    .chart-box{ display:grid; grid-template-columns: 1fr; gap:8px; }
+    .chart-wrap{ width:100%; max-width:520px; height:320px; border-radius:12px; overflow:hidden; border:1px solid var(--border); box-shadow: var(--glow-soft); background:#0b152c; }
+    canvas#pie{ width:100%; height:100%; display:block; }
+    .legend{ display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:6px; margin-top:6px; }
+    .legend .item{ display:flex; align-items:center; gap:8px; }
+    .legend .dot{ width:10px; height:10px; border-radius:50%; border:1px solid rgba(255,255,255,.25); }
+    .aside-grid{ display:grid; gap:10px; }
+    .video{ width:100%; max-width:560px; height:315px; border-radius:12px; overflow:hidden; border:1px solid var(--border); box-shadow: var(--glow-soft); }
+    .txt-logo{ font-weight:900; letter-spacing:.5px; padding:6px 10px; border-radius:8px; background:#111b34; border:1px solid var(--border); }
+    .links-grid{ display:grid; gap:10px; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); }
+    @media (max-width: 980px){
+      .grid2{ grid-template-columns: 1fr; }
+      .sticky{ position:static; }
+      .kpis{ grid-template-columns: repeat(2,1fr); }
+      .pill-input input{ width:170px; }
+      .legend{ grid-template-columns:1fr; }
+    }
+  </style>
+
+  <!-- Structured Data -->
+
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"SoftwareApplication",
+    "name":"Crypto Portfolio Tracker (Free, No Signup)",
+    "applicationCategory":"FinanceApplication",
+    "operatingSystem":"Any",
+    "url":"https://www.uptools.in/crypto-portfolio-tracker/",
+    "description":"Track crypto portfolio locally with live prices, gain/loss and a clear multi-color allocation pie chart. Includes tax estimate for India and USA.",
+    "offers":{"@type":"Offer","price":"0","priceCurrency":"INR"}
+  }
+  </script>
+
+</head>
+
+<body>
+  <!-- Header -->
+  <header class="site" role="banner">
+    <div class="header-inner">
+      <a class="brand" href="/" aria-label="UpTools Home">
+        <img src="/assets/logo/uptools-logo.svg" alt="UpTools logo" width="28" height="28" loading="eager">
+        <b>UpTools</b>
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="/#tools">Tools</a>
+        <a href="/crypto-prices/">Crypto Prices</a>
+        <a href="/crypto-mining-calculator/">Mining Calc</a>
+        <a aria-current="page" href="/crypto-portfolio-tracker/">Portfolio</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap" id="main">
+    <!-- Hero -->
+    <section class="hero neon" aria-label="Crypto Portfolio Tracker">
+      <div class="ico">📊</div>
+      <div>
+        <h1>Crypto Portfolio Tracker (Free & Private) + Tax Estimator</h1>
+        <p class="note" style="margin:2px 0 0;">Add your coins manually — we fetch live prices, calculate gain/loss, draw an easy-to-read multi-color allocation pie chart, and estimate taxes (India/USA). All data stays in your browser.</p>
+      </div>
+    </section>
+
+
+<!-- Controls / KPIs -->
+<section class="card" aria-label="Controls">
+  <div class="controls" style="justify-content:space-between;">
+    <div class="controls">
+      <!-- Improved suggestions + live price preview -->
+      <div class="pill-input" id="acRoot">
+        <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="m21.53 20.47l-4.66-4.66A7.92 7.92 0 0 0 18 10a8 8 0 1 0-8 8c1.86 0 3.57-.64 4.91-1.73l4.66 4.66zM4 10a6 6 0 1 1 6 6a6 6 0 0 1-6-6"/></svg>
+        <input id="search" type="search" placeholder="Add coin: bitcoin / btc, ethereum / eth…" autocomplete="off" aria-autocomplete="list" aria-expanded="false" aria-controls="sugPanel" aria-activedescendant="">
+        <span class="price-chip" id="livePrice">—</span>
+        <div class="sug-panel" id="sugPanel" role="listbox" aria-label="Coin suggestions"></div>
+      </div>
+      <input id="qty" class="input" type="number" step="0.00000001" inputmode="decimal" placeholder="Quantity" style="max-width:160px">
+      <input id="buy" class="input" type="number" step="0.00000001" inputmode="decimal" placeholder="Avg buy price" style="max-width:170px">
+      <button id="add" class="btn" type="button">Add</button>
+      <button id="reset" class="btn secondary" type="button">Reset</button>
+    </div>
+    <div class="controls">
+      <select id="vs" class="input" aria-label="Currency" style="min-width:110px">
+        <option value="inr" selected>INR ₹</option>
+        <option value="usd">USD $</option>
+      </select>
+      <button id="refresh" class="btn secondary sm" type="button">Refresh</button>
+      <button id="exportCSV" class="btn secondary sm" type="button">Export CSV</button>
+      <button id="exportJSON" class="btn secondary sm" type="button">Export JSON</button>
+      <button id="importJSON" class="btn secondary sm" type="button">Import JSON</button>
+    </div>
+  </div>
+
+  <div class="kpis" style="margin-top:10px">
+    <div class="kpi"><div class="lab">Portfolio Value</div><div id="k-value" class="val">—</div></div>
+    <div class="kpi"><div class="lab">Unrealized P/L</div><div id="k-pl" class="val">—</div></div>
+    <div class="kpi"><div class="lab">24h Change</div><div id="k-ch" class="val">—</div></div>
+  </div>
+</section>
+
+<div class="grid2">
+  <!-- Left: Holdings table -->
+  <section class="card" aria-label="Holdings">
+    <h2 style="margin-top:0">Holdings</h2>
+    <div class="table-wrap">
+      <table class="hold" id="tbl">
+        <thead>
+          <tr>
+            <th>Coin</th>
+            <th>Qty</th>
+            <th>Buy Price</th>
+            <th>Current</th>
+            <th>Value</th>
+            <th>P/L</th>
+            <th>24h%</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="rows">
+          <tr><td colspan="8" class="note" style="padding:12px;">Add coins above to build your portfolio.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Right: Chart + Tax + Help -->
+  <aside class="card sticky" aria-label="Chart & Tax">
+    <h2 style="margin-top:0">Allocation & Tax</h2>
+    <div class="chart-box">
+      <div class="chart-wrap"><canvas id="pie" width="520" height="320" aria-label="Portfolio allocation pie chart"></canvas></div>
+      <div id="legend" class="legend"></div>
+      <div class="note">Hover slices to see allocation detail (desktop: move mouse; mobile: tap).</div>
+    </div>
+
+    <div class="divider" style="margin:12px 0"></div>
+
+    <!-- Tax Estimator -->
+    <section aria-label="Tax Estimator">
+      <h3>Tax Estimator (indicative)</h3>
+      <div class="grid" style="grid-template-columns:repeat(2,1fr)">
+        <div>
+          <label class="label" for="country">Country</label>
+          <select id="country" class="input">
+            <option value="IN" selected>India</option>
+            <option value="US">United States</option>
+          </select>
+        </div>
+        <div>
+          <label class="label" for="taxSource">Tax Source</label>
+          <select id="taxSource" class="input" title="Attempt API slab fetch; fallback to built-in if unavailable">
+            <option value="auto" selected>Auto (try API → fallback)</option>
+            <option value="builtin">Built-in rules</option>
+          </select>
+        </div>
+
+        <div id="usExtra" class="hidden">
+          <label class="label" for="filing">US Filing Status</label>
+          <select id="filing" class="input">
+            <option value="single" selected>Single</option>
+            <option value="married_joint">Married Filing Jointly</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="label" for="income">Other Taxable Income (annual)</label>
+          <input id="income" class="input" type="number" step="1" inputmode="decimal" placeholder="Optional" />
+        </div>
+        <div>
+          <label class="label" for="realized">Realized Crypto Gains (this year)</label>
+          <input id="realized" class="input" type="number" step="1" inputmode="decimal" placeholder="From sells; not unrealized" />
+        </div>
+      </div>
+
+      <label class="check" style="display:block; margin-top:8px">
+        <input id="treatVDA" type="checkbox" checked> <span>India: treat crypto as VDA @ 30% + 4% cess (shows 1% TDS info)</span>
+      </label>
+
+      <div class="result" style="margin-top:10px">
+        <div class="row"><span>Estimated Tax on Gains</span><span id="taxOut">—</span></div>
+        <div class="row"><span>Effective Tax Rate</span><span id="taxRateOut">—</span></div>
+        <div class="note" id="taxNote">For guidance only. Laws change; consult a professional.</div>
+      </div>
+    </section>
+
+    <div class="divider" style="margin:12px 0"></div>
+
+    <!-- Help & Links -->
+    <div class="aside-grid">
+      <div class="video">
+        <iframe loading="lazy" width="560" height="315"
+          src="https://www.youtube.com/embed/bBC-nXj3Ng4"
+          title="How does Bitcoin actually work? (YouTube)"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen></iframe>
+      </div>
+      <h3>Related tools</h3>
+      <div class="links-grid">
+        <a href="/crypto-prices/"><span class="txt-logo">CRYPTO</span> Live Crypto Prices</a>
+        <a href="/crypto-mining-calculator/"><span class="txt-logo">MINE</span> Mining Profit Calculator</a>
+        <a href="/currency-converter/"><span class="txt-logo">FX</span> Currency Converter (Live FX)</a>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<footer class="note small site-footer" role="contentinfo" style="margin-top:14px;">
+  © <span id="y"></span> UpTools · <a href="/sitemap.xml">Sitemap</a> · <a href="/about/">About</a> · <a href="/contact/">Contact</a>
+</footer>
+
+
+  </main>
+
+  <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
+
+  <!-- Shared utilities -->
+
+  <script type="module" src="/scripts/utils.js"></script>
+
+  <!-- Page logic -->
+
+  <script type="module">
+    import { $, $$, fmtNum, debounce, persist, read, num } from '/scripts/utils.js';
+
+    // ---------------------------------------------
+    // Config
+    // ---------------------------------------------
+    const API_CG = 'https://api.coingecko.com/api/v3';
+    const DB_KEY = 'cpt:data:v1';
+
+    // Priority coins so BTC/ETH always appear quickly
+    const PRIORITY = [
+      { id:'bitcoin', name:'Bitcoin', symbol:'btc', thumb:'https://assets.coingecko.com/coins/images/1/thumb/bitcoin.png' },
+      { id:'ethereum', name:'Ethereum', symbol:'eth', thumb:'https://assets.coingecko.com/coins/images/279/thumb/ethereum.png' },
+      { id:'tether', name:'Tether', symbol:'usdt', thumb:'https://assets.coingecko.com/coins/images/325/thumb/Tether-logo.png' },
+      { id:'binancecoin', name:'BNB', symbol:'bnb', thumb:'https://assets.coingecko.com/coins/images/825/thumb/bnb-icon2_2x.png' },
+      { id:'solana', name:'Solana', symbol:'sol', thumb:'https://assets.coingecko.com/coins/images/4128/thumb/solana.png' }
+    ];
+
+    // ---------------------------------------------
+    // State
+    // ---------------------------------------------
+    const state = {
+      vs: read('cpt:vs', 'inr'),
+      coinsIndex: [],
+      prices: {},
+      rows: read(DB_KEY, []),
+      // tax (minimal here)
+      country: read('cpt:country', 'IN'),
+      filing: read('cpt:filing', 'single'),
+      income: read('cpt:income', 0),
+      realized: read('cpt:realized', 0),
+      // autocomplete
+      sug: { items:[], activeIndex:-1, cache:new Map(), trending:[] },
+    };
+
+    // ---------------------------------------------
+    // Elements
+    // ---------------------------------------------
+    const el = {
+      search: $('#search'), sugPanel: $('#sugPanel'), livePrice: $('#livePrice'),
+      qty: $('#qty'), buy: $('#buy'), add: $('#add'), reset: $('#reset'),
+      vs: $('#vs'), refresh: $('#refresh'),
+      exportCSV: $('#exportCSV'), exportJSON: $('#exportJSON'), importJSON: $('#importJSON'),
+      rows: $('#rows'), value: $('#k-value'), pl: $('#k-pl'), ch: $('#k-ch'),
+      pie: $('#pie'), legend: $('#legend'),
+      // tax
+      country: $('#country'), filing: $('#filing'),
+      income: $('#income'), realized: $('#realized'),
+      taxOut: $('#taxOut'), taxRateOut: $('#taxRateOut'), taxNote: $('#taxNote'),
+      usExtra: $('#usExtra'),
+    };
+
+    const currencyFmt = (n) => new Intl.NumberFormat(state.vs==='inr'?'en-IN':'en-US', {
+      style:'currency', currency: state.vs.toUpperCase(), maximumFractionDigits: Math.abs(n)>=100 ? 0 : 2
+    }).format(n ?? 0);
+
+    // ---------------------------------------------
+    // Suggestions (fast + ensures BTC/ETH)
+    // ---------------------------------------------
+    async function fetchTrending(){
+      try{
+        const r = await fetch(`${API_CG}/search/trending`);
+        const j = await r.json();
+        state.sug.trending = (j?.coins||[]).map(x => ({
+          id: x.item.id, name: x.item.name, symbol: x.item.symbol, thumb: x.item.thumb, rank: x.item.market_cap_rank ?? 99999
+        }));
+      }catch{}
+    }
+    async function loadCoinList(){
+      try{
+        const r = await fetch(`${API_CG}/coins/list?include_platform=false`);
+        const j = await r.json();
+        state.coinsIndex = j || [];
+      }catch{}
+    }
+
+    function localSearch(q){
+      const s = q.trim().toLowerCase();
+      if(!s) return [];
+      const pri = PRIORITY.filter(p => p.id.includes(s) || p.name.toLowerCase().includes(s) || p.symbol.includes(s));
+      const hits = state.coinsIndex
+        .filter(c => c.id.includes(s) || (c.symbol||'').toLowerCase().includes(s) || (c.name||'').toLowerCase().includes(s))
+        .slice(0, 20)
+        .map(c => ({ id:c.id, name:c.name, symbol:c.symbol, thumb:'', rank:99999 }));
+      const map = new Map();
+      [...pri, ...hits].forEach(x => { if(!map.has(x.id)) map.set(x.id, x); });
+      return [...map.values()];
+    }
+    async function remoteSearch(q){
+      const key = `${q}|remote`;
+      if(state.sug.cache.has(key)) return state.sug.cache.get(key);
+      try{
+        const r = await fetch(`${API_CG}/search?query=${encodeURIComponent(q)}`);
+        const j = await r.json();
+        const items = (j?.coins||[]).map(c => ({
+          id: c.id, name: c.name, symbol: c.symbol, thumb: c.thumb, rank: c.market_cap_rank ?? 99999
+        })).sort((a,b)=>(a.rank)-(b.rank)).slice(0,12);
+        state.sug.cache.set(key, items);
+        return items;
+      }catch{ return []; }
+    }
+
+    function renderSug(items){
+      if(!items?.length){ el.sugPanel.style.display='none'; el.search.setAttribute('aria-expanded','false'); return; }
+      el.sugPanel.innerHTML = items.map((it,i)=>`
+        <div class="sug-item" role="option" id="opt-${i}" data-id="${it.id}" data-name="${it.name}" data-symbol="${it.symbol}" tabindex="-1" aria-selected="${i===state.sug.activeIndex}">
+          <img src="${it.thumb || 'https://assets.coingecko.com/coins/images/1/thumb/placeholder.png'}" alt="" width="18" height="18">
+          <div><b>${it.name}</b> <span class="sym">(${it.symbol?.toUpperCase()||''})</span></div>
+        </div>
+      `).join('');
+      el.sugPanel.style.display='block';
+      el.search.setAttribute('aria-expanded','true');
+      el.sugPanel.scrollTop = 0;
+    }
+
+    async function onType(){
+      const q = el.search.value.trim();
+      if(!q){
+        const items = (state.sug.trending?.length ? state.sug.trending : PRIORITY).slice(0,8);
+        state.sug.items = items; state.sug.activeIndex = -1; renderSug(items);
+        el.livePrice.textContent = '—';
+        return;
+      }
+      const [local, remote] = await Promise.all([localSearch(q), remoteSearch(q)]);
+      const map = new Map();
+      [...local, ...remote].forEach(x => { if(!map.has(x.id)) map.set(x.id, x); });
+      const items = [...map.values()].slice(0, 12);
+      state.sug.items = items; state.sug.activeIndex = -1; renderSug(items);
+      const exact = items.find(i => i.symbol?.toLowerCase() === q.toLowerCase() || i.name?.toLowerCase() === q.toLowerCase() || i.id === q.toLowerCase());
+      if(exact) showLivePrice(exact.id); else el.livePrice.textContent = '—';
+    }
+
+    function pickIndex(idx){
+      if(idx<0 || idx>=state.sug.items.length) return;
+      state.sug.activeIndex = idx;
+      renderSug(state.sug.items);
+      const it = state.sug.items[idx];
+      el.search.value = `${it.name} (${it.symbol.toUpperCase()})`;
+      el.search.dataset.id = it.id;
+      showLivePrice(it.id);              // ✅ show live price on selection
+      el.search.setAttribute('aria-activedescendant', `opt-${idx}`);
+    }
+
+    function pickByClick(target){
+      const wrap = target.closest('.sug-item'); if(!wrap) return;
+      const id = wrap.dataset.id, name = wrap.dataset.name, symbol = wrap.dataset.symbol;
+      el.search.value = `${name} (${symbol.toUpperCase()})`;
+      el.search.dataset.id = id;
+      showLivePrice(id);                 // ✅ show live price on selection
+      el.qty.focus();
+      closeSug();
+    }
+
+    function closeSug(){
+      el.sugPanel.style.display='none';
+      el.search.setAttribute('aria-expanded','false');
+      el.search.setAttribute('aria-activedescendant','');
+    }
+
+    // Live price preview next to search (supports INR/USD)
+    async function showLivePrice(id){
+      try{
+        const url = `${API_CG}/simple/price?ids=${encodeURIComponent(id)}&vs_currencies=${state.vs}`;
+        const r = await fetch(url);
+        const j = await r.json();
+        const price = j?.[id]?.[state.vs];
+        el.livePrice.textContent = price!=null ? currencyFmt(+price) : '—';
+      }catch{ el.livePrice.textContent = '—'; }
+    }
+
+    // ---------------------------------------------
+    // Prices + KPIs
+    // ---------------------------------------------
+    async function fetchPrices(ids){
+      if(!ids.length) return;
+      const url = `${API_CG}/simple/price?ids=${encodeURIComponent(ids.join(','))}&vs_currencies=${state.vs}&include_24hr_change=true`;
+      const r = await fetch(url);
+      const j = await r.json();
+      ids.forEach(id=>{
+        const p = j?.[id]?.[state.vs];
+        const ch = j?.[id]?.[`${state.vs}_24h_change`];
+        if(p!=null) state.prices[id] = { price: +p, ch24: +ch };
+      });
+    }
+
+    async function refreshAllPrices(){
+      const ids = [...new Set(state.rows.map(r=>r.id))];
+      await fetchPrices(ids);
+      renderTable();
+      drawPie();
+      computeKPIs();
+    }
+
+    // ---------------------------------------------
+    // Table rendering
+    // ---------------------------------------------
+    function rowHTML(r){
+      const price = state.prices[r.id]?.price ?? 0;
+      const ch = state.prices[r.id]?.ch24 ?? 0;
+      const value = (r.qty || 0) * price;
+      const pl = (price - (r.buy || 0)) * (r.qty || 0);
+      const chCls = ch >= 0 ? 'chg-pos' : 'chg-neg';
+      return `<tr data-id="${r.id}">
+        <td><strong>${r.name}</strong><div class="note">${(r.symbol||'').toUpperCase()}</div></td>
+        <td><input class="input js-qty" type="number" step="0.00000001" value="${r.qty ?? ''}" style="max-width:160px"></td>
+        <td><input class="input js-buy" type="number" step="0.00000001" value="${r.buy ?? ''}" style="max-width:170px"></td>
+        <td>${price?currencyFmt(price):'—'}</td>
+        <td>${value?currencyFmt(value):'—'}</td>
+        <td class="${pl>=0?'chg-pos':'chg-neg'}">${Number.isFinite(pl)?currencyFmt(pl):'—'}</td>
+        <td class="${chCls}">${Number.isFinite(ch)?(ch>0?'+':'')+ch.toFixed(2)+'%':'—'}</td>
+        <td><button class="btn sm ghost js-del">Remove</button></td>
+      </tr>`;
+    }
+
+    function renderTable(){
+      if(!state.rows.length){
+        el.rows.innerHTML = `<tr><td colspan="8" class="note" style="padding:12px;">Add coins above to build your portfolio.</td></tr>`;
+        el.legend.innerHTML = '';
+        return;
+      }
+      el.rows.innerHTML = state.rows.map(rowHTML).join('');
+      // bind
+      $$('#rows .js-del').forEach(b=>{
+        b.addEventListener('click', ()=>{
+          const id = b.closest('tr').getAttribute('data-id');
+          state.rows = state.rows.filter(x=>x.id!==id);
+          persist(DB_KEY, state.rows);
+          refreshAllPrices();
+        });
+      });
+      $$('#rows .js-qty, #rows .js-buy').forEach(inp=>{
+        inp.addEventListener('input', debounce(()=>{
+          const tr = inp.closest('tr'); const id = tr.getAttribute('data-id');
+          const row = state.rows.find(x=>x.id===id);
+          if(!row) return;
+          row.qty = num(tr.querySelector('.js-qty').value);
+          row.buy = num(tr.querySelector('.js-buy').value);
+          persist(DB_KEY, state.rows);
+          renderTable(); computeKPIs(); drawPie();
+        }, 100));
+      });
+    }
+
+    function computeKPIs(){
+      let total = 0, pl = 0, chv = 0;
+      state.rows.forEach(r=>{
+        const price = state.prices[r.id]?.price ?? 0;
+        const ch = state.prices[r.id]?.ch24 ?? 0;
+        const val = (r.qty||0) * price;
+        total += val;
+        pl += (price - (r.buy||0)) * (r.qty||0);
+        chv += val * (ch/100);
+      });
+      $('#k-value').textContent = total ? currencyFmt(total) : '—';
+      $('#k-pl').textContent = Number.isFinite(pl) ? currencyFmt(pl) : '—';
+      $('#k-pl').className = 'val ' + (pl>=0?'chg-pos':'chg-neg');
+      $('#k-ch').textContent = total ? currencyFmt(chv) : '—';
+      $('#k-ch').className = 'val ' + (chv>=0?'chg-pos':'chg-neg');
+      calcTax();
+    }
+
+    // ---------------------------------------------
+    // Pie chart (multi-color, deterministic colors, legend)
+    // ---------------------------------------------
+    const PIE_COLORS = [
+      '#4F46E5', '#10B981', '#F59E0B', '#EF4444', '#06B6D4',
+      '#8B5CF6', '#22C55E', '#F97316', '#E11D48', '#14B8A6',
+      '#F43F5E', '#A3E635', '#3B82F6', '#84CC16', '#D946EF'
+    ];
+    function colorForId(id){
+      // deterministic color by hashing id → stable color across renders
+      let h = 0; for (let i=0;i<id.length;i++) h = (h*31 + id.charCodeAt(i)) % PIE_COLORS.length;
+      return PIE_COLORS[h];
+    }
+
+    function drawPie(){
+      const canvas = el.pie;
+      const dpr = devicePixelRatio || 1;
+      const W = canvas.clientWidth * dpr;
+      const H = canvas.clientHeight * dpr;
+      canvas.width = W; canvas.height = H;
+      const ctx = canvas.getContext('2d');
+      ctx.clearRect(0,0,W,H);
+      const cx = W/2, cy = H/2, r = Math.min(W,H)*0.38;
+
+      const slices = state.rows.map(r=>{
+        const price = state.prices[r.id]?.price ?? 0;
+        const value = (r.qty||0) * price;
+        return { id:r.id, name:r.name, value, color: colorForId(r.id) };
+      }).filter(s=>s.value>0);
+
+      const total = slices.reduce((a,b)=>a+b.value,0);
+      el.legend.innerHTML = '';
+
+      if(!total){
+        return;
+      }
+
+      // Legend (sorted by allocation)
+      el.legend.innerHTML = slices
+        .sort((a,b)=>b.value-a.value)
+        .slice(0,14)
+        .map(s=>{
+          const pct = (s.value/total*100).toFixed(1);
+          return `<div class="item"><span class="dot" style="background:${s.color}"></span><span>${s.name}</span><span class="note" style="margin-left:auto">${pct}%</span></div>`;
+        }).join('');
+
+      // Draw multi-color slices
+      let a0 = -Math.PI/2;
+      slices.forEach(s=>{
+        const ang = (s.value/total)*Math.PI*2;
+        ctx.beginPath(); ctx.moveTo(cx,cy);
+        ctx.arc(cx,cy,r,a0,a0+ang); ctx.closePath();
+        ctx.fillStyle = s.color;
+        ctx.fill();
+        ctx.strokeStyle = 'rgba(255,255,255,.12)'; ctx.lineWidth = Math.max(1, dpr); ctx.stroke();
+        s.a1 = a0; s.a2 = a0+ang; a0 += ang;
+      });
+
+      // Tooltip label
+      const label = (x,y,text)=>{
+        ctx.save();
+        ctx.font = `${12*dpr}px system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial`;
+        const w = ctx.measureText(text).width + 14*dpr, h = 22*dpr;
+        ctx.fillStyle = 'rgba(0,0,0,.6)';
+        ctx.strokeStyle = 'rgba(255,255,255,.25)'; ctx.lineWidth = 1 * dpr;
+        ctx.beginPath(); roundRect(x, y, w, h, 8*dpr); ctx.fill(); ctx.stroke();
+        ctx.fillStyle = '#fff'; ctx.fillText(text, x + 7*dpr, y + 15*dpr);
+        ctx.restore();
+      };
+      function roundRect(x, y, w, h, r){
+        const rr = Math.min(r, w/2, h/2);
+        ctx.moveTo(x+rr, y);
+        ctx.arcTo(x+w, y, x+w, y+h, rr);
+        ctx.arcTo(x+w, y+h, x, y+h, rr);
+        ctx.arcTo(x, y+h, x, y, rr);
+        ctx.arcTo(x, y, x+w, y, rr);
+        ctx.closePath();
+      }
+
+      canvas.onmousemove = (ev)=>{
+        const rect = canvas.getBoundingClientRect();
+        const x = (ev.clientX - rect.left) * dpr, y = (ev.clientY - rect.top) * dpr;
+        const dx = x - cx, dy = y - cy, dist = Math.hypot(dx,dy);
+        const angRaw = Math.atan2(dy,dx);
+        const a = angRaw < -Math.PI/2 ? angRaw + Math.PI*2 : angRaw;
+        ctx.clearRect(0,0,W,H);
+        // redraw base
+        slices.forEach(s=>{
+          ctx.beginPath(); ctx.moveTo(cx,cy); ctx.arc(cx,cy,r,s.a1,s.a2); ctx.closePath();
+          ctx.fillStyle = s.color; ctx.fill(); ctx.strokeStyle = 'rgba(255,255,255,.12)'; ctx.stroke();
+        });
+        if(dist<=r){
+          const hover = slices.find(s=>a>=s.a1 && a<=s.a2);
+          if(hover){
+            const pct = (hover.value/total*100).toFixed(1);
+            label(cx - 60*dpr, cy - r - 30*dpr, `${hover.name}: ${pct}%`);
+          }
+        }
+      };
+      canvas.ontouchstart = (e)=> canvas.onmousemove(e.touches[0]);
+    }
+
+    // ---------------------------------------------
+    // Simple tax (kept minimal in this revision)
+    // ---------------------------------------------
+    function calcTax(){
+      const realized = +el.realized.value || 0;
+      const otherIncome = +el.income.value || 0;
+      if(!realized){ el.taxOut.textContent = '—'; el.taxRateOut.textContent = '—'; return; }
+      if(state.country==='IN'){
+        const rate = 0.30, cess = 0.04; const base = realized*rate; const tax = base + base*cess;
+        el.taxOut.textContent = currencyFmt(tax);
+        el.taxRateOut.textContent = ((tax/realized)*100).toFixed(2) + '%';
+        el.taxNote.textContent = 'India VDA: Flat 30% on gains + 4% cess (1% TDS separate).';
+      } else {
+        const bands = state.filing==='married_joint'
+          ? [{u:94050,r:0},{u:583750,r:0.15},{u:Infinity,r:0.20}]
+          : [{u:47025,r:0},{u:518900,r:0.15},{u:Infinity,r:0.20}];
+        const b = bands.find(x=> otherIncome<=x.u);
+        const r = b?.r ?? 0.15; const tax = realized*r;
+        el.taxOut.textContent = currencyFmt(tax);
+        el.taxRateOut.textContent = (r*100).toFixed(2) + '%';
+        el.taxNote.textContent = 'USA: assuming long-term capital gains bracket (simplified).';
+      }
+    }
+
+    // ---------------------------------------------
+    // Add / reset / import-export
+    // ---------------------------------------------
+    function findIdByInput(str){
+      const s = str.trim().toLowerCase();
+      if(!s) return null;
+      const p = PRIORITY.find(c => c.symbol===s || c.id===s || c.name.toLowerCase()===s);
+      if(p) return p.id;
+      const m = s.match(/\(([^)]+)\)$/);
+      const sym = m?.[1]?.toLowerCase() || s;
+      const pri2 = PRIORITY.find(c => c.symbol===sym); if(pri2) return pri2.id;
+      const hit = state.coinsIndex.find(c => c.symbol?.toLowerCase()===sym || c.name?.toLowerCase()===s || c.id===s);
+      return hit?.id || null;
+    }
+
+    // ---------------------------------------------
+    // Event bindings
+    // ---------------------------------------------
+    el.search.addEventListener('input', debounce(onType, 140));
+    el.search.addEventListener('focus', onType);
+
+    el.search.addEventListener('keydown', (e)=>{
+      if(el.sugPanel.style.display!=='block') return;
+      const n = state.sug.items.length || 0;
+      if(!n) return;
+      if(e.key==='ArrowDown'){ e.preventDefault(); pickIndex((state.sug.activeIndex+1+n)%n); }
+      else if(e.key==='ArrowUp'){ e.preventDefault(); pickIndex((state.sug.activeIndex-1+n)%n); }
+      else if(e.key==='Enter'){
+        if(state.sug.activeIndex>=0){ e.preventDefault(); pickIndex(state.sug.activeIndex); closeSug(); el.qty.focus(); }
+      } else if(e.key==='Escape'){ closeSug(); }
+    });
+    el.sugPanel.addEventListener('click', (e)=> pickByClick(e.target));
+    el.search.addEventListener('blur', ()=> setTimeout(closeSug, 120));
+
+    // Add coin
+    el.add.addEventListener('click', async ()=>{
+      const id = el.search.dataset.id || findIdByInput(el.search.value);
+      const qty = num(el.qty.value); const buy = num(el.buy.value);
+      if(!id || !qty){ alert('Pick a coin from suggestions and enter quantity.'); return; }
+
+      let meta = state.sug.items.find(x=>x.id===id) || PRIORITY.find(x=>x.id===id) || state.coinsIndex.find(c=>c.id===id);
+      if(!meta){
+        try{
+          const r = await fetch(`${API_CG}/coins/${id}?localization=false&tickers=false&market_data=false&community_data=false&developer_data=false&sparkline=false`);
+          const j = await r.json();
+          meta = { id:j.id, name:j.name, symbol:j.symbol };
+        }catch{}
+      }
+      if(!meta){ alert('Could not resolve coin metadata.'); return; }
+
+      const row = state.rows.find(r=>r.id===id);
+      if(row){ row.qty += qty; if(buy) row.buy = buy; }
+      else{ state.rows.push({ id, symbol: meta.symbol, name: meta.name, qty, buy }); }
+      persist(DB_KEY, state.rows);
+
+      el.search.value=''; el.search.dataset.id=''; el.livePrice.textContent='—';
+      el.qty.value=''; el.buy.value='';
+
+      await fetchPrices([id]);
+      renderTable(); drawPie(); computeKPIs();
+    });
+
+    // Reset portfolio
+    el.reset.addEventListener('click', ()=>{
+      if(!confirm('Clear your local portfolio?')) return;
+      state.rows = []; persist(DB_KEY, state.rows);
+      renderTable(); drawPie(); computeKPIs();
+    });
+
+    // Currency + refresh
+    el.vs.value = state.vs;
+    el.vs.addEventListener('change', async ()=>{
+      state.vs = el.vs.value; persist('cpt:vs', state.vs);
+      const id = el.search.dataset.id || findIdByInput(el.search.value);
+      if(id) showLivePrice(id); // keep preview in selected currency
+      await refreshAllPrices();
+    });
+    el.refresh.addEventListener('click', refreshAllPrices);
+
+    // Export / Import
+    el.exportCSV.addEventListener('click', ()=>{
+      const rows = [['id','symbol','name','qty','buy']];
+      state.rows.forEach(r=> rows.push([r.id, r.symbol, r.name, r.qty, r.buy]));
+      const csv = rows.map(r=>r.join(',')).join('\n');
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(new Blob([csv], {type:'text/csv'}));
+      a.download = 'crypto-portfolio.csv';
+      a.click(); URL.revokeObjectURL(a.href);
+    });
+
+    el.exportJSON.addEventListener('click', ()=>{
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(new Blob([JSON.stringify(state.rows,null,2)], {type:'application/json'}));
+      a.download = 'crypto-portfolio.json';
+      a.click(); URL.revokeObjectURL(a.href);
+    });
+
+    el.importJSON.addEventListener('click', ()=>{
+      const inp = document.createElement('input'); inp.type='file'; inp.accept='application/json';
+      inp.onchange = ()=> {
+        const file = inp.files?.[0]; if(!file) return;
+        const fr = new FileReader();
+        fr.onload = ()=> {
+          try{
+            const data = JSON.parse(fr.result);
+            if(Array.isArray(data)){
+              state.rows = data.map(x=>({id:x.id, symbol:x.symbol, name:x.name, qty:+x.qty||0, buy:+x.buy||0})).filter(x=>x.id && x.qty>0);
+              persist(DB_KEY, state.rows);
+              refreshAllPrices();
+            } else alert('Invalid JSON.');
+          }catch(e){ alert('Could not parse JSON.'); }
+        };
+        fr.readAsText(file);
+      };
+      inp.click();
+    });
+
+    // ---------------------------------------------
+    // Init
+    // ---------------------------------------------
+    (async function init(){
+      await Promise.all([loadCoinList(), fetchTrending()]);
+      if(state.rows.length) await refreshAllPrices();
+      else renderTable();
+      drawPie(); computeKPIs();
+      // Seed suggestions panel with priority so BTC/ETH visible immediately
+      state.sug.items = PRIORITY; renderSug(PRIORITY);
+    })();
+
+  </script>
+
+</body>
+</html>

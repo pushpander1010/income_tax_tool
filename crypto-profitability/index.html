@@ -1,0 +1,716 @@
+<!doctype html>
+
+<html lang="en">
+
+<head>
+  <!-- Ads: no inline ad slot to avoid CLS. (Place your fixed-size ad container where marked in <main> if enabled site-wide.) -->
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Crypto Mining Profitability Calculator (BTC, LTC, ETC, RVN, XMR, KAS) — Hashrate → Earnings, Power Cost & ROI | UpTools</title>
+  <meta name="description" content="Calculate crypto mining profits in INR & USD. Supports BTC, LTC, ETC, RVN, XMR, KAS. Enter hashrate, power (W), electricity cost, pool fee, uptime, and hardware cost. Auto-fetch coin prices, BTC network difficulty, estimate daily/weekly/monthly revenue, power cost, net profit, and ROI." />
+  <meta name="keywords" content="crypto mining calculator, bitcoin mining profitability, btc mining calculator, mining roi, hashrate to earnings, electricity cost mining, ethereum classic mining, ravencoin mining, monero mining, kaspa mining, litecoin mining, mining profit india, btc price in inr" />
+  <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
+  <meta name="theme-color" content="#0b0f1a" />
+  <link rel="canonical" href="https://www.uptools.in/crypto-mining-calculator/" />
+
+  <!-- Social -->
+
+  <meta property="og:title" content="Crypto Mining Profitability Calculator — Hashrate → Profit & ROI" />
+  <meta property="og:description" content="Live prices + power cost: estimate daily/weekly/monthly profit for BTC, LTC, ETC, RVN, XMR, KAS in INR & USD. Pool fee, uptime & ROI included." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.uptools.in/crypto-mining-calculator/" />
+  <meta property="og:site_name" content="UpTools" />
+  <meta property="og:image" content="https://www.uptools.in/assets/og/crypto-mining-calc.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- Favicon -->
+
+  <link rel="icon" sizes="50x50" type="image/svg+xml" href="/assets/logo/uptools-logo.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/logo/uptools-logo.svg">
+
+  <!-- Common CSS -->
+
+  <link rel="preload" href="/style.css?v=1.1.0" as="style">
+  <link rel="stylesheet" href="/style.css?v=1.1.0" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="/style.css?v=1.1.0"></noscript>
+
+  <!-- Page theme: Golden Neon Dark -->
+
+  <style>
+    :root{
+      --accent:#f4c43a;      /* golden */
+      --accent-2:#f59e0b;    /* amber */
+      --bg1:#0b0f1a;
+      --bg2:#111428;
+      --content-w:1100px;
+    }
+    body{
+      background:
+        radial-gradient(880px 520px at 10% -10%, rgba(245, 158, 11, .08) 0%, transparent 50%),
+        radial-gradient(900px 600px at 110% 10%, rgba(244, 196, 58, .08) 0%, transparent 45%),
+        linear-gradient(135deg, var(--bg1), var(--bg2));
+    }
+    /* Layout: left inputs sticky, right results; aim to fit in one viewport on desktop */
+    .grid2{
+      display:grid; gap:12px;
+      grid-template-columns: 1fr 1fr;
+      align-items:start;
+    }
+    .sticky-panel{ position:sticky; top:72px; }
+    .hero-miner{
+      display:grid; grid-template-columns: 48px 1fr; gap:12px; align-items:center;
+      padding:12px; border-radius:12px; background:#0b1326; border:1px solid var(--border); box-shadow: var(--glow-soft);
+      margin:12px 0;
+    }
+    .ico{
+      width:40px; height:40px; display:grid; place-items:center; border-radius:10px; color:#141414;
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.25), var(--glow-soft);
+      font-weight:900;
+    }
+    .row2{ display:grid; grid-template-columns: 1fr 1fr; gap:10px; }
+    .units{ display:flex; gap:8px; align-items:center; }
+    .suffix{ color:var(--muted); font-size:12px; }
+    .note-inline{ color:var(--muted); font-size:12px; margin-top:4px; }
+    .kpis{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+    .kpi{ padding:10px 12px; border-radius:10px; background:#0b1326; border:1px solid var(--border); box-shadow: var(--glow-soft); }
+    .kpi .lab{ color:var(--muted); font-size:12px; }
+    .kpi .val{ font-weight:900; font-variant-numeric:tabular-nums; }
+    .badge{ font-size:12px; padding:3px 8px; border-radius:999px; border:1px solid var(--border); background:#0b1326; }
+    .yt-wrap{ width:100%; max-width:560px; height:315px; border-radius:12px; overflow:hidden; border:1px solid var(--border); box-shadow: var(--glow-soft); }
+    .yt-wrap iframe{ width:100%; height:100%; display:block; }
+    .help{ display:grid; gap:10px; }
+    .result-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:10px; }
+    .result-box .lab{ color:var(--muted); font-size:12px; }
+    .result-box .val{ font-weight:900; font-variant-numeric:tabular-nums; }
+    .divider-hr{ height:1px; background: color-mix(in oklab, var(--accent) 25%, #243); margin:10px 0; }
+    @media (max-width: 920px){
+      .grid2{ grid-template-columns: 1fr; }
+      .sticky-panel{ position:static; }
+      .kpis{ grid-template-columns:repeat(2,1fr); }
+      .result-grid{ grid-template-columns:1fr; }
+    }
+  </style>
+
+  <!-- Structured Data -->
+
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"SoftwareApplication",
+    "name":"Crypto Mining Profitability Calculator",
+    "applicationCategory":"FinanceApplication",
+    "operatingSystem":"Any",
+    "url":"https://www.uptools.in/crypto-mining-calculator/",
+    "description":"Estimate crypto mining profits for BTC, LTC, ETC, RVN, XMR, KAS with live prices. Enter hashrate, power (W), electricity cost, pool fee, uptime, and hardware cost to see daily/weekly/monthly revenue, power cost, net profit, and ROI in INR & USD.",
+    "offers":{"@type":"Offer","price":"0","priceCurrency":"INR"}
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"FAQPage",
+    "mainEntity":[
+      {"@type":"Question","name":"How is mining profit calculated?","acceptedAnswer":{"@type":"Answer","text":"Profit = (Coins mined × Coin price × (1 − Pool fee)) − (Power (kW) × Hours × Electricity cost). Coins/day depends on your hashrate relative to network hashrate and the coin's block time and reward."}},
+      {"@type":"Question","name":"Does this support INR?","acceptedAnswer":{"@type":"Answer","text":"Yes. Switch between INR and USD for prices and outputs. BTC difficulty is fetched automatically; other coins fetch live prices and allow manual difficulty/network hashrate."}},
+      {"@type":"Question","name":"What about ROI?","acceptedAnswer":{"@type":"Answer","text":"If you enter a hardware cost, the tool estimates break-even days and months from your daily net profit."}}
+    ]
+  }
+  </script>
+
+</head>
+
+<body>
+  <!-- Header -->
+  <header class="site" role="banner">
+    <div class="header-inner">
+      <a class="brand" href="/" aria-label="UpTools Home">
+        <img src="/assets/logo/uptools-logo.svg" alt="UpTools logo" width="28" height="28" loading="eager">
+        <b>UpTools</b>
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="/#tools">Tools</a>
+        <a href="/crypto-prices/">Crypto Prices</a>
+        <a href="/currency-converter/">Currency</a>
+        <a aria-current="page" href="/crypto-mining-calculator/">Mining Calc</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap" id="main">
+    <section class="hero-miner neon" aria-label="Crypto Mining Profitability Calculator">
+      <div class="ico">⛏</div>
+      <div>
+        <h1>Crypto Mining Profitability Calculator</h1>
+        <p class="note" style="margin:2px 0 0;">
+          Estimate profits for <strong>BTC</strong>, <strong>LTC</strong>, <strong>ETC</strong>, <strong>RVN</strong>, <strong>XMR</strong>, <strong>KAS</strong>.
+          Live coin prices in <b>INR</b>/<b>USD</b>, <span class="badge">BTC difficulty auto</span>, pool fee, uptime, power cost & ROI.
+        </p>
+      </div>
+    </section>
+
+<div class="grid2">
+  <!-- Left: Inputs (sticky) -->
+  <section class="card sticky-panel" aria-label="Inputs">
+    <h2 style="margin-top:0">Inputs</h2>
+
+    <label class="label" for="coin">Coin</label>
+    <select id="coin" class="input">
+      <option value="btc" selected>BTC — Bitcoin</option>
+      <option value="ltc">LTC — Litecoin</option>
+      <option value="etc">ETC — Ethereum Classic</option>
+      <option value="rvn">RVN — Ravencoin</option>
+      <option value="xmr">XMR — Monero</option>
+      <option value="kas">KAS — Kaspa</option>
+    </select>
+
+    <div class="row2">
+      <div>
+        <label class="label" for="vs">Currency</label>
+        <select id="vs" class="input">
+          <option value="inr" selected>INR ₹</option>
+          <option value="usd">$ USD</option>
+        </select>
+      </div>
+      <div>
+        <label class="label" for="price">Coin Price (auto)</label>
+        <input id="price" class="input" type="number" step="0.00000001" inputmode="decimal" placeholder="Auto from market" />
+        <div class="note-inline">Fetched from market; you can override.</div>
+      </div>
+    </div>
+
+    <div class="row2">
+      <div>
+        <label class="label" for="hash">Your Hashrate</label>
+        <div class="units">
+          <input id="hash" class="input" type="number" step="0.000001" inputmode="decimal" placeholder="e.g., 120" />
+          <select id="hashUnit" class="input" style="max-width:120px">
+            <option value="H">H/s</option>
+            <option value="kH">kH/s</option>
+            <option value="MH" selected>MH/s</option>
+            <option value="GH">GH/s</option>
+            <option value="TH">TH/s</option>
+            <option value="PH">PH/s</option>
+          </select>
+        </div>
+      </div>
+      <div>
+        <label class="label" for="power">Power Draw (Watts)</label>
+        <input id="power" class="input" type="number" step="1" inputmode="numeric" placeholder="e.g., 3000" />
+      </div>
+    </div>
+
+    <div class="row2">
+      <div>
+        <label class="label">Network Input</label>
+        <select id="netMode" class="input">
+          <option value="difficulty" selected>Difficulty</option>
+          <option value="hashrate">Network Hashrate</option>
+        </select>
+      </div>
+      <div>
+        <label class="label" for="netVal"><span id="netLabel">Network Difficulty</span> <span class="badge" id="autoBadge" title="Auto for BTC">Auto</span></label>
+        <input id="netVal" class="input" type="number" step="0.000001" inputmode="decimal" placeholder="Auto for BTC; else enter" />
+        <div class="note-inline" id="netHint">BTC difficulty auto-fetched. Others: enter difficulty or switch to hashrate.</div>
+      </div>
+    </div>
+
+    <div class="row2">
+      <div>
+        <label class="label" for="blockReward">Block Reward</label>
+        <input id="blockReward" class="input" type="number" step="0.00000001" inputmode="decimal" placeholder="e.g., 3.125 BTC" />
+      </div>
+      <div>
+        <label class="label" for="blockTime">Block Time (seconds)</label>
+        <input id="blockTime" class="input" type="number" step="1" inputmode="numeric" placeholder="e.g., 600" />
+      </div>
+    </div>
+
+    <div class="row2">
+      <div>
+        <label class="label" for="fee">Pool Fee (%)</label>
+        <input id="fee" class="input" type="number" step="0.1" inputmode="decimal" placeholder="e.g., 1" />
+      </div>
+      <div>
+        <label class="label" for="uptime">Uptime (%)</label>
+        <input id="uptime" class="input" type="number" step="0.1" inputmode="decimal" placeholder="e.g., 98" />
+      </div>
+    </div>
+
+    <div class="row2">
+      <div>
+        <label class="label" for="elec">Electricity Cost (per kWh)</label>
+        <input id="elec" class="input" type="number" step="0.01" inputmode="decimal" placeholder="e.g., 8 (INR) or 0.10 (USD)" />
+      </div>
+      <div>
+        <label class="label" for="hwCost">Hardware Cost</label>
+        <input id="hwCost" class="input" type="number" step="1" inputmode="decimal" placeholder="Optional" />
+      </div>
+    </div>
+
+    <div class="divider"></div>
+    <div class="row2">
+      <button id="applyPreset" class="btn secondary" type="button">Hardware Presets</button>
+      <div class="units">
+        <button id="calcBtn" class="btn" type="button">Calculate</button>
+        <button id="resetBtn" class="btn secondary" type="button">Reset</button>
+      </div>
+    </div>
+
+    <details style="margin-top:10px">
+      <summary class="chip">What are good defaults?</summary>
+      <ul class="note" style="margin:8px 0 0 18px">
+        <li>BTC: reward <b>3.125</b>, time <b>600s</b>, difficulty auto.</li>
+        <li>LTC: reward <b>6.25</b>, time <b>150s</b> (scrypt).</li>
+        <li>ETC: reward ~<b>2.56</b>, time ~<b>13.2s</b>.</li>
+        <li>RVN: reward <b>2500</b>, time <b>60s</b>.</li>
+        <li>XMR: reward ~<b>0.6</b>, time <b>120s</b>.</li>
+        <li>KAS: reward ~<b>~13.5</b>, time <b>1s</b> (GHOSTDAG). Adjust as needed.</li>
+      </ul>
+    </details>
+  </section>
+
+  <!-- Right: Results -->
+  <section class="card" aria-label="Results">
+    <h2 style="margin-top:0">Results</h2>
+
+    <div class="kpis">
+      <div class="kpi">
+        <div class="lab">Coins / day</div>
+        <div id="k-coins" class="val">—</div>
+      </div>
+      <div class="kpi">
+        <div class="lab">Revenue / day</div>
+        <div id="k-rev" class="val">—</div>
+      </div>
+      <div class="kpi">
+        <div class="lab">Net Profit / day</div>
+        <div id="k-net" class="val">—</div>
+      </div>
+    </div>
+
+    <div class="result-grid" style="margin-top:10px">
+      <div class="result-box result">
+        <div class="lab">Revenue</div>
+        <div class="row"><span>Hourly</span><span id="revH">—</span></div>
+        <div class="row"><span>Daily</span><span id="revD">—</span></div>
+        <div class="row"><span>Weekly</span><span id="revW">—</span></div>
+        <div class="row"><span>Monthly (30d)</span><span id="revM">—</span></div>
+      </div>
+      <div class="result-box result">
+        <div class="lab">Electricity Cost</div>
+        <div class="row"><span>Hourly</span><span id="elecH">—</span></div>
+        <div class="row"><span>Daily</span><span id="elecD">—</span></div>
+        <div class="row"><span>Weekly</span><span id="elecW">—</span></div>
+        <div class="row"><span>Monthly (30d)</span><span id="elecM">—</span></div>
+      </div>
+      <div class="result-box result">
+        <div class="lab">Net Profit</div>
+        <div class="row"><span>Hourly</span><span id="netH">—</span></div>
+        <div class="row"><span>Daily</span><span id="netD">—</span></div>
+        <div class="row"><span>Weekly</span><span id="netW">—</span></div>
+        <div class="row"><span>Monthly (30d)</span><span id="netM">—</span></div>
+      </div>
+      <div class="result-box result">
+        <div class="lab">ROI (if hardware cost entered)</div>
+        <div class="row"><span>Break-even days</span><span id="roiDays">—</span></div>
+        <div class="row"><span>Break-even months</span><span id="roiMonths">—</span></div>
+      </div>
+    </div>
+
+    <div class="divider-hr"></div>
+
+    <div class="help">
+      <div class="note">Assumptions: coins/day = (your hashrate ÷ network hashrate) × (86400 ÷ block time) × block reward. If you provide <b>difficulty</b>, network hashrate is derived via: hashrate = difficulty × 2³² ÷ block time.</div>
+      <div class="row" style="margin-top:6px; gap:10px">
+        <button id="shareBtn" class="btn secondary" type="button">Share</button>
+        <button id="csvBtn" class="btn secondary" type="button">Download CSV</button>
+      </div>
+
+      <div class="divider-hr"></div>
+      <h3>Watch: Mining Basics (short)</h3>
+      <div class="yt-wrap">
+        <iframe loading="lazy" width="auto" height="auto"
+          src="https://www.youtube.com/embed/GmOzih6I1zs"
+          title="Bitcoin Mining Explained (YouTube)"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen></iframe>
+      </div>
+
+      <div class="divider-hr"></div>
+      <h3>Related tools</h3>
+      <div class="links-grid">
+        <a href="/crypto-prices/"><span class="txt-logo">CRYPTO</span> Live Crypto Prices</a>
+        <a href="/currency-converter/"><span class="txt-logo">FX</span> Currency Converter (Live FX)</a>
+        <a href="/income-tax-tool/"><span class="txt-logo">IT</span> India Income Tax (FY 2024-25)</a>
+      </div>
+    </div>
+  </section>
+</div>
+
+<footer class="note small site-footer" role="contentinfo" style="margin-top:14px;">
+  © <span id="y"></span> UpTools · <a href="/sitemap.xml">Sitemap</a> · <a href="/about/">About</a> · <a href="/contact/">Contact</a>
+</footer>
+
+  </main>
+
+  <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
+
+  <!-- Shared utilities -->
+
+  <script type="module" src="/scripts/utils.js"></script>
+
+  <!-- Page logic -->
+
+  <script type="module">
+    import { $, $$, fmtNum, debounce, persist, read, num } from '/scripts/utils.js';
+
+    // --- Config / Defaults ---
+    const API_CG = 'https://api.coingecko.com/api/v3';
+    const API_BTC_DIFF = 'https://blockchain.info/q/getdifficulty?cors=true';
+
+    const COIN_META = {
+      btc: { id:'bitcoin', symbol:'BTC', reward: 3.125, time: 600, unit: 'TH', diffAuto: true },
+      ltc: { id:'litecoin', symbol:'LTC', reward: 6.25,  time: 150, unit: 'GH', diffAuto: false },
+      etc: { id:'ethereum-classic', symbol:'ETC', reward: 2.56, time: 13.2, unit: 'MH', diffAuto: false },
+      rvn: { id:'ravencoin', symbol:'RVN', reward: 2500, time: 60, unit: 'MH', diffAuto: false },
+      xmr: { id:'monero', symbol:'XMR', reward: 0.6,  time: 120, unit: 'kH', diffAuto: false },
+      kas: { id:'kaspa', symbol:'KAS', reward: 13.5, time: 1, unit: 'GH', diffAuto: false }
+    };
+
+    const PRESETS = [
+      // name, hash, unit, power
+      { coin:'btc', name:'Antminer S21 ~200 TH/s (BTC SHA-256)', hash:200, unit:'TH', power:3500 },
+      { coin:'btc', name:'Antminer S19 Pro ~110 TH/s (BTC SHA-256)', hash:110, unit:'TH', power:3250 },
+      { coin:'ltc', name:'Antminer L7 ~9.5 GH/s (LTC/DOGE Scrypt)', hash:9.5, unit:'GH', power:3425 },
+      { coin:'etc', name:'RTX 4090 ~120 MH/s (ETC Etchash)', hash:120, unit:'MH', power:300 },
+      { coin:'rvn', name:'RTX 3060 Ti ~25 MH/s (RVN KawPow)', hash:25, unit:'MH', power:140 },
+      { coin:'xmr', name:'Ryzen 9 ~20 kH/s (XMR RandomX)', hash:20, unit:'kH', power:120 },
+      { coin:'kas', name:'RTX 3080 ~900 MH/s (KAS kHeavyHash)', hash:900, unit:'MH', power:250 },
+    ];
+
+    const state = {
+      coin: read('mc:coin', 'btc'),
+      vs: read('mc:vs', 'inr'),
+      price: 0,
+      netMode: read('mc:netMode', 'difficulty'), // 'difficulty' | 'hashrate'
+      netVal: 0, // difficulty or hashrate (H/s)
+      hash: 0,
+      hashUnit: read('mc:hashUnit', 'MH'),
+      power: 0,
+      fee: read('mc:fee', 1), // %
+      uptime: read('mc:uptime', 98), // %
+      elec: read('mc:elec', state?.vs==='usd'?0.10:8) || 8, // per kWh
+      blockReward: 0,
+      blockTime: 0,
+      hwCost: 0
+    };
+
+    // --- Elements ---
+    const el = {
+      coin: $('#coin'),
+      vs: $('#vs'),
+      price: $('#price'),
+      hash: $('#hash'),
+      hashUnit: $('#hashUnit'),
+      power: $('#power'),
+      netMode: $('#netMode'),
+      netVal: $('#netVal'),
+      netLabel: $('#netLabel'),
+      autoBadge: $('#autoBadge'),
+      netHint: $('#netHint'),
+      blockReward: $('#blockReward'),
+      blockTime: $('#blockTime'),
+      fee: $('#fee'),
+      uptime: $('#uptime'),
+      elec: $('#elec'),
+      hwCost: $('#hwCost'),
+      calcBtn: $('#calcBtn'),
+      resetBtn: $('#resetBtn'),
+      applyPreset: $('#applyPreset'),
+      shareBtn: $('#shareBtn'),
+      csvBtn: $('#csvBtn'),
+
+      // KPIs
+      kCoins: $('#k-coins'),
+      kRev: $('#k-rev'),
+      kNet: $('#k-net'),
+
+      // Revenue / cost / net cells
+      revH: $('#revH'), revD: $('#revD'), revW: $('#revW'), revM: $('#revM'),
+      elecH: $('#elecH'), elecD: $('#elecD'), elecW: $('#elecW'), elecM: $('#elecM'),
+      netH: $('#netH'), netD: $('#netD'), netW: $('#netW'), netM: $('#netM'),
+      roiDays: $('#roiDays'), roiMonths: $('#roiMonths')
+    };
+
+    // --- Helpers ---
+    const unitMul = (u) => ({H:1, kH:1e3, MH:1e6, GH:1e9, TH:1e12, PH:1e15}[u] || 1);
+    const curFmt = (n) => new Intl.NumberFormat(state.vs==='inr'?'en-IN':'en-US', {
+      style:'currency', currency: state.vs.toUpperCase(), maximumFractionDigits: (Math.abs(n)>=100 ? 0 : 2)
+    }).format(n ?? 0);
+
+    function setInputsFromMeta(){
+      const m = COIN_META[state.coin];
+      el.blockReward.value = m.reward;
+      el.blockTime.value = m.time;
+      // Set default unit hint for coin (won't override user's chosen unit)
+      if (!read('mc:hashUnitSaved')) {
+        el.hashUnit.value = m.unit;
+        state.hashUnit = m.unit;
+      }
+      // BTC difficulty auto-fetch
+      toggleDiffAuto(m.diffAuto);
+    }
+
+    function toggleDiffAuto(isAuto){
+      el.autoBadge.style.display = isAuto && state.netMode==='difficulty' ? 'inline-block' : 'none';
+      el.netVal.placeholder = isAuto && state.netMode==='difficulty' ? 'Auto for BTC' : 'Enter value';
+      el.netHint.textContent = isAuto && state.netMode==='difficulty'
+        ? 'BTC difficulty auto-fetched. Others: enter difficulty or switch to network hashrate.'
+        : (state.netMode==='difficulty' ? 'Enter network difficulty for this coin.' : 'Enter total network hashrate (H/s) for this coin.');
+    }
+
+    async function fetchPrice(){
+      const id = COIN_META[state.coin].id;
+      const url = `${API_CG}/simple/price?ids=${encodeURIComponent(id)}&vs_currencies=${state.vs}`;
+      const r = await fetch(url);
+      if (!r.ok) return;
+      const j = await r.json();
+      state.price = +j?.[id]?.[state.vs] || 0;
+      el.price.value = state.price ? state.price : '';
+    }
+
+    async function fetchBTCDifficultyIfNeeded(){
+      if (state.coin !== 'btc' || state.netMode!=='difficulty') return;
+      try{
+        const r = await fetch(API_BTC_DIFF);
+        const diff = await r.text();
+        const d = +diff;
+        if(!Number.isFinite(d)) return;
+        el.netVal.value = d;
+        state.netVal = d;
+      }catch(e){}
+    }
+
+    function coinsPerDay(){
+      const reward = num(el.blockReward.value);
+      const t = num(el.blockTime.value) || 1;
+      const userHash = num(el.hash.value) * unitMul(el.hashUnit.value); // H/s
+      const uptimeFrac = (num(el.uptime.value) || 0) / 100;
+      if (userHash<=0 || reward<=0 || t<=0 || uptimeFrac<=0) return 0;
+
+      let netHash = 0;
+      if (el.netMode.value === 'difficulty'){
+        const D = num(el.netVal.value);
+        if (D<=0) return 0;
+        // network hashrate = difficulty * 2^32 / blockTime
+        netHash = D * 4294967296 / t; // 2^32
+      } else {
+        netHash = num(el.netVal.value); // H/s
+        if (netHash<=0) return 0;
+      }
+      const blocksPerDay = 86400 / t;
+      const expectedShare = userHash / netHash;
+      return Math.max(0, expectedShare * blocksPerDay * reward * uptimeFrac);
+    }
+
+    function powerCostPerHour(){
+      // power (W) -> kW; multiply by cost per kWh
+      const kw = (num(el.power.value) || 0) / 1000;
+      const uptimeFrac = (num(el.uptime.value) || 0) / 100;
+      const c = num(el.elec.value) || 0;
+      return kw * c * uptimeFrac;
+    }
+
+    function recalc(){
+      // Persist small items
+      persist('mc:coin', el.coin.value);
+      persist('mc:vs', el.vs.value);
+      persist('mc:netMode', el.netMode.value);
+      persist('mc:hashUnit', el.hashUnit.value);
+      persist('mc:fee', el.fee.value || 0);
+      persist('mc:uptime', el.uptime.value || 0);
+      persist('mc:elec', el.elec.value || 0);
+      persist('mc:hashUnitSaved', true);
+
+      const price = num(el.price.value) || 0;
+      const feeFrac = (num(el.fee.value) || 0) / 100;
+
+      const coinsD = coinsPerDay();
+      const coinsH = coinsD / 24;
+      const coinsW = coinsD * 7;
+      const coinsM = coinsD * 30;
+
+      const revD = coinsD * price * (1 - feeFrac);
+      const revH = revD / 24;
+      const revW = revD * 7;
+      const revM = revD * 30;
+
+      const elecH = powerCostPerHour();
+      const elecD = elecH * 24;
+      const elecW = elecD * 7;
+      const elecM = elecD * 30;
+
+      const netH = revH - elecH;
+      const netD = revD - elecD;
+      const netW = revW - elecW;
+      const netM = revM - elecM;
+
+      // KPIs
+      el.kCoins.textContent = coinsD ? coinsD.toFixed(6) + ' ' + COIN_META[state.coin].symbol : '—';
+      el.kRev.textContent = revD ? curFmt(revD) : '—';
+      el.kNet.textContent = netD || netD===0 ? curFmt(netD) : '—';
+
+      // Revenue cells
+      el.revH.textContent = revH ? curFmt(revH) : '—';
+      el.revD.textContent = revD ? curFmt(revD) : '—';
+      el.revW.textContent = revW ? curFmt(revW) : '—';
+      el.revM.textContent = revM ? curFmt(revM) : '—';
+
+      // Elec cells
+      el.elecH.textContent = elecH ? curFmt(elecH) : '—';
+      el.elecD.textContent = elecD ? curFmt(elecD) : '—';
+      el.elecW.textContent = elecW ? curFmt(elecW) : '—';
+      el.elecM.textContent = elecM ? curFmt(elecM) : '—';
+
+      // Net cells
+      el.netH.textContent = Number.isFinite(netH) ? curFmt(netH) : '—';
+      el.netD.textContent = Number.isFinite(netD) ? curFmt(netD) : '—';
+      el.netW.textContent = Number.isFinite(netW) ? curFmt(netW) : '—';
+      el.netM.textContent = Number.isFinite(netM) ? curFmt(netM) : '—';
+
+      // ROI
+      const hw = num(el.hwCost.value) || 0;
+      if (hw>0 && netD>0){
+        const days = hw / netD;
+        el.roiDays.textContent = fmtNum(days, {maximumFractionDigits:1});
+        el.roiMonths.textContent = fmtNum(days/30, {maximumFractionDigits:1});
+      } else {
+        el.roiDays.textContent = '—';
+        el.roiMonths.textContent = '—';
+      }
+    }
+
+    function applyPresetDialog(){
+      // Simple prompt UI with native dialog
+      const names = PRESETS.filter(p=>p.coin===state.coin).map((p,i)=>`${i+1}. ${p.name}`).join('\n');
+      const idx = prompt(`Choose a preset number:\n\n${names}\n\n(Leave blank to cancel)`);
+      if (!idx) return;
+      const i = (+idx)-1;
+      const list = PRESETS.filter(p=>p.coin===state.coin);
+      const p = list[i];
+      if (!p) return;
+      el.hash.value = p.hash;
+      el.hashUnit.value = p.unit;
+      el.power.value = p.power;
+      recalc();
+    }
+
+    function toCSV(){
+      const rows = [
+        ['Field','Value'],
+        ['Coin', COIN_META[state.coin].symbol],
+        ['Currency', state.vs.toUpperCase()],
+        ['Coin Price', el.price.value],
+        ['Your Hashrate', `${el.hash.value} ${el.hashUnit.value}/s`],
+        [el.netMode.value==='difficulty'?'Network Difficulty':'Network Hashrate (H/s)', el.netVal.value],
+        ['Block Reward', el.blockReward.value],
+        ['Block Time (s)', el.blockTime.value],
+        ['Pool Fee (%)', el.fee.value],
+        ['Uptime (%)', el.uptime.value],
+        ['Power (W)', el.power.value],
+        ['Elec (per kWh)', el.elec.value],
+        ['Hardware Cost', el.hwCost.value],
+        ['Coins/day', el.kCoins.textContent],
+        ['Revenue/day', el.kRev.textContent],
+        ['Net/day', el.kNet.textContent],
+      ];
+      return rows.map(r=>r.join(',')).join('\n');
+    }
+
+    function shareLink(){
+      const params = new URLSearchParams({
+        c: el.coin.value, vs: el.vs.value,
+        p: el.price.value, h: el.hash.value, hu: el.hashUnit.value,
+        nm: el.netMode.value, nv: el.netVal.value,
+        r: el.blockReward.value, t: el.blockTime.value,
+        f: el.fee.value, u: el.uptime.value, e: el.elec.value, hw: el.hwCost.value
+      });
+      const url = location.origin + location.pathname + '?' + params.toString();
+      if (navigator.share) navigator.share({ title:'Crypto Mining Calculator — UpTools', url }).catch(()=>{});
+      navigator.clipboard?.writeText(url);
+      alert('Link copied:\n' + url);
+    }
+
+    function loadFromURL(){
+      const q = new URLSearchParams(location.search);
+      const set = (el, key) => { if (q.has(key)) el.value = q.get(key); };
+      set(el.coin, 'c'); set(el.vs, 'vs'); set(el.price, 'p'); set(el.hash, 'h'); set(el.hashUnit, 'hu');
+      set(el.netMode, 'nm'); set(el.netVal, 'nv'); set(el.blockReward, 'r'); set(el.blockTime, 't');
+      set(el.fee, 'f'); set(el.uptime, 'u'); set(el.elec, 'e'); set(el.hwCost, 'hw');
+    }
+
+    // --- Bindings ---
+    el.coin.addEventListener('change', async ()=>{
+      state.coin = el.coin.value;
+      setInputsFromMeta();
+      await fetchPrice();
+      await fetchBTCDifficultyIfNeeded();
+      recalc();
+    });
+
+    el.vs.addEventListener('change', async ()=>{
+      state.vs = el.vs.value;
+      await fetchPrice();
+      recalc();
+    });
+
+    el.netMode.addEventListener('change', ()=>{
+      state.netMode = el.netMode.value;
+      el.netLabel.textContent = state.netMode === 'difficulty' ? 'Network Difficulty' : 'Network Hashrate (H/s)';
+      toggleDiffAuto(COIN_META[state.coin].diffAuto);
+      fetchBTCDifficultyIfNeeded();
+      recalc();
+    });
+
+    [el.price, el.hash, el.hashUnit, el.power, el.netVal, el.blockReward, el.blockTime, el.fee, el.uptime, el.elec, el.hwCost]
+      .forEach(inp => inp.addEventListener('input', debounce(recalc, 120)));
+
+    el.calcBtn.addEventListener('click', recalc);
+    el.resetBtn.addEventListener('click', ()=>{
+      localStorage.removeItem('mc:coin');
+      localStorage.removeItem('mc:vs');
+      localStorage.removeItem('mc:netMode');
+      localStorage.removeItem('mc:hashUnit');
+      localStorage.removeItem('mc:fee');
+      localStorage.removeItem('mc:uptime');
+      localStorage.removeItem('mc:elec');
+      history.replaceState({}, '', location.pathname);
+      location.reload();
+    });
+    el.applyPreset.addEventListener('click', applyPresetDialog);
+    el.csvBtn.addEventListener('click', ()=>{
+      const csv = toCSV();
+      const blob = new Blob([csv], { type:'text/csv' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'mining-profit-calculation.csv';
+      a.click();
+      URL.revokeObjectURL(a.href);
+    });
+    el.shareBtn.addEventListener('click', shareLink);
+
+    // --- Init ---
+    loadFromURL();
+    setInputsFromMeta();
+    await fetchPrice();
+    await fetchBTCDifficultyIfNeeded();
+    recalc();
+  </script>
+
+</body>
+</html>
