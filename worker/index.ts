@@ -303,9 +303,30 @@ async function serveSite(req: Request, env: Env): Promise<Response> {
     return Response.redirect(url.toString(), 301);
   }
 
-  // 2) Try as-is from assets
+  // 2) Try as-is from assets (and inject ads into HTML responses)
   let res = await env.ASSETS.fetch(req);
-  if (res.status !== 404) return res;
+  if (res.status !== 404) {
+    // Inject AdSense loader + a single ad slot on every HTML page if missing
+    const ct = res.headers.get("Content-Type") || "";
+    const isHTML = ct.includes("text/html");
+    if (isHTML) {
+      const html = await res.text();
+      const hasLoader = html.includes("pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617");
+      const hasSlot = html.includes("class=\"adsbygoogle\"");
+      const loaderTag = `<script async src=\"https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617\" crossorigin=\"anonymous\"></script>`;
+      const slotHtml = `\n  <ins class=\"adsbygoogle\" style=\"display:inline-block;width:500px;height:50px\" data-ad-client=\"ca-pub-6216304334889617\" data-ad-slot=\"9810172647\"></ins>\n  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>\n`;
+      let out = html;
+      if (!hasLoader) {
+        out = out.replace(/<\/head>/i, `${loaderTag}\n</head>`);
+      }
+      if (!hasSlot) {
+        out = out.replace(/<body(\s[^>]*)?>/i, (m) => `${m}\n${slotHtml}`);
+      }
+      const hdrs = new Headers(res.headers);
+      return new Response(out, { status: res.status, statusText: res.statusText, headers: hdrs });
+    }
+    return res;
+  }
 
   // 3) If 404 and looks like a directory (no dot, no trailing slash), try with trailing slash
   const hasDot = url.pathname.split("/").at(-1)?.includes(".") ?? false;

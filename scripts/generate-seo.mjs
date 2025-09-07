@@ -1,5 +1,5 @@
-import { mkdir, writeFile } from 'node:fs/promises';
-import { resolve } from 'node:path';
+import { mkdir, writeFile, readdir, stat } from 'node:fs/promises';
+import { resolve, relative, sep } from 'node:path';
 
 // Generate robots.txt and sitemap.xml at build time
 const outDir = resolve(process.cwd(), 'public');
@@ -8,54 +8,34 @@ await mkdir(outDir, { recursive: true });
 // The definitive URL for your site. No trailing slash.
 const siteUrl = 'https://www.uptools.in';
 const sitemapLoc = `${siteUrl}/sitemap.xml`;
-const paths = [
-  '/',
-  '/income-tax-tool/',
-  '/bmi-calculator/',
-  '/emi-calculator/',
-  '/fd-calculator/',
-  '/sip-calculator/',
-  '/age-calculator/',
-  '/image-tool/',
-  '/image-converter/',
-  '/unit-converter/',
-  '/password-generator/',
-  '/qr-generator/',
-  '/text-case-converter/',
-  '/word-counter/',
-  '/json-formatter/',
-  '/base64-encoder/',
-  '/ip-address/',
-  '/uuid-generator/',
-  '/gst-calculator/',
-  '/currency-converter/',
-  '/canada-hst-tool/',
-  '/canada-crs-tool/',
-  '/pan-validator/',
-  '/ifsc-finder/',
-  '/color-picker/',
-  '/wifi-router/',
-  '/qr-reader/',
-  '/whatsapp-chat/',
-  '/whatsapp-stickers/',
-  '/exif-tool/',
-  '/ai-writer/',
-  '/ai-plagiarism/',
-  '/resume-analyzer/',
-  '/pnl-calculator/',
-  '/crypto-prices/',
-  '/about/',
-  '/contact/',
-  '/privacy-policy/',
-  '/games/',
-  '/games/tic-tac-toe/',
-  '/games/memory-match/',
-  '/games/snake/',
-  '/games/number-guessing/',
-  '/games/color-rush/',
-  '/games/sudoku/',
-  '/games/love-test/',
-];
+// Discover all directories containing an index.html and add them to the sitemap automatically.
+const ROOT = process.cwd();
+const IGNORE = new Set([
+  '.git', 'node_modules', 'dist', 'public', '.vscode', '.wrangler', 'assets', 'scripts', 'worker'
+]);
+
+async function walk(dir, out) {
+  const items = await readdir(dir, { withFileTypes: true });
+  const names = new Set(items.map(d => d.name));
+  // If this directory has index.html, include it
+  if (names.has('index.html')) {
+    const rel = relative(ROOT, dir).split(sep).join('/');
+    const path = rel === '' ? '/' : `/${rel}/`;
+    out.add(path);
+  }
+  for (const it of items) {
+    if (!it.isDirectory()) continue;
+    if (IGNORE.has(it.name) || it.name.startsWith('.')) continue;
+    await walk(resolve(dir, it.name), out);
+  }
+}
+
+const pathSet = new Set();
+await walk(ROOT, pathSet);
+// Ensure homepage present
+pathSet.add('/');
+// Convert to sorted list; prioritize shorter paths first for readability
+const paths = Array.from(pathSet).sort((a,b)=>a.localeCompare(b));
 
 // Default attributes for sitemap entries
 const defaultPriority = 0.6;
@@ -76,6 +56,9 @@ const entries = paths.map(path => {
   } else if (path.includes('currency') || path.includes('crypto-prices')) {
     priority = 0.8;
     changefreq = 'daily';
+  } else if (path.includes('crypto-portfolio') || path.includes('crypto-profitability')) {
+    priority = 0.8;
+    changefreq = 'weekly';
   } else if (path.includes('games/')) {
     priority = 0.6;
     changefreq = 'monthly';
