@@ -319,7 +319,16 @@ async function serveSite(req: Request, env: Env): Promise<Response> {
     return Response.redirect(url.toString(), 301);
   }
 
-  // 2) Try as-is from assets (and inject ads into HTML responses)
+  // 2) Enforce trailing slash for directory-style routes: if no dot and no trailing slash, 301 to add '/'
+  const hasDot = url.pathname.split("/").at(-1)?.includes(".") ?? false;
+  const looksDir = !hasDot && !url.pathname.endsWith("/");
+  if (looksDir) {
+    const u2 = new URL(req.url);
+    u2.pathname = u2.pathname + "/";
+    return Response.redirect(u2.toString(), 301);
+  }
+
+  // 3) Try as-is from assets (and inject ads into HTML responses)
   let res = await env.ASSETS.fetch(req);
   if (res.status !== 404) {
     // Inject AdSense loader + a single ad slot on every HTML page if missing
@@ -344,8 +353,7 @@ async function serveSite(req: Request, env: Env): Promise<Response> {
     return res;
   }
 
-  // 3) If 404 and looks like a directory (no dot, no trailing slash), try with trailing slash
-  const hasDot = url.pathname.split("/").at(-1)?.includes(".") ?? false;
+  // 4) If 404 and looks like a directory without slash (defense-in-depth), try with trailing slash
   if (!hasDot && !url.pathname.endsWith("/")) {
     const u2 = new URL(req.url);
     u2.pathname = u2.pathname + "/";
@@ -353,7 +361,7 @@ async function serveSite(req: Request, env: Env): Promise<Response> {
     if (res.status !== 404) return res;
   }
 
-  // 4) Still 404 → if it's a browser navigation (HTML), 302 → homepage; otherwise keep the 404 for assets
+  // 5) Still 404 → if it's a browser navigation (HTML), 302 → homepage; otherwise keep the 404 for assets
   if (wantsHTML(req)) {
     const home = new URL(req.url);
     home.pathname = "/";
