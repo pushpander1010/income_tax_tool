@@ -303,6 +303,22 @@ async function serveSite(req: Request, env: Env): Promise<Response> {
     return Response.redirect(url.toString(), 301);
   }
 
+  // 1b) Collapse duplicate slashes in path (e.g., `//about/` -> `/about/`)
+  if (/\/{2,}/.test(url.pathname)) {
+    url.pathname = url.pathname.replace(/\/{2,}/g, "/");
+    return Response.redirect(url.toString(), 301);
+  }
+
+  // 1c) Canonical redirects for renamed routes
+  if (url.pathname === "/crypto-mining-calculator/" || url.pathname === "/crypto-mining-calculator") {
+    url.pathname = "/crypto-profitability/";
+    return Response.redirect(url.toString(), 301);
+  }
+  if (url.pathname === "/crypto-portfolio-tracker/" || url.pathname === "/crypto-portfolio-tracker") {
+    url.pathname = "/crypto-portfolio/";
+    return Response.redirect(url.toString(), 301);
+  }
+
   // 2) Try as-is from assets (and inject ads into HTML responses)
   let res = await env.ASSETS.fetch(req);
   if (res.status !== 404) {
