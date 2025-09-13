@@ -338,14 +338,19 @@ async function serveSite(req: Request, env: Env): Promise<Response> {
       const html = await res.text();
       const hasLoader = html.includes("pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617");
       const hasSlot = html.includes("class=\"adsbygoogle\"");
+      const hasOrg = /"@type"\s*:\s*"Organization"/i.test(html);
       const loaderTag = `<script async src=\"https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617\" crossorigin=\"anonymous\"></script>`;
       const slotHtml = `\n  <ins class=\"adsbygoogle\" style=\"display:inline-block;width:500px;height:50px\" data-ad-client=\"ca-pub-6216304334889617\" data-ad-slot=\"9810172647\"></ins>\n  <script>(adsbygoogle=window.adsbygoogle||[]).push({});</script>\n`;
+      const orgJson = `<script type=\"application/ld+json\">{\n  \"@context\": \"https://schema.org\",\n  \"@type\": \"Organization\",\n  \"name\": \"UpTools\",\n  \"url\": \"https://www.uptools.in/\",\n  \"logo\": \"https://www.uptools.in/assets/logo/uptools-logo.svg\"\n}</script>`;
       let out = html;
       if (!hasLoader) {
         out = out.replace(/<\/head>/i, `${loaderTag}\n</head>`);
       }
       if (!hasSlot) {
         out = out.replace(/<body(\s[^>]*)?>/i, (m) => `${m}\n${slotHtml}`);
+      }
+      if (!hasOrg) {
+        out = out.replace(/<\/head>/i, `${orgJson}\n</head>`);
       }
       const hdrs = new Headers(res.headers);
       return new Response(out, { status: res.status, statusText: res.statusText, headers: hdrs });
