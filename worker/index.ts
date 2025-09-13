@@ -361,6 +361,18 @@ async function serveSite(req: Request, env: Env): Promise<Response> {
     }
     return res;
   }
+  // If missing OG image under /assets/og/, serve default
+  if (url.pathname.startsWith('/assets/og/')) {
+    const def = new URL(req.url);
+    def.pathname = '/assets/og/default.png';
+    const fallback = await env.ASSETS.fetch(new Request(def.toString(), req));
+    if (fallback.ok) {
+      const hdrs = new Headers(fallback.headers);
+      hdrs.set('Content-Type', 'image/png');
+      hdrs.set('Cache-Control', 'public, max-age=31536000, immutable');
+      return new Response(fallback.body, { status: 200, headers: hdrs });
+    }
+  }
 
   // 4) If 404 and looks like a directory without slash (defense-in-depth), try with trailing slash
   if (!hasDot && !url.pathname.endsWith("/")) {

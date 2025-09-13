@@ -44,3 +44,7 @@
 
 /qr-reader/*
   Permissions-Policy: camera=(self), microphone=()
+
+# Fallback for missing OG images (served via Worker): ensure bots can fetch a default
+/assets/og/default.png
+  Cache-Control: public, max-age=31536000, immutable
