@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 
 <html lang="en">
 
@@ -50,7 +50,7 @@
 
   <meta name="proxy" content="">
 
-  <!-- Page-specific CSS: Dark Neon Gold “Money” Theme -->
+  <!-- Page-specific CSS: Dark Neon Gold â€œMoneyâ€ Theme -->
 
   <style>
     :root{
@@ -280,7 +280,7 @@
       </div>
 
       <div class="row">
-        <label class="label" for="day">Contribution Day (1–28)</label>
+        <label class="label" for="day">Contribution Day (1â€“28)</label>
         <input id="day" class="input" type="number" min="1" max="28" step="1" inputmode="numeric" placeholder="15">
       </div>
     </div>
@@ -313,14 +313,14 @@
           <button type="button" class="pill" data-symbol="^NSEBANK" aria-pressed="false" title="Nifty Bank (^NSEBANK)">Nifty Bank</button>
           <button type="button" class="pill" data-symbol="^BSESN" aria-pressed="false" title="SENSEX (^BSESN)">SENSEX</button>
         </div>
-        <p class="small" style="margin:8px 0 0">Tip: We compute historical CAGR from the selected index’s price series for the chosen period.</p>
+        <p class="small" style="margin:8px 0 0">Tip: We compute historical CAGR from the selected indexâ€™s price series for the chosen period.</p>
       </div>
 
       <!-- Mutual fund search -->
       <div id="mfBox" class="note em" style="margin-top:10px; display:none">
         <label class="label" for="mfSearch">Search Mutual Fund (Direct-Growth recommended)</label>
         <input id="mfSearch" class="input" type="search" placeholder="e.g., SBI Nifty 50 Index Fund Direct Growth" autocomplete="off" aria-describedby="mfHelp">
-        <div id="mfHelp" class="small muted">Type at least 2 letters—near matches and typos are okay.</div>
+        <div id="mfHelp" class="small muted">Type at least 2 lettersâ€”near matches and typos are okay.</div>
         <div id="mfSuggest" class="small" style="margin-top:6px" aria-live="polite"></div>
         <p class="small" style="margin:8px 0 0">Source: <a href="https://www.mfapi.in/" target="_blank" rel="noopener nofollow">MFAPI.in</a>. We compute NAV-based CAGR for the selected period.</p>
       </div>
@@ -335,7 +335,7 @@
       <button id="csv" class="btn secondary" type="button">Download CSV</button>
     </div>
 
-    <p class="note small" style="margin-top:8px">Disclaimer: Auto rates are historical CAGR for the selected asset and period. Markets are volatile; past returns don’t guarantee future results.</p>
+    <p class="note small" style="margin-top:8px">Disclaimer: Auto rates are historical CAGR for the selected asset and period. Markets are volatile; past returns donâ€™t guarantee future results.</p>
   </div>
 
   <!-- RIGHT: OUTPUT -->
@@ -376,11 +376,18 @@
 </section>
 
 <footer class="note small" style="margin-top:6px">
-  <span>© <span id="yr"></span> <a href="/" title="UpTools Home">UpTools</a> · Finance utilities that respect your privacy</span>
-  <span><a href="/#tools">All Tools</a> · <a href="/about/">ABT</a> · <a href="/contact/">CT</a></span>
+  <span>Â© <span id="yr"></span> <a href="/" title="UpTools Home">UpTools</a> Â· Finance utilities that respect your privacy</span>
+  <span><a href="/#tools">All Tools</a> Â· <a href="/about/">ABT</a> Â· <a href="/contact/">CT</a></span>
 </footer>
 
-  </main>
+      <section class="card" style="margin-top:16px">
+      <h2>How this SIP calculator works</h2>
+      <p>SIP future value is computed as FV = P × [((1 + r)^n − 1) / r] × (1 + r), where P is monthly investment, r is monthly return (annual/12/100), and n is total months. Step-up (if any) increases P at the chosen rate each year.</p>
+      <h3>Example</h3>
+      <p>₹5,000/month for 10 years at 12% p.a. → r = 0.12/12. FV ≈ ₹11.6 lakh.</p>
+      <p>You can pull historical CAGR from indices or mutual funds to prefill the expected return.</p>
+      <p class="note">Related tools: <a href="/fd-calculator/">FD Calculator</a> · <a href="/emi-calculator/">EMI Calculator</a> · <a href="/currency-converter/">Currency Converter</a></p>
+    </section></main>
 
   <!-- Common utilities (applies sitewide) -->
 
@@ -402,7 +409,7 @@
     // === Header year ===
     $('yr').textContent = new Date().getFullYear();
 
-    // === FULLSCREEN MONEY BACKGROUND (coins + ₹ glyphs) ===
+    // === FULLSCREEN MONEY BACKGROUND (coins + â‚¹ glyphs) ===
     (function moneyBg(){
       try{
         if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -434,7 +441,7 @@
           a:rnd(0, Math.PI*2),
           s:rnd(.04, .18),
           o:rnd(.25,.75),
-          t: Math.random()<0.25 ? '₹' : 'dot',
+          t: Math.random()<0.25 ? 'â‚¹' : 'dot',
           hue: pick(GOLD),
           spin:rnd(-0.002,0.002)
         });
@@ -466,17 +473,17 @@
               g.addColorStop(1, '#00000000');
               ctx.fillStyle=g; ctx.beginPath(); ctx.arc(p.x,p.y,p.r*5,0,Math.PI*2); ctx.fill();
             } else {
-              // neon ₹ symbol
+              // neon â‚¹ symbol
               ctx.save();
               ctx.translate(p.x,p.y); ctx.rotate(p.a*.15);
               ctx.globalAlpha = p.o;
               ctx.font = `${10 + p.r*3}px system-ui, -apple-system, Segoe UI, Roboto`;
               ctx.shadowBlur = 8; ctx.shadowColor = GOLD[0];
               ctx.fillStyle = GOLD[1];
-              ctx.fillText('₹', -4, 4);
+              ctx.fillText('â‚¹', -4, 4);
               ctx.shadowBlur = 16; ctx.shadowColor = MINT;
               ctx.globalAlpha *= .35;
-              ctx.fillText('₹', -4, 4);
+              ctx.fillText('â‚¹', -4, 4);
               ctx.restore();
             }
           }
@@ -737,7 +744,7 @@
     const deb = window.utils?.debounce || ((fn, t=250) => { let to; return (...a)=>{ clearTimeout(to); to=setTimeout(()=>fn(...a), t); }; });
 
     const renderMFList = (list) => {
-      if (!list.length) { MF_SUGGEST.innerHTML = `<span class="muted">No suggestions yet—try more letters (e.g., "index direct growth").</span>`; return; }
+      if (!list.length) { MF_SUGGEST.innerHTML = `<span class="muted">No suggestions yetâ€”try more letters (e.g., "index direct growth").</span>`; return; }
       const safe = (s)=>String(s).replace(/[&<>"]/g, m=>({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
       MF_SUGGEST.innerHTML = list.map(x => `<button type="button" class="pill" data-code="${safe(x.code)}" title="${safe(x.name)}">${safe(x.name)}</button>`).join(' ');
     };
@@ -747,7 +754,7 @@
       const q = MF_SEARCH.value || '';
       if (q.trim().length < 2) { MF_SUGGEST.innerHTML = ''; return; }
       try {
-        MF_SUGGEST.textContent = 'Searching…';
+        MF_SUGGEST.textContent = 'Searchingâ€¦';
         const list = await mfSearchFuzzy(q);
         renderMFList(list);
       } catch (_err) {
@@ -772,7 +779,7 @@
     // Fetch CAGR button
     FETCH.addEventListener('click', async () => {
       const src = SRC.value, years = +PERIOD.value || 5;
-      SRC_INFO.textContent = 'Working…';
+      SRC_INFO.textContent = 'Workingâ€¦';
       try {
         if (src === 'index') {
           const active = INDEX_BOX.querySelector('.pill[aria-pressed="true"]')?.dataset?.symbol || '^NSEI';
@@ -801,7 +808,7 @@
 
     // === Real-time Inflation (World Bank CPI inflation, annual %) ===
     async function fetchLatestInflationISO3(iso3){
-      // World Bank: FP.CPI.TOTL.ZG (Inflation, consumer prices – annual %)
+      // World Bank: FP.CPI.TOTL.ZG (Inflation, consumer prices â€“ annual %)
       const url = `https://api.worldbank.org/v2/country/${encodeURIComponent(iso3)}/indicator/FP.CPI.TOTL.ZG?format=json`;
       const j = await fetchJSONPreferProxy(url);
       const rows = Array.isArray(j) && j[1] ? j[1] : [];
@@ -816,7 +823,7 @@
     }
 
     FETCH_INFL?.addEventListener('click', async ()=>{
-      INF_INFO.textContent = 'Fetching inflation…';
+      INF_INFO.textContent = 'Fetching inflationâ€¦';
       try{
         const iso = INF_COUNTRY.value || 'IND';
         const { value, year } = await fetchLatestInflationISO3(iso);
@@ -853,7 +860,7 @@
         const a = +A.value || 0, r = +R.value || 0, y = +Y.value || 0, step = +STEP.value || 0, infl = +INF.value || 0;
         if (!(a > 0 && r >= 0 && y > 0)) return;
         const res = calcSIP({ amt: a, rateAnnual: r, years: y, stepUpPct: step, inflAnnual: infl });
-        let csv = "Year,Total Invested (₹),Value (₹)\n";
+        let csv = "Year,Total Invested (â‚¹),Value (â‚¹)\n";
         res.series.forEach((p, i) => csv += `${i + 1},${Math.round(p.invested)},${Math.round(p.value)}\n`);
         const blob = new Blob([csv], { type: "text/csv;charset=utf-8" }); const url = URL.createObjectURL(blob);
         const aTag = document.createElement('a'); aTag.href = url; aTag.download = 'sip_schedule.csv'; aTag.click(); URL.revokeObjectURL(url);

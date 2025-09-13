@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
 
 <head>
@@ -116,8 +116,7 @@
         placeholder="e.g., 1200000" required>
 
       <div class="row" style="border:0; padding:0; margin-top:12px; gap:12px">
-        <label class="check"><input id="includeStdDeduction" type="checkbox" checked> <span>Include standard deduction
-            (₹50,000)</span></label>
+        <label class="check"><input id="includeStdDeduction" type="checkbox" checked> <span>Include standard deduction (₹50,000)</span></label>
         <label class="check"><input id="surchargeToggle" type="checkbox"> <span>Apply surcharge if
             applicable</span></label>
       </div>
@@ -134,14 +133,14 @@
         <strong>Old Regime Deductions</strong>
         <p class="note">These apply only in the Old regime. They'll be ignored automatically under the New regime.</p>
 
-        <label class="label" for="sec80c">Section 80C (₹, max 1,50,000)</label>
+        <label class="label" for="sec80c">Section 80C (max ₹1,50,000)</label>
         <input id="sec80c" class="input" type="number" min="0" step="1000"
           placeholder="EPF/PPF/ELSS/Life insurance etc.">
 
         <label class="label" for="sec80d">Section 80D - Health Insurance (₹)</label>
         <input id="sec80d" class="input" type="number" min="0" step="1000" placeholder="Self/family/premium paid">
 
-        <label class="label" for="nps1b">NPS (80CCD(1B)) (₹, max 50,000)</label>
+        <label class="label" for="nps1b">NPS (80CCD(1B)) (max ₹50,000)</label>
         <input id="nps1b" class="input" type="number" min="0" step="1000" placeholder="Additional NPS contribution">
 
         <div class="row" style="border:0; padding:0; margin-top:12px"></div>
@@ -162,7 +161,7 @@
 
         <div class="row" style="border:0; padding:0; margin-top:12px"></div>
         <strong>Home Loan Interest (Self-occupied)</strong>
-        <p class="note">Old regime only. Max set-off against income is generally ₹2,00,000 per year.</p>
+        <p class="note">Old regime only. Max set-off against income is generally â‚¹2,00,000 per year.</p>
         <label class="label" for="homeLoanInt">Interest paid (₹/year)</label>
         <input id="homeLoanInt" class="input" type="number" min="0" step="1000" placeholder="e.g., 150000">
       </div>
@@ -180,15 +179,13 @@
 
     <section class="card" style="margin-top:16px">
       <h2 class="sr-only">Notes</h2>
-      <p class="note">This tool uses FY 2024-25 (AY 2025-26) slabs, 4% Health & Education Cess, 87A rebate (₹7L new /
-        ₹5L old), and optional surcharge thresholds. Old-regime deductions are capped per Income-tax rules (e.g., 80C
-        ₹1.5L, NPS 80CCD(1B) ₹50k, HRA min rule, home-loan interest set-off up to ₹2L for self-occupied). Calculations
+      <p class="note">This tool uses FY 2024-25 (AY 2025-26) slabs, 4% Health & Education Cess, 87A rebate (â‚¹7L new /
+        â‚¹5L old), and optional surcharge thresholds. Old-regime deductions are capped per Income-tax rules (e.g., 80C
+        â‚¹1.5L, NPS 80CCD(1B) â‚¹50k, HRA min rule, home-loan interest set-off up to ₹2,00,000 for self-occupied). Calculations
         are indicative.</p>
     </section>
 
-    <footer class="note small site-footer" role="contentinfo">
-      © <span id="y"></span> UpTools · <a href="/sitemap.xml">Sitemap</a>
-    </footer>
+    <footer class="note small site-footer" role="contentinfo">© <span id="y"></span> UpTools · <a href="/sitemap.xml">Sitemap</a></footer>
   </main>
 
   <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
@@ -220,10 +217,10 @@
     // Surcharge thresholds (approx, India)
     // Note: Highest surcharge under NEW regime capped at 25%.
     const SURCHARGE_BRACKETS = [
-      { over: 50000000, rateOld: 0.10, rateNew: 0.10 }, // > ₹50L
-      { over: 100000000, rateOld: 0.15, rateNew: 0.15 }, // > ₹1cr
-      { over: 200000000, rateOld: 0.25, rateNew: 0.25 }, // > ₹2cr
-      { over: 500000000, rateOld: 0.37, rateNew: 0.25 }  // > ₹5cr (Old 37%, New capped 25%)
+      { over: 5000000, rateOld: 0.10, rateNew: 0.10 }, // > â‚¹50L
+      { over: 10000000, rateOld: 0.15, rateNew: 0.15 }, // > â‚¹1cr
+      { over: 20000000, rateOld: 0.25, rateNew: 0.25 }, // > â‚¹2cr
+      { over: 50000000, rateOld: 0.37, rateNew: 0.25 }  // > â‚¹5cr (Old 37%, New capped 25%)
     ];
 
     const rs = n => new Intl.NumberFormat('en-IN', { maximumFractionDigits: 0 }).format(Math.round(n || 0));
@@ -366,12 +363,12 @@
       const newCard = results.new ? `
       <div class="card" style="margin-top:12px">
         <h3 style="margin-top:0">New Regime</h3>
-        <div class="row"><span>Taxable Income</span><span>₹${rs(results.new.taxable)}</span></div>
-        <div class="row"><span>Basic Tax</span><span>₹${rs(results.new.basicTax)}</span></div>
-        ${results.new.surcharge ? `<div class="row"><span>Surcharge</span><span>₹${rs(results.new.surcharge)}</span></div>` : ''}
-        <div class="row"><span>Cess (4%)</span><span>₹${rs(results.new.cess)}</span></div>
-        <div class="row total"><span>Total Tax</span><span>₹${rs(results.new.total)}</span></div>
-        <div class="row"><span>Monthly TDS</span><span>₹${rs(results.new.mtds)}</span></div>
+        <div class="row"><span>Taxable Income</span><span>â‚¹${rs(results.new.taxable)}</span></div>
+        <div class="row"><span>Basic Tax</span><span>â‚¹${rs(results.new.basicTax)}</span></div>
+        ${results.new.surcharge ? `<div class="row"><span>Surcharge</span><span>â‚¹${rs(results.new.surcharge)}</span></div>` : ''}
+        <div class="row"><span>Cess (4%)</span><span>â‚¹${rs(results.new.cess)}</span></div>
+        <div class="row total"><span>Total Tax</span><span>â‚¹${rs(results.new.total)}</span></div>
+        <div class="row"><span>Monthly TDS</span><span>â‚¹${rs(results.new.mtds)}</span></div>
         <div class="row"><span>Effective Tax Rate</span><span>${results.new.effRate.toFixed(2)}%</span></div>
       </div>` : '';
 
@@ -379,22 +376,22 @@
       const oldCard = results.old ? `
       <div class="card" style="margin-top:12px">
         <h3 style="margin-top:0">Old Regime</h3>
-        <div class="row"><span>Taxable Income</span><span>₹${rs(results.old.taxable)}</span></div>
-        <div class="row"><span>Basic Tax</span><span>₹${rs(results.old.basicTax)}</span></div>
-        ${results.old.surcharge ? `<div class="row"><span>Surcharge</span><span>₹${rs(results.old.surcharge)}</span></div>` : ''}
-        <div class="row"><span>Cess (4%)</span><span>₹${rs(results.old.cess)}</span></div>
-        <div class="row total"><span>Total Tax</span><span>₹${rs(results.old.total)}</span></div>
-        <div class="row"><span>Monthly TDS</span><span>₹${rs(results.old.mtds)}</span></div>
+        <div class="row"><span>Taxable Income</span><span>â‚¹${rs(results.old.taxable)}</span></div>
+        <div class="row"><span>Basic Tax</span><span>â‚¹${rs(results.old.basicTax)}</span></div>
+        ${results.old.surcharge ? `<div class="row"><span>Surcharge</span><span>â‚¹${rs(results.old.surcharge)}</span></div>` : ''}
+        <div class="row"><span>Cess (4%)</span><span>â‚¹${rs(results.old.cess)}</span></div>
+        <div class="row total"><span>Total Tax</span><span>â‚¹${rs(results.old.total)}</span></div>
+        <div class="row"><span>Monthly TDS</span><span>â‚¹${rs(results.old.mtds)}</span></div>
         <div class="row"><span>Effective Tax Rate</span><span>${results.old.effRate.toFixed(2)}%</span></div>
         <div class="note" style="margin-top:8px">
           <strong>Deductions used (Old):</strong>
           <ul style="margin:6px 0 0 18px">
-            <li>80C: ₹${rs(oldD.sec80c)} (max 1,50,000)</li>
-            <li>80D: ₹${rs(oldD.sec80d)}</li>
-            <li>NPS 80CCD(1B): ₹${rs(oldD.nps1b)} (max 50,000)</li>
-            <li>HRA exemption: ₹${rs(oldD.hra)}</li>
-            <li>Home-loan interest set-off: ₹${rs(oldD.homeLoan)}</li>
-            ${includeStd ? `<li>Standard deduction: ₹${rs(STD_DED)}</li>` : ``}
+            <li>80C: â‚¹${rs(oldD.sec80c)} (max 1,50,000)</li>
+            <li>80D: â‚¹${rs(oldD.sec80d)}</li>
+            <li>NPS 80CCD(1B): â‚¹${rs(oldD.nps1b)} (max 50,000)</li>
+            <li>HRA exemption: â‚¹${rs(oldD.hra)}</li>
+            <li>Home-loan interest set-off: â‚¹${rs(oldD.homeLoan)}</li>
+            ${includeStd ? `<li>Standard deduction: â‚¹${rs(STD_DED)}</li>` : ``}
           </ul>
         </div>
       </div>` : '';
@@ -402,8 +399,8 @@
       el.innerHTML = `
       <div class="card" style="margin-top:0">
         <h3 style="margin-top:0">Summary</h3>
-        <div class="row"><span>Gross Income</span><span>₹${rs(income)}</span></div>
-        ${includeStd ? `<div class="row"><span>Standard Deduction</span><span>₹${rs(STD_DED)}</span></div>` : ''}
+        <div class="row"><span>Gross Income</span><span>â‚¹${rs(income)}</span></div>
+        ${includeStd ? `<div class="row"><span>Standard Deduction</span><span>â‚¹${rs(STD_DED)}</span></div>` : ''}
         ${compare}
       </div>
       <div style="display:grid; gap:12px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">

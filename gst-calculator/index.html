@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
 <head>
   <!-- Google Ads (kept single + async). Slot is injected later only if available to avoid CLS. -->
@@ -65,7 +65,7 @@
       {"@type":"Question","name":"How do I calculate GST from a GST-inclusive amount?","acceptedAnswer":{"@type":"Answer","text":"Tick 'Amount is GST-inclusive', select the GST rate, and the calculator will back-calculate the base and GST (for 18% inclusive, base = amount/1.18; GST = total - base)."}},
       {"@type":"Question","name":"What's the difference between CGST+SGST and IGST?","acceptedAnswer":{"@type":"Answer","text":"For intra-state supplies, GST splits equally into CGST and SGST. For inter-state supplies, IGST applies. The calculator displays the split automatically based on your selection."}},
       {"@type":"Question","name":"Can I use a custom GST rate?","acceptedAnswer":{"@type":"Answer","text":"Yes. Pick 'Custom' and enter any rate (e.g., 3% or 7.5%)."}},
-      {"@type":"Question","name":"Can I round to the nearest rupee?","acceptedAnswer":{"@type":"Answer","text":"Yes. Choose 'Nearest ₹1' to round figures to whole rupees; choose 'Paise (2 decimals)' to keep paise."}}
+      {"@type":"Question","name":"Can I round to the Nearest ₹1' to round figures to whole rupees; choose 'Paise (2 decimals)' to keep paise."}}
     ]
   }
   </script>
@@ -95,7 +95,7 @@
       <div>
         <h1 style="margin:0">GST Calculator (India)</h1>
         <p class="note" style="margin:2px 0 0">
-          Inclusive/Exclusive • CGST/SGST/IGST split • Rounding • Presets • Share • CSV • Recent history
+          Inclusive/Exclusive â€¢ CGST/SGST/IGST split â€¢ Rounding â€¢ Presets â€¢ Share â€¢ CSV â€¢ Recent history
         </p>
       </div>
     </div>
@@ -142,7 +142,7 @@
             <option value="12">12%</option>
             <option value="18" selected>18%</option>
             <option value="28">28%</option>
-            <option value="custom">Custom…</option>
+            <option value="custom">Customâ€¦</option>
           </select>
           <div id="customRateWrap" class="hidden">
             <label class="label" for="customRate">Custom rate (%)</label>
@@ -225,7 +225,7 @@
     </aside>
 
     <footer class="note small site-footer" role="contentinfo">
-      © <span id="y"></span> UpTools · <a href="/sitemap.xml">Sitemap</a> · <a href="/about/">About</a> · <a href="/contact/">Contact</a>
+      Â© <span id="y"></span> UpTools Â· <a href="/sitemap.xml">Sitemap</a> Â· <a href="/about/">About</a> Â· <a href="/contact/">Contact</a>
     </footer>
   </main>
 
@@ -383,8 +383,8 @@
                 <a href="/gst-calculator/?amt=${encodeURIComponent(it.amt)}&rate=${encodeURIComponent(it.rate)}&custom=${encodeURIComponent(it.custom)}&inc=${it.inc}&supply=${it.supply}&round=${it.round}">
                   <span class="ico">%</span>
                   <div>
-                    <div><b>${it.inc ? 'Incl' : 'Excl'}</b> · ${it.supply==='intra'?'CGST+SGST':'IGST'} · ${fmtNum(it.rate)}%</div>
-                    <div class="muted">₹${fmtNum(it.amt)} → Base ${fmtCur(it.base)} · GST ${fmtCur(it.gst)} · Total ${fmtCur(it.total)}</div>
+                    <div><b>${it.inc ? 'Incl' : 'Excl'}</b> Â· ${it.supply==='intra'?'CGST+SGST':'IGST'} Â· ${fmtNum(it.rate)}%</div>
+                    <div class="muted">â‚¹${fmtNum(it.amt)} â†’ Base ${fmtCur(it.base)} Â· GST ${fmtCur(it.gst)} Â· Total ${fmtCur(it.total)}</div>
                   </div>
                 </a>
               </li>`).join('')}

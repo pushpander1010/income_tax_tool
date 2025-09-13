@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
 <head>
   <!-- Core meta -->
@@ -163,7 +163,7 @@
             <label class="label" for="from">From</label>
             <select id="from" class="input" aria-label="From currency"></select>
           </div>
-          <button id="swap" class="btn secondary swap" title="Swap From/To" aria-label="Swap">⇅</button>
+          <button id="swap" class="btn secondary swap" title="Swap From/To" aria-label="Swap">⇄</button>
           <div style="flex:1">
             <label class="label" for="to">To</label>
             <select id="to" class="input" aria-label="To currency"></select>
@@ -222,16 +222,20 @@
           referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
       </div>
       <div class="note" style="margin-top:10px">
-        Explore more: <span class="ico">IT</span> <a href="/income-tax-tool/">Income Tax Calculator</a> ·
-        <span class="ico">EMI</span> <a href="/emi-calculator/">EMI Calculator</a> ·
-        <span class="ico">GST</span> <a href="/gst-calculator/">GST Calculator</a> ·
+        Explore more: <span class="ico">IT</span> <a href="/income-tax-tool/">Income Tax Calculator</a> Â·
+        <span class="ico">EMI</span> <a href="/emi-calculator/">EMI Calculator</a> Â·
+        <span class="ico">GST</span> <a href="/gst-calculator/">GST Calculator</a> Â·
         <span class="ico">JS</span> <a href="/json-formatter/">JSON Formatter</a>
       </div>
     </section>
 
-    <footer class="note small site-footer">© <span id="y"></span> UpTools · <a href="/sitemap.xml">Sitemap</a> · <a
+    <footer class="note small site-footer">Â© <span id="y"></span> UpTools Â· <a href="/sitemap.xml">Sitemap</a> Â· <a
         href="/privacy/">Privacy</a></footer>
-  </main>
+      <section class="card" style="margin-top:16px">
+      <h2>How this currency converter works</h2>
+      <p>It fetches a mid-market rate for the selected pair, optionally adds your fee/markup %, and computes the converted amount. Use Swap to flip From/To and Copy to share the result.</p>
+      <p class="note">Related tools: <a href="/gst-calculator/">GST Calculator</a> · <a href="/income-tax-tool/">Income Tax</a> · <a href="/emi-calculator/">EMI</a></p>
+    </section></main>
 
   <!-- Common utilities -->
   <script type="module">
@@ -314,7 +318,7 @@
       }
       try { return await host(); } catch {
         try { return await frank(); } catch {
-          // Proxy fallback (Cloudflare Worker at /api?url=…)
+          // Proxy fallback (Cloudflare Worker at /api?url=â€¦)
           const prox = await fetch(`/api?url=${encodeURIComponent(`https://api.exchangerate.host/latest?base=${base}&symbols=${quote}`)}`);
           const j = await prox.json();
           if (!j || !j.rates || !j.rates[quote]) throw new Error("rate");
@@ -369,7 +373,7 @@
         return;
       }
 
-      els.meta.textContent = "Fetching rate…";
+      els.meta.textContent = "Fetching rateâ€¦";
       try {
         const { rate, ts } = await getRate(base, quote);
         const feePct = Number(els.fee.value || 0) / 100;
@@ -414,8 +418,8 @@
       path.setAttribute("stroke", "var(--accent)");
       path.setAttribute("stroke-width", "2");
 
-      els.sparkStart.textContent = `${xs[0]} • ${nf().format(ys[0])}`;
-      els.sparkEnd.textContent = `${xs[xs.length - 1]} • ${nf().format(ys[ys.length - 1])}`;
+      els.sparkStart.textContent = `${xs[0]} â€¢ ${nf().format(ys[0])}`;
+      els.sparkEnd.textContent = `${xs[xs.length - 1]} â€¢ ${nf().format(ys[ys.length - 1])}`;
     }
 
     // Shareable link
@@ -450,7 +454,7 @@
     if (els.amt.value) runConvert();
   </script>
 
-  <!-- 🌐 Neon FX Background Animation (scoped; no global name clashes) -->
+  <!-- ðŸŒ Neon FX Background Animation (scoped; no global name clashes) -->
   <script type="module">
     (() => {
       const CANVAS = document.getElementById('fxCanvas');
@@ -460,7 +464,7 @@
 
       // Scoped names (no collision with converter)
       const FX_CODES = ["INR","USD","EUR","GBP","JPY","AED","CAD","AUD","SGD","CHF","CNY","HKD"];
-      const SYMBOLS  = ["₹","$","€","£","¥","₩","₺","₽"];
+      const SYMBOLS  = ["â‚¹","$","â‚¬","Â£","Â¥","â‚©","â‚º","â‚½"];
       const rand = (a,b)=> a + Math.random()*(b-a);
 
       function resize(){
