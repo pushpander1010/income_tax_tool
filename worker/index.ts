@@ -318,6 +318,10 @@ async function serveSite(req: Request, env: Env): Promise<Response> {
     url.pathname = "/crypto-portfolio/";
     return Response.redirect(url.toString(), 301);
   }
+  if (url.pathname === "/plagiarism-checker/" || url.pathname === "/plagiarism-checker") {
+    url.pathname = "/ai-plagiarism/";
+    return Response.redirect(url.toString(), 301);
+  }
 
   // 2) Enforce trailing slash for directory-style routes: if no dot and no trailing slash, 301 to add '/'
   const hasDot = url.pathname.split("/").at(-1)?.includes(".") ?? false;
