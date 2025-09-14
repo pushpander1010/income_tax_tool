@@ -308,7 +308,7 @@ User: Remove the background from this product image, keep soft shadow, white bac
               <label class="btn small"><input type="checkbox" class="select-prompt" hidden> Select</label>
             </div>
             <div class="result-pane" hidden>
-              Example Output: “Background removed, retained shadow via feathered mask; PNG 2048×2048 attached.”
+              Background removed, retained shadow via feathered mask; PNG 2048×2048 attached.”
             </div>
           </article>
           <article class="card" data-category="web" data-tags="advanced longform">
@@ -322,7 +322,7 @@ Task: Generate a responsive landing page with Vite, Tailwind, and Cloudflare Pag
               <button class="btn small open-ai">Open in AI</button>
               <label class="btn small"><input type="checkbox" class="select-prompt" hidden> Select</label>
             </div>
-            <div class="result-pane" hidden>Example Output: “index.html with structured data, canonical, preload, responsive grid, and CF-compatible asset paths.”</div>
+            <div class="result-pane" hidden>index.html with structured data, canonical, preload, responsive grid, and CF-compatible asset paths.”</div>
           </article>
           <!-- The rest are injected by JS -->
         </div>
@@ -720,6 +720,13 @@ Task: Generate a responsive landing page with Vite, Tailwind, and Cloudflare Pag
     // Extend categories with trending/everyday tasks
     CATS.image = [
       'Professional LinkedIn headshot (studio-style portrait)',
+      'Change outfit to formal business suit (jacket, shirt, tie; neutral palette; no logos)',
+      'Swap casual T-shirt to blazer + collared shirt (iron wrinkles; natural fit)',
+      'Add blazer/cardigan layer (color harmony, brand-safe, lint removal)',
+      'Saree drape restyle (classic Nivi; adjust blouse sleeves; minimal jewelry)',
+      'Kurta to formal shirt conversion (button alignment, collar shape, cuff fix)',
+      'T-shirt to polo conversion (fabric texture match, collar, sleeve hem)',
+      'Add dupatta/scarf styling for portrait (balanced composition, no pattern clash)',
       'LinkedIn headshot (neutral grey/blue gradient backdrop, soft key light)',
       'LinkedIn outdoor headshot (background blur, natural light)',
       'Traditional saree portrait (glamour / editorial / festive)',
@@ -803,26 +810,28 @@ Task: Generate a responsive landing page with Vite, Tailwind, and Cloudflare Pag
         data: '- 5 runnable examples\n- Expected outputs\n- Gotchas & tips',
         legal: '- 6–10 sections\n- TODO placeholders\n- Compliance notes'
       };
+      const attireGuides = (category === 'image' && /linkedin|headshot|attire|saree|portrait|outfit|ootd|professional/i.test(title))
+        ? '\nWardrobe/Styling:\n- Professional attire where relevant (solid neutrals, blazer/shirt; no logos/patterns)\n- Tidy hair; minimal jewelry; natural makeup\n- Remove wrinkles, lint, busy textures; keep consistent color palette' : '';
       return `System: You are ${roleMap[category]} producing production-ready outputs.
 Instructions:
-- Create a comprehensive solution for “${title}”.
+- Create a comprehensive solution for "${title}".
 - Be specific with values, ranges, and filenames.
-- If assumptions are needed, state them first as “Assumptions”.
+- If assumptions are needed, state them first as "Assumptions".
 Requirements:
-${reqCommon[category]}
+${reqCommon[category]}${attireGuides}
 Deliverables:
 ${deliverables[category]}`;
     }
 
     function exampleOutput(category, title){
       const ex = {
-        image: `Example Output: “Layered steps (1–7), mask feather 2–4px, export PNG 2048×2048, QA checklist passed.”`,
-        web: `Example Output: “index.html + assets/, OG meta, FAQPage JSON-LD, Lighthouse ≥95, deploy steps for CF Pages.”`,
-        seo: `Example Output: “FAQPage JSON-LD (validated), title/meta variants, internal links list, measurement plan.”`,
-        marketing: `Example Output: “15 RSA headline/desc variants grouped by Trust/Speed/Free; CTAs & test matrix.”`,
-        resume: `Example Output: “ATS-optimized resume with quantified bullets, 150-char summary, skills matrix.”`,
-        data: `Example Output: “5 runnable snippets with expected outputs and brief notes.”`,
-        legal: `Example Output: “7-section draft with placeholders (COMPANY_NAME, ADDRESS), last-updated date.”`
+        image: `Layered steps (1–7), mask feather 2–4px, export PNG 2048×2048, QA checklist passed.”`,
+        web: `index.html + assets/, OG meta, FAQPage JSON-LD, Lighthouse ≥95, deploy steps for CF Pages.”`,
+        seo: `FAQPage JSON-LD (validated), title/meta variants, internal links list, measurement plan.”`,
+        marketing: `15 RSA headline/desc variants grouped by Trust/Speed/Free; CTAs & test matrix.”`,
+        resume: `ATS-optimized resume with quantified bullets, 150-char summary, skills matrix.”`,
+        data: `5 runnable snippets with expected outputs and brief notes.”`,
+        legal: `7-section draft with placeholders (COMPANY_NAME, ADDRESS), last-updated date.”`
       };
       return ex[category];
     }
