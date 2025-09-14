@@ -47,7 +47,7 @@ if (Test-Path $it) {
   $txt = $txt -replace 'over: 200000000', 'over: 20000000'
   $txt = $txt -replace 'over: 500000000', 'over: 50000000'
   $txt = $txt -replace '�,1\$\{rs\(', '₹${rs('
-  $txt = $txt -replace '<footer class="note small site-footer"[^>]*>.*?<\/footer>', '    <footer class="note small site-footer" role="contentinfo">© <span id="y"></span> UpTools · <a href="/sitemap.xml">Sitemap</a></footer>'
+  $txt = $txt -replace '<footer class="note small site-footer"[^>]*>.*?<\/footer>', '    <footer class="note small site-footer" role="contentinfo">© <span id="y"></span> UpTools . <a href="/sitemap.xml">Sitemap</a></footer>'
   if ($txt -ne $orig) { [IO.File]::WriteAllText($it, $txt, [Text.Encoding]::UTF8) }
 }
 

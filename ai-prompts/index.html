@@ -1,0 +1,920 @@
+﻿<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <!-- Primary Meta -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>AI Prompts Library – Professional Prompt Packs & Live Demos | UpTools</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="A production-ready library of professional AI prompts with real outputs. Categories: Image Editing, Website/App Making, SEO, Marketing, Resume, Data, Legal & more. Copy, customize, open with your favorite AI, and export prompts.">
+  <meta name="keywords" content="AI prompts, prompt engineering, image editing prompt, website prompt, code generation prompt, SEO prompt, marketing prompt, resume prompt, chatgpt prompts, midjourney prompts, stable diffusion prompts">
+  <link rel="canonical" href="https://www.uptools.in/ai-prompts/">
+  <meta name="theme-color" content="#0f1419">
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="AI Prompts Library – Professional Prompt Packs & Live Demos">
+  <meta property="og:description" content="Browse high-quality, proven prompts for images, websites, SEO, data, and more. Copy, tweak, open with your favorite AI, and export.">
+  <meta property="og:url" content="https://www.uptools.in/ai-prompts/">
+  <meta property="og:image" content="/assets/og/ai-prompts.png">
+  <meta property="og:site_name" content="UpTools">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="AI Prompts Library – Professional Prompt Packs & Live Demos">
+  <meta name="twitter:description" content="Professional prompts + example outputs. Copy, open with AI, & export.">
+  <meta name="twitter:image" content="/assets/og/ai-prompts.png">
+
+  <!-- Preconnect (perf) -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="dns-prefetch" href="https://i.ytimg.com">
+  <link rel="dns-prefetch" href="https://www.youtube.com">
+
+  <!-- Styles (shared) -->
+  <link rel="stylesheet" href="/style.css?v=1.0.0">
+  <style>
+    /* Page-local enhancements */
+    :root{
+      color-scheme: light dark;
+      --hero-max: 1100px;
+      --max: 1200px;
+      --radius: 12px;
+      --gap: 12px;
+      --accent: #64ffda;
+      --border: #263241;
+      --bg-card: rgba(255,255,255,0.04);
+      --bg-panel: rgba(255,255,255,0.03);
+      --bg-input: rgba(2,6,23,0.85);
+      --text-strong: #e6edf3;
+    }
+    @media (prefers-color-scheme: light){
+      :root{
+        --border:#cbd5e1;
+        --bg-card:#f8fafc;
+        --bg-panel:#f1f5f9;
+        --bg-input:#e5e7eb;
+        --text-strong:#0f172a;
+      }
+    }
+
+    .wrap{max-width:var(--max); margin-inline:auto; padding:16px;}
+    .hero{
+      display:grid; grid-template-columns: 1.1fr .9fr; gap:var(--gap);
+      align-items:stretch; min-height: clamp(560px, 90vh, 680px);
+    }
+    .hero .panel{
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      backdrop-filter: blur(4px);
+      padding:16px;
+      display:flex; flex-direction:column;
+      background: var(--bg-panel);
+    }
+    .toolbar{display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin-bottom:10px}
+    .toolbar .search{flex:1 1 280px; display:flex; gap:6px}
+
+    /* FIX: white-on-white inputs/selects across themes & browsers */
+    .toolbar input, .toolbar select, .input, .select{
+      width:100%; padding:10px 12px; border-radius:10px;
+      border:1px solid var(--border);
+      background-color: var(--bg-input) !important;
+      color: var(--text-strong) !important;
+    }
+    /* Consistent custom caret for <select> (prevents white OS default) */
+    .select{
+      -webkit-appearance: none; -moz-appearance:none; appearance:none;
+      background-image:
+        url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' fill='%2364ffda' viewBox='0 0 24 24'><path d='M7 10l5 5 5-5z'/></svg>");
+      background-repeat:no-repeat;
+      background-position: right 12px center;
+      background-size:16px 16px;
+      padding-right:42px; /* space for caret */
+    }
+    .select:focus-visible, .tab:focus-visible, .btn:focus-visible{
+      outline:2px solid var(--accent); outline-offset:2px; border-color:var(--accent);
+    }
+
+    .chips{display:flex; flex-wrap:wrap; gap:8px; margin:8px 0 2px}
+    .chip{padding:6px 10px; border:1px solid var(--border); border-radius:999px; cursor:pointer; user-select:none; font-size:12px; background:var(--bg-panel)}
+    .chip[aria-pressed="true"]{box-shadow: 0 0 0 2px var(--accent) inset; background:rgba(100,255,218,0.12);}
+
+    .grid{display:grid; grid-template-columns: repeat(12, 1fr); gap: var(--gap);}
+    .col-span-7{grid-column: span 7;}
+    .col-span-5{grid-column: span 5;}
+    @media (max-width: 900px){
+      .hero{grid-template-columns: 1fr; min-height:unset}
+      .col-span-7,.col-span-5{grid-column: 1/-1;}
+    }
+
+    .cards{display:grid; grid-template-columns: repeat(auto-fill, minmax(300px,1fr)); gap:var(--gap)}
+    .card{
+      border:1px solid var(--border); border-radius:var(--radius); padding:12px; background: var(--bg-card);
+      display:flex; flex-direction:column; gap:10px; min-height:240px;
+    }
+    .card h3{font-size:16px; margin:0}
+    .card pre{
+      max-height:160px; overflow:auto; padding:12px; border-radius:10px; border:1px dashed var(--border);
+      background: rgba(0,0,0,0.28); font-size:14px; line-height:1.5;
+    }
+    @media (prefers-color-scheme: light){
+      .card pre{ background:#0b1220; color:#e6edf3; }
+    }
+
+    .btn-row{display:flex; gap:8px; flex-wrap:wrap}
+    .btn{
+      border:1px solid var(--border); border-radius:10px; padding:8px 12px; cursor:pointer; background:transparent; color:inherit;
+    }
+    .btn.primary{border-color: var(--accent); box-shadow: 0 0 0 1px inset var(--accent);}
+    .btn.ghost{opacity:.95}
+    .btn.small{padding:6px 10px; font-size:12px}
+
+    .result-pane{
+      flex:1; border:1px dashed var(--border); border-radius:10px; padding:10px; overflow:auto;
+      background: rgba(0,0,0,0.25); font-size:13px; line-height:1.55;
+    }
+    @media (prefers-color-scheme: light){
+      .result-pane{ background:#f8fafc; color:#0f172a; }
+    }
+
+    .tabs{display:flex; gap:6px; margin:8px 0}
+    .tab{
+      padding:8px 12px; border:1px solid var(--border); border-radius:999px; cursor:pointer; font-size:12px;
+      background: var(--bg-input); color: var(--text-strong);
+    }
+    .tab[aria-selected="true"]{box-shadow: 0 0 0 2px inset var(--accent); background:rgba(100,255,218,0.12);}
+
+    .aside{ display:grid; gap:var(--gap); }
+    .yt-box{
+      border:1px solid var(--border); border-radius:var(--radius); overflow:hidden; background:#000;
+    }
+    .yt-box .yt-sizer{position:relative; width:100%; height:auto;}
+    .yt-box iframe{display:block; width:640px; height:360px; max-width:100%;}
+    .badge{text-transform:uppercase; letter-spacing:.08em; font-size:10px; opacity:.8}
+
+    .links{display:grid; grid-template-columns: repeat(3, 1fr); gap:var(--gap)}
+    @media (max-width: 900px){ .links{grid-template-columns: 1fr 1fr;} }
+    @media (max-width: 640px){ .links{grid-template-columns: 1fr;} }
+
+    .link-card{
+      border:1px solid var(--border); border-radius:12px; padding:12px;
+      display:flex; align-items:center; gap:10px; text-decoration:none; color:inherit; background: var(--bg-card);
+    }
+    .txt-logo{
+      width:36px; height:36px; border-radius:10px; display:grid; place-items:center;
+      font-weight:700; background:rgba(100,255,218,.08); border:1px solid var(--border);
+    }
+
+    .footerlinks{display:flex; flex-wrap:wrap; gap:10px; font-size:13px; opacity:.9}
+    .scroll-area{overflow:auto}
+
+    /* tiny settings popover */
+    .popover{position:relative}
+    .popover .menu{
+      position:relative; right:0; top:calc(100% + 6px);
+      min-width:260px; padding:10px; border:1px solid var(--border); background:var(--bg-card); border-radius:10px; display:none; z-index:5;
+    }
+    .popover[data-open="true"] .menu{display:block}
+    .note{font-size:12px; opacity:.85}
+  </style>
+
+  <!-- JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"SoftwareApplication",
+    "name":"AI Prompts Library",
+    "applicationCategory":"DeveloperApplication",
+    "operatingSystem":"Web",
+    "offers":{"@type":"Offer","price":"0","priceCurrency":"INR"},
+    "url":"https://www.uptools.in/ai-prompts/",
+    "publisher":{"@type":"Organization","name":"UpTools","url":"https://www.uptools.in"},
+    "description":"Production-ready library of professional AI prompts with example outputs across image, web, SEO, marketing, resume, data, and legal.",
+    "screenshot":"https://www.uptools.in/assets/og/ai-prompts.png",
+    "featureList":[
+      "Category filters & search",
+      "Copy & export prompt packs (JSON)",
+      "Open with AI (prefilled where supported)",
+      "Result previews",
+      "Prompt Builder wizard",
+      "YouTube tutorial"
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"BreadcrumbList",
+    "itemListElement":[
+      {"@type":"ListItem","position":1,"item":{"@id":"https://www.uptools.in/","name":"Home"}},
+      {"@type":"ListItem","position":2,"item":{"@id":"https://www.uptools.in/#tools","name":"Tools"}},
+      {"@type":"ListItem","position":3,"item":{"@id":"https://www.uptools.in/ai-prompts/","name":"AI Prompts"}}
+    ]
+  }
+  </script>
+</head>
+<body>
+  <!-- Header (shared style) -->
+  <header class="site" role="banner">
+    <div class="header-inner">
+      <a class="brand" href="/" aria-label="UpTools Home">
+        <img src="/assets/logo/uptools-logo.svg" alt="UpTools logo" width="28" height="28" loading="eager">
+        <b>UpTools</b>
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="/#tools">Tools</a>
+        <a href="/income-tax-tool/">Income Tax</a>
+        <a href="/emi-calculator/">EMI</a>
+        <a href="/gst-calculator/">GST</a>
+        <a aria-current="page" href="/ai-prompts/">AI Prompts</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="wrap" role="main">
+    <section class="hero" aria-label="AI Prompts Library">
+      <!-- Left: Prompt Library -->
+      <div class="panel scroll-area col-span-7" id="library">
+        <div class="toolbar" role="region" aria-label="Prompt Filters">
+          <div class="search">
+            <input id="q" class="input" type="search" placeholder="Search prompts (e.g., 'remove background', 'landing page', 'ATS resume')" autocomplete="off" aria-label="Search prompts">
+            <button id="btn-clear" class="btn ghost small" type="button">Clear</button>
+          </div>
+
+          <select id="category" class="select" aria-label="Category">
+            <option value="all">All Categories</option>
+            <option value="image">Image Editing</option>
+            <option value="web">Website & UI</option>
+            <option value="seo">SEO & Content</option>
+            <option value="marketing">Marketing & Ads</option>
+            <option value="resume">Resume & HR</option>
+            <option value="data">Data & Analytics</option>
+            <option value="legal">Legal & Policy</option>
+          </select>
+
+          <!-- Open-with target -->
+          <div class="popover" id="svc-pop">
+            <select id="svc" class="select" aria-label="Open with (AI service)">
+              <option value="pollinations">Pollinations (Free image)</option>
+              <option value="typingmind">TypingMind (Prefill)</option>
+              <option value="librechat">LibreChat (Self-host)</option>
+              <option value="gemini">Gemini</option>
+              <option value="huggingchat">HuggingChat</option>
+            </select>
+            <button class="btn small" id="svc-gear" aria-label="Configure services">⚙️</button>
+            <div class="menu" role="dialog" aria-label="Service settings">
+              <label class="label" for="libre-base">LibreChat Base URL</label>
+              <input id="libre-base" class="input" placeholder="https://chat.yourdomain.com" />
+              <div class="note" style="margin-top:6px">
+                LibreChat supports <code>?prompt=</code> or <code>?q=</code> to prefill a new chat. Save your base URL here.
+              </div>
+              <div class="btn-row" style="margin-top:8px">
+                <button class="btn primary small" id="save-svc">Save</button>
+                <button class="btn ghost small" id="close-svc">Close</button>
+              </div>
+            </div>
+          </div>
+
+          <button id="export-json" class="btn" type="button" title="Export selected prompts as JSON">Export JSON</button>
+        </div>
+
+        <!-- Popular tags -->
+        <div class="chips" role="tablist" aria-label="Popular tags">
+          <button class="chip" data-tag="beginner" role="tab" aria-pressed="false">Beginner</button>
+          <button class="chip" data-tag="advanced" role="tab" aria-pressed="false">Advanced</button>
+          <button class="chip" data-tag="short" role="tab" aria-pressed="false">Short</button>
+          <button class="chip" data-tag="longform" role="tab" aria-pressed="false">Longform</button>
+          <button class="chip" data-tag="indian-context" role="tab" aria-pressed="false">Indian Context</button>
+        </div>
+
+        <div id="cards" class="cards" aria-live="polite" aria-busy="false">
+          <!-- Server-rendered fallbacks (keep a few for SEO only) -->
+          <article class="card" data-category="image" data-tags="beginner short">
+            <div class="badge">Image Editing</div>
+            <h3>Remove Background (Product Photo)</h3>
+            <pre><code>System: You are a photo editor that outputs step-by-step masks.
+User: Remove the background from this product image, keep soft shadow, white backdrop, export PNG 2048×2048.</code></pre>
+            <div class="btn-row">
+              <button class="btn primary copy-prompt">Copy Prompt</button>
+              <button class="btn ghost small show-result">Show Result</button>
+              <button class="btn small open-ai">Open in AI</button>
+              <label class="btn small"><input type="checkbox" class="select-prompt" hidden> Select</label>
+            </div>
+            <div class="result-pane" hidden>
+              Example Output: “Background removed, retained shadow via feathered mask; PNG 2048×2048 attached.”
+            </div>
+          </article>
+          <article class="card" data-category="web" data-tags="advanced longform">
+            <div class="badge">Website &amp; UI</div>
+            <h3>Landing Page (Vite + CF Pages)</h3>
+            <pre><code>Role: Senior Frontend Engineer.
+Task: Generate a responsive landing page with Vite, Tailwind, and Cloudflare Pages-ready routing. Include meta/OG tags, FAQ schema, and lazy YouTube. Output a complete index.html with best practices.</code></pre>
+            <div class="btn-row">
+              <button class="btn primary copy-prompt">Copy Prompt</button>
+              <button class="btn ghost small show-result">Show Result</button>
+              <button class="btn small open-ai">Open in AI</button>
+              <label class="btn small"><input type="checkbox" class="select-prompt" hidden> Select</label>
+            </div>
+            <div class="result-pane" hidden>Example Output: “index.html with structured data, canonical, preload, responsive grid, and CF-compatible asset paths.”</div>
+          </article>
+          <!-- The rest are injected by JS -->
+        </div>
+      </div>
+
+      <!-- Right: Prompt Builder + Tutorial + Links -->
+      <aside class="aside col-span-5">
+        <div class="panel" id="builder">
+          <div class="tabs" role="tablist" aria-label="Prompt Builder">
+            <button class="tab" data-mode="structured" aria-selected="true">Structured</button>
+            <button class="tab" data-mode="freeform" aria-selected="false">Freeform</button>
+          </div>
+          <div id="builder-body" class="scroll-area" style="display:grid; gap:10px;">
+            <div class="field">
+              <label class="label" for="role">Role</label>
+              <input id="role" class="input" type="text" placeholder="e.g., Senior Frontend Engineer / Photo Retoucher">
+            </div>
+            <div class="field">
+              <label class="label" for="task">Task</label>
+              <input id="task" class="input" type="text" placeholder="What should the AI do?">
+            </div>
+            <div class="field">
+              <label class="label" for="constraints">Constraints</label>
+              <input id="constraints" class="input" type="text" placeholder="Tone, format, size, steps, etc.">
+            </div>
+            <div class="field">
+              <label class="label" for="context">Context (optional)</label>
+              <textarea id="context" class="input" rows="3" placeholder="Paste data, link, or brief context"></textarea>
+            </div>
+            <div class="btn-row">
+              <button id="build-prompt" class="btn primary">Build Prompt</button>
+              <button id="copy-built" class="btn">Copy</button>
+              <button id="reset-built" class="btn ghost">Reset</button>
+            </div>
+            <div class="result-pane" id="built-output" aria-live="polite">Your prompt will appear here.</div>
+          </div>
+        </div>
+
+        <div class="yt-box" aria-label="Prompt Engineering Tutorial">
+          <div class="yt-sizer">
+            <iframe
+              title="Prompt Engineering for Better Results (Tutorial)"
+              width="auto" height="auto"
+              src="https://www.youtube.com/embed/dOxUroR57xs"
+              loading="lazy"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen></iframe>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="links">
+            <a class="link-card" href="/about/" aria-label="About UpTools">
+              <span class="txt-logo" aria-hidden="true">ABT</span>
+              <div><b>About UpTools</b><div class="muted">Our mission &amp; roadmap</div></div>
+            </a>
+            <a class="link-card" href="/contact/" aria-label="Contact UpTools">
+              <span class="txt-logo" aria-hidden="true">CT</span>
+              <div><b>Contact</b><div class="muted">Collaborations &amp; support</div></div>
+            </a>
+            <a class="link-card" href="/privacy/" aria-label="Privacy Policy">
+              <span class="txt-logo" aria-hidden="true">PP</span>
+              <div><b>Privacy Policy</b><div class="muted">Data use &amp; retention</div></div>
+            </a>
+            <a class="link-card" href="https://platform.openai.com/docs/guides/prompt-engineering" rel="nofollow noopener" target="_blank" aria-label="OpenAI Prompt Engineering Guide">
+              <span class="txt-logo" aria-hidden="true">PE</span>
+              <div><b>Prompt Engineering Guide</b><div class="muted">OpenAI – Best practices</div></div>
+            </a>
+            <a class="link-card" href="https://developers.cloudflare.com/pages/" rel="nofollow noopener" target="_blank" aria-label="Cloudflare Pages Docs">
+              <span class="txt-logo" aria-hidden="true">CF</span>
+              <div><b>Cloudflare Pages</b><div class="muted">Deploy static sites fast</div></div>
+            </a>
+            <a class="link-card" href="/#tools" aria-label="Explore more tools">
+              <span class="txt-logo" aria-hidden="true">TL</span>
+              <div><b>Explore Tools</b><div class="muted">All calculators &amp; utilities</div></div>
+            </a>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="wrap" aria-label="Footer Links" style="padding-top:8px">
+      <div class="footerlinks">
+        <a href="/sitemap.xml">Sitemap</a>
+        <a href="/terms/">Terms</a>
+        <a href="/disclaimer/">Disclaimer</a>
+        <a href="/contribute/">Contribute</a>
+        <a href="/blog/">Blog</a>
+      </div>
+    </section>
+  </main>
+
+  <!-- Shared Utilities -->
+  <script src="/scripts/utils.js" defer></script>
+  <script>
+  (function(){
+    const U = (window.utils)||{
+      qs:(s,el=document)=>el.querySelector(s),
+      qsa:(s,el=document)=>[...el.querySelectorAll(s)],
+      copy: async (txt)=>navigator.clipboard?.writeText(txt),
+      debounce:(fn,ms=250)=>{let t; return (...a)=>{clearTimeout(t); t=setTimeout(()=>fn(...a),ms)}}
+    };
+
+    const cardsWrap = U.qs('#cards');
+    const q = U.qs('#q');
+    const category = U.qs('#category');
+    const exportBtn = U.qs('#export-json');
+    const clearBtn = U.qs('#btn-clear');
+
+    /* -----------------------------
+       OPEN WITH — service handling
+    ------------------------------*/
+    const svcSel = U.qs('#svc');
+    const svcGear = U.qs('#svc-gear');
+    const svcPop = U.qs('#svc-pop');
+    const libreBaseInput = U.qs('#libre-base');
+    const saveSvcBtn = U.qs('#save-svc');
+    const closeSvcBtn = U.qs('#close-svc');
+
+    // restore saved settings
+    const savedLibre = localStorage.getItem('uptools.libe_base');
+    if(savedLibre) libreBaseInput.value = savedLibre;
+
+    svcGear?.addEventListener('click', ()=> svcPop.setAttribute('data-open', svcPop.getAttribute('data-open')==='true' ? 'false':'true'));
+    closeSvcBtn?.addEventListener('click', ()=> svcPop.setAttribute('data-open','false'));
+    saveSvcBtn?.addEventListener('click', ()=>{
+      const v = (libreBaseInput.value||'').trim().replace(/\/+$/,'');
+      if(v) localStorage.setItem('uptools.libe_base', v);
+      svcPop.setAttribute('data-open','false');
+    });
+    document.addEventListener('click', (e)=>{
+      if(!svcPop.contains(e.target)) svcPop.setAttribute('data-open','false');
+    });
+
+    function openWithService(promptText, cat){
+      const service = svcSel.value;
+      const encoded = encodeURIComponent(promptText);
+      let url = null;
+      let copyFirst = false;
+
+      if(service==='pollinations'){
+        const base = 'https://image.pollinations.ai/prompt/';
+        const clean = (promptText.replace(/\s+/g,' ').trim()).slice(0, 240);
+        url = base + encodeURIComponent(clean) + '?width=1024&height=1024&nologo=true';
+      }
+      else if(service==='typingmind'){
+        url = 'https://typingmind.com?message=' + encoded;
+      }
+      else if(service==='librechat'){
+        const base = (localStorage.getItem('uptools.libe_base')||'').trim();
+        if(base){
+          url = base.replace(/\/+$/,'') + '/c/new?prompt=' + encoded;
+        }else{
+          copyFirst = true;
+          url = 'https://github.com/danny-avila/LibreChat';
+        }
+      }
+      else if(service==='gemini'){
+        copyFirst = true; url = 'https://gemini.google.com/app';
+      }
+      else if(service==='huggingchat'){
+        copyFirst = true; url = 'https://huggingface.co/chat/';
+      }
+
+      if(copyFirst){ U.copy(promptText); }
+      if(url){ window.open(url, '_blank', 'noopener'); }
+    }
+
+    /* -----------------------------
+       Filter & Tag handling
+    ------------------------------*/
+    function filter(){
+      const term = (q.value||'').toLowerCase().trim();
+      const cat = category.value;
+      const activeTags = U.qsa('.chip[aria-pressed="true"]').map(c=>c.dataset.tag);
+      U.qsa('.card', cardsWrap).forEach(card=>{
+        const text = card.innerText.toLowerCase();
+        const okCat = (cat==='all') || card.dataset.category===cat;
+        const tags = (card.dataset.tags||'').split(' ');
+        const okTags = activeTags.every(t=>tags.includes(t));
+        const okTerm = term==='' || text.includes(term);
+        card.style.display = (okCat && okTags && okTerm) ? '' : 'none';
+      });
+    }
+
+    U.qsa('.chip').forEach(ch=>{
+      ch.addEventListener('click', ()=>{
+        const pressed = ch.getAttribute('aria-pressed')==='true';
+        ch.setAttribute('aria-pressed', String(!pressed));
+        filter();
+      });
+      ch.addEventListener('keydown', (e)=>{
+        if(e.key===' '||e.key==='Enter'){ e.preventDefault(); ch.click(); }
+      });
+    });
+
+    q.addEventListener('input', U.debounce(filter, 200));
+    category.addEventListener('change', filter);
+    clearBtn.addEventListener('click', ()=>{ q.value=''; filter(); q.focus(); });
+
+    /* -----------------------------
+       Prompt Cards (programmatic, 20+ each)
+    ------------------------------*/
+    const CATS = {
+      image: [
+        'Background Removal with Soft Shadow',
+        'Portrait Cleanup & Skin Retouch',
+        'Colorize B&W Family Photo',
+        'Upscale 4× with Detail Preservation',
+        'Night Photo Denoise + Dehaze',
+        'Object Removal (Logo/Sticker)',
+        'Sky Replacement – Golden Hour',
+        'Depth-of-Field Simulation',
+        'HDR Merge & Tone Mapping',
+        'E-commerce Product Retouch',
+        'Logo Vectorize (SVG from Raster)',
+        'WebP Compression without Artifacts',
+        'Background Blur (Bokeh) for Portrait',
+        'Exposure Bracket Merge',
+        'Cinematic LUT Grade (Teal-Orange)',
+        'Skin Retouch (Frequency Separation)',
+        'Vintage Film Emulation (Kodak Portra)',
+        'Shadow/Highlight Reconstruction',
+        'AI Outpainting (Extend Canvas)',
+        'Sticker Cutout with White Stroke',
+        'Face Swap (Ethical & Consent)',
+        'Product Mockup on Lifestyle Scene',
+        'Text Cleanup on Scanned Docs (OCR)',
+        'Portrait Relighting (3-Point Lighting)',
+        'Panorama Stitch with Ghost Removal'
+      ],
+      web: [
+        'SaaS Landing (Vite + Tailwind)',
+        'Analytics Dashboard UI',
+        'Personal Portfolio (Sections & OG)',
+        'Blog + RSS + Sitemap',
+        'Docs Site with Search',
+        'Pricing Page w/ Comparison Table',
+        'Auth UI (Email OTP + OAuth)',
+        'Component Library (Buttons, Cards)',
+        'Accessibility Audit & Fixes',
+        'Performance Budgets + Lighthouse',
+        'PWA Shell + Offline Fallback',
+        'Image Optimization Pipeline',
+        'SEO Meta + Schema Boilerplate',
+        'Contact Form via CF Workers',
+        'Sitemap & Robots Automation',
+        'i18n Routing & Locale Switcher',
+        'Form Builder with Validation & a11y',
+        'Dark/Light Theme Toggle (auto + manual)',
+        'Markdown Blog with TOC & Code Highlight',
+        'Image Gallery (Lazyload + Blur-up)',
+        'Changelog Page + RSS',
+        'Pricing Calculator Widget',
+        'Vite Multi-Page Setup (CF Pages routing)',
+        'Error Pages (404/500) with Search'
+      ],
+      seo: [
+        'Keyword Clustering (Topical Map)',
+        'FAQ JSON-LD for GST (India)',
+        'Longform Blog Outline (E-E-A-T)',
+        'Featured Snippet Targeting',
+        'Internal Linking Plan',
+        'Organization Schema Setup',
+        'Local SEO Plan – Delhi',
+        'Category Page Meta Generator',
+        'Alt Text at Scale',
+        'Title Tag A/B Candidates',
+        'Robots.txt Strategy',
+        'Author Box (E-E-A-T)',
+        'Content Brief for Writer',
+        'Editorial Calendar (12 Weeks)',
+        'UGC Moderation Guidelines',
+        'Programmatic SEO Template',
+        'HowTo & Recipe Schema Generator',
+        'E-E-A-T Author Profile Templates',
+        'Internal Link Audit Script Outline',
+        'Backlink Outreach Email Set',
+        'NewsArticle/BlogPosting JSON-LD',
+        'Image SEO Checklist (CDN + formats)'
+      ],
+      marketing: [
+        'Google Ads RSA Variants',
+        'Facebook Primary Text (3 Tiers)',
+        'Instagram Carousel Captions',
+        'LinkedIn Thought Leadership',
+        'Email Subject Line Set',
+        'Welcome Drip (3-Email Series)',
+        'Hero Copy (Value Prop + CTA)',
+        'App Store Listing (ASO)',
+        'Push Notification Ideas',
+        'YouTube Description + Chapters',
+        'Brand Taglines (10)',
+        'Value Proposition Canvas',
+        'A/B Test Hypotheses',
+        'Brand Voice Guidelines',
+        'Referral Program Copy & Emails',
+        'Influencer Outreach Brief',
+        'WhatsApp Broadcast Templates (India)',
+        'Onboarding Checklist – In-App Copy',
+        'UGC Contest Plan & Rules',
+        'Feature Launch Announcement Pack',
+        'Pricing Change Comms (Email + In-app)',
+        'NPS Survey & Follow-up Scripts'
+      ],
+      resume: [
+        'ATS Resume – Data Scientist (IN)',
+        'ATS Resume – Software Engineer',
+        'ATS Resume – Product Manager',
+        'ATS Resume – UI/UX Designer',
+        'ATS Resume – Marketing Manager',
+        'ATS Resume – Sales (SaaS)',
+        'ATS Resume – DevOps/SRE',
+        'Fresher Resume (Campus Hire)',
+        'Targeted Cover Letter',
+        'STAR Achievement Stories',
+        'Skills Matrix Table',
+        'LinkedIn “About” Rewrite',
+        'ATS Resume – Cloud Engineer',
+        'ATS Resume – Data Analyst',
+        'ATS Resume – ML Engineer',
+        'ATS Resume – Backend Engineer',
+        'ATS Resume – QA/Test Engineer',
+        'ATS Resume – Business Analyst',
+        'ATS Resume – Finance Analyst',
+        'LinkedIn Headline Variants (60–220)',
+        'Salary Negotiation Script',
+        'Interview Thank-you Email'
+      ],
+      data: [
+        'Pandas GroupBy Cheat Sheet',
+        'SQL Window Functions',
+        'dbt Model Docs Template',
+        'GA4 Exploration Walkthrough',
+        'A/B Test Analysis (Power & Sig)',
+        'ARIMA Forecast Quickstart',
+        'Feature Engineering Checklist',
+        'Outlier Detection Playbook',
+        'Data Quality Tests (Great Expectations)',
+        'Viz Best Practices (Altair/Matplotlib)',
+        'Spark DataFrame Joins',
+        'Python Logging Config',
+        'Airflow DAG Template (Retry/Alerts)',
+        'Cohort Retention Analysis',
+        'RFM Segmentation Blueprint',
+        'Dimensional Modeling (Star/Snowflake)',
+        'DuckDB for Local Analytics',
+        'Polars DataFrame Quickstart',
+        'Monte Carlo Simulation Outline',
+        'Redshift→BigQuery Migration Plan',
+        'Delta Lake Basics & Patterns',
+        'SQL Unit Testing (dbt + CI)'
+      ],
+      legal: [
+        'Privacy Policy (India, Analytics Only)',
+        'Terms of Service (SaaS)',
+        'Cookie Policy (Consent Banner)',
+        'Mutual NDA (Startups)',
+        'Freelancer Agreement (Scope/Pay/IP)',
+        'Refund & Cancellation Policy',
+        'Website Disclaimer',
+        'Data Processing Addendum',
+        'Open-Source License Choice Guide',
+        'GDPR Consent Banner Copy',
+        'Community Guidelines (UGC)',
+        'Accessibility Statement',
+        'Master Services Agreement (SaaS)',
+        'DPA with SCCs (Exporter/Importer)',
+        'Contributor License Agreement (CLA)',
+        'Open Source Compliance Policy',
+        'Takedown & Appeals (UGC/DMCA)',
+        'DSAR/Privacy Request Flow Copy',
+        'End-User License Agreement (EULA)',
+        'Affiliate Program Terms',
+        'Beta Tester Agreement',
+        'SLA & Uptime Policy',
+        'security.txt / Responsible Disclosure'
+      ]
+    };
+
+    const TAG_POOL = ['beginner','advanced','short','longform','indian-context'];
+
+    function buildLongPrompt(category, title){
+      const roleMap = {
+        image: 'Senior Photo Retoucher & Workflow Designer',
+        web: 'Senior Frontend Engineer (Vite + Cloudflare Pages)',
+        seo: 'Technical SEO Strategist',
+        marketing: 'Performance Marketer & Copywriter',
+        resume: 'ATS Optimization Specialist',
+        data: 'Data Scientist & Analytics Educator',
+        legal: 'Paralegal (Plain-English Drafting, India-first)'
+      };
+      const reqCommon = {
+        image: '- Non-destructive steps\n- Export specs\n- Edge cases & QA checklist',
+        web: '- Semantic HTML\n- ARIA & A11y\n- Core Web Vitals targets',
+        seo: '- India context where relevant\n- JSON-LD validation\n- Risk/impact notes',
+        marketing: '- Character limits\n- Compliance notes\n- 2 tone options',
+        resume: '- Quantified metrics\n- Skills matrix\n- Plain-text (DOCX-ready)',
+        data: '- Reproducible code\n- Inline comments\n- Example dataset description',
+        legal: '- Replace placeholders in ALL CAPS\n- Plain-language + short clauses\n- Last-updated date'
+      };
+      const deliverables = {
+        image: '- Steps list\n- Tool-agnostic settings (range values)\n- Export checklist',
+        web: '- Code snippet(s)\n- File tree\n- Build & deploy notes',
+        seo: '- Brief + schema block\n- Measurement plan\n- 3 title/meta variants',
+        marketing: '- Variants grouped by theme\n- CTA suggestions\n- A/B ideas',
+        resume: '- Summary (≤150 chars)\n- 6–10 bullets with metrics\n- Keywords table',
+        data: '- 5 runnable examples\n- Expected outputs\n- Gotchas & tips',
+        legal: '- 6–10 sections\n- TODO placeholders\n- Compliance notes'
+      };
+      return `System: You are ${roleMap[category]} producing production-ready outputs.
+Instructions:
+- Create a comprehensive solution for “${title}”.
+- Be specific with values, ranges, and filenames.
+- If assumptions are needed, state them first as “Assumptions”.
+Requirements:
+${reqCommon[category]}
+Deliverables:
+${deliverables[category]}`;
+    }
+
+    function exampleOutput(category, title){
+      const ex = {
+        image: `Example Output: “Layered steps (1–7), mask feather 2–4px, export PNG 2048×2048, QA checklist passed.”`,
+        web: `Example Output: “index.html + assets/, OG meta, FAQPage JSON-LD, Lighthouse ≥95, deploy steps for CF Pages.”`,
+        seo: `Example Output: “FAQPage JSON-LD (validated), title/meta variants, internal links list, measurement plan.”`,
+        marketing: `Example Output: “15 RSA headline/desc variants grouped by Trust/Speed/Free; CTAs & test matrix.”`,
+        resume: `Example Output: “ATS-optimized resume with quantified bullets, 150-char summary, skills matrix.”`,
+        data: `Example Output: “5 runnable snippets with expected outputs and brief notes.”`,
+        legal: `Example Output: “7-section draft with placeholders (COMPANY_NAME, ADDRESS), last-updated date.”`
+      };
+      return ex[category];
+    }
+
+    function randTags(){
+      const t = new Set();
+      while(t.size<2){ t.add(TAG_POOL[Math.floor(Math.random()*TAG_POOL.length)]); }
+      return [...t].join(' ');
+    }
+
+    // Build prompts
+    const PROMPTS = [];
+    Object.entries(CATS).forEach(([cat, titles])=>{
+      titles.forEach(title=>{
+        PROMPTS.push({
+          category: cat,
+          title,
+          tags: randTags(),
+          prompt: buildLongPrompt(cat, title),
+          example: exampleOutput(cat, title)
+        });
+      });
+    });
+
+    function renderCard({category, title, tags, prompt, example}){
+      const el = document.createElement('article');
+      el.className = 'card';
+      el.dataset.category = category;
+      el.dataset.tags = tags;
+      el.innerHTML = `
+        <div class="badge">${({
+          image:'Image Editing',
+          web:'Website &amp; UI',
+          seo:'SEO &amp; Content',
+          marketing:'Marketing',
+          resume:'Resume &amp; HR',
+          data:'Data &amp; Analytics',
+          legal:'Legal &amp; Policy'
+        })[category]}</div>
+        <h3>${title}</h3>
+        <pre><code>${prompt}</code></pre>
+        <div class="btn-row">
+          <button class="btn primary copy-prompt">Copy Prompt</button>
+          <button class="btn ghost small show-result">Show Result</button>
+          <button class="btn small open-ai">Open in AI</button>
+          <label class="btn small"><input type="checkbox" class="select-prompt" hidden> Select</label>
+        </div>
+        <div class="result-pane" hidden>${example}</div>
+      `;
+      return el;
+    }
+    // Inject (skip first two which are SSR)
+    PROMPTS.forEach((p, idx)=>{
+      if(idx<2) return;
+      cardsWrap.appendChild(renderCard(p));
+    });
+
+    // Attach behaviors
+    function wireCard(card){
+      const pre = card.querySelector('pre');
+      const copyBtn = card.querySelector('.copy-prompt');
+      const showBtn = card.querySelector('.show-result');
+      const openBtn = card.querySelector('.open-ai');
+      const pane = card.querySelector('.result-pane');
+      if(copyBtn && pre){
+        copyBtn.addEventListener('click', async ()=>{
+          const text = pre.innerText.trim();
+          await U.copy(text);
+          copyBtn.textContent = 'Copied!';
+          setTimeout(()=>copyBtn.textContent='Copy Prompt', 1200);
+        });
+      }
+      if(showBtn && pane){
+        showBtn.addEventListener('click', ()=>{
+          pane.hidden = !pane.hidden;
+          showBtn.textContent = pane.hidden ? 'Show Result' : 'Hide Result';
+        });
+      }
+      if(openBtn && pre){
+        openBtn.addEventListener('click', ()=>{
+          const text = pre.innerText.trim();
+          openWithService(text, card.dataset.category);
+        });
+      }
+    }
+    U.qsa('.card', cardsWrap).forEach(wireCard);
+
+    // Export selected prompts as JSON
+    exportBtn.addEventListener('click', ()=>{
+      const selected = U.qsa('.card .select-prompt:checked').map(cb=>{
+        const card = cb.closest('.card');
+        return {
+          category: card.dataset.category,
+          title: card.querySelector('h3')?.textContent?.trim(),
+          prompt: card.querySelector('pre')?.innerText?.trim()
+        };
+      });
+      if(!selected.length){
+        U.qsa('.card').filter(c=>c.style.display!=='none').slice(0,50).forEach(card=>{
+          selected.push({
+            category: card.dataset.category,
+            title: card.querySelector('h3')?.textContent?.trim(),
+            prompt: card.querySelector('pre')?.innerText?.trim()
+          });
+        });
+      }
+      const blob = new Blob([JSON.stringify({name:"UpTools AI Prompts", items:selected}, null, 2)], {type:'application/json'});
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'ai-prompts-uptools.json';
+      a.click();
+      URL.revokeObjectURL(a.href);
+    });
+
+    /* -----------------------------
+       Prompt Builder
+    ------------------------------*/
+    const role = U.qs('#role');
+    const task = U.qs('#task');
+    const constraints = U.qs('#constraints');
+    const context = U.qs('#context');
+    const buildBtn = U.qs('#build-prompt');
+    const copyBuilt = U.qs('#copy-built');
+    const resetBuilt = U.qs('#reset-built');
+    const out = U.qs('#built-output');
+
+    function buildPrompt(mode='structured'){
+      const r = role.value.trim();
+      const t = task.value.trim();
+      const c = constraints.value.trim();
+      const x = context.value.trim();
+      let prompt = '';
+      if(mode==='structured'){
+        prompt = [
+          r ? `Role: ${r}` : '',
+          t ? `Task: ${t}` : '',
+          c ? `Constraints: ${c}` : '',
+          x ? `Context:\n${x}` : ''
+        ].filter(Boolean).join('\n\n');
+      } else {
+        prompt = [r,t,c,x].filter(Boolean).join(' – ');
+      }
+      out.textContent = prompt || 'Your prompt will appear here.';
+    }
+
+    let builderMode = 'structured';
+    U.qsa('.tab').forEach(tab=>{
+      tab.addEventListener('click', ()=>{
+        U.qsa('.tab').forEach(t=>t.setAttribute('aria-selected','false'));
+        tab.setAttribute('aria-selected','true');
+        builderMode = tab.dataset.mode;
+        buildPrompt(builderMode);
+      });
+    });
+
+    buildBtn.addEventListener('click', ()=> buildPrompt(builderMode));
+    copyBuilt.addEventListener('click', async ()=>{
+      const txt = out.textContent.trim();
+      if(!txt || txt==='Your prompt will appear here.') return;
+      await U.copy(txt);
+      copyBuilt.textContent = 'Copied!';
+      setTimeout(()=>copyBuilt.textContent='Copy', 1000);
+    });
+    resetBuilt.addEventListener('click', ()=>{
+      role.value = task.value = constraints.value = context.value = '';
+      out.textContent = 'Your prompt will appear here.';
+    });
+
+    // Initial filter
+    filter();
+  })();
+  </script>
+</body>
+</html>

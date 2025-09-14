@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 
 <html lang="en">
 
@@ -116,7 +116,7 @@
           <h1 id="pg-title">UUID / GUID Generator & Validator</h1>
           <p class="note">Generate <b>v1</b> (time-based), <b>v4</b> (random), and <b>v5</b> (name-based) UUIDs. Batch mode, copy, export, and a built-in validator. 100% client-side.</p>
           <div class="chips" style="margin-top:8px">
-            <span class="pill">⚡ v1 · v4 · v5</span>
+            <span class="pill">⚡ v1 . v4 . v5</span>
             <span class="pill">📦 Batch + Export</span>
             <span class="pill">🧪 Validate</span>
             <a class="chip" href="/password-generator/">Password</a>
@@ -228,9 +228,9 @@
 
 <footer class="site-foot">
   <nav class="nav-links small">
-    <a href="/">UpTools</a> ·
-    <a href="/sitemap.xml">Sitemap</a> ·
-    <a href="/about/">ABT</a> ·
+    <a href="/">UpTools</a> .
+    <a href="/sitemap.xml">Sitemap</a> .
+    <a href="/about/">ABT</a> .
     <a href="/contact/">CT</a>
   </nav>
   <div class="note small">Made with care. Privacy-first, no sign-ups.</div>
@@ -418,7 +418,7 @@
       const r = validateUUID(s);
       if(!r.ok){ els.valResult.innerHTML = '❌ Not a valid RFC 4122 UUID.'; return; }
       const v = parseInt(s.replace(/[{}-]/g,'')[12], 16); // numeric version
-      els.valResult.innerHTML = `✅ Valid UUID<br><span class="mini">Version: <b>v${v}</b> · Variant: <b>${r.variant}</b></span>`;
+      els.valResult.innerHTML = `✅ Valid UUID<br><span class="mini">Version: <b>v${v}</b> . Variant: <b>${r.variant}</b></span>`;
     });
     els.valClear.addEventListener('click', ()=>{ els.valInput.value=''; els.valResult.textContent='Format, version & variant will appear here.'; });
 

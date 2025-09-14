@@ -144,7 +144,7 @@
     "@type":"FAQPage",
     "mainEntity":[
       {"@type":"Question","name":"How is EMI calculated?",
-       "acceptedAnswer":{"@type":"Answer","text":"EMI = P × r × (1 + r)^n / ((1 + r)^n − 1), where P is principal, r is monthly interest rate (annual rate/12/100), and n is number of months."}},
+       "acceptedAnswer":{"@type":"Answer","text":"EMI = P � r � (1 + r)^n / ((1 + r)^n - 1), where P is principal, r is monthly interest rate (annual rate/12/100), and n is number of months."}},
       {"@type":"Question","name":"What if my interest rate is 0%?",
        "acceptedAnswer":{"@type":"Answer","text":"If r = 0, EMI = P / n (principal divided by number of months)."}},
       {"@type":"Question","name":"Does the calculator store my data?",
@@ -185,7 +185,7 @@
   <main id="main" class="wrap" role="main">
     <!-- Tool header -->
     <div class="tool-header" aria-labelledby="page-title">
-      <div class="tool-icon" aria-hidden="true">ðŸ’³</div>
+      <div class="tool-icon" aria-hidden="true">💳</div>
       <div>
         <h1 id="page-title">EMI Calculator</h1>
         <div class="note">Compute monthly EMI, total interest, and amortization. Add prepayment, compare two loans,
@@ -199,12 +199,12 @@
 
       <div class="grid" style="margin-bottom:12px;">
         <div>
-          <label class="label" for="amount">Loan Amount (₹)</label>
+          <label class="label" for="amount">Loan Amount (?)</label>
           <input id="amount" class="input" type="number" min="0" inputmode="decimal" placeholder="e.g., 1000000" />
           <div class="chips" style="margin-top:8px;">
-            <button class="chip" data-fill="amount" data-val="500000">₹5L</button>
-            <button class="chip" data-fill="amount" data-val="1000000">₹10L</button>
-            <button class="chip" data-fill="amount" data-val="2500000">₹25L</button>
+            <button class="chip" data-fill="amount" data-val="500000">?5L</button>
+            <button class="chip" data-fill="amount" data-val="1000000">?10L</button>
+            <button class="chip" data-fill="amount" data-val="2500000">?25L</button>
           </div>
         </div>
 
@@ -245,7 +245,7 @@
           <span class="label">Optional Prepayment</span>
           <div class="flex" style="gap:8px;">
             <input id="prepayMonth" class="input" type="number" min="1" step="1" placeholder="Month #" />
-            <input id="prepayAmount" class="input" type="number" min="0" placeholder="Amount (₹)" />
+            <input id="prepayAmount" class="input" type="number" min="0" placeholder="Amount (?)" />
           </div>
           <div class="note">Adds a one-time prepayment in the chosen month; schedule shortens if possible.</div>
         </div>
@@ -253,7 +253,7 @@
         <div>
           <span class="label">Compare with Another Loan</span>
           <div class="flex" style="gap:8px;">
-            <input id="amount2" class="input" type="number" min="0" placeholder="Amount (₹)" />
+            <input id="amount2" class="input" type="number" min="0" placeholder="Amount (?)" />
             <input id="rate2" class="input" type="number" min="0" step="0.01" placeholder="Rate %" />
             <input id="tenure2" class="input" type="number" min="1" step="1" placeholder="Tenure (m)" />
           </div>
@@ -307,9 +307,9 @@
         instant and calculated in your browser. Nothing is stored or uploaded.
       </p>
       <details>
-        <summary>ðŸ“˜ How to use</summary>
+        <summary>📘 How to use</summary>
         <ul>
-          <li>Enter loan amount (â‚¹), annual interest (%), and tenure (months or years).</li>
+          <li>Enter loan amount (₹), annual interest (%), and tenure (months or years).</li>
           <li>Click <b>Calculate</b> to see EMI, total interest, and total payment.</li>
           <li>Optionally enter a <b>prepayment</b> month and amount to reduce total interest.</li>
           <li>Use <b>Compare</b> fields to evaluate a second loan offer.</li>
@@ -317,51 +317,51 @@
         </ul>
       </details>
       <details>
-        <summary>â“ Formula</summary>
-        <p>EMI = P Ã— r Ã— (1 + r)<sup>n</sup> Ã· [(1 + r)<sup>n</sup> âˆ’ 1], where:</p>
+        <summary>❓ Formula</summary>
+        <p>EMI = P × r × (1 + r)<sup>n</sup> ÷ [(1 + r)<sup>n</sup> − 1], where:</p>
         <ul>
           <li><b>P</b> = Loan principal</li>
-          <li><b>r</b> = Monthly rate = (annual% Ã· 12 Ã· 100)</li>
+          <li><b>r</b> = Monthly rate = (annual% ÷ 12 ÷ 100)</li>
           <li><b>n</b> = Number of months</li>
         </ul>
-        <p>If r = 0, EMI = P Ã· n.</p>
+        <p>If r = 0, EMI = P ÷ n.</p>
       </details>
-      <p class="note">Related: <a href="/fd-calculator/">FD Calculator</a> Â· <a href="/sip-calculator/">SIP
-          Calculator</a> Â· <a href="/income-tax-tool/">Income Tax Calculator</a></p>
+      <p class="note">Related: <a href="/fd-calculator/">FD Calculator</a> . <a href="/sip-calculator/">SIP
+          Calculator</a> . <a href="/income-tax-tool/">Income Tax Calculator</a></p>
     </section>
 
     <footer class="note small site-footer" role="contentinfo">
-      Â© <span id="y"></span> UpTools Â· <a href="/about/">About</a> Â· <a href="/contact/">Contact</a> Â· <a
-        href="/sitemap.xml">Sitemap</a> Â· <a href="/robots.txt">Robots</a>
+      © <span id="y"></span> UpTools . <a href="/about/">About</a> . <a href="/contact/">Contact</a> . <a
+        href="/sitemap.xml">Sitemap</a> . <a href="/robots.txt">Robots</a>
     </footer>
       <section class="card" style="margin-top:16px">
       <h2>How this EMI calculator works</h2>
-      <p>EMI is computed using the standard formula: EMI = P × r × (1 + r)^n / ((1 + r)^n − 1), where P is principal, r is monthly rate (annual rate/12/100), and n is number of months. The tool also computes total interest, total payment and an amortization schedule.</p>
+      <p>EMI is computed using the standard formula: EMI = P � r � (1 + r)^n / ((1 + r)^n - 1), where P is principal, r is monthly rate (annual rate/12/100), and n is number of months. The tool also computes total interest, total payment and an amortization schedule.</p>
       <h3>Example</h3>
-      <p>₹10,00,000 at 9% p.a. for 240 months → r = 0.09/12 = 0.0075. EMI ≈ ₹8,997; total interest ≈ ₹11,59,280; total ≈ ₹21,59,280.</p>
+      <p>?10,00,000 at 9% p.a. for 240 months . r = 0.09/12 = 0.0075. EMI � ?8,997; total interest � ?11,59,280; total � ?21,59,280.</p>
       <p>Adding a one-time prepayment reduces principal at that month and the schedule is recomputed thereafter.</p>
     </section>
     <section class="card" style="margin-top:16px">
       <h2>FAQs</h2>
-      <details><summary><b>What’s a good loan tenure?</b></summary><p>Shorter tenures reduce total interest but increase EMI. Pick an EMI that fits your budget with some buffer for rate hikes.</p></details>
+      <details><summary><b>What�s a good loan tenure?</b></summary><p>Shorter tenures reduce total interest but increase EMI. Pick an EMI that fits your budget with some buffer for rate hikes.</p></details>
       <details><summary><b>Fixed vs floating rates?</b></summary><p>Floating rates can change over time, altering EMI or tenure. This tool assumes a constant rate for simplicity.</p></details>
-      <p class="note">Related tools: <a href="/fd-calculator/">FD Calculator</a> · <a href="/sip-calculator/">SIP Calculator</a> · <a href="/currency-converter/">Currency Converter</a></p>
-    </section><section class=\"card\" style=\"margin-top:16px\">
+      <p class="note">Related tools: <a href="/fd-calculator/">FD Calculator</a> � <a href="/sip-calculator/">SIP Calculator</a> � <a href="/currency-converter/">Currency Converter</a></p>
+    </section><section class="card\" style="margin-top:16px">
   <h2>Examples & FAQs</h2>
-  <p><b>Example:</b> ₹7,50,000 at 10% p.a. for 60 months → r = 0.10/12; EMI ≈ ₹15,937; total interest ≈ ₹2,56,220; total ≈ ₹10,06,220. A prepayment of ₹1,00,000 in month 12 reduces principal and shortens the schedule.</p>
+  <p><b>Example:</b> ?7,50,000 at 10% p.a. for 60 months . r = 0.10/12; EMI � ?15,937; total interest � ?2,56,220; total � ?10,06,220. A prepayment of ?1,00,000 in month 12 reduces principal and shortens the schedule.</p>
   <details><summary><b>Which is better: shorter or longer tenure?</b></summary><p>Shorter tenure lowers total interest but raises EMI. Choose an EMI with headroom for emergencies and rate changes.</p></details>
-  <details><summary><b>Can I compare two loans?</b></summary><p>Yes. Fill the “Compare” fields to estimate EMI and total interest for a second loan side‑by‑side.</p></details>
+  <details><summary><b>Can I compare two loans?</b></summary><p>Yes. Fill the �Compare� fields to estimate EMI and total interest for a second loan side-by-side.</p></details>
 </section>
 </main>
 
   <script defer>
     (function () {
       const $ = id => document.getElementById(id);
-      const fmt = n => isFinite(n) ? "â‚¹" + Number(n).toLocaleString("en-IN", { maximumFractionDigits: 0 }) : "-";
-      const fmt2 = n => isFinite(n) ? "â‚¹" + Number(n).toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : "-";
+      const fmt = n => isFinite(n) . "₹" + Number(n).toLocaleString("en-IN", { maximumFractionDigits: 0 }) : "-";
+      const fmt2 = n => isFinite(n) . "₹" + Number(n).toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : "-";
 
       const amount = $("amount"), rate = $("rate"), tenure = $("tenure"), tenureUnit = $("tenureUnit");
-      const prepayMonth = $("prepayMonth"), prepayAmount (₹);
+      const prepayMonth = $("prepayMonth"), prepayAmount (?);
       const amount2 = $("amount2"), rate2 = $("rate2"), tenure2 = $("tenure2");
 
       const emiOut = $("emi"), interestOut = $("interest"), totalOut = $("total"), monthsOut = $("monthsOut");
@@ -400,7 +400,7 @@
         const q = new URLSearchParams();
         if (amount.value) q.set("p", amount.value);
         if (rate.value) q.set("r", rate.value);
-        const months = tenureUnit.value === "years" ? (Number(tenure.value || 0) * 12) : Number(tenure.value || 0);
+        const months = tenureUnit.value === "years" . (Number(tenure.value || 0) * 12) : Number(tenure.value || 0);
         if (months) q.set("n", String(months));
         if (prepayMonth.value) q.set("pm", prepayMonth.value);
         if (prepayAmount.value) q.set("pa", prepayAmount.value);
@@ -434,7 +434,7 @@
         let m = 0;
         while (bal > 0 && m < 1200) { // hard cap for sanity
           m++;
-          let interest = r === 0 ? 0 : bal * r;
+          let interest = r === 0 . 0 : bal * r;
           let principal = emi - interest;
           if (principal < 0) { // guard if rate too high for given EMI
             principal = 0;
@@ -450,7 +450,7 @@
             principal += newBal; // reduce principal by negative overpay
             newBal = 0;
           }
-          rows.push({ m, opening: bal, interest, principal, emi: newBal > 0 ? emi : (principal + interest), closing: newBal });
+          rows.push({ m, opening: bal, interest, principal, emi: newBal > 0 . emi : (principal + interest), closing: newBal });
           bal = newBal;
 
           if (months && m >= months && prepayAmt > 0) {
@@ -465,7 +465,7 @@
       function calc() {
         const P = Number(amount.value || 0);
         const R = Number(rate.value || 0);
-        const n = tenureUnit.value === "years" ? Number(tenure.value || 0) * 12 : Number(tenure.value || 0);
+        const n = tenureUnit.value === "years" . Number(tenure.value || 0) * 12 : Number(tenure.value || 0);
         const pm = Number(prepayMonth.value || 0);
         const pa = Number(prepayAmount.value || 0);
 
@@ -479,7 +479,7 @@
 
         // Base compute
         const base = compute(P, R, n);
-        let rows = buildSchedule(base.p, base.r, base.months, base.emi, pm > 0 ? pm : 0, pa > 0 ? pa : 0);
+        let rows = buildSchedule(base.p, base.r, base.months, base.emi, pm > 0 . pm : 0, pa > 0 . pa : 0);
 
         // If prepayment reduces months, recompute stats from rows
         const monthsActual = rows.length;
@@ -562,8 +562,8 @@
       function copyShare() {
         const url = writeQuery();
         navigator.clipboard.writeText(url).then(() => {
-          shareBtn.textContent = "âœ… Link Copied";
-          setTimeout(() => shareBtn.textContent = "ðŸ”— Copy Share Link", 1200);
+          shareBtn.textContent = "✅ Link Copied";
+          setTimeout(() => shareBtn.textContent = "🔗 Copy Share Link", 1200);
         });
       }
 
@@ -571,7 +571,7 @@
       let scheduleShown = false;
       toggleSchedule.addEventListener("click", () => {
         scheduleShown = !scheduleShown;
-        toggleSchedule.textContent = scheduleShown ? "ðŸ“„ Hide Amortization Schedule" : "ðŸ“„ Show Amortization Schedule";
+        toggleSchedule.textContent = scheduleShown . "📄 Hide Amortization Schedule" : "📄 Show Amortization Schedule";
         scheduleWrap.classList.toggle("hidden", !scheduleShown);
         if (scheduleShown) { renderSchedule(); }
       });

@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
 
 <head>
@@ -295,9 +295,9 @@
 
     <footer class="site-foot">
       <nav class="nav-links small">
-        <a href="/">UpTools</a> ·
-        <a href="/sitemap.xml">Sitemap</a> ·
-        <a href="/about/">ABT</a> ·
+        <a href="/">UpTools</a> .
+        <a href="/sitemap.xml">Sitemap</a> .
+        <a href="/about/">ABT</a> .
         <a href="/contact/">CT</a>
       </nav>
       <div class="note small">Made with care. Privacy-first, no sign-ups.</div>
@@ -584,7 +584,7 @@
       for(const it of items){
         const row=document.createElement('div'); row.className='vault-row'; row.role='listitem';
         const left=document.createElement('div');
-        left.innerHTML = `<div class="mono"><b>${escapeHTML(it.site||'-')}</b> · <span class="note">${escapeHTML(it.user||'')}</span></div>
+        left.innerHTML = `<div class="mono"><b>${escapeHTML(it.site||'-')}</b> . <span class="note">${escapeHTML(it.user||'')}</span></div>
                           <div class="note">${new Date(it.ts).toLocaleString()}</div>`;
         const btns=document.createElement('div');
         const btns2=document.createElement('div');
@@ -603,7 +603,7 @@
       const d=document.createElement('dialog'); d.className='vault-modal';
       d.innerHTML = `<form method="dialog" class="card" style="margin:0">
         <h3 style="margin:0 0 6px">${site ? 'Entry' : 'Reveal'}</h3>
-        <div class="note" style="margin:0 0 8px">${site?escape(site):''} ${user?('· '+escape(user)) : ''}</div>
+        <div class="note" style="margin:0 0 8px">${site?escape(site):''} ${user?('. '+escape(user)) : ''}</div>
         <input class="input mono" value="${escape(value)}" readonly>
         <div class="hr"></div>
         <div class="row" style="justify-content:flex-end"><button class="btn" type="submit">Close</button></div>

@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
 <head>
   <!-- Single async ad (kept minimal for performance) -->
@@ -142,7 +142,7 @@
       <div class="card">
         <div class="row">
           <label class="label" for="txt">JSON input</label>
-          <span class="badge mono" id="stats">0 B · 0 lines</span>
+          <span class="badge mono" id="stats">0 B . 0 lines</span>
           <span class="hint grow status" id="status" aria-live="polite"></span>
         </div>
 
@@ -233,9 +233,9 @@
 
     <footer class="site-foot">
       <nav class="nav-links small">
-        <a href="/">UpTools</a> · <a href="/sitemap.xml">Sitemap</a> · <a href="/about/">ABT</a> · <a href="/contact/">CT</a>
+        <a href="/">UpTools</a> . <a href="/sitemap.xml">Sitemap</a> . <a href="/about/">ABT</a> . <a href="/contact/">CT</a>
       </nav>
-      <div class="note small">Privacy-first · No sign-ups · Works offline once loaded</div>
+      <div class="note small">Privacy-first . No sign-ups . Works offline once loaded</div>
     </footer>
   </main>
 
@@ -296,7 +296,7 @@
       const t = els.txt.value;
       const b = bytes(t);
       const lines = (t.match(/\n/g)||[]).length + (t.length?1:0);
-      els.stats.textContent = `${b.toLocaleString()} B · ${lines} lines`;
+      els.stats.textContent = `${b.toLocaleString()} B . ${lines} lines`;
       U.save('uptools.jsonfmt.last',{t});
     }
 

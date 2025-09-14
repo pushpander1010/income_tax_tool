@@ -46,8 +46,8 @@
   <script type="application/ld+json">
   {
     "@context":"https://schema.org","@type":"FAQPage","mainEntity":[
-      {"@type":"Question","name":"Which is better: New or Old tax regime for FY 2024-25?","acceptedAnswer":{"@type":"Answer","text":"It depends on your deductions. New regime has lower slab rates and ₹50,000 standard deduction for salaried/Pensioners, but most deductions like 80C/80D/HRA are not allowed. If your total eligible deductions are high, Old could be better. This calculator compares both instantly."}},
-      {"@type":"Question","name":"Is 87A rebate available under both regimes?","acceptedAnswer":{"@type":"Answer","text":"Yes. Under New regime, if total income is up to ₹7,00,000, tax after rebate is ₹0. Under Old regime, if total income is up to ₹5,00,000, tax after rebate is ₹0."}},
+      {"@type":"Question","name":"Which is better: New or Old tax regime for FY 2024-25?","acceptedAnswer":{"@type":"Answer","text":"It depends on your deductions. New regime has lower slab rates and ?50,000 standard deduction for salaried/Pensioners, but most deductions like 80C/80D/HRA are not allowed. If your total eligible deductions are high, Old could be better. This calculator compares both instantly."}},
+      {"@type":"Question","name":"Is 87A rebate available under both regimes?","acceptedAnswer":{"@type":"Answer","text":"Yes. Under New regime, if total income is up to ?7,00,000, tax after rebate is ?0. Under Old regime, if total income is up to ?5,00,000, tax after rebate is ?0."}},
       {"@type":"Question","name":"Does the New regime allow 80C/80D or HRA?","acceptedAnswer":{"@type":"Answer","text":"No. The New regime disallows most deductions except standard deduction for salaried/pensioners. This tool disables 80C/80D/HRA under New regime automatically."}},
       {"@type":"Question","name":"How is HRA exemption calculated?","acceptedAnswer":{"@type":"Answer","text":"HRA exemption (Old regime only) is the least of: (1) Actual HRA received, (2) Rent paid minus 10% of basic salary, (3) 50% of basic for metro cities (40% for non-metro)."}},
       {"@type":"Question","name":"Is surcharge included?","acceptedAnswer":{"@type":"Answer","text":"You can toggle surcharge. For high income, surcharge applies on tax (plus cess). Highest surcharge under New regime is 25%; under Old it can go up to 37%. This tool estimates based on thresholds."}}
@@ -103,7 +103,7 @@
 
   <main class="wrap" id="main">
     <div class="tool-header">
-      <div class="tool-icon">₹</div>
+      <div class="tool-icon">?</div>
       <h1>Income Tax Calculator (India) - FY 2024-25</h1>
     </div>
 
@@ -111,12 +111,12 @@
     <form id="tax-form" class="card" novalidate>
       <h2 class="sr-only">Enter income and deductions</h2>
 
-      <label class="label" for="annualIncome">Annual Gross Income (₹)</label>
+      <label class="label" for="annualIncome">Annual Gross Income (?)</label>
       <input id="annualIncome" class="input" type="number" inputmode="numeric" min="0" step="1000"
         placeholder="e.g., 1200000" required>
 
       <div class="row" style="border:0; padding:0; margin-top:12px; gap:12px">
-        <label class="check"><input id="includeStdDeduction" type="checkbox" checked> <span>Include standard deduction (₹50,000)</span></label>
+        <label class="check"><input id="includeStdDeduction" type="checkbox" checked> <span>Include standard deduction (?50,000)</span></label>
         <label class="check"><input id="surchargeToggle" type="checkbox"> <span>Apply surcharge if
             applicable</span></label>
       </div>
@@ -133,27 +133,27 @@
         <strong>Old Regime Deductions</strong>
         <p class="note">These apply only in the Old regime. They'll be ignored automatically under the New regime.</p>
 
-        <label class="label" for="sec80c">Section 80C (max ₹1,50,000)</label>
+        <label class="label" for="sec80c">Section 80C (max ?1,50,000)</label>
         <input id="sec80c" class="input" type="number" min="0" step="1000"
           placeholder="EPF/PPF/ELSS/Life insurance etc.">
 
-        <label class="label" for="sec80d">Section 80D - Health Insurance (₹)</label>
+        <label class="label" for="sec80d">Section 80D - Health Insurance (?)</label>
         <input id="sec80d" class="input" type="number" min="0" step="1000" placeholder="Self/family/premium paid">
 
-        <label class="label" for="nps1b">NPS (80CCD(1B)) (max ₹50,000)</label>
+        <label class="label" for="nps1b">NPS (80CCD(1B)) (max ?50,000)</label>
         <input id="nps1b" class="input" type="number" min="0" step="1000" placeholder="Additional NPS contribution">
 
         <div class="row" style="border:0; padding:0; margin-top:12px"></div>
         <strong>HRA (Old regime)</strong>
         <p class="note">Fill if you receive HRA and pay rent. We'll compute the exempt amount.</p>
 
-        <label class="label" for="basic">Basic Salary (₹/year)</label>
+        <label class="label" for="basic">Basic Salary (?/year)</label>
         <input id="basic" class="input" type="number" min="0" step="1000" placeholder="e.g., 600000">
 
-        <label class="label" for="hraRecv">HRA Received (₹/year)</label>
+        <label class="label" for="hraRecv">HRA Received (?/year)</label>
         <input id="hraRecv" class="input" type="number" min="0" step="1000" placeholder="e.g., 240000">
 
-        <label class="label" for="rentPaid">Rent Paid (₹/year)</label>
+        <label class="label" for="rentPaid">Rent Paid (?/year)</label>
         <input id="rentPaid" class="input" type="number" min="0" step="1000" placeholder="e.g., 180000">
 
         <label class="check"><input id="isMetro" type="checkbox"> <span>Metro city (50% basic). If unchecked, 40%
@@ -161,8 +161,8 @@
 
         <div class="row" style="border:0; padding:0; margin-top:12px"></div>
         <strong>Home Loan Interest (Self-occupied)</strong>
-        <p class="note">Old regime only. Max set-off against income is generally â‚¹2,00,000 per year.</p>
-        <label class="label" for="homeLoanInt">Interest paid (₹/year)</label>
+        <p class="note">Old regime only. Max set-off against income is generally ₹2,00,000 per year.</p>
+        <label class="label" for="homeLoanInt">Interest paid (?/year)</label>
         <input id="homeLoanInt" class="input" type="number" min="0" step="1000" placeholder="e.g., 150000">
       </div>
 
@@ -179,24 +179,24 @@
 
     <section class="card" style="margin-top:16px">
       <h2 class="sr-only">Notes</h2>
-      <p class="note">This tool uses FY 2024-25 (AY 2025-26) slabs, 4% Health & Education Cess, 87A rebate (â‚¹7L new /
-        â‚¹5L old), and optional surcharge thresholds. Old-regime deductions are capped per Income-tax rules (e.g., 80C
-        â‚¹1.5L, NPS 80CCD(1B) â‚¹50k, HRA min rule, home-loan interest set-off up to ₹2,00,000 for self-occupied). Calculations
+      <p class="note">This tool uses FY 2024-25 (AY 2025-26) slabs, 4% Health & Education Cess, 87A rebate (₹7L new /
+        ₹5L old), and optional surcharge thresholds. Old-regime deductions are capped per Income-tax rules (e.g., 80C
+        ₹1.5L, NPS 80CCD(1B) ₹50k, HRA min rule, home-loan interest set-off up to ?2,00,000 for self-occupied). Calculations
         are indicative.</p>
     </section>
 
-    <footer class="note small site-footer" role="contentinfo">© <span id="y"></span> UpTools · <a href="/sitemap.xml">Sitemap</a></footer>
+    <footer class="note small site-footer" role="contentinfo">� <span id="y"></span> UpTools � <a href="/sitemap.xml">Sitemap</a></footer>
   <section class="card" style="margin-top:16px">
   <h2>How this Income Tax calculator works</h2>
-  <p>This calculator estimates your India income tax for FY 2024–25 (AY 2025–26) under both the New and Old regimes. Enter your annual gross income, choose whether to include the standard deduction (₹50,000 for salaried/pensioners), and optionally toggle surcharge for high incomes. For the Old regime you may enter deductions such as Section 80C (up to ₹1,50,000), Section 80D (eligible health insurance premiums), additional NPS under Section 80CCD(1B) (up to ₹50,000), HRA details to compute the exempt portion, and home‑loan interest (self‑occupied: up to ₹2,00,000 set‑off). The tool compares total tax in New vs Old and shows monthly TDS and effective tax rate.</p>
-  <p><b>New regime slabs:</b> 0–₹3L: 0%; ₹3–6L: 5%; ₹6–9L: 10%; ₹9–12L: 15%; ₹12–15L: 20%; >₹15L: 30%. <b>Old regime slabs:</b> 0–₹2.5L: 0%; ₹2.5–5L: 5%; ₹5–10L: 20%; >₹10L: 30%. Health & Education Cess of 4% applies on tax plus surcharge. Section 87A rebate makes tax ₹0 when total income is up to ₹7,00,000 (New) or up to ₹5,00,000 (Old). Surcharge, if enabled, applies above ₹50L, ₹1cr, ₹2cr and ₹5cr (with a 25% cap in the New regime).</p>
+  <p>This calculator estimates your India income tax for FY 2024�25 (AY 2025�26) under both the New and Old regimes. Enter your annual gross income, choose whether to include the standard deduction (?50,000 for salaried/pensioners), and optionally toggle surcharge for high incomes. For the Old regime you may enter deductions such as Section 80C (up to ?1,50,000), Section 80D (eligible health insurance premiums), additional NPS under Section 80CCD(1B) (up to ?50,000), HRA details to compute the exempt portion, and home-loan interest (self-occupied: up to ?2,00,000 set-off). The tool compares total tax in New vs Old and shows monthly TDS and effective tax rate.</p>
+  <p><b>New regime slabs:</b> 0�?3L: 0%; ?3�6L: 5%; ?6�9L: 10%; ?9�12L: 15%; ?12�15L: 20%; >?15L: 30%. <b>Old regime slabs:</b> 0�?2.5L: 0%; ?2.5�5L: 5%; ?5�10L: 20%; >?10L: 30%. Health & Education Cess of 4% applies on tax plus surcharge. Section 87A rebate makes tax ?0 when total income is up to ?7,00,000 (New) or up to ?5,00,000 (Old). Surcharge, if enabled, applies above ?50L, ?1cr, ?2cr and ?5cr (with a 25% cap in the New regime).</p>
   <h3>Examples</h3>
-  <p><b>Example 1:</b> Income ₹7,20,000, salaried, standard deduction on, no other deductions. New regime taxable = ₹6,70,000 → 87A rebate not available (above ₹7L threshold), tax per slabs + 4% cess. Old regime taxable = ₹6,70,000 after standard deduction; basic tax computed per old slabs; compare totals to choose the lower.</p>
-  <p><b>Example 2:</b> Income ₹12,00,000 with Old‑regime deductions: 80C ₹1,50,000, 80D ₹25,000, NPS 80CCD(1B) ₹50,000, HRA exemption ₹1,20,000, home‑loan interest ₹2,00,000. Old regime taxable income reduces substantially; New regime disallows most of these (only standard deduction), so Old may be lower. Use “Compare New vs Old” to see which wins.</p>
+  <p><b>Example 1:</b> Income ?7,20,000, salaried, standard deduction on, no other deductions. New regime taxable = ?6,70,000 ? 87A rebate not available (above ?7L threshold), tax per slabs + 4% cess. Old regime taxable = ?6,70,000 after standard deduction; basic tax computed per old slabs; compare totals to choose the lower.</p>
+  <p><b>Example 2:</b> Income ?12,00,000 with Old-regime deductions: 80C ?1,50,000, 80D ?25,000, NPS 80CCD(1B) ?50,000, HRA exemption ?1,20,000, home-loan interest ?2,00,000. Old regime taxable income reduces substantially; New regime disallows most of these (only standard deduction), so Old may be lower. Use �Compare New vs Old� to see which wins.</p>
   <h3>FAQs</h3>
-  <details><summary><b>Which regime should I choose?</b></summary><p>If your total eligible deductions (80C, 80D, NPS 1B, HRA, home‑loan interest) are high, the Old regime often results in lower tax. If deductions are minimal, the New regime’s lower rate structure and standard deduction can be better. This tool compares both.</p></details>
-  <details><summary><b>Is HRA allowed in the New regime?</b></summary><p>No. Most deductions, including HRA, are not allowed in the New regime (only the standard deduction for salaried/pensioners is applied when selected). HRA exemption (Old only) is the least of: actual HRA received; rent paid − 10% of basic; 50% of basic for metro (40% non‑metro).</p></details>
-  <details><summary><b>Are results exact?</b></summary><p>They are indicative for planning. Personal nuances (perquisites, set‑offs, multiple incomes, rounding, TDS/TCS timing) may alter outcomes. Consult a tax professional for your filing.</p></details>
+  <details><summary><b>Which regime should I choose?</b></summary><p>If your total eligible deductions (80C, 80D, NPS 1B, HRA, home-loan interest) are high, the Old regime often results in lower tax. If deductions are minimal, the New regime�s lower rate structure and standard deduction can be better. This tool compares both.</p></details>
+  <details><summary><b>Is HRA allowed in the New regime?</b></summary><p>No. Most deductions, including HRA, are not allowed in the New regime (only the standard deduction for salaried/pensioners is applied when selected). HRA exemption (Old only) is the least of: actual HRA received; rent paid - 10% of basic; 50% of basic for metro (40% non-metro).</p></details>
+  <details><summary><b>Are results exact?</b></summary><p>They are indicative for planning. Personal nuances (perquisites, set-offs, multiple incomes, rounding, TDS/TCS timing) may alter outcomes. Consult a tax professional for your filing.</p></details>
 </section>
 </main>
 
@@ -229,10 +229,10 @@
     // Surcharge thresholds (approx, India)
     // Note: Highest surcharge under NEW regime capped at 25%.
     const SURCHARGE_BRACKETS = [
-      { over: 5000000, rateOld: 0.10, rateNew: 0.10 }, // > â‚¹50L
-      { over: 10000000, rateOld: 0.15, rateNew: 0.15 }, // > â‚¹1cr
-      { over: 20000000, rateOld: 0.25, rateNew: 0.25 }, // > â‚¹2cr
-      { over: 50000000, rateOld: 0.37, rateNew: 0.25 }  // > â‚¹5cr (Old 37%, New capped 25%)
+      { over: 5000000, rateOld: 0.10, rateNew: 0.10 }, // > ₹50L
+      { over: 10000000, rateOld: 0.15, rateNew: 0.15 }, // > ₹1cr
+      { over: 20000000, rateOld: 0.25, rateNew: 0.25 }, // > ₹2cr
+      { over: 50000000, rateOld: 0.37, rateNew: 0.25 }  // > ₹5cr (Old 37%, New capped 25%)
     ];
 
     const rs = n => new Intl.NumberFormat('en-IN', { maximumFractionDigits: 0 }).format(Math.round(n || 0));
@@ -375,12 +375,12 @@
       const newCard = results.new ? `
       <div class="card" style="margin-top:12px">
         <h3 style="margin-top:0">New Regime</h3>
-        <div class="row"><span>Taxable Income</span><span>â‚¹${rs(results.new.taxable)}</span></div>
-        <div class="row"><span>Basic Tax</span><span>â‚¹${rs(results.new.basicTax)}</span></div>
-        ${results.new.surcharge ? `<div class="row"><span>Surcharge</span><span>â‚¹${rs(results.new.surcharge)}</span></div>` : ''}
-        <div class="row"><span>Cess (4%)</span><span>â‚¹${rs(results.new.cess)}</span></div>
-        <div class="row total"><span>Total Tax</span><span>â‚¹${rs(results.new.total)}</span></div>
-        <div class="row"><span>Monthly TDS</span><span>â‚¹${rs(results.new.mtds)}</span></div>
+        <div class="row"><span>Taxable Income</span><span>₹${rs(results.new.taxable)}</span></div>
+        <div class="row"><span>Basic Tax</span><span>₹${rs(results.new.basicTax)}</span></div>
+        ${results.new.surcharge ? `<div class="row"><span>Surcharge</span><span>₹${rs(results.new.surcharge)}</span></div>` : ''}
+        <div class="row"><span>Cess (4%)</span><span>₹${rs(results.new.cess)}</span></div>
+        <div class="row total"><span>Total Tax</span><span>₹${rs(results.new.total)}</span></div>
+        <div class="row"><span>Monthly TDS</span><span>₹${rs(results.new.mtds)}</span></div>
         <div class="row"><span>Effective Tax Rate</span><span>${results.new.effRate.toFixed(2)}%</span></div>
       </div>` : '';
 
@@ -388,22 +388,22 @@
       const oldCard = results.old ? `
       <div class="card" style="margin-top:12px">
         <h3 style="margin-top:0">Old Regime</h3>
-        <div class="row"><span>Taxable Income</span><span>â‚¹${rs(results.old.taxable)}</span></div>
-        <div class="row"><span>Basic Tax</span><span>â‚¹${rs(results.old.basicTax)}</span></div>
-        ${results.old.surcharge ? `<div class="row"><span>Surcharge</span><span>â‚¹${rs(results.old.surcharge)}</span></div>` : ''}
-        <div class="row"><span>Cess (4%)</span><span>â‚¹${rs(results.old.cess)}</span></div>
-        <div class="row total"><span>Total Tax</span><span>â‚¹${rs(results.old.total)}</span></div>
-        <div class="row"><span>Monthly TDS</span><span>â‚¹${rs(results.old.mtds)}</span></div>
+        <div class="row"><span>Taxable Income</span><span>₹${rs(results.old.taxable)}</span></div>
+        <div class="row"><span>Basic Tax</span><span>₹${rs(results.old.basicTax)}</span></div>
+        ${results.old.surcharge ? `<div class="row"><span>Surcharge</span><span>₹${rs(results.old.surcharge)}</span></div>` : ''}
+        <div class="row"><span>Cess (4%)</span><span>₹${rs(results.old.cess)}</span></div>
+        <div class="row total"><span>Total Tax</span><span>₹${rs(results.old.total)}</span></div>
+        <div class="row"><span>Monthly TDS</span><span>₹${rs(results.old.mtds)}</span></div>
         <div class="row"><span>Effective Tax Rate</span><span>${results.old.effRate.toFixed(2)}%</span></div>
         <div class="note" style="margin-top:8px">
           <strong>Deductions used (Old):</strong>
           <ul style="margin:6px 0 0 18px">
-            <li>80C: â‚¹${rs(oldD.sec80c)} (max 1,50,000)</li>
-            <li>80D: â‚¹${rs(oldD.sec80d)}</li>
-            <li>NPS 80CCD(1B): â‚¹${rs(oldD.nps1b)} (max 50,000)</li>
-            <li>HRA exemption: â‚¹${rs(oldD.hra)}</li>
-            <li>Home-loan interest set-off: â‚¹${rs(oldD.homeLoan)}</li>
-            ${includeStd ? `<li>Standard deduction: â‚¹${rs(STD_DED)}</li>` : ``}
+            <li>80C: ₹${rs(oldD.sec80c)} (max 1,50,000)</li>
+            <li>80D: ₹${rs(oldD.sec80d)}</li>
+            <li>NPS 80CCD(1B): ₹${rs(oldD.nps1b)} (max 50,000)</li>
+            <li>HRA exemption: ₹${rs(oldD.hra)}</li>
+            <li>Home-loan interest set-off: ₹${rs(oldD.homeLoan)}</li>
+            ${includeStd ? `<li>Standard deduction: ₹${rs(STD_DED)}</li>` : ``}
           </ul>
         </div>
       </div>` : '';
@@ -411,8 +411,8 @@
       el.innerHTML = `
       <div class="card" style="margin-top:0">
         <h3 style="margin-top:0">Summary</h3>
-        <div class="row"><span>Gross Income</span><span>â‚¹${rs(income)}</span></div>
-        ${includeStd ? `<div class="row"><span>Standard Deduction</span><span>â‚¹${rs(STD_DED)}</span></div>` : ''}
+        <div class="row"><span>Gross Income</span><span>₹${rs(income)}</span></div>
+        ${includeStd ? `<div class="row"><span>Standard Deduction</span><span>₹${rs(STD_DED)}</span></div>` : ''}
         ${compare}
       </div>
       <div style="display:grid; gap:12px; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">

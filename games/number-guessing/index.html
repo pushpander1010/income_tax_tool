@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
 <head>
   <!-- Ads (async). Consider idle-loading for best CWV in production. -->
@@ -158,7 +158,7 @@
         <div class="game-stats" aria-live="polite">
           <div class="stat-item"><div class="stat-value" id="attempts">0</div><div class="stat-label">Attempts</div></div>
           <div class="stat-item"><div class="stat-value" id="timer">00:00</div><div class="stat-label">Time</div></div>
-          <div class="stat-item"><div class="stat-value" id="best">-</div><div class="stat-label">Best (attempts · time)</div></div>
+          <div class="stat-item"><div class="stat-value" id="best">-</div><div class="stat-label">Best (attempts . time)</div></div>
           <div class="stat-item"><div class="stat-value" id="streak">0</div><div class="stat-label">Win streak</div></div>
         </div>
 
@@ -217,7 +217,7 @@
     </section>
 
     <footer class="note small site-footer" role="contentinfo" style="margin-top:20px;">
-      © <span id="y"></span> UpTools · <a href="/about/">About</a> · <a href="/contact/">Contact</a> · <a href="/sitemap.xml">Sitemap</a> · <a href="/robots.txt">Robots</a>
+      © <span id="y"></span> UpTools . <a href="/about/">About</a> . <a href="/contact/">Contact</a> . <a href="/sitemap.xml">Sitemap</a> . <a href="/robots.txt">Robots</a>
     </footer>
   </main>
 
@@ -282,7 +282,7 @@
 
     function updateBestLabel(){
       const b = state.stats.best[state.difficulty];
-      els.best.textContent = b ? `${b.attempts} · ${msToClock(b.time)}` : "-";
+      els.best.textContent = b ? `${b.attempts} . ${msToClock(b.time)}` : "-";
     }
 
     // Seeded target (for share challenges)

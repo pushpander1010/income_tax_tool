@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <!-- Single async ad (kept minimal for performance) -->
@@ -211,11 +211,11 @@
 
     <footer class="site-foot small" style="text-align:center; margin:1rem 0 2rem">
       <nav class="nav-links small">
-        <a href="/">UpTools</a> · <a href="/sitemap.xml">Sitemap</a> · <a href="/games/">Games</a> · <a href="/about/">About</a> · <a href="/contact/">Contact</a>
+        <a href="/">UpTools</a> . <a href="/sitemap.xml">Sitemap</a> . <a href="/games/">Games</a> . <a href="/about/">About</a> . <a href="/contact/">Contact</a>
       </nav>
-      <div class="note">Privacy-first · Works offline once loaded</div>
+      <div class="note">Privacy-first . Works offline once loaded</div>
       <nav class="nav-links small" style="margin-top:.25rem">
-        Related: <a href="/games/color-rush/">Color Rush</a> · <a href="/games/snake/">Snake</a>
+        Related: <a href="/games/color-rush/">Color Rush</a> . <a href="/games/snake/">Snake</a>
       </nav>
     </footer>
   </main>
@@ -466,7 +466,7 @@
         if(curT===0 || total<curT) localStorage.setItem(kT,String(total));
         if(curM===0 || this.moves<curM) localStorage.setItem(kM,String(this.moves));
         renderHomeBests();
-        statusHome(`🎉 ${this.formatTime(total)} · ${this.moves} moves`);
+        statusHome(`🎉 ${this.formatTime(total)} . ${this.moves} moves`);
       }
 
       hint(){

@@ -146,13 +146,13 @@
       <!-- Left: Converter -->
       <div class="card neon" id="converter">
         <div class="fx-presets" aria-label="Popular pairs">
-          <button class="chip" data-pair="INR,USD">INR ⇄ USD</button>
-          <button class="chip" data-pair="INR,AED">INR ⇄ AED</button>
-          <button class="chip" data-pair="USD,EUR">USD ⇄ EUR</button>
-          <button class="chip" data-pair="USD,GBP">USD ⇄ GBP</button>
-          <button class="chip" data-pair="EUR,GBP">EUR ⇄ GBP</button>
-          <button class="chip" data-pair="USD,CAD">USD ⇄ CAD</button>
-          <button class="chip" data-pair="USD,AUD">USD ⇄ AUD</button>
+          <button class="chip" data-pair="INR,USD">INR . USD</button>
+          <button class="chip" data-pair="INR,AED">INR . AED</button>
+          <button class="chip" data-pair="USD,EUR">USD . EUR</button>
+          <button class="chip" data-pair="USD,GBP">USD . GBP</button>
+          <button class="chip" data-pair="EUR,GBP">EUR . GBP</button>
+          <button class="chip" data-pair="USD,CAD">USD . CAD</button>
+          <button class="chip" data-pair="USD,AUD">USD . AUD</button>
         </div>
 
         <label class="label" for="amt">Amount</label>
@@ -163,7 +163,7 @@
             <label class="label" for="from">From</label>
             <select id="from" class="input" aria-label="From currency"></select>
           </div>
-          <button id="swap" class="btn secondary swap" title="Swap From/To" aria-label="Swap">⇄</button>
+          <button id="swap" class="btn secondary swap" title="Swap From/To" aria-label="Swap">?</button>
           <div style="flex:1">
             <label class="label" for="to">To</label>
             <select id="to" class="input" aria-label="To currency"></select>
@@ -222,22 +222,22 @@
           referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
       </div>
       <div class="note" style="margin-top:10px">
-        Explore more: <span class="ico">IT</span> <a href="/income-tax-tool/">Income Tax Calculator</a> Â·
-        <span class="ico">EMI</span> <a href="/emi-calculator/">EMI Calculator</a> Â·
-        <span class="ico">GST</span> <a href="/gst-calculator/">GST Calculator</a> Â·
+        Explore more: <span class="ico">IT</span> <a href="/income-tax-tool/">Income Tax Calculator</a> .
+        <span class="ico">EMI</span> <a href="/emi-calculator/">EMI Calculator</a> .
+        <span class="ico">GST</span> <a href="/gst-calculator/">GST Calculator</a> .
         <span class="ico">JS</span> <a href="/json-formatter/">JSON Formatter</a>
       </div>
     </section>
 
-    <footer class="note small site-footer">Â© <span id="y"></span> UpTools Â· <a href="/sitemap.xml">Sitemap</a> Â· <a
+    <footer class="note small site-footer">© <span id="y"></span> UpTools . <a href="/sitemap.xml">Sitemap</a> . <a
         href="/privacy/">Privacy</a></footer>
       <section class="card" style="margin-top:16px">
       <h2>How this currency converter works</h2>
       <p>It fetches a mid-market rate for the selected pair, optionally adds your fee/markup %, and computes the converted amount. Use Swap to flip From/To and Copy to share the result.</p>
-      <p class="note">Related tools: <a href="/gst-calculator/">GST Calculator</a> · <a href="/income-tax-tool/">Income Tax</a> · <a href="/emi-calculator/">EMI</a></p>
-    </section><section class=\"card\" style=\"margin-top:16px\">
+      <p class="note">Related tools: <a href="/gst-calculator/">GST Calculator</a> � <a href="/income-tax-tool/">Income Tax</a> � <a href="/emi-calculator/">EMI</a></p>
+    </section><section class="card\" style="margin-top:16px">
   <h2>Examples & FAQs</h2>
-  <p><b>Example:</b> 100 USD → INR at 83.20 mid‑market with 2% fee → adjusted rate ≈ 81.54; result ≈ ₹8,154. Use the 30‑day mini chart to sanity‑check volatility.</p>
+  <p><b>Example:</b> 100 USD . INR at 83.20 mid-market with 2% fee . adjusted rate � 81.54; result � ?8,154. Use the 30-day mini chart to sanity-check volatility.</p>
   <details><summary><b>Why do my card/bank rates differ?</b></summary><p>Institutions add spreads and fees; weekends/holidays and market moves also affect timing. Add a fee % here to approximate your effective rate.</p></details>
   <details><summary><b>Can I share or bookmark?</b></summary><p>Yes. Use Share to copy a URL with parameters; opening it restores your settings.</p></details>
 </section>
@@ -324,7 +324,7 @@
       }
       try { return await host(); } catch {
         try { return await frank(); } catch {
-          // Proxy fallback (Cloudflare Worker at /api?url=â€¦)
+          // Proxy fallback (Cloudflare Worker at /api?url=…)
           const prox = await fetch(`/api?url=${encodeURIComponent(`https://api.exchangerate.host/latest?base=${base}&symbols=${quote}`)}`);
           const j = await prox.json();
           if (!j || !j.rates || !j.rates[quote]) throw new Error("rate");
@@ -379,7 +379,7 @@
         return;
       }
 
-      els.meta.textContent = "Fetching rateâ€¦";
+      els.meta.textContent = "Fetching rate…";
       try {
         const { rate, ts } = await getRate(base, quote);
         const feePct = Number(els.fee.value || 0) / 100;
@@ -424,8 +424,8 @@
       path.setAttribute("stroke", "var(--accent)");
       path.setAttribute("stroke-width", "2");
 
-      els.sparkStart.textContent = `${xs[0]} â€¢ ${nf().format(ys[0])}`;
-      els.sparkEnd.textContent = `${xs[xs.length - 1]} â€¢ ${nf().format(ys[ys.length - 1])}`;
+      els.sparkStart.textContent = `${xs[0]} • ${nf().format(ys[0])}`;
+      els.sparkEnd.textContent = `${xs[xs.length - 1]} • ${nf().format(ys[ys.length - 1])}`;
     }
 
     // Shareable link
@@ -460,7 +460,7 @@
     if (els.amt.value) runConvert();
   </script>
 
-  <!-- ðŸŒ Neon FX Background Animation (scoped; no global name clashes) -->
+  <!-- 🌐 Neon FX Background Animation (scoped; no global name clashes) -->
   <script type="module">
     (() => {
       const CANVAS = document.getElementById('fxCanvas');
@@ -470,7 +470,7 @@
 
       // Scoped names (no collision with converter)
       const FX_CODES = ["INR","USD","EUR","GBP","JPY","AED","CAD","AUD","SGD","CHF","CNY","HKD"];
-      const SYMBOLS  = ["â‚¹","$","â‚¬","Â£","Â¥","â‚©","â‚º","â‚½"];
+      const SYMBOLS  = ["₹","$","€","£","¥","₩","₺","₽"];
       const rand = (a,b)=> a + Math.random()*(b-a);
 
       function resize(){
@@ -486,7 +486,6 @@
         const base = Math.round((W*H)/32000);        // scales with viewport area
         const N = Math.max(16, Math.min(48, base));  // clamp for perf
         glyphs = Array.from({length:N}, (_,i)=>{
-          const useCode = Math.random() < 0.45;
           const text = useCode
             ? FX_CODES[(Math.random()*FX_CODES.length)|0]
             : SYMBOLS[(Math.random()*SYMBOLS.length)|0];

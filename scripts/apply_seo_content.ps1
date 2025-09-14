@@ -43,7 +43,7 @@ if(Test-Path $emi){
       <h2>FAQs</h2>
       <details><summary><b>What’s a good loan tenure?</b></summary><p>Shorter tenures reduce total interest but increase EMI. Pick an EMI that fits your budget with some buffer for rate hikes.</p></details>
       <details><summary><b>Fixed vs floating rates?</b></summary><p>Floating rates can change over time, altering EMI or tenure. This tool assumes a constant rate for simplicity.</p></details>
-      <p class="note">Related tools: <a href="/fd-calculator/">FD Calculator</a> · <a href="/sip-calculator/">SIP Calculator</a> · <a href="/currency-converter/">Currency Converter</a></p>
+      <p class="note">Related tools: <a href="/fd-calculator/">FD Calculator</a> . <a href="/sip-calculator/">SIP Calculator</a> . <a href="/currency-converter/">Currency Converter</a></p>
     </section>
 "@
   if($emiTxt -notmatch '<h2>How this EMI calculator works</h2>'){
@@ -69,7 +69,7 @@ if(Test-Path $sip){
       <h3>Example</h3>
       <p>₹5,000/month for 10 years at 12% p.a. → r = 0.12/12. FV ≈ ₹11.6 lakh.</p>
       <p>You can pull historical CAGR from indices or mutual funds to prefill the expected return.</p>
-      <p class="note">Related tools: <a href="/fd-calculator/">FD Calculator</a> · <a href="/emi-calculator/">EMI Calculator</a> · <a href="/currency-converter/">Currency Converter</a></p>
+      <p class="note">Related tools: <a href="/fd-calculator/">FD Calculator</a> . <a href="/emi-calculator/">EMI Calculator</a> . <a href="/currency-converter/">Currency Converter</a></p>
     </section>
 "@
   if($sipTxt -notmatch '<h2>How this SIP calculator works</h2>'){
@@ -90,7 +90,7 @@ if(Test-Path $cc){
     <section class="card" style="margin-top:16px">
       <h2>How this currency converter works</h2>
       <p>It fetches a mid-market rate for the selected pair, optionally adds your fee/markup %, and computes the converted amount. Use Swap to flip From/To and Copy to share the result.</p>
-      <p class="note">Related tools: <a href="/gst-calculator/">GST Calculator</a> · <a href="/income-tax-tool/">Income Tax</a> · <a href="/emi-calculator/">EMI</a></p>
+      <p class="note">Related tools: <a href="/gst-calculator/">GST Calculator</a> . <a href="/income-tax-tool/">Income Tax</a> . <a href="/emi-calculator/">EMI</a></p>
     </section>
 "@
   if($ccTxt -notmatch '<h2>How this currency converter works</h2>'){
