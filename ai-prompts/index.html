@@ -781,70 +781,130 @@ User: Generate a complete, production-ready single file: index.html (Vite-friend
       'Excel/Sheets formula generator (with examples)'
     ]);
 
-
     function buildLongPrompt(category, title){
-  const roleMap = {
-    image: 'Senior Photo Retoucher',
-    web: 'Senior Frontend Engineer',
+  const role = {
+    image: 'Senior Photo Retoucher & Portrait Director',
+    web: 'Senior Frontend Engineer (Vite + Tailwind + a11y)',
     seo: 'Technical SEO Strategist',
-    marketing: 'Performance Marketer & Copywriter',
+    marketing: 'Performance Copywriter',
     resume: 'ATS Optimization Specialist',
-    data: 'Data Scientist',
-    legal: 'Paralegal (Plain-English Drafting, India-first)'
+    data: 'Pragmatic Data Scientist',
+    legal: 'Paralegal (Plain-English, India-first)'
   };
 
-  // Category-specific output-only format instructions
-  const outputOnly = {
-    image:
-`System: You are ${roleMap.image}. Respond with OUTPUT-ONLY.
-User: ${title}.
+  // ---------- IMAGE: high-fidelity templates ----------
+  const imagePresets = {
+    // Ultra-detailed LinkedIn headshot – formal attire
+    linkedin: (t) => `System: You are ${role.image}. Respond with OUTPUT-ONLY.
+User: Create a polished, studio-quality LinkedIn headshot (professional corporate portrait).
+Subject & Attire:
+- Gender-neutral; neat hair; natural grooming
+- Formal outfit: tailored dark blazer + light, solid shirt; optional subtle tie; no logos/patterns
+- Jewelry minimal; glasses anti-glare if present
+Background & Lighting:
+- Neutral backdrop: soft gradient light grey/blue (#E7EEF6 → #B7C7DA), no banding, no hotspots
+- 2–3 point lighting: soft key (45°), fill (subtle), hair/rim for separation; CRI≥95 look
+- Shadow control: soft falloff; no hard nose shadow; even skin exposure
+Framing & Optics:
+- Vertical crop; head-and-shoulders; eye line upper-third; comfortable posture and confident, warm expression
+- Simulate 85mm–105mm portrait look (natural perspective; shallow background blur)
+Retouch & Color:
+- Clean skin tones; remove temporary blemishes and lint; preserve natural texture (no plastic skin)
+- Whiten teeth slightly; even under-eye area; remove color cast; neutral white balance
+- Clothing tidy: fix wrinkles, stray threads, lint; consistent fabric shading
+Output:
+- Final: single PNG, square 2048×2048, sRGB, subtle global sharpening, no watermark
+- No steps or commentary. Return only the final artifact supported by the tool.`,
+
+    // Saree / traditional portrait (kept formal & elegant)
+    saree: (t) => `System: You are ${role.image}. Respond with OUTPUT-ONLY.
+User: Traditional saree portrait with editorial polish and elegant presentation.
+Wardrobe & Styling:
+- Classic Nivi drape; blouse sleeves modest; minimal jewelry; harmonious palette; no logos
+Lighting & Background:
+- Warm key + soft fill; gentle gold rim; backdrop with tasteful gradient or temple ambience
+Framing:
+- Half-length portrait; graceful posture; natural expression; clean composition
+Retouch:
+- Skin texture preserved; jewelry highlights controlled; fabric texture crisp; remove lint/wrinkles
+Output:
+- Single PNG 2048×2048 (sRGB). Only the final image; no text.`,
+
+    // Product on white (e-commerce)
+    productWhite: (t) => `System: You are ${role.image}. Respond with OUTPUT-ONLY.
+User: E-commerce product photo on pure white background.
+Requirements:
+- Pure white (#FFFFFF) background; soft, realistic contact shadow; no clipping halos
+- Color-accurate product; remove dust/scratches; edge cleanup; straightened perspective
+- Output: single PNG 2048×2048 (sRGB) with tight but safe padding. No text.`,
+
+    // General fallback for other image titles
+    generic: (t) => `System: You are ${role.image}. Respond with OUTPUT-ONLY.
+User: ${t}
 Rules:
-- Return only the final image/artifact the tool supports (prefer PNG 2048×2048 when applicable).
-- No explanations, no steps, no markdown, no code blocks, no filenames—only the final output.`,
-    web:
-`System: You are ${roleMap.web}. Respond with OUTPUT-ONLY.
-User: ${title}.
+- Return only the final image/artifact the tool supports (prefer PNG 2048×2048, sRGB).
+- No explanations, steps, markdown, or filenames—only the output.`
+  };
+
+  // ---------- WEB / SEO / MARKETING / RESUME / DATA / LEGAL ----------
+  const webTemplate = (t) => `System: You are ${role.web}. Respond with OUTPUT-ONLY.
+User: ${t}
 Rules:
-- Return only the final code.
-- For single-file pages, output only raw HTML (index.html). No comments/explanations/markdown fences.`,
-    seo:
-`System: You are ${roleMap.seo}. Respond with OUTPUT-ONLY.
-User: ${title}.
+- Return only the final code (raw HTML/CSS/JS as applicable).
+- For single-page pages, output a complete, production-ready index.html (meta/OG/Twitter, a11y, FAQPage JSON-LD, lazy embeds).
+- No commentary, no code fences, no extra text.`;
+
+  const seoTemplate = (t) => `System: You are ${role.seo}. Respond with OUTPUT-ONLY.
+User: ${t}
 Rules:
-- Return only a single valid JSON-LD object (no extra text, no code fences).`,
-    marketing:
-`System: You are ${roleMap.marketing}. Respond with OUTPUT-ONLY.
-User: ${title}.
+- Return only one valid JSON-LD object or final SEO artifact (e.g., title+meta lines).
+- No extra text, no code fences, no comments.`;
+
+  const marketingTemplate = (t) => `System: You are ${role.marketing}. Respond with OUTPUT-ONLY.
+User: ${t}
 Rules:
-- Return only the final copy variants, one per line/paragraph as relevant.
-- No labels, no commentary, no headings.`,
-    resume:
-`System: You are ${roleMap.resume}. Respond with OUTPUT-ONLY.
-User: ${title}.
+- Return only the final copy variants (lines/paragraphs). No labels or headings.`;
+
+  const resumeTemplate = (t) => `System: You are ${role.resume}. Respond with OUTPUT-ONLY.
+User: ${t}
 Rules:
-- Return only the resume/cover letter text formatted for ATS (plain text).
-- No explanations, no headings beyond the document itself.`,
-    data:
-`System: You are ${roleMap.data}. Respond with OUTPUT-ONLY.
-User: ${title}.
+- Return only the ATS-friendly document text (plain text; concise; quantified bullets).
+- No commentary or headings beyond the document’s own sections.`;
+
+  const dataTemplate = (t) => `System: You are ${role.data}. Respond with OUTPUT-ONLY.
+User: ${t}
 Rules:
 - Return only runnable code (no commentary, no markdown fences).
-- If multiple snippets are needed, concatenate in execution order with minimal blank lines.`,
-    legal:
-`System: You are ${roleMap.legal}. Respond with OUTPUT-ONLY.
-User: ${title}.
-Rules:
-- Return only the finalized legal text with placeholders in ALL CAPS where needed.
-- No commentary, no headings beyond the document sections.`
-  };
+- If multiple snippets are needed, output in execution order, minimal blank lines.`;
 
-  // Choose the template based on category
-  return outputOnly[category] || `System: You are an expert. Respond with OUTPUT-ONLY.
-User: ${title}.
+  const legalTemplate = (t) => `System: You are ${role.legal}. Respond with OUTPUT-ONLY.
+User: ${t}
 Rules:
-- Return only the final deliverable (no commentary).`;
+- Return only the finalized legal text with ALL CAPS placeholders where needed.
+- No commentary; short, plain-English clauses; India-first compliance tone.`;
+
+  // ---------- Router by category & title ----------
+  if (category === 'image') {
+    const t = title.toLowerCase();
+    if (/linkedin|headshot|portrait.*linkedin/.test(t)) return imagePresets.linkedin(title);
+    if (/saree|traditional/.test(t)) return imagePresets.saree(title);
+    if (/product.*white|e-?commerce|ecommerce/.test(t)) return imagePresets.productWhite(title);
+    return imagePresets.generic(title);
+  }
+
+  if (category === 'web') return webTemplate(title);
+  if (category === 'seo') return seoTemplate(title);
+  if (category === 'marketing') return marketingTemplate(title);
+  if (category === 'resume') return resumeTemplate(title);
+  if (category === 'data') return dataTemplate(title);
+  if (category === 'legal') return legalTemplate(title);
+
+  // Fallback
+  return `System: You are an expert. Respond with OUTPUT-ONLY.
+User: ${title}
+Rules:
+- Return only the final deliverable; no commentary.`;
 }
-
 
     function exampleOutput(category, title){
       const ex = {
