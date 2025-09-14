@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
 
 <head>
@@ -220,8 +220,8 @@
    ]}</script>
   <script type="application/ld+json">
   {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[
-    {"@type":"Question","name":"What's the formula for FD maturity with compounding?","acceptedAnswer":{"@type":"Answer","text":"Maturity A = P × (1 + r/n)^(n×t), where P is principal, r is annual rate (decimal), n is compounding frequency per year, and t is tenure in years (including partial years)."}},
-    {"@type":"Question","name":"How are monthly/quarterly payouts handled?","acceptedAnswer":{"@type":"Answer","text":"In non-cumulative deposits, interest is paid out periodically without reinvestment. We approximate payouts using simple interest P×r×t and show the periodic payout estimate."}},
+    {"@type":"Question","name":"What's the formula for FD maturity with compounding?","acceptedAnswer":{"@type":"Answer","text":"Maturity A = P Ã— (1 + r/n)^(nÃ—t), where P is principal, r is annual rate (decimal), n is compounding frequency per year, and t is tenure in years (including partial years)."}},
+    {"@type":"Question","name":"How are monthly/quarterly payouts handled?","acceptedAnswer":{"@type":"Answer","text":"In non-cumulative deposits, interest is paid out periodically without reinvestment. We approximate payouts using simple interest PÃ—rÃ—t and show the periodic payout estimate."}},
     {"@type":"Question","name":"Does this include TDS?","acceptedAnswer":{"@type":"Answer","text":"You can simulate TDS (with/without PAN) and thresholds for seniors/non-seniors. Actual TDS depends on bank and tax rules; consult your bank and tax advisor."}}
   ]}</script>
 </head>
@@ -254,32 +254,32 @@
 
   <main id="main" class="wrap" role="main">
     <div class="tool-header" role="doc-introduction" style="padding:12px 16px; gap:12px;">
-      <span class="tool-icon" aria-hidden="true">🏦</span>
+      <span class="tool-icon" aria-hidden="true">ðŸ¦</span>
       <div>
         <h1 style="margin:0 0 4px;">FD Interest Calculator (India)</h1>
         <p class="note" style="margin:0;">Cumulative & non-cumulative FDs, partial tenures, APY, and optional TDS
           simulation. Fast, private, shareable.</p>
       </div>
-      <a class="back-btn" href="/" aria-label="Back to home" title="Back to UpTools">←</a>
+      <a class="back-btn" href="/" aria-label="Back to home" title="Back to UpTools">â†</a>
     </div>
 
     <section class="grid" aria-label="Calculator and info">
       <!-- LEFT: CALCULATOR -->
       <article class="card compact" aria-labelledby="calc-title">
-        <div class="illus" aria-hidden="true">₹ FD Planner</div>
+        <div class="illus" aria-hidden="true">â‚¹ FD Planner</div>
 
         <div class="toolbar" style="margin:10px 0;">
           <h2 id="calc-title" style="margin:0;">Enter details</h2>
           <span class="spacer"></span>
-          <button type="submit" form="tool-form" class="btn sm" id="btn-calc-top">🧮 Calculate</button>
-          <button type="button" class="btn sm secondary" id="btn-clear-top">🧹 Clear</button>
+          <button type="submit" form="tool-form" class="btn sm" id="btn-calc-top">ðŸ§® Calculate</button>
+          <button type="button" class="btn sm secondary" id="btn-clear-top">ðŸ§¹ Clear</button>
           <details class="more">
-            <summary class="btn sm ghost" aria-haspopup="menu" aria-expanded="false">More ▾</summary>
+            <summary class="btn sm ghost" aria-haspopup="menu" aria-expanded="false">More â–¾</summary>
             <div class="menu" role="menu">
-              <button type="button" class="btn secondary" id="btn-copy">🔗 Copy link</button>
-              <button type="button" class="btn secondary" id="btn-print">🖨️ Print</button>
-              <button type="button" class="btn secondary" id="btn-json">📦 Export JSON</button>
-              <button type="button" class="btn secondary" id="btn-csv">🗂️ Export CSV</button>
+              <button type="button" class="btn secondary" id="btn-copy">ðŸ”— Copy link</button>
+              <button type="button" class="btn secondary" id="btn-print">ðŸ–¨ï¸ Print</button>
+              <button type="button" class="btn secondary" id="btn-json">ðŸ“¦ Export JSON</button>
+              <button type="button" class="btn secondary" id="btn-csv">ðŸ—‚ï¸ Export CSV</button>
             </div>
           </details>
         </div>
@@ -287,7 +287,7 @@
         <form id="tool-form" autocomplete="on">
           <div class="grid-2">
             <div>
-              <label class="label" for="p">Principal (₹)</label>
+              <label class="label" for="p">Principal (â‚¹)</label>
               <input id="p" name="p" class="input" type="number" min="0" step="1" placeholder="e.g., 100000" required
                 inputmode="numeric" />
               <div class="help">Tip: Use whole rupees; we'll format automatically.</div>
@@ -358,21 +358,21 @@
                 <option value="pan10">Yes - PAN on file (10%)</option>
                 <option value="npan20">Yes - No PAN (20%)</option>
               </select>
-              <div class="help">Threshold ₹40k (non-senior) / ₹50k (senior) annual interest (approx.).</div>
+              <div class="help">Threshold â‚¹40k (non-senior) / â‚¹50k (senior) annual interest (approx.).</div>
             </div>
           </div>
 
           <div class="toolbar" style="margin-top:12px;">
-            <button type="submit" class="btn sm" id="btn-calc">🧮 Calculate</button>
-            <button type="button" class="btn sm secondary" id="btn-clear">🧹 Clear</button>
+            <button type="submit" class="btn sm" id="btn-calc">ðŸ§® Calculate</button>
+            <button type="button" class="btn sm secondary" id="btn-clear">ðŸ§¹ Clear</button>
             <span class="spacer"></span>
             <details class="more">
-              <summary class="btn sm ghost">More ▾</summary>
+              <summary class="btn sm ghost">More â–¾</summary>
               <div class="menu">
-                <button type="button" class="btn secondary" id="btn-copy-2">🔗 Copy link</button>
-                <button type="button" class="btn secondary" id="btn-print-2">🖨️ Print</button>
-                <button type="button" class="btn secondary" id="btn-json-2">📦 Export JSON</button>
-                <button type="button" class="btn secondary" id="btn-csv-2">🗂️ Export CSV</button>
+                <button type="button" class="btn secondary" id="btn-copy-2">ðŸ”— Copy link</button>
+                <button type="button" class="btn secondary" id="btn-print-2">ðŸ–¨ï¸ Print</button>
+                <button type="button" class="btn secondary" id="btn-json-2">ðŸ“¦ Export JSON</button>
+                <button type="button" class="btn secondary" id="btn-csv-2">ðŸ—‚ï¸ Export CSV</button>
               </div>
             </details>
           </div>
@@ -388,7 +388,7 @@
         <div id="result" class="result" aria-live="polite" aria-atomic="true">
           <div class="row">
             <div>Maturity amount</div>
-            <div class="amount" id="amt">₹0</div>
+            <div class="amount" id="amt">â‚¹0</div>
           </div>
           <div class="kvi"><span>Total interest</span><span id="int">0</span></div>
           <div class="kvi"><span>Effective annual yield (APY)</span><span id="apy">0%</span></div>
@@ -404,23 +404,34 @@
         <p class="small">FDs are typically compounded quarterly in India. Non-cumulative FDs pay simple interest
           periodically. Always confirm exact bank terms.</p>
         <ul class="small">
-          <li><a href="/emi-calculator/">💳 EMI Calculator</a></li>
-          <li><a href="/sip-calculator/">📈 SIP Calculator</a></li>
-          <li><a href="/income-tax-tool/">🧮 Income Tax Calculator</a></li>
-          <li><a href="/bmi-calculator/">⚖️ BMI Calculator</a></li>
+          <li><a href="/emi-calculator/">ðŸ’³ EMI Calculator</a></li>
+          <li><a href="/sip-calculator/">ðŸ“ˆ SIP Calculator</a></li>
+          <li><a href="/income-tax-tool/">ðŸ§® Income Tax Calculator</a></li>
+          <li><a href="/bmi-calculator/">âš–ï¸ BMI Calculator</a></li>
         </ul>
         <p class="small">External references:
-          <a href="https://www.rbi.org.in/" rel="nofollow noopener" target="_blank">RBI</a> ·
+          <a href="https://www.rbi.org.in/" rel="nofollow noopener" target="_blank">RBI</a> Â·
           <a href="https://www.incometax.gov.in/" rel="nofollow noopener" target="_blank">Income Tax</a>
         </p>
       </aside>
     </section>
 
     <footer class="note small site-footer" role="contentinfo">
-      © <span id="y"></span> UpTools · <a href="/about/">About</a> · <a href="/contact/">Contact</a> · <a
-        href="/sitemap.xml">Sitemap</a> · <a href="/robots.txt">Robots</a>
+      Â© <span id="y"></span> UpTools Â· <a href="/about/">About</a> Â· <a href="/contact/">Contact</a> Â· <a
+        href="/sitemap.xml">Sitemap</a> Â· <a href="/robots.txt">Robots</a>
     </footer>
-  </main>
+  <section class=\"card\" style=\"margin-top:16px\">
+  <h2>How this FD calculator works</h2>
+  <p>Enter principal (deposit), annual interest rate, and tenure (years/months/days). Choose payout type: cumulative (reinvestment) compounds the interest until maturity; non‑cumulative pays monthly/quarterly/half‑yearly/yearly interest to your account and may compute APY based on payout. Senior‑citizen option can add a rate premium where applicable. The tool outputs maturity amount, total interest, effective annual yield (APY), and optionally estimates TDS impact.</p>
+  <h3>Examples</h3>
+  <p><b>Cumulative:</b> ₹2,00,000 at 7.25% p.a. for 2 years → maturity ≈ ₹2,31,000 (compounded quarterly; exact value depends on bank’s compounding/payout convention).</p>
+  <p><b>Monthly payout:</b> ₹5,00,000 at 7% p.a. monthly → interest ≈ ₹2,917/month before tax; principal remains ₹5,00,000; APY differs from nominal based on payout frequency.</p>
+  <h3>FAQs</h3>
+  <details><summary><b>What is APY?</b></summary><p>Annual Percentage Yield reflects compounding effects and lets you compare deposits with different payout frequencies. APY ≥ nominal rate when reinvested, equal to or lower when interest is withdrawn.</p></details>
+  <details><summary><b>How is TDS handled?</b></summary><p>Banks may deduct TDS when interest exceeds thresholds. This calculator provides an indicative estimate; verify with your bank and tax rules.</p></details>
+  <details><summary><b>Is premature withdrawal supported?</b></summary><p>This tool doesn’t model penalties for early closure. Check your bank’s policy for breakage and revised interest.</p></details>
+</section>
+</main>
 
   <script type="module">
     import { $, $$, fmtNum, fmtCur, debounce, serializeForm, setText, persist, read, num } from "/scripts/utils.js";
@@ -460,7 +471,7 @@
         const times = Math.max(1, Math.round(num(n))); // compounding per year
         const A = principal * Math.pow(1 + rate / times, times * tYears);
         const interest = A - principal;
-        const apy = Math.pow(1 + rate / times, times) - 1; // nominal→effective per year
+        const apy = Math.pow(1 + rate / times, times) - 1; // nominalâ†’effective per year
         return { A, interest, apy, mode: "Cumulative", detail: `Compounded ${times === 12 ? 'monthly' : times === 4 ? 'quarterly' : times === 2 ? 'half-yearly' : 'yearly'}` };
       } else {
         // Non-cumulative: simple interest; payout estimate per period
@@ -482,7 +493,7 @@
       const taxable = taxableYearly * years;
       const rate = (tdsMode === "pan10") ? 0.10 : 0.20;
       const tds = Math.max(0, taxable * rate);
-      return { tds, netInt: Math.max(0, interest - tds), note: `TDS ${rate * 100}% with threshold ₹${annualThreshold.toLocaleString('en-IN')}/year (approx.)` };
+      return { tds, netInt: Math.max(0, interest - tds), note: `TDS ${rate * 100}% with threshold â‚¹${annualThreshold.toLocaleString('en-IN')}/year (approx.)` };
     }
 
     function compute() {
@@ -521,7 +532,7 @@
       setText(el.netAmt, out.tds ? INR(Math.round(out.netMaturity)) : "-");
       setText(el.tYears, (out.tYears).toFixed(4).replace(/0+$/, '').replace(/\.$/, ''));
       setText(el.mDate, out.maturityDate);
-      const extra = out.mode === "Non-cumulative" && out.periodic ? ` · Est. payout/period: ${INR(Math.round(out.periodic))}` : "";
+      const extra = out.mode === "Non-cumulative" && out.periodic ? ` Â· Est. payout/period: ${INR(Math.round(out.periodic))}` : "";
       setText(el.explain, `${out.mode}: ${out.detail}${extra}. ${($("#tds").value !== "no") ? "TDS simulated. " + out.tdsNote : ""}`);
     }
 

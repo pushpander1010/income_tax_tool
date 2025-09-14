@@ -186,7 +186,19 @@
     </section>
 
     <footer class="note small site-footer" role="contentinfo">© <span id="y"></span> UpTools · <a href="/sitemap.xml">Sitemap</a></footer>
-  </main>
+  <section class="card" style="margin-top:16px">
+  <h2>How this Income Tax calculator works</h2>
+  <p>This calculator estimates your India income tax for FY 2024–25 (AY 2025–26) under both the New and Old regimes. Enter your annual gross income, choose whether to include the standard deduction (₹50,000 for salaried/pensioners), and optionally toggle surcharge for high incomes. For the Old regime you may enter deductions such as Section 80C (up to ₹1,50,000), Section 80D (eligible health insurance premiums), additional NPS under Section 80CCD(1B) (up to ₹50,000), HRA details to compute the exempt portion, and home‑loan interest (self‑occupied: up to ₹2,00,000 set‑off). The tool compares total tax in New vs Old and shows monthly TDS and effective tax rate.</p>
+  <p><b>New regime slabs:</b> 0–₹3L: 0%; ₹3–6L: 5%; ₹6–9L: 10%; ₹9–12L: 15%; ₹12–15L: 20%; >₹15L: 30%. <b>Old regime slabs:</b> 0–₹2.5L: 0%; ₹2.5–5L: 5%; ₹5–10L: 20%; >₹10L: 30%. Health & Education Cess of 4% applies on tax plus surcharge. Section 87A rebate makes tax ₹0 when total income is up to ₹7,00,000 (New) or up to ₹5,00,000 (Old). Surcharge, if enabled, applies above ₹50L, ₹1cr, ₹2cr and ₹5cr (with a 25% cap in the New regime).</p>
+  <h3>Examples</h3>
+  <p><b>Example 1:</b> Income ₹7,20,000, salaried, standard deduction on, no other deductions. New regime taxable = ₹6,70,000 → 87A rebate not available (above ₹7L threshold), tax per slabs + 4% cess. Old regime taxable = ₹6,70,000 after standard deduction; basic tax computed per old slabs; compare totals to choose the lower.</p>
+  <p><b>Example 2:</b> Income ₹12,00,000 with Old‑regime deductions: 80C ₹1,50,000, 80D ₹25,000, NPS 80CCD(1B) ₹50,000, HRA exemption ₹1,20,000, home‑loan interest ₹2,00,000. Old regime taxable income reduces substantially; New regime disallows most of these (only standard deduction), so Old may be lower. Use “Compare New vs Old” to see which wins.</p>
+  <h3>FAQs</h3>
+  <details><summary><b>Which regime should I choose?</b></summary><p>If your total eligible deductions (80C, 80D, NPS 1B, HRA, home‑loan interest) are high, the Old regime often results in lower tax. If deductions are minimal, the New regime’s lower rate structure and standard deduction can be better. This tool compares both.</p></details>
+  <details><summary><b>Is HRA allowed in the New regime?</b></summary><p>No. Most deductions, including HRA, are not allowed in the New regime (only the standard deduction for salaried/pensioners is applied when selected). HRA exemption (Old only) is the least of: actual HRA received; rent paid − 10% of basic; 50% of basic for metro (40% non‑metro).</p></details>
+  <details><summary><b>Are results exact?</b></summary><p>They are indicative for planning. Personal nuances (perquisites, set‑offs, multiple incomes, rounding, TDS/TCS timing) may alter outcomes. Consult a tax professional for your filing.</p></details>
+</section>
+</main>
 
   <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
 

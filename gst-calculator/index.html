@@ -227,7 +227,19 @@
     <footer class="note small site-footer" role="contentinfo">
       Â© <span id="y"></span> UpTools Â· <a href="/sitemap.xml">Sitemap</a> Â· <a href="/about/">About</a> Â· <a href="/contact/">Contact</a>
     </footer>
-  </main>
+  <section class=\"card\" style=\"margin-top:16px\">
+  <h2>How this GST calculator works</h2>
+  <p>Enter an amount and choose a GST rate (5%, 12%, 18%, 28% or custom). Select whether the amount is GST‑inclusive or exclusive, and whether the supply is intra‑state (CGST+SGST) or inter‑state (IGST). For GST‑inclusive, the base is back‑calculated as amount ÷ (1 + rate), and GST is the difference between total and base. For GST‑exclusive, GST is base × rate and total = base + GST. When intra‑state is chosen, GST splits equally into CGST and SGST; for inter‑state, IGST applies.</p>
+  <h3>Examples</h3>
+  <p><b>Inclusive 18%:</b> Amount ₹1,180 inclusive → base = 1180/1.18 = ₹1,000; GST = ₹180 (CGST ₹90 + SGST ₹90, or IGST ₹180).</p>
+  <p><b>Exclusive 12%:</b> Base ₹2,000 exclusive → GST = 2000 × 12% = ₹240; total = ₹2,240.</p>
+  <p>You can round to the nearest rupee for invoices or keep paise for precise calculations. Share a link or export CSV for records.</p>
+  <h3>FAQs</h3>
+  <details><summary><b>CGST/SGST vs IGST?</b></summary><p>Intra‑state supplies split GST into equal CGST and SGST components. Inter‑state supplies levy IGST. This is a display split and doesn’t change the total.</p></details>
+  <details><summary><b>Which rates are common?</b></summary><p>Many essentials are 0% or 5%; services and goods often fall under 12% or 18%; luxury items may be 28%. Always verify the applicable rate for your item/service.</p></details>
+  <details><summary><b>Is this a filing tool?</b></summary><p>No. It’s a quick calculator to estimate base/GST/total for quotes and invoices; it does not file returns.</p></details>
+</section>
+</main>
 
   <!-- Common utils for all pages -->
   <script type="module">
