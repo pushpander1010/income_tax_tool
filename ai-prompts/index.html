@@ -299,8 +299,8 @@
           <article class="card" data-category="image" data-tags="beginner short">
             <div class="badge">Image Editing</div>
             <h3>Remove Background (Product Photo)</h3>
-            <pre><code>System: You are a photo editor that outputs step-by-step masks.
-User: Remove the background from this product image, keep soft shadow, white backdrop, export PNG 2048×2048.</code></pre>
+            <pre><code>System: You are a photo editor. Respond with OUTPUT-ONLY.
+User: Remove the background from this product image. Keep a soft, realistic shadow. Set background to pure white. Export a single PNG at 2048×2048. Do not include any text, steps, or commentary—only return the final image/artifact supported by the tool.</code></pre>
             <div class="btn-row">
               <button class="btn primary copy-prompt">Copy Prompt</button>
               <button class="btn ghost small show-result">Show Result</button>
@@ -314,8 +314,8 @@ User: Remove the background from this product image, keep soft shadow, white bac
           <article class="card" data-category="web" data-tags="advanced longform">
             <div class="badge">Website &amp; UI</div>
             <h3>Landing Page (Vite + CF Pages)</h3>
-            <pre><code>Role: Senior Frontend Engineer.
-Task: Generate a responsive landing page with Vite, Tailwind, and Cloudflare Pages-ready routing. Include meta/OG tags, FAQ schema, and lazy YouTube. Output a complete index.html with best practices.</code></pre>
+            <pre><code>System: You are a senior frontend engineer. Respond with OUTPUT-ONLY.
+User: Generate a complete, production-ready single file: index.html (Vite-friendly). Include meta/OG/Twitter tags, FAQPage JSON-LD, responsive layout (hero, features, FAQ), and lazy YouTube embed. No explanations, no markdown fences—return only the raw HTML code of index.html.</code></pre>
             <div class="btn-row">
               <button class="btn primary copy-prompt">Copy Prompt</button>
               <button class="btn ghost small show-result">Show Result</button>
@@ -783,45 +783,68 @@ Task: Generate a responsive landing page with Vite, Tailwind, and Cloudflare Pag
 
 
     function buildLongPrompt(category, title){
-      const roleMap = {
-        image: 'Senior Photo Retoucher & Workflow Designer',
-        web: 'Senior Frontend Engineer (Vite + Cloudflare Pages)',
-        seo: 'Technical SEO Strategist',
-        marketing: 'Performance Marketer & Copywriter',
-        resume: 'ATS Optimization Specialist',
-        data: 'Data Scientist & Analytics Educator',
-        legal: 'Paralegal (Plain-English Drafting, India-first)'
-      };
-      const reqCommon = {
-        image: '- Non-destructive steps\n- Export specs\n- Edge cases & QA checklist',
-        web: '- Semantic HTML\n- ARIA & A11y\n- Core Web Vitals targets',
-        seo: '- India context where relevant\n- JSON-LD validation\n- Risk/impact notes',
-        marketing: '- Character limits\n- Compliance notes\n- 2 tone options',
-        resume: '- Quantified metrics\n- Skills matrix\n- Plain-text (DOCX-ready)',
-        data: '- Reproducible code\n- Inline comments\n- Example dataset description',
-        legal: '- Replace placeholders in ALL CAPS\n- Plain-language + short clauses\n- Last-updated date'
-      };
-      const deliverables = {
-        image: '- Steps list\n- Tool-agnostic settings (range values)\n- Export checklist',
-        web: '- Code snippet(s)\n- File tree\n- Build & deploy notes',
-        seo: '- Brief + schema block\n- Measurement plan\n- 3 title/meta variants',
-        marketing: '- Variants grouped by theme\n- CTA suggestions\n- A/B ideas',
-        resume: '- Summary (≤150 chars)\n- 6–10 bullets with metrics\n- Keywords table',
-        data: '- 5 runnable examples\n- Expected outputs\n- Gotchas & tips',
-        legal: '- 6–10 sections\n- TODO placeholders\n- Compliance notes'
-      };
-      const attireGuides = (category === 'image' && /linkedin|headshot|attire|saree|portrait|outfit|ootd|professional/i.test(title))
-        ? '\nWardrobe/Styling:\n- Professional attire where relevant (solid neutrals, blazer/shirt; no logos/patterns)\n- Tidy hair; minimal jewelry; natural makeup\n- Remove wrinkles, lint, busy textures; keep consistent color palette' : '';
-      return `System: You are ${roleMap[category]} producing production-ready outputs.
-Instructions:
-- Create a comprehensive solution for "${title}".
-- Be specific with values, ranges, and filenames.
-- If assumptions are needed, state them first as "Assumptions".
-Requirements:
-${reqCommon[category]}${attireGuides}
-Deliverables:
-${deliverables[category]}`;
-    }
+  const roleMap = {
+    image: 'Senior Photo Retoucher',
+    web: 'Senior Frontend Engineer',
+    seo: 'Technical SEO Strategist',
+    marketing: 'Performance Marketer & Copywriter',
+    resume: 'ATS Optimization Specialist',
+    data: 'Data Scientist',
+    legal: 'Paralegal (Plain-English Drafting, India-first)'
+  };
+
+  // Category-specific output-only format instructions
+  const outputOnly = {
+    image:
+`System: You are ${roleMap.image}. Respond with OUTPUT-ONLY.
+User: ${title}.
+Rules:
+- Return only the final image/artifact the tool supports (prefer PNG 2048×2048 when applicable).
+- No explanations, no steps, no markdown, no code blocks, no filenames—only the final output.`,
+    web:
+`System: You are ${roleMap.web}. Respond with OUTPUT-ONLY.
+User: ${title}.
+Rules:
+- Return only the final code.
+- For single-file pages, output only raw HTML (index.html). No comments/explanations/markdown fences.`,
+    seo:
+`System: You are ${roleMap.seo}. Respond with OUTPUT-ONLY.
+User: ${title}.
+Rules:
+- Return only a single valid JSON-LD object (no extra text, no code fences).`,
+    marketing:
+`System: You are ${roleMap.marketing}. Respond with OUTPUT-ONLY.
+User: ${title}.
+Rules:
+- Return only the final copy variants, one per line/paragraph as relevant.
+- No labels, no commentary, no headings.`,
+    resume:
+`System: You are ${roleMap.resume}. Respond with OUTPUT-ONLY.
+User: ${title}.
+Rules:
+- Return only the resume/cover letter text formatted for ATS (plain text).
+- No explanations, no headings beyond the document itself.`,
+    data:
+`System: You are ${roleMap.data}. Respond with OUTPUT-ONLY.
+User: ${title}.
+Rules:
+- Return only runnable code (no commentary, no markdown fences).
+- If multiple snippets are needed, concatenate in execution order with minimal blank lines.`,
+    legal:
+`System: You are ${roleMap.legal}. Respond with OUTPUT-ONLY.
+User: ${title}.
+Rules:
+- Return only the finalized legal text with placeholders in ALL CAPS where needed.
+- No commentary, no headings beyond the document sections.`
+  };
+
+  // Choose the template based on category
+  return outputOnly[category] || `System: You are an expert. Respond with OUTPUT-ONLY.
+User: ${title}.
+Rules:
+- Return only the final deliverable (no commentary).`;
+}
+
 
     function exampleOutput(category, title){
       const ex = {
