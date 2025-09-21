@@ -663,28 +663,28 @@
 
       // ---- Tools (assign categories with `cats`) ----
       const TOOLS = [
-        { slug: "income-tax-tool", title: "Income Tax Calculator", icon: "🧮", desc: "Estimate income tax quickly.", href: "/income-tax-tool/", tags: ["tax", "finance"], cats: ["tax", "finance"] },
-        { slug: "gst-calculator", title: "GST Calculator", icon: "🧾", desc: "Add/remove GST from amounts.", href: "/gst-calculator/", tags: ["tax", "finance"], cats: ["tax", "finance"] },
-        { slug: "emi-calculator", title: "EMI Calculator", icon: "💳", desc: "Monthly loan repayment planner.", href: "/emi-calculator/", tags: ["finance"], cats: ["finance"] },
-        { slug: "fd-calculator", title: "FD Calculator", icon: "🏦", desc: "Fixed deposit maturity calculator.", href: "/fd-calculator/", tags: ["finance"], cats: ["finance", "banking"] },
-        { slug: "sip-calculator", title: "SIP Calculator", icon: "📈", desc: "Plan SIP returns with ease.", href: "/sip-calculator/", tags: ["finance"], cats: ["finance"] },
-        { slug: "age-calculator", title: "Age Calculator", icon: "🎂", desc: "Find exact age by date.", href: "/age-calculator/", tags: ["identity"], cats: ["text"] },
-        { slug: "currency-converter", title: "Currency Converter (live)", icon: "💱", desc: "Convert FX with live rates.", href: "/currency-converter/", tags: ["finance", "networking"], cats: ["finance", "networking"] },
-        { slug: "pan-validator", title: "PAN Format Validator", icon: "🪪", desc: "Check PAN format validity.", href: "/pan-validator/", tags: ["identity", "text"], cats: ["text"] },
-        { slug: "ifsc-finder", title: "IFSC Finder (live)", icon: "🏧", desc: "Search bank IFSC codes.", href: "/ifsc-finder/", tags: ["banking", "networking"], cats: ["banking"] },
-        { slug: "canada-crs-tool", title: "Canada CRS Calculator", icon: "🍁", desc: "Estimate Express Entry CRS.", href: "/canada-crs-tool/", tags: ["canada", "identity"], cats: ["canada"] },
-        { slug: "canada-hst-tool", title: "Canada GST/HST Calculator", icon: "🍁", desc: "Sales tax for provinces.", href: "/canada-hst-tool/", tags: ["canada", "tax"], cats: ["canada", "tax"] },
-        { slug: "password-generator", title: "Password Generator", icon: "🔐", desc: "Strong, random passwords.", href: "/password-generator/", tags: ["security"], cats: ["security", "dev"] },
-        { slug: "qr-generator", title: "QR Code Generator", icon: "🔳", desc: "Create QR codes instantly.", href: "/qr-generator/", tags: ["images", "dev"], cats: ["images", "dev"] },
-        { slug: "text-case-converter", title: "Text Case Converter", icon: "🔤", desc: "Upper, lower, title case.", href: "/text-case-converter/", tags: ["text"], cats: ["text"] },
-        { slug: "word-counter", title: "Word Counter", icon: "📝", desc: "Count words & characters.", href: "/word-counter/", tags: ["text"], cats: ["text"] },
-        { slug: "json-formatter", title: "JSON Formatter", icon: "🧩", desc: "Prettify & validate JSON.", href: "/json-formatter/", tags: ["dev"], cats: ["dev"] },
-        { slug: "ai-prompts", title: "AI Prompts Library", icon: "🤖", desc: "Curated prompts for images, resumes, SEO and more.", href: "/ai-prompts/", tags: ["ai","text","images"], cats: ["text","dev"] },
-        { slug:  "crypto-prices", title: "Cryptocurrency Prices", icon: "🪙", desc: "Check the latest prices of cryptocurrencies.", href: "/crypto-prices/", tags: ["finance","crypto"], cats: ["finance","crypto","all"] },
-        { slug:  "crypt-portfolio", title: "Cryptocurrency Portfolio", icon: "📈", desc: "Track your cryptocurrency portfolio.", href: "/crypto-portfolio/", tags: ["finance","crypto"], cats: ["finance","crypto","all"] },
-        { slug:  "crypto-profitability", title: "Cryptocurrency Profitability Calculator", icon: "💰", desc: "Calculate the profitability of your cryptocurrency investments.", href: "/crypto-profitability/", tags: ["finance","crypto"], cats: ["finance","crypto","all"] },
-        { slug:  "crypt-converter", title: "Cryptocurrency Converter", icon: "🔗", desc: "Convert cryptocurrencies to other currencies.", href: "/crypt-converter/", tags: ["finance","crypto"], cats: ["finance","crypto","all"] },
-        { slug:  "domain-finder", title: "Domain Name Finder", icon: "🌐", desc: "Find available domain names.", href: "/domain-finder/", tags: ["networking"], cats: ["networking","all"] },
+        { slug: "income-tax-tool", title: "Income Tax Calculator", icon: "🧮", desc: "Estimate income tax quickly.", href: "/income-tax-tool/", tags: ["tax", "finance"], cats: ["all","tax", "finance"] },
+        { slug: "gst-calculator", title: "GST Calculator", icon: "🧾", desc: "Add/remove GST from amounts.", href: "/gst-calculator/", tags: ["tax", "finance"], cats: ["all","tax", "finance"] },
+        { slug: "emi-calculator", title: "EMI Calculator", icon: "💳", desc: "Monthly loan repayment planner.", href: "/emi-calculator/", tags: ["finance"], cats: ["all","finance"] },
+        { slug: "fd-calculator", title: "FD Calculator", icon: "🏦", desc: "Fixed deposit maturity calculator.", href: "/fd-calculator/", tags: ["finance"], cats: ["all","finance", "banking"] },
+        { slug: "sip-calculator", title: "SIP Calculator", icon: "📈", desc: "Plan SIP returns with ease.", href: "/sip-calculator/", tags: ["finance"], cats: ["all","finance"] },
+        { slug: "age-calculator", title: "Age Calculator", icon: "🎂", desc: "Find exact age by date.", href: "/age-calculator/", tags: ["identity"], cats: ["all","text"] },
+        { slug: "currency-converter", title: "Currency Converter (live)", icon: "💱", desc: "Convert FX with live rates.", href: "/currency-converter/", tags: ["finance", "networking"], cats: ["all","finance", "networking"] },
+        { slug: "pan-validator", title: "PAN Format Validator", icon: "🪪", desc: "Check PAN format validity.", href: "/pan-validator/", tags: ["identity", "text"], cats: ["all","text"] },
+        { slug: "ifsc-finder", title: "IFSC Finder (live)", icon: "🏧", desc: "Search bank IFSC codes.", href: "/ifsc-finder/", tags: ["banking", "networking"], cats: ["all","banking"] },
+        { slug: "canada-crs-tool", title: "Canada CRS Calculator", icon: "🍁", desc: "Estimate Express Entry CRS.", href: "/canada-crs-tool/", tags: ["canada", "identity"], cats: ["all","canada"] },
+        { slug: "canada-hst-tool", title: "Canada GST/HST Calculator", icon: "🍁", desc: "Sales tax for provinces.", href: "/canada-hst-tool/", tags: ["canada", "tax"], cats: ["all","canada", "tax"] },
+        { slug: "password-generator", title: "Password Generator", icon: "🔐", desc: "Strong, random passwords.", href: "/password-generator/", tags: ["security"], cats: ["all","security", "dev"] },
+        { slug: "qr-generator", title: "QR Code Generator", icon: "🔳", desc: "Create QR codes instantly.", href: "/qr-generator/", tags: ["images", "dev"], cats: ["all","images", "dev"] },
+        { slug: "text-case-converter", title: "Text Case Converter", icon: "🔤", desc: "Upper, lower, title case.", href: "/text-case-converter/", tags: ["text"], cats: ["all","text"] },
+        { slug: "word-counter", title: "Word Counter", icon: "📝", desc: "Count words & characters.", href: "/word-counter/", tags: ["text"], cats: ["all","text"] },
+        { slug: "json-formatter", title: "JSON Formatter", icon: "🧩", desc: "Prettify & validate JSON.", href: "/json-formatter/", tags: ["dev"], cats: ["all","dev"] },
+        { slug: "ai-prompts", title: "AI Prompts Library", icon: "🤖", desc: "Curated prompts for images, resumes, SEO and more.", href: "/ai-prompts/", tags: ["ai","text","images"], cats: ["all","text","dev"] },
+        { slug:  "crypto-prices", title: "Cryptocurrency Prices", icon: "🪙", desc: "Check the latest prices of cryptocurrencies.", href: "/crypto-prices/", tags: ["finance","crypto"], cats: ["all","finance","crypto"] },
+        { slug:  "crypt-portfolio", title: "Cryptocurrency Portfolio", icon: "📈", desc: "Track your cryptocurrency portfolio.", href: "/crypto-portfolio/", tags: ["finance","crypto"], cats: ["all","finance","crypto"] },
+        { slug:  "crypto-profitability", title: "Cryptocurrency Profitability Calculator", icon: "💰", desc: "Calculate the profitability of your cryptocurrency investments.", href: "/crypto-profitability/", tags: ["finance","crypto"], cats: ["all","finance","crypto"] },
+        { slug:  "crypt-converter", title: "Cryptocurrency Converter", icon: "🔗", desc: "Convert cryptocurrencies to other currencies.", href: "/crypt-converter/", tags: ["finance","crypto"], cats: ["all","finance","crypto"] },
+        { slug:  "domain-finder", title: "Domain Name Finder", icon: "🌐", desc: "Find available domain names.", href: "/domain-finder/", tags: ["networking"], cats: ["all","networking"] },
       ];
 
       // ---- Elements ----
@@ -861,10 +861,10 @@
       // ---- Featured mount ----
       (function mountFeatured() {
         const feat = [
-          { slug: "income-tax-tool", title: "Income Tax Calculator", icon: "🧮", desc: "FY 2024-25 (AY 2025-26), New vs Old.", href: "/income-tax-tool/", tags: ["tax", "finance"], cats: ["tax", "finance"] },
-          { slug: "gst-calculator", title: "GST Calculator", icon: "🧾", desc: "Add/remove GST from totals.", href: "/gst-calculator/", tags: ["tax", "finance"], cats: ["tax", "finance"] },
-          { slug: "currency-converter", title: "Currency Converter", icon: "💱", desc: "Live interbank FX (with fallback).", href: "/currency-converter/", tags: ["finance", "networking"], cats: ["finance", "networking"] },
-          { slug: "emi-calculator", title: "EMI Calculator", icon: "💳", desc: "Plan monthly repayments.", href: "/emi-calculator/", tags: ["finance"], cats: ["finance"] }
+          { slug: "income-tax-tool", title: "Income Tax Calculator", icon: "🧮", desc: "FY 2024-25 (AY 2025-26), New vs Old.", href: "/income-tax-tool/", tags: ["tax", "finance"], cats: ["all","tax", "finance"] },
+          { slug: "gst-calculator", title: "GST Calculator", icon: "🧾", desc: "Add/remove GST from totals.", href: "/gst-calculator/", tags: ["tax", "finance"], cats: ["all","tax", "finance"] },
+          { slug: "currency-converter", title: "Currency Converter", icon: "💱", desc: "Live interbank FX (with fallback).", href: "/currency-converter/", tags: ["finance", "networking"], cats: ["all","finance", "networking"] },
+          { slug: "emi-calculator", title: "EMI Calculator", icon: "💳", desc: "Plan monthly repayments.", href: "/emi-calculator/", tags: ["finance"], cats: ["all","finance"] }
         ];
         const g = $("#featuredGrid");
         const favs = new Set();
