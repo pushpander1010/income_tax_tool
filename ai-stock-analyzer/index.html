@@ -690,6 +690,8 @@
 
     const JINA_PROXY = 'https://r.jina.ai/';
 
+    const CORS_PROXY = 'https://corsproxy.io/?';
+
     const api = async (url) => {
       const attempts = [];
       const note = (label, err) => { attempts.push({ label, err }); console.warn(label, err); };
@@ -737,6 +739,14 @@
         catch { return raw; }
       } catch (jinaErr) {
         note('Jina proxy fallback failed', jinaErr);
+      }
+
+      try {
+        const raw = await runFetch(`${CORS_PROXY}${url}`, { parseJson: false });
+        try { return JSON.parse(raw); }
+        catch { return raw; }
+      } catch (corsErr) {
+        note('corsproxy.io fallback failed', corsErr);
       }
 
       const last = attempts.length ? attempts[attempts.length - 1].err : new Error('Failed to fetch');
