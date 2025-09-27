@@ -256,6 +256,10 @@
     const fmt = (v,o={}) => new Intl.NumberFormat('en-IN',{maximumFractionDigits:2, ...o}).format(v ?? 0);
     const cur = (v,c='INR') => new Intl.NumberFormat('en-IN',{style:'currency', currency:c, maximumFractionDigits:2}).format(v ?? 0);
 
+    const isLocal = ['localhost','127.0.0.1'].includes(location.hostname);
+    const API_BASE = typeof window?.UPTOOLS_API_BASE === 'string' ? window.UPTOOLS_API_BASE : (isLocal ? 'https://www.uptools.in' : '');
+    const withBase = (base, path) => base ? `${base.replace(/\/$/, '')}${path}` : path;
+
     const yearEl = $('#y'); if(yearEl) yearEl.textContent = new Date().getFullYear();
 
     // AdSense mount
@@ -283,11 +287,55 @@
     const buildSymbol = (t, m) => (t||'').trim().toUpperCase() + (suffixByMarket[m] ?? '');
 
     // Proxy fetch via Cloudflare Worker
-    const api = async (url) => {
-      const res = await fetch('/api?url='+encodeURIComponent(url));
-      if(!res.ok) throw new Error('HTTP '+res.status);
-      const ct = res.headers.get('content-type')||'';
+    const runFetch = async (endpoint, { parseJson = true } = {}) => {
+      const res = await fetch(endpoint);
+      if(!res.ok) throw new Error('HTTP ' + res.status);
+      if(parseJson === false) return res.text();
+      const ct = res.headers.get('content-type') || '';
       return ct.includes('application/json') ? res.json() : res.text();
+    };
+
+    const ALL_ORIGINS = 'https://api.allorigins.win/raw?url=';
+
+    const api = async (url) => {
+      const attempts = [];
+      const note = (label, err) => { attempts.push({ label, err }); console.warn(label, err); };
+
+      const tryDirect = async (label) => {
+        try {
+          return await runFetch(url);
+        } catch (err) {
+          note(label, err);
+          return null;
+        }
+      };
+
+      if(isLocal){
+        const direct = await tryDirect('Direct fetch (local) failed');
+        if(direct != null) return direct;
+      }
+
+      try {
+        const endpoint = withBase(API_BASE, `/api?url=${encodeURIComponent(url)}`);
+        return await runFetch(endpoint);
+      } catch (err) {
+        note('Proxy fetch failed', err);
+      }
+
+      if(!isLocal){
+        const retry = await tryDirect('Direct fetch retry failed');
+        if(retry != null) return retry;
+      }
+
+      try {
+        const raw = await runFetch(`${ALL_ORIGINS}${encodeURIComponent(url)}`, { parseJson: false });
+        try { return JSON.parse(raw); } catch { return raw; }
+      } catch (fallbackErr) {
+        note('AllOrigins fallback failed', fallbackErr);
+      }
+
+      const last = attempts.length ? attempts[attempts.length - 1].err : new Error('Failed to fetch');
+      throw last;
     };
 
     // Yahoo quote & chart
@@ -535,7 +583,11 @@
         setStatus(`Done. ${topN.length} picks ready.`);
       }catch(err){
         console.error(err);
-        setStatus('Failed to compute picks. Try again or change universe.');
+        let msg = err?.message || 'unknown error';
+        if(msg === 'Failed to fetch' && isLocal){
+          msg += '. Start your proxy (npm run worker) or set window.UPTOOLS_API_BASE to a remote /api endpoint.';
+        }
+        setStatus(`Failed to compute picks (${msg}). Try again or change universe.`);
       }finally{
         goBtn.disabled = false;
       }
