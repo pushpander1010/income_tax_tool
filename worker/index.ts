@@ -147,6 +147,125 @@ const DEFAULT_FINANCE_HOSTS = [
   "api.coingecko.com",
 ];
 
+const PROXY_USER_AGENT = "Mozilla/5.0 (compatible; UpToolsProxy/1.0; +https://www.uptools.in/)";
+const YAHOO_LOGIN_URL = "https://login.yahoo.com";
+const YAHOO_CRUMB_URL = "https://query1.finance.yahoo.com/v1/test/getcrumb";
+const YAHOO_CACHE_MS = 1000 * 60 * 30; // 30 minutes
+
+type YahooAuth = { cookie: string; crumb: string; expires: number };
+let yahooAuthCache: YahooAuth | null = null;
+let yahooAuthPromise: Promise<YahooAuth> | null = null;
+
+const splitSetCookie = (header: string): string[] => {
+  const parts: string[] = [];
+  let current = "";
+  let inExpires = false;
+  for (let i = 0; i < header.length; i++) {
+    const ch = header[i];
+    if (ch === ',') {
+      if (inExpires) {
+        current += ch;
+      } else {
+        parts.push(current.trim());
+        current = "";
+        while (i + 1 < header.length && header[i + 1] === ' ') i++;
+      }
+    } else {
+      current += ch;
+      const lower = current.toLowerCase();
+      if (!inExpires && lower.endsWith('expires=')) {
+        inExpires = true;
+      } else if (inExpires && ch === ';') {
+        inExpires = false;
+      }
+    }
+  }
+  if (current.trim()) parts.push(current.trim());
+  return parts.filter(Boolean);
+};
+
+const collectYahooCookies = (headers: Headers): string[] => {
+  const cookies: string[] = [];
+  for (const [key, value] of headers) {
+    if (key.toLowerCase() === 'set-cookie') {
+      const first = value.split(';')[0]?.trim();
+      if (first) cookies.push(first);
+    }
+  }
+  if (!cookies.length) {
+    const fallback = headers.get('set-cookie');
+    if (fallback) {
+      splitSetCookie(fallback).forEach(cookie => {
+        const first = cookie.split(';')[0]?.trim();
+        if (first) cookies.push(first);
+      });
+    }
+  }
+  return cookies;
+};
+
+const cookieHeaderFrom = (cookies: string[]): string =>
+  cookies.map(c => c.split(';')[0]?.trim()).filter(Boolean).join('; ');
+
+async function fetchYahooAuth(): Promise<YahooAuth> {
+  const headers = {
+    "User-Agent": PROXY_USER_AGENT,
+    "Accept-Language": "en-US,en;q=0.9",
+  };
+  const loginRes = await fetch(YAHOO_LOGIN_URL, { headers });
+  const cookieParts = collectYahooCookies(loginRes.headers);
+  if (!cookieParts.length) throw new Error("Yahoo login returned no cookies");
+  const cookie = cookieHeaderFrom(cookieParts);
+  const crumbRes = await fetch(YAHOO_CRUMB_URL, { headers: { ...headers, cookie } });
+  if (!crumbRes.ok) throw new Error(`Yahoo crumb status ${crumbRes.status}`);
+  const crumb = (await crumbRes.text()).trim();
+  if (!crumb) throw new Error("Yahoo crumb empty");
+  return { cookie, crumb, expires: Date.now() + YAHOO_CACHE_MS };
+}
+
+async function getYahooAuth(force = false): Promise<YahooAuth> {
+  if (force) {
+    yahooAuthCache = null;
+    yahooAuthPromise = null;
+  } else if (yahooAuthCache && Date.now() < yahooAuthCache.expires) {
+    return yahooAuthCache;
+  }
+  if (!yahooAuthPromise) {
+    yahooAuthPromise = fetchYahooAuth().then(auth => {
+      yahooAuthCache = auth;
+      yahooAuthPromise = null;
+      return auth;
+    }).catch(err => {
+      yahooAuthPromise = null;
+      throw err;
+    });
+  }
+  return yahooAuthPromise;
+}
+
+const YAHOO_AUTH_PATH = /\/v\d+\/finance\/(quote|quoteSummary|options|spark|screener|scan)/;
+
+function needsYahooAuth(target: URL): boolean {
+  if (!target.hostname.endsWith("finance.yahoo.com")) return false;
+  return YAHOO_AUTH_PATH.test(target.pathname);
+}
+
+function applyYahooAuth(
+  target: URL,
+  auth: YahooAuth | null,
+  headers: Record<string, string>,
+  url: URL,
+  targetKey: string | null
+) {
+  if (!auth) return;
+  if (!target.searchParams.has("crumb") || target.searchParams.get("crumb") !== auth.crumb) {
+    target.searchParams.set("crumb", auth.crumb);
+    if (targetKey) url.searchParams.set(targetKey, target.toString());
+  }
+  headers["Cookie"] = auth.cookie;
+}
+
+
 function allowlistFromEnv(env: Env): string[] {
   const extra = (env.FINANCE_HOSTS || "")
     .split(",")
@@ -196,7 +315,10 @@ async function handleFinanceProxy(req: Request, env: Env): Promise<Response> {
     });
   }
 
-  const targetRaw = url.searchParams.get("u") || url.searchParams.get("url");
+  const hasU = url.searchParams.has("u");
+  const hasUrl = url.searchParams.has("url");
+  const targetKey = hasU ? "u" : hasUrl ? "url" : null;
+  const targetRaw = targetKey ? url.searchParams.get(targetKey) : null;
   if (!targetRaw) {
     return new Response(JSON.stringify({ error: "Missing ?u=<encoded target url>" }), {
       status: 400, headers: { ...cors, "Content-Type": "application/json" }
@@ -228,32 +350,58 @@ async function handleFinanceProxy(req: Request, env: Env): Promise<Response> {
   // Safe edge cache guard
   const edgeCache: Cache | undefined = (globalThis as any)?.caches?.default;
 
-  // Build upstream request
-  const upstreamReq = new Request(target.toString(), {
-    method: "GET",
-    headers: {
-      "User-Agent": "Mozilla/5.0 (compatible; UpToolsProxy/1.0; +https://www.uptools.in/)",
-      "Accept": "application/json,text/plain,*/*",
-      "Accept-Language": "en-IN,en;q=0.9",
-      "Cache-Control": "no-cache",
+  const needsYahoo = needsYahooAuth(target);
+  let yahooAuth: YahooAuth | null = null;
+  if (needsYahoo) {
+    try {
+      yahooAuth = await getYahooAuth();
+    } catch (err) {
+      console.warn("Yahoo auth fetch failed", err);
     }
+  }
+
+  const upstreamHeaders: Record<string, string> = {
+    "User-Agent": PROXY_USER_AGENT,
+    "Accept": "application/json,text/plain,*/*",
+    "Accept-Language": "en-IN,en;q=0.9",
+    "Cache-Control": "no-cache",
+  };
+  applyYahooAuth(target, yahooAuth, upstreamHeaders, url, targetKey);
+
+  const makeUpstreamRequest = () => new Request(target.toString(), {
+    method: "GET",
+    headers: upstreamHeaders,
   });
 
-  // Cache key
+  const useCache = edgeCache && !noCache && !needsYahoo;
+  let upstreamReq = makeUpstreamRequest();
   const cacheKey = new Request(url.toString(), upstreamReq);
 
   let resp: Response | undefined;
   let cacheStatus: "HIT" | "MISS" = "MISS";
 
-  if (edgeCache && !noCache) {
+  if (useCache) {
     try { resp = await edgeCache.match(cacheKey) as Response | undefined; } catch {}
     if (resp) cacheStatus = "HIT";
   }
 
   if (!resp) {
-    const upstream = await fetch(upstreamReq, {
+    let upstream = await fetch(upstreamReq, {
       cf: { cacheTtl: 300, cacheEverything: true, cacheTtlByStatus: { "200-299": 300, "404": 60, "500-599": 0 } }
     });
+
+    if (needsYahoo && upstream.status === 401) {
+      try {
+        yahooAuth = await getYahooAuth(true);
+        applyYahooAuth(target, yahooAuth, upstreamHeaders, url, targetKey);
+        upstreamReq = makeUpstreamRequest();
+        upstream = await fetch(upstreamReq, {
+          cf: { cacheTtl: 300, cacheEverything: true, cacheTtlByStatus: { "200-299": 300, "404": 60, "500-599": 0 } }
+        });
+      } catch (err) {
+        console.warn("Yahoo auth refresh failed", err);
+      }
+    }
 
     const headers = new Headers(upstream.headers);
     Object.entries(cors).forEach(([k, v]) => headers.set(k, v as string));
@@ -272,7 +420,7 @@ async function handleFinanceProxy(req: Request, env: Env): Promise<Response> {
       headers
     });
 
-    if (edgeCache && upstream.ok && !noCache) {
+    if (useCache && edgeCache && upstream.ok) {
       try { await edgeCache.put(cacheKey, resp.clone()); } catch {}
     }
   } else {

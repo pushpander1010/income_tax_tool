@@ -70,7 +70,7 @@
       {
         "@type":"Question",
         "name":"Do I need an API key?",
-        "acceptedAnswer":{"@type":"Answer","text":"No. Data is fetched through a server-side proxy (/api) for CORS safety. Quotes & charts use Yahoo Finance public endpoints; news uses Google News RSS."}
+        "acceptedAnswer":{"@type":"Answer","text":"No. Data is fetched through a server-side proxy (/proxy) for CORS safety. Quotes & charts use Yahoo Finance public endpoints; news uses Google News RSS."}
       }
     ]
   }
@@ -399,6 +399,14 @@
     const API_BASE = typeof window?.UPTOOLS_API_BASE === 'string' ? window.UPTOOLS_API_BASE : '';
     const AI_BASE = typeof window?.UPTOOLS_AI_BASE === 'string' ? window.UPTOOLS_AI_BASE : API_BASE;
     const withBase = (base, path) => base ? `${base.replace(/\/$/, '')}${path}` : path;
+    const buildProxyEndpoint = (targetUrl) => {
+      const base = (API_BASE || '').trim();
+      if(!base) return `/proxy?u=${encodeURIComponent(targetUrl)}`;
+      const normalized = base.replace(/\/$/, '');
+      if(normalized.endsWith('/proxy')) return `${normalized}?u=${encodeURIComponent(targetUrl)}`;
+      if(normalized.endsWith('/api')) return `${normalized}?url=${encodeURIComponent(targetUrl)}`;
+      return `${normalized}/proxy?u=${encodeURIComponent(targetUrl)}`;
+    };
 
     const placeholders = [price, chg, mcap, pe, divy, ccy, hiLo, eps, fpe, beta, shout, rsiEl, sma50p, sma200p, newsSent, scoreTA, scoreFA, scoreNews];
     placeholders.forEach(el => { if (el) el.textContent = NA; });
@@ -713,7 +721,7 @@
       const shouldUseProxy = !isLocal || API_BASE;
       if(shouldUseProxy){
         try {
-          const endpoint = withBase(API_BASE || '', `/api?url=${encodeURIComponent(url)}`);
+          const endpoint = buildProxyEndpoint(url);
           return await runFetch(endpoint);
         } catch (err) {
           note('Proxy fetch failed', err);
@@ -1354,7 +1362,7 @@ User question: ${prompt}` }
         currentContext = null;
         let errMsg = err?.message || 'unknown error';
         if(errMsg === 'Failed to fetch' && isLocal){
-          errMsg += '. Start your proxy (npm run worker) or set window.UPTOOLS_API_BASE to a remote /api endpoint.';
+          errMsg += '. Start your proxy (npm run worker) or set window.UPTOOLS_API_BASE to a remote /proxy endpoint.';
         }
         setAnalysisStatus(`Failed to fetch data (${errMsg}). Try another ticker or range.`);
         setChatStatus(`Analysis failed: ${errMsg}`);
