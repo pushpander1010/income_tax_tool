@@ -297,6 +297,8 @@
 
     const ALL_ORIGINS = 'https://api.allorigins.win/raw?url=';
 
+    const JINA_PROXY = 'https://r.jina.ai/';
+
     const api = async (url) => {
       const attempts = [];
       const note = (label, err) => { attempts.push({ label, err }); console.warn(label, err); };
@@ -335,6 +337,13 @@
         try { return JSON.parse(raw); } catch { return raw; }
       } catch (fallbackErr) {
         note('AllOrigins fallback failed', fallbackErr);
+      }
+
+      try {
+        const raw = await runFetch(`${JINA_PROXY}${url}`, { parseJson: false });
+        try { return JSON.parse(raw); } catch { return raw; }
+      } catch (jinaErr) {
+        note('Jina proxy fallback failed', jinaErr);
       }
 
       const last = attempts.length ? attempts[attempts.length - 1].err : new Error('Failed to fetch');
