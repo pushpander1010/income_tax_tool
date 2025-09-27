@@ -396,7 +396,7 @@
     if (yearEl) yearEl.textContent = new Date().getFullYear();
 
     const isLocal = ['localhost','127.0.0.1'].includes(location.hostname);
-    const API_BASE = typeof window?.UPTOOLS_API_BASE === 'string' ? window.UPTOOLS_API_BASE : (isLocal ? 'https://www.uptools.in' : '');
+    const API_BASE = typeof window?.UPTOOLS_API_BASE === 'string' ? window.UPTOOLS_API_BASE : '';
     const AI_BASE = typeof window?.UPTOOLS_AI_BASE === 'string' ? window.UPTOOLS_AI_BASE : API_BASE;
     const withBase = (base, path) => base ? `${base.replace(/\/$/, '')}${path}` : path;
 
@@ -688,6 +688,8 @@
 
     const ALL_ORIGINS = 'https://api.allorigins.win/raw?url=';
 
+    const JINA_PROXY = 'https://r.jina.ai/';
+
     const api = async (url) => {
       const attempts = [];
       const note = (label, err) => { attempts.push({ label, err }); console.warn(label, err); };
@@ -706,11 +708,14 @@
         if(direct != null) return direct;
       }
 
-      try {
-        const endpoint = withBase(API_BASE, `/api?url=${encodeURIComponent(url)}`);
-        return await runFetch(endpoint);
-      } catch (err) {
-        note('Proxy fetch failed', err);
+      const shouldUseProxy = !isLocal || API_BASE;
+      if(shouldUseProxy){
+        try {
+          const endpoint = withBase(API_BASE || '', `/api?url=${encodeURIComponent(url)}`);
+          return await runFetch(endpoint);
+        } catch (err) {
+          note('Proxy fetch failed', err);
+        }
       }
 
       if(!isLocal){
@@ -724,6 +729,14 @@
         catch { return raw; }
       } catch (fallbackErr) {
         note('AllOrigins fallback failed', fallbackErr);
+      }
+
+      try {
+        const raw = await runFetch(`${JINA_PROXY}${url}`, { parseJson: false });
+        try { return JSON.parse(raw); }
+        catch { return raw; }
+      } catch (jinaErr) {
+        note('Jina proxy fallback failed', jinaErr);
       }
 
       const last = attempts.length ? attempts[attempts.length - 1].err : new Error('Failed to fetch');
