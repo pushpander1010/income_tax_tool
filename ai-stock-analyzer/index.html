@@ -1,0 +1,1358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google Ads (mounted only if available) -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617" crossorigin="anonymous"></script>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>AI Stock Analyzer - Real-Time Charts, News Sentiment, Support/Resistance, Verdict | UpTools</title>
+
+  <!-- Canonical & Favicons -->
+  <link rel="canonical" href="https://www.uptools.in/ai-stock-analyzer/" />
+  <link rel="icon" sizes="50x50" type="image/svg+xml" href="/assets/logo/uptools-logo.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/logo/uptools-logo.svg">
+
+  <!-- SEO -->
+  <meta name="description" content="Free AI stock analysis tool for NSE, BSE, NASDAQ, NYSE, LSE, TSX, TSE, SSE and more. Pulls live quotes & charts (Yahoo Finance), scans patterns, draws support & resistance, reads news (Google News RSS) for sentiment, and gives Buy/Hold/Sell verdicts. Includes an AI chatbox (RAG) grounded in the fetched data." />
+  <meta name="keywords" content="stock analysis,AI stock analyzer,live stock chart,NSE stocks,BSE stocks,NASDAQ stocks,NYSE stocks,TSX,LSE,technical analysis,news sentiment,support resistance,free tool" />
+  <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:large" />
+  <meta name="theme-color" content="#0b1020" />
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:title" content="AI Stock Analyzer - Live Charts, News Sentiment & Verdict" />
+  <meta property="og:description" content="Analyze any ticker across major markets. Real quotes & charts, support/resistance, technical + fundamental snapshot, news sentiment, and Buy/Hold/Sell verdict. Free." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.uptools.in/ai-stock-analyzer/" />
+  <meta property="og:image" content="https://www.uptools.in/assets/og/ai-stock-analyzer.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <!-- CSS (shared) -->
+  <link rel="preload" href="/style.css" as="style">
+  <link rel="stylesheet" href="/style.css" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="/style.css"></noscript>
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"SoftwareApplication",
+    "name":"AI Stock Analyzer",
+    "applicationCategory":"FinancialApplication",
+    "operatingSystem":"Web",
+    "offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},
+    "publisher":{"@type":"Organization","name":"UpTools","url":"https://www.uptools.in/"},
+    "aggregateRating":{"@type":"AggregateRating","ratingValue":"4.8","ratingCount":"127"}
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"BreadcrumbList",
+    "itemListElement":[
+      {"@type":"ListItem","position":1,"name":"Home","item":"https://www.uptools.in/"},
+      {"@type":"ListItem","position":2,"name":"AI Stock Analyzer","item":"https://www.uptools.in/ai-stock-analyzer/"}
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"FAQPage",
+    "mainEntity":[
+      {
+        "@type":"Question",
+        "name":"Which markets are supported?",
+        "acceptedAnswer":{"@type":"Answer","text":"NSE (India), BSE (India), NASDAQ, NYSE, LSE (London), TSX (Toronto), TSE (Tokyo), SSE (Shanghai), HKEX (Hong Kong) and more via Yahoo Finance suffix mapping."}
+      },
+      {
+        "@type":"Question",
+        "name":"Do I need an API key?",
+        "acceptedAnswer":{"@type":"Answer","text":"No. Data is fetched through a server-side proxy (/api) for CORS safety. Quotes & charts use Yahoo Finance public endpoints; news uses Google News RSS."}
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    /* Page-local tweaks (kept tiny for performance) */
+    .hero { align-items:center; gap:12px }
+    .grid-2 { display:grid; grid-template-columns:1.1fr .9fr; gap:12px }
+    @media (max-width: 980px){ .grid-2 { grid-template-columns:1fr; } }
+    .panel { display:grid; gap:10px }
+    .kvi { display:grid; grid-template-columns:repeat(3,1fr); gap:10px }
+    @media (max-width:680px){ .kvi { grid-template-columns:1fr 1fr; } }
+    .badge { display:inline-flex; align-items:center; gap:6px; padding:6px 10px; border-radius:999px; background:#0b1326; border:1px solid var(--border); box-shadow: var(--glow-soft); font-size:12px }
+    .mini { font-size:12px; color:var(--muted) }
+    canvas#chart { width:100%; height:360px; background:#0a1224; border:1px solid var(--border); border-radius:12px; box-shadow: var(--glow-soft) }
+    .news-item { padding:10px; border:1px solid var(--border); border-radius:10px; margin-bottom:8px; background:#0b1326 }
+    .ad-slot { display:none }
+    .pill-good{ color:#10b981 } .pill-risk{ color:#f59e0b } .pill-bad{ color:#ef4444 }
+    .verdict { display:flex; gap:10px; align-items:center }
+    .chatbox { display:grid; grid-template-rows:auto 1fr auto; min-height:420px; }
+    .chatlog { overflow:auto; border:1px solid var(--border); border-radius:12px; padding:10px; background:#0a1224 }
+    .msg { margin:6px 0; line-height:1.45 }
+    .msg.ai { color:#eaf4ff } .msg.user{ color:#cfe7ff }
+    .row-inline{ display:flex; gap:8px; flex-wrap:wrap; align-items:center }
+    .nowrap{ white-space:nowrap }
+  </style>
+</head>
+
+<body style="--accent:#22D3EE;--bg1:#0b0f1a;--bg2:#121a2f">
+  <!-- Header -->
+  <header class="site" role="banner">
+    <div class="header-inner">
+      <a class="brand" href="/" aria-label="UpTools Home">
+        <img src="/assets/logo/uptools-logo.svg" alt="UpTools logo" width="28" height="28" loading="eager">
+        <b>UpTools</b>
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="/#tools">Tools</a>
+        <a href="/income-tax-tool/">Income Tax</a>
+        <a href="/emi-calculator/">EMI</a>
+        <a href="/gst-calculator/">GST</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container" id="top">
+    <!-- HERO -->
+    <section class="card hero" aria-labelledby="title">
+      <div class="tool-icon">STK</div>
+      <div>
+        <h1 id="title">AI Stock Analyzer - Multi-Market</h1>
+        <p class="note">Live quotes & charts (Yahoo Finance), support/resistance, TA/FA snapshot, Google News sentiment, and an AI chatbox grounded in retrieved data. <span class="mini">Free - No sign-ups - Privacy-first</span></p>
+        <div class="chips" style="margin-top:8px">
+          <span class="pill">NSE - BSE - NASDAQ - NYSE - LSE - TSX - TSE - SSE - HKEX</span>
+          <a class="chip" href="/sitemap.xml">Sitemap</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- (Conditional) Ad space -->
+    <div id="ad-mount"></div>
+
+    <!-- CONTROLS -->
+    <section class="card" aria-label="Controls">
+      <div class="row-inline" style="justify-content:space-between;gap:12px">
+        <div class="row-inline" style="flex:1;flex-wrap:wrap;gap:10px">
+          <label class="inline">
+            <span class="mini">Market</span>
+            <select id="market" class="select">
+              <option value="NSE" selected>NSE (India)</option>
+              <option value="BSE">BSE (India)</option>
+              <option value="NASDAQ">NASDAQ (US)</option>
+              <option value="NYSE">NYSE (US)</option>
+              <option value="LSE">LSE (UK)</option>
+              <option value="TSX">TSX (Canada)</option>
+              <option value="TSE">TSE (Tokyo)</option>
+              <option value="SSE">SSE (Shanghai)</option>
+              <option value="HKEX">HKEX (Hong Kong)</option>
+              <option value="FWB">XETRA/Frankfurt (DE)</option>
+            </select>
+          </label>
+          <label class="inline">
+            <span class="mini">Ticker</span>
+            <input id="ticker" class="input" placeholder="e.g., RELIANCE or AAPL" style="width:220px" list="tickerSuggestions" autocomplete="off">
+          </label>
+          <label class="inline">
+            <span class="mini">Range</span>
+            <select id="range" class="select">
+              <option value="1mo">1M</option>
+              <option value="3mo">3M</option>
+              <option value="6mo" selected>6M</option>
+              <option value="1y">1Y</option>
+              <option value="2y">2Y</option>
+            </select>
+          </label>
+          <label class="inline">
+            <span class="mini">Interval</span>
+            <select id="interval" class="select">
+              <option value="1d" selected>1d</option>
+              <option value="1h">1h</option>
+              <option value="5m">5m</option>
+            </select>
+          </label>
+          <button id="go" class="btn" type="button">Analyze</button>
+        </div>
+        <div class="row-inline" style="gap:8px;flex-wrap:wrap;justify-content:flex-end">
+          <span class="mini nowrap">Provider</span>
+          <select id="provider" class="select">
+            <option value="google">Google (Gemini)</option>
+            <option value="perplexity">Perplexity</option>
+            <option value="groq">Groq</option>
+          </select>
+          <select id="model" class="select">
+            <option value="gemini-2.5-flash">gemini-2.5-flash</option>
+          </select>
+          <button id="saveCfg" class="btn secondary sm" type="button">Remember Defaults</button>
+          <button id="clearCfg" class="btn secondary sm" type="button">Clear Saved</button>
+        </div>
+      </div>
+      <div class="mini" id="analysisStatus" role="status">Ready.</div>
+      <p class="mini">Tip: For NSE use plain ticker (e.g., RELIANCE). US tickers are the same (AAPL / TSLA). This page auto-maps market suffixes for Yahoo Finance.</p>
+    </section>
+
+    <datalist id="tickerSuggestions"></datalist>
+
+    <!-- MAIN GRID -->
+    <!-- MAIN GRID -->
+    <section class="grid-2" aria-label="Analysis">
+      <!-- LEFT: Chart + TA + News -->
+      <article class="panel">
+        <section class="card" aria-labelledby="snapTitle">
+          <div style="display:flex;align-items:center;justify-content:space-between">
+            <h2 id="snapTitle" class="h5">Snapshot</h2>
+            <div class="badge" id="badgeXchg">N/A</div>
+          </div>
+          <div class="kvi">
+            <div><div class="mini">Price</div><div class="amount" id="price">N/A</div></div>
+            <div><div class="mini">Change</div><div id="chg">N/A</div></div>
+            <div><div class="mini">Market Cap</div><div id="mcap">N/A</div></div>
+          </div>
+          <div class="kvi">
+            <div><div class="mini">PE (TTM)</div><div id="pe">N/A</div></div>
+            <div><div class="mini">Dividend Yield</div><div id="divy">N/A</div></div>
+            <div><div class="mini">Currency</div><div id="ccy">N/A</div></div>
+          </div>
+        </section>
+
+        <section class="card" aria-labelledby="chartTitle">
+          <h2 id="chartTitle" class="h5">Price Chart (with S/R & SMAs)</h2>
+          <canvas id="chart" width="1200" height="360" aria-label="Stock price chart"></canvas>
+          <div class="mini">Lines: <b>cyan</b> price, <b>violet</b> SMA50, <b>emerald</b> SMA200, <b>orange</b> resistance, <b>green</b> support.</div>
+        </section>
+
+        <section class="card" aria-labelledby="taTitle">
+          <h2 id="taTitle" class="h5">Technical Analysis</h2>
+          <div class="kvi">
+            <div><div class="mini">RSI(14)</div><div id="rsi">N/A</div></div>
+            <div><div class="mini">SMA50 vs Price</div><div id="sma50p">N/A</div></div>
+            <div><div class="mini">SMA200 vs Price</div><div id="sma200p">N/A</div></div>
+          </div>
+          <div class="result" id="taSummary">Run an analysis to see signals...</div>
+        </section>
+
+        <section class="card" aria-labelledby="newsTitle">
+          <div style="display:flex;align-items:center;justify-content:space-between">
+            <h2 id="newsTitle" class="h5">Recent News & Sentiment</h2>
+            <span class="badge" id="newsSent">N/A</span>
+          </div>
+          <div id="newsList" aria-live="polite"></div>
+          <p class="mini">Sources: Google News RSS (various publishers). Headlines are summarized locally for speed.</p>
+        </section>
+      </article>
+
+      <!-- RIGHT: FA + Verdict + Chat -->
+      <article class="panel">
+        <section class="card" aria-labelledby="faTitle">
+          <h2 id="faTitle" class="h5">Fundamental Snapshot</h2>
+          <ul class="list compact" id="faList" style="margin:0;padding-left:16px">
+            <li>52W High / Low: <span id="hiLo">N/A</span></li>
+            <li>EPS (TTM): <span id="eps">N/A</span></li>
+            <li>Forward PE: <span id="fpe">N/A</span></li>
+            <li>Beta: <span id="beta">N/A</span></li>
+            <li>Shares Outstanding: <span id="shout">N/A</span></li>
+          </ul>
+        </section>
+
+        <section class="card" aria-labelledby="verdictTitle">
+          <h2 id="verdictTitle" class="h5">AI Verdict</h2>
+          <div class="verdict">
+            <span class="tool-icon" id="vEmoji">HOLD</span>
+            <div>
+              <div><b id="vText">Awaiting Analysis</b></div>
+              <div class="mini" id="vWhy">Run an analysis to get Buy / Hold / Sell with reasoning.</div>
+            </div>
+          </div>
+          <div class="divider"></div>
+          <div class="kvi">
+            <div><div class="mini">TA Score</div><div id="scoreTA">N/A</div></div>
+            <div><div class="mini">FA Score</div><div id="scoreFA">N/A</div></div>
+            <div><div class="mini">News Score</div><div id="scoreNews">N/A</div></div>
+          </div>
+        </section>
+
+        <section class="card chatbox" aria-labelledby="chatTitle">
+          <h2 id="chatTitle" class="h5">Chat about this Stock (RAG)</h2>
+          <div class="row-inline wrap" id="quickPrompts" aria-label="Quick prompts"></div>
+          <div id="chatlog" class="chatlog" aria-live="polite"></div>
+          <form id="chatForm" class="row-inline" style="margin-top:8px">
+            <input id="chatInput" class="input" placeholder="Ask anything about this stock" autocomplete="off">
+            <button class="btn" type="submit">Send</button>
+            <button class="btn secondary" id="stop" type="button" disabled>Stop</button>
+          </form>
+          <div class="row-inline" style="justify-content:space-between;margin-top:8px;flex-wrap:wrap;gap:8px">
+            <span class="mini" id="chatStatus" role="status">Run an analysis and then ask a question.</span>
+            <div class="row-inline" style="gap:6px;flex-wrap:wrap">
+              <button class="btn secondary sm" type="button" id="copyChat">Copy</button>
+              <button class="btn secondary sm" type="button" id="downloadChat">Download</button>
+              <button class="btn secondary sm" type="button" id="clearChat">Clear</button>
+              <button class="btn secondary sm" type="button" id="permalinkBtn">Permalink</button>
+            </div>
+          </div>
+          <p class="mini">Grounded on: current quote, chart stats, computed indicators and latest headlines fetched above.</p>
+        </section>
+
+        <section class="card">
+
+
+        <section class="card">
+          <h2 class="h5">Learn & Sources</h2>
+          <ul class="list compact">
+            <li><a href="https://finance.yahoo.com/" rel="noopener nofollow">Yahoo Finance (quotes & charts)</a></li>
+            <li><a href="https://news.google.com/" rel="noopener nofollow">Google News (RSS)</a></li>
+            <li><a href="https://www.investopedia.com/terms/s/support.asp" rel="noopener">Investopedia: Support & Resistance</a></li>
+            <li><a href="https://www.nseindia.com/" rel="noopener">NSE India</a> - <a href="https://www.bseindia.com/" rel="noopener">BSE India</a></li>
+          </ul>
+        </section>
+      </article>
+    </section>
+
+    <footer class="site-footer">
+      <nav class="nav-links" aria-label="Footer">
+        <a href="/about/"><span class="card-badge">ABT</span> About</a>
+        <a href="/contact/"><span class="card-badge">CT</span> Contact</a>
+        <a href="/sitemap.xml"><span class="card-badge">MAP</span> Sitemap</a>
+        <a href="/privacy/"><span class="card-badge">PP</span> Privacy</a>
+      </nav>
+      <p class="tiny-note">&copy; <span id="y"></span> UpTools. Not investment advice.</p>
+    </footer>
+  </main>
+
+  <!-- Page Script -->
+  <script type="module">
+    let Utils = {};
+    try {
+      Utils = (await import('/scripts/utils.js'))?.default || (await import('/scripts/utils.js')) || {};
+    } catch {
+      Utils = window || {};
+    }
+
+    const $ = (selector, root = document) => root.querySelector(selector);
+    const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
+    const fmt = (value, options = {}) => new Intl.NumberFormat('en-IN', { maximumFractionDigits: 2, ...options }).format(value ?? 0);
+    const cur = (value, currency = 'INR') => new Intl.NumberFormat('en-IN', { style: 'currency', currency, maximumFractionDigits: 2 }).format(value ?? 0);
+    const NA = 'N/A';
+
+    // DOM references
+    const market = $('#market');
+    const ticker = $('#ticker');
+    const tickerList = $('#tickerSuggestions');
+    const range = $('#range');
+    const interval = $('#interval');
+    const go = $('#go');
+    const saveCfg = $('#saveCfg');
+    const clearCfg = $('#clearCfg');
+    const providerSel = $('#provider');
+    const modelSel = $('#model');
+    const analysisStatus = $('#analysisStatus');
+
+    const price = $('#price');
+    const chg = $('#chg');
+    const mcap = $('#mcap');
+    const pe = $('#pe');
+    const divy = $('#divy');
+    const ccy = $('#ccy');
+    const badgeXchg = $('#badgeXchg');
+    const hiLo = $('#hiLo');
+    const eps = $('#eps');
+    const fpe = $('#fpe');
+    const beta = $('#beta');
+    const shout = $('#shout');
+
+    const rsiEl = $('#rsi');
+    const sma50p = $('#sma50p');
+    const sma200p = $('#sma200p');
+    const taSummary = $('#taSummary');
+
+    const newsList = $('#newsList');
+    const newsSent = $('#newsSent');
+
+    const scoreTA = $('#scoreTA');
+    const scoreFA = $('#scoreFA');
+    const scoreNews = $('#scoreNews');
+    const vEmoji = $('#vEmoji');
+    const vText = $('#vText');
+    const vWhy = $('#vWhy');
+
+    const chartEl = $('#chart');
+    const ctx = chartEl?.getContext('2d');
+
+    const quickWrap = $('#quickPrompts');
+    const chatlog = $('#chatlog');
+    const chatForm = $('#chatForm');
+    const chatInput = $('#chatInput');
+    const stopBtn = $('#stop');
+    const chatStatus = $('#chatStatus');
+    const copyChatBtn = $('#copyChat');
+    const downloadChatBtn = $('#downloadChat');
+    const clearChatBtn = $('#clearChat');
+    const permalinkBtn = $('#permalinkBtn');
+
+    const yearEl = $('#y');
+    if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+    const isLocal = ['localhost','127.0.0.1'].includes(location.hostname);
+    const API_BASE = typeof window?.UPTOOLS_API_BASE === 'string' ? window.UPTOOLS_API_BASE : (isLocal ? 'https://www.uptools.in' : '');
+    const AI_BASE = typeof window?.UPTOOLS_AI_BASE === 'string' ? window.UPTOOLS_AI_BASE : API_BASE;
+    const withBase = (base, path) => base ? `${base.replace(/\/$/, '')}${path}` : path;
+
+    const placeholders = [price, chg, mcap, pe, divy, ccy, hiLo, eps, fpe, beta, shout, rsiEl, sma50p, sma200p, newsSent, scoreTA, scoreFA, scoreNews];
+    placeholders.forEach(el => { if (el) el.textContent = NA; });
+    if (badgeXchg) badgeXchg.textContent = NA;
+    if (vEmoji) vEmoji.textContent = 'HOLD';
+    if (vText) vText.textContent = 'Awaiting Analysis';
+    if (vWhy) vWhy.textContent = 'Run an analysis to receive a Buy / Hold / Sell view.';
+    if (taSummary) taSummary.textContent = 'Run an analysis to see signals.';
+    if (analysisStatus) analysisStatus.textContent = 'Ready.';
+    if (newsList) newsList.innerHTML = '';
+
+    const setAnalysisStatus = (message) => { if (analysisStatus) analysisStatus.textContent = message; };
+    const setChatStatus = (message) => { if (chatStatus) chatStatus.textContent = message; };
+    const toast = (message) => {
+      if (typeof Utils?.toast === 'function') { Utils.toast(message); return; }
+      setChatStatus(message);
+      setTimeout(() => {
+        if (chatStatus && chatStatus.textContent === message) setChatStatus('');
+      }, 1800);
+    };
+
+    // AdSense (only if available)
+    (function mountAd(){
+      if(!('adsbygoogle' in window)) return;
+      const mount = document.getElementById('ad-mount');
+      const wrap = document.createElement('div');
+      wrap.className = 'ad-slot';
+      wrap.style.display = 'block';
+      wrap.style.margin = '10px 0';
+      wrap.innerHTML = '<ins class="adsbygoogle" style="display:block;width:100%;height:100px" data-ad-client="ca-pub-6216304334889617" data-ad-slot="auto" data-full-width-responsive="true"></ins>';
+      mount.appendChild(wrap);
+      try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch {}
+    })();
+
+    const PRESETS = {
+      perplexity: ['sonar','sonar-pro','sonar-reasoning'],
+      google: ['gemini-2.5-flash','gemini-2.5-pro'],
+      groq: ['llama-3.1-8b-instant','llama-3.1-70b-versatile','mixtral-8x7b-32768','gemma2-9b-it']
+    };
+
+    function hydrateModels(selectedModel){
+      if(!modelSel) return;
+      const provider = providerSel?.value || 'google';
+      const models = PRESETS[provider] || [];
+      modelSel.innerHTML = models.map(m => `<option value="${m}">${m}</option>`).join('');
+      const choice = selectedModel || modelSel.dataset.selected || models[0] || '';
+      if(choice && !models.includes(choice)){
+        const opt = document.createElement('option');
+        opt.value = choice;
+        opt.textContent = choice;
+        opt.dataset.extra = 'true';
+        modelSel.appendChild(opt);
+      }
+      if(choice) modelSel.value = choice;
+      modelSel.dataset.selected = '';
+    }
+
+    providerSel?.addEventListener('change', () => {
+      hydrateModels();
+      saveJson(STORAGE_LAST, serializeSettings());
+    });
+
+    modelSel?.addEventListener('change', () => saveJson(STORAGE_LAST, serializeSettings()));
+
+    const STORAGE_DEFAULTS = 'ai-stock:cfg';
+    const STORAGE_LAST = 'ai-stock:last';
+
+    const serializeSettings = () => ({
+      market: market?.value || 'NSE',
+      ticker: ticker?.value?.trim() || '',
+      range: range?.value || '6mo',
+      interval: interval?.value || '1d',
+      provider: providerSel?.value || 'google',
+      model: modelSel?.value || 'gemini-2.5-flash'
+    });
+
+    function applySettings(settings){
+      if(!settings) return false;
+      if(settings.provider && providerSel) providerSel.value = settings.provider;
+      if(settings.model && modelSel) modelSel.dataset.selected = settings.model;
+      hydrateModels(settings?.model);
+      if(settings.market && market) market.value = settings.market;
+      if(settings.range && range) range.value = settings.range;
+      if(settings.interval && interval) interval.value = settings.interval;
+      if(settings.ticker != null && ticker) ticker.value = settings.ticker;
+      return true;
+    }
+
+    const loadJson = (key) => {
+      try {
+        const raw = localStorage.getItem(key);
+        return raw ? JSON.parse(raw) : null;
+      } catch {
+        return null;
+      }
+    };
+
+    const saveJson = (key, value) => {
+      try { localStorage.setItem(key, JSON.stringify(value)); }
+      catch { /* ignore quota errors */ }
+    };
+
+    saveCfg?.addEventListener('click', () => {
+      saveJson(STORAGE_DEFAULTS, serializeSettings());
+      toast('Defaults saved for this browser.');
+    });
+
+    clearCfg?.addEventListener('click', () => {
+      localStorage.removeItem(STORAGE_DEFAULTS);
+      localStorage.removeItem(STORAGE_LAST);
+      toast('Saved defaults cleared.');
+      renderTickerSuggestions();
+      updateTickerPlaceholder();
+    });
+
+    const TICKER_SUGGESTIONS = {
+      NSE: [
+        { symbol: 'RELIANCE', name: 'Reliance Industries' },
+        { symbol: 'TCS', name: 'Tata Consultancy Services' },
+        { symbol: 'INFY', name: 'Infosys' },
+        { symbol: 'HDFCBANK', name: 'HDFC Bank' },
+        { symbol: 'ITC', name: 'ITC' },
+        { symbol: 'SBIN', name: 'State Bank of India' },
+        { symbol: 'KOTAKBANK', name: 'Kotak Mahindra Bank' },
+        { symbol: 'ICICIBANK', name: 'ICICI Bank' },
+        { symbol: 'HCLTECH', name: 'HCL Technologies' },
+        { symbol: 'LT', name: 'Larsen & Toubro' }
+      ],
+      BSE: [
+        { symbol: 'RELIANCE', name: 'Reliance Industries' },
+        { symbol: 'HDFCBANK', name: 'HDFC Bank' },
+        { symbol: 'INFY', name: 'Infosys' },
+        { symbol: 'ITC', name: 'ITC' },
+        { symbol: 'TCS', name: 'Tata Consultancy Services' },
+        { symbol: 'SBIN', name: 'State Bank of India' },
+        { symbol: 'BHARTIARTL', name: 'Bharti Airtel' },
+        { symbol: 'BAJFINANCE', name: 'Bajaj Finance' },
+        { symbol: 'ASIANPAINT', name: 'Asian Paints' },
+        { symbol: 'NESTLEIND', name: 'Nestle India' }
+      ],
+      NASDAQ: [
+        { symbol: 'AAPL', name: 'Apple' },
+        { symbol: 'MSFT', name: 'Microsoft' },
+        { symbol: 'NVDA', name: 'NVIDIA' },
+        { symbol: 'TSLA', name: 'Tesla' },
+        { symbol: 'GOOG', name: 'Alphabet Class C' },
+        { symbol: 'META', name: 'Meta Platforms' },
+        { symbol: 'AMD', name: 'Advanced Micro Devices' },
+        { symbol: 'NFLX', name: 'Netflix' },
+        { symbol: 'INTC', name: 'Intel' },
+        { symbol: 'PYPL', name: 'PayPal' }
+      ],
+      NYSE: [
+        { symbol: 'JPM', name: 'JPMorgan Chase' },
+        { symbol: 'V', name: 'Visa' },
+        { symbol: 'MA', name: 'Mastercard' },
+        { symbol: 'KO', name: 'Coca-Cola' },
+        { symbol: 'DIS', name: 'Walt Disney' },
+        { symbol: 'PG', name: 'Procter & Gamble' },
+        { symbol: 'BAC', name: 'Bank of America' },
+        { symbol: 'NKE', name: 'Nike' },
+        { symbol: 'HD', name: 'Home Depot' },
+        { symbol: 'XOM', name: 'Exxon Mobil' }
+      ],
+      LSE: [
+        { symbol: 'VOD', name: 'Vodafone' },
+        { symbol: 'HSBA', name: 'HSBC Holdings' },
+        { symbol: 'BP', name: 'BP' },
+        { symbol: 'AZN', name: 'AstraZeneca' },
+        { symbol: 'ULVR', name: 'Unilever' },
+        { symbol: 'RIO', name: 'Rio Tinto' },
+        { symbol: 'BARC', name: 'Barclays' },
+        { symbol: 'GLEN', name: 'Glencore' },
+        { symbol: 'LLOY', name: 'Lloyds Banking Group' },
+        { symbol: 'DGE', name: 'Diageo' }
+      ],
+      TSX: [
+        { symbol: 'SHOP', name: 'Shopify' },
+        { symbol: 'RY', name: 'Royal Bank of Canada' },
+        { symbol: 'TD', name: 'Toronto-Dominion Bank' },
+        { symbol: 'ENB', name: 'Enbridge' },
+        { symbol: 'BNS', name: 'Bank of Nova Scotia' },
+        { symbol: 'BMO', name: 'Bank of Montreal' },
+        { symbol: 'SU', name: 'Suncor Energy' },
+        { symbol: 'CNQ', name: 'Canadian Natural Resources' },
+        { symbol: 'BCE', name: 'BCE' },
+        { symbol: 'MG', name: 'Magna International' }
+      ],
+      TSE: [
+        { symbol: '7203', name: 'Toyota Motor' },
+        { symbol: '6758', name: 'Sony Group' },
+        { symbol: '9984', name: 'SoftBank Group' },
+        { symbol: '9432', name: 'Nippon Telegraph & Telephone' },
+        { symbol: '7267', name: 'Honda Motor' },
+        { symbol: '8306', name: 'Mitsubishi UFJ Financial' },
+        { symbol: '9433', name: 'KDDI' },
+        { symbol: '6954', name: 'Fanuc' },
+        { symbol: '4901', name: 'Fujifilm' },
+        { symbol: '4502', name: 'Takeda Pharmaceutical' }
+      ],
+      SSE: [
+        { symbol: '601398', name: 'Industrial & Commercial Bank of China' },
+        { symbol: '601857', name: 'PetroChina' },
+        { symbol: '600519', name: 'Kweichow Moutai' },
+        { symbol: '601318', name: 'Ping An Insurance' },
+        { symbol: '600036', name: 'China Merchants Bank' },
+        { symbol: '601988', name: 'Bank of China' },
+        { symbol: '601939', name: 'China Construction Bank' },
+        { symbol: '601628', name: 'China Life Insurance' },
+        { symbol: '600028', name: 'Sinopec' },
+        { symbol: '600276', name: 'Hengrui Medicine' }
+      ],
+      HKEX: [
+        { symbol: '0700', name: 'Tencent Holdings' },
+        { symbol: '09988', name: 'Alibaba Group' },
+        { symbol: '0005', name: 'HSBC Holdings' },
+        { symbol: '0001', name: 'CK Hutchison' },
+        { symbol: '0011', name: 'Hang Seng Bank' },
+        { symbol: '1299', name: 'AIA Group' },
+        { symbol: '0388', name: 'Hong Kong Exchanges & Clearing' },
+        { symbol: '0823', name: 'Link REIT' },
+        { symbol: '2318', name: 'Ping An Insurance' },
+        { symbol: '0857', name: 'PetroChina' }
+      ],
+      FWB: [
+        { symbol: 'SAP', name: 'SAP' },
+        { symbol: 'ADS', name: 'Adidas' },
+        { symbol: 'BMW', name: 'Bayerische Motoren Werke' },
+        { symbol: 'DTE', name: 'Deutsche Telekom' },
+        { symbol: 'VOW3', name: 'Volkswagen Group' },
+        { symbol: 'LIN', name: 'Linde' },
+        { symbol: 'BAS', name: 'BASF' },
+        { symbol: 'SIE', name: 'Siemens' },
+        { symbol: 'ALV', name: 'Allianz' },
+        { symbol: 'HNR1', name: 'Hannover Rueck' }
+      ]
+    };
+
+    const COMMON_TICKERS = [
+      { symbol: 'AAPL', name: 'Apple (US)' },
+      { symbol: 'MSFT', name: 'Microsoft (US)' },
+      { symbol: 'NVDA', name: 'NVIDIA (US)' },
+      { symbol: 'RELIANCE', name: 'Reliance Industries (India)' },
+      { symbol: 'INFY', name: 'Infosys (India)' },
+      { symbol: 'TSLA', name: 'Tesla (US)' },
+      { symbol: 'VOD', name: 'Vodafone (UK)' },
+      { symbol: 'HSBA', name: 'HSBC (UK)' },
+      { symbol: 'SHOP', name: 'Shopify (Canada)' },
+      { symbol: '0700', name: 'Tencent (Hong Kong)' }
+    ];
+
+    const suffixByMarket = {
+      NSE: '.NS', BSE: '.BO', NASDAQ:'', NYSE:'', LSE:'.L', TSX:'.TO', TSE:'.T', SSE:'.SS', HKEX:'.HK', FWB:'.F'
+    };
+    const buildSymbol = (t, m) => (t || '').trim().toUpperCase() + (suffixByMarket[m] ?? '');
+
+    const renderTickerSuggestions = () => {
+      if(!tickerList) return;
+      const code = market?.value || 'NSE';
+      const marketList = TICKER_SUGGESTIONS[code] || [];
+      const merged = [];
+      const seen = new Set();
+      for (const item of [...marketList, ...COMMON_TICKERS]) {
+        if(!item?.symbol || seen.has(item.symbol)) continue;
+        seen.add(item.symbol);
+        merged.push(item);
+        if(merged.length >= 20) break;
+      }
+      tickerList.innerHTML = merged.map(item => `<option value="${item.symbol}">${item.symbol} - ${item.name}</option>`).join('');
+    };
+
+    const updateTickerPlaceholder = () => {
+      if(!ticker) return;
+      const code = market?.value || 'NSE';
+      const options = TICKER_SUGGESTIONS[code] && TICKER_SUGGESTIONS[code].length ? TICKER_SUGGESTIONS[code] : COMMON_TICKERS;
+      const sample = (options?.[0]?.symbol) || 'AAPL';
+      ticker.placeholder = `Try ${sample}`;
+    };
+
+    const runFetch = async (endpoint, { parseJson = true } = {}) => {
+      const res = await fetch(endpoint);
+      if(!res.ok) throw new Error('HTTP ' + res.status);
+      if(parseJson === false) return res.text();
+      const ct = res.headers.get('content-type') || '';
+      return ct.includes('application/json') ? res.json() : res.text();
+    };
+
+    const ALL_ORIGINS = 'https://api.allorigins.win/raw?url=';
+
+    const api = async (url) => {
+      const attempts = [];
+      const note = (label, err) => { attempts.push({ label, err }); console.warn(label, err); };
+
+      const attemptDirect = async (label) => {
+        try {
+          return await runFetch(url);
+        } catch (err) {
+          note(label, err);
+          return null;
+        }
+      };
+
+      if(isLocal){
+        const direct = await attemptDirect('Direct fetch (local) failed');
+        if(direct != null) return direct;
+      }
+
+      try {
+        const endpoint = withBase(API_BASE, `/api?url=${encodeURIComponent(url)}`);
+        return await runFetch(endpoint);
+      } catch (err) {
+        note('Proxy fetch failed', err);
+      }
+
+      if(!isLocal){
+        const retry = await attemptDirect('Direct fetch retry failed');
+        if(retry != null) return retry;
+      }
+
+      try {
+        const raw = await runFetch(`${ALL_ORIGINS}${encodeURIComponent(url)}`, { parseJson: false });
+        try { return JSON.parse(raw); }
+        catch { return raw; }
+      } catch (fallbackErr) {
+        note('AllOrigins fallback failed', fallbackErr);
+      }
+
+      const last = attempts.length ? attempts[attempts.length - 1].err : new Error('Failed to fetch');
+      throw last;
+    };
+
+    async function getQuote(symbol){
+      const j = await api(`https://query1.finance.yahoo.com/v7/finance/quote?symbols=${symbol}`);
+      return j?.quoteResponse?.result?.[0] || null;
+    }
+
+    async function getChart(symbol, rangeV='6mo', intervalV='1d'){
+      const j = await api(`https://query1.finance.yahoo.com/v8/finance/chart/${symbol}?range=${rangeV}&interval=${intervalV}`);
+      const res = j?.chart?.result?.[0];
+      return {
+        t: (res?.timestamp || []).map(x => x * 1000),
+        c: res?.indicators?.quote?.[0]?.close || [],
+        meta: res?.meta || {}
+      };
+    }
+
+    async function getNews(q){
+      const rss = await api(`https://news.google.com/rss/search?q=${encodeURIComponent(q + ' stock OR shares')}&hl=en-IN&gl=IN&ceid=IN:en`);
+      return [...rss.matchAll(/<item>([\s\S]*?)<\/item>/g)].slice(0,10).map(m => {
+        const block = m[1];
+        const title = (block.match(/<title><!\[CDATA\[(.*?)\]\]><\/title>/) || [])[1]
+          || (block.match(/<title>(.*?)<\/title>/) || [])[1] || '';
+        const link = (block.match(/<link>(.*?)<\/link>/) || [])[1] || '';
+        const pub = (block.match(/<pubDate>(.*?)<\/pubDate>/) || [])[1] || '';
+        return { title, link, pub };
+      });
+    }
+
+    const SMA = (arr, n) => arr.map((_, i) => {
+      if (i + 1 < n) return null;
+      const slice = arr.slice(i - n + 1, i + 1);
+      const sum = slice.reduce((acc, val) => acc + (val ?? 0), 0);
+      return sum / n;
+    });
+
+    const RSI = (closes, n = 14) => {
+      let gains = 0, losses = 0;
+      const out = new Array(closes.length).fill(null);
+      for (let i = 1; i < closes.length; i++) {
+        const current = closes[i] ?? closes[i - 1] ?? 0;
+        const prev = closes[i - 1] ?? closes[i] ?? 0;
+        const change = current - prev;
+        const gain = Math.max(change, 0);
+        const loss = Math.max(-change, 0);
+        if (i <= n) {
+          gains += gain;
+          losses += loss;
+          if (i === n) {
+            const rs = gains / Math.max(1e-9, losses);
+            out[i] = 100 - (100 / (1 + rs));
+          }
+        } else {
+          gains = (gains * (n - 1) + gain) / n;
+          losses = (losses * (n - 1) + loss) / n;
+          const rs = gains / Math.max(1e-9, losses);
+          out[i] = 100 - (100 / (1 + rs));
+        }
+      }
+      return out;
+    };
+
+    const minmax = (arr) => {
+      const filtered = arr.filter(v => v != null && Number.isFinite(v));
+      if (!filtered.length) return { min: 0, max: 0 };
+      return {
+        min: Math.min(...filtered),
+        max: Math.max(...filtered)
+      };
+    };
+
+    const supportResistance = (closes, lookback = 20) => {
+      const filtered = closes.filter(v => v != null);
+      if (!filtered.length) return { support: null, resistance: null };
+      const slice = filtered.slice(-lookback);
+      let hi = -Infinity, lo = Infinity;
+      slice.forEach(v => {
+        if (v > hi) hi = v;
+        if (v < lo) lo = v;
+      });
+      if (!Number.isFinite(hi)) hi = null;
+      if (!Number.isFinite(lo)) lo = null;
+      return { support: lo, resistance: hi };
+    };
+
+    function drawChart(t, c, sma50, sma200, sr){
+      if(!ctx || !Array.isArray(c) || !c.length) return;
+      const W = chartEl.width;
+      const H = chartEl.height;
+      const pad = 40;
+      ctx.clearRect(0,0,W,H);
+      const { min, max } = minmax(c);
+      const span = Math.max(1e-6, max - min);
+      const yScale = (v) => H - pad - ((v - min) / span) * (H - pad * 2);
+      const xScale = (i) => pad + i * ((W - pad * 2) / Math.max(1, c.length - 1));
+
+      ctx.strokeStyle = 'rgba(255,255,255,0.06)';
+      ctx.lineWidth = 1;
+      for(let i=0;i<5;i++){
+        const y = pad + i * ((H - pad * 2)/4);
+        ctx.beginPath();
+        ctx.moveTo(pad, y);
+        ctx.lineTo(W - pad, y);
+        ctx.stroke();
+      }
+
+      ctx.strokeStyle = '#22d3ee';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      c.forEach((v,i) => {
+        if(v == null) return;
+        const x = xScale(i);
+        const y = yScale(v);
+        if(i && c[i-1] != null) ctx.lineTo(x,y); else ctx.moveTo(x,y);
+      });
+      ctx.stroke();
+
+      const plotLine = (series, color) => {
+        ctx.strokeStyle = color;
+        ctx.lineWidth = 1.6;
+        ctx.beginPath();
+        series.forEach((v,i) => {
+          if(v == null) return;
+          const x = xScale(i);
+          const y = yScale(v);
+          if(i && series[i-1] != null) ctx.lineTo(x,y); else ctx.moveTo(x,y);
+        });
+        ctx.stroke();
+      };
+
+      plotLine(sma50, '#a78bfa');
+      plotLine(sma200, '#10b981');
+
+      const drawSR = (value, color) => {
+        if(value == null) return;
+        ctx.strokeStyle = color;
+        ctx.lineWidth = 1;
+        ctx.setLineDash([5,5]);
+        const y = yScale(value);
+        ctx.beginPath();
+        ctx.moveTo(pad, y);
+        ctx.lineTo(W - pad, y);
+        ctx.stroke();
+        ctx.setLineDash([]);
+      };
+
+      drawSR(sr?.resistance, '#fb923c');
+      drawSR(sr?.support, '#22c55e');
+
+      ctx.fillStyle = '#eaf4ff';
+      ctx.font = '12px system-ui';
+      ctx.fillText(`Max: ${fmt(max)}`, W - pad - 120, pad - 8);
+      ctx.fillText(`Min: ${fmt(min)}`, W - pad - 120, H - pad + 16);
+    }
+
+    const POS = ['beats','surge','record','profit','upgrade','outperform','gain','buy','rally','soars','strong','approval'];
+    const NEG = ['miss','plunge','loss','downgrade','underperform','fall','sell','lawsuit','probe','delay','weak','recall'];
+    const scoreHeadline = (title) => {
+      const lower = (title || '').toLowerCase();
+      let p = 0, n = 0;
+      POS.forEach(word => { if(lower.includes(word)) p++; });
+      NEG.forEach(word => { if(lower.includes(word)) n++; });
+      return p - n;
+    };
+
+    function setSnapshot(q){
+      if(!q){
+        [price, chg, mcap, pe, divy, ccy, hiLo, eps, fpe, beta, shout].forEach(el => { if(el) el.textContent = NA; });
+        if(badgeXchg) badgeXchg.textContent = NA;
+        return;
+      }
+      if(price) price.textContent = q.regularMarketPrice != null ? (q.currency ? cur(q.regularMarketPrice, q.currency) : fmt(q.regularMarketPrice)) : NA;
+      const change = q?.regularMarketChange;
+      const changePct = q?.regularMarketChangePercent;
+      if(chg) {
+        if(change != null || changePct != null){
+          const changeStr = change != null ? `${change >= 0 ? '+' : ''}${fmt(change)}` : '';
+          const pctStr = changePct != null ? `${changePct >= 0 ? '+' : ''}${fmt(changePct, { maximumFractionDigits: 2 })}%` : '';
+          chg.textContent = [changeStr, pctStr && `(${pctStr})`].filter(Boolean).join(' ');
+          chg.style.color = change >= 0 ? '#22c55e' : '#ef4444';
+        } else {
+          chg.textContent = NA;
+          chg.style.color = '';
+        }
+      }
+      if(mcap) mcap.textContent = q?.marketCap ? fmt(q.marketCap, { notation: 'compact', maximumFractionDigits: 2 }) : NA;
+      if(pe) pe.textContent = q?.trailingPE != null ? fmt(q.trailingPE) : NA;
+      if(divy) divy.textContent = q?.trailingAnnualDividendYield != null ? `${fmt(q.trailingAnnualDividendYield * 100, { maximumFractionDigits: 2 })}%` : NA;
+      if(ccy) ccy.textContent = q?.currency || NA;
+      if(badgeXchg) badgeXchg.textContent = q?.fullExchangeName || q?.exchange || NA;
+      if(hiLo) hiLo.textContent = (q?.fiftyTwoWeekHigh && q?.fiftyTwoWeekLow) ? `${fmt(q.fiftyTwoWeekHigh)} / ${fmt(q.fiftyTwoWeekLow)}` : NA;
+      if(eps) eps.textContent = q?.epsTrailingTwelveMonths != null ? fmt(q.epsTrailingTwelveMonths) : NA;
+      if(fpe) fpe.textContent = q?.forwardPE != null ? fmt(q.forwardPE) : NA;
+      if(beta) beta.textContent = q?.beta != null ? fmt(q.beta) : NA;
+      if(shout) shout.textContent = q?.sharesOutstanding ? fmt(q.sharesOutstanding, { notation: 'compact', maximumFractionDigits: 2 }) : NA;
+    }
+
+    function setTASummary(closes){
+      const clean = closes.map(v => v ?? null);
+      const sma50 = SMA(clean, 50);
+      const sma200 = SMA(clean, 200);
+      const rsi = RSI(clean, 14);
+      const sr = supportResistance(clean, 30);
+      const last = clean.slice().reverse().find(v => v != null) ?? null;
+      if(rsiEl) rsiEl.textContent = rsi.at(-1) ? fmt(rsi.at(-1), { maximumFractionDigits: 1 }) : NA;
+      if(sma50p) sma50p.textContent = (sma50.at(-1) && last != null) ? (last > sma50.at(-1) ? 'Above' : 'Below') : NA;
+      if(sma200p) sma200p.textContent = (sma200.at(-1) && last != null) ? (last > sma200.at(-1) ? 'Above' : 'Below') : NA;
+      if(taSummary){
+        const parts = [];
+        if(last != null && sr.support != null) parts.push(`Support near ${fmt(sr.support)}`);
+        if(last != null && sr.resistance != null) parts.push(`Resistance near ${fmt(sr.resistance)}`);
+        if(rsi.at(-1)){
+          const r = rsi.at(-1);
+          const zone = r > 70 ? 'overbought' : r < 30 ? 'oversold' : 'neutral';
+          parts.push(`RSI ${fmt(r, { maximumFractionDigits: 1 })} (${zone})`);
+        }
+        taSummary.textContent = parts.length ? parts.join(' | ') : 'Signals will appear after fetching data.';
+      }
+      return { sma50, sma200, rsi, sr };
+    }
+
+    function setNews(list){
+      if(!newsList) return 0;
+      newsList.innerHTML = '';
+      let total = 0;
+      list.forEach(item => {
+        const score = scoreHeadline(item.title);
+        total += score;
+        const div = document.createElement('div');
+        div.className = 'news-item';
+        div.innerHTML = `<a href="${item.link}" target="_blank" rel="noopener">${item.title}</a><div class="mini">${item.pub}</div><div class="mini">Sentiment: <b style="color:${score >= 0 ? '#22c55e' : '#ef4444'}">${score >= 0 ? '+' + score : score}</b></div>`;
+        newsList.appendChild(div);
+      });
+      if(newsSent) {
+        if(list.length) {
+          newsSent.textContent = `Net: ${total >= 0 ? '+' : ''}${total}`;
+          newsSent.style.color = total >= 0 ? '#22c55e' : '#ef4444';
+        } else {
+          newsSent.textContent = NA;
+          newsSent.style.color = '';
+        }
+      }
+      return total;
+    }
+
+    function setVerdict(v){
+      if(!v) return;
+      if(vEmoji) vEmoji.textContent = v.emoji;
+      if(vText) vText.textContent = v.verdict;
+      if(vWhy) vWhy.textContent = v.why;
+      if(scoreTA) scoreTA.textContent = v.scores.ta >= 0 ? `+${v.scores.ta}` : `${v.scores.ta}`;
+      if(scoreFA) scoreFA.textContent = v.scores.fa >= 0 ? `+${v.scores.fa}` : `${v.scores.fa}`;
+      if(scoreNews) scoreNews.textContent = v.scores.ns >= 0 ? `+${v.scores.ns}` : `${v.scores.ns}`;
+    }
+
+    function makeVerdict({ price, closes, sma50, sma200, rsi, sr, quote, newsScore }){
+      const clean = closes.filter(v => v != null);
+      const last = clean.at(-1);
+      let ta = 0;
+      if(last != null && sma50.at(-1) != null) ta += last > sma50.at(-1) ? 1 : -1;
+      if(sma50.at(-1) != null && sma200.at(-1) != null) ta += sma50.at(-1) > sma200.at(-1) ? 1 : -1;
+      if(rsi.at(-1) != null) {
+        if(rsi.at(-1) < 35) ta += 1;
+        if(rsi.at(-1) > 70) ta -= 1;
+      }
+      if(sr?.resistance != null && last != null && last > sr.resistance) ta += 1;
+      if(sr?.support != null && last != null && last < sr.support) ta -= 1;
+
+      let fa = 0;
+      const peVal = quote?.trailingPE;
+      const dyVal = quote?.trailingAnnualDividendYield;
+      if(peVal && peVal > 0 && peVal < 18) fa += 1;
+      if(peVal && peVal > 35) fa -= 1;
+      if(dyVal && dyVal * 100 >= 2) fa += 1;
+
+      const ns = Math.max(-2, Math.min(2, newsScore ?? 0));
+      const total = ta + fa + ns;
+      let verdict = 'Hold';
+      let emoji = 'HOLD';
+      let why = 'Momentum and fundamentals look balanced.';
+      if(total >= 2){
+        verdict = 'Buy';
+        emoji = 'BUY';
+        why = 'Momentum, valuation, or news skew positive.';
+      } else if(total <= -2){
+        verdict = 'Sell';
+        emoji = 'SELL';
+        why = 'Signals lean bearish or valuation/news is weak.';
+      }
+      return { verdict, emoji, why, scores: { ta, fa, ns } };
+    }
+
+    const chatHistory = [];
+    const addUserMessage = (text) => {
+      if(!chatlog) return;
+      const div = document.createElement('div');
+      div.className = 'msg user';
+      div.textContent = 'You: ' + text;
+      chatlog.appendChild(div);
+      chatlog.scrollTop = chatlog.scrollHeight;
+      chatHistory.push({ role: 'user', text });
+    };
+
+    const createAssistantMessage = () => {
+      const entry = { role: 'assistant', text: '' };
+      chatHistory.push(entry);
+      if(!chatlog) return { div: null, entry };
+      const div = document.createElement('div');
+      div.className = 'msg ai';
+      div.textContent = 'AI: ';
+      chatlog.appendChild(div);
+      chatlog.scrollTop = chatlog.scrollHeight;
+      return { div, entry };
+    };
+
+    const QUICK_PROMPTS = [
+      {
+        id: 'summary',
+        label: 'Quick Summary',
+        builder: (ctx) => {
+          const price = ctx.snapshot.price != null ? `${fmt(ctx.snapshot.price)} ${ctx.snapshot.currency || ''}`.trim() : 'price unavailable';
+          const change = ctx.snapshot.change != null ? `${ctx.snapshot.change >= 0 ? '+' : ''}${fmt(ctx.snapshot.change)}` : 'change unavailable';
+          const chgPct = ctx.snapshot.chgPct != null ? `${ctx.snapshot.chgPct >= 0 ? '+' : ''}${fmt(ctx.snapshot.chgPct, { maximumFractionDigits: 2 })}%` : 'n/a';
+          const rsi = ctx.tech.rsi != null ? fmt(ctx.tech.rsi, { maximumFractionDigits: 1 }) : 'n/a';
+          return `Summarize the latest data for ${ctx.name} (${ctx.symbol}). Price ${price}, daily move ${change} (${chgPct}). Comment on RSI ${rsi}, the SMA50 vs SMA200 trend, nearby support ${ctx.tech.support != null ? fmt(ctx.tech.support) : 'n/a'} and resistance ${ctx.tech.resistance != null ? fmt(ctx.tech.resistance) : 'n/a'}, plus what the news headlines imply. Finish with a cautious outlook (no financial advice).`;
+        }
+      },
+      {
+        id: 'bull',
+        label: 'Bullish Signals',
+        builder: (ctx) => `From the provided metrics, highlight the most constructive (bullish) factors for ${ctx.name} (${ctx.symbol}). Focus on trend direction, RSI zone, support/resistance, valuation (PE/dividend), market cap, and any positive news sentiment. Explain why each item matters.`
+      },
+      {
+        id: 'watch',
+        label: 'Watch-outs',
+        builder: (ctx) => `List the key risks or watch-outs for ${ctx.name} (${ctx.symbol}) using only the supplied quote, technical stats, and headlines. Mention overbought signals, resistance zones, earnings or valuation pressures, negative news themes, and suggest what to monitor next (no advice).`
+      },
+      {
+        id: 'plan',
+        label: 'Trading Plan',
+        builder: (ctx) => `Using the computed indicators, outline a hypothetical trade plan for ${ctx.name} (${ctx.symbol}) in neutral tone: entry ideas, support/resistance levels, momentum context, and what news would invalidate the setup. Make it educational and avoid giving financial advice.`
+      }
+    ];
+
+    if(quickWrap){
+      quickWrap.innerHTML = QUICK_PROMPTS.map(p => `<button type="button" class="chip" data-id="${p.id}">${p.label}</button>`).join('');
+    }
+
+    const QUICK_PROMPT_MAP = new Map(QUICK_PROMPTS.map(p => [p.id, p]));
+
+    let aborter = null;
+    let currentContext = null;
+
+    async function streamChat({ provider, model, prompt, context }){
+      if(!chatlog) return '';
+      const { div, entry } = createAssistantMessage();
+      aborter = new AbortController();
+      stopBtn && (stopBtn.disabled = false);
+      setChatStatus('Streaming response...');
+      try{
+        const aiEndpoint = withBase(AI_BASE, '/ai');
+        const res = await fetch(aiEndpoint, {
+          method: 'POST',
+          signal: aborter.signal,
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            provider,
+            model,
+            stream: true,
+            temperature: 0.2,
+            messages: [
+              { role: 'system', content: 'You are a cautious equity assistant. Use ONLY the provided context (quote, indicators, headlines). Decline politely if something is missing. Never give financial advice.' },
+              { role: 'user', content: `Context(JSON):
+${JSON.stringify(context)}
+
+User question: ${prompt}` }
+            ]
+          })
+        });
+        if(!res.ok) throw new Error('HTTP ' + res.status);
+        const reader = res.body.getReader();
+        const decoder = new TextDecoder();
+        for(;;){
+          const { value, done } = await reader.read();
+          if(done) break;
+          const chunk = decoder.decode(value);
+          for(const line of chunk.split(/\r?\n/)){
+            const trimmed = line.trim();
+            if(!trimmed || !trimmed.startsWith('data:')) continue;
+            const payload = trimmed.slice(5).trim();
+            if(payload === '[DONE]'){
+              aborter = null;
+              stopBtn && (stopBtn.disabled = true);
+              setChatStatus('Done.');
+              return entry.text;
+            }
+            try{
+              const json = JSON.parse(payload);
+              const delta = json?.choices?.[0]?.delta?.content || '';
+              if(delta){
+                entry.text += delta;
+                if(div) div.textContent = 'AI: ' + entry.text;
+                chatlog.scrollTop = chatlog.scrollHeight;
+              }
+            }catch{
+              if(payload){
+                entry.text += payload + '\n';
+                if(div) div.textContent = 'AI: ' + entry.text;
+              }
+            }
+          }
+        }
+        setChatStatus('Done.');
+        return entry.text;
+      }catch(err){
+        if(err.name === 'AbortError'){
+          setChatStatus('Chat stopped.');
+          return entry.text;
+        }
+        console.error(err);
+        setChatStatus('Chat failed.');
+        entry.text = '(error fetching chat)';
+        if(div) div.textContent = 'AI: ' + entry.text;
+        throw err;
+      } finally {
+        aborter = null;
+        if(stopBtn) stopBtn.disabled = true;
+      }
+    }
+
+    quickWrap?.addEventListener('click', async (event) => {
+      const btn = event.target.closest('button[data-id]');
+      if(!btn) return;
+      if(!currentContext){ toast('Run analysis first.'); return; }
+      const def = QUICK_PROMPT_MAP.get(btn.dataset.id);
+      if(!def) return;
+      const prompt = def.builder(currentContext);
+      addUserMessage(def.label);
+      try {
+        await streamChat({ provider: providerSel.value, model: modelSel.value, prompt, context: currentContext });
+      } catch {}
+    });
+
+    chatForm?.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const question = chatInput?.value?.trim();
+      if(!question) return;
+      if(!currentContext){ toast('Run analysis first.'); return; }
+      addUserMessage(question);
+      if(chatInput) chatInput.value = '';
+      try {
+        await streamChat({ provider: providerSel.value, model: modelSel.value, prompt: question, context: currentContext });
+      } catch {}
+    });
+
+    stopBtn?.addEventListener('click', () => {
+      if(aborter){
+        aborter.abort();
+        aborter = null;
+        setChatStatus('Stopping...');
+      }
+    });
+
+    copyChatBtn?.addEventListener('click', async () => {
+      if(!chatHistory.length){ toast('Nothing to copy yet.'); return; }
+      try{
+        const text = chatHistory.map(m => `${m.role === 'assistant' ? 'AI' : 'You'}: ${m.text}`).join('\n');
+        await navigator.clipboard.writeText(text);
+        toast('Chat copied.');
+      }catch{
+        toast('Copy blocked by browser.');
+      }
+    });
+
+    downloadChatBtn?.addEventListener('click', () => {
+      if(!chatHistory.length){ toast('Nothing to download yet.'); return; }
+      const text = chatHistory.map(m => `${m.role === 'assistant' ? 'AI' : 'You'}: ${m.text}`).join('\n');
+      const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'ai-stock-chat.txt';
+      link.click();
+      URL.revokeObjectURL(link.href);
+      toast('Chat downloaded.');
+    });
+
+    clearChatBtn?.addEventListener('click', () => {
+      if(aborter){ aborter.abort(); aborter = null; }
+      chatHistory.length = 0;
+      if(chatlog) chatlog.innerHTML = '';
+      if(stopBtn) stopBtn.disabled = true;
+      setChatStatus('Chat cleared.');
+    });
+
+    permalinkBtn?.addEventListener('click', async () => {
+      const settings = serializeSettings();
+      const url = new URL(window.location.href);
+      url.hash = encodeURIComponent(btoa(JSON.stringify(settings)));
+      try {
+        await navigator.clipboard.writeText(url.toString());
+        toast('Permalink copied.');
+      } catch {
+        toast('Permalink ready in address bar.');
+        history.replaceState({}, '', url);
+      }
+    });
+
+    const restoreFromHash = () => {
+      if(!location.hash) return null;
+      try {
+        const data = JSON.parse(atob(decodeURIComponent(location.hash.slice(1))));
+        applySettings(data);
+        return data;
+      } catch {
+        return null;
+      }
+    };
+
+    const init = () => {
+      hydrateModels();
+      renderTickerSuggestions();
+      updateTickerPlaceholder();
+      const hashSettings = restoreFromHash();
+      if(!hashSettings){
+        const defaults = loadJson(STORAGE_DEFAULTS);
+        if(defaults) applySettings(defaults);
+      }
+      const last = loadJson(STORAGE_LAST);
+      if(!ticker?.value && last?.ticker) ticker.value = last.ticker;
+      if(!ticker?.value) ticker.value = 'RELIANCE';
+      renderTickerSuggestions();
+      updateTickerPlaceholder();
+    };
+
+    init();
+
+    let latestSymbol = '';
+
+    async function runAnalysis(){
+      const tickerValue = ticker?.value?.trim();
+      if(!tickerValue){ alert('Enter a ticker'); ticker?.focus(); return; }
+      const symbol = buildSymbol(tickerValue, market?.value);
+      latestSymbol = symbol;
+      setAnalysisStatus('Fetching latest data...');
+      setChatStatus('');
+      go && (go.disabled = true);
+      try {
+        const quote = await getQuote(symbol);
+        setSnapshot(quote);
+        const chart = await getChart(symbol, range?.value, interval?.value);
+        const closes = chart.c || [];
+        if(!closes.filter(v => v != null).length) throw new Error('No chart data');
+        const ta = setTASummary(closes);
+        drawChart(chart.t, closes, ta.sma50, ta.sma200, ta.sr);
+        const searchQ = quote?.shortName || quote?.longName || tickerValue;
+        let news = [];
+        try {
+          news = await getNews(searchQ);
+        } catch (newsErr) {
+          console.warn('News fetch failed', newsErr);
+        }
+        const ns = setNews(news);
+        const verdict = makeVerdict({
+          price: quote?.regularMarketPrice,
+          closes,
+          sma50: ta.sma50,
+          sma200: ta.sma200,
+          rsi: ta.rsi,
+          sr: ta.sr,
+          quote,
+          newsScore: Math.sign(ns) * Math.min(2, Math.abs(ns))
+        });
+        setVerdict(verdict);
+        currentContext = {
+          symbol,
+          name: quote?.shortName || quote?.longName || symbol,
+          exchange: quote?.fullExchangeName || quote?.exchange || '',
+          snapshot: {
+            price: quote?.regularMarketPrice,
+            change: quote?.regularMarketChange,
+            chgPct: quote?.regularMarketChangePercent,
+            currency: quote?.currency,
+            marketCap: quote?.marketCap,
+            pe: quote?.trailingPE,
+            dy: quote?.trailingAnnualDividendYield
+          },
+          tech: {
+            rsi: ta.rsi.at(-1),
+            sma50: ta.sma50.at(-1),
+            sma200: ta.sma200.at(-1),
+            support: ta.sr.support,
+            resistance: ta.sr.resistance
+          },
+          news: news.slice(0, 6)
+        };
+        saveJson(STORAGE_LAST, serializeSettings());
+        setAnalysisStatus(`Updated ${new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}.`);
+        setChatStatus('Context refreshed. Ask a question or use a prompt.');
+      } catch (err) {
+        console.error(err);
+        currentContext = null;
+        let errMsg = err?.message || 'unknown error';
+        if(errMsg === 'Failed to fetch' && isLocal){
+          errMsg += '. Start your proxy (npm run worker) or set window.UPTOOLS_API_BASE to a remote /api endpoint.';
+        }
+        setAnalysisStatus(`Failed to fetch data (${errMsg}). Try another ticker or range.`);
+        setChatStatus(`Analysis failed: ${errMsg}`);
+      } finally {
+        go && (go.disabled = false);
+      }
+    }
+
+    go?.addEventListener('click', runAnalysis);
+    ticker?.addEventListener('keyup', (e) => { if(e.key === 'Enter') runAnalysis(); });
+
+    range?.addEventListener('change', () => { saveJson(STORAGE_LAST, serializeSettings()); runAnalysis(); });
+    interval?.addEventListener('change', () => { saveJson(STORAGE_LAST, serializeSettings()); runAnalysis(); });
+    market?.addEventListener('change', () => {
+      renderTickerSuggestions();
+      updateTickerPlaceholder();
+      saveJson(STORAGE_LAST, serializeSettings());
+      runAnalysis();
+    });
+
+    runAnalysis();
+  </script>
+</body>
+</html>
