@@ -499,15 +499,18 @@ interface DailyPayload {
     markets: string[];
     candidateLimit: number;
     components: string[];
+    newsFetchLimit: number;
   };
 }
 
 const DAILY_MARKETS = ["NSE", "BSE", "NASDAQ", "NYSE", "LSE", "TSX", "TSE", "SSE", "HKEX", "FWB"] as const;
-const DAILY_CANDIDATE_LIMIT = 40;
+const DAILY_CANDIDATE_LIMIT = 15;
 const DAILY_TOP_EXPORT = 20;
-const DAILY_CONCURRENCY = 5;
 const DAILY_REFRESH_INTERVAL_MS = 1000 * 60 * 60 * 24;
 const TOP10_CACHE_KEY = "__uptools_top10_daily__";
+const DAILY_QUOTE_CHUNK = 15;
+const DAILY_SPARK_CHUNK = 8;
+const NEWS_FETCH_LIMIT = 1;
 
 let top10Cache: { payload: DailyPayload; expires: number } | null = null;
 let top10Promise: Promise<DailyPayload> | null = null;
@@ -538,8 +541,52 @@ const regionByMarketDaily: Record<string, string> = {
   FWB: "DE",
 };
 
-const POS_WORDS = ["beats","surge","record","profit","upgrade","outperform","gain","buy","rally","soars","strong","approval","order win","deal","guidance","raise","dividend","partnership","contracts","momentum","breakout"];
-const NEG_WORDS = ["miss","plunge","loss","downgrade","underperform","fall","sell","lawsuit","probe","delay","weak","recall","fraud","ban","strike","cut","slump","guidance cut","downtime","penalty"];
+const POS_WORDS = [
+  "beats",
+  "surge",
+  "record",
+  "profit",
+  "upgrade",
+  "outperform",
+  "gain",
+  "buy",
+  "rally",
+  "soars",
+  "strong",
+  "approval",
+  "order win",
+  "deal",
+  "guidance",
+  "raise",
+  "dividend",
+  "partnership",
+  "contracts",
+  "momentum",
+  "breakout"
+];
+
+const NEG_WORDS = [
+  "miss",
+  "plunge",
+  "loss",
+  "downgrade",
+  "underperform",
+  "fall",
+  "sell",
+  "lawsuit",
+  "probe",
+  "delay",
+  "weak",
+  "recall",
+  "fraud",
+  "ban",
+  "strike",
+  "cut",
+  "slump",
+  "guidance cut",
+  "downtime",
+  "penalty"
+];
 
 const numberFormatDaily = new Intl.NumberFormat("en-IN", { maximumFractionDigits: 2 });
 
@@ -561,7 +608,8 @@ const SMA = (arr: Array<number | null>, n: number) =>
   });
 
 const RSI = (closes: Array<number | null>, n = 14) => {
-  let gains = 0, losses = 0;
+  let gains = 0,
+    losses = 0;
   const out = new Array(closes.length).fill(null);
   for (let i = 1; i < closes.length; i++) {
     const current = closes[i] ?? closes[i - 1] ?? 0;
@@ -602,6 +650,16 @@ const supportResistance = (closes: Array<number | null>, look = 30) => {
   };
 };
 
+
+
+function chunkSymbols(list: string[], size: number): string[][] {
+  const out: string[][] = [];
+  for (let i = 0; i < list.length; i += size) {
+    out.push(list.slice(i, i + size));
+  }
+  return out;
+}
+
 function formatNumberDaily(value: number | null, digits = 2): string {
   if (value == null || !Number.isFinite(value)) return "n/a";
   return new Intl.NumberFormat("en-IN", { maximumFractionDigits: digits }).format(value);
@@ -628,7 +686,8 @@ async function handleTop10Daily(req: Request, env: Env): Promise<Response> {
     return new Response(JSON.stringify(payload), { status: 200, headers });
   } catch (err) {
     console.error("top10 daily error", err);
-    return new Response(JSON.stringify({ error: "Failed to build daily picks" }), {
+    const message = err instanceof Error ? err.message : "Failed to build daily picks";
+    return new Response(JSON.stringify({ error: message }), {
       status: 500,
       headers: { "Content-Type": "application/json" },
     });
@@ -668,13 +727,16 @@ async function getDailyPayload(env: Env, force = false): Promise<DailyPayload> {
       if (cache) {
         const cacheRequest = new Request(`https://cache.uptools/${TOP10_CACHE_KEY}`);
         try {
-          await cache.put(cacheRequest, new Response(JSON.stringify(payload), {
-            status: 200,
-            headers: {
-              "Content-Type": "application/json",
-              "Cache-Control": "public, max-age=86400, s-maxage=86400",
-            },
-          }));
+          await cache.put(
+            cacheRequest,
+            new Response(JSON.stringify(payload), {
+              status: 200,
+              headers: {
+                "Content-Type": "application/json",
+                "Cache-Control": "public, max-age=86400, s-maxage=86400",
+              },
+            })
+          );
         } catch (err) {
           console.warn("daily cache write failed", err);
         }
@@ -707,47 +769,124 @@ async function computeDailyPayload(_env: Env): Promise<DailyPayload> {
       markets: [...DAILY_MARKETS],
       candidateLimit: DAILY_CANDIDATE_LIMIT,
       components: ["ta", "fa", "news", "volume"],
+      newsFetchLimit: NEWS_FETCH_LIMIT,
     },
+  };
+}
+
+interface SymbolInputs {
+  symbol: string;
+  quote: any;
+  chart: { closes: Array<number | null>; volumes: Array<number | null>; meta: any };
+  name: string;
+  newsNet: number;
+  newsTitles: string[];
+}
+
+function buildPick(input: SymbolInputs): DailyPick | null {
+  const { symbol, quote, chart, name, newsNet, newsTitles } = input;
+  const closes = chart.closes;
+  if (!closes.some((v) => v != null)) return null;
+
+  const evaluation = makeScoresDaily({ closes, volumes: chart.volumes, quote, newsNet });
+  const lastPriceCandidate = closes.filter((v) => v != null).at(-1) ?? null;
+  const price = quote?.regularMarketPrice ?? (lastPriceCandidate as number | null);
+
+  return {
+    symbol,
+    name,
+    currency: quote?.currency || chart.meta?.currency || "",
+    price: typeof price === "number" ? price : null,
+    plan: evaluation.plan,
+    scores: evaluation.scores,
+    metrics: {
+      rsi: evaluation.tech.rsi,
+      sma50: evaluation.tech.sma50,
+      sma200: evaluation.tech.sma200,
+      support: evaluation.tech.support,
+      resistance: evaluation.tech.resistance,
+      volumeShock: evaluation.volumeShock,
+      averageVolume: evaluation.avgVolume,
+      lastVolume: evaluation.lastVolume,
+      newsNet,
+    },
+    why: evaluation.why,
+    news: newsTitles.slice(0, 3),
+    dataTimestamp: chart.meta?.regularMarketTime ? new Date(chart.meta.regularMarketTime * 1000).toISOString() : null,
   };
 }
 
 async function processMarketDaily(market: string): Promise<MarketDailyResult> {
   const started = Date.now();
   const symbols = await buildCandidateSymbols(market);
+  const uppercaseSymbols = symbols.map((s) => s.toUpperCase());
   const picks: DailyPick[] = [];
+  const dataBySymbol = new Map<string, SymbolInputs>();
   let processed = 0;
   let failed = 0;
-  let index = 0;
 
-  const workers = Array.from({ length: Math.max(1, Math.min(DAILY_CONCURRENCY, symbols.length)) }, async () => {
-    while (true) {
-      const current = index++;
-      if (current >= symbols.length) break;
-      const symbol = symbols[current];
-      const pick = await evaluateSymbol(symbol);
-      if (pick) {
-        picks.push(pick);
-      } else {
-        failed++;
-      }
-      processed++;
+  const quotesMap = await fetchQuotesBatch(uppercaseSymbols);
+  const sparkMap = await fetchSparkBatch(uppercaseSymbols);
+
+  for (const symbolRaw of uppercaseSymbols) {
+    const quote = quotesMap.get(symbolRaw);
+    const chart = sparkMap.get(symbolRaw);
+    if (!quote || !chart) {
+      failed++;
+      continue;
     }
-  });
+    const name = quote?.shortName || quote?.longName || chart.meta?.shortName || symbolRaw;
+    const inputs: SymbolInputs = {
+      symbol: symbolRaw,
+      quote,
+      chart,
+      name,
+      newsNet: 0,
+      newsTitles: [],
+    };
+    const pick = buildPick(inputs);
+    if (pick) {
+      dataBySymbol.set(symbolRaw, inputs);
+      picks.push(pick);
+      processed++;
+    } else {
+      failed++;
+    }
+  }
 
-  await Promise.all(workers);
+  picks.sort((a, b) => b.scores.total - a.scores.total);
+
+  const newsTargets = picks.slice(0, Math.min(NEWS_FETCH_LIMIT, picks.length));
+  for (const target of newsTargets) {
+    const data = dataBySymbol.get(target.symbol.toUpperCase());
+    if (!data) continue;
+    try {
+      const news = await fetchNewsDaily(data.name);
+      data.newsTitles = news.titles;
+      data.newsNet = news.net;
+      const updated = buildPick(data);
+      if (updated) {
+        const index = picks.findIndex((p) => p.symbol === updated.symbol);
+        if (index >= 0) picks[index] = updated;
+      }
+    } catch (err) {
+      console.warn(`news fetch failed ${target.symbol}`, err);
+    }
+  }
+
   picks.sort((a, b) => b.scores.total - a.scores.total);
   const selected = picks.slice(0, Math.min(DAILY_TOP_EXPORT, picks.length));
 
   return {
     picks: selected,
-    scanned: symbols.length,
+    scanned: uppercaseSymbols.length,
     processed,
     failed,
     runtimeMs: Date.now() - started,
-    universe: "mixed (most actives + day gainers)",
+    universe: "Yahoo most actives",
     notes: [
       "Scores combine technicals, valuation, news tone, and volume shock.",
-      "Bulk deal data not yet integrated (score contribution = 0).",
+      `News deep-dive limited to top ${NEWS_FETCH_LIMIT} symbols per market to stay within worker limits.`,
     ],
   };
 }
@@ -756,17 +895,17 @@ async function buildCandidateSymbols(market: string): Promise<string[]> {
   const region = regionByMarketDaily[market] || "US";
   const suffix = suffixByMarketDaily[market] ?? "";
   const baseUrl = "https://query1.finance.yahoo.com/v1/finance/screener/predefined/saved";
-  const [actives, gainers] = await Promise.all([
-    fetchYahooJson(`${baseUrl}?scrIds=most_actives&count=${DAILY_CANDIDATE_LIMIT}&start=0&lang=en-US&region=${region}`),
-    fetchYahooJson(`${baseUrl}?scrIds=day_gainers&count=${DAILY_CANDIDATE_LIMIT}&start=0&lang=en-US&region=${region}`),
-  ]);
-  const mapper = (data: any) => (data?.finance?.result?.[0]?.quotes || []).map((q: any) => (q?.symbol || "")).filter(Boolean);
-  const raw = [...mapper(actives), ...mapper(gainers)];
-  const normalized = raw.map((sym) => {
-    const upper = sym.toUpperCase();
-    if (!suffix) return upper;
-    return upper.endsWith(suffix) ? upper : `${upper}${suffix}`;
-  });
+  const data = await fetchYahooJson(
+    `${baseUrl}?scrIds=most_actives&count=${DAILY_CANDIDATE_LIMIT}&start=0&lang=en-US&region=${region}`
+  );
+  const quotes = (data?.finance?.result?.[0]?.quotes || []) as Array<{ symbol?: string }>;
+  const normalized = quotes
+    .map((q) => (q?.symbol || '').toUpperCase())
+    .filter(Boolean)
+    .map((sym) => {
+      if (!suffix) return sym;
+      return sym.endsWith(suffix) ? sym : `${sym}${suffix}`;
+    });
   return dedupeSymbols(normalized).slice(0, DAILY_CANDIDATE_LIMIT);
 }
 
@@ -782,72 +921,41 @@ function dedupeSymbols(list: string[]): string[] {
   return out;
 }
 
-async function evaluateSymbol(symbol: string): Promise<DailyPick | null> {
-  try {
-    const [quote, chart] = await Promise.all([fetchQuoteDaily(symbol), fetchChartDaily(symbol)]);
-    const closesRaw = chart.closes || [];
-    if (!closesRaw.some((v) => v != null)) return null;
-    const closes = closesRaw.map((v: any) => (typeof v === "number" ? v : v == null ? null : Number(v))) as Array<number | null>;
-    const volumes = (chart.volumes || []).map((v: any) => (typeof v === "number" ? v : v == null ? null : Number(v))) as Array<number | null>;
-    const name = quote?.shortName || quote?.longName || chart.meta?.shortName || symbol;
-
-    let newsTitles: string[] = [];
-    let newsNet = 0;
-    try {
-      const news = await fetchNewsDaily(name);
-      newsTitles = news.titles;
-      newsNet = news.net;
-    } catch (err) {
-      console.warn(`news fetch failed ${symbol}`, err);
+async function fetchQuotesBatch(symbols: string[]): Promise<Map<string, any>> {
+  const map = new Map<string, any>();
+  for (const chunk of chunkSymbols(symbols, DAILY_QUOTE_CHUNK)) {
+    if (!chunk.length) continue;
+    const data = await fetchYahooJson(
+      `https://query1.finance.yahoo.com/v7/finance/quote?symbols=${encodeURIComponent(chunk.join(','))}`
+    );
+    const results = (data?.quoteResponse?.result || []) as Array<any>;
+    for (const quote of results) {
+      const key = (quote?.symbol || '').toUpperCase();
+      if (key) map.set(key, quote);
     }
-
-    const scoring = makeScoresDaily({ closes, volumes, quote, newsNet });
-    const lastPriceCandidate = closes.filter((v) => v != null).at(-1) ?? null;
-    const price = quote?.regularMarketPrice ?? (lastPriceCandidate as number | null);
-
-    return {
-      symbol,
-      name,
-      currency: quote?.currency || chart.meta?.currency || "",
-      price: typeof price === "number" ? price : null,
-      plan: scoring.plan,
-      scores: scoring.scores,
-      metrics: {
-        rsi: scoring.tech.rsi,
-        sma50: scoring.tech.sma50,
-        sma200: scoring.tech.sma200,
-        support: scoring.tech.support,
-        resistance: scoring.tech.resistance,
-        volumeShock: scoring.volumeShock,
-        averageVolume: scoring.avgVolume,
-        lastVolume: scoring.lastVolume,
-        newsNet: newsNet,
-      },
-      why: scoring.why,
-      news: newsTitles.slice(0, 3),
-      dataTimestamp: chart.meta?.regularMarketTime ? new Date(chart.meta.regularMarketTime * 1000).toISOString() : null,
-    };
-  } catch (err) {
-    console.warn(`scan failed ${symbol}`, err);
-    return null;
   }
+  return map;
 }
 
-async function fetchQuoteDaily(symbol: string): Promise<any> {
-  const data = await fetchYahooJson(`https://query1.finance.yahoo.com/v7/finance/quote?symbols=${symbol}`);
-  return data?.quoteResponse?.result?.[0] || null;
-}
-
-async function fetchChartDaily(symbol: string): Promise<{ closes: any[]; volumes: any[]; timestamps: number[]; meta: any }> {
-  const data = await fetchYahooJson(`https://query1.finance.yahoo.com/v8/finance/chart/${symbol}?range=6mo&interval=1d`);
-  const res = data?.chart?.result?.[0] || ({} as any);
-  const quote = res?.indicators?.quote?.[0] || {};
-  return {
-    closes: Array.isArray(quote?.close) ? quote.close : [],
-    volumes: Array.isArray(quote?.volume) ? quote.volume : [],
-    timestamps: Array.isArray(res?.timestamp) ? res.timestamp.map((t: number) => t * 1000) : [],
-    meta: res?.meta || {},
-  };
+async function fetchSparkBatch(symbols: string[]): Promise<Map<string, { closes: Array<number | null>; volumes: Array<number | null>; meta: any }>> {
+  const map = new Map<string, { closes: Array<number | null>; volumes: Array<number | null>; meta: any }>();
+  for (const chunk of chunkSymbols(symbols, DAILY_SPARK_CHUNK)) {
+    if (!chunk.length) continue;
+    const data = await fetchYahooJson(
+      `https://query1.finance.yahoo.com/v7/finance/spark?symbols=${encodeURIComponent(chunk.join(','))}&range=6mo&interval=1d`
+    );
+    const results = (data?.spark?.result || []) as Array<any>;
+    for (const entry of results) {
+      const key = (entry?.symbol || '').toUpperCase();
+      const response = entry?.response?.[0];
+      const quote = response?.indicators?.quote?.[0];
+      if (!key || !response || !quote) continue;
+      const closes = Array.isArray(quote?.close) ? quote.close : [];
+      const volumes = Array.isArray(quote?.volume) ? quote.volume : [];
+      map.set(key, { closes, volumes, meta: response?.meta || {} });
+    }
+  }
+  return map;
 }
 
 async function fetchNewsDaily(name: string): Promise<{ titles: string[]; net: number }> {
@@ -861,13 +969,16 @@ async function fetchNewsDaily(name: string): Promise<{ titles: string[]; net: nu
   });
   if (!res.ok) throw new Error(`Google News HTTP ${res.status}`);
   const text = await res.text();
-  const titles = [...text.matchAll(/<item>([\s\S]*?)<\/item>/g)].slice(0, 6).map((match) => {
-    const block = match[1];
-    const viaCdata = block.match(/<title><!\[CDATA\[(.*?)\]\]><\/title>/);
-    if (viaCdata?.[1]) return viaCdata[1];
-    const plain = block.match(/<title>(.*?)<\/title>/);
-    return plain?.[1] || "";
-  }).filter(Boolean);
+  const titles = [...text.matchAll(/<item>([\s\S]*?)<\/item>/g)]
+    .slice(0, 6)
+    .map((match) => {
+      const block = match[1];
+      const viaCdata = block.match(/<title><!\[CDATA\[(.*?)\]\]><\/title>/);
+      if (viaCdata?.[1]) return viaCdata[1];
+      const plain = block.match(/<title>(.*?)<\/title>/);
+      return plain?.[1] || '';
+    })
+    .filter(Boolean);
   const net = titles.reduce((sum, title) => sum + scoreHeadlineText(title), 0);
   return { titles, net };
 }
@@ -1009,9 +1120,6 @@ function makeScoresDaily(params: {
     why: whyParts,
   };
 }
-
-/* ---------------- static site helpers ---------------- */
-
 async function serveSite(req: Request, env: Env): Promise<Response> {
   const url = new URL(req.url);
 
@@ -1264,4 +1372,6 @@ async function collectGeminiStreamToText(upstream: Response): Promise<string> {
 function openAiStyleOnce(text: string) {
   return { id: "up-single", choices: [{ index: 0, message: { role: "assistant", content: text } }], usage: {} };
 }
+
+
 
