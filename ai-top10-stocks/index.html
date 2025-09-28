@@ -128,8 +128,8 @@
 
     <!-- Controls -->
     <section class="card" aria-label="Controls">
-      <div class="row-inline" style="justify-content:space-between;gap:12px">
-        <div class="row-inline" style="flex:1;gap:10px">
+      <div class="row-inline" style="flex-wrap:wrap;gap:12px;align-items:flex-end">
+        <div class="row-inline" style="flex:1;flex-wrap:wrap;gap:10px">
           <label class="inline">
             <span class="mini">Market</span>
             <select id="market" class="select">
@@ -146,37 +146,24 @@
             </select>
           </label>
           <label class="inline">
-            <span class="mini">Universe</span>
-            <select id="universe" class="select" title="Which pool to scan first">
-              <option value="actives" selected>Most Active</option>
-              <option value="gainers">Day Gainers</option>
-              <option value="mixed">Mixed (Active+Gainers)</option>
-              <option value="manual">Manual (paste tickers)</option>
-            </select>
-          </label>
-          <label class="inline" style="min-width:240px;flex:1">
-            <span class="mini">Manual tickers (optional)</span>
-            <input id="manual" class="input" placeholder="AAPL, TSLA, TCS, RELIANCE, 7203 ..." />
-          </label>
-          <label class="inline">
-            <span class="mini">Picks</span>
+            <span class="mini">Show Top</span>
             <select id="count" class="select">
               <option>5</option>
               <option selected>10</option>
               <option>15</option>
             </select>
           </label>
-          <button id="go" class="btn" type="button">Predict ▶</button>
+          <button id="refresh" class="btn" type="button">Refresh Snapshot</button>
         </div>
         <div class="row-inline" style="gap:8px">
           <button id="exportCsv" class="btn secondary sm" type="button">Export CSV</button>
           <button id="copySummary" class="btn secondary sm" type="button">Copy Summary</button>
         </div>
       </div>
-      <div class="mini" id="status" role="status" aria-live="polite">Ready.</div>
-      <p class="mini">Tip: You can paste your own watchlist and set Universe = Manual. The tool still pulls live quotes, charts and news for scoring.</p>
+      <div class="mini" id="status" role="status" aria-live="polite">Loading daily picks�</div>
+      <div class="mini">Last generated <span id="lastGenerated">--</span> � Next update <span id="nextUpdate">--</span></div>
+      <p class="mini">This list refreshes automatically once per day using the same scoring recipe as the live AI Stock Analyzer.</p>
     </section>
-
     <!-- Results -->
     <section class="grid-2" aria-label="Results">
       <article class="panel">
@@ -229,7 +216,7 @@
             FA score: +1 PE 8–25, −1 PE&gt;35, +1 dividend ≥1%. News score: headline tone from Google News keywords (±2 cap).<br/>
             Entry: <i>breakout retest</i> (near old resistance) or <i>support bounce</i>. Stop: 1.5–2.5% below support. Targets: 1.5× and 2.5× R:R or next resistance.
           </p>
-          <p class="mini">This tool is educational and not investment advice. Markets carry risk.</p>
+          <p class="mini">This tool is educational and not investment advice. Daily snapshot refreshes automatically after the batch run (usually post-market). Markets carry risk.</p>
         </section>
       </article>
     </section>
@@ -247,420 +234,247 @@
 
   <!-- Page Script -->
   <script type="module">
-    // Use your common utils if available; fallback to /scripts
-    let Utils = {};
-    try { Utils = (await import('/scripts/utils.js'))?.default || (await import('/scripts/utils.js')) || {}; } catch { Utils = window || {}; }
+  const $ = (selector, root = document) => root.querySelector(selector);
+  const fmt = (value, options = {}) => new Intl.NumberFormat('en-IN', { maximumFractionDigits: 2, ...options }).format(value ?? 0);
+  const cur = (value, currency = 'INR') => new Intl.NumberFormat('en-IN', { style: 'currency', currency, maximumFractionDigits: 2 }).format(value ?? 0);
 
-    const $  = (s, r=document)=>r.querySelector(s);
-    const $$ = (s, r=document)=>[...r.querySelectorAll(s)];
-    const fmt = (v,o={}) => new Intl.NumberFormat('en-IN',{maximumFractionDigits:2, ...o}).format(v ?? 0);
-    const cur = (v,c='INR') => new Intl.NumberFormat('en-IN',{style:'currency', currency:c, maximumFractionDigits:2}).format(v ?? 0);
+  const marketSel = $('#market');
+  const countSel = $('#count');
+  const refreshBtn = $('#refresh');
+  const statusEl = $('#status');
+  const tblBody = $('#tbody');
+  const cardsEl = $('#cards');
+  const exportCsvBtn = $('#exportCsv');
+  const copySummaryBtn = $('#copySummary');
+  const lastGeneratedEl = $('#lastGenerated');
+  const nextUpdateEl = $('#nextUpdate');
 
-    const isLocal = ['localhost','127.0.0.1'].includes(location.hostname);
-    const API_BASE = typeof window?.UPTOOLS_API_BASE === 'string' ? window.UPTOOLS_API_BASE : '';
-    const withBase = (base, path) => base ? `${base.replace(/\/$/, '')}${path}` : path;
+  const DATA_ENDPOINT = '/top10/daily.json';
+  const numberCompact = new Intl.NumberFormat('en-IN', { notation: 'compact', maximumFractionDigits: 1 });
 
-    const yearEl = $('#y'); if(yearEl) yearEl.textContent = new Date().getFullYear();
+  let dailyPayload = null;
 
-    // AdSense mount
-    (function mountAd(){
-      if(!('adsbygoogle' in window)) return;
-      const mount = document.getElementById('ad-mount');
-      if(!mount) return;
-      const wrap = document.createElement('div');
-      wrap.className='ad-slot'; wrap.style.display='block'; wrap.style.margin='10px 0';
-      wrap.innerHTML = '<ins class="adsbygoogle" style="display:block;width:100%;height:100px" data-ad-client="ca-pub-6216304334889617" data-full-width-responsive="true"></ins>';
-      mount.appendChild(wrap);
-      try { (window.adsbygoogle = window.adsbygoogle || []).push({}); } catch {}
-    })();
+  window.__lastPicks = [];
 
-    // Controls
-    const market = $('#market'), universe = $('#universe'), manual = $('#manual'), countSel = $('#count');
-    const goBtn = $('#go'), statusEl = $('#status'), tblBody = $('#tbody'), cardsEl = $('#cards');
-    const exportCsvBtn = $('#exportCsv'), copySummaryBtn = $('#copySummary');
+  const yearEl = $('#y');
+  if (yearEl) yearEl.textContent = new Date().getFullYear();
 
-    const setStatus = (m)=>{ if(statusEl) statusEl.textContent = m; };
+  const setStatus = (message) => { if (statusEl) statusEl.textContent = message; };
 
-    // Market suffix mapping for Yahoo
-    const suffixByMarket = { NSE:'.NS', BSE:'.BO', NASDAQ:'', NYSE:'', LSE:'.L', TSX:'.TO', TSE:'.T', SSE:'.SS', HKEX:'.HK', FWB:'.F' };
-    const regionByMarket = { NSE:'IN', BSE:'IN', NASDAQ:'US', NYSE:'US', LSE:'GB', TSX:'CA', TSE:'JP', SSE:'CN', HKEX:'HK', FWB:'DE' };
-    const buildSymbol = (t, m) => (t||'').trim().toUpperCase() + (suffixByMarket[m] ?? '');
+  const formatDateTime = (iso) => {
+    if (!iso) return '--';
+    const date = new Date(iso);
+    if (Number.isNaN(date.getTime())) return '--';
+    return date.toLocaleString(undefined, { dateStyle: 'medium', timeStyle: 'short' });
+  };
 
-    // Proxy fetch via Cloudflare Worker
-    const runFetch = async (endpoint, { parseJson = true } = {}) => {
-      const res = await fetch(endpoint);
-      if(!res.ok) throw new Error('HTTP ' + res.status);
-      if(parseJson === false) return res.text();
-      const ct = res.headers.get('content-type') || '';
-      return ct.includes('application/json') ? res.json() : res.text();
-    };
+  const formatVolume = (value) => {
+    if (value == null || !Number.isFinite(value)) return '--';
+    return numberCompact.format(value);
+  };
 
-    const ALL_ORIGINS = 'https://api.allorigins.win/raw?url=';
+  const formatShock = (value) => {
+    if (value == null || !Number.isFinite(value)) return '--';
+    return `${fmt(value, { maximumFractionDigits: 2 })}x`;
+  };
 
-    const JINA_PROXY = 'https://r.jina.ai/';
+  const getMarketKey = () => marketSel?.value || 'NSE';
 
-    const api = async (url) => {
-      const attempts = [];
-      const note = (label, err) => { attempts.push({ label, err }); console.warn(label, err); };
+  const getMarketData = () => {
+    if (!dailyPayload) return null;
+    return dailyPayload.markets?.[getMarketKey()] || null;
+  };
 
-      const tryDirect = async (label) => {
-        try {
-          return await runFetch(url);
-        } catch (err) {
-          note(label, err);
-          return null;
-        }
-      };
-
-      if(isLocal){
-        const direct = await tryDirect('Direct fetch (local) failed');
-        if(direct != null) return direct;
-      }
-
-      const shouldUseProxy = !isLocal || API_BASE;
-      if(shouldUseProxy){
-        try {
-          const endpoint = withBase(API_BASE || '', `/api?url=${encodeURIComponent(url)}`);
-          return await runFetch(endpoint);
-        } catch (err) {
-          note('Proxy fetch failed', err);
-        }
-      }
-
-      if(!isLocal){
-        const retry = await tryDirect('Direct fetch retry failed');
-        if(retry != null) return retry;
-      }
-
-      try {
-        const raw = await runFetch(`${ALL_ORIGINS}${encodeURIComponent(url)}`, { parseJson: false });
-        try { return JSON.parse(raw); } catch { return raw; }
-      } catch (fallbackErr) {
-        note('AllOrigins fallback failed', fallbackErr);
-      }
-
-      try {
-        const raw = await runFetch(`${JINA_PROXY}${url}`, { parseJson: false });
-        try { return JSON.parse(raw); } catch { return raw; }
-      } catch (jinaErr) {
-        note('Jina proxy fallback failed', jinaErr);
-      }
-
-      const last = attempts.length ? attempts[attempts.length - 1].err : new Error('Failed to fetch');
-      throw last;
-    };
-
-    // Yahoo quote & chart
-    async function getQuote(symbol){
-      const j = await api(`https://query1.finance.yahoo.com/v7/finance/quote?symbols=${symbol}`);
-      return j?.quoteResponse?.result?.[0] || null;
-    }
-    async function getChart(symbol, rangeV='6mo', intervalV='1d'){
-      const j = await api(`https://query1.finance.yahoo.com/v8/finance/chart/${symbol}?range=${rangeV}&interval=${intervalV}`);
-      const r = j?.chart?.result?.[0];
-      return { t: (r?.timestamp||[]).map(x=>x*1000), c: r?.indicators?.quote?.[0]?.close || [], meta: r?.meta||{} };
+  const render = () => {
+    if (!dailyPayload) return;
+    const marketData = getMarketData();
+    if (!marketData || !Array.isArray(marketData.picks) || !marketData.picks.length) {
+      if (tblBody) tblBody.innerHTML = '';
+      if (cardsEl) cardsEl.innerHTML = '';
+      window.__lastPicks = [];
+      setStatus(`No picks available for ${getMarketKey()} yet. Check back after the daily run.`);
+      return;
     }
 
-    // Yahoo predefined screener (best-effort)
-    async function getCandidates(market, mode='actives'){
-      // fallbacks: actives / day_gainers
-      const scr = mode==='gainers' ? 'day_gainers' : 'most_actives';
-      const region = regionByMarket[market] || 'US';
-      // Note: Yahoo may not always respect region, but /api proxy avoids CORS.
-      const j = await api(`https://query1.finance.yahoo.com/v1/finance/screener/predefined/saved?scrIds=${scr}&count=60&start=0&lang=en-US&region=${region}`);
-      const items = j?.finance?.result?.[0]?.quotes || [];
-      // Map to symbols with suffix if needed
-      const suf = suffixByMarket[market] ?? '';
-      const symbols = items.map(q => {
-        const s = (q?.symbol || '').toUpperCase();
-        // If symbol already has suffix (e.g., RELIANCE.NS), keep as is; else add.
-        return s.endsWith(suf) || suf==='' ? s : (s + suf);
-      });
-      return [...new Set(symbols)].slice(0, 40); // limit
+    const limit = Number(countSel?.value || 10);
+    const picks = marketData.picks.slice(0, limit);
+    window.__lastPicks = picks;
+
+    if (tblBody) {
+      const rows = picks.map((p, idx) => {
+        const plan = p.plan || {};
+        const scores = p.scores || {};
+        const metrics = p.metrics || {};
+        const entry = plan.entry != null ? fmt(plan.entry) : '--';
+        const targets = (plan.t1 != null && plan.t2 != null) ? `${fmt(plan.t1)} / ${fmt(plan.t2)}` : '--';
+        const stop = plan.stop != null ? fmt(plan.stop) : '--';
+        const price = p.price != null ? (p.currency ? cur(p.price, p.currency) : fmt(p.price)) : '--';
+        const volumeShock = formatShock(metrics.volumeShock ?? null);
+        return `<tr>
+          <td>${idx + 1}</td>
+          <td><b>${p.symbol}</b></td>
+          <td>${p.name || '--'}</td>
+          <td class="level">${price}</td>
+          <td class="level">${entry}</td>
+          <td class="level">${targets}</td>
+          <td class="level">${stop}</td>
+          <td>${scores.ta >= 0 ? `+${scores.ta}` : (scores.ta ?? 0)}</td>
+          <td>${scores.fa >= 0 ? `+${scores.fa}` : (scores.fa ?? 0)}</td>
+          <td>${scores.news >= 0 ? `+${scores.news}` : (scores.news ?? 0)}</td>
+          <td>${volumeShock}</td>
+          <td><b>${scores.total >= 0 ? `+${scores.total}` : (scores.total ?? 0)}</b></td>
+        </tr>`;
+      }).join('');
+      tblBody.innerHTML = rows;
     }
 
-    // Google News (RSS)
-    async function getNews(q){
-      const rss = await api(`https://news.google.com/rss/search?q=${encodeURIComponent(q+' stock OR shares')}&hl=en-IN&gl=IN&ceid=IN:en`);
-      return [...rss.matchAll(/<item>([\s\S]*?)<\/item>/g)].slice(0,6).map(m=>{
-        const b=m[1];
-        const title=(b.match(/<title><!\[CDATA\[(.*?)\]\]><\/title>/)||[])[1]||(b.match(/<title>(.*?)<\/title>/)||[])[1]||'';
-        return { title };
-      });
-    }
-    const POS=['beats','surge','record','profit','upgrade','outperform','gain','buy','rally','soars','strong','approval','order win','deal','guidance raise','dividend'];
-    const NEG=['miss','plunge','loss','downgrade','underperform','fall','sell','lawsuit','probe','delay','weak','recall','fraud','ban','strike'];
-    const scoreHeadline = (t)=>{ const s=(t||'').toLowerCase(); let p=0,n=0; POS.forEach(w=>{ if(s.includes(w)) p++; }); NEG.forEach(w=>{ if(s.includes(w)) n++; }); return p-n; };
-
-    // Indicators & helpers
-    const SMA=(arr,n)=> arr.map((_,i)=> i+1<n ? null : (arr.slice(i-n+1,i+1).reduce((a,b)=>a+(b??0),0)/n));
-    const RSI=(closes,n=14)=>{
-      let gains=0, losses=0; const out=new Array(closes.length).fill(null);
-      for(let i=1;i<closes.length;i++){
-        const cur=closes[i]??closes[i-1]??0, prev=closes[i-1]??closes[i]??0;
-        const ch=cur-prev, g=Math.max(ch,0), l=Math.max(-ch,0);
-        if(i<=n){ gains+=g; losses+=l; if(i===n){ const rs=gains/Math.max(1e-9,losses); out[i]=100-(100/(1+rs)); } }
-        else{ gains=(gains*(n-1)+g)/n; losses=(losses*(n-1)+l)/n; const rs=gains/Math.max(1e-9,losses); out[i]=100-(100/(1+rs)); }
-      }
-      return out;
-    };
-    const supportResistance=(closes,look=30)=>{
-      const f=closes.filter(v=>v!=null); if(!f.length) return {support:null, resistance:null};
-      const s=f.slice(-look); let hi=-Infinity, lo=Infinity; s.forEach(v=>{ if(v>hi)hi=v; if(v<lo)lo=v; });
-      return { support: Number.isFinite(lo)?lo:null, resistance: Number.isFinite(hi)?hi:null };
-    };
-
-    // Scoring & plan
-    function makeScores({closes, quote, name, newsList}){
-      const last = closes.filter(v=>v!=null).at(-1);
-      const sma50 = SMA(closes,50), sma200 = SMA(closes,200), rsi = RSI(closes,14), sr = supportResistance(closes,30);
-      const s50 = sma50.at(-1), s200 = sma200.at(-1), r = rsi.at(-1);
-      let ta=0;
-      if(last!=null && s50!=null) ta += last>s50 ? 1 : -1;          // trend vs 50
-      if(s50!=null && s200!=null) ta += s50>s200 ? 1 : -1;          // golden/death cross bias
-      if(r!=null && r>=45 && r<=65) ta += 1;                         // healthy momentum zone
-      if(r!=null && r>70) ta -= 1;                                  // overbought
-      if(sr?.resistance!=null && last!=null && last>sr.resistance) ta += 1; // possible breakout
-      if(sr?.support!=null && last!=null && last<sr.support) ta -= 1;
-
-      // FA simple
-      let fa=0; const pe=quote?.trailingPE, dy=quote?.trailingAnnualDividendYield;
-      if(pe && pe>=8 && pe<=25) fa += 1;
-      if(pe && pe>35) fa -= 1;
-      if(dy && dy*100 >= 1) fa += 1;
-
-      // News
-      let ns = 0;
-      const net = (newsList||[]).reduce((a,it)=>a+scoreHeadline(it.title),0);
-      ns = Math.max(-2, Math.min(2, net));
-
-      // Plan: entries/exits
-      let entry=null, stop=null, t1=null, t2=null, planNote='';
-      if(sr.support!=null && sr.resistance!=null && last!=null){
-        const breakout = last > sr.resistance;
-        if(breakout){
-          entry = sr.resistance * 1.005;               // retest +0.5%
-          stop  = sr.resistance * 0.98;                // ~2% below old resistance
-          const risk = entry - stop;
-          t1    = entry + 1.5*risk;
-          t2    = entry + 2.5*risk;
-          planNote='Breakout retest setup';
-        } else {
-          entry = sr.support * 1.01;                   // buy slightly above support
-          stop  = sr.support * 0.985;                  // ~1.5% below support
-          const risk = entry - stop;
-          t1    = entry + 1.5*risk;
-          t2    = entry + 2.5*risk;
-          planNote='Support bounce setup';
-        }
-      }
-
-      const total = ta + fa + ns;
-      const why = [
-        last!=null&&s50!=null?`Price ${last>s50?'above':'below'} SMA50` : null,
-        s50!=null&&s200!=null?`SMA50 ${s50>s200?'>':'<'} SMA200` : null,
-        r!=null?`RSI ${fmt(r,{maximumFractionDigits:1})}`:null,
-        sr.support!=null?`Support ${fmt(sr.support)}`:null,
-        sr.resistance!=null?`Resistance ${fmt(sr.resistance)}`:null,
-        pe?`PE ${fmt(pe)}`:null,
-        dy?`Div ${fmt(dy*100,{maximumFractionDigits:1})}%`:null,
-        net?`News ${net>=0?'+':''}${net}`:null
-      ].filter(Boolean).join(' • ');
-
-      return {
-        scores:{ta,fa,ns,total},
-        tech:{rsi:r, sma50:s50, sma200:s200, support:sr.support, resistance:sr.resistance},
-        plan:{entry, stop, t1, t2, note:planNote},
-        why
-      };
-    }
-
-    // Runner
-    async function run(){
-      try{
-        goBtn.disabled = true;
-        tblBody.innerHTML=''; cardsEl.innerHTML='';
-        setStatus('Building universe…');
-
-        let syms = [];
-        const mode = universe.value;
-        if(mode==='manual'){
-          syms = (manual.value||'').split(/[, \n\r\t]+/).map(s=>s.trim()).filter(Boolean).map(s=>buildSymbol(s, market.value));
-        } else if(mode==='mixed'){
-          const [a,g] = await Promise.all([getCandidates(market.value,'actives'), getCandidates(market.value,'gainers')]);
-          syms = [...new Set([...a, ...g])].slice(0, 60);
-        } else {
-          syms = await getCandidates(market.value, mode);
-        }
-        if(!syms.length){ setStatus('No candidates found. Try manual tickers.'); return; }
-
-        setStatus(`Scanning ${syms.length} candidates…`);
-
-        // Concurrency limiter
-        const limit = 5;
-        const picks = [];
-        let i=0;
-
-        async function scanOne(symbol){
-          try{
-            const [q, ch] = await Promise.all([
-              getQuote(symbol),
-              getChart(symbol, '6mo', '1d')
-            ]);
-            const closes = ch.c || [];
-            if(!closes.filter(v=>v!=null).length) return null;
-            const name = q?.shortName || q?.longName || symbol;
-            let news=[];
-            try{ news = await getNews(name); }catch{}
-            const result = makeScores({closes, quote:q, name, newsList:news});
-            return {
-              symbol, name, currency: q?.currency || '',
-              price: q?.regularMarketPrice ?? closes.filter(v=>v!=null).at(-1) ?? null,
-              newsNet: (news||[]).reduce((a,it)=>a+scoreHeadline(it.title),0),
-              quote:q, ...result
-            };
-          }catch{return null;}
-        }
-
-        async function worker(){
-          while(i<syms.length){
-            const idx=i++; const res = await scanOne(syms[idx]);
-            if(res) picks.push(res);
-            setStatus(`Scanning ${Math.min(syms.length, idx+1)} / ${syms.length}…`);
-          }
-        }
-        await Promise.all(Array.from({length:limit}, worker));
-
-        // Rank & slice
-        picks.sort((a,b)=> b.scores.total - a.scores.total);
-        const topN = picks.slice(0, Number(countSel.value));
-
-        if(!topN.length){ setStatus('No qualified picks. Try different universe.'); return; }
-
-        // Render table
-        const rows = topN.map((p,idx)=>{
-          const t = p.scores;
-          const plan = p.plan;
-          const ent = plan.entry? fmt(plan.entry):'–';
-          const tgt = plan.t1 && plan.t2 ? `${fmt(plan.t1)} / ${fmt(plan.t2)}` : '–';
-          const stp = plan.stop? fmt(plan.stop) : '–';
-          return `<tr>
-            <td>${idx+1}</td>
-            <td><b>${p.symbol}</b></td>
-            <td>${p.name}</td>
-            <td class="level">${p.price!=null ? (p.currency?cur(p.price,p.currency):fmt(p.price)) : '–'}</td>
-            <td class="level">${ent}</td>
-            <td class="level">${tgt}</td>
-            <td class="level">${stp}</td>
-            <td>${t.ta>=0?`+${t.ta}`:t.ta}</td>
-            <td>${t.fa>=0?`+${t.fa}`:t.fa}</td>
-            <td>${p.newsNet>=0?`+${p.newsNet}`:p.newsNet}</td>
-            <td><b>${t.total>=0?`+${t.total}`:t.total}</b></td>
-          </tr>`;
-        }).join('');
-        tblBody.innerHTML = rows;
-
-        // Render cards
-        cardsEl.innerHTML = topN.map(p=>{
-          const pl = p.plan, t=p.scores;
-          const entry = pl.entry? fmt(pl.entry) : '–';
-          const t1 = pl.t1? fmt(pl.t1) : '–';
-          const t2 = pl.t2? fmt(pl.t2) : '–';
-          const stop = pl.stop? fmt(pl.stop) : '–';
-          return `<div class="cardpick">
-            <div class="row-inline" style="justify-content:space-between">
-              <div>
-                <div class="h6"><b>${p.symbol}</b> · <span class="mini">${p.name}</span></div>
-                <div class="mini">Price: <b>${p.price!=null ? (p.currency?cur(p.price,p.currency):fmt(p.price)) : '–'}</b></div>
-              </div>
-              <div>
-                <span class="chip-sm">TA ${t.ta>=0?`+${t.ta}`:t.ta}</span>
-                <span class="chip-sm">FA ${t.fa>=0?`+${t.fa}`:t.fa}</span>
-                <span class="chip-sm">News ${p.newsNet>=0?`+${p.newsNet}`:p.newsNet}</span>
-                <span class="chip-sm"><b>Total ${t.total>=0?`+${t.total}`:t.total}</b></span>
-              </div>
+    if (cardsEl) {
+      cardsEl.innerHTML = picks.map((p) => {
+        const plan = p.plan || {};
+        const scores = p.scores || {};
+        const metrics = p.metrics || {};
+        const entry = plan.entry != null ? fmt(plan.entry) : '--';
+        const t1 = plan.t1 != null ? fmt(plan.t1) : '--';
+        const t2 = plan.t2 != null ? fmt(plan.t2) : '--';
+        const stop = plan.stop != null ? fmt(plan.stop) : '--';
+        const price = p.price != null ? (p.currency ? cur(p.price, p.currency) : fmt(p.price)) : '--';
+        const avgVol = formatVolume(metrics.averageVolume ?? null);
+        const lastVol = formatVolume(metrics.lastVolume ?? null);
+        const volumeShock = formatShock(metrics.volumeShock ?? null);
+        const newsLines = (p.news || []).slice(0, 2).map((t) => `<li>${t}</li>`).join('');
+        return `<div class="cardpick">
+          <div class="row-inline" style="justify-content:space-between">
+            <div>
+              <div class="h6"><b>${p.symbol}</b> � <span class="mini">${p.name || '--'}</span></div>
+              <div class="mini">Price: <b>${price}</b></div>
             </div>
-            <div class="row-inline" style="margin-top:6px">
-              <div class="chip-sm">Entry: <b class="level">${entry}</b></div>
-              <div class="chip-sm">Targets: <b class="level">${t1}</b> / <b class="level">${t2}</b></div>
-              <div class="chip-sm">Stop: <b class="level">${stop}</b></div>
-              <div class="chip-sm">${pl.note||'Plan n/a'}</div>
+            <div>
+              <span class="chip-sm">TA ${scores.ta >= 0 ? `+${scores.ta}` : (scores.ta ?? 0)}</span>
+              <span class="chip-sm">FA ${scores.fa >= 0 ? `+${scores.fa}` : (scores.fa ?? 0)}</span>
+              <span class="chip-sm">News ${scores.news >= 0 ? `+${scores.news}` : (scores.news ?? 0)}</span>
+              <span class="chip-sm">Vol ${volumeShock}</span>
+              <span class="chip-sm"><b>Total ${scores.total >= 0 ? `+${scores.total}` : (scores.total ?? 0)}</b></span>
             </div>
-            <div class="reason">Why: ${p.why}</div>
-          </div>`;
-        }).join('');
-
-        // Export/Copy helpers
-        window.__lastPicks = topN;
-        setStatus(`Done. ${topN.length} picks ready.`);
-      }catch(err){
-        console.error(err);
-        let msg = err?.message || 'unknown error';
-        if(msg === 'Failed to fetch' && isLocal){
-          msg += '. Start your proxy (npm run worker) or set window.UPTOOLS_API_BASE to a remote /api endpoint.';
-        }
-        setStatus(`Failed to compute picks (${msg}). Try again or change universe.`);
-      }finally{
-        goBtn.disabled = false;
-      }
+          </div>
+          <div class="row-inline" style="margin-top:8px;flex-wrap:wrap;gap:6px">
+            <div class="chip-sm">Entry <b class="level">${entry}</b></div>
+            <div class="chip-sm">Targets <b class="level">${t1}</b> / <b class="level">${t2}</b></div>
+            <div class="chip-sm">Stop <b class="level">${stop}</b></div>
+            <div class="chip-sm">${plan.note || 'Plan unavailable'}</div>
+          </div>
+          <div class="mini" style="margin-top:6px">Volume: ${volumeShock} � Last ${lastVol} � Avg ${avgVol}</div>
+          ${newsLines ? `<ul class="mini" style="margin:6px 0 0 16px">${newsLines}</ul>` : ''}
+          <div class="reason" style="margin-top:6px">Why: ${p.why || 'Score summary unavailable.'}</div>
+        </div>`;
+      }).join('');
     }
 
-    goBtn.addEventListener('click', run);
+    const metaMsg = `${picks.length} / ${marketData.picks.length} picks � scanned ${marketData.scanned} symbols`;
+    setStatus(metaMsg);
+  };
 
-    // Export CSV
-    exportCsvBtn.addEventListener('click', ()=>{
-      const data = (window.__lastPicks||[]).map((p,idx)=>({
-        rank: idx+1,
-        symbol: p.symbol,
-        name: p.name,
-        price: p.price??'',
-        currency: p.currency||'',
-        entry: p.plan.entry??'',
-        target1: p.plan.t1??'',
-        target2: p.plan.t2??'',
-        stop: p.plan.stop??'',
-        ta: p.scores.ta,
-        fa: p.scores.fa,
-        news: p.newsNet,
-        total: p.scores.total,
-        why: p.why
-      }));
-      if(!data.length){ setStatus('Nothing to export.'); return; }
-      const headers = Object.keys(data[0]);
-      const rows = [headers.join(','), ...data.map(r=> headers.map(h=>{
-        const v = r[h];
-        const s = (''+v).replace(/"/g,'""');
-        return /[",\n]/.test(s) ? `"${s}"` : s;
-      }).join(','))].join('\n');
-      const blob = new Blob([rows], {type:'text/csv;charset=utf-8'});
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = 'ai-top10-stocks.csv';
-      a.click();
-      URL.revokeObjectURL(a.href);
-    });
+  const updateMeta = () => {
+    if (!dailyPayload) return;
+    if (lastGeneratedEl) lastGeneratedEl.textContent = formatDateTime(dailyPayload.generatedAt);
+    if (nextUpdateEl) nextUpdateEl.textContent = formatDateTime(dailyPayload.nextUpdateAt);
+  };
 
-    // Copy summary
-    copySummaryBtn.addEventListener('click', async ()=>{
-      const picks = window.__lastPicks||[];
-      if(!picks.length){ setStatus('Nothing to copy.'); return; }
-      const text = picks.map((p,i)=>{
-        const pl=p.plan;
-        return `${i+1}. ${p.symbol} — ${p.name}
-Price: ${p.price!=null?(p.currency?cur(p.price,p.currency):fmt(p.price)):'–'}
-Entry: ${pl.entry?fmt(pl.entry):'–'} | T1: ${pl.t1?fmt(pl.t1):'–'} | T2: ${pl.t2?fmt(pl.t2):'–'} | Stop: ${pl.stop?fmt(pl.stop):'–'}
-Scores: TA ${p.scores.ta>=0?`+${p.scores.ta}`:p.scores.ta}, FA ${p.scores.fa>=0?`+${p.scores.fa}`:p.scores.fa}, News ${p.newsNet>=0?`+${p.newsNet}`:p.newsNet} ⇒ Total ${p.scores.total>=0?`+${p.scores.total}`:p.scores.total}
-Why: ${p.why}
+  const loadDaily = async (force = false) => {
+    try {
+      setStatus('Loading daily picks�');
+      const url = force ? `${DATA_ENDPOINT}?ts=${Date.now()}` : DATA_ENDPOINT;
+      const res = await fetch(url, { headers: { Accept: 'application/json' } });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      dailyPayload = await res.json();
+      updateMeta();
+      render();
+      setStatus('Daily picks ready.');
+    } catch (err) {
+      console.error('daily picks', err);
+      if (tblBody) tblBody.innerHTML = '';
+      if (cardsEl) cardsEl.innerHTML = '';
+      window.__lastPicks = [];
+      setStatus('Failed to load daily picks. Try again later.');
+    }
+  };
+
+  refreshBtn?.addEventListener('click', () => loadDaily(true));
+  marketSel?.addEventListener('change', render);
+  countSel?.addEventListener('change', render);
+
+  exportCsvBtn?.addEventListener('click', () => {
+    const picks = window.__lastPicks || [];
+    if (!picks.length) { setStatus('Nothing to export.'); return; }
+    const rows = picks.map((p, idx) => ({
+      rank: idx + 1,
+      symbol: p.symbol,
+      name: p.name,
+      price: p.price ?? '',
+      currency: p.currency || '',
+      entry: p.plan?.entry ?? '',
+      target1: p.plan?.t1 ?? '',
+      target2: p.plan?.t2 ?? '',
+      stop: p.plan?.stop ?? '',
+      ta: p.scores?.ta ?? '',
+      fa: p.scores?.fa ?? '',
+      news: p.scores?.news ?? '',
+      volumeScore: p.scores?.volume ?? '',
+      total: p.scores?.total ?? '',
+      volumeShock: p.metrics?.volumeShock ?? '',
+      volumeAverage: p.metrics?.averageVolume ?? '',
+      volumeLast: p.metrics?.lastVolume ?? '',
+      newsNet: p.metrics?.newsNet ?? '',
+      why: p.why || '',
+    }));
+    const headers = Object.keys(rows[0]);
+    const csv = [headers.join(','), ...rows.map((row) => headers.map((h) => {
+      const v = row[h];
+      const s = `${v ?? ''}`.replace(/"/g, '""');
+      return /[",\n]/.test(s) ? `"${s}"` : s;
+    }).join(','))].join('\n');
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'ai-top10-stocks.csv';
+    link.click();
+    URL.revokeObjectURL(link.href);
+  });
+
+  copySummaryBtn?.addEventListener('click', async () => {
+    const picks = window.__lastPicks || [];
+    if (!picks.length) { setStatus('Nothing to copy.'); return; }
+    const lines = picks.map((p, idx) => {
+      const plan = p.plan || {};
+      const metrics = p.metrics || {};
+      const scores = p.scores || {};
+      const price = p.price != null ? (p.currency ? cur(p.price, p.currency) : fmt(p.price)) : '--';
+      const entry = plan.entry != null ? fmt(plan.entry) : '--';
+      const t1 = plan.t1 != null ? fmt(plan.t1) : '--';
+      const t2 = plan.t2 != null ? fmt(plan.t2) : '--';
+      const stop = plan.stop != null ? fmt(plan.stop) : '--';
+      const volumeShock = formatShock(metrics.volumeShock ?? null);
+      const avgVol = formatVolume(metrics.averageVolume ?? null);
+      const lastVol = formatVolume(metrics.lastVolume ?? null);
+      return `${idx + 1}. ${p.symbol} � ${p.name || '--'}
+Price: ${price}
+Entry: ${entry} | T1: ${t1} | T2: ${t2} | Stop: ${stop}
+Scores: TA ${scores.ta ?? 0}, FA ${scores.fa ?? 0}, News ${scores.news ?? 0}, Vol ${scores.volume ?? 0} ? Total ${scores.total ?? 0}
+Volume: ${volumeShock} (last ${lastVol}, avg ${avgVol})
+Why: ${p.why || 'Summary unavailable.'}
 `;
-      }).join('\n');
-      try{
-        await navigator.clipboard.writeText(text);
-        setStatus('Summary copied to clipboard.');
-      }catch{ setStatus('Copy blocked by browser.'); }
-    });
+    }).join('\n');
+    try {
+      await navigator.clipboard.writeText(lines);
+      setStatus('Summary copied to clipboard.');
+    } catch (err) {
+      console.error('copy summary', err);
+      setStatus('Copy blocked by browser.');
+    }
+  });
 
-    // Run once on load
-    run();
-  </script>
+  loadDaily();
+</script>
 </body>
 </html>
+
+
