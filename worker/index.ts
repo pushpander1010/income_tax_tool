@@ -504,8 +504,7 @@ interface DailyPayload {
 }
 
 const DAILY_MARKETS = ["NSE", "BSE", "NASDAQ", "NYSE", "LSE", "TSX", "TSE", "SSE", "HKEX", "FWB"] as const;
-const DAILY_CANDIDATE_LIMIT = 15;
-const DAILY_TOP_EXPORT = 20;
+const DAILY_CANDIDATE_LIMIT = 40;
 const DAILY_REFRESH_INTERVAL_MS = 1000 * 60 * 60 * 24;
 const TOP10_CACHE_KEY = "__uptools_top10_daily__";
 const DAILY_QUOTE_CHUNK = 15;
@@ -942,10 +941,9 @@ async function processMarketDaily(market: string): Promise<MarketDailyResult> {
   }
 
   picks.sort((a, b) => b.scores.total - a.scores.total);
-  const selected = picks.slice(0, Math.min(DAILY_TOP_EXPORT, picks.length));
 
   return {
-    picks: selected,
+    picks,
     scanned: uppercaseSymbols.length,
     processed,
     failed,
