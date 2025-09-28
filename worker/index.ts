@@ -818,15 +818,80 @@ function buildPick(input: SymbolInputs): DailyPick | null {
 
 async function processMarketDaily(market: string): Promise<MarketDailyResult> {
   const started = Date.now();
-  const symbols = await buildCandidateSymbols(market);
+  const baseNotes = [
+    "Scores combine technicals, valuation, news tone, and volume shock.",
+    `News deep-dive limited to top ${NEWS_FETCH_LIMIT} symbols per market to stay within worker limits.`,
+  ];
+
+  let symbols: string[] = [];
+  try {
+    symbols = await buildCandidateSymbols(market);
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
+    baseNotes.push(`Universe fetch failed: ${message}`);
+    return {
+      picks: [],
+      scanned: 0,
+      processed: 0,
+      failed: 0,
+      runtimeMs: Date.now() - started,
+      universe: "Yahoo most actives",
+      notes: baseNotes,
+    };
+  }
+
+  if (!symbols.length) {
+    baseNotes.push("Universe fetch returned no symbols.");
+    return {
+      picks: [],
+      scanned: 0,
+      processed: 0,
+      failed: 0,
+      runtimeMs: Date.now() - started,
+      universe: "Yahoo most actives",
+      notes: baseNotes,
+    };
+  }
+
   const uppercaseSymbols = symbols.map((s) => s.toUpperCase());
   const picks: DailyPick[] = [];
   const dataBySymbol = new Map<string, SymbolInputs>();
   let processed = 0;
   let failed = 0;
 
-  const quotesMap = await fetchQuotesBatch(uppercaseSymbols);
-  const sparkMap = await fetchSparkBatch(uppercaseSymbols);
+  let quotesMap: Map<string, any>;
+  try {
+    quotesMap = await fetchQuotesBatch(uppercaseSymbols);
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
+    baseNotes.push(`Quote fetch failed: ${message}`);
+    return {
+      picks: [],
+      scanned: uppercaseSymbols.length,
+      processed: 0,
+      failed: uppercaseSymbols.length,
+      runtimeMs: Date.now() - started,
+      universe: "Yahoo most actives",
+      notes: baseNotes,
+    };
+  }
+
+  let sparkMap: Map<string, { closes: Array<number | null>; volumes: Array<number | null>; meta: any }>;
+  try {
+    sparkMap = await fetchSparkBatch(uppercaseSymbols);
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
+    baseNotes.push(`Chart fetch failed: ${message}`);
+    return {
+      picks: [],
+      scanned: uppercaseSymbols.length,
+      processed: 0,
+      failed: uppercaseSymbols.length,
+      runtimeMs: Date.now() - started,
+      universe: "Yahoo most actives",
+      notes: baseNotes,
+    };
+  }
 
   for (const symbolRaw of uppercaseSymbols) {
     const quote = quotesMap.get(symbolRaw);
@@ -870,7 +935,9 @@ async function processMarketDaily(market: string): Promise<MarketDailyResult> {
         if (index >= 0) picks[index] = updated;
       }
     } catch (err) {
+      const message = err instanceof Error ? err.message : String(err);
       console.warn(`news fetch failed ${target.symbol}`, err);
+      baseNotes.push(`News fetch failed for ${target.symbol}: ${message}`);
     }
   }
 
@@ -884,12 +951,10 @@ async function processMarketDaily(market: string): Promise<MarketDailyResult> {
     failed,
     runtimeMs: Date.now() - started,
     universe: "Yahoo most actives",
-    notes: [
-      "Scores combine technicals, valuation, news tone, and volume shock.",
-      `News deep-dive limited to top ${NEWS_FETCH_LIMIT} symbols per market to stay within worker limits.`,
-    ],
+    notes: baseNotes,
   };
 }
+
 
 async function buildCandidateSymbols(market: string): Promise<string[]> {
   const region = regionByMarketDaily[market] || "US";
