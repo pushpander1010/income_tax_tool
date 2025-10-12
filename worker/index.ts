@@ -1,5 +1,4 @@
 ﻿// UpTools Worker: Static site + /ai (LLM proxy) + /proxy (finance CORS bridge)
-import { resolveMedia } from './media';
 
 export interface Env {
   ASSETS: Fetcher;
@@ -21,7 +20,6 @@ export interface Env {
   GROQ_MODEL?: string;
   GOOGLE_GENAI_BASE?: string;
   GOOGLE_MODEL?: string;
-  YT_RESOLVER_BASE?: string;
 
   // Optional: allow-list extra finance hosts for /proxy (comma-separated)
   FINANCE_HOSTS?: string;
@@ -40,14 +38,6 @@ export default {
 
     if (url.pathname === "/top10/daily.json") {
       return handleTop10Daily(req, env);
-    }
-
-    const mediaMatch = url.pathname.match(/^\/api\/(.+?)\/resolve$/);
-    if (mediaMatch) {
-      return handleMediaResolver(req, env, mediaMatch[1]);
-    }
-    if (url.pathname === "/api/resolve" || url.pathname === "/api/media/resolve") {
-      return handleMediaResolver(req, env);
     }
 
     // --- Serve your site (everything except /ai) ---
@@ -674,48 +664,6 @@ function formatNumberDaily(value: number | null, digits = 2): string {
   return new Intl.NumberFormat("en-IN", { maximumFractionDigits: digits }).format(value);
 }
 
-async function handleMediaResolver(req: Request, env: Env, platformHint?: string): Promise<Response> {
-  if (req.method === "OPTIONS") {
-    return corsPreflight(req, env);
-  }
-  const cors = corsHeaders(req, env);
-  if (req.method !== "GET") {
-    return json({ ok: false, error: "Use GET" }, 405, cors);
-  }
-
-  const current = new URL(req.url);
-  const rawTarget = current.searchParams.get("url");
-  if (!rawTarget) {
-    return json({ ok: false, error: "Missing url parameter" }, 400, cors);
-  }
-
-  let target: URL;
-  try {
-    target = new URL(rawTarget);
-  } catch {
-    return json({ ok: false, error: "Invalid url parameter" }, 400, cors);
-  }
-
-  try {
-    const { platform, payload } = await resolveMedia(target, platformHint, env);
-    return json({ ok: true, platform, ...payload }, 200, cors);
-  } catch (err) {
-    const anyErr = err as any;
-    const status = typeof anyErr?.status === "number" ? anyErr.status : typeof anyErr?.statusCode === "number" ? anyErr.statusCode : 502;
-    const message = typeof anyErr?.message === "string" ? anyErr.message : "Failed to resolve media";
-    const response: Record<string, unknown> = { ok: false, error: message };
-    if (typeof anyErr?.platform === "string") {
-      response.platform = anyErr.platform;
-    } else if (typeof platformHint === "string") {
-      response.platform = platformHint;
-    }
-    const logLevel = (env.LOG_LEVEL || "").toLowerCase();
-    if (logLevel === "debug") {
-      console.error("media-resolver-error", { message, error: anyErr, platformHint });
-    }
-    return json(response, status, cors);
-  }
-}
 async function handleTop10Daily(req: Request, env: Env): Promise<Response> {
   if (req.method !== "GET" && req.method !== "HEAD") {
     return new Response(JSON.stringify({ error: "Use GET or HEAD" }), {
