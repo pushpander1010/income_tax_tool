@@ -1,4 +1,4 @@
-﻿﻿﻿﻿﻿﻿// UpTools Worker: Static site + /ai (LLM proxy) + /proxy (finance CORS bridge)
+﻿// UpTools Worker: Static site + /ai (LLM proxy) + /proxy (finance CORS bridge)
 import { resolveMedia } from './media';
 
 export interface Env {
@@ -20,7 +20,11 @@ export interface Env {
   GROQ_BASE?: string;
   GROQ_MODEL?: string;
   GOOGLE_GENAI_BASE?: string;
-  GOOGLE_MODEL?: string;\r\n  YT_RESOLVER_BASE?: string;\r\n\r\n  // Optional: allow-list extra finance hosts for /proxy (comma-separated)\r\n  FINANCE_HOSTS?: string;
+  GOOGLE_MODEL?: string;
+  YT_RESOLVER_BASE?: string;
+
+  // Optional: allow-list extra finance hosts for /proxy (comma-separated)
+  FINANCE_HOSTS?: string;
 }
 
 const enc = new TextEncoder();
@@ -1219,7 +1223,7 @@ function makeScoresDaily(params: {
     dy ? `Div ${formatNumberDaily(dy * 100, 1)}%` : null,
     newsScore ? `News ${newsScore >= 0 ? '+' : ''}${newsScore}` : null,
     volumeShock != null ? `Vol ${formatNumberDaily(volumeShock, 2)}x avg` : null,
-  ].filter(Boolean).join(' � ');
+  ].filter(Boolean).join(' ï¿½ ');
 
   return {
     scores: { ta, fa, news: newsScore, volume: volumeScore, total },
@@ -1234,7 +1238,7 @@ function makeScoresDaily(params: {
 async function serveSite(req: Request, env: Env): Promise<Response> {
   const url = new URL(req.url);
 
-  // 1) Fix `/www` → `/`
+  // 1) Fix `/www` â†’ `/`
   if (url.pathname === "/www" || url.pathname === "/www/") {
     url.pathname = "/";
     return Response.redirect(url.toString(), 301);
@@ -1319,7 +1323,7 @@ async function serveSite(req: Request, env: Env): Promise<Response> {
     if (res.status !== 404) return res;
   }
 
-  // 5) Still 404 → if it's a browser navigation (HTML), 302 → homepage; otherwise keep the 404 for assets
+  // 5) Still 404 â†’ if it's a browser navigation (HTML), 302 â†’ homepage; otherwise keep the 404 for assets
   if (wantsHTML(req)) {
     const home = new URL(req.url);
     home.pathname = "/";
