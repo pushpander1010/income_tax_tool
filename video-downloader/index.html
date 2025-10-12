@@ -1,4 +1,4 @@
-﻿<!doctype html>
+﻿﻿<!doctype html>
 <html lang="en">
 <head>
   <!-- Google AdSense (kept at top; fixed-height slot used below to avoid CLS) -->
@@ -449,7 +449,7 @@
         if (!payload?.ok || !payload?.items?.length) throw new Error("No media");
         renderAll(payload);
       }catch(err){
-        const message = (err && err.message) ?(err as Error)?.message || "We couldn't fetch media automatically.";
+        const message = err && err.message ? String(err.message) : "We couldn't fetch media automatically.";
         emptyState.innerHTML = `<b>${message}</b><br><span class='small note'>Ensure the link is public. If you're self-hosting, confirm the worker routes like <code>/api/resolve</code> (and platform aliases such as <code>/api/ig/resolve</code>, <code>/api/yt/resolve</code>) are deployed.</span>`;
       }
     }
