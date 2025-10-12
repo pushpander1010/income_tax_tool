@@ -136,10 +136,21 @@ async function resolveGenericOpenGraph(target: URL, _env: Env, platform: MediaPl
 
 async function resolveInstagram(target: URL, _env: Env, platform: MediaPlatform): Promise<MediaPayload> {
   const extracted = await extractMediaMetadata(target);
+  if (isInstagramUnavailablePage(extracted.html)) {
+    throw new MediaResolverError(
+      "Instagram is asking for a login to view this post. Only public links can be downloaded.",
+      451,
+      platform
+    );
+  }
   const payload = buildPayloadFromMetadata(target, extracted);
   augmentInstagramPayload(extracted.html, payload);
   if (!payload.items.length) {
-    throw new MediaResolverError("Unable to extract Instagram media", 404, platform);
+    throw new MediaResolverError(
+      "We couldn't extract any downloadable file from this Instagram link. It may be private or unsupported.",
+      404,
+      platform
+    );
   }
   if (target.pathname.includes("/stories/")) {
     payload.type = "story";
@@ -375,6 +386,19 @@ function extractInstagramThumbnail(html: string): string | undefined {
   const display = html.match(/"display_url":"([^\"]+)"/);
   if (display) return decodeJsonUrl(display[1]);
   return undefined;
+}
+
+function isInstagramUnavailablePage(html: string): boolean {
+  if (!html) return true;
+  const normalized = html.toLowerCase();
+  return (
+    normalized.includes("instagram") &&
+    (normalized.includes("page isn't available") ||
+      normalized.includes("page isn&#39;t available") ||
+      normalized.includes("log in") ||
+      normalized.includes("login") ||
+      normalized.includes("sign up"))
+  );
 }
 
 function collectMediaFromJsonLd(jsonld: any[], addItem: (url: string | undefined, type?: MediaItemType, quality?: string, mime?: string, size?: number) => void) {

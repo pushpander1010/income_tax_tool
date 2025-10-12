@@ -375,8 +375,19 @@
     async function resolveViaAPI(link){
       const endpoint = pickResolver(link);
       const res = await fetch(endpoint + encodeURIComponent(link), { method: "GET" });
-      if (!res.ok) throw new Error("Resolver failed");
-      return res.json();
+      let data = null;
+      try {
+        data = await res.json();
+      } catch {
+        // ignore parse errors and fall back to generic messaging
+      }
+      if (!res.ok || !(data && data.ok)) {
+        const message = (data && data.error) ? data.error : `Resolver failed (${res.status})`;
+        const error = new Error(message);
+        error.details = data;
+        throw error;
+      }
+      return data;
     }
 
 
@@ -438,7 +449,8 @@
         if (!payload?.ok || !payload?.items?.length) throw new Error("No media");
         renderAll(payload);
       }catch(err){
-        emptyState.innerHTML = "<b>We couldn’t fetch media automatically.</b><br><span class='small note'>Make sure the link is public. If you’re self-hosting, confirm the worker routes like <code>/api/resolve</code> (and platform aliases such as <code>/api/ig/resolve</code>, <code>/api/yt/resolve</code>) are deployed.</span>";
+        const message = (err && err.message) ?(err as Error)?.message || "We couldn't fetch media automatically.";
+        emptyState.innerHTML = `<b>${message}</b><br><span class='small note'>Ensure the link is public. If you're self-hosting, confirm the worker routes like <code>/api/resolve</code> (and platform aliases such as <code>/api/ig/resolve</code>, <code>/api/yt/resolve</code>) are deployed.</span>`;
       }
     }
 
