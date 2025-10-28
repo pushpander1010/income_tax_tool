@@ -238,6 +238,110 @@
         font-size: 3rem;
       }
     }
+
+    /* Fullscreen Styles */
+    .fullscreen-btn {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 0.5rem;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      font-size: 1.2rem;
+      z-index: 100;
+      transition: all 0.2s ease;
+    }
+    .fullscreen-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+    }
+
+    /* Fullscreen mode styles */
+    .fullscreen-mode {
+      position: fixed !important;
+      top: 0 !important;
+      left: 0 !important;
+      width: 100vw !important;
+      height: 100vh !important;
+      background: var(--bg) !important;
+      z-index: 9999 !important;
+      margin: 0 !important;
+      padding: 1rem !important;
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: center !important;
+      align-items: center !important;
+    }
+
+    .fullscreen-mode header {
+      display: none !important;
+    }
+
+    .fullscreen-mode .container {
+      width: 100% !important;
+      height: 100% !important;
+      margin: 0 !important;
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: center !important;
+      align-items: center !important;
+    }
+
+    .fullscreen-mode .game-container {
+      max-width: min(90vmin, 800px) !important;
+      width: 100% !important;
+      margin: 0 !important;
+      padding: 2rem !important;
+    }
+
+    .fullscreen-mode .choice-btn {
+      font-size: min(8vmin, 4rem) !important;
+      padding: min(4vmin, 2rem) min(2vmin, 1rem) !important;
+    }
+
+    .fullscreen-mode .player-choice, 
+    .fullscreen-mode .computer-choice {
+      font-size: min(10vmin, 5rem) !important;
+    }
+
+    /* Exit fullscreen button */
+    .exit-fullscreen-btn {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      background: #f44336;
+      color: white;
+      border: none;
+      padding: 0.75rem 1rem;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      font-weight: 700;
+      z-index: 10000;
+      transition: all 0.2s ease;
+    }
+    .exit-fullscreen-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(244, 67, 54, 0.3);
+    }
+
+    @media (max-width: 768px) {
+      .fullscreen-mode .game-container {
+        padding: 1rem !important;
+      }
+      
+      .fullscreen-mode .choice-btn {
+        font-size: min(12vmin, 3rem) !important;
+        padding: min(3vmin, 1.5rem) min(2vmin, 1rem) !important;
+      }
+      
+      .fullscreen-mode .player-choice, 
+      .fullscreen-mode .computer-choice {
+        font-size: min(15vmin, 4rem) !important;
+      }
+    }
   </style>
 </head>
 <body>
@@ -257,7 +361,8 @@
   </header>
 
   <main class="wrap">
-    <div class="game-container">
+    <div class="game-container" style="position: relative">
+      <button class="fullscreen-btn" id="fullscreenBtn" title="Enter Fullscreen">⛶</button>
       <h1>🪨📄✂️ Rock Paper Scissors</h1>
       <p>Choose your weapon and battle the computer!</p>
 
@@ -451,6 +556,47 @@
     // Initialize game when page loads
     document.addEventListener('DOMContentLoaded', () => {
       new RockPaperScissors();
+      
+      // Fullscreen functionality
+      const fullscreenBtn = document.getElementById('fullscreenBtn');
+      let isFullscreen = false;
+      let exitFullscreenBtn = null;
+
+      function enterFullscreen() {
+        isFullscreen = true;
+        document.body.classList.add('fullscreen-mode');
+        
+        // Create exit button
+        exitFullscreenBtn = document.createElement('button');
+        exitFullscreenBtn.className = 'exit-fullscreen-btn';
+        exitFullscreenBtn.innerHTML = '✕ Exit Fullscreen';
+        exitFullscreenBtn.onclick = exitFullscreen;
+        document.body.appendChild(exitFullscreenBtn);
+        
+        fullscreenBtn.style.display = 'none';
+      }
+
+      function exitFullscreen() {
+        isFullscreen = false;
+        document.body.classList.remove('fullscreen-mode');
+        
+        // Remove exit button
+        if (exitFullscreenBtn) {
+          exitFullscreenBtn.remove();
+          exitFullscreenBtn = null;
+        }
+        
+        fullscreenBtn.style.display = 'block';
+      }
+
+      fullscreenBtn.addEventListener('click', enterFullscreen);
+
+      // Exit fullscreen on Escape key
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && isFullscreen) {
+          exitFullscreen();
+        }
+      });
     });
 
     // Add to recent games when leaving

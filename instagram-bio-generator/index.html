@@ -387,7 +387,8 @@
       <div class="tool-icon" aria-hidden="true">✨</div>
       <div style="flex: 1">
         <h1 style="margin: 0; font-size: 1.5rem; font-weight: 800">Instagram Bio Generator</h1>
-        <p class="note" style="margin: 0.5rem 0 0">Create engaging and creative Instagram bios that reflect your personality</p>
+        <p class="note" style="margin: 0.5rem 0 0">Create engaging and creative Instagram bios that reflect your
+          personality</p>
       </div>
     </section>
 
@@ -396,7 +397,7 @@
       <!-- Input Form -->
       <div class="card">
         <h2 style="margin-top: 0">Tell us about yourself</h2>
-        
+
         <div class="form-group">
           <label for="name">Name/Brand</label>
           <input type="text" id="name" placeholder="Your name or brand name">
@@ -440,7 +441,8 @@
       <div class="card">
         <h2 style="margin-top: 0">Generated Bios</h2>
         <div id="generated-bios" class="generated-bios">
-          <p class="note">Fill out the form and click "Generate Bios" to see your personalized Instagram bio options.</p>
+          <p class="note">Fill out the form and click "Generate Bios" to see your personalized Instagram bio options.
+          </p>
         </div>
       </div>
     </section>
@@ -448,10 +450,12 @@
     <!-- Tips Section -->
     <section class="card" style="margin-top: 1.5rem">
       <h2>Instagram Bio Tips</h2>
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem; margin-top: 1rem">
+      <div
+        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem; margin-top: 1rem">
         <div>
           <h3 style="margin: 0 0 0.5rem; color: var(--brand)">Keep it concise</h3>
-          <p class="note small" style="margin: 0">Instagram bios have a 150-character limit, so make every word count.</p>
+          <p class="note small" style="margin: 0">Instagram bios have a 150-character limit, so make every word count.
+          </p>
         </div>
         <div>
           <h3 style="margin: 0 0 0.5rem; color: var(--brand)">Use emojis</h3>
@@ -459,11 +463,13 @@
         </div>
         <div>
           <h3 style="margin: 0 0 0.5rem; color: var(--brand)">Include a CTA</h3>
-          <p class="note small" style="margin: 0">Add a call-to-action like "DM for collabs" or "Check out my latest post".</p>
+          <p class="note small" style="margin: 0">Add a call-to-action like "DM for collabs" or "Check out my latest
+            post".</p>
         </div>
         <div>
           <h3 style="margin: 0 0 0.5rem; color: var(--brand)">Add line breaks</h3>
-          <p class="note small" style="margin: 0">Use line breaks to make your bio easier to read and more visually appealing.</p>
+          <p class="note small" style="margin: 0">Use line breaks to make your bio easier to read and more visually
+            appealing.</p>
         </div>
       </div>
     </section>
@@ -474,13 +480,13 @@
     function setupMobileMenu() {
       const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
       const navLinks = document.querySelector('.nav-links');
-      
+
       if (mobileMenuToggle && navLinks) {
         mobileMenuToggle.addEventListener('click', () => {
           const isActive = navLinks.classList.contains('active');
           navLinks.classList.toggle('active');
           mobileMenuToggle.setAttribute('aria-expanded', !isActive);
-          
+
           const menuIcon = mobileMenuToggle.querySelector('.menu-icon');
           if (menuIcon) {
             menuIcon.textContent = isActive ? '☰' : '✕';
@@ -599,7 +605,7 @@
         const originalText = button.innerHTML;
         button.innerHTML = 'Copied! ✅';
         button.style.background = '#22c55e';
-        
+
         setTimeout(() => {
           button.innerHTML = originalText;
           button.style.background = '';

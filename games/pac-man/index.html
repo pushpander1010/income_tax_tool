@@ -74,10 +74,117 @@
       font-size: 14px; 
       color: #ffff00; 
     }
+
+    /* Fullscreen Styles */
+    .fullscreen-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: #ffff00;
+      color: #000;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      z-index: 100;
+      transition: all 0.2s ease;
+    }
+    .fullscreen-btn:hover {
+      background: #ffff99;
+      transform: scale(1.1);
+    }
+
+    /* Fullscreen mode styles */
+    .fullscreen-mode {
+      position: fixed !important;
+      top: 0 !important;
+      left: 0 !important;
+      width: 100vw !important;
+      height: 100vh !important;
+      background: #000 !important;
+      z-index: 9999 !important;
+      margin: 0 !important;
+      padding: 0 !important;
+      display: flex !important;
+      justify-content: center !important;
+      align-items: center !important;
+    }
+
+    .fullscreen-mode .game-container {
+      max-width: none !important;
+      width: 100% !important;
+      height: 100% !important;
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: center !important;
+      align-items: center !important;
+      padding: 20px !important;
+    }
+
+    .fullscreen-mode .game-board {
+      grid-template-columns: repeat(19, min(3vmin, 30px)) !important;
+      gap: 1px !important;
+      padding: 20px !important;
+      margin: 20px auto !important;
+    }
+
+    .fullscreen-mode .cell {
+      width: min(3vmin, 30px) !important;
+      height: min(3vmin, 30px) !important;
+      font-size: min(2vmin, 16px) !important;
+    }
+
+    /* Exit fullscreen button */
+    .exit-fullscreen-btn {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: #ff0000;
+      color: white;
+      border: none;
+      padding: 12px 16px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      z-index: 10000;
+      transition: all 0.2s ease;
+    }
+    .exit-fullscreen-btn:hover {
+      background: #ff3333;
+      transform: scale(1.05);
+    }
+
+    @media (max-width: 768px) {
+      .fullscreen-mode .game-board {
+        grid-template-columns: repeat(19, min(4vmin, 25px)) !important;
+        padding: 10px !important;
+      }
+      
+      .fullscreen-mode .cell {
+        width: min(4vmin, 25px) !important;
+        height: min(4vmin, 25px) !important;
+        font-size: min(3vmin, 14px) !important;
+      }
+      
+      .fullscreen-mode .score {
+        font-size: 20px !important;
+      }
+      
+      .fullscreen-mode .controls {
+        margin: 15px 0 !important;
+      }
+      
+      .fullscreen-mode .btn {
+        padding: 12px 16px !important;
+        margin: 3px !important;
+      }
+    }
   </style>
 </head>
 <body>
-  <div class="game-container">
+  <div class="game-container" style="position: relative">
+    <button class="fullscreen-btn" id="fullscreenBtn" title="Enter Fullscreen">⛶</button>
     <h1>👻 Pac-Man</h1>
     <div class="score">Score: <span id="score">0</span></div>
     
@@ -258,6 +365,47 @@
     // Initialize game when page loads
     document.addEventListener('DOMContentLoaded', () => {
       new PacManGame();
+      
+      // Fullscreen functionality
+      const fullscreenBtn = document.getElementById('fullscreenBtn');
+      let isFullscreen = false;
+      let exitFullscreenBtn = null;
+
+      function enterFullscreen() {
+        isFullscreen = true;
+        document.body.classList.add('fullscreen-mode');
+        
+        // Create exit button
+        exitFullscreenBtn = document.createElement('button');
+        exitFullscreenBtn.className = 'exit-fullscreen-btn';
+        exitFullscreenBtn.innerHTML = '✕ Exit Fullscreen';
+        exitFullscreenBtn.onclick = exitFullscreen;
+        document.body.appendChild(exitFullscreenBtn);
+        
+        fullscreenBtn.style.display = 'none';
+      }
+
+      function exitFullscreen() {
+        isFullscreen = false;
+        document.body.classList.remove('fullscreen-mode');
+        
+        // Remove exit button
+        if (exitFullscreenBtn) {
+          exitFullscreenBtn.remove();
+          exitFullscreenBtn = null;
+        }
+        
+        fullscreenBtn.style.display = 'block';
+      }
+
+      fullscreenBtn.addEventListener('click', enterFullscreen);
+
+      // Exit fullscreen on Escape key
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && isFullscreen) {
+          exitFullscreen();
+        }
+      });
     });
   </script>
 </body>
