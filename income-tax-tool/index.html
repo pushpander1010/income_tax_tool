@@ -6,9 +6,10 @@
     crossorigin="anonymous"></script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Income Tax Calculator (India) FY 2024-25 (AY 2025-26) - New vs Old Regime | UpTools</title>
+  <title>Income Tax Calculator India 2024-25 | New vs Old Regime Comparison | Free Online Tool</title>
   <meta name="description"
-    content="Free India income tax calculator for FY 2024-25 (AY 2025-26). Compare New vs Old Regime, apply standard deduction, 80C, 80D, NPS, HRA, home-loan interest, cess, surcharge and see monthly TDS. Fast and privacy-first." />
+    content="Calculate income tax for FY 2024-25 (AY 2025-26) instantly. Compare New vs Old Regime with 80C, 80D, NPS, HRA, home loan interest. Get monthly TDS breakdown, tax-saving tips & optimal regime recommendation." />
+  <meta name="keywords" content="income tax calculator india,tax calculator 2024-25,new vs old regime,80c 80d calculator,hra exemption calculator,tds calculator,tax saving tips,income tax slab rates,standard deduction" />
   <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
   <meta name="theme-color" content="#0f1419" />
   <link rel="canonical" href="https://www.uptools.in/income-tax-tool/" />
@@ -16,15 +17,19 @@
   <link rel="icon" sizes="50x50" type="image/svg+xml" href="/assets/logo/uptools-logo.svg">
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/logo/uptools-logo.svg">
 
-  <!-- OG/Twitter -->
-  <meta property="og:title" content="Income Tax Calculator (India) - New vs Old Regime" />
+  <!-- Open Graph -->
+  <meta property="og:title" content="Income Tax Calculator India 2024-25 | New vs Old Regime Comparison" />
   <meta property="og:description"
-    content="FY 2024-25 calculator with 80C, 80D, NPS (1B), HRA, home-loan interest, cess, surcharge and monthly TDS." />
+    content="Calculate income tax for FY 2024-25 instantly. Compare New vs Old Regime with 80C, 80D, NPS, HRA. Get monthly TDS breakdown & tax-saving recommendations." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.uptools.in/income-tax-tool/" />
   <meta property="og:site_name" content="UpTools" />
-  <meta property="og:image" content="https://www.uptools.in/og/income-tax.png" />
-  <meta name="twitter:card" content="summary" />
+  <meta property="og:image" content="https://www.uptools.in/assets/og/income-tax.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Income Tax Calculator India 2024-25 | Free Online Tool" />
+  <meta name="twitter:description" content="Compare New vs Old Regime, calculate 80C/80D/HRA exemptions, get monthly TDS breakdown. Updated for FY 2024-25." />
 
   <link rel="icon" sizes="50x50" type="image/svg+xml" href="/assets/logo/uptools-logo.svg" />
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/logo/uptools-logo.svg" />
@@ -102,87 +107,447 @@
   </header>
 
   <main class="wrap" id="main">
-    <div class="tool-header">
-      <div class="tool-icon">?</div>
-      <h1>Income Tax Calculator (India) - FY 2024-25</h1>
-    </div>
+    <!-- Enhanced Tool Header -->
+    <section class="card tool-header">
+      <div class="tool-icon" style="background: linear-gradient(135deg, #4CAF50, #2E7D32)">₹</div>
+      <div style="flex: 1">
+        <h1 style="margin: 0; font-size: 1.75rem; font-weight: 800">Income Tax Calculator India</h1>
+        <p class="note" style="margin: .5rem 0 0">FY 2024-25 (AY 2025-26) • Compare New vs Old Regime • Get instant tax calculations with deductions</p>
+        <div style="margin-top: .75rem; display: flex; gap: .5rem; flex-wrap: wrap">
+          <span class="pill">🆕 Updated for 2024-25</span>
+          <span class="pill">⚡ Instant calculation</span>
+          <span class="pill">📊 Regime comparison</span>
+          <span class="pill">💰 Tax-saving tips</span>
+        </div>
+      </div>
+    </section>
 
-    <!-- Inputs -->
+    <!-- Quick Stats Banner -->
+    <section class="card" style="background: linear-gradient(135deg, rgba(76, 175, 80, .1), rgba(46, 125, 50, .05)); border-color: rgba(76, 175, 80, .2)">
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; text-align: center">
+        <div>
+          <div style="font-size: 1.5rem; font-weight: 800; color: #4CAF50">₹7,00,000</div>
+          <div class="note small">New Regime Tax-Free Limit</div>
+        </div>
+        <div>
+          <div style="font-size: 1.5rem; font-weight: 800; color: #4CAF50">₹5,00,000</div>
+          <div class="note small">Old Regime Tax-Free Limit</div>
+        </div>
+        <div>
+          <div style="font-size: 1.5rem; font-weight: 800; color: #4CAF50">₹50,000</div>
+          <div class="note small">Standard Deduction</div>
+        </div>
+        <div>
+          <div style="font-size: 1.5rem; font-weight: 800; color: #4CAF50">₹1,50,000</div>
+          <div class="note small">Max 80C Deduction</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Enhanced Input Form -->
     <form id="tax-form" class="card" novalidate>
-      <h2 class="sr-only">Enter income and deductions</h2>
-
-      <label class="label" for="annualIncome">Annual Gross Income (?)</label>
-      <input id="annualIncome" class="input" type="number" inputmode="numeric" min="0" step="1000"
-        placeholder="e.g., 1200000" required>
-
-      <div class="row" style="border:0; padding:0; margin-top:12px; gap:12px">
-        <label class="check"><input id="includeStdDeduction" type="checkbox" checked> <span>Include standard deduction (?50,000)</span></label>
-        <label class="check"><input id="surchargeToggle" type="checkbox"> <span>Apply surcharge if
-            applicable</span></label>
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem">
+        <h2 style="margin: 0; font-size: 1.25rem; font-weight: 800">💰 Enter Your Details</h2>
+        <div style="display: flex; gap: .5rem">
+          <button type="button" id="quickFillBtn" class="btn" style="background: #9bb8f9; color: #0b1020; padding: .4rem .6rem; font-size: .85rem">Quick Fill Sample</button>
+          <button type="button" id="clearAllBtn" class="btn" style="background: #f44336; color: white; padding: .4rem .6rem; font-size: .85rem">Clear All</button>
+        </div>
       </div>
 
-      <label class="label" for="regime">Calculate for Regime</label>
-      <select id="regime" class="input">
-        <option value="compare" selected>Compare New vs Old</option>
-        <option value="new">Only New Regime</option>
-        <option value="old">Only Old Regime</option>
-      </select>
-
-      <!-- Old-regime deductions block -->
-      <div class="card" style="margin-top:16px">
-        <strong>Old Regime Deductions</strong>
-        <p class="note">These apply only in the Old regime. They'll be ignored automatically under the New regime.</p>
-
-        <label class="label" for="sec80c">Section 80C (max ?1,50,000)</label>
-        <input id="sec80c" class="input" type="number" min="0" step="1000"
-          placeholder="EPF/PPF/ELSS/Life insurance etc.">
-
-        <label class="label" for="sec80d">Section 80D - Health Insurance (?)</label>
-        <input id="sec80d" class="input" type="number" min="0" step="1000" placeholder="Self/family/premium paid">
-
-        <label class="label" for="nps1b">NPS (80CCD(1B)) (max ?50,000)</label>
-        <input id="nps1b" class="input" type="number" min="0" step="1000" placeholder="Additional NPS contribution">
-
-        <div class="row" style="border:0; padding:0; margin-top:12px"></div>
-        <strong>HRA (Old regime)</strong>
-        <p class="note">Fill if you receive HRA and pay rent. We'll compute the exempt amount.</p>
-
-        <label class="label" for="basic">Basic Salary (?/year)</label>
-        <input id="basic" class="input" type="number" min="0" step="1000" placeholder="e.g., 600000">
-
-        <label class="label" for="hraRecv">HRA Received (?/year)</label>
-        <input id="hraRecv" class="input" type="number" min="0" step="1000" placeholder="e.g., 240000">
-
-        <label class="label" for="rentPaid">Rent Paid (?/year)</label>
-        <input id="rentPaid" class="input" type="number" min="0" step="1000" placeholder="e.g., 180000">
-
-        <label class="check"><input id="isMetro" type="checkbox"> <span>Metro city (50% basic). If unchecked, 40%
-            applies.</span></label>
-
-        <div class="row" style="border:0; padding:0; margin-top:12px"></div>
-        <strong>Home Loan Interest (Self-occupied)</strong>
-        <p class="note">Old regime only. Max set-off against income is generally ₹2,00,000 per year.</p>
-        <label class="label" for="homeLoanInt">Interest paid (?/year)</label>
-        <input id="homeLoanInt" class="input" type="number" min="0" step="1000" placeholder="e.g., 150000">
+      <!-- Income Section -->
+      <div class="card" style="background: rgba(76, 175, 80, .05); border-color: rgba(76, 175, 80, .2)">
+        <h3 style="margin-top: 0; color: #4CAF50; display: flex; align-items: center; gap: .5rem">
+          <span>💵</span> Annual Income
+        </h3>
+        
+        <label class="label" for="annualIncome">
+          Annual Gross Income (₹)
+          <span class="note small" style="font-weight: normal; margin-left: .5rem">• Before any deductions</span>
+        </label>
+        <div style="position: relative">
+          <input id="annualIncome" class="input" type="number" inputmode="numeric" min="0" step="1000"
+            placeholder="e.g., 12,00,000" required style="padding-left: 2rem">
+          <span style="position: absolute; left: .75rem; top: 50%; transform: translateY(-50%); color: var(--muted)">₹</span>
+        </div>
+        
+        <!-- Income Range Helper -->
+        <div style="margin-top: .5rem; display: flex; gap: .5rem; flex-wrap: wrap">
+          <button type="button" class="income-preset" data-amount="500000" style="padding: .25rem .5rem; background: rgba(76, 175, 80, .1); border: 1px solid rgba(76, 175, 80, .3); border-radius: .25rem; font-size: .8rem; cursor: pointer">₹5L</button>
+          <button type="button" class="income-preset" data-amount="800000" style="padding: .25rem .5rem; background: rgba(76, 175, 80, .1); border: 1px solid rgba(76, 175, 80, .3); border-radius: .25rem; font-size: .8rem; cursor: pointer">₹8L</button>
+          <button type="button" class="income-preset" data-amount="1200000" style="padding: .25rem .5rem; background: rgba(76, 175, 80, .1); border: 1px solid rgba(76, 175, 80, .3); border-radius: .25rem; font-size: .8rem; cursor: pointer">₹12L</button>
+          <button type="button" class="income-preset" data-amount="1500000" style="padding: .25rem .5rem; background: rgba(76, 175, 80, .1); border: 1px solid rgba(76, 175, 80, .3); border-radius: .25rem; font-size: .8rem; cursor: pointer">₹15L</button>
+          <button type="button" class="income-preset" data-amount="2500000" style="padding: .25rem .5rem; background: rgba(76, 175, 80, .1); border: 1px solid rgba(76, 175, 80, .3); border-radius: .25rem; font-size: .8rem; cursor: pointer">₹25L</button>
+        </div>
       </div>
 
-      <div class="row" style="border:0; padding:0; margin-top:16px; gap:12px">
-        <button id="calcBtn" class="btn" type="button" aria-controls="results">Calculate</button>
-        <button id="resetBtn" class="btn" type="button" style="background:#3c4043;color:#e8eaed">Reset</button>
-        <button id="shareBtn" class="btn" type="button" style="background:#2dd4bf;color:#0b1020">Share</button>
-        <button id="csvBtn" class="btn" type="button" style="background:#9bb8f9;color:#0b1020">Download CSV</button>
+      <!-- Settings Section -->
+      <div class="card" style="background: rgba(122, 162, 255, .05); border-color: rgba(122, 162, 255, .2)">
+        <h3 style="margin-top: 0; color: var(--brand); display: flex; align-items: center; gap: .5rem">
+          <span>⚙️</span> Calculation Settings
+        </h3>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem">
+          <label class="check" style="display: flex; align-items: center; gap: .5rem; padding: .75rem; background: rgba(255,255,255,.02); border-radius: .5rem">
+            <input id="includeStdDeduction" type="checkbox" checked style="accent-color: var(--brand)">
+            <div>
+              <span style="font-weight: 600">Standard Deduction (₹50,000)</span>
+              <div class="note small">For salaried employees & pensioners</div>
+            </div>
+          </label>
+          
+          <label class="check" style="display: flex; align-items: center; gap: .5rem; padding: .75rem; background: rgba(255,255,255,.02); border-radius: .5rem">
+            <input id="surchargeToggle" type="checkbox" style="accent-color: var(--brand)">
+            <div>
+              <span style="font-weight: 600">Apply Surcharge</span>
+              <div class="note small">For high income (>₹50L)</div>
+            </div>
+          </label>
+        </div>
+
+        <label class="label" for="regime" style="margin-top: 1rem">Tax Regime Calculation</label>
+        <select id="regime" class="input" style="background: rgba(255,255,255,.05)">
+          <option value="compare" selected>🔄 Compare New vs Old Regime</option>
+          <option value="new">🆕 New Regime Only</option>
+          <option value="old">📊 Old Regime Only</option>
+        </select>
+      </div>
+
+      <!-- Enhanced Deductions Section -->
+      <div class="card" id="deductionsSection" style="background: rgba(255, 152, 0, .05); border-color: rgba(255, 152, 0, .2)">
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem">
+          <h3 style="margin: 0; color: #FF9800; display: flex; align-items: center; gap: .5rem">
+            <span>📋</span> Old Regime Deductions
+          </h3>
+          <button type="button" id="maxDeductionsBtn" class="btn" style="background: #FF9800; color: white; padding: .4rem .6rem; font-size: .85rem">Fill Max Amounts</button>
+        </div>
+        
+        <div class="card" style="background: rgba(255, 193, 7, .1); border-color: rgba(255, 193, 7, .3); margin-bottom: 1rem">
+          <p style="margin: 0; font-size: .9rem; display: flex; align-items: center; gap: .5rem">
+            <span>⚠️</span> <strong>Note:</strong> These deductions apply only to the Old Regime. They're automatically ignored in New Regime calculations.
+          </p>
+        </div>
+
+        <!-- Tax Saving Investments -->
+        <div class="card" style="background: rgba(255,255,255,.02)">
+          <h4 style="margin-top: 0; color: #4CAF50">💰 Tax Saving Investments</h4>
+          
+          <label class="label" for="sec80c">
+            Section 80C (max ₹1,50,000)
+            <span class="note small" style="font-weight: normal; margin-left: .5rem">• EPF, PPF, ELSS, Life Insurance, NSC</span>
+          </label>
+          <div style="position: relative">
+            <input id="sec80c" class="input" type="number" min="0" max="150000" step="1000"
+              placeholder="e.g., 1,50,000" style="padding-left: 2rem">
+            <span style="position: absolute; left: .75rem; top: 50%; transform: translateY(-50%); color: var(--muted)">₹</span>
+          </div>
+          <div style="margin-top: .25rem; font-size: .8rem; color: var(--muted)">
+            <span id="sec80cRemaining">Remaining: ₹1,50,000</span>
+          </div>
+
+          <label class="label" for="sec80d" style="margin-top: 1rem">
+            Section 80D - Health Insurance
+            <span class="note small" style="font-weight: normal; margin-left: .5rem">• Self, family, parents premium</span>
+          </label>
+          <div style="position: relative">
+            <input id="sec80d" class="input" type="number" min="0" step="1000" placeholder="e.g., 25,000" style="padding-left: 2rem">
+            <span style="position: absolute; left: .75rem; top: 50%; transform: translateY(-50%); color: var(--muted)">₹</span>
+          </div>
+
+          <label class="label" for="nps1b" style="margin-top: 1rem">
+            NPS Additional (80CCD(1B)) (max ₹50,000)
+            <span class="note small" style="font-weight: normal; margin-left: .5rem">• Over & above 80C limit</span>
+          </label>
+          <div style="position: relative">
+            <input id="nps1b" class="input" type="number" min="0" max="50000" step="1000" placeholder="e.g., 50,000" style="padding-left: 2rem">
+            <span style="position: absolute; left: .75rem; top: 50%; transform: translateY(-50%); color: var(--muted)">₹</span>
+          </div>
+        </div>
+
+        <!-- HRA Section -->
+        <div class="card" style="background: rgba(255,255,255,.02)">
+          <h4 style="margin-top: 0; color: #2196F3">🏠 HRA Exemption</h4>
+          <p class="note small" style="margin-top: 0">Fill if you receive HRA and pay rent. We'll calculate the exempt amount automatically.</p>
+          
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem">
+            <div>
+              <label class="label" for="basic">Basic Salary (₹/year)</label>
+              <div style="position: relative">
+                <input id="basic" class="input" type="number" min="0" step="1000" placeholder="e.g., 6,00,000" style="padding-left: 2rem">
+                <span style="position: absolute; left: .75rem; top: 50%; transform: translateY(-50%); color: var(--muted)">₹</span>
+              </div>
+            </div>
+            
+            <div>
+              <label class="label" for="hraRecv">HRA Received (₹/year)</label>
+              <div style="position: relative">
+                <input id="hraRecv" class="input" type="number" min="0" step="1000" placeholder="e.g., 2,40,000" style="padding-left: 2rem">
+                <span style="position: absolute; left: .75rem; top: 50%; transform: translateY(-50%); color: var(--muted)">₹</span>
+              </div>
+            </div>
+            
+            <div>
+              <label class="label" for="rentPaid">Rent Paid (₹/year)</label>
+              <div style="position: relative">
+                <input id="rentPaid" class="input" type="number" min="0" step="1000" placeholder="e.g., 1,80,000" style="padding-left: 2rem">
+                <span style="position: absolute; left: .75rem; top: 50%; transform: translateY(-50%); color: var(--muted)">₹</span>
+              </div>
+            </div>
+          </div>
+
+          <label class="check" style="display: flex; align-items: center; gap: .5rem; margin-top: 1rem; padding: .5rem; background: rgba(255,255,255,.02); border-radius: .5rem">
+            <input id="isMetro" type="checkbox" style="accent-color: #2196F3">
+            <div>
+              <span style="font-weight: 600">Metro City</span>
+              <div class="note small">50% of basic salary limit (40% for non-metro)</div>
+            </div>
+          </label>
+          
+          <div id="hraCalculation" style="margin-top: .5rem; padding: .5rem; background: rgba(33, 150, 243, .1); border-radius: .5rem; display: none">
+            <div class="note small" style="color: #2196F3; font-weight: 600">HRA Exemption: ₹<span id="hraExemptAmount">0</span></div>
+          </div>
+        </div>
+
+        <!-- Home Loan Section -->
+        <div class="card" style="background: rgba(255,255,255,.02)">
+          <h4 style="margin-top: 0; color: #9C27B0">🏡 Home Loan Interest</h4>
+          <p class="note small" style="margin-top: 0">For self-occupied property. Maximum deduction: ₹2,00,000 per year.</p>
+          
+          <label class="label" for="homeLoanInt">Interest Paid (₹/year)</label>
+          <div style="position: relative">
+            <input id="homeLoanInt" class="input" type="number" min="0" max="200000" step="1000" placeholder="e.g., 1,50,000" style="padding-left: 2rem">
+            <span style="position: absolute; left: .75rem; top: 50%; transform: translateY(-50%); color: var(--muted)">₹</span>
+          </div>
+          <div style="margin-top: .25rem; font-size: .8rem; color: var(--muted)">
+            <span id="homeLoanRemaining">Remaining: ₹2,00,000</span>
+          </div>
+        </div>
+
+        <!-- Total Deductions Summary -->
+        <div id="deductionsSummary" class="card" style="background: linear-gradient(135deg, rgba(76, 175, 80, .1), rgba(46, 125, 50, .05)); border-color: rgba(76, 175, 80, .3); margin-top: 1rem">
+          <h4 style="margin-top: 0; color: #4CAF50">📊 Total Deductions Summary</h4>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: .75rem; text-align: center">
+            <div>
+              <div style="font-size: 1.2rem; font-weight: 800; color: #4CAF50">₹<span id="totalDeductions">0</span></div>
+              <div class="note small">Total Deductions</div>
+            </div>
+            <div>
+              <div style="font-size: 1.2rem; font-weight: 800; color: #4CAF50">₹<span id="taxableIncome">0</span></div>
+              <div class="note small">Taxable Income</div>
+            </div>
+            <div>
+              <div style="font-size: 1.2rem; font-weight: 800; color: #4CAF50"><span id="taxSavings">0</span>%</div>
+              <div class="note small">Tax Savings</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Enhanced Action Buttons -->
+      <div class="card" style="background: linear-gradient(135deg, rgba(122, 162, 255, .1), rgba(122, 162, 255, .05)); border-color: rgba(122, 162, 255, .2); margin-top: 1rem">
+        <div style="display: flex; flex-wrap: wrap; gap: .75rem; justify-content: center">
+          <button id="calcBtn" class="btn" type="button" aria-controls="results" style="background: linear-gradient(135deg, #4CAF50, #2E7D32); color: white; font-weight: 800; padding: .75rem 1.5rem">
+            🧮 Calculate Tax
+          </button>
+          <button id="resetBtn" class="btn" type="button" style="background: #f44336; color: white; padding: .75rem 1rem">
+            🔄 Reset All
+          </button>
+          <button id="shareBtn" class="btn" type="button" style="background: #2dd4bf; color: #0b1020; padding: .75rem 1rem">
+            🔗 Share Results
+          </button>
+          <button id="csvBtn" class="btn" type="button" style="background: #9bb8f9; color: #0b1020; padding: .75rem 1rem">
+            📊 Download Report
+          </button>
+          <button id="printBtn" class="btn" type="button" style="background: #FF9800; color: white; padding: .75rem 1rem">
+            🖨️ Print
+          </button>
+        </div>
+        
+        <!-- Auto-calculate toggle -->
+        <div style="margin-top: 1rem; text-align: center">
+          <label class="check" style="display: inline-flex; align-items: center; gap: .5rem; padding: .5rem; background: rgba(255,255,255,.05); border-radius: .5rem">
+            <input id="autoCalculate" type="checkbox" checked style="accent-color: var(--brand)">
+            <span style="font-weight: 600">⚡ Auto-calculate on input change</span>
+          </label>
+        </div>
       </div>
     </form>
 
     <!-- Results -->
     <section id="results" class="card" aria-live="polite" style="margin-top:16px"></section>
 
-    <section class="card" style="margin-top:16px">
-      <h2 class="sr-only">Notes</h2>
-      <p class="note">This tool uses FY 2024-25 (AY 2025-26) slabs, 4% Health & Education Cess, 87A rebate (₹7L new /
-        ₹5L old), and optional surcharge thresholds. Old-regime deductions are capped per Income-tax rules (e.g., 80C
-        ₹1.5L, NPS 80CCD(1B) ₹50k, HRA min rule, home-loan interest set-off up to ?2,00,000 for self-occupied). Calculations
-        are indicative.</p>
+    <!-- Tax Saving Tips -->
+    <section class="card" style="background: linear-gradient(135deg, rgba(76, 175, 80, .1), rgba(46, 125, 50, .05)); border-color: rgba(76, 175, 80, .2)">
+      <h2 style="margin-top: 0; color: #4CAF50; display: flex; align-items: center; gap: .5rem">
+        <span>💡</span> Smart Tax Saving Tips for FY 2024-25
+      </h2>
+      
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem">
+        <div class="card" style="background: rgba(255,255,255,.02)">
+          <h3 style="margin-top: 0; color: #4CAF50">🎯 Section 80C Investments</h3>
+          <ul class="note" style="line-height: 1.6; margin: .5rem 0 0 1.5rem">
+            <li><strong>ELSS Mutual Funds:</strong> 3-year lock-in, potential for higher returns</li>
+            <li><strong>PPF:</strong> 15-year lock-in, tax-free returns (~7-8%)</li>
+            <li><strong>EPF:</strong> Automatic deduction, employer matching</li>
+            <li><strong>NSC:</strong> 5-year lock-in, guaranteed returns</li>
+            <li><strong>Life Insurance:</strong> Term + investment combo</li>
+          </ul>
+        </div>
+        
+        <div class="card" style="background: rgba(255,255,255,.02)">
+          <h3 style="margin-top: 0; color: #2196F3">🏥 Health Insurance (80D)</h3>
+          <ul class="note" style="line-height: 1.6; margin: .5rem 0 0 1.5rem">
+            <li><strong>Self & Family:</strong> Up to ₹25,000 (₹50,000 if senior citizen)</li>
+            <li><strong>Parents:</strong> Additional ₹25,000 (₹50,000 if senior citizen)</li>
+            <li><strong>Preventive Health Check:</strong> Extra ₹5,000 deduction</li>
+            <li><strong>Total Max:</strong> Up to ₹1,00,000 for senior citizen families</li>
+          </ul>
+        </div>
+        
+        <div class="card" style="background: rgba(255,255,255,.02)">
+          <h3 style="margin-top: 0; color: #9C27B0">🏠 Home Loan Benefits</h3>
+          <ul class="note" style="line-height: 1.6; margin: .5rem 0 0 1.5rem">
+            <li><strong>Principal (80C):</strong> Up to ₹1,50,000</li>
+            <li><strong>Interest (24b):</strong> Up to ₹2,00,000 (self-occupied)</li>
+            <li><strong>First-time Buyer (80EE):</strong> Additional ₹50,000 interest</li>
+            <li><strong>Affordable Housing (80EEA):</strong> Additional ₹1,50,000</li>
+          </ul>
+        </div>
+        
+        <div class="card" style="background: rgba(255,255,255,.02)">
+          <h3 style="margin-top: 0; color: #FF9800">💰 Additional Deductions</h3>
+          <ul class="note" style="line-height: 1.6; margin: .5rem 0 0 1.5rem">
+            <li><strong>NPS (80CCD(1B)):</strong> Extra ₹50,000 over 80C</li>
+            <li><strong>Education Loan (80E):</strong> Full interest amount</li>
+            <li><strong>Donations (80G):</strong> 50-100% of donation amount</li>
+            <li><strong>Disability (80U):</strong> ₹75,000-₹1,25,000</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Regime Comparison Guide -->
+    <section class="card" style="background: rgba(122, 162, 255, .05); border-color: rgba(122, 162, 255, .2)">
+      <h2 style="margin-top: 0; color: var(--brand); display: flex; align-items: center; gap: .5rem">
+        <span>⚖️</span> New vs Old Regime: Which Should You Choose?
+      </h2>
+      
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem">
+        <div class="card" style="background: rgba(76, 175, 80, .1); border-color: rgba(76, 175, 80, .3)">
+          <h3 style="margin-top: 0; color: #4CAF50">🆕 Choose New Regime If:</h3>
+          <ul class="note" style="line-height: 1.6; margin: .5rem 0 0 1.5rem">
+            <li>Your total deductions are less than ₹2,50,000</li>
+            <li>You don't have home loan or major investments</li>
+            <li>You prefer simplicity in tax filing</li>
+            <li>Your income is between ₹7-15 lakhs</li>
+            <li>You're a young professional with minimal investments</li>
+          </ul>
+          <div style="margin-top: 1rem; padding: .75rem; background: rgba(76, 175, 80, .2); border-radius: .5rem">
+            <strong style="color: #4CAF50">Key Benefits:</strong>
+            <div class="note small">Lower tax rates, ₹50,000 standard deduction, ₹7L tax-free income</div>
+          </div>
+        </div>
+        
+        <div class="card" style="background: rgba(255, 152, 0, .1); border-color: rgba(255, 152, 0, .3)">
+          <h3 style="margin-top: 0; color: #FF9800">📊 Choose Old Regime If:</h3>
+          <ul class="note" style="line-height: 1.6; margin: .5rem 0 0 1.5rem">
+            <li>Your total deductions exceed ₹2,50,000</li>
+            <li>You have home loan with high interest</li>
+            <li>You invest heavily in 80C instruments</li>
+            <li>You pay high HRA or have medical expenses</li>
+            <li>You're in higher income brackets (>₹15L)</li>
+          </ul>
+          <div style="margin-top: 1rem; padding: .75rem; background: rgba(255, 152, 0, .2); border-radius: .5rem">
+            <strong style="color: #FF9800">Key Benefits:</strong>
+            <div class="note small">Multiple deductions, HRA exemption, home loan benefits</div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="card" style="background: rgba(255, 193, 7, .1); border-color: rgba(255, 193, 7, .3); margin-top: 1rem">
+        <h3 style="margin-top: 0; color: #FFC107">💡 Pro Tip</h3>
+        <p class="note" style="margin: 0">You can switch between regimes every year, but once you choose the new regime, you cannot claim deductions like HRA, 80C, etc. Use this calculator to compare both regimes with your actual numbers before deciding!</p>
+      </div>
+    </section>
+
+    <!-- Tax Slabs Comparison -->
+    <section class="card">
+      <h2 style="margin-top: 0; display: flex; align-items: center; gap: .5rem">
+        <span>📊</span> Income Tax Slabs FY 2024-25 (AY 2025-26)
+      </h2>
+      
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem">
+        <div class="card" style="background: rgba(76, 175, 80, .05); border-color: rgba(76, 175, 80, .2)">
+          <h3 style="margin-top: 0; color: #4CAF50">🆕 New Regime Tax Slabs</h3>
+          <div style="display: grid; gap: .5rem">
+            <div style="display: flex; justify-content: space-between; padding: .5rem; background: rgba(255,255,255,.02); border-radius: .25rem">
+              <span>₹0 - ₹3,00,000</span><strong style="color: #4CAF50">0%</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between; padding: .5rem; background: rgba(255,255,255,.02); border-radius: .25rem">
+              <span>₹3,00,001 - ₹6,00,000</span><strong style="color: #4CAF50">5%</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between; padding: .5rem; background: rgba(255,255,255,.02); border-radius: .25rem">
+              <span>₹6,00,001 - ₹9,00,000</span><strong style="color: #FF9800">10%</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between; padding: .5rem; background: rgba(255,255,255,.02); border-radius: .25rem">
+              <span>₹9,00,001 - ₹12,00,000</span><strong style="color: #FF9800">15%</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between; padding: .5rem; background: rgba(255,255,255,.02); border-radius: .25rem">
+              <span>₹12,00,001 - ₹15,00,000</span><strong style="color: #f44336">20%</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between; padding: .5rem; background: rgba(255,255,255,.02); border-radius: .25rem">
+              <span>Above ₹15,00,000</span><strong style="color: #f44336">30%</strong>
+            </div>
+          </div>
+          <div class="note small" style="margin-top: .5rem; color: #4CAF50">
+            <strong>Rebate:</strong> No tax if total income ≤ ₹7,00,000
+          </div>
+        </div>
+        
+        <div class="card" style="background: rgba(255, 152, 0, .05); border-color: rgba(255, 152, 0, .2)">
+          <h3 style="margin-top: 0; color: #FF9800">📊 Old Regime Tax Slabs</h3>
+          <div style="display: grid; gap: .5rem">
+            <div style="display: flex; justify-content: space-between; padding: .5rem; background: rgba(255,255,255,.02); border-radius: .25rem">
+              <span>₹0 - ₹2,50,000</span><strong style="color: #4CAF50">0%</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between; padding: .5rem; background: rgba(255,255,255,.02); border-radius: .25rem">
+              <span>₹2,50,001 - ₹5,00,000</span><strong style="color: #4CAF50">5%</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between; padding: .5rem; background: rgba(255,255,255,.02); border-radius: .25rem">
+              <span>₹5,00,001 - ₹10,00,000</span><strong style="color: #f44336">20%</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between; padding: .5rem; background: rgba(255,255,255,.02); border-radius: .25rem">
+              <span>Above ₹10,00,000</span><strong style="color: #f44336">30%</strong>
+            </div>
+          </div>
+          <div class="note small" style="margin-top: .5rem; color: #FF9800">
+            <strong>Rebate:</strong> No tax if total income ≤ ₹5,00,000<br>
+            <strong>Plus:</strong> All deductions (80C, 80D, HRA, etc.)
+          </div>
+        </div>
+      </div>
+      
+      <div class="card" style="background: rgba(255, 193, 7, .1); border-color: rgba(255, 193, 7, .3); margin-top: 1rem">
+        <p class="note" style="margin: 0; text-align: center">
+          <strong>Additional:</strong> 4% Health & Education Cess on total tax + surcharge (if applicable)
+        </p>
+      </div>
+    </section>
+
+    <!-- Important Notes -->
+    <section class="card" style="background: rgba(255, 193, 7, .05); border-color: rgba(255, 193, 7, .2)">
+      <h2 style="margin-top: 0; color: #FFC107; display: flex; align-items: center; gap: .5rem">
+        <span>⚠️</span> Important Notes & Disclaimers
+      </h2>
+      <ul class="note" style="line-height: 1.6; margin: .5rem 0 0 1.5rem">
+        <li>This calculator uses FY 2024-25 (AY 2025-26) tax slabs and rates</li>
+        <li>4% Health & Education Cess applies on tax amount plus surcharge</li>
+        <li>Section 87A rebate: ₹7,00,000 limit for New Regime, ₹5,00,000 for Old Regime</li>
+        <li>Old regime deductions are capped per Income Tax rules (80C: ₹1.5L, NPS 80CCD(1B): ₹50K, etc.)</li>
+        <li>HRA exemption calculated as minimum of: actual HRA, rent paid - 10% of basic, 50%/40% of basic</li>
+        <li>Home loan interest deduction limited to ₹2,00,000 for self-occupied property</li>
+        <li>Surcharge rates: 10% (₹50L-₹1Cr), 15% (₹1Cr-₹2Cr), 25% (₹2Cr-₹5Cr), 37%/25% (>₹5Cr)</li>
+        <li><strong>Calculations are indicative only.</strong> Consult a tax professional for accurate filing</li>
+      </ul>
     </section>
 
     <footer class="note small site-footer" role="contentinfo">� <span id="y"></span> UpTools � <a href="/sitemap.xml">Sitemap</a></footer>
@@ -201,6 +566,188 @@
 </main>
 
   <script>document.getElementById('y').textContent = new Date().getFullYear();</script>
+
+  <!-- Enhanced Interactive Features -->
+  <script type="module">
+    // Enhanced UI interactions and features
+    document.addEventListener('DOMContentLoaded', () => {
+      // Income preset buttons
+      document.querySelectorAll('.income-preset').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const amount = btn.dataset.amount;
+          document.getElementById('annualIncome').value = amount;
+          if (document.getElementById('autoCalculate').checked) {
+            setTimeout(() => document.getElementById('calcBtn').click(), 100);
+          }
+          updateDeductionsSummary();
+        });
+      });
+
+      // Quick fill sample data
+      document.getElementById('quickFillBtn').addEventListener('click', () => {
+        document.getElementById('annualIncome').value = '1200000';
+        document.getElementById('sec80c').value = '150000';
+        document.getElementById('sec80d').value = '25000';
+        document.getElementById('nps1b').value = '50000';
+        document.getElementById('basic').value = '600000';
+        document.getElementById('hraRecv').value = '240000';
+        document.getElementById('rentPaid').value = '180000';
+        document.getElementById('isMetro').checked = true;
+        document.getElementById('homeLoanInt').value = '150000';
+        updateDeductionsSummary();
+        updateHRACalculation();
+        if (document.getElementById('autoCalculate').checked) {
+          setTimeout(() => document.getElementById('calcBtn').click(), 200);
+        }
+      });
+
+      // Clear all button
+      document.getElementById('clearAllBtn').addEventListener('click', () => {
+        if (confirm('Clear all entered data?')) {
+          document.getElementById('tax-form').reset();
+          document.getElementById('results').innerHTML = '';
+          updateDeductionsSummary();
+          updateHRACalculation();
+        }
+      });
+
+      // Max deductions button
+      document.getElementById('maxDeductionsBtn').addEventListener('click', () => {
+        document.getElementById('sec80c').value = '150000';
+        document.getElementById('nps1b').value = '50000';
+        document.getElementById('homeLoanInt').value = '200000';
+        updateDeductionsSummary();
+        if (document.getElementById('autoCalculate').checked) {
+          setTimeout(() => document.getElementById('calcBtn').click(), 100);
+        }
+      });
+
+      // Real-time updates for deduction limits
+      document.getElementById('sec80c').addEventListener('input', (e) => {
+        const val = parseInt(e.target.value) || 0;
+        const remaining = Math.max(0, 150000 - val);
+        document.getElementById('sec80cRemaining').textContent = `Remaining: ₹${remaining.toLocaleString()}`;
+        if (val > 150000) {
+          e.target.style.borderColor = '#f44336';
+          e.target.title = 'Maximum limit is ₹1,50,000';
+        } else {
+          e.target.style.borderColor = '';
+          e.target.title = '';
+        }
+        updateDeductionsSummary();
+      });
+
+      document.getElementById('homeLoanInt').addEventListener('input', (e) => {
+        const val = parseInt(e.target.value) || 0;
+        const remaining = Math.max(0, 200000 - val);
+        document.getElementById('homeLoanRemaining').textContent = `Remaining: ₹${remaining.toLocaleString()}`;
+        if (val > 200000) {
+          e.target.style.borderColor = '#f44336';
+          e.target.title = 'Maximum limit is ₹2,00,000';
+        } else {
+          e.target.style.borderColor = '';
+          e.target.title = '';
+        }
+        updateDeductionsSummary();
+      });
+
+      // HRA calculation
+      function updateHRACalculation() {
+        const basic = parseInt(document.getElementById('basic').value) || 0;
+        const hraRecv = parseInt(document.getElementById('hraRecv').value) || 0;
+        const rentPaid = parseInt(document.getElementById('rentPaid').value) || 0;
+        const isMetro = document.getElementById('isMetro').checked;
+        
+        if (basic && hraRecv && rentPaid) {
+          const metroPercent = isMetro ? 0.5 : 0.4;
+          const hraExempt = Math.min(
+            hraRecv,
+            rentPaid - (basic * 0.1),
+            basic * metroPercent
+          );
+          const exemptAmount = Math.max(0, hraExempt);
+          document.getElementById('hraExemptAmount').textContent = exemptAmount.toLocaleString();
+          document.getElementById('hraCalculation').style.display = 'block';
+        } else {
+          document.getElementById('hraCalculation').style.display = 'none';
+        }
+        updateDeductionsSummary();
+      }
+
+      // Update HRA on input changes
+      ['basic', 'hraRecv', 'rentPaid', 'isMetro'].forEach(id => {
+        document.getElementById(id).addEventListener('input', updateHRACalculation);
+        document.getElementById(id).addEventListener('change', updateHRACalculation);
+      });
+
+      // Update deductions summary
+      function updateDeductionsSummary() {
+        const income = parseInt(document.getElementById('annualIncome').value) || 0;
+        const sec80c = Math.min(parseInt(document.getElementById('sec80c').value) || 0, 150000);
+        const sec80d = parseInt(document.getElementById('sec80d').value) || 0;
+        const nps1b = Math.min(parseInt(document.getElementById('nps1b').value) || 0, 50000);
+        const homeLoan = Math.min(parseInt(document.getElementById('homeLoanInt').value) || 0, 200000);
+        
+        // Calculate HRA exemption
+        const basic = parseInt(document.getElementById('basic').value) || 0;
+        const hraRecv = parseInt(document.getElementById('hraRecv').value) || 0;
+        const rentPaid = parseInt(document.getElementById('rentPaid').value) || 0;
+        const isMetro = document.getElementById('isMetro').checked;
+        let hraExempt = 0;
+        
+        if (basic && hraRecv && rentPaid) {
+          const metroPercent = isMetro ? 0.5 : 0.4;
+          hraExempt = Math.max(0, Math.min(
+            hraRecv,
+            rentPaid - (basic * 0.1),
+            basic * metroPercent
+          ));
+        }
+
+        const totalDeductions = sec80c + sec80d + nps1b + homeLoan + hraExempt;
+        const stdDeduction = document.getElementById('includeStdDeduction').checked ? 50000 : 0;
+        const taxableIncome = Math.max(0, income - totalDeductions - stdDeduction);
+        const taxSavings = income > 0 ? ((totalDeductions + stdDeduction) / income * 100) : 0;
+
+        document.getElementById('totalDeductions').textContent = totalDeductions.toLocaleString();
+        document.getElementById('taxableIncome').textContent = taxableIncome.toLocaleString();
+        document.getElementById('taxSavings').textContent = taxSavings.toFixed(1);
+      }
+
+      // Auto-calculate functionality
+      const autoCalculateInputs = ['annualIncome', 'sec80c', 'sec80d', 'nps1b', 'basic', 'hraRecv', 'rentPaid', 'homeLoanInt'];
+      autoCalculateInputs.forEach(id => {
+        document.getElementById(id).addEventListener('input', debounce(() => {
+          updateDeductionsSummary();
+          if (document.getElementById('autoCalculate').checked) {
+            document.getElementById('calcBtn').click();
+          }
+        }, 500));
+      });
+
+      // Print functionality
+      document.getElementById('printBtn').addEventListener('click', () => {
+        window.print();
+      });
+
+      // Initialize
+      updateDeductionsSummary();
+      updateHRACalculation();
+    });
+
+    // Debounce utility
+    function debounce(func, wait) {
+      let timeout;
+      return function executedFunction(...args) {
+        const later = () => {
+          clearTimeout(timeout);
+          func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+      };
+    }
+  </script>
 
   <script  type="module">
     import { $, $$, debounce, clamp, num, fmtNum } from '/scripts/utils.js';
