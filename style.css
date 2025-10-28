@@ -96,13 +96,31 @@ header.site{
 .brand:hover{ transform: translateY(-1px); }
 .brand:hover img{ box-shadow: var(--glow); }
 
+/* Mobile menu toggle button */
+.mobile-menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--text);
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 6px;
+  transition: background-color var(--trans);
+}
+
+.mobile-menu-toggle:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
 .nav-links{
   display:flex; gap:18px; align-items:center;
 }
 .nav-links a{
   position:relative; text-decoration:none; font-weight:700; color:var(--text);
-  padding:4px 2px; border-radius:6px;
-  transition: color var(--trans), text-shadow var(--trans);
+  padding:8px 12px; border-radius:6px;
+  transition: color var(--trans), text-shadow var(--trans), background-color var(--trans);
+  white-space: nowrap;
 }
 .nav-links a::after{
   content:""; position:absolute; left:0; right:0; bottom:-4px; height:2px;
@@ -113,11 +131,13 @@ header.site{
 .nav-links a:hover{
   color: var(--accent);
   text-shadow: 0 0 6px color-mix(in oklab, var(--accent) 50%, transparent);
+  background: rgba(255, 255, 255, 0.05);
 }
 .nav-links a:hover::after{ transform: scaleX(1); transform-origin:left; }
 .nav-links a[aria-current="page"]{
   color:var(--accent);
   text-shadow: 0 0 6px color-mix(in oklab, var(--accent) 55%, transparent);
+  background: rgba(255, 255, 255, 0.1);
 }
 .nav-links a[aria-current="page"]::after{ transform: scaleX(1); transform-origin:left; }
 
@@ -407,19 +427,68 @@ footer a:hover{ text-shadow: 0 0 6px color-mix(in oklab, var(--accent) 65%, tran
   .header-inner { 
     height: 56px; 
     padding-inline: 12px; 
-    flex-wrap: wrap;
+    justify-content: space-between;
   }
   
+  /* Show mobile menu toggle */
+  .mobile-menu-toggle {
+    display: block;
+  }
+  
+  /* Hide desktop navigation on mobile */
   .nav-links { 
-    gap: 8px; 
-    font-size: 14px;
-    flex-wrap: wrap;
-    justify-content: center;
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: color-mix(in oklab, #0a1224 95%, transparent);
+    backdrop-filter: blur(12px);
+    border-top: 1px solid var(--border);
+    box-shadow: var(--shadow);
+    flex-direction: column;
+    gap: 0;
+    padding: 1rem 0;
+    z-index: 1000;
+  }
+  
+  /* Show navigation when active */
+  .nav-links.active {
+    display: flex;
+    animation: slideDown 0.3s ease-out;
+  }
+  
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
   
   .nav-links a {
-    padding: 6px 8px;
-    font-size: 13px;
+    padding: 12px 24px;
+    font-size: 16px;
+    width: 100%;
+    text-align: center;
+    border-radius: 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+  
+  .nav-links a:last-child {
+    border-bottom: none;
+  }
+  
+  .nav-links a::after {
+    display: none;
+  }
+  
+  .nav-links a:hover,
+  .nav-links a[aria-current="page"] {
+    background: rgba(255, 255, 255, 0.1);
   }
   
   /* Button adjustments */
@@ -529,13 +598,15 @@ footer a:hover{ text-shadow: 0 0 6px color-mix(in oklab, var(--accent) 65%, tran
     height: 32px;
   }
   
-  .nav-links {
-    font-size: 12px;
-    gap: 6px;
+  /* Mobile menu adjustments */
+  .mobile-menu-toggle {
+    font-size: 1.3rem;
+    padding: 6px;
   }
   
   .nav-links a {
-    padding: 4px 6px;
+    padding: 14px 20px;
+    font-size: 15px;
   }
   
   /* Compact buttons */

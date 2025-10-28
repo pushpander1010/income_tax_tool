@@ -623,6 +623,12 @@
         <img src="/assets/logo/uptools-logo.svg" alt="UpTools logo" width="28" height="28" loading="eager">
         <b>UpTools</b>
       </a>
+
+      <!-- Mobile menu toggle -->
+      <button class="mobile-menu-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+        <span class="menu-icon">☰</span>
+      </button>
+
       <nav class="nav-links" aria-label="Primary">
         <a href="/#tools">Tools</a>
         <a href="/income-tax-tool/">Income Tax</a>
@@ -1576,6 +1582,48 @@
         ev.preventDefault();
         window.open('https://help.instagram.com/181231772500920', '_blank', 'noopener');
       });
+
+      // Mobile menu toggle functionality
+      const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+      const navLinks = document.querySelector('.nav-links');
+
+      if (mobileMenuToggle && navLinks) {
+        mobileMenuToggle.addEventListener('click', () => {
+          const isActive = navLinks.classList.contains('active');
+          navLinks.classList.toggle('active');
+          mobileMenuToggle.setAttribute('aria-expanded', !isActive);
+
+          // Update menu icon
+          const menuIcon = mobileMenuToggle.querySelector('.menu-icon');
+          if (menuIcon) {
+            menuIcon.textContent = isActive ? '☰' : '✕';
+          }
+        });
+
+        // Close menu when clicking on a link
+        navLinks.querySelectorAll('a').forEach(link => {
+          link.addEventListener('click', () => {
+            navLinks.classList.remove('active');
+            mobileMenuToggle.setAttribute('aria-expanded', 'false');
+            const menuIcon = mobileMenuToggle.querySelector('.menu-icon');
+            if (menuIcon) {
+              menuIcon.textContent = '☰';
+            }
+          });
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', (e) => {
+          if (!mobileMenuToggle.contains(e.target) && !navLinks.contains(e.target)) {
+            navLinks.classList.remove('active');
+            mobileMenuToggle.setAttribute('aria-expanded', 'false');
+            const menuIcon = mobileMenuToggle.querySelector('.menu-icon');
+            if (menuIcon) {
+              menuIcon.textContent = '☰';
+            }
+          }
+        });
+      }
 
     }); // DOMContentLoaded
   </script>
