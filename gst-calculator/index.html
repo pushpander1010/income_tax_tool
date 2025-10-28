@@ -11,21 +11,25 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>GST Calculator (India) - Inclusive/Exclusive, CGST/SGST/IGST Split, Rounding | UpTools</title>
-  <meta name="description" content="Free Indian GST calculator. Enter amount and GST rate (5%, 12%, 18%, 28% or custom) to get base, GST and total. Toggle GST-inclusive vs exclusive, intra-state (CGST+SGST) vs inter-state (IGST), rounding to nearest rupee/paise, quick rate buttons, shareable link, copy, CSV download, and recent history. 100% client-side." />
-  <meta name="keywords" content="GST calculator India, GST inclusive exclusive, CGST SGST IGST split, 5% 12% 18% 28% GST, GST rounding rupee, GST CSV export, GST copy share link, GST tool online" />
+  <title>GST Calculator India 2024 | Inclusive/Exclusive + CGST/SGST/IGST Split | Free Online Tool</title>
+  <meta name="description" content="Calculate GST instantly for 5%, 12%, 18%, 28% rates. Get base amount, GST breakdown (CGST/SGST/IGST), total with rounding. Supports inclusive/exclusive amounts, custom rates, bulk calculations & CSV export." />
+  <meta name="keywords" content="gst calculator india,gst calculator online,cgst sgst igst calculator,gst inclusive exclusive calculator,18% gst calculator,28% gst calculator,gst rate calculator,gst breakdown,gst split calculator" />
   <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
-  <meta name="theme-color" content="#0b1020" />
+  <meta name="theme-color" content="#10B981" />
   <link rel="canonical" href="https://www.uptools.in/gst-calculator/" />
 
-  <!-- Open Graph / Twitter -->
-  <meta property="og:title" content="GST Calculator (India) - Inclusive/Exclusive + CGST/SGST/IGST" />
-  <meta property="og:description" content="Calculate base, GST and total for 5%, 12%, 18%, 28% (or custom). Split into CGST/SGST or IGST, choose inclusive/exclusive, round, copy, export CSV." />
+  <!-- Open Graph -->
+  <meta property="og:title" content="GST Calculator India 2024 | Inclusive/Exclusive + CGST/SGST/IGST Split" />
+  <meta property="og:description" content="Calculate GST instantly for all rates (5%, 12%, 18%, 28%). Get base amount, GST breakdown, total with rounding. Supports bulk calculations & CSV export." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.uptools.in/gst-calculator/" />
   <meta property="og:site_name" content="UpTools" />
   <meta property="og:image" content="https://www.uptools.in/assets/og/gst.png" />
-  <meta name="twitter:card" content="summary" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="GST Calculator India 2024 | Free Online Tool" />
+  <meta name="twitter:description" content="Calculate GST for all rates with CGST/SGST/IGST breakdown. Supports inclusive/exclusive amounts & bulk calculations." />
 
   <link rel="icon" sizes="50x50" type="image/svg+xml" href="/assets/logo/uptools-logo.svg" />
   <link rel="apple-touch-icon" sizes="180x180" href="/assets/logo/uptools-logo.svg" />
@@ -89,118 +93,410 @@
   </header>
 
   <main class="wrap" id="main">
-    <!-- Tool header strip -->
-    <div class="tool-header neon" style="margin-top:6px">
-      <div class="tool-icon" aria-hidden="true">GST</div>
-      <div>
-        <h1 style="margin:0">GST Calculator (India)</h1>
-        <p class="note" style="margin:2px 0 0">
-          Inclusive/Exclusive • CGST/SGST/IGST split • Rounding • Presets • Share • CSV • Recent history
-        </p>
-      </div>
-    </div>
-
-    <!-- Compact hero image (fixed size to prevent CLS) -->
-    <figure class="card" style="display:flex;align-items:center;gap:12px">
-      <picture>
-        <img
-          src="/assets/og/gst.png"
-          alt="Illustration of GST calculation showing base, GST and total"
-          width="96" height="96"
-          decoding="async" loading="lazy"
-          onerror="this.src=this.dataset.fallback; this.removeAttribute('srcset');"
-        />
-      </picture>
-      <figcaption class="note">Privacy-first: calculations run in your browser. No data leaves your device.</figcaption>
-    </figure>
-
-    <!-- Calculator -->
-    <section class="card" aria-labelledby="calc-title">
-      <h2 id="calc-title" class="sr-only">GST Calculator Form</h2>
-
-      <!-- Presets row -->
-      <div class="chips" style="margin-bottom:10px">
-        <button type="button" class="btn sm" data-rate="5">5%</button>
-        <button type="button" class="btn sm" data-rate="12">12%</button>
-        <button type="button" class="btn sm" data-rate="18">18%</button>
-        <button type="button" class="btn sm" data-rate="28">28%</button>
-        <button type="button" class="btn sm secondary" id="btn-reset">Reset</button>
-        <button type="button" class="btn sm secondary" id="btn-share">Share</button>
-        <button type="button" class="btn sm secondary" id="btn-csv">Download CSV</button>
-      </div>
-
-      <div class="grid">
-        <div>
-          <label class="label" for="amount">Amount (?)</label>
-          <input id="amount" class="input" type="number" inputmode="decimal" min="0" step="0.01" placeholder="e.g., 999.99" />
-        </div>
-
-        <div>
-          <label class="label" for="rate">GST Rate</label>
-          <select id="rate" class="input">
-            <option value="5">5%</option>
-            <option value="12">12%</option>
-            <option value="18" selected>18%</option>
-            <option value="28">28%</option>
-            <option value="custom">Custom…</option>
-          </select>
-          <div id="customRateWrap" class="hidden">
-            <label class="label" for="customRate">Custom rate (%)</label>
-            <input id="customRate" class="input" type="number" inputmode="decimal" min="0" max="99.99" step="0.01" placeholder="e.g., 7.5" />
-          </div>
-        </div>
-
-        <div>
-          <label class="label">Amount Type</label>
-          <label class="check"><input id="inclusive" type="checkbox" /> <span>Amount is <b>GST-inclusive</b></span></label>
-          <div class="note">Unchecked = amount is before GST (exclusive)</div>
-        </div>
-
-        <div>
-          <label class="label">Supply Type</label>
-          <div class="chips" role="radiogroup" aria-label="Supply Type">
-            <label class="check"><input type="radio" name="supply" value="intra" checked /> <span>Intra-state (CGST+SGST)</span></label>
-            <label class="check"><input type="radio" name="supply" value="inter" /> <span>Inter-state (IGST)</span></label>
-          </div>
-        </div>
-
-        <div>
-          <label class="label" for="rounding">Rounding</label>
-          <select id="rounding" class="input">
-            <option value="paise" selected>Paise (2 decimals)</option>
-            <option value="rupee">Nearest ?1</option>
-          </select>
+    <!-- Enhanced Tool Header -->
+    <section class="card tool-header">
+      <div class="tool-icon" style="background: linear-gradient(135deg, #10B981, #059669)">₹</div>
+      <div style="flex: 1">
+        <h1 style="margin: 0; font-size: 1.75rem; font-weight: 800">GST Calculator India</h1>
+        <p class="note" style="margin: .5rem 0 0">Calculate GST for all rates with CGST/SGST/IGST breakdown • Supports inclusive/exclusive amounts</p>
+        <div style="margin-top: .75rem; display: flex; gap: .5rem; flex-wrap: wrap">
+          <span class="pill">🇮🇳 India GST Rates</span>
+          <span class="pill">⚡ Instant calculation</span>
+          <span class="pill">📊 CGST/SGST/IGST split</span>
+          <span class="pill">💾 Bulk & Export</span>
         </div>
       </div>
-
-      <div class="divider"></div>
-
-      <div class="grid">
-        <button id="btn-calc" class="btn">Calculate</button>
-        <button id="btn-copy" class="btn secondary">Copy result</button>
-        <a class="btn ghost" href="/income-tax-tool/">Also try: Income Tax Calculator</a>
-      </div>
-
-      <div id="out" class="result" aria-live="polite" style="margin-top:12px"></div>
     </section>
 
-    <!-- Recent history -->
-    <section class="card" aria-labelledby="hist-title">
-      <h2 id="hist-title" style="margin-top:0">Recent calculations</h2>
-      <p class="note" id="hist-note" style="margin:4px 0 10px">Up to 5 items are kept in your browser (private).</p>
+    <!-- GST Rates Quick Reference -->
+    <section class="card" style="background: linear-gradient(135deg, rgba(16, 185, 129, .1), rgba(5, 150, 105, .05)); border-color: rgba(16, 185, 129, .2)">
+      <h2 style="margin-top: 0; color: #10B981; display: flex; align-items: center; gap: .5rem">
+        <span>📋</span> Current GST Rates in India
+      </h2>
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem">
+        <div class="card" style="background: rgba(255,255,255,.02); text-align: center">
+          <div style="font-size: 1.5rem; font-weight: 800; color: #10B981">0%</div>
+          <div class="note small">Essential items (rice, wheat, milk)</div>
+        </div>
+        <div class="card" style="background: rgba(255,255,255,.02); text-align: center">
+          <div style="font-size: 1.5rem; font-weight: 800; color: #10B981">5%</div>
+          <div class="note small">Basic necessities (sugar, tea, coffee)</div>
+        </div>
+        <div class="card" style="background: rgba(255,255,255,.02); text-align: center">
+          <div style="font-size: 1.5rem; font-weight: 800; color: #10B981">12%</div>
+          <div class="note small">Processed foods, medicines</div>
+        </div>
+        <div class="card" style="background: rgba(255,255,255,.02); text-align: center">
+          <div style="font-size: 1.5rem; font-weight: 800; color: #10B981">18%</div>
+          <div class="note small">Most goods & services</div>
+        </div>
+        <div class="card" style="background: rgba(255,255,255,.02); text-align: center">
+          <div style="font-size: 1.5rem; font-weight: 800; color: #10B981">28%</div>
+          <div class="note small">Luxury items, automobiles</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Enhanced Calculator -->
+    <section class="card">
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem">
+        <h2 style="margin: 0; font-size: 1.25rem; font-weight: 800">🧮 GST Calculator</h2>
+        <div style="display: flex; gap: .5rem">
+          <button type="button" id="quickFillBtn" class="btn" style="background: #10B981; color: white; padding: .4rem .6rem; font-size: .85rem">Quick Fill</button>
+          <button type="button" id="btn-reset" class="btn" style="background: #f44336; color: white; padding: .4rem .6rem; font-size: .85rem">Reset</button>
+        </div>
+      </div>
+
+      <!-- Quick Rate Presets -->
+      <div class="card" style="background: rgba(16, 185, 129, .05); border-color: rgba(16, 185, 129, .2); margin-bottom: 1rem">
+        <h3 style="margin-top: 0; color: #10B981; font-size: 1rem">⚡ Quick GST Rates</h3>
+        <div style="display: flex; gap: .5rem; flex-wrap: wrap">
+          <button type="button" class="btn sm" data-rate="0" style="background: #4CAF50; color: white">0% (Exempt)</button>
+          <button type="button" class="btn sm" data-rate="5" style="background: #2196F3; color: white">5% (Essential)</button>
+          <button type="button" class="btn sm" data-rate="12" style="background: #FF9800; color: white">12% (Standard)</button>
+          <button type="button" class="btn sm" data-rate="18" style="background: #9C27B0; color: white">18% (Most Items)</button>
+          <button type="button" class="btn sm" data-rate="28" style="background: #f44336; color: white">28% (Luxury)</button>
+        </div>
+      </div>
+
+      <!-- Input Section -->
+      <div class="card" style="background: rgba(255,255,255,.02)">
+        <h3 style="margin-top: 0; color: #10B981; display: flex; align-items: center; gap: .5rem">
+          <span>💰</span> Amount & Rate
+        </h3>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem">
+          <div>
+            <label class="label" for="amount">
+              Amount (₹)
+              <span class="note small" style="font-weight: normal; margin-left: .5rem">• Enter the amount to calculate GST</span>
+            </label>
+            <div style="position: relative">
+              <input id="amount" class="input" type="number" inputmode="decimal" min="0" step="0.01" 
+                placeholder="e.g., 10,000" style="padding-left: 2rem" />
+              <span style="position: absolute; left: .75rem; top: 50%; transform: translateY(-50%); color: var(--muted)">₹</span>
+            </div>
+            
+            <!-- Amount presets -->
+            <div style="margin-top: .5rem; display: flex; gap: .5rem; flex-wrap: wrap">
+              <button type="button" class="amount-preset" data-amount="1000" style="padding: .25rem .5rem; background: rgba(16, 185, 129, .1); border: 1px solid rgba(16, 185, 129, .3); border-radius: .25rem; font-size: .8rem; cursor: pointer">₹1K</button>
+              <button type="button" class="amount-preset" data-amount="5000" style="padding: .25rem .5rem; background: rgba(16, 185, 129, .1); border: 1px solid rgba(16, 185, 129, .3); border-radius: .25rem; font-size: .8rem; cursor: pointer">₹5K</button>
+              <button type="button" class="amount-preset" data-amount="10000" style="padding: .25rem .5rem; background: rgba(16, 185, 129, .1); border: 1px solid rgba(16, 185, 129, .3); border-radius: .25rem; font-size: .8rem; cursor: pointer">₹10K</button>
+              <button type="button" class="amount-preset" data-amount="50000" style="padding: .25rem .5rem; background: rgba(16, 185, 129, .1); border: 1px solid rgba(16, 185, 129, .3); border-radius: .25rem; font-size: .8rem; cursor: pointer">₹50K</button>
+              <button type="button" class="amount-preset" data-amount="100000" style="padding: .25rem .5rem; background: rgba(16, 185, 129, .1); border: 1px solid rgba(16, 185, 129, .3); border-radius: .25rem; font-size: .8rem; cursor: pointer">₹1L</button>
+            </div>
+          </div>
+
+          <div>
+            <label class="label" for="rate">GST Rate (%)</label>
+            <select id="rate" class="input" style="background: rgba(255,255,255,.05)">
+              <option value="0">0% - Exempt Items</option>
+              <option value="5">5% - Essential Items</option>
+              <option value="12">12% - Standard Rate</option>
+              <option value="18" selected>18% - Most Goods & Services</option>
+              <option value="28">28% - Luxury Items</option>
+              <option value="custom">Custom Rate...</option>
+            </select>
+            <div id="customRateWrap" class="hidden" style="margin-top: .5rem">
+              <label class="label" for="customRate">Custom Rate (%)</label>
+              <div style="position: relative">
+                <input id="customRate" class="input" type="number" inputmode="decimal" min="0" max="99.99" step="0.01" 
+                  placeholder="e.g., 7.5" style="padding-right: 2rem" />
+                <span style="position: absolute; right: .75rem; top: 50%; transform: translateY(-50%); color: var(--muted)">%</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Settings Section -->
+      <div class="card" style="background: rgba(255,255,255,.02)">
+        <h3 style="margin-top: 0; color: #2196F3; display: flex; align-items: center; gap: .5rem">
+          <span>⚙️</span> Calculation Settings
+        </h3>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem">
+          <!-- Amount Type -->
+          <div class="card" style="background: rgba(255,255,255,.02)">
+            <h4 style="margin-top: 0; font-size: .9rem; color: #2196F3">Amount Type</h4>
+            <label class="check" style="display: flex; align-items: center; gap: .5rem; padding: .5rem; background: rgba(255,255,255,.02); border-radius: .5rem">
+              <input id="inclusive" type="checkbox" style="accent-color: #2196F3" />
+              <div>
+                <span style="font-weight: 600">GST Inclusive Amount</span>
+                <div class="note small">Check if amount already includes GST</div>
+              </div>
+            </label>
+            <div class="note small" style="margin-top: .5rem; padding: .5rem; background: rgba(33, 150, 243, .1); border-radius: .5rem">
+              <strong>Exclusive:</strong> Amount + GST = Total<br>
+              <strong>Inclusive:</strong> Amount includes GST
+            </div>
+          </div>
+
+          <!-- Supply Type -->
+          <div class="card" style="background: rgba(255,255,255,.02)">
+            <h4 style="margin-top: 0; font-size: .9rem; color: #9C27B0">Supply Type</h4>
+            <div style="display: grid; gap: .5rem">
+              <label class="check" style="display: flex; align-items: center; gap: .5rem; padding: .5rem; background: rgba(255,255,255,.02); border-radius: .5rem">
+                <input type="radio" name="supply" value="intra" checked style="accent-color: #9C27B0" />
+                <div>
+                  <span style="font-weight: 600">Intra-state (CGST + SGST)</span>
+                  <div class="note small">Within same state</div>
+                </div>
+              </label>
+              <label class="check" style="display: flex; align-items: center; gap: .5rem; padding: .5rem; background: rgba(255,255,255,.02); border-radius: .5rem">
+                <input type="radio" name="supply" value="inter" style="accent-color: #9C27B0" />
+                <div>
+                  <span style="font-weight: 600">Inter-state (IGST)</span>
+                  <div class="note small">Between different states</div>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- Rounding -->
+          <div class="card" style="background: rgba(255,255,255,.02)">
+            <h4 style="margin-top: 0; font-size: .9rem; color: #FF9800">Rounding</h4>
+            <select id="rounding" class="input" style="background: rgba(255,255,255,.05)">
+              <option value="paise" selected>Paise (2 decimals)</option>
+              <option value="rupee">Nearest ₹1</option>
+            </select>
+            <div class="note small" style="margin-top: .5rem">
+              Choose how to round the final amounts
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="card" style="background: linear-gradient(135deg, rgba(16, 185, 129, .1), rgba(5, 150, 105, .05)); border-color: rgba(16, 185, 129, .2)">
+        <div style="display: flex; flex-wrap: wrap; gap: .75rem; justify-content: center">
+          <button id="btn-calc" class="btn" style="background: linear-gradient(135deg, #10B981, #059669); color: white; font-weight: 800; padding: .75rem 1.5rem">
+            🧮 Calculate GST
+          </button>
+          <button id="btn-copy" class="btn secondary" style="padding: .75rem 1rem">
+            📋 Copy Result
+          </button>
+          <button id="btn-share" class="btn" style="background: #2dd4bf; color: #0b1020; padding: .75rem 1rem">
+            🔗 Share
+          </button>
+          <button id="btn-csv" class="btn" style="background: #9bb8f9; color: #0b1020; padding: .75rem 1rem">
+            📊 Download CSV
+          </button>
+        </div>
+        
+        <!-- Auto-calculate toggle -->
+        <div style="margin-top: 1rem; text-align: center">
+          <label class="check" style="display: inline-flex; align-items: center; gap: .5rem; padding: .5rem; background: rgba(255,255,255,.05); border-radius: .5rem">
+            <input id="autoCalculate" type="checkbox" checked style="accent-color: #10B981">
+            <span style="font-weight: 600">⚡ Auto-calculate on input change</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Results Section -->
+      <div id="out" class="result" aria-live="polite" style="margin-top: 1rem"></div>
+    </section>
+
+    <!-- Recent History -->
+    <section class="card" aria-labelledby="hist-title" style="background: rgba(122, 162, 255, .05); border-color: rgba(122, 162, 255, .2)">
+      <h2 id="hist-title" style="margin-top: 0; color: var(--brand); display: flex; align-items: center; gap: .5rem">
+        <span>📋</span> Recent Calculations
+      </h2>
+      <p class="note" id="hist-note" style="margin: .5rem 0 1rem">Your last 5 calculations are saved locally in your browser for quick reference.</p>
       <div id="history"></div>
     </section>
 
-    <!-- Explainer + internal links -->
+    <!-- GST Guide & Tips -->
+    <section class="card" style="background: linear-gradient(135deg, rgba(16, 185, 129, .1), rgba(5, 150, 105, .05)); border-color: rgba(16, 185, 129, .2)">
+      <h2 style="margin-top: 0; color: #10B981; display: flex; align-items: center; gap: .5rem">
+        <span>💡</span> GST Calculation Guide & Tips
+      </h2>
+      
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem">
+        <div class="card" style="background: rgba(255,255,255,.02)">
+          <h3 style="margin-top: 0; color: #10B981">🧮 How to Calculate GST</h3>
+          <div class="note" style="line-height: 1.6">
+            <p><strong>GST Exclusive (Add GST):</strong></p>
+            <ul style="margin: .5rem 0 0 1.5rem">
+              <li>GST Amount = Base × (Rate ÷ 100)</li>
+              <li>Total = Base + GST Amount</li>
+              <li>Example: ₹1000 + 18% = ₹1000 + ₹180 = ₹1180</li>
+            </ul>
+            
+            <p style="margin-top: 1rem"><strong>GST Inclusive (Remove GST):</strong></p>
+            <ul style="margin: .5rem 0 0 1.5rem">
+              <li>Base = Total ÷ (1 + Rate ÷ 100)</li>
+              <li>GST Amount = Total - Base</li>
+              <li>Example: ₹1180 ÷ 1.18 = ₹1000 base, ₹180 GST</li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="card" style="background: rgba(255,255,255,.02)">
+          <h3 style="margin-top: 0; color: #2196F3">🏢 CGST vs SGST vs IGST</h3>
+          <div class="note" style="line-height: 1.6">
+            <p><strong>Intra-state Supply (Same State):</strong></p>
+            <ul style="margin: .5rem 0 0 1.5rem">
+              <li>CGST = GST ÷ 2 (Central Government)</li>
+              <li>SGST = GST ÷ 2 (State Government)</li>
+              <li>Example: 18% GST = 9% CGST + 9% SGST</li>
+            </ul>
+            
+            <p style="margin-top: 1rem"><strong>Inter-state Supply (Different States):</strong></p>
+            <ul style="margin: .5rem 0 0 1.5rem">
+              <li>IGST = Full GST Rate (Central Government)</li>
+              <li>Example: 18% GST = 18% IGST</li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="card" style="background: rgba(255,255,255,.02)">
+          <h3 style="margin-top: 0; color: #9C27B0">📊 GST Rate Categories</h3>
+          <div class="note" style="line-height: 1.6">
+            <p><strong>0% (Exempt):</strong> Essential items like rice, wheat, milk</p>
+            <p><strong>5%:</strong> Basic necessities - sugar, tea, coffee, spices</p>
+            <p><strong>12%:</strong> Processed foods, medicines, computers</p>
+            <p><strong>18%:</strong> Most goods and services, electronics</p>
+            <p><strong>28%:</strong> Luxury items, automobiles, tobacco</p>
+            <p style="margin-top: 1rem"><strong>Special Rates:</strong> Some items have rates like 0.25%, 3%, 7.5%</p>
+          </div>
+        </div>
+        
+        <div class="card" style="background: rgba(255,255,255,.02)">
+          <h3 style="margin-top: 0; color: #FF9800">💼 Business Tips</h3>
+          <div class="note" style="line-height: 1.6">
+            <ul style="margin: 0 0 0 1.5rem">
+              <li><strong>Invoice Clarity:</strong> Always mention if prices are inclusive or exclusive of GST</li>
+              <li><strong>Rounding:</strong> Most businesses round to nearest rupee for invoicing</li>
+              <li><strong>Input Tax Credit:</strong> Registered businesses can claim GST paid on purchases</li>
+              <li><strong>Compliance:</strong> File GSTR returns on time to avoid penalties</li>
+              <li><strong>Record Keeping:</strong> Maintain proper GST invoices and receipts</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- GST Examples & Scenarios -->
     <section class="card">
-      <h2 style="margin-top:0">How to use this GST Calculator</h2>
-      <ul>
-        <li>Enter the <b>amount</b>, select <b>GST rate</b> (or Custom), and choose whether your amount is <b>inclusive</b> of GST.</li>
-        <li>Pick <b>Intra-state</b> to see CGST+SGST split (equal halves), or <b>Inter-state</b> for IGST.</li>
-        <li>Change <b>rounding</b> to match your invoicing (paise vs nearest ?1).</li>
-        <li>Use <b>Share</b> to copy a link with your inputs, and <b>Download CSV</b> for records.</li>
-      </ul>
-      <p class="note">Related tools: <a href="/income-tax-tool/">Income Tax</a>, <a href="/emi-calculator/">EMI</a>, <a href="/currency-converter/">Currency Converter</a>.</p>
+      <h2 style="margin-top: 0; display: flex; align-items: center; gap: .5rem">
+        <span>📝</span> Practical GST Examples
+      </h2>
+      
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem">
+        <div class="card" style="background: rgba(76, 175, 80, .05); border-color: rgba(76, 175, 80, .2)">
+          <h3 style="margin-top: 0; color: #4CAF50">Example 1: Restaurant Bill</h3>
+          <div class="note">
+            <p><strong>Scenario:</strong> Food bill of ₹500 + 5% GST</p>
+            <p><strong>Calculation:</strong></p>
+            <ul style="margin: .5rem 0 0 1.5rem">
+              <li>Base Amount: ₹500</li>
+              <li>GST (5%): ₹500 × 0.05 = ₹25</li>
+              <li>Total Bill: ₹500 + ₹25 = ₹525</li>
+              <li>CGST: ₹12.50, SGST: ₹12.50</li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="card" style="background: rgba(33, 150, 243, .05); border-color: rgba(33, 150, 243, .2)">
+          <h3 style="margin-top: 0; color: #2196F3">Example 2: Electronics Purchase</h3>
+          <div class="note">
+            <p><strong>Scenario:</strong> Laptop priced at ₹59,000 (GST inclusive)</p>
+            <p><strong>Calculation:</strong></p>
+            <ul style="margin: .5rem 0 0 1.5rem">
+              <li>Total Amount: ₹59,000</li>
+              <li>Base: ₹59,000 ÷ 1.18 = ₹50,000</li>
+              <li>GST (18%): ₹59,000 - ₹50,000 = ₹9,000</li>
+              <li>CGST: ₹4,500, SGST: ₹4,500</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      
+      <div class="card" style="background: rgba(255, 193, 7, .1); border-color: rgba(255, 193, 7, .3); margin-top: 1rem">
+        <h3 style="margin-top: 0; color: #FFC107">💡 Pro Tips for Businesses</h3>
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem">
+          <div>
+            <h4 style="margin-top: 0; color: #FFC107">Pricing Strategy</h4>
+            <ul class="note" style="line-height: 1.6; margin: 0 0 0 1.5rem">
+              <li>Display prices clearly as inclusive or exclusive</li>
+              <li>Consider psychological pricing (₹999 vs ₹1000)</li>
+              <li>Factor GST into profit margin calculations</li>
+            </ul>
+          </div>
+          <div>
+            <h4 style="margin-top: 0; color: #FFC107">Compliance</h4>
+            <ul class="note" style="line-height: 1.6; margin: 0 0 0 1.5rem">
+              <li>Register for GST if turnover > ₹20L (₹10L for special states)</li>
+              <li>Issue proper GST invoices with GSTIN</li>
+              <li>File returns monthly/quarterly as applicable</li>
+            </ul>
+          </div>
+          <div>
+            <h4 style="margin-top: 0; color: #FFC107">Record Keeping</h4>
+            <ul class="note" style="line-height: 1.6; margin: 0 0 0 1.5rem">
+              <li>Maintain digital copies of all GST invoices</li>
+              <li>Track input tax credit claims</li>
+              <li>Use accounting software for automation</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- How to Use Guide -->
+    <section class="card" style="background: rgba(122, 162, 255, .05); border-color: rgba(122, 162, 255, .2)">
+      <h2 style="margin-top: 0; color: var(--brand); display: flex; align-items: center; gap: .5rem">
+        <span>📖</span> How to Use This GST Calculator
+      </h2>
+      
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem">
+        <div class="card" style="background: rgba(255,255,255,.02)">
+          <h3 style="margin-top: 0; color: var(--brand)">Step 1: Enter Amount</h3>
+          <ul class="note" style="line-height: 1.6; margin: .5rem 0 0 1.5rem">
+            <li>Type the amount in the input field</li>
+            <li>Use quick presets (₹1K, ₹5K, etc.) for common amounts</li>
+            <li>Amount can be with or without GST</li>
+          </ul>
+        </div>
+        
+        <div class="card" style="background: rgba(255,255,255,.02)">
+          <h3 style="margin-top: 0; color: var(--brand)">Step 2: Select GST Rate</h3>
+          <ul class="note" style="line-height: 1.6; margin: .5rem 0 0 1.5rem">
+            <li>Choose from standard rates (0%, 5%, 12%, 18%, 28%)</li>
+            <li>Use quick rate buttons for faster selection</li>
+            <li>Select "Custom" for special rates like 3% or 7.5%</li>
+          </ul>
+        </div>
+        
+        <div class="card" style="background: rgba(255,255,255,.02)">
+          <h3 style="margin-top: 0; color: var(--brand)">Step 3: Configure Settings</h3>
+          <ul class="note" style="line-height: 1.6; margin: .5rem 0 0 1.5rem">
+            <li>Check "GST Inclusive" if amount already includes GST</li>
+            <li>Choose Intra-state (CGST+SGST) or Inter-state (IGST)</li>
+            <li>Select rounding preference (paise or nearest rupee)</li>
+          </ul>
+        </div>
+        
+        <div class="card" style="background: rgba(255,255,255,.02)">
+          <h3 style="margin-top: 0; color: var(--brand)">Step 4: Get Results</h3>
+          <ul class="note" style="line-height: 1.6; margin: .5rem 0 0 1.5rem">
+            <li>Click "Calculate GST" or enable auto-calculate</li>
+            <li>View base amount, GST breakdown, and total</li>
+            <li>Copy, share, or download results as needed</li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="card" style="background: rgba(16, 185, 129, .1); border-color: rgba(16, 185, 129, .3); margin-top: 1rem">
+        <p class="note" style="margin: 0; text-align: center">
+          <strong>Related Tools:</strong> 
+          <a href="/income-tax-tool/" style="color: #10B981">Income Tax Calculator</a> • 
+          <a href="/emi-calculator/" style="color: #10B981">EMI Calculator</a> • 
+          <a href="/currency-converter/" style="color: #10B981">Currency Converter</a> • 
+          <a href="/fd-calculator/" style="color: #10B981">FD Calculator</a>
+        </p>
+      </div>
     </section>
 
     <!-- YouTube demo (privacy-enhanced, fixed size to avoid CLS) -->
@@ -240,6 +536,136 @@
   <details><summary><b>Is this a filing tool?</b></summary><p>No. It�s a quick calculator to estimate base/GST/total for quotes and invoices; it does not file returns.</p></details>
 </section>
 </main>
+
+  <!-- Enhanced Interactive Features -->
+  <script type="module">
+    // Enhanced UI interactions and features
+    document.addEventListener('DOMContentLoaded', () => {
+      // Amount preset buttons
+      document.querySelectorAll('.amount-preset').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const amount = btn.dataset.amount;
+          document.getElementById('amount').value = amount;
+          if (document.getElementById('autoCalculate').checked) {
+            setTimeout(() => document.getElementById('btn-calc').click(), 100);
+          }
+        });
+      });
+
+      // Quick fill sample data
+      document.getElementById('quickFillBtn').addEventListener('click', () => {
+        document.getElementById('amount').value = '10000';
+        document.getElementById('rate').value = '18';
+        document.getElementById('inclusive').checked = false;
+        document.querySelector('input[name="supply"][value="intra"]').checked = true;
+        document.getElementById('rounding').value = 'paise';
+        if (document.getElementById('autoCalculate').checked) {
+          setTimeout(() => document.getElementById('btn-calc').click(), 200);
+        }
+      });
+
+      // GST rate preset buttons
+      document.querySelectorAll('[data-rate]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const rate = btn.dataset.rate;
+          const rateSelect = document.getElementById('rate');
+          
+          // Check if rate exists in dropdown
+          const option = rateSelect.querySelector(`option[value="${rate}"]`);
+          if (option) {
+            rateSelect.value = rate;
+          } else {
+            // Use custom rate
+            rateSelect.value = 'custom';
+            document.getElementById('customRate').value = rate;
+            document.getElementById('customRateWrap').classList.remove('hidden');
+          }
+          
+          if (document.getElementById('autoCalculate').checked) {
+            setTimeout(() => document.getElementById('btn-calc').click(), 100);
+          }
+        });
+      });
+
+      // Custom rate toggle
+      document.getElementById('rate').addEventListener('change', (e) => {
+        const customWrap = document.getElementById('customRateWrap');
+        if (e.target.value === 'custom') {
+          customWrap.classList.remove('hidden');
+          document.getElementById('customRate').focus();
+        } else {
+          customWrap.classList.add('hidden');
+        }
+        
+        if (document.getElementById('autoCalculate').checked) {
+          setTimeout(() => document.getElementById('btn-calc').click(), 100);
+        }
+      });
+
+      // Auto-calculate functionality
+      const autoCalculateInputs = ['amount', 'rate', 'customRate', 'inclusive', 'rounding'];
+      autoCalculateInputs.forEach(id => {
+        const element = document.getElementById(id);
+        if (element) {
+          element.addEventListener('input', debounce(() => {
+            if (document.getElementById('autoCalculate').checked) {
+              document.getElementById('btn-calc').click();
+            }
+          }, 500));
+          
+          element.addEventListener('change', () => {
+            if (document.getElementById('autoCalculate').checked) {
+              document.getElementById('btn-calc').click();
+            }
+          });
+        }
+      });
+
+      // Supply type radio buttons
+      document.querySelectorAll('input[name="supply"]').forEach(radio => {
+        radio.addEventListener('change', () => {
+          if (document.getElementById('autoCalculate').checked) {
+            document.getElementById('btn-calc').click();
+          }
+        });
+      });
+
+      // Enhanced result display
+      function enhanceResultDisplay() {
+        const resultDiv = document.getElementById('out');
+        if (resultDiv && resultDiv.innerHTML.trim()) {
+          // Add visual enhancements to results
+          resultDiv.style.background = 'linear-gradient(135deg, rgba(16, 185, 129, .1), rgba(5, 150, 105, .05))';
+          resultDiv.style.borderColor = 'rgba(16, 185, 129, .2)';
+          resultDiv.style.borderRadius = 'var(--radius)';
+          resultDiv.style.padding = '1rem';
+        }
+      }
+
+      // Monitor result changes
+      const observer = new MutationObserver(enhanceResultDisplay);
+      const resultDiv = document.getElementById('out');
+      if (resultDiv) {
+        observer.observe(resultDiv, { childList: true, subtree: true });
+      }
+
+      // Initialize
+      enhanceResultDisplay();
+    });
+
+    // Debounce utility
+    function debounce(func, wait) {
+      let timeout;
+      return function executedFunction(...args) {
+        const later = () => {
+          clearTimeout(timeout);
+          func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+      };
+    }
+  </script>
 
   <!-- Common utils for all pages -->
   <script type="module">
