@@ -157,6 +157,12 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://www.uptools.in/games/flappy-bird/</loc>
+    <lastmod>2025-10-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://www.uptools.in/games/love-test/</loc>
     <lastmod>2025-10-28</lastmod>
     <changefreq>monthly</changefreq>
@@ -175,6 +181,24 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://www.uptools.in/games/pac-man/</loc>
+    <lastmod>2025-10-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.uptools.in/games/rock-paper-scissors/</loc>
+    <lastmod>2025-10-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.uptools.in/games/simon-says/</loc>
+    <lastmod>2025-10-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://www.uptools.in/games/snake/</loc>
     <lastmod>2025-10-28</lastmod>
     <changefreq>monthly</changefreq>
@@ -187,7 +211,19 @@
     <priority>0.6</priority>
   </url>
   <url>
+    <loc>https://www.uptools.in/games/tetris/</loc>
+    <lastmod>2025-10-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
     <loc>https://www.uptools.in/games/tic-tac-toe/</loc>
+    <lastmod>2025-10-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.uptools.in/games/whack-a-mole/</loc>
     <lastmod>2025-10-28</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -224,6 +260,36 @@
   </url>
   <url>
     <loc>https://www.uptools.in/instagram-auditor/</loc>
+    <lastmod>2025-10-28</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.uptools.in/instagram-bio-generator/</loc>
+    <lastmod>2025-10-28</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.uptools.in/instagram-caption-generator/</loc>
+    <lastmod>2025-10-28</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.uptools.in/instagram-hashtag-generator/</loc>
+    <lastmod>2025-10-28</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.uptools.in/instagram-story-templates/</loc>
+    <lastmod>2025-10-28</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.uptools.in/instagram-username-generator/</loc>
     <lastmod>2025-10-28</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.6</priority>
@@ -290,6 +356,12 @@
   </url>
   <url>
     <loc>https://www.uptools.in/text-case-converter/</loc>
+    <lastmod>2025-10-28</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.uptools.in/tiktok-hashtag-generator/</loc>
     <lastmod>2025-10-28</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.6</priority>
