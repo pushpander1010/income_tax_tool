@@ -1,0 +1,580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Whack-a-Mole - Free Online Game | UpTools</title>
+  <meta name="description" content="Play Whack-a-Mole online! Fast-paced reflex game with score tracking and increasing difficulty. Test your reaction time!">
+  <meta name="robots" content="index,follow">
+  <link rel="canonical" href="https://www.uptools.in/games/whack-a-mole/">
+  
+  <link rel="icon" sizes="50x50" type="image/svg+xml" href="/assets/logo/uptools-logo.svg">
+  <link rel="stylesheet" href="/style.css?v=1.2.0">
+  
+  <style>
+    body {
+      --accent: #ff6b6b;
+      background: radial-gradient(1200px 600px at 10% -10%, #182033 0%, var(--bg) 45%) fixed;
+    }
+
+    .game-container {
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 2rem;
+      background: var(--card);
+      border: 1px solid var(--cardBorder);
+      border-radius: var(--radius);
+      text-align: center;
+    }
+
+    .game-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 1rem;
+      margin: 2rem 0;
+    }
+
+    .stat {
+      padding: 1rem;
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: var(--radius);
+      border: 1px solid var(--cardBorder);
+    }
+
+    .stat-value {
+      font-size: 2rem;
+      font-weight: bold;
+      color: var(--accent);
+      display: block;
+    }
+
+    .stat-label {
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin-top: 0.5rem;
+    }
+
+    .game-board {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin: 2rem 0;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .hole {
+      aspect-ratio: 1;
+      background: #2a1810;
+      border: 3px solid #8B4513;
+      border-radius: 50%;
+      position: relative;
+      cursor: pointer;
+      overflow: hidden;
+      box-shadow: inset 0 10px 20px rgba(0, 0, 0, 0.5);
+    }
+
+    .mole {
+      position: absolute;
+      bottom: -100%;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 3rem;
+      transition: bottom 0.3s ease;
+      user-select: none;
+      pointer-events: none;
+    }
+
+    .hole.active .mole {
+      bottom: 10%;
+      pointer-events: all;
+    }
+
+    .mole:hover {
+      transform: translateX(-50%) scale(1.1);
+    }
+
+    .hole.hit {
+      animation: hit-flash 0.3s ease;
+    }
+
+    @keyframes hit-flash {
+      0%, 100% { background: #2a1810; }
+      50% { background: #4CAF50; }
+    }
+
+    .game-controls {
+      margin: 2rem 0;
+    }
+
+    .control-btn {
+      background: var(--accent);
+      color: white;
+      border: none;
+      padding: 1rem 2rem;
+      border-radius: var(--radius);
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin: 0 0.5rem;
+    }
+
+    .control-btn:hover {
+      background: color-mix(in srgb, var(--accent) 80%, white);
+      transform: translateY(-2px);
+    }
+
+    .control-btn:disabled {
+      background: var(--muted);
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .difficulty-selector {
+      margin: 1rem 0;
+    }
+
+    .difficulty-btn {
+      background: rgba(255, 255, 255, 0.05);
+      color: var(--text);
+      border: 1px solid var(--cardBorder);
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius);
+      cursor: pointer;
+      margin: 0 0.25rem;
+      transition: all 0.3s ease;
+    }
+
+    .difficulty-btn.active {
+      background: var(--accent);
+      color: white;
+      border-color: var(--accent);
+    }
+
+    .game-over {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .game-over.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .game-over-content {
+      background: var(--card);
+      padding: 2rem;
+      border-radius: var(--radius);
+      text-align: center;
+      border: 1px solid var(--cardBorder);
+      max-width: 400px;
+      width: 90%;
+    }
+
+    .final-score {
+      font-size: 3rem;
+      color: var(--accent);
+      font-weight: bold;
+      margin: 1rem 0;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 10px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 5px;
+      overflow: hidden;
+      margin: 1rem 0;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: var(--accent);
+      width: 0%;
+      transition: width 0.1s ease;
+    }
+
+    @media (max-width: 768px) {
+      .game-container {
+        margin: 1rem;
+        padding: 1rem;
+      }
+      
+      .game-board {
+        gap: 0.5rem;
+      }
+      
+      .mole {
+        font-size: 2rem;
+      }
+      
+      .control-btn {
+        padding: 0.75rem 1.5rem;
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site" role="banner">
+    <div class="header-inner">
+      <a class="brand" href="/" aria-label="UpTools Home">
+        <img src="/assets/logo/uptools-logo.svg" alt="UpTools logo" width="28" height="28">
+        <b>UpTools</b>
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="/#tools">Tools</a>
+        <a href="/games/">Games</a>
+        <a href="/about/">About</a>
+        <a href="/contact/">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="game-container">
+      <h1>🔨 Whack-a-Mole</h1>
+      <p>Hit the moles as fast as you can! Don't let them escape!</p>
+
+      <div class="game-stats">
+        <div class="stat">
+          <span class="stat-value" id="score">0</span>
+          <div class="stat-label">Score</div>
+        </div>
+        <div class="stat">
+          <span class="stat-value" id="timeLeft">30</span>
+          <div class="stat-label">Time Left</div>
+        </div>
+        <div class="stat">
+          <span class="stat-value" id="hits">0</span>
+          <div class="stat-label">Hits</div>
+        </div>
+        <div class="stat">
+          <span class="stat-value" id="misses">0</span>
+          <div class="stat-label">Misses</div>
+        </div>
+      </div>
+
+      <div class="progress-bar">
+        <div class="progress-fill" id="timeProgress"></div>
+      </div>
+
+      <div class="difficulty-selector">
+        <label>Difficulty:</label>
+        <button class="difficulty-btn active" data-difficulty="easy">Easy</button>
+        <button class="difficulty-btn" data-difficulty="medium">Medium</button>
+        <button class="difficulty-btn" data-difficulty="hard">Hard</button>
+      </div>
+
+      <div class="game-board" id="gameBoard">
+        <div class="hole" data-hole="0"><div class="mole">🐹</div></div>
+        <div class="hole" data-hole="1"><div class="mole">🐹</div></div>
+        <div class="hole" data-hole="2"><div class="mole">🐹</div></div>
+        <div class="hole" data-hole="3"><div class="mole">🐹</div></div>
+        <div class="hole" data-hole="4"><div class="mole">🐹</div></div>
+        <div class="hole" data-hole="5"><div class="mole">🐹</div></div>
+        <div class="hole" data-hole="6"><div class="mole">🐹</div></div>
+        <div class="hole" data-hole="7"><div class="mole">🐹</div></div>
+        <div class="hole" data-hole="8"><div class="mole">🐹</div></div>
+      </div>
+
+      <div class="game-controls">
+        <button class="control-btn" id="startBtn">Start Game</button>
+        <button class="control-btn" id="pauseBtn" disabled>Pause</button>
+        <button class="control-btn" id="resetBtn">Reset</button>
+      </div>
+    </div>
+
+    <div class="game-over" id="gameOver">
+      <div class="game-over-content">
+        <h2>🎉 Game Over!</h2>
+        <div class="final-score" id="finalScore">0</div>
+        <p id="gameOverMessage">Great job!</p>
+        <div id="gameOverStats"></div>
+        <button class="control-btn" id="playAgainBtn">Play Again</button>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    class WhackAMole {
+      constructor() {
+        this.score = 0;
+        this.hits = 0;
+        this.misses = 0;
+        this.timeLeft = 30;
+        this.gameTime = 30;
+        this.isPlaying = false;
+        this.isPaused = false;
+        this.difficulty = 'easy';
+        this.moleTimer = null;
+        this.gameTimer = null;
+        this.activeMoles = new Set();
+        
+        this.difficulties = {
+          easy: { minTime: 1000, maxTime: 2000, moleLife: 1500 },
+          medium: { minTime: 600, maxTime: 1200, moleLife: 1000 },
+          hard: { minTime: 300, maxTime: 800, moleLife: 700 }
+        };
+        
+        this.init();
+      }
+
+      init() {
+        this.bindEvents();
+        this.updateDisplay();
+      }
+
+      bindEvents() {
+        // Control buttons
+        document.getElementById('startBtn').addEventListener('click', () => this.startGame());
+        document.getElementById('pauseBtn').addEventListener('click', () => this.togglePause());
+        document.getElementById('resetBtn').addEventListener('click', () => this.resetGame());
+        document.getElementById('playAgainBtn').addEventListener('click', () => this.playAgain());
+
+        // Difficulty buttons
+        document.querySelectorAll('.difficulty-btn').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            if (!this.isPlaying) {
+              this.setDifficulty(e.target.dataset.difficulty);
+            }
+          });
+        });
+
+        // Hole clicks
+        document.querySelectorAll('.hole').forEach(hole => {
+          hole.addEventListener('click', (e) => {
+            if (this.isPlaying && !this.isPaused) {
+              this.whackMole(hole);
+            }
+          });
+        });
+
+        // Prevent context menu on holes
+        document.getElementById('gameBoard').addEventListener('contextmenu', (e) => {
+          e.preventDefault();
+        });
+      }
+
+      setDifficulty(difficulty) {
+        this.difficulty = difficulty;
+        document.querySelectorAll('.difficulty-btn').forEach(btn => {
+          btn.classList.toggle('active', btn.dataset.difficulty === difficulty);
+        });
+      }
+
+      startGame() {
+        this.isPlaying = true;
+        this.isPaused = false;
+        this.score = 0;
+        this.hits = 0;
+        this.misses = 0;
+        this.timeLeft = this.gameTime;
+        
+        this.updateDisplay();
+        this.updateControls();
+        
+        // Start timers
+        this.startGameTimer();
+        this.spawnMole();
+      }
+
+      startGameTimer() {
+        this.gameTimer = setInterval(() => {
+          if (!this.isPaused) {
+            this.timeLeft--;
+            this.updateDisplay();
+            
+            if (this.timeLeft <= 0) {
+              this.endGame();
+            }
+          }
+        }, 1000);
+      }
+
+      spawnMole() {
+        if (!this.isPlaying || this.isPaused) return;
+        
+        const config = this.difficulties[this.difficulty];
+        const availableHoles = [...document.querySelectorAll('.hole')]
+          .filter(hole => !hole.classList.contains('active'));
+        
+        if (availableHoles.length > 0) {
+          const randomHole = availableHoles[Math.floor(Math.random() * availableHoles.length)];
+          this.showMole(randomHole);
+        }
+        
+        // Schedule next mole
+        const nextSpawnTime = Math.random() * (config.maxTime - config.minTime) + config.minTime;
+        this.moleTimer = setTimeout(() => this.spawnMole(), nextSpawnTime);
+      }
+
+      showMole(hole) {
+        const holeIndex = hole.dataset.hole;
+        hole.classList.add('active');
+        this.activeMoles.add(holeIndex);
+        
+        // Hide mole after some time
+        const config = this.difficulties[this.difficulty];
+        setTimeout(() => {
+          if (hole.classList.contains('active')) {
+            this.hideMole(hole);
+            this.misses++;
+            this.updateDisplay();
+          }
+        }, config.moleLife);
+      }
+
+      hideMole(hole) {
+        const holeIndex = hole.dataset.hole;
+        hole.classList.remove('active');
+        this.activeMoles.delete(holeIndex);
+      }
+
+      whackMole(hole) {
+        if (hole.classList.contains('active')) {
+          // Hit!
+          hole.classList.add('hit');
+          this.hideMole(hole);
+          this.hits++;
+          this.score += this.getScoreForDifficulty();
+          
+          // Remove hit animation
+          setTimeout(() => hole.classList.remove('hit'), 300);
+        } else {
+          // Miss!
+          this.misses++;
+        }
+        
+        this.updateDisplay();
+      }
+
+      getScoreForDifficulty() {
+        const scores = { easy: 10, medium: 20, hard: 30 };
+        return scores[this.difficulty];
+      }
+
+      togglePause() {
+        this.isPaused = !this.isPaused;
+        document.getElementById('pauseBtn').textContent = this.isPaused ? 'Resume' : 'Pause';
+      }
+
+      endGame() {
+        this.isPlaying = false;
+        this.isPaused = false;
+        
+        // Clear timers
+        clearTimeout(this.moleTimer);
+        clearInterval(this.gameTimer);
+        
+        // Hide all moles
+        document.querySelectorAll('.hole').forEach(hole => {
+          hole.classList.remove('active');
+        });
+        
+        this.activeMoles.clear();
+        this.updateControls();
+        this.showGameOver();
+      }
+
+      showGameOver() {
+        const accuracy = this.hits + this.misses > 0 ? Math.round((this.hits / (this.hits + this.misses)) * 100) : 0;
+        
+        document.getElementById('finalScore').textContent = this.score;
+        document.getElementById('gameOverMessage').textContent = this.getGameOverMessage();
+        document.getElementById('gameOverStats').innerHTML = `
+          <p>Hits: ${this.hits} | Misses: ${this.misses}</p>
+          <p>Accuracy: ${accuracy}%</p>
+          <p>Difficulty: ${this.difficulty.charAt(0).toUpperCase() + this.difficulty.slice(1)}</p>
+        `;
+        
+        document.getElementById('gameOver').classList.add('show');
+      }
+
+      getGameOverMessage() {
+        if (this.score >= 500) return "🏆 Mole Master!";
+        if (this.score >= 300) return "🎯 Great Reflexes!";
+        if (this.score >= 150) return "👍 Nice Job!";
+        return "🎮 Keep Practicing!";
+      }
+
+      playAgain() {
+        document.getElementById('gameOver').classList.remove('show');
+        this.resetGame();
+      }
+
+      resetGame() {
+        this.isPlaying = false;
+        this.isPaused = false;
+        this.score = 0;
+        this.hits = 0;
+        this.misses = 0;
+        this.timeLeft = this.gameTime;
+        
+        // Clear timers
+        clearTimeout(this.moleTimer);
+        clearInterval(this.gameTimer);
+        
+        // Hide all moles
+        document.querySelectorAll('.hole').forEach(hole => {
+          hole.classList.remove('active', 'hit');
+        });
+        
+        this.activeMoles.clear();
+        this.updateDisplay();
+        this.updateControls();
+        document.getElementById('gameOver').classList.remove('show');
+      }
+
+      updateDisplay() {
+        document.getElementById('score').textContent = this.score;
+        document.getElementById('timeLeft').textContent = this.timeLeft;
+        document.getElementById('hits').textContent = this.hits;
+        document.getElementById('misses').textContent = this.misses;
+        
+        // Update progress bar
+        const progress = ((this.gameTime - this.timeLeft) / this.gameTime) * 100;
+        document.getElementById('timeProgress').style.width = progress + '%';
+      }
+
+      updateControls() {
+        const startBtn = document.getElementById('startBtn');
+        const pauseBtn = document.getElementById('pauseBtn');
+        
+        startBtn.disabled = this.isPlaying;
+        pauseBtn.disabled = !this.isPlaying;
+        pauseBtn.textContent = this.isPaused ? 'Resume' : 'Pause';
+        
+        // Disable difficulty buttons during game
+        document.querySelectorAll('.difficulty-btn').forEach(btn => {
+          btn.disabled = this.isPlaying;
+        });
+      }
+    }
+
+    // Initialize game when page loads
+    document.addEventListener('DOMContentLoaded', () => {
+      new WhackAMole();
+    });
+
+    // Add to recent games when leaving
+    window.addEventListener('beforeunload', () => {
+      const url = new URL('/games/', location.origin);
+      url.searchParams.set('played', 'whack-a-mole');
+    });
+  </script>
+</body>
+</html>
