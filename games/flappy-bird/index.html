@@ -32,7 +32,7 @@
     .btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba(156, 39, 176, .3); }
 
     .game-container { display: grid; grid-template-columns: 1fr 300px; gap: 2rem; align-items: start; }
-    .game-canvas { border: 2px solid var(--border); border-radius: var(--radius); background: linear-gradient(to bottom, #87CEEB 0%, #98FB98 100%); display: block; margin: 0 auto; }
+    .game-canvas { border: 2px solid var(--border); border-radius: var(--radius); background: linear-gradient(to bottom, #87CEEB 0%, #98FB98 100%); display: block; margin: 0 auto; width: 100%; max-width: 500px; height: auto; }
     
     .game-overlay { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; background: rgba(0,0,0,0.8); color: white; padding: 2rem; border-radius: 1rem; display: none; }
     .game-wrapper { position: relative; display: inline-block; }
@@ -44,7 +44,7 @@
 
     @media (max-width: 768px) {
       .game-container { grid-template-columns: 1fr; gap: 1rem; }
-      .game-canvas { width: 100%; max-width: 400px; height: 300px; }
+      .game-canvas { width: 100%; max-width: 350px; height: 500px; }
     }
 
     /* Fullscreen Styles */
@@ -177,9 +177,10 @@
 
     <div class="game-container">
       <!-- Game Area -->
-      <div class="card">
+      <div class="card" style="position: relative">
+        <button class="fullscreen-btn" id="fullscreenBtn" title="Enter Fullscreen">⛶</button>
         <div class="game-wrapper">
-          <canvas id="gameCanvas" class="game-canvas" width="400" height="600"></canvas>
+          <canvas id="gameCanvas" class="game-canvas" width="500" height="700"></canvas>
           <div class="game-overlay" id="gameOverlay">
             <h2 id="overlayTitle">Flappy Bird</h2>
             <p id="overlayMessage">Click or tap to start flying!</p>
@@ -580,7 +581,58 @@
     }
 
     // Initialize game on load
-    document.addEventListener('DOMContentLoaded', initGame);
+    document.addEventListener('DOMContentLoaded', () => {
+      initGame();
+      
+      // Fullscreen functionality
+      const fullscreenBtn = document.getElementById('fullscreenBtn');
+      let isFullscreen = false;
+      let exitFullscreenBtn = null;
+
+      function enterFullscreen() {
+        isFullscreen = true;
+        document.body.classList.add('fullscreen-mode');
+        
+        // Create exit button
+        exitFullscreenBtn = document.createElement('button');
+        exitFullscreenBtn.className = 'exit-fullscreen-btn';
+        exitFullscreenBtn.innerHTML = '✕ Exit Fullscreen';
+        exitFullscreenBtn.onclick = exitFullscreen;
+        document.body.appendChild(exitFullscreenBtn);
+        
+        fullscreenBtn.style.display = 'none';
+        
+        // Resize canvas for fullscreen
+        canvas.width = Math.min(window.innerWidth * 0.8, 600);
+        canvas.height = Math.min(window.innerHeight * 0.8, 800);
+      }
+
+      function exitFullscreen() {
+        isFullscreen = false;
+        document.body.classList.remove('fullscreen-mode');
+        
+        // Remove exit button
+        if (exitFullscreenBtn) {
+          exitFullscreenBtn.remove();
+          exitFullscreenBtn = null;
+        }
+        
+        fullscreenBtn.style.display = 'block';
+        
+        // Reset canvas size
+        canvas.width = 500;
+        canvas.height = 700;
+      }
+
+      fullscreenBtn.addEventListener('click', enterFullscreen);
+
+      // Exit fullscreen on Escape key
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && isFullscreen) {
+          exitFullscreen();
+        }
+      });
+    });
   </script>
 </body>
 </html>
