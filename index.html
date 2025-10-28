@@ -6,11 +6,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>UpTools - Free Online Calculators, Converters & Mini Games</title>
   <meta name="description"
-    content="Fast, privacy-first tools for everyday tasks: Income Tax, GST, EMI, SIP, Currency Converter, IFSC Finder, JSON Formatter, BMI, and mini games. No sign-ups, no bloat." />
+    content="Fast, privacy-first tools for everyday tasks: Income Tax, GST, EMI, Currency Converter, Instagram Bio Generator, Social Media Tools, AI Writing, JSON Formatter, and mini games. No sign-ups, no bloat." />
   <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
   <meta name="theme-color" content="#0f1419" />
   <meta name="keywords"
-    content="income tax calculator,gst calculator,emi calculator,currency converter,crypto prices,bitcoin fee estimator,crypto converter,fear and greed index,ifsc finder,json formatter,age calculator,ai tools,india tools,uptools" />
+    content="income tax calculator,gst calculator,emi calculator,currency converter,instagram bio generator,instagram tools,social media tools,ai writing,crypto prices,json formatter,age calculator,ai tools,india tools,uptools" />
 
   <!-- Canonical & Icons -->
   <link rel="canonical" href="https://www.uptools.in/" />
@@ -19,7 +19,7 @@
 
   <!-- Open Graph -->
   <meta property="og:title" content="UpTools - Free Online Calculators, Converters & Mini Games" />
-  <meta property="og:description" content="Fast, lightweight tools for everyday tasks. Privacy-first. No sign-ups." />
+  <meta property="og:description" content="Fast, privacy-first tools: Tax calculators, Instagram bio generator, social media tools, AI writing, and more. No sign-ups required." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.uptools.in/" />
   <meta property="og:site_name" content="UpTools" />
@@ -395,6 +395,7 @@
   {"@context":"https://schema.org","@type":"CollectionPage","name":"UpTools - Tool Categories","url":"https://www.uptools.in/","about":[
     {"@type":"Thing","name":"Finance"},{"@type":"Thing","name":"Tax"},{"@type":"Thing","name":"Banking"},
     {"@type":"Thing","name":"Images"},{"@type":"Thing","name":"Text"},{"@type":"Thing","name":"Developer"},
+    {"@type":"Thing","name":"Social Media"},{"@type":"Thing","name":"AI Tools"},{"@type":"Thing","name":"Marketing"},
     {"@type":"Thing","name":"Security"},{"@type":"Thing","name":"Networking"},{"@type":"Thing","name":"Fun"},
     {"@type":"Thing","name":"Health"},{"@type":"Thing","name":"Canada"},{"@type":"Thing","name":"Romantic"},
     {"@type":"Thing","name":"Crypto"}
@@ -661,6 +662,8 @@
         social: { label: "Social", icon: "📱", desc: "Social media tools" },
         whatsapp: { label: "WhatsApp", icon: "💬", desc: "WhatsApp tools" },
         wifi: { label: "WiFi", icon: "📡", desc: "WiFi tools" },
+        ai: { label: "AI", icon: "🤖", desc: "AI-powered tools" },
+        marketing: { label: "Marketing", icon: "📈", desc: "SEO & marketing tools" },
       };
 
       // ---- Tools (assign categories with `cats`) ----
@@ -706,6 +709,12 @@
         { slug: "whatsapp-chat", title: "WhatsApp Click-to-Chat", icon: "💬", desc: "Open chats without saving numbers.", href: "/whatsapp-chat/", tags: ["whatsapp","networking"], cats: ["all","whatsapp","networking"] },
         { slug: "whatsapp-stickers", title: "WhatsApp Sticker Maker", icon: "🧩", desc: "Design and export sticker packs.", href: "/whatsapp-stickers/", tags: ["whatsapp","images"], cats: ["all","whatsapp","images"] },
         { slug: "instagram-auditor", title: "Instagram Auditor", icon: "📊", desc: "Find non-followers, fans & mutuals. Privacy-first analysis.", href: "/instagram-auditor/", tags: ["social","privacy","analytics"], cats: ["all","social","security"] },
+        { slug: "instagram-bio-generator", title: "Instagram Bio Generator", icon: "✨", desc: "Create engaging and creative Instagram bios with AI.", href: "/instagram-bio-generator/", tags: ["social","ai","text"], cats: ["all","social","text"] },
+        { slug: "instagram-caption-generator", title: "Instagram Caption Generator", icon: "💬", desc: "Generate engaging captions for your Instagram posts.", href: "/instagram-caption-generator/", tags: ["social","ai","text"], cats: ["all","social","text"] },
+        { slug: "instagram-hashtag-generator", title: "Instagram Hashtag Generator", icon: "#️⃣", desc: "Find trending hashtags to boost your reach.", href: "/instagram-hashtag-generator/", tags: ["social","marketing"], cats: ["all","social","text"] },
+        { slug: "instagram-username-generator", title: "Instagram Username Generator", icon: "👤", desc: "Generate unique and catchy Instagram usernames.", href: "/instagram-username-generator/", tags: ["social","creative"], cats: ["all","social","text"] },
+        { slug: "instagram-story-templates", title: "Instagram Story Templates", icon: "📱", desc: "Beautiful templates for Instagram Stories.", href: "/instagram-story-templates/", tags: ["social","design","templates"], cats: ["all","social","images"] },
+        { slug: "tiktok-hashtag-generator", title: "TikTok Hashtag Generator", icon: "🎵", desc: "Find viral hashtags for your TikTok videos.", href: "/tiktok-hashtag-generator/", tags: ["social","tiktok","marketing"], cats: ["all","social","text"] },
         { slug: "games", title: "Free Mini Games", icon: "🎮", desc: "Play fast, sign-up free browser games.", href: "/games/", tags: ["fun"], cats: ["all","fun"] },
         { slug: "games-love-test", title: "Love Compatibility Test", icon: "💘", desc: "Fun love quiz for couples.", href: "/games/love-test/", tags: ["fun","romantic"], cats: ["all","fun","romantic"] },
         { slug: "contact", title: "Contact UpTools", icon: "✉️", desc: "Share feedback, bugs or feature requests.", href: "/contact/", tags: ["text"], cats: ["all","text"] },
