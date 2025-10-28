@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Free Online Games (No Sign-up) - Snake, 2048, Tic Tac Toe & More | UpTools</title>
   <meta name="description"
-    content="Play free online games instantly: Snake, 2048, Tic Tac Toe, Memory Match, Breakout and more. No downloads, no sign-ups. Mobile-friendly, ad-light, and blazing fast. Search and filter by genre or difficulty." />
+    content="Play 15+ free online games instantly: Snake, 2048, Tetris, Pac-Man, Flappy Bird, Tic Tac Toe, Memory Match, Sudoku and more. No downloads, no sign-ups. Mobile-friendly, ad-light, and blazing fast." />
   <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
   <meta name="theme-color" content="#0f1419" />
 
@@ -378,18 +378,25 @@
     "@context":"https://schema.org",
     "@type":"CollectionPage",
     "name":"Free Online Games - UpTools",
-    "description":"Play free browser games like Snake, 2048, Tic Tac Toe, Memory Match, Breakout and more. No downloads or sign-ups.",
+    "description":"Play free browser games like Snake, 2048, Tic Tac Toe, Memory Match, Breakout, Tetris, Pac-Man and more. No downloads or sign-ups.",
     "url":"https://www.uptools.in/games/",
     "isPartOf":{"@type":"WebSite","name":"UpTools","url":"https://www.uptools.in/"},
     "hasPart":[
       {"@type":"VideoGame","name":"Tic Tac Toe","url":"https://www.uptools.in/games/tic-tac-toe/","applicationCategory":"Game","genre":["Board","Classic"]},
       {"@type":"VideoGame","name":"Memory Match","url":"https://www.uptools.in/games/memory-match/","applicationCategory":"Game","genre":["Puzzle","Brain"]},
+      {"@type":"VideoGame","name":"Sudoku","url":"https://www.uptools.in/games/sudoku/","applicationCategory":"Game","genre":["Puzzle","Logic"]},
       {"@type":"VideoGame","name":"Snake","url":"https://www.uptools.in/games/snake/","applicationCategory":"Game","genre":["Arcade","Classic"]},
       {"@type":"VideoGame","name":"Number Guessing","url":"https://www.uptools.in/games/number-guessing/","applicationCategory":"Game","genre":["Logic","Quick Play"]},
       {"@type":"VideoGame","name":"Color Rush","url":"https://www.uptools.in/games/color-rush/","applicationCategory":"Game","genre":["Reflex","Color"]},
-      {"@type":"VideoGame","name":"Word Scramble","url":"https://www.uptools.in/games/word-scramble/","applicationCategory":"Game","genre":["Word","Brain"]},
       {"@type":"VideoGame","name":"2048","url":"https://www.uptools.in/games/2048/","applicationCategory":"Game","genre":["Puzzle","Number"]},
-      {"@type":"VideoGame","name":"Breakout","url":"https://www.uptools.in/games/breakout/","applicationCategory":"Game","genre":["Arcade","Reflex"]}
+      {"@type":"VideoGame","name":"Breakout","url":"https://www.uptools.in/games/breakout/","applicationCategory":"Game","genre":["Arcade","Reflex"]},
+      {"@type":"VideoGame","name":"Love Test","url":"https://www.uptools.in/games/love-test/","applicationCategory":"Game","genre":["Romance","Quiz"]},
+      {"@type":"VideoGame","name":"Flappy Bird","url":"https://www.uptools.in/games/flappy-bird/","applicationCategory":"Game","genre":["Arcade","Reflex"]},
+      {"@type":"VideoGame","name":"Pac-Man","url":"https://www.uptools.in/games/pac-man/","applicationCategory":"Game","genre":["Arcade","Classic"]},
+      {"@type":"VideoGame","name":"Rock Paper Scissors","url":"https://www.uptools.in/games/rock-paper-scissors/","applicationCategory":"Game","genre":["Classic","Quick Play"]},
+      {"@type":"VideoGame","name":"Simon Says","url":"https://www.uptools.in/games/simon-says/","applicationCategory":"Game","genre":["Brain","Memory"]},
+      {"@type":"VideoGame","name":"Tetris","url":"https://www.uptools.in/games/tetris/","applicationCategory":"Game","genre":["Puzzle","Classic"]},
+      {"@type":"VideoGame","name":"Whack-a-Mole","url":"https://www.uptools.in/games/whack-a-mole/","applicationCategory":"Game","genre":["Arcade","Reflex"]}
     ]
   }
   </script>
@@ -444,10 +451,11 @@
         <label class="chip"><input type="checkbox" value="classic" /> Classic</label>
         <label class="chip"><input type="checkbox" value="arcade" /> Arcade</label>
         <label class="chip"><input type="checkbox" value="puzzle" /> Puzzle</label>
-        <label class="chip"><input type="checkbox" value="word" /> Word</label>
         <label class="chip"><input type="checkbox" value="brain" /> Brain</label>
-        <label class="chip"><input type="checkbox" value="quick" /> Quick Play</label>
         <label class="chip"><input type="checkbox" value="reflex" /> Reflex</label>
+        <label class="chip"><input type="checkbox" value="quick" /> Quick Play</label>
+        <label class="chip"><input type="checkbox" value="memory" /> Memory</label>
+        <label class="chip"><input type="checkbox" value="logic" /> Logic</label>
       </div>
     </section>
 
@@ -521,9 +529,9 @@
         href: "/games/memory-match/"
       },
       {
-        slug: "Sudoku",
+        slug: "sudoku",
         title: "Sudoku",
-        icon:  "🔢",
+        icon: "🔢",
         desc: "Fill the grid with numbers 1-9 without repeating.",
         tags: ["puzzle", "brain", "logic"],
         href: "/games/sudoku/"
@@ -553,14 +561,6 @@
         href: "/games/color-rush/"
       },
       {
-        slug: "word-scramble",
-        title: "Word Scramble",
-        icon: "📝",
-        desc: "Unscramble letters to form the correct word.",
-        tags: ["word", "brain", "puzzle"],
-        href: "/games/word-scramble/"
-      },
-      {
         slug: "2048",
         title: "2048",
         icon: "🔢",
@@ -577,12 +577,60 @@
         href: "/games/breakout/"
       },
       {
-        slug: "Love Test",
+        slug: "love-test",
         title: "Love Test",
         icon: "❤️",
         desc: "Test your love compatibility with fun quizzes.",
         tags: ["romance", "quiz", "compatibility"],
         href: "/games/love-test/"
+      },
+      {
+        slug: "flappy-bird",
+        title: "Flappy Bird",
+        icon: "🐦",
+        desc: "Navigate through pipes in this addictive arcade game.",
+        tags: ["arcade", "reflex", "classic", "quick"],
+        href: "/games/flappy-bird/"
+      },
+      {
+        slug: "pac-man",
+        title: "Pac-Man",
+        icon: "👻",
+        desc: "Eat dots and avoid ghosts in this classic arcade game.",
+        tags: ["arcade", "classic", "reflex"],
+        href: "/games/pac-man/"
+      },
+      {
+        slug: "rock-paper-scissors",
+        title: "Rock Paper Scissors",
+        icon: "✂️",
+        desc: "Play the classic hand game against the computer.",
+        tags: ["classic", "quick", "brain"],
+        href: "/games/rock-paper-scissors/"
+      },
+      {
+        slug: "simon-says",
+        title: "Simon Says",
+        icon: "🔴",
+        desc: "Remember and repeat the color sequence.",
+        tags: ["brain", "memory", "reflex"],
+        href: "/games/simon-says/"
+      },
+      {
+        slug: "tetris",
+        title: "Tetris",
+        icon: "🧩",
+        desc: "Arrange falling blocks to clear lines.",
+        tags: ["puzzle", "classic", "arcade", "brain"],
+        href: "/games/tetris/"
+      },
+      {
+        slug: "whack-a-mole",
+        title: "Whack-a-Mole",
+        icon: "🔨",
+        desc: "Hit the moles as they pop up from their holes.",
+        tags: ["arcade", "reflex", "quick"],
+        href: "/games/whack-a-mole/"
       }
     ];
 
