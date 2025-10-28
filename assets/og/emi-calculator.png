@@ -1,0 +1,21 @@
+OG Image Specification for EMI Calculator (1200x630 PNG):
+
+Background: Dark gradient (#0f1419 to #121826) with subtle blue accents
+Main Elements:
+- Calculator icon (📊) in top left with blue gradient background (#7aa2ff to #5a8fff)
+- Title: "EMI Calculator 2024" (large, white text)
+- Subtitle: "Home Loan, Car Loan, Personal Loan EMI" (smaller, muted text)
+- Key features:
+  - "All Loan Types" badge
+  - "Amortization Schedule" highlight
+  - "Prepayment Options" text
+  - "Compare Loans" feature
+- Visual elements:
+  - EMI calculation formula visualization
+  - Loan amount, interest rate, and tenure indicators
+  - Monthly payment highlight
+  - "Calculate Now" call-to-action
+- UpTools logo in bottom right
+- Color scheme: #7aa2ff (primary blue), #5a8fff (dark blue), #4CAF50 (green for savings), #FF9800 (orange for interest)
+
+This file should be replaced with an actual PNG image in production.
