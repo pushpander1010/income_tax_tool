@@ -669,18 +669,19 @@
         <div style="text-align: center; padding: 1rem">
           <div style="font-size: 2rem; margin-bottom: .5rem">📁</div>
           <p class="note">Drag & drop your Instagram export files here</p>
-          <p class="note small">Supports: followers.json, following.json, CSV files, or plain text lists</p>
+          <p class="note small">Supports: JSON, HTML, CSV files, or plain text lists (followers.json, following.json,
+            followers.html, following.html)</p>
         </div>
 
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; margin-top: 1rem">
           <div>
             <label class="note small" for="fileFollowers">Followers file:</label>
-            <input id="fileFollowers" type="file" accept=".json,.csv,.txt,text/*" aria-label="Followers file"
+            <input id="fileFollowers" type="file" accept=".json,.csv,.txt,.html,text/*" aria-label="Followers file"
               style="margin-top: .25rem" />
           </div>
           <div>
             <label class="note small" for="fileFollowing">Following file:</label>
-            <input id="fileFollowing" type="file" accept=".json,.csv,.txt,text/*" aria-label="Following file"
+            <input id="fileFollowing" type="file" accept=".json,.csv,.txt,.html,text/*" aria-label="Following file"
               style="margin-top: .25rem" />
           </div>
         </div>
@@ -688,7 +689,7 @@
         <div style="margin-top: 1rem">
           <label class="note small" for="pasteArea">Or paste your data here:</label>
           <textarea id="pasteArea" class="textarea"
-            placeholder="Paste JSON, CSV, or username list (one per line)&#10;&#10;Example:&#10;user1&#10;user2&#10;user3"
+            placeholder="Paste JSON, HTML, CSV, or username list (one per line)&#10;&#10;Example:&#10;user1&#10;user2&#10;user3&#10;&#10;Or paste HTML content from Instagram export files"
             rows="6" aria-label="Paste your Instagram data here" style="margin-top: .25rem"></textarea>
         </div>
 
@@ -717,6 +718,7 @@
         <h3 style="margin-top: 0; color: var(--brand)">🔒 Privacy & Security</h3>
         <ul class="note" style="margin: .5rem 0 0 1.5rem; line-height: 1.6">
           <li>All processing happens in your browser - no data is uploaded to servers</li>
+          <li>Supports JSON, HTML, CSV, and text formats from Instagram exports</li>
           <li>Export results as CSV or encrypted files with password protection</li>
           <li>Optional local storage - use "Forget Data" to clear everything</li>
           <li>Works with official Instagram data exports and custom formats</li>
@@ -802,7 +804,7 @@
             <li>Select "Download Your Information"</li>
             <li>Choose "Some of your information"</li>
             <li>Select "Followers and following"</li>
-            <li>Choose JSON format and request download</li>
+            <li>Choose JSON or HTML format and request download</li>
             <li>Wait for email with download link</li>
             <li>Extract and upload the files here</li>
           </ol>
@@ -829,7 +831,8 @@
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem">
         <div class="card" style="background: rgba(255,255,255,.02)">
           <h3 style="margin-top: 0">🔍 Smart Analysis</h3>
-          <p class="note">Automatically detects and parses multiple file formats including JSON, CSV, and plain text
+          <p class="note">Automatically detects and parses multiple file formats including JSON, HTML, CSV, and plain
+            text
             lists.</p>
         </div>
         <div class="card" style="background: rgba(255,255,255,.02)">
@@ -987,6 +990,133 @@
         }
       } catch (e) {
         // Not valid JSON, continue to other formats
+      }
+
+      // Try HTML format (Instagram export HTML files)
+      if (text.includes('<html') || text.includes('<!DOCTYPE') || text.includes('<body')) {
+        try {
+          // Create a temporary DOM parser
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(text, 'text/html');
+
+          const usernames = [];
+
+          // Method 1: Look for Instagram profile links
+          const links = doc.querySelectorAll('a[href*="instagram.com/"]');
+          links.forEach(link => {
+            const href = link.getAttribute('href');
+            const match = href.match(/instagram\.com\/([a-zA-Z0-9._]+)/);
+            if (match && match[1]) {
+              usernames.push(sanitizeUsername(match[1]));
+            }
+          });
+
+          // Method 2: Look for @mentions in text content
+          const textContent = doc.body ? doc.body.textContent : doc.textContent;
+          if (textContent) {
+            const mentionMatches = textContent.match(/@([a-zA-Z0-9._]+)/g);
+            if (mentionMatches) {
+              mentionMatches.forEach(mention => {
+                const username = mention.replace('@', '');
+                usernames.push(sanitizeUsername(username));
+              });
+            }
+          }
+
+          // Method 3: Look for usernames in specific HTML structures
+          // Check for list items, table cells, divs with usernames
+          const possibleElements = doc.querySelectorAll('li, td, div, span, p, h1, h2, h3, h4, h5, h6');
+          possibleElements.forEach(el => {
+            const text = el.textContent?.trim();
+            // More flexible username pattern matching
+            if (text && text.length > 2 && text.length < 31) {
+              // Check if it looks like a username (alphanumeric, dots, underscores)
+              if (/^[a-zA-Z0-9._]+$/.test(text)) {
+                usernames.push(sanitizeUsername(text));
+              }
+              // Also check for usernames with @ prefix
+              else if (text.startsWith('@') && /^@[a-zA-Z0-9._]+$/.test(text)) {
+                usernames.push(sanitizeUsername(text.substring(1)));
+              }
+            }
+          });
+
+          // Method 4: Look for data attributes or specific classes
+          const dataElements = doc.querySelectorAll('[data-username], [data-user], .username, .user-handle, [class*="user"], [class*="follow"]');
+          dataElements.forEach(el => {
+            const username = el.getAttribute('data-username') ||
+              el.getAttribute('data-user') ||
+              el.textContent?.trim();
+            if (username) {
+              usernames.push(sanitizeUsername(username));
+            }
+          });
+
+          // Method 6: Look for Instagram-specific HTML patterns
+          // Check for common Instagram export HTML structures
+          const instagramPatterns = [
+            'div[class*="follower"]',
+            'div[class*="following"]',
+            'span[class*="user"]',
+            'a[class*="profile"]',
+            '[id*="user"]',
+            '[id*="follow"]'
+          ];
+
+          instagramPatterns.forEach(pattern => {
+            try {
+              const elements = doc.querySelectorAll(pattern);
+              elements.forEach(el => {
+                const text = el.textContent?.trim();
+                const href = el.getAttribute('href');
+
+                // Extract from text content
+                if (text && /^[a-zA-Z0-9._]+$/.test(text) && text.length > 2 && text.length < 31) {
+                  usernames.push(sanitizeUsername(text));
+                }
+
+                // Extract from href attribute
+                if (href && href.includes('instagram.com/')) {
+                  const match = href.match(/instagram\.com\/([a-zA-Z0-9._]+)/);
+                  if (match && match[1]) {
+                    usernames.push(sanitizeUsername(match[1]));
+                  }
+                }
+              });
+            } catch (e) {
+              // Ignore selector errors
+            }
+          });
+
+          // Method 5: Look for JSON data embedded in HTML (script tags)
+          const scripts = doc.querySelectorAll('script');
+          scripts.forEach(script => {
+            const scriptContent = script.textContent;
+            if (scriptContent && (scriptContent.includes('followers') || scriptContent.includes('following'))) {
+              try {
+                // Try to extract JSON from script content
+                const jsonMatch = scriptContent.match(/\{.*\}/s);
+                if (jsonMatch) {
+                  const jsonData = JSON.parse(jsonMatch[0]);
+                  // Recursively parse the JSON data
+                  const extractedUsernames = parseTextContent(JSON.stringify(jsonData));
+                  if (extractedUsernames && extractedUsernames.length > 0) {
+                    usernames.push(...extractedUsernames);
+                  }
+                }
+              } catch (e) {
+                // Ignore JSON parsing errors in scripts
+              }
+            }
+          });
+
+          if (usernames.length > 0) {
+            return [...new Set(usernames.filter(Boolean))]; // Remove duplicates and empty values
+          }
+        } catch (e) {
+          console.warn('HTML parsing failed:', e);
+          // Continue to other formats
+        }
       }
 
       // Try CSV format
