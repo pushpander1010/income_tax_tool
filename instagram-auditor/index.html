@@ -841,7 +841,8 @@
         </div>
         <div class="card" style="background: rgba(255,255,255,.02)">
           <h3 style="margin-top: 0">📊 Detailed Results</h3>
-          <p class="note">Find non-followers, fans, and mutual connections with search and filter capabilities.</p>
+          <p class="note">Find non-followers, fans, and mutual connections with search and filter capabilities. Click
+            usernames to open Instagram profiles for easy unfollowing.</p>
         </div>
         <div class="card" style="background: rgba(255,255,255,.02)">
           <h3 style="margin-top: 0">💾 Export Options</h3>
@@ -1274,6 +1275,7 @@
         <div>
           <div style="font-weight: 800; font-size: 1.1rem">${filteredArr.length.toLocaleString()} ${kindLabels[kind]}</div>
           ${term ? `<div class="note small">Filtered from ${arr.length.toLocaleString()} total</div>` : ''}
+          <div class="note small" style="color: var(--brand); margin-top: 0.25rem;">💡 Click "Unfollow" buttons or use bulk actions for easy unfollowing</div>
         </div>
       </div>
       <div style="display: flex; gap: .5rem; flex-wrap: wrap">
@@ -1281,6 +1283,9 @@
         <button id="selectNoneBtn" class="btn sm ghost">✗ Select None</button>
         <button id="copySelectedBtn" class="btn sm">📋 Copy Selected</button>
         <button id="copyAllBtn" class="btn sm ghost">📋 Copy All</button>
+        <button id="openSelectedBtn" class="btn sm" style="background: var(--brand);">📱 Open Selected</button>
+        <button id="createUnfollowListBtn" class="btn sm ghost">📋 Unfollow List</button>
+        <button id="createBookmarkletBtn" class="btn sm ghost">🔖 Bookmarklet</button>
       </div>
     `;
       container.appendChild(header);
@@ -1332,8 +1337,14 @@
         const userInfo = document.createElement('div');
         userInfo.className = 'user-info';
         userInfo.innerHTML = `
-        <div class="username">${u}</div>
-        <div class="user-handle">@${u}</div>
+        <div class="username">
+          <a href="https://instagram.com/${u}" target="_blank" rel="noopener noreferrer" 
+             style="color: var(--text); text-decoration: none; font-weight: 600; transition: color 0.2s ease;"
+             onmouseover="this.style.color='var(--brand)'" 
+             onmouseout="this.style.color='var(--text)'"
+             title="Click to open Instagram profile">${u}</a>
+        </div>
+        <div class="user-handle" style="color: var(--muted); font-size: 0.85rem;">@${u}</div>
       `;
 
         left.appendChild(cb);
@@ -1359,15 +1370,28 @@
         });
 
         const profileBtn = document.createElement('a');
-        profileBtn.className = 'btn sm ghost';
-        profileBtn.innerHTML = '🔗';
-        profileBtn.title = 'View Instagram profile';
+        profileBtn.className = 'btn sm';
+        profileBtn.innerHTML = '� Profile';
+        profileBtn.innerHTML = '📱 Unfollow';
+        profileBtn.title = 'Open Instagram to unfollow this user';
+        profileBtn.style.background = '#e91e63';
+        profileBtn.style.color = 'white';
         profileBtn.href = `https://instagram.com/${u}`;
         profileBtn.target = '_blank';
         profileBtn.rel = 'noopener noreferrer';
+        profileBtn.style.cssText = 'text-decoration: none; font-size: 0.8rem; padding: 0.4rem 0.6rem;';
+
+        // Add Instagram app deep link button for mobile users
+        const appBtn = document.createElement('a');
+        appBtn.className = 'btn sm ghost';
+        appBtn.innerHTML = '📱';
+        appBtn.title = 'Open in Instagram app (mobile)';
+        appBtn.href = `instagram://user?username=${u}`;
+        appBtn.style.cssText = 'text-decoration: none; font-size: 0.8rem; padding: 0.4rem 0.5rem; margin-left: 0.25rem;';
 
         right.appendChild(copyBtn);
         right.appendChild(profileBtn);
+        right.appendChild(appBtn);
 
         row.appendChild(left);
         row.appendChild(right);
@@ -1419,6 +1443,162 @@
         } catch (e) {
           alert('Failed to copy usernames');
         }
+      });
+
+      el('openSelectedBtn')?.addEventListener('click', () => {
+        const selected = [...checkboxMap.keys()].filter(u => checkboxMap.get(u).checked);
+        if (selected.length === 0) {
+          alert('No users selected');
+          return;
+        }
+
+        if (selected.length > 10) {
+          if (!confirm(`You're about to open ${selected.length} Instagram profiles. This might be blocked by your browser. Continue?`)) {
+            return;
+          }
+        }
+
+        // Open profiles with a small delay to avoid browser blocking
+        selected.forEach((username, index) => {
+          setTimeout(() => {
+            window.open(`https://instagram.com/${username}`, '_blank', 'noopener,noreferrer');
+          }, index * 100); // 100ms delay between each
+        });
+
+        alert(`Opening ${selected.length} Instagram profiles. Check for popup blockers if some don't open.`);
+      });
+
+      el('createUnfollowListBtn')?.addEventListener('click', () => {
+        const selected = [...checkboxMap.keys()].filter(u => checkboxMap.get(u).checked);
+        if (selected.length === 0) {
+          alert('No users selected');
+          return;
+        }
+
+        // Create a formatted unfollow checklist
+        const unfollowList = selected.map((username, index) =>
+          `${index + 1}. [ ] ${username} - https://instagram.com/${username}`
+        ).join('\n');
+
+        const fullList = `📱 INSTAGRAM UNFOLLOW CHECKLIST\n` +
+          `Generated: ${new Date().toLocaleDateString()}\n` +
+          `Total users: ${selected.length}\n\n` +
+          `Instructions:\n` +
+          `1. Click each link to open Instagram profile\n` +
+          `2. Click "Following" button on Instagram\n` +
+          `3. Click "Unfollow" to confirm\n` +
+          `4. Check the box [ ] when done\n\n` +
+          `USERS TO UNFOLLOW:\n` +
+          `${unfollowList}\n\n` +
+          `💡 Tip: Open multiple tabs and unfollow in batches for efficiency!`;
+
+        // Copy to clipboard
+        navigator.clipboard.writeText(fullList).then(() => {
+          alert(`✅ Unfollow checklist copied to clipboard!\n\nPaste it into a notes app to track your progress.`);
+        }).catch(() => {
+          // Fallback: show in a modal
+          const modal = document.createElement('div');
+          modal.style.cssText = `
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0; 
+            background: rgba(0,0,0,0.8); z-index: 10000; 
+            display: flex; align-items: center; justify-content: center; padding: 2rem;
+          `;
+
+          const content = document.createElement('div');
+          content.style.cssText = `
+            background: var(--surface); border: 1px solid var(--border); 
+            border-radius: var(--radius); padding: 2rem; max-width: 600px; 
+            max-height: 80vh; overflow-y: auto;
+          `;
+
+          content.innerHTML = `
+            <h3 style="margin-top: 0;">📱 Unfollow Checklist</h3>
+            <textarea readonly style="width: 100%; height: 300px; font-family: monospace; font-size: 0.9rem; 
+                      background: var(--bg); color: var(--text); border: 1px solid var(--border); 
+                      border-radius: 0.5rem; padding: 1rem;">${fullList}</textarea>
+            <div style="margin-top: 1rem; text-align: right;">
+              <button onclick="this.closest('.modal').remove()" class="btn">Close</button>
+            </div>
+          `;
+
+          modal.className = 'modal';
+          modal.appendChild(content);
+          document.body.appendChild(modal);
+
+          // Close on background click
+          modal.addEventListener('click', (e) => {
+            if (e.target === modal) modal.remove();
+          });
+        });
+      });
+
+      el('createBookmarkletBtn')?.addEventListener('click', () => {
+        // Create a bookmarklet that helps with unfollowing on Instagram
+        const bookmarkletCode = `
+javascript:(function(){
+  const followingBtn = document.querySelector('button:has([aria-label*="Following"]), button:has([aria-label*="following"]), button[aria-label*="Following"], button[aria-label*="following"], button:contains("Following")');
+  if (followingBtn) {
+    followingBtn.style.background = '#ff4444';
+    followingBtn.style.border = '2px solid #ff0000';
+    followingBtn.style.animation = 'pulse 1s infinite';
+    followingBtn.scrollIntoView({behavior: 'smooth', block: 'center'});
+    alert('Following button highlighted! Click it to unfollow.');
+  } else {
+    alert('Following button not found. Make sure you are on an Instagram profile page.');
+  }
+})();
+        `.trim();
+
+        const instructions = `🔖 INSTAGRAM UNFOLLOW BOOKMARKLET\n\n` +
+          `SETUP INSTRUCTIONS:\n` +
+          `1. Copy the code below\n` +
+          `2. Create a new bookmark in your browser\n` +
+          `3. Paste the code as the URL\n` +
+          `4. Name it "Instagram Unfollow Helper"\n\n` +
+          `HOW TO USE:\n` +
+          `1. Go to any Instagram profile\n` +
+          `2. Click your "Instagram Unfollow Helper" bookmark\n` +
+          `3. The Following button will be highlighted in red\n` +
+          `4. Click the highlighted button to unfollow\n\n` +
+          `BOOKMARKLET CODE:\n` +
+          `${bookmarkletCode}`;
+
+        navigator.clipboard.writeText(bookmarkletCode).then(() => {
+          alert(`🔖 Bookmarklet code copied!\n\nCreate a new bookmark and paste this as the URL. Then use it on Instagram profiles to highlight the unfollow button.`);
+        }).catch(() => {
+          // Show in modal
+          const modal = document.createElement('div');
+          modal.style.cssText = `
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0; 
+            background: rgba(0,0,0,0.8); z-index: 10000; 
+            display: flex; align-items: center; justify-content: center; padding: 2rem;
+          `;
+
+          const content = document.createElement('div');
+          content.style.cssText = `
+            background: var(--surface); border: 1px solid var(--border); 
+            border-radius: var(--radius); padding: 2rem; max-width: 700px; 
+            max-height: 80vh; overflow-y: auto;
+          `;
+
+          content.innerHTML = `
+            <h3 style="margin-top: 0;">🔖 Instagram Unfollow Bookmarklet</h3>
+            <textarea readonly style="width: 100%; height: 200px; font-family: monospace; font-size: 0.8rem; 
+                      background: var(--bg); color: var(--text); border: 1px solid var(--border); 
+                      border-radius: 0.5rem; padding: 1rem;">${instructions}</textarea>
+            <div style="margin-top: 1rem; text-align: right;">
+              <button onclick="navigator.clipboard.writeText('${bookmarkletCode.replace(/'/g, "\\'")}'); alert('Copied!');" class="btn secondary" style="margin-right: 0.5rem;">Copy Code</button>
+              <button onclick="this.closest('.modal').remove()" class="btn">Close</button>
+            </div>
+          `;
+
+          modal.appendChild(content);
+          document.body.appendChild(modal);
+
+          modal.addEventListener('click', (e) => {
+            if (e.target === modal) modal.remove();
+          });
+        });
       });
     }
 
