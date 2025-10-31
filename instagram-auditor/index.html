@@ -748,9 +748,9 @@
         <!-- Export Controls -->
         <div class="controls" style="margin-bottom: 1rem">
           <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center;">
-            <button id="exportCsvBtn" class="btn">📄 Export Professional CSV</button>
-            <button id="exportSimpleCsvBtn" class="btn secondary">📋 Export Simple CSV</button>
-            <button id="exportExcelBtn" class="btn secondary">📊 Export for Excel</button>
+            <button id="exportNonFollowersBtn" class="btn">📄 Export Non-Followers CSV</button>
+            <button id="exportFansBtn" class="btn secondary">⭐ Export Fans CSV</button>
+            <button id="exportMutualsBtn" class="btn secondary">🤝 Export Mutuals CSV</button>
           </div>
           <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center; margin-top: 0.5rem;">
             <button id="exportEncBtn" class="btn secondary">🔐 Export Encrypted</button>
@@ -1766,154 +1766,99 @@ javascript:(function(){
       el('showMutualBtn').addEventListener('click', () => { window.__IG_MODE = 'mutual'; if (window.__IG_AUDIT) renderList(window.__IG_AUDIT.mutuals, 'mutual', el('search').value); });
 
       // export CSV
-      el('exportCsvBtn').addEventListener('click', () => {
+      el('exportNonFollowersBtn').addEventListener('click', () => {
         const out = window.__IG_AUDIT;
         if (!out) return alert('No data to export. Parse first.');
 
-        // Create professional CSV with comprehensive data
-        const timestamp = new Date().toISOString();
-        const date = new Date().toLocaleDateString();
-        const time = new Date().toLocaleTimeString();
+        if (out.nonFollowers.length === 0) {
+          alert('🎉 Great news! You have no non-followers to export.');
+          return;
+        }
 
-        // CSV Header with metadata
         const csvLines = [
-          '# Instagram Follower Audit Report',
-          `# Generated: ${date} at ${time}`,
-          `# Total Followers: ${out.followersCount}`,
-          `# Total Following: ${out.followingCount}`,
-          `# Non-Followers: ${out.nonFollowers.length}`,
-          `# Fans (follow you but you don't follow back): ${out.fans.length}`,
-          `# Mutual Connections: ${out.mutuals.length}`,
-          '',
-          // Main data headers
-          'Category,Username,Instagram_URL,Profile_Link,Notes'
+          'S.No.,Account ID,Name,URL to Account'
         ];
 
-        // Add non-followers
-        out.nonFollowers.forEach(username => {
-          csvLines.push(`"Non-Follower","${username}","https://instagram.com/${username}","=HYPERLINK(""https://instagram.com/${username}"",""Open Profile"")","User you follow but doesn't follow you back"`);
+        out.nonFollowers.forEach((username, index) => {
+          csvLines.push(`${index + 1},${username},${username},https://instagram.com/${username}`);
         });
 
-        // Add fans
-        out.fans.forEach(username => {
-          csvLines.push(`"Fan","${username}","https://instagram.com/${username}","=HYPERLINK(""https://instagram.com/${username}"",""Open Profile"")","User who follows you but you don't follow back"`);
-        });
-
-        // Add mutual connections
-        out.mutuals.forEach(username => {
-          csvLines.push(`"Mutual","${username}","https://instagram.com/${username}","=HYPERLINK(""https://instagram.com/${username}"",""Open Profile"")","Mutual connection - you both follow each other"`);
-        });
-
-        // Add summary section
-        csvLines.push('');
-        csvLines.push('# SUMMARY STATISTICS');
-        csvLines.push('Metric,Count,Percentage');
-        csvLines.push(`"Total Followers",${out.followersCount},"100%"`);
-        csvLines.push(`"Total Following",${out.followingCount},"100%"`);
-        csvLines.push(`"Non-Followers",${out.nonFollowers.length},"${((out.nonFollowers.length / Math.max(out.followingCount, 1)) * 100).toFixed(1)}%"`);
-        csvLines.push(`"Fans",${out.fans.length},"${((out.fans.length / Math.max(out.followersCount, 1)) * 100).toFixed(1)}%"`);
-        csvLines.push(`"Mutual Connections",${out.mutuals.length},"${((out.mutuals.length / Math.max(out.followersCount, 1)) * 100).toFixed(1)}%"`);
-
-        // Add recommendations
-        csvLines.push('');
-        csvLines.push('# RECOMMENDATIONS');
-        csvLines.push('Action,Description,Count');
-        if (out.nonFollowers.length > 0) {
-          csvLines.push(`"Consider Unfollowing","Users who don't follow you back",${out.nonFollowers.length}`);
-        }
-        if (out.fans.length > 0) {
-          csvLines.push(`"Consider Following Back","Users who follow you but you don't follow",${out.fans.length}`);
-        }
-        csvLines.push(`"Maintain Connections","Keep mutual connections",${out.mutuals.length}`);
-
-        // Join with proper newlines
         const csv = csvLines.join('\n');
-
-        // Create and download file
         const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
         const a = document.createElement('a');
         a.href = URL.createObjectURL(blob);
-        a.download = `instagram-audit-report-${new Date().toISOString().slice(0, 10)}.csv`;
+        a.download = `non-followers-${new Date().toISOString().slice(0, 10)}.csv`;
         a.style.display = 'none';
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
         URL.revokeObjectURL(a.href);
 
-        // Show success message
-        alert(`✅ Professional CSV report exported!\n\nFile: instagram-audit-report-${new Date().toISOString().slice(0, 10)}.csv\n\nIncludes:\n• Detailed user categorization\n• Clickable Instagram links\n• Summary statistics\n• Actionable recommendations`);
+        alert(`📄 Non-Followers CSV exported!\n\n${out.nonFollowers.length} accounts that don't follow you back.\nFile: non-followers-${new Date().toISOString().slice(0, 10)}.csv`);
       });
 
       // Simple CSV export
-      el('exportSimpleCsvBtn').addEventListener('click', () => {
+      el('exportFansBtn').addEventListener('click', () => {
         const out = window.__IG_AUDIT;
         if (!out) return alert('No data to export. Parse first.');
 
+        if (out.fans.length === 0) {
+          alert('You have no fans (followers you don\'t follow back) to export.');
+          return;
+        }
+
         const csvLines = [
-          'Category,Username,Instagram_URL'
+          'S.No.,Account ID,Name,URL to Account'
         ];
 
-        out.nonFollowers.forEach(username => {
-          csvLines.push(`Non-Follower,${username},https://instagram.com/${username}`);
-        });
-
-        out.fans.forEach(username => {
-          csvLines.push(`Fan,${username},https://instagram.com/${username}`);
-        });
-
-        out.mutuals.forEach(username => {
-          csvLines.push(`Mutual,${username},https://instagram.com/${username}`);
+        out.fans.forEach((username, index) => {
+          csvLines.push(`${index + 1},${username},${username},https://instagram.com/${username}`);
         });
 
         const csv = csvLines.join('\n');
         const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
         const a = document.createElement('a');
         a.href = URL.createObjectURL(blob);
-        a.download = `instagram-audit-simple-${new Date().toISOString().slice(0, 10)}.csv`;
+        a.download = `fans-${new Date().toISOString().slice(0, 10)}.csv`;
         a.style.display = 'none';
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
         URL.revokeObjectURL(a.href);
+
+        alert(`⭐ Fans CSV exported!\n\n${out.fans.length} accounts that follow you but you don't follow back.\nFile: fans-${new Date().toISOString().slice(0, 10)}.csv`);
       });
 
       // Excel-optimized CSV export
-      el('exportExcelBtn').addEventListener('click', () => {
+      el('exportMutualsBtn').addEventListener('click', () => {
         const out = window.__IG_AUDIT;
         if (!out) return alert('No data to export. Parse first.');
 
-        // Excel-friendly format with proper encoding
+        if (out.mutuals.length === 0) {
+          alert('You have no mutual connections to export.');
+          return;
+        }
+
         const csvLines = [
-          'Category,Username,Instagram_URL,Profile_Link,Action_Needed,Notes'
+          'S.No.,Account ID,Name,URL to Account'
         ];
 
-        out.nonFollowers.forEach(username => {
-          csvLines.push(`"Non-Follower","${username}","https://instagram.com/${username}","=HYPERLINK(""https://instagram.com/${username}"",""${username}"")","Consider Unfollowing","Doesn't follow you back"`);
+        out.mutuals.forEach((username, index) => {
+          csvLines.push(`${index + 1},${username},${username},https://instagram.com/${username}`);
         });
 
-        out.fans.forEach(username => {
-          csvLines.push(`"Fan","${username}","https://instagram.com/${username}","=HYPERLINK(""https://instagram.com/${username}"",""${username}"")","Consider Following","Follows you but you don't follow back"`);
-        });
-
-        out.mutuals.forEach(username => {
-          csvLines.push(`"Mutual","${username}","https://instagram.com/${username}","=HYPERLINK(""https://instagram.com/${username}"",""${username}"")","Keep Connection","Mutual follower"`);
-        });
-
-        // Add BOM for proper Excel UTF-8 handling
-        const BOM = '\uFEFF';
-        const csv = BOM + csvLines.join('\n');
-
+        const csv = csvLines.join('\n');
         const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
         const a = document.createElement('a');
         a.href = URL.createObjectURL(blob);
-        a.download = `instagram-audit-excel-${new Date().toISOString().slice(0, 10)}.csv`;
+        a.download = `mutuals-${new Date().toISOString().slice(0, 10)}.csv`;
         a.style.display = 'none';
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
         URL.revokeObjectURL(a.href);
 
-        alert(`📊 Excel-optimized CSV exported!\n\nFeatures:\n• Clickable hyperlinks in Excel\n• Proper UTF-8 encoding\n• Action recommendations\n• Ready for Excel analysis`);
+        alert(`🤝 Mutual Connections CSV exported!\n\n${out.mutuals.length} accounts you both follow each other.\nFile: mutuals-${new Date().toISOString().slice(0, 10)}.csv`);
       });
 
       // encrypted export (AES-GCM)
