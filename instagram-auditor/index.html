@@ -1780,10 +1780,11 @@ javascript:(function(){
         ];
 
         out.nonFollowers.forEach((username, index) => {
-          csvLines.push(`${index + 1},${username},${username},https://instagram.com/${username}`);
+          csvLines.push(`${index + 1},${username},${username},"=HYPERLINK(""https://instagram.com/${username}"",""Open Profile"")"`);
         });
 
-        const csv = csvLines.join('\n');
+        const BOM = '\uFEFF';
+        const csv = BOM + csvLines.join('\n');
         const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
         const a = document.createElement('a');
         a.href = URL.createObjectURL(blob);
@@ -1794,7 +1795,7 @@ javascript:(function(){
         document.body.removeChild(a);
         URL.revokeObjectURL(a.href);
 
-        alert(`📄 Non-Followers CSV exported!\n\n${out.nonFollowers.length} accounts that don't follow you back.\nFile: non-followers-${new Date().toISOString().slice(0, 10)}.csv`);
+        alert(`📄 Non-Followers CSV exported!\n\n${out.nonFollowers.length} accounts that don't follow you back.\nFile: non-followers-${new Date().toISOString().slice(0, 10)}.csv\n\n✨ Links are clickable in Excel/Google Sheets!`);
       });
 
       // Simple CSV export
@@ -1812,10 +1813,11 @@ javascript:(function(){
         ];
 
         out.fans.forEach((username, index) => {
-          csvLines.push(`${index + 1},${username},${username},https://instagram.com/${username}`);
+          csvLines.push(`${index + 1},${username},${username},"=HYPERLINK(""https://instagram.com/${username}"",""Open Profile"")"`);
         });
 
-        const csv = csvLines.join('\n');
+        const BOM = '\uFEFF';
+        const csv = BOM + csvLines.join('\n');
         const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
         const a = document.createElement('a');
         a.href = URL.createObjectURL(blob);
@@ -1826,7 +1828,7 @@ javascript:(function(){
         document.body.removeChild(a);
         URL.revokeObjectURL(a.href);
 
-        alert(`⭐ Fans CSV exported!\n\n${out.fans.length} accounts that follow you but you don't follow back.\nFile: fans-${new Date().toISOString().slice(0, 10)}.csv`);
+        alert(`⭐ Fans CSV exported!\n\n${out.fans.length} accounts that follow you but you don't follow back.\nFile: fans-${new Date().toISOString().slice(0, 10)}.csv\n\n✨ Links are clickable in Excel/Google Sheets!`);
       });
 
       // Excel-optimized CSV export
@@ -1844,10 +1846,11 @@ javascript:(function(){
         ];
 
         out.mutuals.forEach((username, index) => {
-          csvLines.push(`${index + 1},${username},${username},https://instagram.com/${username}`);
+          csvLines.push(`${index + 1},${username},${username},"=HYPERLINK(""https://instagram.com/${username}"",""Open Profile"")"`);
         });
 
-        const csv = csvLines.join('\n');
+        const BOM = '\uFEFF';
+        const csv = BOM + csvLines.join('\n');
         const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
         const a = document.createElement('a');
         a.href = URL.createObjectURL(blob);
@@ -1858,7 +1861,7 @@ javascript:(function(){
         document.body.removeChild(a);
         URL.revokeObjectURL(a.href);
 
-        alert(`🤝 Mutual Connections CSV exported!\n\n${out.mutuals.length} accounts you both follow each other.\nFile: mutuals-${new Date().toISOString().slice(0, 10)}.csv`);
+        alert(`🤝 Mutual Connections CSV exported!\n\n${out.mutuals.length} accounts you both follow each other.\nFile: mutuals-${new Date().toISOString().slice(0, 10)}.csv\n\n✨ Links are clickable in Excel/Google Sheets!`);
       });
 
       // encrypted export (AES-GCM)
