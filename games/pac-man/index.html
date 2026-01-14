@@ -45,8 +45,7 @@
     .dot::after { content: '·'; color: #ffff00; font-size: 16px; }
     .pacman { background: #000; }
     .pacman::after { content: '●'; color: #ffff00; font-size: 16px; }
-    .ghost { background: #000; }
-    .ghost::after { color: #ff0000; font-size: 14px; }
+    .ghost { background: #000; color: #ff0000; font-size: 14px; }
     .empty { background: #000; }
     .score { 
       font-size: 24px; 
@@ -234,7 +233,7 @@
         
         this.pacman = { x: 9, y: 15 };
         this.ghosts = [
-          { x: 9, y: 9, symbol: '👻' }
+          { x: 9, y: 9, symbol: 'G' }
         ];
         this.score = 0;
         this.gameRunning = false;
