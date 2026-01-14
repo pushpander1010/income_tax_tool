@@ -55,6 +55,24 @@
     .controls { 
       margin: 20px 0; 
     }
+    .mobile-controls {
+      display: none;
+      grid-template-columns: repeat(3, 48px);
+      grid-template-rows: repeat(3, 48px);
+      gap: 8px;
+      justify-content: center;
+      margin: 16px 0;
+    }
+    .mobile-controls .btn {
+      padding: 0;
+      width: 48px;
+      height: 48px;
+      font-size: 18px;
+      line-height: 1;
+    }
+    .mobile-controls .spacer {
+      visibility: hidden;
+    }
     .btn { 
       background: #ffff00; 
       color: #000; 
@@ -155,6 +173,7 @@
     }
 
     @media (max-width: 768px) {
+      .mobile-controls { display: grid; }
       .fullscreen-mode .game-board {
         grid-template-columns: repeat(19, min(4vmin, 25px)) !important;
         padding: 10px !important;
@@ -192,6 +211,18 @@
     <div class="controls">
       <button class="btn" id="startBtn">Start Game</button>
       <button class="btn" id="resetBtn">Reset</button>
+    </div>
+
+    <div class="mobile-controls" aria-label="Mobile controls">
+      <button class="btn spacer" aria-hidden="true"> </button>
+      <button class="btn" data-move="up">↑</button>
+      <button class="btn spacer" aria-hidden="true"> </button>
+      <button class="btn" data-move="left">←</button>
+      <button class="btn spacer" aria-hidden="true"> </button>
+      <button class="btn" data-move="right">→</button>
+      <button class="btn spacer" aria-hidden="true"> </button>
+      <button class="btn" data-move="down">↓</button>
+      <button class="btn spacer" aria-hidden="true"> </button>
     </div>
     
     <div class="instructions">
@@ -237,6 +268,7 @@
         ];
         this.score = 0;
         this.gameRunning = false;
+        this.ghostInterval = null;
         
         this.gameBoard = document.getElementById('gameBoard');
         this.scoreElement = document.getElementById('score');
@@ -273,18 +305,55 @@
               break;
           }
         });
+
+        document.querySelectorAll('.mobile-controls [data-move]').forEach(btn => {
+          const move = btn.dataset.move;
+          const handler = (e) => {
+            e.preventDefault();
+            if (!this.gameRunning) return;
+            switch (move) {
+              case 'up':
+                this.movePacman(0, -1);
+                break;
+              case 'down':
+                this.movePacman(0, 1);
+                break;
+              case 'left':
+                this.movePacman(-1, 0);
+                break;
+              case 'right':
+                this.movePacman(1, 0);
+                break;
+            }
+          };
+          btn.addEventListener('click', handler);
+          btn.addEventListener('touchstart', handler, { passive: false });
+        });
       }
       
       startGame() {
         this.gameRunning = true;
         this.startBtn.textContent = 'Game Running...';
         this.startBtn.disabled = true;
+        if (this.ghostInterval) {
+          clearInterval(this.ghostInterval);
+        }
+        this.ghostInterval = setInterval(() => {
+          this.moveGhosts();
+        }, 350);
       }
       
       resetGame() {
         this.gameRunning = false;
         this.score = 0;
         this.pacman = { x: 9, y: 15 };
+        this.ghosts = [
+          { x: 9, y: 9, symbol: 'G' }
+        ];
+        if (this.ghostInterval) {
+          clearInterval(this.ghostInterval);
+          this.ghostInterval = null;
+        }
         this.updateScore();
         this.renderBoard();
         this.startBtn.textContent = 'Start Game';
@@ -307,6 +376,7 @@
           
           this.renderBoard();
           this.checkWin();
+          this.checkLoss();
         }
       }
       
@@ -316,6 +386,24 @@
                this.board[y][x] !== 1;
       }
       
+      moveGhosts() {
+        this.ghosts = this.ghosts.map((ghost) => {
+          const moves = [
+            { dx: 0, dy: -1 },
+            { dx: 0, dy: 1 },
+            { dx: -1, dy: 0 },
+            { dx: 1, dy: 0 }
+          ].filter(move => this.isValidMove(ghost.x + move.dx, ghost.y + move.dy));
+
+          if (!moves.length) return ghost;
+          const move = moves[Math.floor(Math.random() * moves.length)];
+          return { ...ghost, x: ghost.x + move.dx, y: ghost.y + move.dy };
+        });
+
+        this.renderBoard();
+        this.checkLoss();
+      }
+
       renderBoard() {
         this.gameBoard.innerHTML = '';
         
@@ -352,6 +440,14 @@
         const dotsRemaining = this.board.flat().filter(cell => cell === 2).length;
         if (dotsRemaining === 0) {
           alert('You Win! All dots collected!');
+          this.resetGame();
+        }
+      }
+
+      checkLoss() {
+        const hitGhost = this.ghosts.some(ghost => ghost.x === this.pacman.x && ghost.y === this.pacman.y);
+        if (hitGhost) {
+          alert('Game Over! A ghost caught you!');
           this.resetGame();
         }
       }
