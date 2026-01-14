@@ -536,6 +536,8 @@
         this.opponentName = '';
         this.isMyTurn = true;
         this.gameState = {};
+        this.storageKey = null;
+        this.storageListener = (e) => this.handleStorageEvent(e);
         
         this.init();
       }
@@ -712,68 +714,155 @@
           document.getElementById('result').textContent = 'Wait for your opponent!';
           return;
         }
-        
-        // Store choice and wait for opponent
-        this.gameState.player1Choice = choice;
+
+        const state = this.loadMultiplayerState();
+        if (!state) {
+          document.getElementById('result').textContent = 'Game not ready. Create or join first.';
+          return;
+        }
+
+        const nextState = { ...state };
+        if (this.playerId === 1) {
+          nextState.player1Choice = choice;
+        } else {
+          nextState.player2Choice = choice;
+        }
+
         this.isMyTurn = false;
-        
+        this.saveMultiplayerState(nextState);
+        this.updateWaitingUI(choice);
+        this.maybeResolveRound(nextState);
+      }
+
+      updateWaitingUI(choice) {
         document.getElementById('playerChoice').textContent = this.emojis[choice];
-        document.getElementById('computerChoice').textContent = '⏳';
+        document.getElementById('computerChoice').textContent = '??3';
         document.getElementById('result').textContent = 'Waiting for opponent...';
-        
-        // Simulate opponent choice after 2-3 seconds (for demo)
-        setTimeout(() => {
-          this.simulateOpponentChoice();
-        }, 2000 + Math.random() * 1000);
       }
 
-      simulateOpponentChoice() {
-        const opponentChoice = this.getComputerChoice();
-        this.gameState.player2Choice = opponentChoice;
-        this.resolveMultiplayerRound();
-      }
+      maybeResolveRound(state) {
+        if (!state.player1Choice || !state.player2Choice) return;
+        if (this.playerId !== 1) return;
 
-      resolveMultiplayerRound() {
-        const playerChoice = this.gameState.player1Choice;
-        const opponentChoice = this.gameState.player2Choice;
-        
-        const result = this.determineWinner(playerChoice, opponentChoice);
-        
-        // Update display
-        document.getElementById('playerChoice').textContent = this.emojis[playerChoice];
-        document.getElementById('computerChoice').textContent = this.emojis[opponentChoice];
-        
-        // Update score
+        const result = this.determineWinner(state.player1Choice, state.player2Choice);
+        const scores = {
+          player1: state.scores.player1,
+          player2: state.scores.player2
+        };
+
         if (result === 'win') {
-          this.playerScore++;
+          scores.player1 += 1;
         } else if (result === 'lose') {
-          this.computerScore++;
+          scores.player2 += 1;
         }
-        
-        this.updateDisplay();
-        
-        // Show result
+
+        const resolvedState = {
+          ...state,
+          scores,
+          result: {
+            round: state.round,
+            outcome: result,
+            player1Choice: state.player1Choice,
+            player2Choice: state.player2Choice
+          },
+          player1Choice: null,
+          player2Choice: null,
+          round: state.round + 1
+        };
+
+        this.saveMultiplayerState(resolvedState);
+        this.applyMultiplayerState(resolvedState);
+      }
+
+      showMultiplayerResult(resultData) {
+        const playerChoice = resultData.player1Choice;
+        const opponentChoice = resultData.player2Choice;
+        const result = resultData.outcome;
+
+        document.getElementById('playerChoice').textContent = this.emojis[
+          this.playerId === 1 ? playerChoice : opponentChoice
+        ];
+        document.getElementById('computerChoice').textContent = this.emojis[
+          this.playerId === 1 ? opponentChoice : playerChoice
+        ];
+
         let message = '';
-        switch (result) {
-          case 'win':
-            message = `🎉 You Win! ${this.emojis[playerChoice]} beats ${this.emojis[opponentChoice]}`;
-            break;
-          case 'lose':
-            message = `😔 ${this.opponentName || 'Opponent'} Wins! ${this.emojis[opponentChoice]} beats ${this.emojis[playerChoice]}`;
-            break;
-          case 'tie':
-            message = `🤝 It's a Tie! Both chose ${this.emojis[playerChoice]}`;
-            break;
+        if (this.playerId === 1) {
+          message = result === 'win'
+            ? `dYZ% You Win! ${this.emojis[playerChoice]} beats ${this.emojis[opponentChoice]}`
+            : result === 'lose'
+              ? `dY~" ${this.opponentName || 'Opponent'} Wins! ${this.emojis[opponentChoice]} beats ${this.emojis[playerChoice]}`
+              : `It's a Tie! Both chose ${this.emojis[playerChoice]}`;
+        } else {
+          message = result === 'lose'
+            ? `dYZ% You Win! ${this.emojis[opponentChoice]} beats ${this.emojis[playerChoice]}`
+            : result === 'win'
+              ? `dY~" ${this.opponentName || 'Opponent'} Wins! ${this.emojis[playerChoice]} beats ${this.emojis[opponentChoice]}`
+              : `It's a Tie! Both chose ${this.emojis[playerChoice]}`;
         }
-        
+
         document.getElementById('result').textContent = message;
-        
-        // Reset for next round
         setTimeout(() => {
           this.isMyTurn = true;
           document.getElementById('result').textContent = 'Your turn! Choose your move.';
         }, 3000);
       }
+
+      loadMultiplayerState() {
+        if (!this.storageKey) return null;
+        const raw = localStorage.getItem(this.storageKey);
+        if (!raw) return null;
+        try {
+          return JSON.parse(raw);
+        } catch (err) {
+          return null;
+        }
+      }
+
+      saveMultiplayerState(state) {
+        if (!this.storageKey) return;
+        localStorage.setItem(this.storageKey, JSON.stringify(state));
+      }
+
+      handleStorageEvent(event) {
+        if (!this.isMultiplayer || !this.storageKey) return;
+        if (event.key !== this.storageKey || !event.newValue) return;
+
+        let state;
+        try {
+          state = JSON.parse(event.newValue);
+        } catch (err) {
+          return;
+        }
+
+        this.applyMultiplayerState(state);
+      }
+
+      applyMultiplayerState(state) {
+        if (this.playerId === 1 && state.player2Name) {
+          this.opponentName = state.player2Name;
+          document.getElementById('player2Label').textContent = state.player2Name;
+          document.getElementById('waitingForPlayer').style.display = 'none';
+          document.getElementById('multiplayerStatus').style.display = 'block';
+          document.getElementById('statusMessage').textContent = 'Game Started!';
+          document.getElementById('playersInfo').textContent =
+            `${state.player1Name} vs ${state.player2Name}`;
+        }
+
+        if (this.playerId === 2 && state.player1Name) {
+          this.opponentName = state.player1Name;
+          document.getElementById('player2Label').textContent = state.player1Name;
+        }
+
+        this.playerScore = this.playerId === 1 ? state.scores.player1 : state.scores.player2;
+        this.computerScore = this.playerId === 1 ? state.scores.player2 : state.scores.player1;
+        this.updateDisplay();
+
+        if (state.result && state.result.round === state.round - 1) {
+          this.showMultiplayerResult(state.result);
+        }
+      }
+
     }
 
     // Global functions for multiplayer
@@ -783,64 +872,73 @@
         alert('Please enter your name!');
         return;
       }
-      
+
       // Generate game code
       const gameCode = Math.random().toString(36).substring(2, 8).toUpperCase();
       const gameUrl = `${window.location.origin}${window.location.pathname}?game=${gameCode}`;
-      
+
       // Update UI
       document.getElementById('sharableLink').value = gameUrl;
       document.getElementById('gameLink').style.display = 'block';
       document.getElementById('waitingForPlayer').style.display = 'block';
       document.getElementById('createGame').style.display = 'none';
       document.getElementById('joinGame').style.display = 'none';
-      
+
       // Update game state
       game.gameId = gameCode;
       game.playerName = playerName;
       game.playerId = 1;
-      
+      game.storageKey = `rps-mp-${gameCode}`;
+      window.removeEventListener('storage', game.storageListener);
+      window.addEventListener('storage', game.storageListener);
+
+      const initialState = {
+        gameId: gameCode,
+        player1Name: playerName,
+        player2Name: '',
+        player1Choice: null,
+        player2Choice: null,
+        round: 1,
+        scores: { player1: 0, player2: 0 },
+        result: null
+      };
+      game.saveMultiplayerState(initialState);
+
       document.getElementById('player1Label').textContent = playerName;
       document.getElementById('player2Label').textContent = 'Waiting...';
-      
-      // Simulate opponent joining after 3-5 seconds (for demo)
-      setTimeout(() => {
-        const opponentName = 'Friend';
-        game.opponentName = opponentName;
-        document.getElementById('player2Label').textContent = opponentName;
-        document.getElementById('waitingForPlayer').style.display = 'none';
-        document.getElementById('multiplayerStatus').style.display = 'block';
-        document.getElementById('statusMessage').textContent = 'Game Started!';
-        document.getElementById('playersInfo').textContent = `${playerName} vs ${opponentName}`;
-        document.getElementById('result').textContent = 'Your turn! Choose your move.';
-      }, 3000);
+      document.getElementById('result').textContent = 'Waiting for opponent to join.';
     }
 
     function joinMultiplayerGame() {
       const gameCode = document.getElementById('gameCode').value.trim();
       const playerName = document.getElementById('joinPlayerName').value.trim();
-      
+
       if (!gameCode || !playerName) {
         alert('Please enter both game code and your name!');
         return;
       }
-      
-      // Update game state
+
       game.gameId = gameCode;
       game.playerName = playerName;
       game.playerId = 2;
-      game.opponentName = 'Host';
-      
-      // Update UI
+      game.storageKey = `rps-mp-${gameCode}`;
+      window.removeEventListener('storage', game.storageListener);
+      window.addEventListener('storage', game.storageListener);
+
+      const state = game.loadMultiplayerState();
+      if (!state) {
+        alert('Game not found. Ask the host to create a game first.');
+        return;
+      }
+
+      const nextState = { ...state, player2Name: playerName };
+      game.saveMultiplayerState(nextState);
+      game.opponentName = state.player1Name || 'Host';
+
       document.getElementById('multiplayerSetup').style.display = 'none';
       document.getElementById('player1Label').textContent = playerName;
-      document.getElementById('player2Label').textContent = 'Host';
-      document.getElementById('result').textContent = 'Connected! Wait for host to start.';
-      
-      // Simulate game start
-      setTimeout(() => {
-        document.getElementById('result').textContent = 'Your turn! Choose your move.';
-      }, 2000);
+      document.getElementById('player2Label').textContent = state.player1Name || 'Host';
+      document.getElementById('result').textContent = 'Connected! Your turn! Choose your move.';
     }
 
     function copyGameLink(buttonEl) {
