@@ -16,6 +16,7 @@
       align-items: center; 
       min-height: 100vh; 
       margin: 0; 
+      touch-action: manipulation;
     }
     .game-container { 
       text-align: center; 
@@ -31,6 +32,7 @@
       border: 3px solid #0000ff; 
       margin: 20px auto; 
       max-width: fit-content; 
+      touch-action: none;
     }
     .cell { 
       width: 20px; 
@@ -329,6 +331,29 @@
           btn.addEventListener('click', handler);
           btn.addEventListener('touchstart', handler, { passive: false });
         });
+
+        let touchStart = null;
+        this.gameBoard.addEventListener('touchstart', (e) => {
+          if (!this.gameRunning) return;
+          const touch = e.changedTouches[0];
+          touchStart = { x: touch.clientX, y: touch.clientY };
+        }, { passive: true });
+        this.gameBoard.addEventListener('touchend', (e) => {
+          if (!this.gameRunning || !touchStart) return;
+          const touch = e.changedTouches[0];
+          const dx = touch.clientX - touchStart.x;
+          const dy = touch.clientY - touchStart.y;
+          const absX = Math.abs(dx);
+          const absY = Math.abs(dy);
+          const threshold = 20;
+          if (absX < threshold && absY < threshold) return;
+          if (absX > absY) {
+            this.movePacman(dx > 0 ? 1 : -1, 0);
+          } else {
+            this.movePacman(0, dy > 0 ? 1 : -1);
+          }
+          touchStart = null;
+        }, { passive: true });
       }
       
       startGame() {
@@ -340,7 +365,7 @@
         }
         this.ghostInterval = setInterval(() => {
           this.moveGhosts();
-        }, 350);
+        }, 220);
       }
       
       resetGame() {
@@ -396,7 +421,17 @@
           ].filter(move => this.isValidMove(ghost.x + move.dx, ghost.y + move.dy));
 
           if (!moves.length) return ghost;
-          const move = moves[Math.floor(Math.random() * moves.length)];
+          const chase = Math.random() < 0.7;
+          let move = moves[Math.floor(Math.random() * moves.length)];
+          if (chase) {
+            move = moves.reduce((best, current) => {
+              const bestDist = Math.abs((ghost.x + best.dx) - this.pacman.x) +
+                Math.abs((ghost.y + best.dy) - this.pacman.y);
+              const currentDist = Math.abs((ghost.x + current.dx) - this.pacman.x) +
+                Math.abs((ghost.y + current.dy) - this.pacman.y);
+              return currentDist < bestDist ? current : best;
+            }, move);
+          }
           return { ...ghost, x: ghost.x + move.dx, y: ghost.y + move.dy };
         });
 
