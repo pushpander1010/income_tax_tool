@@ -450,7 +450,7 @@
           <h4>Share this link with your friend:</h4>
           <div style="display: flex; gap: 0.5rem; align-items: center;">
             <input type="text" id="sharableLink" readonly style="flex: 1; padding: 0.5rem; border-radius: 0.5rem; border: 1px solid var(--cardBorder); background: var(--card); color: var(--text);">
-            <button class="reset-btn" onclick="copyGameLink()">Copy Link</button>
+            <button class="reset-btn" onclick="copyGameLink(this)">Copy Link</button>
           </div>
         </div>
 
@@ -843,22 +843,43 @@
       }, 2000);
     }
 
-    function copyGameLink() {
+    function copyGameLink(buttonEl) {
       const linkInput = document.getElementById('sharableLink');
+      const linkValue = linkInput.value;
+      const button = buttonEl || document.querySelector('#gameLink .reset-btn');
+      const originalText = button ? button.textContent : '';
+
+      const markCopied = () => {
+        if (!button) return;
+        button.textContent = 'Copied!';
+        button.style.background = '#4CAF50';
+        setTimeout(() => {
+          button.textContent = originalText;
+          button.style.background = '';
+        }, 2000);
+      };
+
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(linkValue)
+          .then(markCopied)
+          .catch(() => {
+            linkInput.select();
+            linkInput.setSelectionRange(0, 99999);
+            try {
+              document.execCommand('copy');
+              markCopied();
+            } catch (err) {
+              alert('Failed to copy link. Please copy manually.');
+            }
+          });
+        return;
+      }
+
       linkInput.select();
       linkInput.setSelectionRange(0, 99999);
-      
       try {
         document.execCommand('copy');
-        const btn = event.target;
-        const originalText = btn.textContent;
-        btn.textContent = 'Copied!';
-        btn.style.background = '#4CAF50';
-        
-        setTimeout(() => {
-          btn.textContent = originalText;
-          btn.style.background = '';
-        }, 2000);
+        markCopied();
       } catch (err) {
         alert('Failed to copy link. Please copy manually.');
       }
