@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617" crossorigin="anonymous"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Pokemon Stats Directory | All Pokemon Base Stats | UpTools</title>
+  <meta name="description" content="Browse stats for all Pokemon. Search by name, view base stats, types, abilities, and export a CSV of the full Pokedex." />
+  <meta name="keywords" content="pokemon stats,pokemon base stats,pokedex,types,abilities,export csv,pokemon list" />
+  <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
+  <meta name="theme-color" content="#0b1020" />
+
+  <link rel="canonical" href="https://www.uptools.in/pokemon-stats/" />
+  <link rel="icon" sizes="50x50" type="image/svg+xml" href="/assets/logo/uptools-logo.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/logo/uptools-logo.svg">
+
+  <!-- Open Graph / Twitter -->
+  <meta property="og:title" content="Pokemon Stats Directory | UpTools" />
+  <meta property="og:description" content="Search all Pokemon and view base stats, types, abilities, and size. Export to CSV." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.uptools.in/pokemon-stats/" />
+  <meta property="og:image" content="https://www.uptools.in/assets/og/home.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="preload" href="/style.css" as="style">
+  <link rel="stylesheet" href="/style.css" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="/style.css"></noscript>
+
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"SoftwareApplication",
+    "name":"Pokemon Stats Directory",
+    "applicationCategory":"ReferenceApplication",
+    "operatingSystem":"Web",
+    "url":"https://www.uptools.in/pokemon-stats/",
+    "description":"Browse stats for all Pokemon. Search by name, view base stats, types, abilities, and export a CSV of the full list.",
+    "offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"BreadcrumbList",
+    "itemListElement":[
+      {"@type":"ListItem","position":1,"name":"Home","item":"https://www.uptools.in/"},
+      {"@type":"ListItem","position":2,"name":"Pokemon Stats","item":"https://www.uptools.in/pokemon-stats/"}
+    ]
+  }
+  </script>
+
+  <style>
+    .hero { align-items:center; gap:12px }
+    .grid { display:grid; grid-template-columns: 1fr 1.2fr; gap:12px }
+    @media (max-width: 980px){ .grid { grid-template-columns: 1fr; } }
+    .toolbar { display:flex; gap:8px; flex-wrap:wrap; align-items:center }
+    .list { display:grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap:8px; }
+    .poke-btn { padding:8px 10px; border-radius:10px; border:1px solid var(--border); background:#0b1326; color:var(--text); text-align:left; cursor:pointer; }
+    .poke-btn:hover { border-color: var(--accent); }
+    .stats { display:grid; gap:8px; }
+    .stat-row { display:grid; grid-template-columns: 110px 1fr 44px; gap:8px; align-items:center; }
+    .bar { height:8px; border-radius:999px; background:#1a2540; overflow:hidden; border:1px solid var(--border); }
+    .bar > span { display:block; height:100%; background: linear-gradient(90deg, #22d3ee, #60a5fa); }
+    .chip { display:inline-flex; align-items:center; gap:6px; padding:6px 10px; border-radius:999px; background:#0b1326; border:1px solid var(--border); font-size:12px }
+    .poke-card { display:grid; grid-template-columns: 96px 1fr; gap:12px; align-items:center; }
+    .sprite { width:96px; height:96px; background:#0a1224; border:1px solid var(--border); border-radius:12px; display:flex; align-items:center; justify-content:center; }
+    .muted { color:var(--muted); }
+    .mini { font-size:12px; color:var(--muted); }
+    .sticky { position: sticky; top: 12px; }
+  </style>
+</head>
+
+<body style="--accent:#22d3ee;--bg1:#0b0f1a;--bg2:#121a2f">
+  <ins class="adsbygoogle"
+       style="display:inline-block;width:500px;height:50px"
+       data-ad-client="ca-pub-6216304334889617"
+       data-ad-slot="9810172647"></ins>
+  <script>
+    (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+
+  <header class="site" role="banner">
+    <div class="header-inner">
+      <a class="brand" href="/" aria-label="UpTools Home">
+        <img src="/assets/logo/uptools-logo.svg" alt="UpTools logo" width="28" height="28" loading="eager">
+        <b>UpTools</b>
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="/#tools">Tools</a>
+        <a href="/income-tax-tool/">Income Tax</a>
+        <a href="/emi-calculator/">EMI</a>
+        <a href="/gst-calculator/">GST</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container" id="top">
+    <section class="card hero" aria-labelledby="title">
+      <div class="tool-icon">PKM</div>
+      <div>
+        <h1 id="title">Pokemon Stats Directory</h1>
+        <p class="note">Search all Pokemon and view base stats, types, abilities, and size. Export a CSV for the full list.</p>
+        <div class="chips" style="margin-top:8px">
+          <span class="pill">All generations</span>
+          <span class="pill">Base stats and types</span>
+          <span class="pill">CSV export</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="toolbar">
+        <label class="inline" style="flex:1; min-width:220px;">
+          <span class="mini">Search</span>
+          <input id="search" class="input" placeholder="Type a name, e.g. pikachu" autocomplete="off">
+        </label>
+        <button id="loadMore" class="btn secondary sm" type="button">Load more</button>
+        <button id="exportCsv" class="btn sm" type="button">Export all stats (CSV)</button>
+      </div>
+      <div class="mini" id="status">Loading Pokemon list...</div>
+    </section>
+
+    <section class="grid">
+      <section class="card">
+        <h2 class="h5">Pokemon List</h2>
+        <div class="mini muted" id="count"></div>
+        <div id="list" class="list" aria-live="polite"></div>
+      </section>
+
+      <section class="card sticky" aria-live="polite">
+        <h2 class="h5">Stats</h2>
+        <div id="details" class="stats">
+          <div class="muted">Pick a Pokemon to view stats.</div>
+        </div>
+      </section>
+    </section>
+
+    <footer class="site-footer">
+      <nav class="nav-links" aria-label="Footer">
+        <a href="/about/"><span class="card-badge">ABT</span> About</a>
+        <a href="/contact/"><span class="card-badge">CT</span> Contact</a>
+        <a href="/sitemap.xml"><span class="card-badge">MAP</span> Sitemap</a>
+        <a href="/privacy/"><span class="card-badge">PP</span> Privacy</a>
+      </nav>
+      <p class="tiny-note">&copy; <span id="y"></span> UpTools. Data from PokeAPI.</p>
+    </footer>
+  </main>
+
+  <script type="module">
+    const $ = (q, root = document) => root.querySelector(q);
+    const $$ = (q, root = document) => [...root.querySelectorAll(q)];
+
+    const API = 'https://pokeapi.co/api/v2';
+    const PAGE_SIZE = 72;
+
+    const search = $('#search');
+    const listEl = $('#list');
+    const statusEl = $('#status');
+    const countEl = $('#count');
+    const detailsEl = $('#details');
+    const loadMoreBtn = $('#loadMore');
+    const exportBtn = $('#exportCsv');
+    const yearEl = $('#y');
+    if (yearEl) yearEl.textContent = new Date().getFullYear();
+
+    let allPokemon = [];
+    let filtered = [];
+    let visibleCount = PAGE_SIZE;
+    const cache = new Map();
+
+    const toTitle = (s) => s.charAt(0).toUpperCase() + s.slice(1);
+    const fmt = (v) => v == null ? 'N/A' : String(v);
+
+    function setStatus(msg) {
+      statusEl.textContent = msg;
+    }
+
+    function renderList() {
+      listEl.innerHTML = '';
+      const show = filtered.slice(0, visibleCount);
+      show.forEach((p) => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'poke-btn';
+        btn.textContent = toTitle(p.name);
+        btn.addEventListener('click', () => loadDetails(p.name));
+        listEl.appendChild(btn);
+      });
+      countEl.textContent = `Showing ${show.length} of ${filtered.length} Pokemon`;
+      loadMoreBtn.disabled = show.length >= filtered.length;
+    }
+
+    function applySearch() {
+      const q = search.value.trim().toLowerCase();
+      if (!q) {
+        filtered = [...allPokemon];
+      } else {
+        filtered = allPokemon.filter(p => p.name.includes(q));
+      }
+      visibleCount = PAGE_SIZE;
+      renderList();
+    }
+
+    function statRow(label, value, max = 255) {
+      const pct = Math.min(100, Math.round((value / max) * 100));
+      return `
+        <div class="stat-row">
+          <div class="mini">${label}</div>
+          <div class="bar"><span style="width:${pct}%"></span></div>
+          <div class="mini">${value}</div>
+        </div>
+      `;
+    }
+
+    function renderDetails(data) {
+      const types = data.types.map(t => `<span class="chip">${t.type.name}</span>`).join('');
+      const abilities = data.abilities.map(a => a.ability.name).join(', ');
+      const stats = {};
+      data.stats.forEach(s => { stats[s.stat.name] = s.base_stat; });
+      detailsEl.innerHTML = `
+        <div class="poke-card">
+          <div class="sprite">
+            <img src="${data.sprites?.front_default || ''}" alt="${data.name}" width="80" height="80" />
+          </div>
+          <div>
+            <div style="font-weight:700">${toTitle(data.name)} <span class="mini muted">#${data.id}</span></div>
+            <div class="mini">Height: ${fmt(data.height)} | Weight: ${fmt(data.weight)}</div>
+            <div class="mini">Base Exp: ${fmt(data.base_experience)}</div>
+          </div>
+        </div>
+        <div>
+          <div class="mini muted">Types</div>
+          <div class="row-inline" style="gap:6px;flex-wrap:wrap">${types}</div>
+        </div>
+        <div>
+          <div class="mini muted">Abilities</div>
+          <div class="mini">${abilities || 'N/A'}</div>
+        </div>
+        <div class="stats">
+          ${statRow('HP', stats.hp || 0)}
+          ${statRow('Attack', stats.attack || 0)}
+          ${statRow('Defense', stats.defense || 0)}
+          ${statRow('Sp. Atk', stats['special-attack'] || 0)}
+          ${statRow('Sp. Def', stats['special-defense'] || 0)}
+          ${statRow('Speed', stats.speed || 0)}
+        </div>
+      `;
+    }
+
+    async function loadDetails(name) {
+      if (cache.has(name)) {
+        renderDetails(cache.get(name));
+        return;
+      }
+      setStatus(`Loading ${name}...`);
+      try {
+        const res = await fetch(`${API}/pokemon/${name}`);
+        if (!res.ok) throw new Error('Failed to fetch');
+        const data = await res.json();
+        cache.set(name, data);
+        renderDetails(data);
+        setStatus('Ready.');
+      } catch {
+        setStatus('Failed to load Pokemon details.');
+      }
+    }
+
+    async function loadAllPokemon() {
+      setStatus('Fetching Pokemon list...');
+      const res = await fetch(`${API}/pokemon?limit=2000`);
+      const data = await res.json();
+      allPokemon = data.results || [];
+      filtered = [...allPokemon];
+      setStatus(`Loaded ${allPokemon.length} Pokemon.`);
+      renderList();
+    }
+
+    async function exportAllStats() {
+      if (!allPokemon.length) return;
+      exportBtn.disabled = true;
+      setStatus('Exporting all stats. This can take a few minutes...');
+      const rows = [
+        ['id','name','type_1','type_2','hp','attack','defense','special_attack','special_defense','speed','height','weight','base_experience','abilities'].join(',')
+      ];
+      let done = 0;
+      for (const p of allPokemon) {
+        try {
+          const res = await fetch(`${API}/pokemon/${p.name}`);
+          if (!res.ok) throw new Error('fetch');
+          const data = await res.json();
+          const types = data.types.map(t => t.type.name);
+          const stats = {};
+          data.stats.forEach(s => { stats[s.stat.name] = s.base_stat; });
+          const abilities = data.abilities.map(a => a.ability.name).join('|');
+          rows.push([
+            data.id,
+            data.name,
+            types[0] || '',
+            types[1] || '',
+            stats.hp || 0,
+            stats.attack || 0,
+            stats.defense || 0,
+            stats['special-attack'] || 0,
+            stats['special-defense'] || 0,
+            stats.speed || 0,
+            data.height || 0,
+            data.weight || 0,
+            data.base_experience || 0,
+            abilities
+          ].join(','));
+          done += 1;
+          if (done % 25 === 0) {
+            setStatus(`Exporting... ${done} / ${allPokemon.length}`);
+          }
+          await new Promise(r => setTimeout(r, 80));
+        } catch {
+          continue;
+        }
+      }
+      const blob = new Blob([rows.join('\n')], { type: 'text/csv' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'pokemon-stats.csv';
+      link.click();
+      URL.revokeObjectURL(link.href);
+      setStatus('Export complete.');
+      exportBtn.disabled = false;
+    }
+
+    search.addEventListener('input', () => {
+      applySearch();
+    });
+
+    loadMoreBtn.addEventListener('click', () => {
+      visibleCount += PAGE_SIZE;
+      renderList();
+    });
+
+    exportBtn.addEventListener('click', () => {
+      exportAllStats();
+    });
+
+    loadAllPokemon();
+  </script>
+</body>
+</html>
