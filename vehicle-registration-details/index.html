@@ -5,14 +5,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Vehicle Registration Details Lookup (Guide) | UpTools</title>
-  <meta name="description" content="Enter a vehicle registration number, choose a country, and open the official portal to check registration details. Privacy-first guidance." />
+  <meta name="description" content="Validate vehicle registration numbers by country. Check format, region/state code (India), and get clean, privacy-first guidance." />
   <meta name="keywords" content="vehicle registration details,vehicle number lookup,registration check,vahan,dvla" />
   <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
   <meta name="theme-color" content="#0b1020" />
 
   <link rel="canonical" href="https://www.uptools.in/vehicle-registration-details/" />
   <meta property="og:title" content="Vehicle Registration Details Lookup (Guide) | UpTools" />
-  <meta property="og:description" content="Choose a country and open the official portal to check vehicle registration details." />
+  <meta property="og:description" content="Validate vehicle registration numbers by country with format and region hints." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.uptools.in/vehicle-registration-details/" />
   <meta property="og:site_name" content="UpTools" />
@@ -36,7 +36,7 @@
     "applicationCategory":"ReferenceApplication",
     "operatingSystem":"Web",
     "url":"https://www.uptools.in/vehicle-registration-details/",
-    "description":"Enter a vehicle registration number, choose a country, and open the official portal to check registration details."
+    "description":"Validate vehicle registration numbers by country with format checks and region hints."
   }
   </script>
   <script type="application/ld+json">
@@ -45,7 +45,7 @@
     "@type":"FAQPage",
     "mainEntity":[
       {"@type":"Question","name":"Does this tool fetch registration data directly?",
-       "acceptedAnswer":{"@type":"Answer","text":"No. This tool validates your input and opens the official country portal for accurate registration details."}},
+       "acceptedAnswer":{"@type":"Answer","text":"No. This tool validates format locally and provides guidance. It does not fetch government records."}},
       {"@type":"Question","name":"Is my registration number stored?",
        "acceptedAnswer":{"@type":"Answer","text":"No. Your input stays in your browser and is not stored by UpTools."}}
     ]
@@ -82,8 +82,8 @@
     <section class="tool-header" role="doc-introduction" style="padding:12px 16px; gap:12px;">
       <span class="tool-icon" aria-hidden="true">CAR</span>
       <div>
-        <h1 style="margin:0 0 4px;">Vehicle Registration Details Lookup (Guide)</h1>
-        <p class="note" style="margin:0;">Enter a registration number, choose country, and open the official portal.</p>
+        <h1 style="margin:0 0 4px;">Vehicle Registration Details (Format Check)</h1>
+        <p class="note" style="margin:0;">Validate registration format by country and see region hints. Privacy-first.</p>
       </div>
       <a class="back-btn" href="/" aria-label="Back to home">←</a>
     </section>
@@ -96,7 +96,7 @@
           <input class="input" id="reg" name="reg" placeholder="e.g., MH12AB1234" inputmode="text" />
           <div class="note small" id="regStatus">-</div>
 
-          <label class="label" for="country" style="margin-top:10px;">Country</label>
+          <label class="label" for="country" style="margin-top:10px;">Country format</label>
           <select id="country" name="country" class="input">
             <option value="IN">India</option>
             <option value="UK">United Kingdom</option>
@@ -119,23 +119,20 @@
       </article>
 
       <aside class="card compact sticky-side" aria-live="polite">
-        <h2 style="margin:0 0 6px;">Official portal</h2>
+        <h2 style="margin:0 0 6px;">Validation result</h2>
         <div class="result" id="result">
           <div class="row"><div>Readiness</div><div class="amount" id="ready">-</div></div>
           <div class="kvi"><span>Registration</span><span id="r-reg">-</span></div>
           <div class="kvi"><span>Country</span><span id="r-country">-</span></div>
+          <div class="kvi"><span>Format</span><span id="r-format">-</span></div>
+          <div class="kvi"><span>Region hint</span><span id="r-region">-</span></div>
           <div class="note small" id="msg" style="margin-top:8px;">Enter a registration number to continue.</div>
-        </div>
-
-        <div class="btn-group" style="gap:8px;margin-top:12px;">
-          <a class="btn sm" id="portalLink" href="https://vahan.parivahan.gov.in/vahanservice/vahan/ui/statevalidation/homepage.xhtml" target="_blank" rel="nofollow noopener">Open official portal</a>
-          <a class="btn sm secondary" id="helpLink" href="https://www.usa.gov/motor-vehicle-services" target="_blank" rel="nofollow noopener">Portal help</a>
         </div>
 
         <h3 style="margin-top:14px;">Notes</h3>
         <ul class="note">
-          <li>This tool does not fetch data directly.</li>
-          <li>Use the official portal for accurate details.</li>
+          <li>This tool validates format only.</li>
+          <li>It does not access government databases.</li>
           <li>Never share private details on unknown sites.</li>
         </ul>
 
@@ -165,42 +162,74 @@
     const readyEl = $("#ready");
     const rReg = $("#r-reg");
     const rCountry = $("#r-country");
+    const rFormat = $("#r-format");
+    const rRegion = $("#r-region");
     const msg = $("#msg");
-    const portalLink = $("#portalLink");
-    const helpLink = $("#helpLink");
 
     const COUNTRY = {
       IN: {
         label: "India",
-        portal: "https://vahan.parivahan.gov.in/vahanservice/vahan/ui/statevalidation/homepage.xhtml",
-        help: "https://parivahan.gov.in/",
-        hint: "Use Vahan to check vehicle details."
+        hint: "India format: KA01AB1234 or DL5CAF1234."
       },
       UK: {
         label: "United Kingdom",
-        portal: "https://vehicleenquiry.service.gov.uk/",
-        help: "https://www.gov.uk/check-vehicle-tax",
-        hint: "Use the DVLA vehicle enquiry service."
+        hint: "UK format: AB12 CDE (two letters, two digits, three letters)."
       },
       US: {
         label: "United States",
-        portal: "https://www.usa.gov/motor-vehicle-services",
-        help: "https://www.usa.gov/state-motor-vehicle-services",
-        hint: "Select your state DMV to check registration."
+        hint: "US plates vary by state; this checks length/characters only."
       },
       CA: {
         label: "Canada",
-        portal: "https://www.canada.ca/en/services/transport/vehicles.html",
-        help: "https://www.canada.ca/en/services/transport/vehicles.html",
-        hint: "Use your provincial vehicle services portal."
+        hint: "Canada plates vary by province; this checks length/characters only."
       },
       AU: {
         label: "Australia",
-        portal: "https://www.australia.gov.au/information-and-services/transport-and-infrastructure/vehicle-registration",
-        help: "https://www.australia.gov.au/information-and-services/transport-and-infrastructure/vehicle-registration",
-        hint: "Use your state transport portal."
+        hint: "Australia plates vary by state; this checks length/characters only."
       }
     };
+
+    const INDIA_STATES = {
+      AP: "Andhra Pradesh",
+      AR: "Arunachal Pradesh",
+      AS: "Assam",
+      BR: "Bihar",
+      CG: "Chhattisgarh",
+      CH: "Chandigarh",
+      DD: "Dadra and Nagar Haveli",
+      DL: "Delhi",
+      DN: "Dadra and Nagar Haveli",
+      GA: "Goa",
+      GJ: "Gujarat",
+      HP: "Himachal Pradesh",
+      HR: "Haryana",
+      JH: "Jharkhand",
+      JK: "Jammu and Kashmir",
+      KA: "Karnataka",
+      KL: "Kerala",
+      LA: "Ladakh",
+      MH: "Maharashtra",
+      ML: "Meghalaya",
+      MN: "Manipur",
+      MP: "Madhya Pradesh",
+      MZ: "Mizoram",
+      NL: "Nagaland",
+      OD: "Odisha",
+      PB: "Punjab",
+      PY: "Puducherry",
+      RJ: "Rajasthan",
+      SK: "Sikkim",
+      TN: "Tamil Nadu",
+      TS: "Telangana",
+      TR: "Tripura",
+      UK: "Uttarakhand",
+      UP: "Uttar Pradesh",
+      WB: "West Bengal"
+    };
+
+    const RE_IN = /^[A-Z]{2}[0-9]{1,2}[A-Z]{1,3}[0-9]{4}$/;
+    const RE_UK = /^[A-Z]{2}[0-9]{2}[A-Z]{3}$/;
+    const RE_GENERIC = /^[A-Z0-9]{5,8}$/;
 
     const normalizeReg = v => (v || "").toUpperCase().replace(/[^A-Z0-9]/g, "").slice(0, 16);
     const maskValue = (v, keep = 4) => {
@@ -208,22 +237,39 @@
       return "•".repeat(Math.max(0, v.length - keep)) + v.slice(-keep);
     };
 
+    function formatCheck(reg, country) {
+      if (!reg) return { ok: false, label: "-", region: "-" };
+      if (country === "IN") {
+        const ok = RE_IN.test(reg);
+        const code = reg.slice(0, 2);
+        const region = INDIA_STATES[code] ? `${code} - ${INDIA_STATES[code]}` : "Unknown state code";
+        return { ok, label: ok ? "India format OK" : "Invalid India format", region };
+      }
+      if (country === "UK") {
+        const ok = RE_UK.test(reg);
+        return { ok, label: ok ? "UK format OK" : "Invalid UK format", region: "UK format only" };
+      }
+      const ok = RE_GENERIC.test(reg);
+      return { ok, label: ok ? "Basic format OK" : "Invalid format", region: "Varies by state/province" };
+    }
+
     function run(){
       const reg = normalizeReg(regEl.value);
       if (regEl.value !== reg) regEl.value = reg;
       const country = countryEl.value;
       const c = COUNTRY[country] || COUNTRY.IN;
 
-      const ok = reg.length >= 4;
-      regStatus.textContent = reg ? (ok ? "Looks OK" : "Enter at least 4 characters") : "-";
+      const check = formatCheck(reg, country);
+      const ok = check.ok;
+      regStatus.textContent = reg ? check.label : "-";
 
       readyEl.textContent = ok ? "Ready" : "Incomplete";
       readyEl.style.color = ok ? "var(--accent)" : "";
       rReg.textContent = maskEl.checked ? maskValue(reg) : (reg || "-");
       rCountry.textContent = c.label;
-      msg.textContent = ok ? c.hint : "Enter a registration number to continue.";
-      portalLink.href = c.portal;
-      helpLink.href = c.help;
+      rFormat.textContent = check.label;
+      rRegion.textContent = check.region;
+      msg.textContent = reg ? c.hint : "Enter a registration number to continue.";
 
       persist(FORM_KEY, { reg, country, mask: maskEl.checked });
     }
