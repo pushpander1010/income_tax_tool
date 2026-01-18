@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617" crossorigin="anonymous"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TFSA Room Tracker (Canada) | UpTools</title>
+  <meta name="description" content="Estimate TFSA contribution room using yearly limits, contributions, withdrawals, and carry-forward." />
+  <meta name="keywords" content="tfsa room tracker,tfsa contribution room,canada tfsa calculator" />
+  <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
+  <meta name="theme-color" content="#0b1020" />
+
+  <link rel="canonical" href="https://www.uptools.in/tfsa-room-tracker/" />
+  <meta property="og:title" content="TFSA Room Tracker (Canada) | UpTools" />
+  <meta property="og:description" content="Estimate TFSA contribution room quickly." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.uptools.in/tfsa-room-tracker/" />
+  <meta property="og:site_name" content="UpTools" />
+  <meta property="og:image" content="https://www.uptools.in/assets/og/home.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="icon" sizes="50x50" type="image/svg+xml" href="/assets/logo/uptools-logo.svg" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/logo/uptools-logo.svg" />
+
+  <link rel="preload" href="/style.css?v=1.2.0" as="style">
+  <link rel="stylesheet" href="/style.css?v=1.2.0" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="/style.css?v=1.2.0"></noscript>
+</head>
+<body>
+  <ins class="adsbygoogle"
+       style="display:inline-block;width:500px;height:50px"
+       data-ad-client="ca-pub-6216304334889617"
+       data-ad-slot="9810172647"></ins>
+  <script>
+       (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+
+  <a href="#main" class="sr-only">Skip to content</a>
+
+  <header class="site" role="banner">
+    <div class="header-inner">
+      <a class="brand" href="/" aria-label="UpTools Home">
+        <img src="/assets/logo/uptools-logo.svg" alt="UpTools logo" width="28" height="28">
+        <b>UpTools</b>
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="/#tools">Tools</a>
+        <a href="/games/">Games</a>
+        <a href="/about/">About</a>
+        <a href="/contact/">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="wrap" role="main">
+    <section class="tool-header" style="padding:12px 16px; gap:12px;">
+      <span class="tool-icon" aria-hidden="true">CA</span>
+      <div>
+        <h1 style="margin:0 0 4px;">TFSA Room Tracker</h1>
+        <p class="note" style="margin:0;">Estimate room from yearly limits, contributions, withdrawals, and carry-forward.</p>
+      </div>
+      <a class="back-btn" href="/" aria-label="Back to home">←</a>
+    </section>
+
+    <section class="grid">
+      <article class="card compact">
+        <h2 style="margin:0 0 10px;">Inputs</h2>
+        <label class="label" for="startYear">Year you became 18 (or started eligibility)</label>
+        <input id="startYear" class="input" type="number" min="2009" max="2025" step="1" placeholder="e.g., 2015">
+
+        <label class="label" for="contrib" style="margin-top:10px;">Total contributions to date</label>
+        <input id="contrib" class="input" type="number" min="0" step="100" placeholder="e.g., 12000">
+
+        <label class="label" for="withdraw" style="margin-top:10px;">Total withdrawals to date</label>
+        <input id="withdraw" class="input" type="number" min="0" step="100" placeholder="e.g., 2000">
+
+        <label class="label" for="carry" style="margin-top:10px;">Carry-forward room (optional)</label>
+        <input id="carry" class="input" type="number" min="0" step="100" placeholder="e.g., 5000">
+      </article>
+
+      <aside class="card compact sticky-side">
+        <h2 style="margin:0 0 6px;">Result</h2>
+        <div class="result">
+          <div class="row"><div>Estimated room</div><div class="amount" id="room">-</div></div>
+          <div class="kvi"><span>Total limits used</span><span id="limitTotal">-</span></div>
+          <div class="kvi"><span>Notes</span><span id="note">-</span></div>
+        </div>
+        <p class="note small" style="margin-top:10px;">This is an estimate. Check CRA for exact room.</p>
+      </aside>
+    </section>
+
+    <footer class="note small site-footer" role="contentinfo">
+      c <span id="y"></span> UpTools . <a href="/about/">About</a> . <a href="/contact/">Contact</a> . <a href="/sitemap.xml">Sitemap</a>
+    </footer>
+  </main>
+
+  <script type="module">
+    import { $, debounce } from "/scripts/utils.js";
+    const startYear = $("#startYear");
+    const contrib = $("#contrib");
+    const withdraw = $("#withdraw");
+    const carry = $("#carry");
+    const room = $("#room");
+    const limitTotal = $("#limitTotal");
+    const note = $("#note");
+
+    const LIMITS = {
+      2009: 5000, 2010: 5000, 2011: 5000, 2012: 5000,
+      2013: 5500, 2014: 5500, 2015: 10000, 2016: 5500,
+      2017: 5500, 2018: 5500, 2019: 6000, 2020: 6000,
+      2021: 6000, 2022: 6000, 2023: 6500, 2024: 7000,
+      2025: 7000
+    };
+
+    const fmt = v => new Intl.NumberFormat("en-CA", { style: "currency", currency: "CAD", maximumFractionDigits: 0 }).format(v || 0);
+
+    function totalLimit(fromYear){
+      let sum = 0;
+      const now = 2025;
+      for (let y = fromYear; y <= now; y++){
+        if (LIMITS[y]) sum += LIMITS[y];
+      }
+      return sum;
+    }
+
+    function run(){
+      const sy = Number(startYear.value || 0);
+      const c = Math.max(0, Number(contrib.value || 0));
+      const w = Math.max(0, Number(withdraw.value || 0));
+      const carryVal = Math.max(0, Number(carry.value || 0));
+      if (!sy || sy < 2009){
+        room.textContent = "-";
+        limitTotal.textContent = "-";
+        note.textContent = "Enter start year (2009+).";
+        return;
+      }
+      const limit = totalLimit(sy);
+      const est = Math.max(0, limit + w + carryVal - c);
+      room.textContent = fmt(est);
+      limitTotal.textContent = fmt(limit);
+      note.textContent = "Uses published yearly limits through 2025.";
+    }
+
+    [startYear, contrib, withdraw, carry].forEach(el => el.addEventListener("input", debounce(run, 120)));
+    $("#y").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

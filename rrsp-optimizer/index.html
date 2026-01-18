@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617" crossorigin="anonymous"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>RRSP Contribution Optimizer (Canada) | UpTools</title>
+  <meta name="description" content="Estimate RRSP contribution impact, refund estimate, and remaining room. Quick Canada-focused calculator." />
+  <meta name="keywords" content="rrsp optimizer,rrsp contribution,rrsp refund estimate,canada rrsp calculator" />
+  <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
+  <meta name="theme-color" content="#0b1020" />
+
+  <link rel="canonical" href="https://www.uptools.in/rrsp-optimizer/" />
+  <meta property="og:title" content="RRSP Contribution Optimizer (Canada) | UpTools" />
+  <meta property="og:description" content="Estimate RRSP contribution impact and refund." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.uptools.in/rrsp-optimizer/" />
+  <meta property="og:site_name" content="UpTools" />
+  <meta property="og:image" content="https://www.uptools.in/assets/og/home.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="icon" sizes="50x50" type="image/svg+xml" href="/assets/logo/uptools-logo.svg" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/logo/uptools-logo.svg" />
+
+  <link rel="preload" href="/style.css?v=1.2.0" as="style">
+  <link rel="stylesheet" href="/style.css?v=1.2.0" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="/style.css?v=1.2.0"></noscript>
+</head>
+<body>
+  <ins class="adsbygoogle"
+       style="display:inline-block;width:500px;height:50px"
+       data-ad-client="ca-pub-6216304334889617"
+       data-ad-slot="9810172647"></ins>
+  <script>
+       (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+
+  <a href="#main" class="sr-only">Skip to content</a>
+
+  <header class="site" role="banner">
+    <div class="header-inner">
+      <a class="brand" href="/" aria-label="UpTools Home">
+        <img src="/assets/logo/uptools-logo.svg" alt="UpTools logo" width="28" height="28">
+        <b>UpTools</b>
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="/#tools">Tools</a>
+        <a href="/games/">Games</a>
+        <a href="/about/">About</a>
+        <a href="/contact/">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="wrap" role="main">
+    <section class="tool-header" style="padding:12px 16px; gap:12px;">
+      <span class="tool-icon" aria-hidden="true">CA</span>
+      <div>
+        <h1 style="margin:0 0 4px;">RRSP Contribution Optimizer</h1>
+        <p class="note" style="margin:0;">Estimate refund impact and remaining room. Assumes your marginal tax rate.</p>
+      </div>
+      <a class="back-btn" href="/" aria-label="Back to home">←</a>
+    </section>
+
+    <section class="grid">
+      <article class="card compact">
+        <h2 style="margin:0 0 10px;">Inputs</h2>
+        <label class="label" for="income">Annual income (CAD)</label>
+        <input id="income" class="input" type="number" min="0" step="100" placeholder="e.g., 85000">
+
+        <label class="label" for="contrib" style="margin-top:10px;">Planned RRSP contribution</label>
+        <input id="contrib" class="input" type="number" min="0" step="100" placeholder="e.g., 8000">
+
+        <label class="label" for="rate" style="margin-top:10px;">Marginal tax rate (%)</label>
+        <input id="rate" class="input" type="number" min="0" max="60" step="0.1" placeholder="e.g., 29.7">
+
+        <label class="label" for="room" style="margin-top:10px;">RRSP contribution room (optional)</label>
+        <input id="room" class="input" type="number" min="0" step="100" placeholder="e.g., 15000">
+      </article>
+
+      <aside class="card compact sticky-side">
+        <h2 style="margin:0 0 6px;">Result</h2>
+        <div class="result">
+          <div class="row"><div>Refund estimate</div><div class="amount" id="refund">-</div></div>
+          <div class="kvi"><span>Contribution used</span><span id="used">-</span></div>
+          <div class="kvi"><span>Room remaining</span><span id="remaining">-</span></div>
+          <div class="note small" id="note" style="margin-top:8px;">Enter values to estimate.</div>
+        </div>
+        <p class="note small" style="margin-top:10px;">Estimate only. Actual refund depends on deductions and credits.</p>
+      </aside>
+    </section>
+
+    <footer class="note small site-footer" role="contentinfo">
+      c <span id="y"></span> UpTools . <a href="/about/">About</a> . <a href="/contact/">Contact</a> . <a href="/sitemap.xml">Sitemap</a>
+    </footer>
+  </main>
+
+  <script type="module">
+    import { $, debounce } from "/scripts/utils.js";
+    const income = $("#income");
+    const contrib = $("#contrib");
+    const rate = $("#rate");
+    const room = $("#room");
+    const refund = $("#refund");
+    const used = $("#used");
+    const remaining = $("#remaining");
+    const note = $("#note");
+
+    const fmt = v => new Intl.NumberFormat("en-CA", { style: "currency", currency: "CAD", maximumFractionDigits: 0 }).format(v || 0);
+
+    function run(){
+      const c = Math.max(0, Number(contrib.value || 0));
+      const r = Math.max(0, Number(rate.value || 0)) / 100;
+      const roomVal = Math.max(0, Number(room.value || 0));
+      const refundVal = c * r;
+      refund.textContent = c && r ? fmt(refundVal) : "-";
+      used.textContent = c ? fmt(c) : "-";
+      remaining.textContent = roomVal ? fmt(Math.max(0, roomVal - c)) : "-";
+      note.textContent = c && r ? "Estimate based on marginal rate." : "Enter values to estimate.";
+    }
+
+    [income, contrib, rate, room].forEach(el => el.addEventListener("input", debounce(run, 120)));
+    $("#y").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

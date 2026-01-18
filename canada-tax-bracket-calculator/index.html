@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617" crossorigin="anonymous"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Canada Tax Bracket Calculator (Federal) | UpTools</title>
+  <meta name="description" content="Estimate federal income tax in Canada using current brackets. Quick, no-signup tool." />
+  <meta name="keywords" content="canada tax bracket calculator,federal tax canada" />
+  <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
+  <meta name="theme-color" content="#0b1020" />
+
+  <link rel="canonical" href="https://www.uptools.in/canada-tax-bracket-calculator/" />
+  <meta property="og:title" content="Canada Tax Bracket Calculator (Federal) | UpTools" />
+  <meta property="og:description" content="Estimate federal income tax using current brackets." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.uptools.in/canada-tax-bracket-calculator/" />
+  <meta property="og:site_name" content="UpTools" />
+  <meta property="og:image" content="https://www.uptools.in/assets/og/home.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="icon" sizes="50x50" type="image/svg+xml" href="/assets/logo/uptools-logo.svg" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/logo/uptools-logo.svg" />
+
+  <link rel="preload" href="/style.css?v=1.2.0" as="style">
+  <link rel="stylesheet" href="/style.css?v=1.2.0" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="/style.css?v=1.2.0"></noscript>
+</head>
+<body>
+  <ins class="adsbygoogle"
+       style="display:inline-block;width:500px;height:50px"
+       data-ad-client="ca-pub-6216304334889617"
+       data-ad-slot="9810172647"></ins>
+  <script>
+       (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+
+  <a href="#main" class="sr-only">Skip to content</a>
+
+  <header class="site" role="banner">
+    <div class="header-inner">
+      <a class="brand" href="/" aria-label="UpTools Home">
+        <img src="/assets/logo/uptools-logo.svg" alt="UpTools logo" width="28" height="28">
+        <b>UpTools</b>
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="/#tools">Tools</a>
+        <a href="/games/">Games</a>
+        <a href="/about/">About</a>
+        <a href="/contact/">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="wrap" role="main">
+    <section class="tool-header" style="padding:12px 16px; gap:12px;">
+      <span class="tool-icon" aria-hidden="true">CA</span>
+      <div>
+        <h1 style="margin:0 0 4px;">Canada Federal Tax Calculator</h1>
+        <p class="note" style="margin:0;">Estimates federal tax only (excludes provincial tax and credits).</p>
+      </div>
+      <a class="back-btn" href="/" aria-label="Back to home">←</a>
+    </section>
+
+    <section class="grid">
+      <article class="card compact">
+        <h2 style="margin:0 0 10px;">Input</h2>
+        <label class="label" for="income">Taxable income (CAD)</label>
+        <input id="income" class="input" type="number" min="0" step="100" placeholder="e.g., 72000">
+      </article>
+
+      <aside class="card compact sticky-side">
+        <h2 style="margin:0 0 6px;">Result</h2>
+        <div class="result">
+          <div class="row"><div>Federal tax</div><div class="amount" id="tax">-</div></div>
+          <div class="kvi"><span>Effective rate</span><span id="rate">-</span></div>
+        </div>
+        <p class="note small" style="margin-top:10px;">Uses federal brackets only. Provincial tax not included.</p>
+      </aside>
+    </section>
+
+    <footer class="note small site-footer" role="contentinfo">
+      c <span id="y"></span> UpTools . <a href="/about/">About</a> . <a href="/contact/">Contact</a> . <a href="/sitemap.xml">Sitemap</a>
+    </footer>
+  </main>
+
+  <script type="module">
+    import { $, debounce } from "/scripts/utils.js";
+    const income = $("#income");
+    const taxOut = $("#tax");
+    const rateOut = $("#rate");
+
+    const BRACKETS = [
+      { upTo: 55867, rate: 0.15 },
+      { upTo: 111733, rate: 0.205 },
+      { upTo: 173205, rate: 0.26 },
+      { upTo: 246752, rate: 0.29 },
+      { upTo: Infinity, rate: 0.33 }
+    ];
+
+    const fmt = v => new Intl.NumberFormat("en-CA", { style: "currency", currency: "CAD", maximumFractionDigits: 0 }).format(v || 0);
+
+    function calc(inc){
+      let tax = 0;
+      let prev = 0;
+      let remaining = inc;
+      for (const b of BRACKETS){
+        const width = Math.min(remaining, b.upTo - prev);
+        if (width > 0) tax += width * b.rate;
+        remaining -= width;
+        prev = b.upTo;
+        if (remaining <= 0) break;
+      }
+      return tax;
+    }
+
+    function run(){
+      const inc = Math.max(0, Number(income.value || 0));
+      if (!inc){ taxOut.textContent = "-"; rateOut.textContent = "-"; return; }
+      const tax = calc(inc);
+      taxOut.textContent = fmt(tax);
+      rateOut.textContent = ((tax / inc) * 100).toFixed(2) + "%";
+    }
+
+    income.addEventListener("input", debounce(run, 120));
+    $("#y").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

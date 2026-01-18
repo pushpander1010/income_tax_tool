@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617" crossorigin="anonymous"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CRA Notice of Assessment Checklist | UpTools</title>
+  <meta name="description" content="Checklist for preparing your CRA Notice of Assessment review. Track documents locally." />
+  <meta name="keywords" content="cra notice of assessment checklist,noa canada checklist" />
+  <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
+  <meta name="theme-color" content="#0b1020" />
+
+  <link rel="canonical" href="https://www.uptools.in/cra-noa-checklist/" />
+  <meta property="og:title" content="CRA Notice of Assessment Checklist | UpTools" />
+  <meta property="og:description" content="Checklist for preparing your CRA Notice of Assessment review." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.uptools.in/cra-noa-checklist/" />
+  <meta property="og:site_name" content="UpTools" />
+  <meta property="og:image" content="https://www.uptools.in/assets/og/home.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="icon" sizes="50x50" type="image/svg+xml" href="/assets/logo/uptools-logo.svg" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/logo/uptools-logo.svg" />
+
+  <link rel="preload" href="/style.css?v=1.2.0" as="style">
+  <link rel="stylesheet" href="/style.css?v=1.2.0" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="/style.css?v=1.2.0"></noscript>
+</head>
+<body>
+  <ins class="adsbygoogle"
+       style="display:inline-block;width:500px;height:50px"
+       data-ad-client="ca-pub-6216304334889617"
+       data-ad-slot="9810172647"></ins>
+  <script>
+       (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+
+  <a href="#main" class="sr-only">Skip to content</a>
+
+  <header class="site" role="banner">
+    <div class="header-inner">
+      <a class="brand" href="/" aria-label="UpTools Home">
+        <img src="/assets/logo/uptools-logo.svg" alt="UpTools logo" width="28" height="28">
+        <b>UpTools</b>
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="/#tools">Tools</a>
+        <a href="/games/">Games</a>
+        <a href="/about/">About</a>
+        <a href="/contact/">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="wrap" role="main">
+    <section class="tool-header" style="padding:12px 16px; gap:12px;">
+      <span class="tool-icon" aria-hidden="true">CA</span>
+      <div>
+        <h1 style="margin:0 0 4px;">CRA Notice of Assessment Checklist</h1>
+        <p class="note" style="margin:0;">Track your documents locally. Nothing is uploaded.</p>
+      </div>
+      <a class="back-btn" href="/" aria-label="Back to home">←</a>
+    </section>
+
+    <section class="card">
+      <h2 style="margin:0 0 10px;">Checklist</h2>
+      <div id="list" class="list compact"></div>
+      <div class="toolbar" style="margin-top:10px;">
+        <button class="btn sm secondary" type="button" id="reset">Reset</button>
+      </div>
+    </section>
+
+    <footer class="note small site-footer" role="contentinfo">
+      c <span id="y"></span> UpTools . <a href="/about/">About</a> . <a href="/contact/">Contact</a> . <a href="/sitemap.xml">Sitemap</a>
+    </footer>
+  </main>
+
+  <script type="module">
+    import { $, persist, read } from "/scripts/utils.js";
+    const listEl = $("#list");
+    const resetBtn = $("#reset");
+    const KEY = "uptools:cra-noa:checklist";
+
+    const ITEMS = [
+      "Notice of Assessment (NOA)",
+      "T4 / T4A slips",
+      "RRSP contribution receipts",
+      "Tuition/T2202 slips",
+      "Medical expense receipts",
+      "Charitable donation receipts",
+      "Investment income slips (T5/T3)",
+      "Rent or property tax receipts (if applicable)",
+      "Business income/expense records (if self-employed)"
+    ];
+
+    function render(){
+      const saved = read(KEY, {});
+      listEl.innerHTML = ITEMS.map((item, idx) => {
+        const id = `chk-${idx}`;
+        const checked = saved[id] ? "checked" : "";
+        return `
+          <label class="check" style="display:flex;gap:.5rem;align-items:center;padding:.35rem 0;">
+            <input type="checkbox" id="${id}" ${checked}>
+            <span>${item}</span>
+          </label>
+        `;
+      }).join("");
+      ITEMS.forEach((_, idx) => {
+        const id = `chk-${idx}`;
+        const el = document.getElementById(id);
+        el.addEventListener("change", () => {
+          const data = read(KEY, {});
+          data[id] = el.checked;
+          persist(KEY, data);
+        });
+      });
+    }
+
+    resetBtn.addEventListener("click", () => {
+      persist(KEY, {});
+      render();
+    });
+
+    render();
+    $("#y").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

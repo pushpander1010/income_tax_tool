@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617" crossorigin="anonymous"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SIN Validator (Canada) | UpTools</title>
+  <meta name="description" content="Validate Canadian SIN numbers with checksum (Luhn). Privacy-first." />
+  <meta name="keywords" content="sin validator,canada sin check,luhn sin" />
+  <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
+  <meta name="theme-color" content="#0b1020" />
+
+  <link rel="canonical" href="https://www.uptools.in/sin-validator/" />
+  <meta property="og:title" content="SIN Validator (Canada) | UpTools" />
+  <meta property="og:description" content="Validate SIN format and checksum locally." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.uptools.in/sin-validator/" />
+  <meta property="og:site_name" content="UpTools" />
+  <meta property="og:image" content="https://www.uptools.in/assets/og/home.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="icon" sizes="50x50" type="image/svg+xml" href="/assets/logo/uptools-logo.svg" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/logo/uptools-logo.svg" />
+
+  <link rel="preload" href="/style.css?v=1.2.0" as="style">
+  <link rel="stylesheet" href="/style.css?v=1.2.0" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="/style.css?v=1.2.0"></noscript>
+</head>
+<body>
+  <ins class="adsbygoogle"
+       style="display:inline-block;width:500px;height:50px"
+       data-ad-client="ca-pub-6216304334889617"
+       data-ad-slot="9810172647"></ins>
+  <script>
+       (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+
+  <a href="#main" class="sr-only">Skip to content</a>
+
+  <header class="site" role="banner">
+    <div class="header-inner">
+      <a class="brand" href="/" aria-label="UpTools Home">
+        <img src="/assets/logo/uptools-logo.svg" alt="UpTools logo" width="28" height="28">
+        <b>UpTools</b>
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="/#tools">Tools</a>
+        <a href="/games/">Games</a>
+        <a href="/about/">About</a>
+        <a href="/contact/">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="wrap" role="main">
+    <section class="tool-header" style="padding:12px 16px; gap:12px;">
+      <span class="tool-icon" aria-hidden="true">CA</span>
+      <div>
+        <h1 style="margin:0 0 4px;">SIN Validator</h1>
+        <p class="note" style="margin:0;">Checks 9-digit SIN format and Luhn checksum locally.</p>
+      </div>
+      <a class="back-btn" href="/" aria-label="Back to home">←</a>
+    </section>
+
+    <section class="grid">
+      <article class="card compact">
+        <h2 style="margin:0 0 10px;">Enter SIN</h2>
+        <input id="sin" class="input" type="text" inputmode="numeric" placeholder="e.g., 046454286" maxlength="9">
+        <label class="check" style="margin-top:10px;display:flex;gap:.5rem;align-items:center;">
+          <input id="mask" type="checkbox" />
+          <span>Mask number on screen</span>
+        </label>
+      </article>
+
+      <aside class="card compact sticky-side">
+        <h2 style="margin:0 0 6px;">Result</h2>
+        <div class="result">
+          <div class="row"><div>Status</div><div class="amount" id="status">-</div></div>
+          <div class="kvi"><span>SIN</span><span id="out">-</span></div>
+          <div class="note small" id="note" style="margin-top:8px;">Enter a SIN to validate.</div>
+        </div>
+      </aside>
+    </section>
+
+    <footer class="note small site-footer" role="contentinfo">
+      c <span id="y"></span> UpTools . <a href="/about/">About</a> . <a href="/contact/">Contact</a> . <a href="/sitemap.xml">Sitemap</a>
+    </footer>
+  </main>
+
+  <script type="module">
+    import { $, debounce } from "/scripts/utils.js";
+    const sin = $("#sin");
+    const mask = $("#mask");
+    const status = $("#status");
+    const out = $("#out");
+    const note = $("#note");
+
+    const normalize = v => (v || "").replace(/\D/g, "").slice(0, 9);
+    const maskVal = v => v ? "•••••" + v.slice(-4) : "-";
+
+    function luhnCheck(num){
+      let sum = 0;
+      let alt = false;
+      for (let i = num.length - 1; i >= 0; i--){
+        let n = parseInt(num[i], 10);
+        if (alt){
+          n *= 2;
+          if (n > 9) n -= 9;
+        }
+        sum += n;
+        alt = !alt;
+      }
+      return sum % 10 === 0;
+    }
+
+    function run(){
+      const v = normalize(sin.value);
+      if (sin.value !== v) sin.value = v;
+      if (!v){
+        status.textContent = "-";
+        out.textContent = "-";
+        note.textContent = "Enter a SIN to validate.";
+        return;
+      }
+      const ok = v.length === 9 && luhnCheck(v);
+      status.textContent = ok ? "Valid checksum" : "Invalid checksum";
+      status.style.color = ok ? "var(--accent)" : "#ffb4b4";
+      out.textContent = mask.checked ? maskVal(v) : v;
+      note.textContent = ok ? "Checksum looks valid." : "Check digits and try again.";
+    }
+
+    sin.addEventListener("input", debounce(run, 120));
+    mask.addEventListener("change", run);
+    $("#y").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

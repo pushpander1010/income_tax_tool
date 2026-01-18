@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617" crossorigin="anonymous"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CRA Refund Estimator (Canada) | UpTools</title>
+  <meta name="description" content="Estimate CRA refund or balance owing using tax paid vs tax owed." />
+  <meta name="keywords" content="cra refund estimator,canada tax refund calculator" />
+  <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
+  <meta name="theme-color" content="#0b1020" />
+
+  <link rel="canonical" href="https://www.uptools.in/cra-refund-estimator/" />
+  <meta property="og:title" content="CRA Refund Estimator (Canada) | UpTools" />
+  <meta property="og:description" content="Estimate refund or balance owing using tax paid vs tax owed." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.uptools.in/cra-refund-estimator/" />
+  <meta property="og:site_name" content="UpTools" />
+  <meta property="og:image" content="https://www.uptools.in/assets/og/home.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="icon" sizes="50x50" type="image/svg+xml" href="/assets/logo/uptools-logo.svg" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/logo/uptools-logo.svg" />
+
+  <link rel="preload" href="/style.css?v=1.2.0" as="style">
+  <link rel="stylesheet" href="/style.css?v=1.2.0" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="/style.css?v=1.2.0"></noscript>
+</head>
+<body>
+  <ins class="adsbygoogle"
+       style="display:inline-block;width:500px;height:50px"
+       data-ad-client="ca-pub-6216304334889617"
+       data-ad-slot="9810172647"></ins>
+  <script>
+       (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+
+  <a href="#main" class="sr-only">Skip to content</a>
+
+  <header class="site" role="banner">
+    <div class="header-inner">
+      <a class="brand" href="/" aria-label="UpTools Home">
+        <img src="/assets/logo/uptools-logo.svg" alt="UpTools logo" width="28" height="28">
+        <b>UpTools</b>
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="/#tools">Tools</a>
+        <a href="/games/">Games</a>
+        <a href="/about/">About</a>
+        <a href="/contact/">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="wrap" role="main">
+    <section class="tool-header" style="padding:12px 16px; gap:12px;">
+      <span class="tool-icon" aria-hidden="true">CA</span>
+      <div>
+        <h1 style="margin:0 0 4px;">CRA Refund Estimator</h1>
+        <p class="note" style="margin:0;">Compare tax paid vs tax owed to estimate refund or balance due.</p>
+      </div>
+      <a class="back-btn" href="/" aria-label="Back to home">←</a>
+    </section>
+
+    <section class="grid">
+      <article class="card compact">
+        <h2 style="margin:0 0 10px;">Inputs</h2>
+        <label class="label" for="paid">Tax paid (T4/instalments)</label>
+        <input id="paid" class="input" type="number" min="0" step="10" placeholder="e.g., 12000">
+
+        <label class="label" for="owed" style="margin-top:10px;">Estimated tax owed</label>
+        <input id="owed" class="input" type="number" min="0" step="10" placeholder="e.g., 10500">
+      </article>
+
+      <aside class="card compact sticky-side">
+        <h2 style="margin:0 0 6px;">Result</h2>
+        <div class="result">
+          <div class="row"><div>Refund / balance</div><div class="amount" id="result">-</div></div>
+          <div class="kvi"><span>Status</span><span id="status">-</span></div>
+        </div>
+        <p class="note small" style="margin-top:10px;">Estimate only. Final results depend on CRA assessment.</p>
+      </aside>
+    </section>
+
+    <footer class="note small site-footer" role="contentinfo">
+      c <span id="y"></span> UpTools . <a href="/about/">About</a> . <a href="/contact/">Contact</a> . <a href="/sitemap.xml">Sitemap</a>
+    </footer>
+  </main>
+
+  <script type="module">
+    import { $, debounce } from "/scripts/utils.js";
+    const paid = $("#paid");
+    const owed = $("#owed");
+    const result = $("#result");
+    const status = $("#status");
+    const fmt = v => new Intl.NumberFormat("en-CA", { style: "currency", currency: "CAD", maximumFractionDigits: 0 }).format(v || 0);
+
+    function run(){
+      const p = Math.max(0, Number(paid.value || 0));
+      const o = Math.max(0, Number(owed.value || 0));
+      if (!p && !o){ result.textContent = "-"; status.textContent = "-"; return; }
+      const diff = p - o;
+      if (diff >= 0){
+        result.textContent = fmt(diff);
+        status.textContent = "Estimated refund";
+      } else {
+        result.textContent = fmt(Math.abs(diff));
+        status.textContent = "Estimated balance owing";
+      }
+    }
+    [paid, owed].forEach(el => el.addEventListener("input", debounce(run, 120)));
+    $("#y").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

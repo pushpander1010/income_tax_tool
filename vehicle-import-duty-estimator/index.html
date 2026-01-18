@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617" crossorigin="anonymous"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Vehicle Import Duty Estimator (Canada) | UpTools</title>
+  <meta name="description" content="Estimate vehicle import duty and taxes for Canada. Quick guide calculator." />
+  <meta name="keywords" content="vehicle import duty canada,import tax estimator,car import canada" />
+  <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1" />
+  <meta name="theme-color" content="#0b1020" />
+
+  <link rel="canonical" href="https://www.uptools.in/vehicle-import-duty-estimator/" />
+  <meta property="og:title" content="Vehicle Import Duty Estimator (Canada) | UpTools" />
+  <meta property="og:description" content="Estimate vehicle import duty and taxes for Canada." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.uptools.in/vehicle-import-duty-estimator/" />
+  <meta property="og:site_name" content="UpTools" />
+  <meta property="og:image" content="https://www.uptools.in/assets/og/home.png" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="icon" sizes="50x50" type="image/svg+xml" href="/assets/logo/uptools-logo.svg" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/logo/uptools-logo.svg" />
+
+  <link rel="preload" href="/style.css?v=1.2.0" as="style">
+  <link rel="stylesheet" href="/style.css?v=1.2.0" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="/style.css?v=1.2.0"></noscript>
+</head>
+<body>
+  <ins class="adsbygoogle"
+       style="display:inline-block;width:500px;height:50px"
+       data-ad-client="ca-pub-6216304334889617"
+       data-ad-slot="9810172647"></ins>
+  <script>
+       (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+
+  <a href="#main" class="sr-only">Skip to content</a>
+
+  <header class="site" role="banner">
+    <div class="header-inner">
+      <a class="brand" href="/" aria-label="UpTools Home">
+        <img src="/assets/logo/uptools-logo.svg" alt="UpTools logo" width="28" height="28">
+        <b>UpTools</b>
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="/#tools">Tools</a>
+        <a href="/games/">Games</a>
+        <a href="/about/">About</a>
+        <a href="/contact/">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main" class="wrap" role="main">
+    <section class="tool-header" style="padding:12px 16px; gap:12px;">
+      <span class="tool-icon" aria-hidden="true">CA</span>
+      <div>
+        <h1 style="margin:0 0 4px;">Vehicle Import Duty Estimator</h1>
+        <p class="note" style="margin:0;">Estimate duty and tax for imported vehicles in Canada.</p>
+      </div>
+      <a class="back-btn" href="/" aria-label="Back to home">←</a>
+    </section>
+
+    <section class="grid">
+      <article class="card compact">
+        <h2 style="margin:0 0 10px;">Inputs</h2>
+        <label class="label" for="value">Vehicle value (CAD)</label>
+        <input id="value" class="input" type="number" min="0" step="100" placeholder="e.g., 25000">
+
+        <label class="label" for="duty" style="margin-top:10px;">Duty rate (%)</label>
+        <input id="duty" class="input" type="number" min="0" step="0.1" value="6.1">
+
+        <label class="label" for="tax" style="margin-top:10px;">Tax rate (GST/HST %) </label>
+        <input id="tax" class="input" type="number" min="0" step="0.1" value="5">
+
+        <label class="label" for="fees" style="margin-top:10px;">Other fees (CAD)</label>
+        <input id="fees" class="input" type="number" min="0" step="10" placeholder="e.g., 300">
+      </article>
+
+      <aside class="card compact sticky-side">
+        <h2 style="margin:0 0 6px;">Result</h2>
+        <div class="result">
+          <div class="row"><div>Duty</div><div class="amount" id="dutyOut">-</div></div>
+          <div class="kvi"><span>Tax</span><span id="taxOut">-</span></div>
+          <div class="kvi"><span>Total cost</span><span id="total">-</span></div>
+        </div>
+        <p class="note small" style="margin-top:10px;">Estimate only. Actual rates depend on origin and province.</p>
+      </aside>
+    </section>
+
+    <footer class="note small site-footer" role="contentinfo">
+      c <span id="y"></span> UpTools . <a href="/about/">About</a> . <a href="/contact/">Contact</a> . <a href="/sitemap.xml">Sitemap</a>
+    </footer>
+  </main>
+
+  <script type="module">
+    import { $, debounce } from "/scripts/utils.js";
+    const value = $("#value");
+    const duty = $("#duty");
+    const tax = $("#tax");
+    const fees = $("#fees");
+    const dutyOut = $("#dutyOut");
+    const taxOut = $("#taxOut");
+    const total = $("#total");
+
+    const fmt = v => new Intl.NumberFormat("en-CA", { style: "currency", currency: "CAD", maximumFractionDigits: 0 }).format(v || 0);
+
+    function run(){
+      const v = Math.max(0, Number(value.value || 0));
+      const dr = Math.max(0, Number(duty.value || 0)) / 100;
+      const tr = Math.max(0, Number(tax.value || 0)) / 100;
+      const f = Math.max(0, Number(fees.value || 0));
+      if (!v){ dutyOut.textContent = "-"; taxOut.textContent = "-"; total.textContent = "-"; return; }
+      const dutyVal = v * dr;
+      const taxVal = (v + dutyVal) * tr;
+      const totalVal = v + dutyVal + taxVal + f;
+      dutyOut.textContent = fmt(dutyVal);
+      taxOut.textContent = fmt(taxVal);
+      total.textContent = fmt(totalVal);
+    }
+
+    [value, duty, tax, fees].forEach(el => el.addEventListener("input", debounce(run, 120)));
+    $("#y").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
