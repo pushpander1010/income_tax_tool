@@ -1,0 +1,510 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6216304334889617" crossorigin="anonymous"></script>
+  <link rel="preconnect" href="https://pagead2.googlesyndication.com" crossorigin>
+  <link rel="dns-prefetch" href="//pagead2.googlesyndication.com">
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Minesweeper - Free Online Game | UpTools</title>
+
+  <meta name="description" content="Play Minesweeper online. Flag bombs, clear safe tiles, and beat your best time across three difficulties. Fast, responsive, and mobile-friendly." />
+  <meta name="keywords" content="minesweeper, minesweeper online, free minesweeper, puzzle game, logic game" />
+  <meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:large" />
+  <meta name="theme-color" content="#0c1018" />
+  <link rel="canonical" href="https://www.uptools.in/games/minesweeper/" />
+
+  <meta property="og:title" content="Play Minesweeper - Free Online | UpTools" />
+  <meta property="og:description" content="Flag the bombs and clear the grid. Three difficulties with a clean neon-dark UI." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.uptools.in/games/minesweeper/" />
+  <meta property="og:image" content="https://www.uptools.in/assets/logo/uptools-logo.svg" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="icon" sizes="50x50" type="image/svg+xml" href="/assets/logo/uptools-logo.svg">
+  <link rel="apple-touch-icon" sizes="180x180" href="/assets/logo/uptools-logo.svg">
+
+  <link rel="preload" href="/style.css?v=1.3.0" as="style">
+  <link rel="stylesheet" href="/style.css?v=1.3.0" media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="/style.css?v=1.3.0"></noscript>
+
+  <style>
+    :root{
+      --accent:#67e8f9;
+      --accent2:#a78bfa;
+      --danger:#ff6b6b;
+      --bg:#0c1018;
+      --card:#111827;
+      --cardBorder:#223247;
+      --muted:#9aa4b2;
+    }
+    *,*::before,*::after{ box-sizing:border-box; }
+    html,body{ margin:0; color:#e6edf3; background:var(--bg); min-height:100svh; font-family: system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial,"Noto Sans"; }
+    .wrap{ max-width:1100px; margin:0 auto; padding:1rem; }
+
+    .panel{
+      background:var(--card);
+      border:1px solid var(--cardBorder);
+      border-radius:.9rem;
+      box-shadow:0 10px 34px rgba(0,0,0,.3);
+      padding:1rem;
+    }
+    .top-row{
+      display:flex;
+      gap:.75rem;
+      align-items:center;
+      flex-wrap:wrap;
+      justify-content:space-between;
+    }
+    .stats{
+      display:flex;
+      gap:.6rem;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+    .stat{
+      padding:.4rem .7rem;
+      border:1px solid var(--cardBorder);
+      border-radius:.6rem;
+      background:#0f151f;
+      font-weight:800;
+    }
+    .stat span{ color:var(--accent); }
+    .controls{
+      display:flex;
+      gap:.6rem;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+    .btn{
+      padding:.55rem .95rem;
+      border:none;
+      border-radius:.6rem;
+      background:var(--accent);
+      color:#07101a;
+      font-weight:800;
+      cursor:pointer;
+      transition:transform .1s ease, box-shadow .1s ease;
+    }
+    .btn.secondary{
+      background:transparent;
+      color:#e6edf3;
+      border:1px solid var(--cardBorder);
+    }
+    .btn:active{ transform:scale(.98); }
+
+    select{
+      background:#0f151f;
+      color:#e6edf3;
+      border:1px solid var(--cardBorder);
+      border-radius:.6rem;
+      padding:.5rem .6rem;
+      font-weight:700;
+    }
+
+    .board-wrap{
+      margin-top:1rem;
+      display:grid;
+      place-items:center;
+    }
+    .board{
+      display:grid;
+      gap:4px;
+      background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      padding:6px;
+      border-radius:.75rem;
+      border:1px solid rgba(255,255,255,.08);
+      box-shadow:inset 0 0 26px rgba(103,232,249,.1);
+    }
+    .cell{
+      width:clamp(28px, 4.6vmin, 44px);
+      height:clamp(28px, 4.6vmin, 44px);
+      display:grid;
+      place-items:center;
+      border-radius:.4rem;
+      font-weight:900;
+      cursor:pointer;
+      user-select:none;
+      background:#0f1622;
+      border:1px solid rgba(255,255,255,.08);
+      color:#e6edf3;
+      transition:transform .05s ease, background .1s ease, box-shadow .1s ease;
+    }
+    .cell:active{ transform:scale(.97); }
+    .cell.revealed{
+      cursor:default;
+      background:#131b2a;
+      box-shadow:inset 0 0 16px rgba(103,232,249,.1);
+    }
+    .cell.flagged{
+      color:var(--accent2);
+      border-color:rgba(167,139,250,.5);
+    }
+    .cell.mine{
+      background:rgba(255,107,107,.2);
+      color:var(--danger);
+      border-color:rgba(255,107,107,.5);
+    }
+
+    .status{
+      margin-top:.75rem;
+      color:var(--muted);
+      text-align:center;
+      font-weight:600;
+    }
+    .legend{
+      margin-top:1rem;
+      display:grid;
+      gap:.4rem;
+      color:var(--muted);
+      font-size:.92rem;
+    }
+
+    .bg-glow{
+      position:fixed;
+      inset:0;
+      z-index:-1;
+      background:
+        radial-gradient(900px 500px at 10% -10%, rgba(103,232,249,.2), transparent 60%),
+        radial-gradient(700px 500px at 90% 110%, rgba(167,139,250,.2), transparent 55%);
+    }
+  </style>
+
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"VideoGame","name":"Minesweeper","url":"https://www.uptools.in/games/minesweeper/","applicationCategory":"Game","genre":"Puzzle","operatingSystem":"Browser","inLanguage":"en","publisher":{"@type":"Organization","name":"UpTools","url":"https://www.uptools.in/"},"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
+  </script>
+</head>
+<body>
+  <ins class="adsbygoogle"
+       style="display:inline-block;width:500px;height:50px"
+       data-ad-client="ca-pub-6216304334889617"
+       data-ad-slot="9810172647"></ins>
+  <script>
+       (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+
+  <div class="bg-glow" aria-hidden="true"></div>
+
+  <header class="site" role="banner">
+    <div class="header-inner">
+      <a class="brand" href="/" aria-label="UpTools Home">
+        <img src="/assets/logo/uptools-logo.svg" alt="UpTools logo" width="28" height="28" loading="eager">
+        <b>UpTools</b>
+      </a>
+      <nav class="nav-links" aria-label="Primary">
+        <a href="/#tools">Tools</a>
+        <a aria-current="page" href="/games/">Games</a>
+        <a href="/about/">About</a>
+        <a href="/contact/">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="tool-header" style="text-align:center;margin:1rem 0 .25rem">
+      <h1>Minesweeper</h1>
+      <p>Clear the safe tiles, flag the bombs, and beat your time.</p>
+    </div>
+
+    <section class="panel">
+      <div class="top-row">
+        <div class="stats" aria-live="polite">
+          <div class="stat">Time: <span id="time">00:00</span></div>
+          <div class="stat">Mines Left: <span id="minesLeft">0</span></div>
+          <div class="stat">Tiles Cleared: <span id="cleared">0</span></div>
+        </div>
+        <div class="controls" role="toolbar" aria-label="Controls">
+          <label for="difficulty"><b>Difficulty</b></label>
+          <select id="difficulty">
+            <option value="easy">Easy (8x8, 10)</option>
+            <option value="medium" selected>Medium (12x12, 20)</option>
+            <option value="hard">Hard (16x16, 40)</option>
+          </select>
+          <button class="btn" id="newGame">New Game</button>
+          <button class="btn secondary" id="toggleMode" aria-pressed="false">Mode: Reveal</button>
+        </div>
+      </div>
+
+      <div class="board-wrap">
+        <div id="board" class="board" role="grid" aria-label="Minesweeper board"></div>
+      </div>
+
+      <div class="status" id="status">Tip: Right-click or toggle to Flag mode to mark mines.</div>
+      <div class="legend">
+        <div>Reveal all safe tiles to win. Numbers show adjacent mines.</div>
+        <div>Flags are for your tracking only. You can toggle flag mode for touch devices.</div>
+      </div>
+    </section>
+
+    <nav class="nav-links small" style="justify-content:center;margin-top:1rem">
+      Related on UpTools:
+      <a href="/games/">All Games</a> .
+      <a href="/games/sudoku/">Sudoku</a> .
+      <a href="/games/2048/">2048</a> .
+      <a href="/games/memory-match/">Memory Match</a> .
+      <a href="/games/tic-tac-toe/">Tic Tac Toe</a>
+    </nav>
+  </main>
+
+  <script>
+  (() => {
+    'use strict';
+
+    const CONFIGS = {
+      easy: { rows: 8, cols: 8, mines: 10 },
+      medium: { rows: 12, cols: 12, mines: 20 },
+      hard: { rows: 16, cols: 16, mines: 40 }
+    };
+
+    const els = {
+      board: document.getElementById('board'),
+      difficulty: document.getElementById('difficulty'),
+      newGame: document.getElementById('newGame'),
+      toggleMode: document.getElementById('toggleMode'),
+      status: document.getElementById('status'),
+      time: document.getElementById('time'),
+      minesLeft: document.getElementById('minesLeft'),
+      cleared: document.getElementById('cleared')
+    };
+
+    const state = {
+      rows: 0,
+      cols: 0,
+      mines: 0,
+      grid: [],
+      revealed: 0,
+      flags: 0,
+      started: false,
+      over: false,
+      timerId: null,
+      startAt: 0,
+      flagMode: false
+    };
+
+    function startTimer() {
+      if (state.timerId) clearInterval(state.timerId);
+      state.startAt = Date.now();
+      state.timerId = setInterval(() => {
+        const elapsed = Math.floor((Date.now() - state.startAt) / 1000);
+        els.time.textContent = formatTime(elapsed);
+      }, 1000);
+    }
+
+    function stopTimer() {
+      if (state.timerId) clearInterval(state.timerId);
+      state.timerId = null;
+    }
+
+    function formatTime(seconds) {
+      const m = Math.floor(seconds / 60);
+      const s = seconds % 60;
+      return String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+    }
+
+    function initGame() {
+      const cfg = CONFIGS[els.difficulty.value];
+      state.rows = cfg.rows;
+      state.cols = cfg.cols;
+      state.mines = cfg.mines;
+      state.grid = buildGrid(cfg.rows, cfg.cols, cfg.mines);
+      state.revealed = 0;
+      state.flags = 0;
+      state.started = false;
+      state.over = false;
+      els.time.textContent = '00:00';
+      stopTimer();
+      renderBoard();
+      updateStats();
+      els.status.textContent = 'Tip: Right-click or toggle to Flag mode to mark mines.';
+    }
+
+    function buildGrid(rows, cols, mines) {
+      const grid = Array.from({ length: rows }, () =>
+        Array.from({ length: cols }, () => ({
+          mine: false,
+          count: 0,
+          revealed: false,
+          flagged: false
+        }))
+      );
+      const spots = [];
+      for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) spots.push([r, c]);
+      }
+      for (let i = spots.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [spots[i], spots[j]] = [spots[j], spots[i]];
+      }
+      for (let i = 0; i < mines; i++) {
+        const [r, c] = spots[i];
+        grid[r][c].mine = true;
+      }
+      for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+          if (grid[r][c].mine) continue;
+          let count = 0;
+          neighbors(r, c, rows, cols).forEach(([nr, nc]) => {
+            if (grid[nr][nc].mine) count += 1;
+          });
+          grid[r][c].count = count;
+        }
+      }
+      return grid;
+    }
+
+    function neighbors(r, c, rows, cols) {
+      const out = [];
+      for (let dr = -1; dr <= 1; dr++) {
+        for (let dc = -1; dc <= 1; dc++) {
+          if (dr === 0 && dc === 0) continue;
+          const nr = r + dr;
+          const nc = c + dc;
+          if (nr >= 0 && nr < rows && nc >= 0 && nc < cols) out.push([nr, nc]);
+        }
+      }
+      return out;
+    }
+
+    function renderBoard() {
+      els.board.innerHTML = '';
+      els.board.style.gridTemplateColumns = `repeat(${state.cols}, minmax(0, 1fr))`;
+      for (let r = 0; r < state.rows; r++) {
+        for (let c = 0; c < state.cols; c++) {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'cell';
+          btn.dataset.r = r;
+          btn.dataset.c = c;
+          btn.setAttribute('aria-label', `Row ${r + 1} Column ${c + 1}`);
+          btn.addEventListener('click', () => handleCell(r, c));
+          btn.addEventListener('contextmenu', (e) => {
+            e.preventDefault();
+            toggleFlag(r, c);
+          });
+          els.board.appendChild(btn);
+        }
+      }
+      updateBoardUI();
+    }
+
+    function handleCell(r, c) {
+      if (state.over) return;
+      if (state.flagMode) {
+        toggleFlag(r, c);
+        return;
+      }
+      revealCell(r, c);
+    }
+
+    function toggleFlag(r, c) {
+      if (state.over) return;
+      const cell = state.grid[r][c];
+      if (cell.revealed) return;
+      cell.flagged = !cell.flagged;
+      state.flags += cell.flagged ? 1 : -1;
+      updateStats();
+      updateBoardUI();
+    }
+
+    function revealCell(r, c) {
+      const cell = state.grid[r][c];
+      if (cell.revealed || cell.flagged) return;
+      if (!state.started) {
+        state.started = true;
+        startTimer();
+      }
+      cell.revealed = true;
+      state.revealed += 1;
+      if (cell.mine) {
+        gameOver(false);
+        return;
+      }
+      if (cell.count === 0) floodReveal(r, c);
+      if (checkWin()) gameOver(true);
+      updateStats();
+      updateBoardUI();
+    }
+
+    function floodReveal(r, c) {
+      const queue = [[r, c]];
+      const seen = new Set();
+      while (queue.length) {
+        const [cr, cc] = queue.shift();
+        const key = `${cr}:${cc}`;
+        if (seen.has(key)) continue;
+        seen.add(key);
+        neighbors(cr, cc, state.rows, state.cols).forEach(([nr, nc]) => {
+          const next = state.grid[nr][nc];
+          if (next.revealed || next.flagged) return;
+          next.revealed = true;
+          state.revealed += 1;
+          if (!next.mine && next.count === 0) queue.push([nr, nc]);
+        });
+      }
+    }
+
+    function checkWin() {
+      return state.revealed === (state.rows * state.cols - state.mines);
+    }
+
+    function gameOver(won) {
+      state.over = true;
+      stopTimer();
+      revealAllMines();
+      els.status.textContent = won ? 'You cleared the board. Nice work.' : 'Boom. Game over.';
+    }
+
+    function revealAllMines() {
+      for (let r = 0; r < state.rows; r++) {
+        for (let c = 0; c < state.cols; c++) {
+          const cell = state.grid[r][c];
+          if (cell.mine) cell.revealed = true;
+        }
+      }
+      updateBoardUI(true);
+    }
+
+    function updateBoardUI(showMines) {
+      const cells = els.board.querySelectorAll('.cell');
+      cells.forEach((btn) => {
+        const r = Number(btn.dataset.r);
+        const c = Number(btn.dataset.c);
+        const cell = state.grid[r][c];
+        btn.classList.toggle('revealed', cell.revealed);
+        btn.classList.toggle('flagged', cell.flagged);
+        btn.classList.toggle('mine', cell.revealed && cell.mine);
+        btn.textContent = '';
+        if (cell.flagged && !cell.revealed) {
+          btn.textContent = 'F';
+        }
+        if (cell.revealed && !cell.mine && cell.count > 0) {
+          btn.textContent = String(cell.count);
+        }
+        if (showMines && cell.mine && !cell.flagged) {
+          btn.textContent = 'X';
+        }
+        if (cell.revealed && cell.mine) btn.textContent = 'X';
+      });
+    }
+
+    function updateStats() {
+      els.minesLeft.textContent = Math.max(0, state.mines - state.flags);
+      els.cleared.textContent = state.revealed;
+    }
+
+    function toggleMode() {
+      state.flagMode = !state.flagMode;
+      els.toggleMode.setAttribute('aria-pressed', state.flagMode ? 'true' : 'false');
+      els.toggleMode.textContent = state.flagMode ? 'Mode: Flag' : 'Mode: Reveal';
+    }
+
+    els.newGame.addEventListener('click', initGame);
+    els.difficulty.addEventListener('change', initGame);
+    els.toggleMode.addEventListener('click', toggleMode);
+
+    initGame();
+  })();
+  </script>
+</body>
+</html>
